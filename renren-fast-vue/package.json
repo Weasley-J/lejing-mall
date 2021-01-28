@@ -23,7 +23,7 @@
     "gulp-load-plugins": "2.0.5",
     "gulp-replace": "1.0.0",
     "gulp-shell": "0.8.0",
-    "lodash": "4.17.5",
+    "lodash": "^4.17.20",
     "node-sass": "^5.0.0",
     "npm": "^6.9.0",
     "sass-loader": "6.0.6",
