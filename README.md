@@ -1,4 +1,4 @@
-# lejing-mall-乐景商城
+# lejing-mall-乐璟商城
 # 1 技术选型
 
 第二代微服务架构，kubernetes高可用集群，全自动DevOps，

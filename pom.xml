@@ -14,7 +14,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>lejing-mall</name>
     <packaging>pom</packaging>
-    <description>乐景商品父工程</description>
+    <description>乐璟商城父工程</description>
 
     <modules>
         <module>lejing-coupon</module>
