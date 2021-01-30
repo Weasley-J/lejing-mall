@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 #end
 import java.io.Serializable;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 /**
  * ${comments}
  * 
@@ -18,6 +20,9 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("${tableName}")
 public class ${className}Entity implements Serializable {
 	private static final long serialVersionUID = 1L;

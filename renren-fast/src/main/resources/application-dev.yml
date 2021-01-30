@@ -32,8 +32,6 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-
-
 ##多数据源的配置
 #dynamic:
 #  datasource:

@@ -1,4 +1,5 @@
 # lejing-mall-乐璟商城
+
 # 1 技术选型
 
 第二代微服务架构，kubernetes高可用集群，全自动DevOps，
@@ -14,6 +15,9 @@
 综合上述调研，我最终为乐景商城最终选取的技术架构是
 
 - JDK11
+
+- MySQL-8.0.23
+
 - apache-maven-3.6.3
 
 - springboot 2.2.9.RELEASE

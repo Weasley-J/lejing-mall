@@ -11,7 +11,7 @@
     <artifactId>lejing-coupon</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>lejing-coupon</name>
-    <description>优惠券服务</description>
+    <description>乐璟商城-优惠券服务</description>
 
     <properties>
         <java.version>11</java.version>
@@ -32,7 +32,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common</artifactId>
+        </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
