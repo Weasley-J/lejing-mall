@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author liuwenjing
  */
 @SpringBootApplication
-@MapperScans(value = @MapperScan(value = {"cn.**.dao", "cn.**.mapper"}))
+@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
 public class LejingWareApplication {
 
     public static void main(String[] args) {

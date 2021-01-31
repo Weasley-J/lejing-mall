@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScans(value = @MapperScan(value = {"cn.**.dao", "cn.**.mapper"}))
+@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
 public class LejingProductApplication {
 
     public static void main(String[] args) {
