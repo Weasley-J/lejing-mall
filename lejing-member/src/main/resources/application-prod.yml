@@ -1,1 +1,8 @@
-
+spring:
+  jackson:
+    default-property-inclusion: non_null
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.40.132:33306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: 123456

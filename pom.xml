@@ -36,8 +36,8 @@
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
         <!--将打包生成jar文件复制目录-->
-        <copy.dest.dir>E:/IdeaProjects/lejing-mall/executable</copy.dest.dir>
-        <!--<copy.dest.dir>/usr/local/webapp</copy.dest.dir>-->
+        <copy.dest.dir>E:/IdeaProjects/lejing-mall/springboot-webapp</copy.dest.dir>
+        <!--<copy.dest.dir>/usr/local/springboot-webapp</copy.dest.dir>-->
         <lombok.version>1.18.18</lombok.version>
         <mysql.version>8.0.23</mysql.version>
         <mybatis.starter.version>2.1.4</mybatis.starter.version>
@@ -225,6 +225,32 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+            <!--复制jar包到指定文件目录-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven-antrun-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <!-- 在maven进行package的时候执行-->
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <!--jar包保存位置 -->
+                                <copy todir="${copy.dest.dir}">
+                                    <!--antrun自动生成的配置文件的保存位置，这里默认是父项目的target文件夹 -->
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="*.jar"/>
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -252,9 +278,6 @@
                                     <includes>*exec.jar</includes>
                                 </fileset>
                             </filesets>
-                            <!--
-                            <outputDirectory>./springboot-webapp</outputDirectory>
-                            -->
                         </configuration>
                     </execution>
                 </executions>

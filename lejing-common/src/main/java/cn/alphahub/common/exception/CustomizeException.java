@@ -18,7 +18,7 @@ public class CustomizeException extends RuntimeException {
      */
     private String msg;
     /**
-     * 错误码
+     * 错误码, 默认500
      */
     private Integer code = 500;
 

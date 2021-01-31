@@ -2,13 +2,13 @@
 server:
   tomcat:
     uri-encoding: UTF-8
-    max-threads: 1000
-    min-spare-threads: 30
+    threads:
+      min-spare: 30
+      max: 1000
+    connection-timeout: 5000ms
   port: 8080
-  connection-timeout: 5000ms
   servlet:
     context-path: /renren-fast
-
 spring:
   # 环境 dev|test|prod
   profiles:
@@ -39,7 +39,6 @@ spring:
     throw-exception-if-no-handler-found: true
 #  resources:
 #    add-mappings: false
-
 
 #mybatis
 mybatis-plus:

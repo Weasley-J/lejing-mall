@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 10000
 spring:
   application:
     name: lejing-product
@@ -9,7 +9,10 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
-  mapper-locations: classpath:mapper/**/*Mapper.xml
-  type-aliases-package: com.**.domain,cn.**.domain
+  mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
+  type-aliases-package: com.**.domain,cn.**.domain,com.**.entity,cn.**.entity
+  global-config:
+    db-config:
+      id-type: auto
   configuration:
     map-underscore-to-camel-case: true

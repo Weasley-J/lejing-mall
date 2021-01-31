@@ -15,7 +15,6 @@
 
     <properties>
         <java.version>11</java.version>
-        <spring-cloud.version>2020.0.0</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -36,6 +35,10 @@
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 
