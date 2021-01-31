@@ -1,0 +1,60 @@
+2021-02-01 01:45:57,012 INFO Starting Nacos v1.4.1 on Inspiron-7591 with PID 9620 (E:\IdeaProjects\lejing-mall\nacos-config\nacos-server-1.4.1\nacos\target\nacos-server.jar started by liuwe in E:\IdeaProjects\lejing-mall\nacos-config\nacos-server-1.4.1\nacos)
+
+2021-02-01 01:45:57,013 INFO The following profiles are active: standalone
+
+2021-02-01 01:45:59,857 INFO Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@74518890' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-02-01 01:45:59,862 INFO Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-02-01 01:46:01,139 INFO Tomcat initialized with port(s): 8848 (http)
+
+2021-02-01 01:46:01,180 INFO Starting service [Tomcat]
+
+2021-02-01 01:46:01,180 INFO Starting Servlet engine: [Apache Tomcat/9.0.38]
+
+2021-02-01 01:46:01,599 INFO At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+
+2021-02-01 01:46:01,649 INFO Initializing Spring embedded WebApplicationContext
+
+2021-02-01 01:46:01,649 INFO Root WebApplicationContext: initialization completed in 4574 ms
+
+2021-02-01 01:46:02,021 INFO HikariPool-1 - Starting...
+
+2021-02-01 01:46:02,244 INFO HikariPool-1 - Start completed.
+
+2021-02-01 01:46:02,587 INFO Nacos-related cluster resource initialization
+
+2021-02-01 01:46:02,596 INFO The cluster resource is initialized
+
+2021-02-01 01:46:03,058 INFO Reflections took 56 ms to scan 1 urls, producing 4 keys and 6 values 
+
+2021-02-01 01:46:03,091 INFO Reflections took 8 ms to scan 1 urls, producing 6 keys and 26 values 
+
+2021-02-01 01:46:03,114 INFO Reflections took 6 ms to scan 1 urls, producing 3 keys and 15 values 
+
+2021-02-01 01:46:03,128 INFO Reflections took 4 ms to scan 1 urls, producing 2 keys and 12 values 
+
+2021-02-01 01:46:03,834 INFO Initializing ExecutorService 'applicationTaskExecutor'
+
+2021-02-01 01:46:03,979 INFO Adding welcome page: class path resource [static/index.html]
+
+2021-02-01 01:46:04,449 INFO Creating filter chain: Ant [pattern='/**'], []
+
+2021-02-01 01:46:04,492 INFO Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4570d7b6, org.springframework.security.web.context.SecurityContextPersistenceFilter@29050de5, org.springframework.security.web.header.HeaderWriterFilter@a6c54c3, org.springframework.security.web.csrf.CsrfFilter@72a2312e, org.springframework.security.web.authentication.logout.LogoutFilter@6bedd4e4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c689973, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39c85c1a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@72b6832e, org.springframework.security.web.session.SessionManagementFilter@55fdf7f9, org.springframework.security.web.access.ExceptionTranslationFilter@2b916808]
+
+2021-02-01 01:46:04,606 INFO Initializing ExecutorService 'taskScheduler'
+
+2021-02-01 01:46:04,631 INFO Exposing 2 endpoint(s) beneath base path '/actuator'
+
+2021-02-01 01:46:04,743 INFO Tomcat started on port(s): 8848 (http) with context path '/nacos'
+
+2021-02-01 01:46:04,749 INFO Started Nacos in 10.383 seconds (JVM running for 11.314)
+
+2021-02-01 01:46:04,749 INFO Nacos started successfully in stand alone mode. use external storage
+
+2021-02-01 01:46:06,928 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
+
+2021-02-01 01:46:06,929 INFO Initializing Servlet 'dispatcherServlet'
+
+2021-02-01 01:46:06,938 INFO Completed initialization in 8 ms
+

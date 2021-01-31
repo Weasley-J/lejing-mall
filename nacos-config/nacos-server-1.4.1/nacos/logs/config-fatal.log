@@ -1,0 +1,4 @@
+2021-02-01 01:46:02,256 WARN [master-db] jdbc:mysql://192.168.40.132:33306/nacos_config?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+
+2021-02-01 01:46:03,379 WARN isQuickStart:false
+

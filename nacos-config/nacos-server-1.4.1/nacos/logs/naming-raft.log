@@ -1,0 +1,46 @@
+2021-02-01 01:46:02,638 INFO raft peers changed: [Member{ip='192.168.2.1', port=8848, state=UP, extendInfo={raftPort=7848}}]
+
+2021-02-01 01:46:02,664 INFO initializing Raft sub-system
+
+2021-02-01 01:46:02,665 INFO finish loading all datums, size: 0 cost 1 ms.
+
+2021-02-01 01:46:02,667 INFO cache loaded, datum count: 0, current term: 0
+
+2021-02-01 01:46:02,667 INFO finish to load data from disk, cost: 3 ms.
+
+2021-02-01 01:46:02,670 INFO timer started: leader timeout ms: 15000, heart-beat timeout ms: 5000
+
+2021-02-01 01:46:03,244 INFO add listener: com.alibaba.nacos.naming.domains.meta.00-00---000-NACOS_SWITCH_DOMAIN-000---00-00
+
+2021-02-01 01:46:03,259 INFO add listener: com.alibaba.nacos.naming.domains.meta.
+
+2021-02-01 01:46:05,702 INFO leader timeout, start voting,leader: {"ip":"192.168.2.1:8848","term":0,"leaderDueMs":17341,"heartbeatDueMs":4500,"state":"FOLLOWER"}, term: 0
+
+2021-02-01 01:46:07,029 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@lejing-coupon
+
+2021-02-01 01:46:07,625 WARN start to close old raft protocol!!!
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for notifier
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for master task
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for heartbeat task
+
+2021-02-01 01:46:07,625 WARN clean old cache datum for old raft
+
+2021-02-01 01:46:07,625 WARN start to close old raft protocol!!!
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for notifier
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for master task
+
+2021-02-01 01:46:07,625 WARN stop old raft protocol task for heartbeat task
+
+2021-02-01 01:46:07,625 WARN clean old cache datum for old raft
+
+2021-02-01 01:46:07,625 WARN start to move old raft protocol metadata
+
+2021-02-01 01:46:07,626 WARN start to move old raft protocol metadata
+
+2021-02-01 01:46:07,627 INFO raft peers changed: [Member{ip='192.168.2.1', port=8848, state=UP, extendInfo={lastRefreshTime=1612115167626, raftPort=7848, version=1.4.1}}]
+
