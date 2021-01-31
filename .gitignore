@@ -32,5 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-/springboot-webapp
-/nacos-config/nacos-server-1.4.1
+/springboot-webapp/*.jar
