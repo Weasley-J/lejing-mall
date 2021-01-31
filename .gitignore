@@ -33,3 +33,4 @@ build/
 .vscode/
 
 /springboot-webapp
+/nacos-config/nacos-server-1.4.1
