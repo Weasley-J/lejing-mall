@@ -2,3 +2,5 @@
 
 2021-02-01 01:46:07,055 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
 
+2021-02-01 21:32:32,956 ERROR [UPDATE-DOMAIN] Exception while taking item from LinkedBlockingDeque.
+

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: lejing-coupon
+  cloud:
+    nacos:
+      config:
+        ext-config:
+          - data-id: datasource.yml
+            group: dev
+            refresh: true
+          - data-id: mybatis.yml
+            group: dev
+            refresh: true
+          - data-id: other.yml
+            group: dev
+            refresh: true
+        group: prod
+        namespace: 1986f4f3-69e0-43bb-859c-abe427b19f3a
+        server-addr: 127.0.0.1:8848

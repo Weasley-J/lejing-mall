@@ -14,3 +14,9 @@
 
 2021-02-01 01:46:07,627 INFO [NACOS-DISTRO] healthy server list changed, old: [192.168.2.1:8848], new: [192.168.2.1:8848]
 
+2021-02-01 21:32:29,250 INFO GlobalConfig{taskDispatchPeriod=2000, batchSyncKeyCount=1000, syncRetryDelay=5000, dataWarmup=false, expireInstance=true, loadDataRetryDelayMillis=30000}
+
+2021-02-01 21:32:29,796 INFO open empty service auto clean job, initialDelay : 50000 ms, period : 30000 ms
+
+2021-02-01 21:32:29,796 INFO listen for service meta change
+

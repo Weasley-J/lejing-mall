@@ -66,7 +66,7 @@ if %MODE% == "cluster" (
 	  )
 
   ::set "NACOS_JVM_OPTS=-server -Xms2g -Xmx2g -Xmn1g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=%BASE_DIR%\logs\java_heapdump.hprof -XX:-UseLargePages"
-    \set "NACOS_JVM_OPTS=-server -Xms512 -Xmx512 -Xmn260m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=160m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=%BASE_DIR%\logs\java_heapdump.hprof -XX:-UseLargePages"
+    set "NACOS_JVM_OPTS=-server -Xms512 -Xmx512 -Xmn260m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=160m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=%BASE_DIR%\logs\java_heapdump.hprof -XX:-UseLargePages"
 )
 
 rem set nacos's functionMode
