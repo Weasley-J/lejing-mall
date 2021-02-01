@@ -17,7 +17,7 @@
 		where ur.user_id = #{userId}
 	</select>
 	
-	<select id="queryByUserName" resultType="io.renren.modules.sys.entity.SysUserEntity">
+	<select id="queryByUserName" resultType="io.renren.modules.sys.cn.alphahub.mall.ware.entity.SysUserEntity">
 		select * from sys_user where username = #{username}
 	</select>
 

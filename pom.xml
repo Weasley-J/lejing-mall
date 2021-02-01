@@ -159,12 +159,17 @@
             <dependency>
                 <groupId>javax.persistence</groupId>
                 <artifactId>persistence-api</artifactId>
-                <version>${persistence-api}</version>
+                <version>${persistence-api.version}</version>
             </dependency>
             <!--smart-doc接口文档工具:2020 年度 OSC 中国开源项目评选活动中获得「最积极运营项目」-->
             <dependency>
                 <groupId>com.github.shalousun</groupId>
                 <artifactId>smart-doc</artifactId>
+                <version>${smart-doc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
                 <version>${smart-doc.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
@@ -183,7 +188,7 @@
             <dependency>
                 <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-common</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>${lejing-mall.latest.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>
@@ -228,6 +233,10 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
                         </exclude>
                     </excludes>
                 </configuration>

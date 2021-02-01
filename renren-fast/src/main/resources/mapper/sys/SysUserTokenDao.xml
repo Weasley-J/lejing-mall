@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.sys.dao.SysUserTokenDao">
 
-	<select id="queryByToken" resultType="io.renren.modules.sys.entity.SysUserTokenEntity">
+	<select id="queryByToken" resultType="io.renren.modules.sys.cn.alphahub.mall.ware.entity.SysUserTokenEntity">
 		select * from sys_user_token where token = #{value}
 	</select>
 </mapper>

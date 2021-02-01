@@ -1,0 +1,23 @@
+{
+  "serverUrl": "http://127.0.0.1:9000",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static",
+  "coverOld": true,
+  "packageFilters": "cn.alphahub.mall.order.controller",
+  "md5EncryptedHtmlName": false,
+  "projectName": "order-service后端接口文档",
+  "skipTransientField": true,
+  "sortByTitle": false,
+  "showAuthor": true,
+  "requestFieldToUnderline": false,
+  "responseFieldToUnderline": false,
+  "inlineEnum": true,
+  "recursionLimit": 7,
+  "allInOneDocFileName": "index.html",
+  "requestExample": "true",
+  "responseExample": "true",
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ]
+}

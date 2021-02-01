@@ -8,7 +8,7 @@
 	</update>
 
 	<!-- 根据key，查询value -->
-	<select id="queryByKey" parameterType="string" resultType="io.renren.modules.sys.entity.SysConfigEntity">
+	<select id="queryByKey" parameterType="string" resultType="io.renren.modules.sys.cn.alphahub.mall.ware.entity.SysConfigEntity">
 		select * from sys_config where param_key = #{paramKey}
 	</select>
 	

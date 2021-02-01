@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.entity;
+package ${package}.${moduleName}.cn.alphahub.mall.ware.entity;
 
 
 #if(${hasList})

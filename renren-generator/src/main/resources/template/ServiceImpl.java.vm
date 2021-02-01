@@ -9,7 +9,7 @@ import ${mainPath}.common.utils.PageUtils;
 import ${mainPath}.common.utils.Query;
 
 import ${package}.${moduleName}.dao.${className}Dao;
-import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.cn.alphahub.mall.ware.entity.${className}Entity;
 import ${package}.${moduleName}.service.${className}Service;
 
 
