@@ -1,3 +1,5 @@
+![shanghao-idea](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/shanghao-idea.jpg)
+
 # lejing-mall-乐璟商城
 
 # 1 技术选型
