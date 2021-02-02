@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.service.impl;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.Query;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.Query;
 import cn.alphahub.mall.product.dao.SpuInfoDescDao;
 import cn.alphahub.mall.product.entity.SpuInfoDescEntity;
 import cn.alphahub.mall.product.service.SpuInfoDescService;

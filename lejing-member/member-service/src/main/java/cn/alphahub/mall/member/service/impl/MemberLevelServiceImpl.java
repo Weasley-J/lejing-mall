@@ -1,7 +1,7 @@
 package cn.alphahub.mall.member.service.impl;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.Query;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.Query;
 import cn.alphahub.mall.member.dao.MemberLevelDao;
 import cn.alphahub.mall.member.entity.MemberLevelEntity;
 import cn.alphahub.mall.member.service.MemberLevelService;

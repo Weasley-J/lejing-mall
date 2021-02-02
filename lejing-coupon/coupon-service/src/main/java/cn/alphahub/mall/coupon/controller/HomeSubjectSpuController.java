@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import cn.alphahub.mall.coupon.entity.HomeSubjectSpuEntity;
 import cn.alphahub.mall.coupon.service.HomeSubjectSpuService;
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.R;
 
 
 

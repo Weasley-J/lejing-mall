@@ -25,7 +25,7 @@
 </template>
 
 <script>
-  import { clearLoginInfo } from '@/utils'
+  import { clearLoginInfo } from '@/util'
   export default {
     data () {
       var validateConfirmPassword = (rule, value, callback) => {

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import { treeDataTranslate } from '@/utils'
+  import { treeDataTranslate } from '@/util'
   export default {
     data () {
       return {

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import cn.alphahub.mall.coupon.entity.SkuFullReductionEntity;
 import cn.alphahub.mall.coupon.service.SkuFullReductionService;
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.R;
 
 
 

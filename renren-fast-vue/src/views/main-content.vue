@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import { isURL } from '@/utils/validate'
+  import { isURL } from '@/util/validate'
   export default {
     inject: ['refresh'],
     data () {

@@ -1,6 +1,6 @@
 package cn.alphahub.common.pojo;
 
-import com.cf.common.constant.HttpStatus;
+import cn.alphahub.common.constant.HttpStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

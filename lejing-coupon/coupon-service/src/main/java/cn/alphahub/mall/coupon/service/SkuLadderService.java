@@ -1,7 +1,7 @@
 package cn.alphahub.mall.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import cn.alphahub.common.utils.PageUtils;
+import cn.alphahub.common.util.PageUtils;
 import cn.alphahub.mall.coupon.entity.SkuLadderEntity;
 
 import java.util.Map;

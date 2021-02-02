@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.service;
 
-import cn.alphahub.common.utils.PageUtils;
+import cn.alphahub.common.util.PageUtils;
 import cn.alphahub.mall.product.entity.CategoryBrandRelationEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 

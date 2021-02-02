@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.controller;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.R;
 import cn.alphahub.mall.product.entity.CommentReplayEntity;
 import cn.alphahub.mall.product.service.CommentReplayService;
 import org.springframework.beans.factory.annotation.Autowired;

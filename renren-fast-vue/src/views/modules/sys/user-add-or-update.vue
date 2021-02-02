@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import { isEmail, isMobile } from '@/utils/validate'
+  import { isEmail, isMobile } from '@/util/validate'
   export default {
     data () {
       var validatePassword = (rule, value, callback) => {

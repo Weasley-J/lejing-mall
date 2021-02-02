@@ -1,6 +1,6 @@
 package cn.alphahub.mall.member.service;
 
-import cn.alphahub.common.utils.PageUtils;
+import cn.alphahub.common.util.PageUtils;
 import cn.alphahub.mall.member.entity.MemberCollectSubjectEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 

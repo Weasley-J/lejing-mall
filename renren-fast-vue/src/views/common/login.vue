@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { getUUID } from '@/utils'
+  import { getUUID } from '@/util'
   export default {
     data () {
       return {

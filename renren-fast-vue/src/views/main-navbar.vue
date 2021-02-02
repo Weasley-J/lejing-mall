@@ -55,7 +55,7 @@
 
 <script>
   import UpdatePassword from './main-navbar-update-password'
-  import { clearLoginInfo } from '@/utils'
+  import { clearLoginInfo } from '@/util'
   export default {
     data () {
       return {

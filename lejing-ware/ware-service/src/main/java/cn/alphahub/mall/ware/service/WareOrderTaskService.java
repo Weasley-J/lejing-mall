@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.service;
 
-import cn.alphahub.common.utils.PageUtils;
+import cn.alphahub.common.util.PageUtils;
 import cn.alphahub.mall.ware.entity.WareOrderTaskEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 

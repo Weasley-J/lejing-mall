@@ -1,6 +1,6 @@
 package cn.alphahub.common.exception;
 
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

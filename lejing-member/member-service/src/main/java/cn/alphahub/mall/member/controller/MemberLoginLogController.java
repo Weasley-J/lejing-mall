@@ -1,7 +1,7 @@
 package cn.alphahub.mall.member.controller;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.R;
 import cn.alphahub.mall.member.entity.MemberLoginLogEntity;
 import cn.alphahub.mall.member.service.MemberLoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;

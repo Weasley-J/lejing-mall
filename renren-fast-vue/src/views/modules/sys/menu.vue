@@ -84,7 +84,7 @@
 
 <script>
   import AddOrUpdate from './menu-add-or-update'
-  import { treeDataTranslate } from '@/utils'
+  import { treeDataTranslate } from '@/util'
   export default {
     data () {
       return {

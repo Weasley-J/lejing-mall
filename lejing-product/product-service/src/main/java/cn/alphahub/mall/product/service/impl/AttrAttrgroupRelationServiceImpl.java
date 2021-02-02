@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.service.impl;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.Query;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.Query;
 import cn.alphahub.mall.product.dao.AttrAttrgroupRelationDao;
 import cn.alphahub.mall.product.entity.AttrAttrgroupRelationEntity;
 import cn.alphahub.mall.product.service.AttrAttrgroupRelationService;

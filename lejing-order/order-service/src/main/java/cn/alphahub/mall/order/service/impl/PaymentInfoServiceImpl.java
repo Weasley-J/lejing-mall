@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.service.impl;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.Query;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.Query;
 import cn.alphahub.mall.order.dao.PaymentInfoDao;
 import cn.alphahub.mall.order.entity.PaymentInfoEntity;
 import cn.alphahub.mall.order.service.PaymentInfoService;

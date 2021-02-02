@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.controller;
 
-import cn.alphahub.common.utils.PageUtils;
-import cn.alphahub.common.utils.R;
+import cn.alphahub.common.util.PageUtils;
+import cn.alphahub.common.util.R;
 import cn.alphahub.mall.order.entity.MqMessageEntity;
 import cn.alphahub.mall.order.service.MqMessageService;
 import org.springframework.beans.factory.annotation.Autowired;

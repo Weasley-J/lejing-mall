@@ -1,4 +1,4 @@
-package cn.alphahub.common.utils;
+package cn.alphahub.common.util;
 
 import cn.alphahub.common.xss.SQLFilter;
 import com.baomidou.mybatisplus.core.metadata.IPage;

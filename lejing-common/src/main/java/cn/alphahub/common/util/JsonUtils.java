@@ -14,7 +14,7 @@ import java.util.Map;
 public class JsonUtils {
 
     public static final ObjectMapper MAPPER = new ObjectMapper();
-    
+
     @Nullable
     public static String serialize(Object obj) {
         if (obj == null) {

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.service;
 
-import cn.alphahub.common.utils.PageUtils;
+import cn.alphahub.common.util.PageUtils;
 import cn.alphahub.mall.order.entity.MqMessageEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 

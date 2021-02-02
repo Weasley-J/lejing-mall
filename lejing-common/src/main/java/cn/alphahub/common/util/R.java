@@ -1,4 +1,4 @@
-package cn.alphahub.common.utils;
+package cn.alphahub.common.util;
 
 import org.apache.http.HttpStatus;
 
