@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.8.RELEASE</version>
-        <!--<version>2.2.9.RELEASE</version>-->
         <relativePath/>
     </parent>
 
@@ -172,6 +171,7 @@
                 <artifactId>smart-doc-maven-plugin</artifactId>
                 <version>${smart-doc.version}</version>
             </dependency>
+            <!-- hutool工具包 -->
             <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -185,11 +185,13 @@
                 <version>${servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <!-- 通用工程模块 -->
             <dependency>
                 <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-common</artifactId>
                 <version>${lejing-mall.latest.version}</version>
             </dependency>
+            <!-- 解决nacos相关依赖引入导致springboot启动失败 -->
             <dependency>
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
