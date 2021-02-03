@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 29/01/2021 01:40:04
+ Date: 04/02/2021 00:46:53
 */
 
 SET NAMES utf8mb4;
@@ -32,10 +32,6 @@ CREATE TABLE `ums_growth_change_history`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '成长值变化历史记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ums_growth_change_history
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ums_integration_change_history
 -- ----------------------------
 DROP TABLE IF EXISTS `ums_integration_change_history`;
@@ -48,10 +44,6 @@ CREATE TABLE `ums_integration_change_history`  (
   `source_tyoe` tinyint NULL DEFAULT NULL COMMENT '来源[0->购物；1->管理员修改;2->活动]',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '积分变化历史记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ums_integration_change_history
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ums_member
@@ -83,10 +75,6 @@ CREATE TABLE `ums_member`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ums_member
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ums_member_collect_spu
 -- ----------------------------
 DROP TABLE IF EXISTS `ums_member_collect_spu`;
@@ -101,10 +89,6 @@ CREATE TABLE `ums_member_collect_spu`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员收藏的商品' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ums_member_collect_spu
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ums_member_collect_subject
 -- ----------------------------
 DROP TABLE IF EXISTS `ums_member_collect_subject`;
@@ -116,10 +100,6 @@ CREATE TABLE `ums_member_collect_subject`  (
   `subject_urll` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '活动url',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员收藏的专题活动' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ums_member_collect_subject
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ums_member_level
@@ -140,10 +120,6 @@ CREATE TABLE `ums_member_level`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员等级' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ums_member_level
--- ----------------------------
-
--- ----------------------------
 -- Table structure for ums_member_login_log
 -- ----------------------------
 DROP TABLE IF EXISTS `ums_member_login_log`;
@@ -156,10 +132,6 @@ CREATE TABLE `ums_member_login_log`  (
   `login_type` tinyint(1) NULL DEFAULT NULL COMMENT '登录类型[1-web，2-app]',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员登录记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ums_member_login_log
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ums_member_receive_address
@@ -179,10 +151,6 @@ CREATE TABLE `ums_member_receive_address`  (
   `default_status` tinyint(1) NULL DEFAULT NULL COMMENT '是否默认',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员收货地址' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ums_member_receive_address
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ums_member_statistics_info
@@ -208,29 +176,21 @@ CREATE TABLE `ums_member_statistics_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员统计信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ums_member_statistics_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `branch_id` bigint NOT NULL,
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `rollback_info` longblob NOT NULL,
-  `log_status` int NOT NULL,
-  `log_created` datetime NOT NULL,
-  `log_modified` datetime NOT NULL,
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
+  `log_status` int NOT NULL COMMENT '日志状态码',
+  `log_created` datetime NOT NULL COMMENT '日志创建时间',
+  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

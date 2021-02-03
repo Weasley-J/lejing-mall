@@ -1,4 +1,4 @@
-package io.renren.common.xss;
+package cn.alphahub.common.xss;
 
 import java.util.ArrayList;
 import java.util.Collections;

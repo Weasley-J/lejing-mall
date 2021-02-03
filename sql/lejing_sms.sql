@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 29/01/2021 01:40:00
+ Date: 04/02/2021 00:46:44
 */
 
 SET NAMES utf8mb4;
@@ -43,11 +43,7 @@ CREATE TABLE `sms_coupon`  (
   `member_level` tinyint(1) NULL DEFAULT NULL COMMENT '可以领取的会员等级[0->不限等级，其他-对应等级]',
   `publish` tinyint(1) NULL DEFAULT NULL COMMENT '发布状态[0-未发布，1-已发布]',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '优惠券信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_coupon
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '优惠券信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for sms_coupon_history
@@ -68,10 +64,6 @@ CREATE TABLE `sms_coupon_history`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '优惠券领取历史记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_coupon_history
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_coupon_spu_category_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_coupon_spu_category_relation`;
@@ -84,10 +76,6 @@ CREATE TABLE `sms_coupon_spu_category_relation`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '优惠券分类关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_coupon_spu_category_relation
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_coupon_spu_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_coupon_spu_relation`;
@@ -98,10 +86,6 @@ CREATE TABLE `sms_coupon_spu_relation`  (
   `spu_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spu_name',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '优惠券与产品关联' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_coupon_spu_relation
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_home_adv
@@ -124,10 +108,6 @@ CREATE TABLE `sms_home_adv`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '首页轮播广告' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_home_adv
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_home_subject
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_home_subject`;
@@ -144,10 +124,6 @@ CREATE TABLE `sms_home_subject`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_home_subject
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_home_subject_spu
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_home_subject_spu`;
@@ -159,10 +135,6 @@ CREATE TABLE `sms_home_subject_spu`  (
   `sort` int NULL DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '专题商品' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_home_subject_spu
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_member_price
@@ -177,10 +149,6 @@ CREATE TABLE `sms_member_price`  (
   `add_other` tinyint(1) NULL DEFAULT NULL COMMENT '可否叠加其他优惠[0-不可叠加优惠，1-可叠加]',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品会员价格' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_member_price
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_seckill_promotion
@@ -198,10 +166,6 @@ CREATE TABLE `sms_seckill_promotion`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '秒杀活动' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_seckill_promotion
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_seckill_session
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_seckill_session`;
@@ -214,10 +178,6 @@ CREATE TABLE `sms_seckill_session`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '秒杀活动场次' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_seckill_session
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_seckill_sku_notice
@@ -233,10 +193,6 @@ CREATE TABLE `sms_seckill_sku_notice`  (
   `notice_type` tinyint(1) NULL DEFAULT NULL COMMENT '通知方式[0-短信，1-邮件]',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '秒杀商品通知订阅' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_seckill_sku_notice
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_seckill_sku_relation
@@ -255,10 +211,6 @@ CREATE TABLE `sms_seckill_sku_relation`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '秒杀活动商品关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_seckill_sku_relation
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_sku_full_reduction
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_sku_full_reduction`;
@@ -270,10 +222,6 @@ CREATE TABLE `sms_sku_full_reduction`  (
   `add_other` tinyint(1) NULL DEFAULT NULL COMMENT '是否参与其他优惠',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品满减信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of sms_sku_full_reduction
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for sms_sku_ladder
@@ -290,10 +238,6 @@ CREATE TABLE `sms_sku_ladder`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品阶梯价格' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_sku_ladder
--- ----------------------------
-
--- ----------------------------
 -- Table structure for sms_spu_bounds
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_spu_bounds`;
@@ -307,29 +251,21 @@ CREATE TABLE `sms_spu_bounds`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品spu积分设置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sms_spu_bounds
--- ----------------------------
-
--- ----------------------------
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `branch_id` bigint NOT NULL,
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `rollback_info` longblob NOT NULL,
-  `log_status` int NOT NULL,
-  `log_created` datetime NOT NULL,
-  `log_modified` datetime NOT NULL,
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
+  `log_status` int NOT NULL COMMENT '日志状态码',
+  `log_created` datetime NOT NULL COMMENT '日志创建时间',
+  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

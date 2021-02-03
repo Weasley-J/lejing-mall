@@ -1,6 +1,7 @@
-package cn.alphahub.common.pojo;
+package cn.alphahub.common.core.domain;
 
 import cn.alphahub.common.constant.HttpStatus;
+import cn.alphahub.common.core.page.PageResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,14 +12,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Controller返回数据封装
+ * 通用Controller数据返回封装
  *
- * @author lwj
+ * @author liuwenjing
+ * @date 2021年2月2日22:58:59
  */
 @Data
 @Builder
 @AllArgsConstructor
-public class ResultSet<T> implements Serializable {
+public class BaseResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 状态码
@@ -36,30 +38,30 @@ public class ResultSet<T> implements Serializable {
     private Object data;
 
     /**
-     * 初始化一个新创建的 ResultSet 对象，使其表示一个空消息。
+     * 初始化一个新创建的 R 对象，使其表示一个空消息
      */
-    public ResultSet() {
+    public BaseResult() {
     }
 
     /**
-     * 初始化一个新创建的 ResultSet 对象
+     * 初始化一个新创建的 R 对象
      *
      * @param code 状态码
      * @param msg  返回内容
      */
-    public ResultSet(int code, String msg) {
+    public BaseResult(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
     /**
-     * 初始化一个新创建的 ResultSet 对象
+     * 初始化一个新创建的 R 对象
      *
      * @param code 状态码
      * @param msg  返回内容
      * @param data 数据对象
      */
-    public ResultSet(int code, String msg, Object data) {
+    public BaseResult(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         if (ObjectUtils.isNotEmpty(data)) {
@@ -72,8 +74,8 @@ public class ResultSet<T> implements Serializable {
      *
      * @return 成功消息
      */
-    public ResultSet<T> success() {
-        return new ResultSet<T>().success("操作成功");
+    public BaseResult<T> success() {
+        return new BaseResult<T>().success("操作成功");
     }
 
     /**
@@ -81,8 +83,8 @@ public class ResultSet<T> implements Serializable {
      *
      * @return 成功消息
      */
-    public ResultSet<T> success(Object data) {
-        return new ResultSet<T>().success("操作成功", data);
+    public BaseResult<T> success(Object data) {
+        return new BaseResult<T>().success("操作成功", data);
     }
 
     /**
@@ -91,8 +93,8 @@ public class ResultSet<T> implements Serializable {
      * @param msg 返回内容
      * @return 成功消息
      */
-    public ResultSet<T> success(String msg) {
-        return new ResultSet<T>().success(msg, null);
+    public BaseResult<T> success(String msg) {
+        return new BaseResult<T>().success(msg, null);
     }
 
     /**
@@ -102,18 +104,18 @@ public class ResultSet<T> implements Serializable {
      * @param data 数据对象
      * @return 成功消息
      */
-    public ResultSet<T> success(String msg, Object data) {
-        return new ResultSet<>(HttpStatus.SUCCESS, msg, data);
+    public BaseResult<T> success(String msg, Object data) {
+        return new BaseResult<>(HttpStatus.SUCCESS, msg, data);
     }
 
     /**
      * 返回错误消息
      *
-     * @return
+     * @return 错误消息
      */
-    public ResultSet<T> error() {
-        ResultSet<T> tResultSet = new ResultSet<>();
-        return tResultSet.error("操作失败");
+    public BaseResult<T> error() {
+        BaseResult<T> tR = new BaseResult<>();
+        return tR.error("操作失败");
     }
 
     /**
@@ -122,8 +124,8 @@ public class ResultSet<T> implements Serializable {
      * @param msg 返回内容
      * @return 警告消息
      */
-    public ResultSet<T> error(String msg) {
-        return new ResultSet<T>().error(msg, null);
+    public BaseResult<T> error(String msg) {
+        return new BaseResult<T>().error(msg, null);
     }
 
     /**
@@ -133,8 +135,8 @@ public class ResultSet<T> implements Serializable {
      * @param data 数据对象
      * @return 警告消息
      */
-    public ResultSet<T> error(String msg, Object data) {
-        return new ResultSet<>(HttpStatus.ERROR, msg, data);
+    public BaseResult<T> error(String msg, Object data) {
+        return new BaseResult<>(HttpStatus.ERROR, msg, data);
     }
 
     /**
@@ -144,27 +146,27 @@ public class ResultSet<T> implements Serializable {
      * @param msg  返回内容
      * @return 警告消息
      */
-    public ResultSet<T> error(int code, String msg) {
-        return new ResultSet<>(code, msg, null);
+    public BaseResult<T> error(int code, String msg) {
+        return new BaseResult<>(code, msg, null);
     }
 
     /**
      * 返回分页列表
      *
-     * @param list  分页对象集合
-     * @param total 总记录数
-     * @param pages 总页数
+     * @param items      分页对象集合
+     * @param totalCount 总记录数
+     * @param totalPage  总页数
      * @return 分页数据集合
      */
-    public ResultSet<PageResult<T>> queryPage(List<T> list, Long total, Long pages) {
+    public BaseResult<PageResult<T>> queryPage(List<T> items, Long totalCount, Long totalPage) {
         PageResult<T> pageResult = PageResult.<T>builder()
-                .total(total)
-                .totalPage(pages)
-                .items(list)
+                .totalCount(totalCount)
+                .totalPage(totalPage)
+                .items(items)
                 .build();
         if (Objects.nonNull(pageResult)) {
-            return new ResultSet<PageResult<T>>().success(pageResult);
+            return new BaseResult<PageResult<T>>().success("查询成功", pageResult);
         }
-        return new ResultSet<PageResult<T>>().error();
+        return new BaseResult<PageResult<T>>().error("查询失败");
     }
 }

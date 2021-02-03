@@ -10,8 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author: HuYi.Zhang
- * @create: 2018-04-25 09:13
+ * @author HuYi.Zhang
+ * @date 2018-04-25 09:13
  **/
 public class NumberUtils {
 
@@ -22,8 +22,8 @@ public class NumberUtils {
     /**
      * 判断字符串是否是数值格式
      *
-     * @param str
-     * @return
+     * @param str 判断的字符串
+     * @return true|false
      */
     public static boolean isDigit(String str) {
         if (str == null || "".equals(str.trim())) {
@@ -35,9 +35,9 @@ public class NumberUtils {
     /**
      * 将一个小数精确到指定位数
      *
-     * @param num
-     * @param scale
-     * @return
+     * @param num   要精确的数
+     * @param scale 精确多少位
+     * @return 精确的数
      */
     public static double scale(double num, int scale) {
         BigDecimal bd = new BigDecimal(num);
@@ -47,9 +47,9 @@ public class NumberUtils {
     /**
      * 从字符串中根据正则表达式寻找，返回找到的数字数组
      *
-     * @param value
-     * @param regex
-     * @return
+     * @param value 字符串
+     * @param regex 正则表达式
+     * @return 符合正则表达式数字数组
      */
     public static Double[] searchNumber(String value, String regex) {
         List<Double> doubles = new ArrayList<>();

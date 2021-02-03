@@ -12,12 +12,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  */
 @Slf4j
 @RestControllerAdvice
-public class CustomizeExceptionHandler {
+public class CustomExceptionHandler {
     /**
      * 处理自定义异常
      */
-    @ExceptionHandler(CustomizeException.class)
-    public R customizeExceptionHandler(CustomizeException e) {
+    @ExceptionHandler(CustomException.class)
+    public R customizeExceptionHandler(CustomException e) {
         R r = new R();
         r.put("code", e.getCode());
         r.put("msg", e.getMessage());

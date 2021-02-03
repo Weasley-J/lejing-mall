@@ -33,5 +33,5 @@ build/
 .vscode/
 
 /springboot-webapp/*.jar
-/nacos-config/nacos-server-1.4.1/nacos/bin/logs/*.log
-/nacos-config/nacos-server-1.4.1/nacos/logs/*.log
+/nacos-config/nacos-server-1.4.1/nacos/bin/logs/
+/nacos-config/nacos-server-1.4.1/nacos/logs/

@@ -67,8 +67,8 @@ public class SpringUtil implements ApplicationContextAware {
     /**
      * 国际化使用
      *
-     * @param key
-     * @return
+     * @param key 键
+     * @return 值
      */
     public static String getMessage(String key) {
         return applicationContext.getMessage(key, null, Locale.getDefault());

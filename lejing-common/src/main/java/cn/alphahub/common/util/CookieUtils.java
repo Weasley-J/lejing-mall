@@ -1,5 +1,6 @@
 package cn.alphahub.common.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  */
 public final class CookieUtils {
 
-    static final Logger logger = LoggerFactory.getLogger(CookieUtils.class);
+    static final Logger log = LoggerFactory.getLogger(CookieUtils.class);
 
     /**
      * 得到Cookie的值, 不编码
@@ -49,7 +50,7 @@ public final class CookieUtils {
                     try {
                         retValue = URLDecoder.decode(cookieList[i].getValue(), String.valueOf(StandardCharsets.UTF_8));
                     } catch (UnsupportedEncodingException e) {
-                        logger.error(e.getLocalizedMessage().concat("\n"), e);
+                        log.error(e.getLocalizedMessage().concat("\n"), e);
                     }
                 } else {
                     retValue = cookieList[i].getValue();
@@ -81,7 +82,7 @@ public final class CookieUtils {
                 }
             }
         } catch (UnsupportedEncodingException e) {
-            logger.error("Cookie Decode Error.", e);
+            log.error("Cookie Decode Error.", e);
         }
         return retValue;
     }
@@ -150,7 +151,7 @@ public final class CookieUtils {
             }
             response.addCookie(cookie);
         } catch (Exception e) {
-            logger.error("Cookie Encode Error.", e);
+            log.error("Cookie Encode Error.", e);
         }
     }
 

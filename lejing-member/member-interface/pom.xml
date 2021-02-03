@@ -10,6 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <packaging>jar</packaging>
     <artifactId>member-interface</artifactId>
     <version>${lejing-mall.latest.version}</version>
     <description>会员服务接口,供其他微服务跨服务调用</description>

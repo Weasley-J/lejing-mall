@@ -1,10 +1,12 @@
 package cn.alphahub.common.xss;
 
-import cn.alphahub.common.exception.CustomizeException;
+import cn.alphahub.common.exception.CustomException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * SQL过滤
+ *
+ * @author renren
  */
 public class SQLFilter {
 
@@ -32,7 +34,7 @@ public class SQLFilter {
         //判断是否包含非法字符
         for (String keyword : keywords) {
             if (str.contains(keyword)) {
-                throw new CustomizeException("包含非法字符");
+                throw new CustomException("包含非法字符");
             }
         }
 

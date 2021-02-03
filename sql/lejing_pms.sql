@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 29/01/2021 01:39:55
+ Date: 04/02/2021 00:46:37
 */
 
 SET NAMES utf8mb4;
@@ -36,10 +36,6 @@ CREATE TABLE `pms_attr`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品属性' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_attr
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_attr_attrgroup_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_attr_attrgroup_relation`;
@@ -50,10 +46,6 @@ CREATE TABLE `pms_attr_attrgroup_relation`  (
   `attr_sort` int NULL DEFAULT NULL COMMENT '属性组内排序',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '属性&属性分组关联' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_attr_attrgroup_relation
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_attr_group
@@ -70,10 +62,6 @@ CREATE TABLE `pms_attr_group`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '属性分组' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_attr_group
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_brand
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_brand`;
@@ -87,10 +75,6 @@ CREATE TABLE `pms_brand`  (
   `sort` int NULL DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`brand_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '品牌' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_brand
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_category
@@ -111,10 +95,6 @@ CREATE TABLE `pms_category`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品三级分类' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_category
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_category_brand_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_category_brand_relation`;
@@ -128,10 +108,6 @@ CREATE TABLE `pms_category_brand_relation`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '品牌分类关联' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_category_brand_relation
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_comment_replay
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_comment_replay`;
@@ -141,10 +117,6 @@ CREATE TABLE `pms_comment_replay`  (
   `reply_id` bigint NULL DEFAULT NULL COMMENT '回复id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品评价回复关系' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_comment_replay
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_product_attr_value
@@ -162,10 +134,6 @@ CREATE TABLE `pms_product_attr_value`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'spu属性值' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_product_attr_value
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_sku_images
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku_images`;
@@ -177,10 +145,6 @@ CREATE TABLE `pms_sku_images`  (
   `default_img` int NULL DEFAULT NULL COMMENT '默认图[0 - 不是默认图，1 - 是默认图]',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'sku图片' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_sku_images
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_sku_info
@@ -202,10 +166,6 @@ CREATE TABLE `pms_sku_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'sku信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_sku_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_sku_sale_attr_value
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_sku_sale_attr_value`;
@@ -218,10 +178,6 @@ CREATE TABLE `pms_sku_sale_attr_value`  (
   `attr_sort` int NULL DEFAULT NULL COMMENT '顺序',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'sku销售属性&值' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_sku_sale_attr_value
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_spu_comment
@@ -248,10 +204,6 @@ CREATE TABLE `pms_spu_comment`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品评价' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_spu_comment
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu_images
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu_images`;
@@ -264,10 +216,6 @@ CREATE TABLE `pms_spu_images`  (
   `default_img` tinyint NULL DEFAULT NULL COMMENT '是否默认图',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'spu图片' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pms_spu_images
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for pms_spu_info
@@ -287,10 +235,6 @@ CREATE TABLE `pms_spu_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'spu信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_spu_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for pms_spu_info_desc
 -- ----------------------------
 DROP TABLE IF EXISTS `pms_spu_info_desc`;
@@ -301,29 +245,21 @@ CREATE TABLE `pms_spu_info_desc`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'spu信息介绍' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of pms_spu_info_desc
--- ----------------------------
-
--- ----------------------------
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `branch_id` bigint NOT NULL,
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `rollback_info` longblob NOT NULL,
-  `log_status` int NOT NULL,
-  `log_created` datetime NOT NULL,
-  `log_modified` datetime NOT NULL,
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
+  `log_status` int NOT NULL COMMENT '日志状态码',
+  `log_created` datetime NOT NULL COMMENT '日志创建时间',
+  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

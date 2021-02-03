@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 29/01/2021 01:40:08
+ Date: 04/02/2021 00:46:59
 */
 
 SET NAMES utf8mb4;
@@ -22,22 +22,18 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `branch_id` bigint NOT NULL,
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `rollback_info` longblob NOT NULL,
-  `log_status` int NOT NULL,
-  `log_created` datetime NOT NULL,
-  `log_modified` datetime NOT NULL,
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
+  `log_status` int NOT NULL COMMENT '日志状态码',
+  `log_created` datetime NOT NULL COMMENT '日志创建时间',
+  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for wms_purchase
@@ -58,10 +54,6 @@ CREATE TABLE `wms_purchase`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '采购信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of wms_purchase
--- ----------------------------
-
--- ----------------------------
 -- Table structure for wms_purchase_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_purchase_detail`;
@@ -77,10 +69,6 @@ CREATE TABLE `wms_purchase_detail`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of wms_purchase_detail
--- ----------------------------
-
--- ----------------------------
 -- Table structure for wms_ware_info
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_ware_info`;
@@ -91,10 +79,6 @@ CREATE TABLE `wms_ware_info`  (
   `areacode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '区域编码',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '仓库信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of wms_ware_info
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for wms_ware_order_task
@@ -119,10 +103,6 @@ CREATE TABLE `wms_ware_order_task`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '库存工作单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of wms_ware_order_task
--- ----------------------------
-
--- ----------------------------
 -- Table structure for wms_ware_order_task_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_ware_order_task_detail`;
@@ -138,10 +118,6 @@ CREATE TABLE `wms_ware_order_task_detail`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '库存工作单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of wms_ware_order_task_detail
--- ----------------------------
-
--- ----------------------------
 -- Table structure for wms_ware_sku
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_ware_sku`;
@@ -154,9 +130,5 @@ CREATE TABLE `wms_ware_sku`  (
   `stock_locked` int NULL DEFAULT 0 COMMENT '锁定库存',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '商品库存' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of wms_ware_sku
--- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

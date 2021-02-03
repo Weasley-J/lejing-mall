@@ -1,10 +1,11 @@
-package cn.alphahub.common.pojo;
+package cn.alphahub.common.core.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,12 +18,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageResult<T> {
-
+public class PageResult<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 总条数
      */
-    private Long total;
+    private Long totalCount;
 
     /**
      * 总页数

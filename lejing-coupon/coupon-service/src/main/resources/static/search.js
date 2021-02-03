@@ -2,29 +2,29 @@ let api = [];
 api.push({
     alias: 'CouponController',
     order: '1',
-    link: '优惠券信息',
-    desc: '优惠券信息',
+    link: '优惠券信息controller',
+    desc: '优惠券信息Controller',
     list: []
 })
 api[0].list.push({
     order: '1',
-    desc: '列表',
+    desc: '查询优惠券信息列表',
 });
 api[0].list.push({
     order: '2',
-    desc: '信息',
+    desc: '获取优惠券信息详情',
 });
 api[0].list.push({
     order: '3',
-    desc: '保存',
+    desc: '保存优惠券信息',
 });
 api[0].list.push({
     order: '4',
-    desc: '修改',
+    desc: '修改优惠券信息',
 });
 api[0].list.push({
     order: '5',
-    desc: '删除',
+    desc: '根据id集合批量删除优惠券信息',
 });
 api.push({
     alias: 'CouponHistoryController',

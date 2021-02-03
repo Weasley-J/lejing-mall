@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CustomizeException extends RuntimeException {
+public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -22,23 +22,23 @@ public class CustomizeException extends RuntimeException {
      */
     private Integer code = 500;
 
-    public CustomizeException(String msg) {
+    public CustomException(String msg) {
         super(msg);
         this.msg = msg;
     }
 
-    public CustomizeException(String msg, int code) {
+    public CustomException(String msg, int code) {
         super(msg);
         this.msg = msg;
         this.code = code;
     }
 
-    public CustomizeException(String msg, Throwable e) {
+    public CustomException(String msg, Throwable e) {
         super(msg, e);
         this.msg = msg;
     }
 
-    public CustomizeException(String msg, int code, Throwable e) {
+    public CustomException(String msg, int code, Throwable e) {
         super(msg, e);
         this.msg = msg;
         this.code = code;

@@ -1,4 +1,4 @@
-package cn.alphahub.common.pojo;
+package cn.alphahub.common.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * 短信参数实体
+ *
+ * @author liuwenjing
  */
 @Data
 @Builder

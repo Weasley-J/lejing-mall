@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 29/01/2021 01:39:50
+ Date: 04/02/2021 00:46:30
 */
 
 SET NAMES utf8mb4;
@@ -32,10 +32,6 @@ CREATE TABLE `mq_message`  (
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`message_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of mq_message
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for oms_order
@@ -89,10 +85,6 @@ CREATE TABLE `oms_order`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of oms_order
--- ----------------------------
-
--- ----------------------------
 -- Table structure for oms_order_item
 -- ----------------------------
 DROP TABLE IF EXISTS `oms_order_item`;
@@ -121,10 +113,6 @@ CREATE TABLE `oms_order_item`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单项信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of oms_order_item
--- ----------------------------
-
--- ----------------------------
 -- Table structure for oms_order_operate_history
 -- ----------------------------
 DROP TABLE IF EXISTS `oms_order_operate_history`;
@@ -137,10 +125,6 @@ CREATE TABLE `oms_order_operate_history`  (
   `note` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单操作历史记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of oms_order_operate_history
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for oms_order_return_apply
@@ -179,10 +163,6 @@ CREATE TABLE `oms_order_return_apply`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单退货申请' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of oms_order_return_apply
--- ----------------------------
-
--- ----------------------------
 -- Table structure for oms_order_return_reason
 -- ----------------------------
 DROP TABLE IF EXISTS `oms_order_return_reason`;
@@ -194,10 +174,6 @@ CREATE TABLE `oms_order_return_reason`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT 'create_time',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '退货原因' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of oms_order_return_reason
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for oms_order_setting
@@ -213,10 +189,6 @@ CREATE TABLE `oms_order_setting`  (
   `member_level` tinyint NULL DEFAULT NULL COMMENT '会员等级【0-不限会员等级，全部通用；其他-对应的其他会员等级】',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单配置信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of oms_order_setting
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for oms_payment_info
@@ -240,10 +212,6 @@ CREATE TABLE `oms_payment_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '支付信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of oms_payment_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for oms_refund_info
 -- ----------------------------
 DROP TABLE IF EXISTS `oms_refund_info`;
@@ -259,29 +227,21 @@ CREATE TABLE `oms_refund_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '退款信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of oms_refund_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for undo_log
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
 CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `branch_id` bigint NOT NULL,
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `rollback_info` longblob NOT NULL,
-  `log_status` int NOT NULL,
-  `log_created` datetime NOT NULL,
-  `log_modified` datetime NOT NULL,
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
+  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
+  `log_status` int NOT NULL COMMENT '日志状态码',
+  `log_created` datetime NOT NULL COMMENT '日志创建时间',
+  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of undo_log
--- ----------------------------
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
