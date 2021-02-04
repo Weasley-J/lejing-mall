@@ -50,7 +50,7 @@
 
 > 基于Mybatis-Plus自动生成,支持复杂分页查询, 数据库变动只需要修改实体类即可
 
-![image-20210205025122573](README.assets/image-20210205025122573.png)
+![image-20210205025122573](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025122573.png)
 
 ![image-20210205025022332](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025022332.png)
 
