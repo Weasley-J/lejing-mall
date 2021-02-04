@@ -32,7 +32,7 @@
 
 ![image-20210204005654609](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204005654609.png)
 
-- [ ] 分装好BaseResult，返回结果封装 ，让接口的输入和输出更加明确
+- [x] 分装好BaseResult，返回结果封装 ，让接口的输入和输出更加明确
 
 ![image-20210204010657082](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010657082.png)
 
@@ -42,7 +42,7 @@
 
 ![image-20210204010952249](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010952249.png)
 
-- [ ] 重新改造代码生成, 所有接口都可以生成测试文档, 支持在线调试接口, 执行`mvn package`自动出api文档,访问地址改成自己的端口号:http://127.0.0.1:10000/debug-all.html,
+- [x] 重新改造代码生成, 所有接口都可以生成测试文档, 支持在线调试接口, 执行`mvn package`自动出api文档,访问地址改成自己的端口号:http://127.0.0.1:10000/debug-all.html,
 
   ![image-20210205025359610](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025359610.png)
 
@@ -56,8 +56,16 @@
 
 **![image-20210205024941585](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205024941585.png)**
 
+- [x] 项目改造完成,集成:业务代码自动生成->执行mvn package,自动输出可调式的高可读性api文档->分层架构->以最小的代价迎合业务的重大变更
+
+
+
+
+
 # 2 待完成清单
 
 - [x] 整合人人框架，提供：domain--> dao --> service --> controller --> 全自动api文档在线输出**&**在线调试，
 
   目的：让今后因业务变动影响数据库的变动只需要码农修改数据库对应的领域模型即可，节省更多的时间
+
+- [ ] 微服务计划
