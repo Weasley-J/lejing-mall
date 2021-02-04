@@ -1,20 +1,16 @@
 package cn.alphahub.mall.coupon.service;
 
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.coupon.domain.HomeSubjectSpu;
 import com.baomidou.mybatisplus.extension.service.IService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.coupon.entity.HomeSubjectSpuEntity;
-
-import java.util.Map;
 
 /**
- * 专题商品
+ * 专题商品Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
-public interface HomeSubjectSpuService extends IService<HomeSubjectSpuEntity> {
+public interface HomeSubjectSpuService extends IService<HomeSubjectSpu>, PageService<HomeSubjectSpu> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

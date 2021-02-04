@@ -1,29 +1,47 @@
 package cn.alphahub.mall.coupon.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.Query;
+import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
-import cn.alphahub.mall.coupon.dao.SeckillSkuNoticeDao;
-import cn.alphahub.mall.coupon.entity.SeckillSkuNoticeEntity;
+import cn.alphahub.mall.coupon.mapper.SeckillSkuNoticeMapper;
+import cn.alphahub.mall.coupon.domain.SeckillSkuNotice;
 import cn.alphahub.mall.coupon.service.SeckillSkuNoticeService;
 
+import java.util.List;
 
+/**
+ * 秒杀商品通知订阅Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:10:59
+ */
 @Service("seckillSkuNoticeService")
-public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeDao, SeckillSkuNoticeEntity> implements SeckillSkuNoticeService {
+public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeMapper, SeckillSkuNotice> implements SeckillSkuNoticeService {
 
+    /**
+     * 查询秒杀商品通知订阅分页列表
+     *
+     * @param pageDomain   分页数据
+     * @param seckillSkuNotice 分页对象
+     * @return 秒杀商品通知订阅分页数据
+     */
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SeckillSkuNoticeEntity> page = this.page(
-                new Query<SeckillSkuNoticeEntity>().getPage(params),
-                new QueryWrapper<SeckillSkuNoticeEntity>()
-        );
-
-        return new PageUtils(page);
+    public PageResult<SeckillSkuNotice> queryPage(PageDomain pageDomain, SeckillSkuNotice seckillSkuNotice) {
+        pageDomain.startPage();
+        QueryWrapper<SeckillSkuNotice> wrapper = new QueryWrapper<>(seckillSkuNotice);
+        List<SeckillSkuNotice> list = this.list(wrapper);
+        PageInfo<SeckillSkuNotice> pageInfo = new PageInfo<>(list);
+        PageResult<SeckillSkuNotice> pageResult = PageResult.<SeckillSkuNotice>builder()
+                .totalCount(pageInfo.getTotal())
+                .totalPage((long) pageInfo.getPages())
+                .items(pageInfo.getList())
+                .build();
+        return pageResult;
     }
 
 }

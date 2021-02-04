@@ -1,20 +1,16 @@
 package cn.alphahub.mall.member.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.member.entity.MemberLoginLogEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.member.domain.MemberLoginLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * 会员登录记录
+ * 会员登录记录Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:20:49
+ * @date 2021-02-05 02:14:36
  */
-public interface MemberLoginLogService extends IService<MemberLoginLogEntity> {
+public interface MemberLoginLogService extends IService<MemberLoginLog>, PageService<MemberLoginLog> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

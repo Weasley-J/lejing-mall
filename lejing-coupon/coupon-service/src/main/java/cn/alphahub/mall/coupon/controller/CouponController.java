@@ -1,13 +1,16 @@
 package cn.alphahub.mall.coupon.controller;
 
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.mall.coupon.entity.CouponEntity;
+
+import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.coupon.service.CouponService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -16,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
 @RestController
 @RequestMapping("coupon/coupon")
@@ -31,43 +34,44 @@ public class CouponController extends BaseController {
      * @param rows         显示行数,默认10条
      * @param orderColumn  排序排序字段,默认不排序
      * @param isAsc        排序方式,desc或者asc
-     * @param couponEntity 优惠券信息,按需传入,默认等值查询
-     * @return 优惠券信息分页列表
+     * @param coupon 优惠券信息,字段选择性传入,默认等值查询
+     * @return 优惠券信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<CouponEntity>> list(
+    //@RequiresPermissions("coupon:coupon:list")
+    public BaseResult<PageResult<Coupon>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
             @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
-            CouponEntity couponEntity
+            Coupon coupon
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
-        PageResult<CouponEntity> pageResult = couponService.queryPage(pageDomain, couponEntity);
-        return (BaseResult<PageResult<CouponEntity>>) toPageableResult(pageResult);
+        PageResult<Coupon> pageResult = couponService.queryPage(pageDomain, coupon);
+        return (BaseResult<PageResult<Coupon>>) toPageableResult(pageResult);
     }
 
     /**
      * 获取优惠券信息详情
      *
-     * @param id 主键id
-     * @return 优惠券信息
+     * @param id 优惠券信息主键id
+     * @return 优惠券信息详细信息
      */
-    @GetMapping("/info/{id}")
-    public BaseResult<CouponEntity> info(@PathVariable("id") Long id) {
-        CouponEntity coupon = couponService.getById(id);
-        return (BaseResult<CouponEntity>) toResponseResult(coupon);
+    @GetMapping("/{id}")
+    public BaseResult<Coupon> info(@PathVariable("id") Long id){
+        Coupon coupon = couponService.getById(id);
+        return (BaseResult<Coupon>) toResponseResult(coupon);
     }
 
     /**
-     * 保存优惠券信息
+     * 新增优惠券信息
      *
      * @param coupon 优惠券信息元数据
-     * @return 操作提示
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(CouponEntity coupon) {
-        BaseResult<Boolean> r = new BaseResult<>();
+    //@RequiresPermissions("coupon:coupon:save")
+    public BaseResult<Boolean> save(/*@RequestBody*/ Coupon coupon) {
         boolean save = couponService.save(coupon);
         return toOperationResult(save);
     }
@@ -75,23 +79,24 @@ public class CouponController extends BaseController {
     /**
      * 修改优惠券信息
      *
-     * @param coupon 优惠券信息，根据主键id按需更新
-     * @return 操作提示
+     * @param coupon 优惠券信息,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(CouponEntity coupon) {
+    public BaseResult<Boolean> update(/*@RequestBody*/ Coupon coupon) {
         boolean update = couponService.updateById(coupon);
         return toOperationResult(update);
     }
 
     /**
-     * 根据id集合批量删除优惠券信息
+     * 批量删除优惠券信息
      *
      * @param ids 优惠券信息id集合
-     * @return 操作提示
+     * @return 成功返回true,失败返回false
      */
     @DeleteMapping("/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    //@RequiresPermissions("coupon:coupon:delete")
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
         boolean delete = couponService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

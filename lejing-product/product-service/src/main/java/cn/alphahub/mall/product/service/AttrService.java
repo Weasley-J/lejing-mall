@@ -1,20 +1,16 @@
 package cn.alphahub.mall.product.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.product.entity.AttrEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.product.domain.Attr;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * 商品属性
+ * 商品属性Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:24:22
+ * @date 2021-02-05 02:20:39
  */
-public interface AttrService extends IService<AttrEntity> {
+public interface AttrService extends IService<Attr>, PageService<Attr> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

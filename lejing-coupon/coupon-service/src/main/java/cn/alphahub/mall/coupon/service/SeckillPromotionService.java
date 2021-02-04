@@ -1,20 +1,16 @@
 package cn.alphahub.mall.coupon.service;
 
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.coupon.domain.SeckillPromotion;
 import com.baomidou.mybatisplus.extension.service.IService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.coupon.entity.SeckillPromotionEntity;
-
-import java.util.Map;
 
 /**
- * 秒杀活动
+ * 秒杀活动Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
-public interface SeckillPromotionService extends IService<SeckillPromotionEntity> {
+public interface SeckillPromotionService extends IService<SeckillPromotion>, PageService<SeckillPromotion> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

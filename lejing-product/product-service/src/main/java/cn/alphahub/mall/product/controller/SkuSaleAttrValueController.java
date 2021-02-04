@@ -1,83 +1,103 @@
 package cn.alphahub.mall.product.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.product.entity.SkuSaleAttrValueEntity;
-import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
+import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
+
+import java.util.Arrays;
 
 /**
- * sku销售属性&值
+ * sku销售属性&值Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:24:22
+ * @date 2021-02-05 02:20:39
  */
 @RestController
 @RequestMapping("product/skusaleattrvalue")
-public class SkuSaleAttrValueController {
+public class SkuSaleAttrValueController extends BaseController {
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
     /**
-     * 列表
+     * 查询sku销售属性&值列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param skuSaleAttrValue sku销售属性&值,字段选择性传入,默认等值查询
+     * @return sku销售属性&值分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("product:skusaleattrvalue:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = skuSaleAttrValueService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<SkuSaleAttrValue>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            SkuSaleAttrValue skuSaleAttrValue
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<SkuSaleAttrValue> pageResult = skuSaleAttrValueService.queryPage(pageDomain, skuSaleAttrValue);
+        return (BaseResult<PageResult<SkuSaleAttrValue>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取sku销售属性&值详情
+     *
+     * @param id sku销售属性&值主键id
+     * @return sku销售属性&值详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("product:skusaleattrvalue:info")
-    public R info(@PathVariable("id") Long id) {
-        SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
-
-        return R.ok().put("skuSaleAttrValue", skuSaleAttrValue);
+    @GetMapping("/{id}")
+    public BaseResult<SkuSaleAttrValue> info(@PathVariable("id") Long id){
+        SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueService.getById(id);
+        return (BaseResult<SkuSaleAttrValue>) toResponseResult(skuSaleAttrValue);
     }
 
     /**
-     * 保存
+     * 新增sku销售属性&值
+     *
+     * @param skuSaleAttrValue sku销售属性&值元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("product:skusaleattrvalue:save")
-    public R save(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue) {
-        skuSaleAttrValueService.save(skuSaleAttrValue);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ SkuSaleAttrValue skuSaleAttrValue) {
+        boolean save = skuSaleAttrValueService.save(skuSaleAttrValue);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改sku销售属性&值
+     *
+     * @param skuSaleAttrValue sku销售属性&值,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("product:skusaleattrvalue:update")
-    public R update(@RequestBody SkuSaleAttrValueEntity skuSaleAttrValue) {
-        skuSaleAttrValueService.updateById(skuSaleAttrValue);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ SkuSaleAttrValue skuSaleAttrValue) {
+        boolean update = skuSaleAttrValueService.updateById(skuSaleAttrValue);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除sku销售属性&值
+     *
+     * @param ids sku销售属性&值id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("product:skusaleattrvalue:delete")
-    public R delete(@RequestBody Long[] ids) {
-        skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

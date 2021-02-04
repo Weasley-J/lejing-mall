@@ -1,20 +1,16 @@
 package cn.alphahub.mall.member.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.member.entity.MemberStatisticsInfoEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.member.domain.MemberStatisticsInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * 会员统计信息
+ * 会员统计信息Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:20:49
+ * @date 2021-02-05 02:14:36
  */
-public interface MemberStatisticsInfoService extends IService<MemberStatisticsInfoEntity> {
+public interface MemberStatisticsInfoService extends IService<MemberStatisticsInfo>, PageService<MemberStatisticsInfo> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

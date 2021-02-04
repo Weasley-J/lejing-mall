@@ -1,83 +1,103 @@
 package cn.alphahub.mall.ware.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.ware.entity.WareOrderTaskEntity;
-import cn.alphahub.mall.ware.service.WareOrderTaskService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.ware.domain.WareOrderTask;
+import cn.alphahub.mall.ware.service.WareOrderTaskService;
+
+import java.util.Arrays;
 
 /**
- * 库存工作单
+ * 库存工作单Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:14:08
+ * @date 2021-02-05 02:22:49
  */
 @RestController
 @RequestMapping("ware/wareordertask")
-public class WareOrderTaskController {
+public class WareOrderTaskController extends BaseController {
     @Autowired
     private WareOrderTaskService wareOrderTaskService;
 
     /**
-     * 列表
+     * 查询库存工作单列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param wareOrderTask 库存工作单,字段选择性传入,默认等值查询
+     * @return 库存工作单分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("ware:wareordertask:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = wareOrderTaskService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<WareOrderTask>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            WareOrderTask wareOrderTask
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<WareOrderTask> pageResult = wareOrderTaskService.queryPage(pageDomain, wareOrderTask);
+        return (BaseResult<PageResult<WareOrderTask>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取库存工作单详情
+     *
+     * @param id 库存工作单主键id
+     * @return 库存工作单详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("ware:wareordertask:info")
-    public R info(@PathVariable("id") Long id) {
-        WareOrderTaskEntity wareOrderTask = wareOrderTaskService.getById(id);
-
-        return R.ok().put("wareOrderTask", wareOrderTask);
+    @GetMapping("/{id}")
+    public BaseResult<WareOrderTask> info(@PathVariable("id") Long id){
+        WareOrderTask wareOrderTask = wareOrderTaskService.getById(id);
+        return (BaseResult<WareOrderTask>) toResponseResult(wareOrderTask);
     }
 
     /**
-     * 保存
+     * 新增库存工作单
+     *
+     * @param wareOrderTask 库存工作单元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("ware:wareordertask:save")
-    public R save(@RequestBody WareOrderTaskEntity wareOrderTask) {
-        wareOrderTaskService.save(wareOrderTask);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ WareOrderTask wareOrderTask) {
+        boolean save = wareOrderTaskService.save(wareOrderTask);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改库存工作单
+     *
+     * @param wareOrderTask 库存工作单,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("ware:wareordertask:update")
-    public R update(@RequestBody WareOrderTaskEntity wareOrderTask) {
-        wareOrderTaskService.updateById(wareOrderTask);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ WareOrderTask wareOrderTask) {
+        boolean update = wareOrderTaskService.updateById(wareOrderTask);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除库存工作单
+     *
+     * @param ids 库存工作单id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("ware:wareordertask:delete")
-    public R delete(@RequestBody Long[] ids) {
-        wareOrderTaskService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = wareOrderTaskService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

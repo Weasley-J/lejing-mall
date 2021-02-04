@@ -1,0 +1,6 @@
+2021-02-04 00:43:31,428 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:57:41,401 INFO add listener: com.alibaba.nacos.naming.iplist.public##DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:14:01,426 INFO [RAFT-NOTIFIER] datum is deleted, key: com.alibaba.nacos.naming.domains.meta.public##DEFAULT_GROUP@@lejing-coupon
+

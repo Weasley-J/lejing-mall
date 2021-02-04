@@ -1,20 +1,16 @@
 package cn.alphahub.mall.coupon.service;
 
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.coupon.domain.SkuLadder;
 import com.baomidou.mybatisplus.extension.service.IService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.coupon.entity.SkuLadderEntity;
-
-import java.util.Map;
 
 /**
- * 商品阶梯价格
+ * 商品阶梯价格Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
-public interface SkuLadderService extends IService<SkuLadderEntity> {
+public interface SkuLadderService extends IService<SkuLadder>, PageService<SkuLadder> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

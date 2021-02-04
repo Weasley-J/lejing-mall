@@ -1,18 +1,16 @@
 package cn.alphahub.mall.order.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.order.entity.UndoLogEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.order.domain.UndoLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
+ * 撤销日志表Service接口
+ *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 17:56:09
+ * @date 2021-02-05 02:17:51
  */
-public interface UndoLogService extends IService<UndoLogEntity> {
+public interface UndoLogService extends IService<UndoLog>, PageService<UndoLog> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

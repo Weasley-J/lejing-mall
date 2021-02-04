@@ -1,29 +1,47 @@
 package cn.alphahub.mall.coupon.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.Query;
+import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
-import cn.alphahub.mall.coupon.dao.CouponSpuCategoryRelationDao;
-import cn.alphahub.mall.coupon.entity.CouponSpuCategoryRelationEntity;
+import cn.alphahub.mall.coupon.mapper.CouponSpuCategoryRelationMapper;
+import cn.alphahub.mall.coupon.domain.CouponSpuCategoryRelation;
 import cn.alphahub.mall.coupon.service.CouponSpuCategoryRelationService;
 
+import java.util.List;
 
+/**
+ * 优惠券分类关联Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:10:59
+ */
 @Service("couponSpuCategoryRelationService")
-public class CouponSpuCategoryRelationServiceImpl extends ServiceImpl<CouponSpuCategoryRelationDao, CouponSpuCategoryRelationEntity> implements CouponSpuCategoryRelationService {
+public class CouponSpuCategoryRelationServiceImpl extends ServiceImpl<CouponSpuCategoryRelationMapper, CouponSpuCategoryRelation> implements CouponSpuCategoryRelationService {
 
+    /**
+     * 查询优惠券分类关联分页列表
+     *
+     * @param pageDomain   分页数据
+     * @param couponSpuCategoryRelation 分页对象
+     * @return 优惠券分类关联分页数据
+     */
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CouponSpuCategoryRelationEntity> page = this.page(
-                new Query<CouponSpuCategoryRelationEntity>().getPage(params),
-                new QueryWrapper<CouponSpuCategoryRelationEntity>()
-        );
-
-        return new PageUtils(page);
+    public PageResult<CouponSpuCategoryRelation> queryPage(PageDomain pageDomain, CouponSpuCategoryRelation couponSpuCategoryRelation) {
+        pageDomain.startPage();
+        QueryWrapper<CouponSpuCategoryRelation> wrapper = new QueryWrapper<>(couponSpuCategoryRelation);
+        List<CouponSpuCategoryRelation> list = this.list(wrapper);
+        PageInfo<CouponSpuCategoryRelation> pageInfo = new PageInfo<>(list);
+        PageResult<CouponSpuCategoryRelation> pageResult = PageResult.<CouponSpuCategoryRelation>builder()
+                .totalCount(pageInfo.getTotal())
+                .totalPage((long) pageInfo.getPages())
+                .items(pageInfo.getList())
+                .build();
+        return pageResult;
     }
 
 }

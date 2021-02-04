@@ -1,0 +1,66 @@
+2021-02-05 02:24:54,696 INFO Starting Nacos v1.4.1 on Inspiron-7591 with PID 6484 (E:\IdeaProjects\lejing-mall\nacos-server\nacos-server-1.4.1\nacos\target\nacos-server.jar started by liuwe in E:\IdeaProjects\lejing-mall\nacos-server\nacos-server-1.4.1\nacos)
+
+2021-02-05 02:24:54,697 INFO The following profiles are active: standalone
+
+2021-02-05 02:24:57,449 INFO Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@25230246' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-02-05 02:24:57,459 INFO Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+
+2021-02-05 02:24:58,704 INFO Tomcat initialized with port(s): 8848 (http)
+
+2021-02-05 02:24:58,738 INFO Starting service [Tomcat]
+
+2021-02-05 02:24:58,738 INFO Starting Servlet engine: [Apache Tomcat/9.0.38]
+
+2021-02-05 02:24:59,127 INFO At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+
+2021-02-05 02:24:59,175 INFO Initializing Spring embedded WebApplicationContext
+
+2021-02-05 02:24:59,175 INFO Root WebApplicationContext: initialization completed in 4422 ms
+
+2021-02-05 02:24:59,524 INFO HikariPool-1 - Starting...
+
+2021-02-05 02:24:59,731 INFO HikariPool-1 - Start completed.
+
+2021-02-05 02:25:00,077 INFO Nacos-related cluster resource initialization
+
+2021-02-05 02:25:00,089 INFO The cluster resource is initialized
+
+2021-02-05 02:25:00,535 INFO Reflections took 39 ms to scan 1 urls, producing 4 keys and 6 values 
+
+2021-02-05 02:25:00,563 INFO Reflections took 4 ms to scan 1 urls, producing 6 keys and 26 values 
+
+2021-02-05 02:25:00,578 INFO Reflections took 4 ms to scan 1 urls, producing 3 keys and 15 values 
+
+2021-02-05 02:25:00,587 INFO Reflections took 2 ms to scan 1 urls, producing 2 keys and 12 values 
+
+2021-02-05 02:25:01,218 INFO Initializing ExecutorService 'applicationTaskExecutor'
+
+2021-02-05 02:25:01,339 INFO Adding welcome page: class path resource [static/index.html]
+
+2021-02-05 02:25:01,742 INFO Creating filter chain: Ant [pattern='/**'], []
+
+2021-02-05 02:25:01,778 INFO Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@62f11ebb, org.springframework.security.web.context.SecurityContextPersistenceFilter@5261ec9, org.springframework.security.web.header.HeaderWriterFilter@1ddc6db2, org.springframework.security.web.csrf.CsrfFilter@59c04bee, org.springframework.security.web.authentication.logout.LogoutFilter@2b916808, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@64da6cbd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4ed9f7b1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@a6c54c3, org.springframework.security.web.session.SessionManagementFilter@1b01a0d, org.springframework.security.web.access.ExceptionTranslationFilter@32118208]
+
+2021-02-05 02:25:01,870 INFO Initializing ExecutorService 'taskScheduler'
+
+2021-02-05 02:25:01,891 INFO Exposing 2 endpoint(s) beneath base path '/actuator'
+
+2021-02-05 02:25:01,989 INFO Tomcat started on port(s): 8848 (http) with context path '/nacos'
+
+2021-02-05 02:25:01,994 INFO Started Nacos in 9.552 seconds (JVM running for 10.263)
+
+2021-02-05 02:25:01,994 INFO Nacos started successfully in stand alone mode. use external storage
+
+2021-02-05 02:27:10,932 INFO Initializing Spring DispatcherServlet 'dispatcherServlet'
+
+2021-02-05 02:27:10,933 INFO Initializing Servlet 'dispatcherServlet'
+
+2021-02-05 02:27:10,945 INFO Completed initialization in 12 ms
+
+2021-02-05 02:35:00,754 INFO [capacityManagement] start correct usage
+
+2021-02-05 02:35:00,772 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-05 02:35:00,853 WARN clearConfigHistory start
+

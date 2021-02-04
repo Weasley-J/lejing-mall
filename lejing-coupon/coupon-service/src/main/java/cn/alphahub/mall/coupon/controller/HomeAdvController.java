@@ -1,86 +1,103 @@
 package cn.alphahub.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import cn.alphahub.mall.coupon.entity.HomeAdvEntity;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
+
+import cn.alphahub.mall.coupon.domain.HomeAdv;
 import cn.alphahub.mall.coupon.service.HomeAdvService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
 
-
+import java.util.Arrays;
 
 /**
- * 首页轮播广告
+ * 首页轮播广告Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
 @RestController
 @RequestMapping("coupon/homeadv")
-public class HomeAdvController {
+public class HomeAdvController extends BaseController {
     @Autowired
     private HomeAdvService homeAdvService;
 
     /**
-     * 列表
+     * 查询首页轮播广告列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param homeAdv 首页轮播广告,字段选择性传入,默认等值查询
+     * @return 首页轮播广告分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("coupon:homeadv:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = homeAdvService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<HomeAdv>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            HomeAdv homeAdv
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<HomeAdv> pageResult = homeAdvService.queryPage(pageDomain, homeAdv);
+        return (BaseResult<PageResult<HomeAdv>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取首页轮播广告详情
+     *
+     * @param id 首页轮播广告主键id
+     * @return 首页轮播广告详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("coupon:homeadv:info")
-    public R info(@PathVariable("id") Long id){
-		HomeAdvEntity homeAdv = homeAdvService.getById(id);
-
-        return R.ok().put("homeAdv", homeAdv);
+    @GetMapping("/{id}")
+    public BaseResult<HomeAdv> info(@PathVariable("id") Long id){
+        HomeAdv homeAdv = homeAdvService.getById(id);
+        return (BaseResult<HomeAdv>) toResponseResult(homeAdv);
     }
 
     /**
-     * 保存
+     * 新增首页轮播广告
+     *
+     * @param homeAdv 首页轮播广告元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("coupon:homeadv:save")
-    public R save(@RequestBody HomeAdvEntity homeAdv){
-		homeAdvService.save(homeAdv);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ HomeAdv homeAdv) {
+        boolean save = homeAdvService.save(homeAdv);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改首页轮播广告
+     *
+     * @param homeAdv 首页轮播广告,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("coupon:homeadv:update")
-    public R update(@RequestBody HomeAdvEntity homeAdv){
-		homeAdvService.updateById(homeAdv);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ HomeAdv homeAdv) {
+        boolean update = homeAdvService.updateById(homeAdv);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除首页轮播广告
+     *
+     * @param ids 首页轮播广告id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("coupon:homeadv:delete")
-    public R delete(@RequestBody Long[] ids){
-		homeAdvService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = homeAdvService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

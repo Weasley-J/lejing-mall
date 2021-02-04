@@ -1,86 +1,103 @@
 package cn.alphahub.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import cn.alphahub.mall.coupon.entity.SeckillSkuNoticeEntity;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
+
+import cn.alphahub.mall.coupon.domain.SeckillSkuNotice;
 import cn.alphahub.mall.coupon.service.SeckillSkuNoticeService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
 
-
+import java.util.Arrays;
 
 /**
- * 秒杀商品通知订阅
+ * 秒杀商品通知订阅Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
 @RestController
 @RequestMapping("coupon/seckillskunotice")
-public class SeckillSkuNoticeController {
+public class SeckillSkuNoticeController extends BaseController {
     @Autowired
     private SeckillSkuNoticeService seckillSkuNoticeService;
 
     /**
-     * 列表
+     * 查询秒杀商品通知订阅列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param seckillSkuNotice 秒杀商品通知订阅,字段选择性传入,默认等值查询
+     * @return 秒杀商品通知订阅分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("coupon:seckillskunotice:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = seckillSkuNoticeService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<SeckillSkuNotice>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            SeckillSkuNotice seckillSkuNotice
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<SeckillSkuNotice> pageResult = seckillSkuNoticeService.queryPage(pageDomain, seckillSkuNotice);
+        return (BaseResult<PageResult<SeckillSkuNotice>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取秒杀商品通知订阅详情
+     *
+     * @param id 秒杀商品通知订阅主键id
+     * @return 秒杀商品通知订阅详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("coupon:seckillskunotice:info")
-    public R info(@PathVariable("id") Long id){
-		SeckillSkuNoticeEntity seckillSkuNotice = seckillSkuNoticeService.getById(id);
-
-        return R.ok().put("seckillSkuNotice", seckillSkuNotice);
+    @GetMapping("/{id}")
+    public BaseResult<SeckillSkuNotice> info(@PathVariable("id") Long id){
+        SeckillSkuNotice seckillSkuNotice = seckillSkuNoticeService.getById(id);
+        return (BaseResult<SeckillSkuNotice>) toResponseResult(seckillSkuNotice);
     }
 
     /**
-     * 保存
+     * 新增秒杀商品通知订阅
+     *
+     * @param seckillSkuNotice 秒杀商品通知订阅元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("coupon:seckillskunotice:save")
-    public R save(@RequestBody SeckillSkuNoticeEntity seckillSkuNotice){
-		seckillSkuNoticeService.save(seckillSkuNotice);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ SeckillSkuNotice seckillSkuNotice) {
+        boolean save = seckillSkuNoticeService.save(seckillSkuNotice);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改秒杀商品通知订阅
+     *
+     * @param seckillSkuNotice 秒杀商品通知订阅,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("coupon:seckillskunotice:update")
-    public R update(@RequestBody SeckillSkuNoticeEntity seckillSkuNotice){
-		seckillSkuNoticeService.updateById(seckillSkuNotice);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ SeckillSkuNotice seckillSkuNotice) {
+        boolean update = seckillSkuNoticeService.updateById(seckillSkuNotice);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除秒杀商品通知订阅
+     *
+     * @param ids 秒杀商品通知订阅id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("coupon:seckillskunotice:delete")
-    public R delete(@RequestBody Long[] ids){
-		seckillSkuNoticeService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = seckillSkuNoticeService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

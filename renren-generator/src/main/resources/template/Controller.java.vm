@@ -1,21 +1,21 @@
 package ${package}.${moduleName}.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ${package}.${moduleName}.cn.alphahub.mall.ware.entity.${className}Entity;
+import ${mainPath}.common.core.controller.BaseController;
+import ${mainPath}.common.core.domain.BaseResult;
+import ${mainPath}.common.core.page.PageDomain;
+import ${mainPath}.common.core.page.PageResult;
+
+import ${package}.${moduleName}.domain.${className};
 import ${package}.${moduleName}.service.${className}Service;
-import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.R;
 
-
+import java.util.Arrays;
 
 /**
- * ${comments}
+ * ${comments}Controller
  *
  * @author ${author}
  * @email ${email}
@@ -23,64 +23,82 @@ import ${mainPath}.common.utils.R;
  */
 @RestController
 @RequestMapping("${moduleName}/${pathName}")
-public class ${className}Controller {
+public class ${className}Controller extends BaseController {
     @Autowired
     private ${className}Service ${classname}Service;
 
     /**
-     * 列表
+     * 查询${comments}列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param ${classname} ${comments},字段选择性传入,默认等值查询
+     * @return ${comments}分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("${moduleName}:${pathName}:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = ${classname}Service.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<${className}>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            ${className} ${classname}
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<${className}> pageResult = ${classname}Service.queryPage(pageDomain, ${classname});
+        return (BaseResult<PageResult<${className}>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取${comments}详情
+     *
+     * @param ${pk.attrname} ${comments}主键id
+     * @return ${comments}详细信息
      */
-    @GetMapping("/info/{${pk.attrname}}")
-    //@RequiresPermissions("${moduleName}:${pathName}:info")
-    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-		${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
-
-        return R.ok().put("${classname}", ${classname});
+    @GetMapping("/{id}")
+    public BaseResult<${className}> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+        ${className} ${classname} = ${classname}Service.getById(${pk.attrname});
+        return (BaseResult<${className}>) toResponseResult(${classname});
     }
 
     /**
-     * 保存
+     * 新增${comments}
+     *
+     * @param ${classname} ${comments}元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("${moduleName}:${pathName}:save")
-    public R save(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.save(${classname});
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ ${className} ${classname}) {
+        boolean save = ${classname}Service.save(${classname});
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改${comments}
+     *
+     * @param ${classname} ${comments},根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("${moduleName}:${pathName}:update")
-    public R update(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.updateById(${classname});
-
-        return R.ok();
+    //@RequiresPermissions("coupon:couponhistory:update")
+    public BaseResult<Boolean> update(/*@RequestBody*/ ${className} ${classname}) {
+        boolean update = ${classname}Service.updateById(${classname});
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除${comments}
+     *
+     * @param ${pk.attrname}s ${comments}id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("${moduleName}:${pathName}:delete")
-    public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-		${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable ${pk.attrType}[] ${pk.attrname}s){
+        boolean delete = ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+        return toOperationResult(delete);
     }
-
 }

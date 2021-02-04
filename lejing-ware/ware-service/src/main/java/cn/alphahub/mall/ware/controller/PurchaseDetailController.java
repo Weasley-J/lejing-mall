@@ -1,81 +1,103 @@
 package cn.alphahub.mall.ware.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.ware.entity.PurchaseDetailEntity;
-import cn.alphahub.mall.ware.service.PurchaseDetailService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.ware.domain.PurchaseDetail;
+import cn.alphahub.mall.ware.service.PurchaseDetailService;
+
+import java.util.Arrays;
 
 /**
+ * 仓储采购表Controller
+ *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:14:08
+ * @date 2021-02-05 02:22:49
  */
 @RestController
 @RequestMapping("ware/purchasedetail")
-public class PurchaseDetailController {
+public class PurchaseDetailController extends BaseController {
     @Autowired
     private PurchaseDetailService purchaseDetailService;
 
     /**
-     * 列表
+     * 查询仓储采购表列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param purchaseDetail 仓储采购表,字段选择性传入,默认等值查询
+     * @return 仓储采购表分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("ware:purchasedetail:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = purchaseDetailService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<PurchaseDetail>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            PurchaseDetail purchaseDetail
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<PurchaseDetail> pageResult = purchaseDetailService.queryPage(pageDomain, purchaseDetail);
+        return (BaseResult<PageResult<PurchaseDetail>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取仓储采购表详情
+     *
+     * @param id 仓储采购表主键id
+     * @return 仓储采购表详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("ware:purchasedetail:info")
-    public R info(@PathVariable("id") Long id) {
-        PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
-
-        return R.ok().put("purchaseDetail", purchaseDetail);
+    @GetMapping("/{id}")
+    public BaseResult<PurchaseDetail> info(@PathVariable("id") Long id){
+        PurchaseDetail purchaseDetail = purchaseDetailService.getById(id);
+        return (BaseResult<PurchaseDetail>) toResponseResult(purchaseDetail);
     }
 
     /**
-     * 保存
+     * 新增仓储采购表
+     *
+     * @param purchaseDetail 仓储采购表元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("ware:purchasedetail:save")
-    public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
-        purchaseDetailService.save(purchaseDetail);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ PurchaseDetail purchaseDetail) {
+        boolean save = purchaseDetailService.save(purchaseDetail);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改仓储采购表
+     *
+     * @param purchaseDetail 仓储采购表,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("ware:purchasedetail:update")
-    public R update(@RequestBody PurchaseDetailEntity purchaseDetail) {
-        purchaseDetailService.updateById(purchaseDetail);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ PurchaseDetail purchaseDetail) {
+        boolean update = purchaseDetailService.updateById(purchaseDetail);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除仓储采购表
+     *
+     * @param ids 仓储采购表id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("ware:purchasedetail:delete")
-    public R delete(@RequestBody Long[] ids) {
-        purchaseDetailService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = purchaseDetailService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

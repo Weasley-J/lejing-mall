@@ -1,83 +1,103 @@
 package cn.alphahub.mall.order.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.order.entity.OrderReturnApplyEntity;
-import cn.alphahub.mall.order.service.OrderReturnApplyService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.order.domain.OrderReturnApply;
+import cn.alphahub.mall.order.service.OrderReturnApplyService;
+
+import java.util.Arrays;
 
 /**
- * 订单退货申请
+ * 订单退货申请Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 17:56:09
+ * @date 2021-02-05 02:17:51
  */
 @RestController
 @RequestMapping("order/orderreturnapply")
-public class OrderReturnApplyController {
+public class OrderReturnApplyController extends BaseController {
     @Autowired
     private OrderReturnApplyService orderReturnApplyService;
 
     /**
-     * 列表
+     * 查询订单退货申请列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param orderReturnApply 订单退货申请,字段选择性传入,默认等值查询
+     * @return 订单退货申请分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("order:orderreturnapply:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = orderReturnApplyService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<OrderReturnApply>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            OrderReturnApply orderReturnApply
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<OrderReturnApply> pageResult = orderReturnApplyService.queryPage(pageDomain, orderReturnApply);
+        return (BaseResult<PageResult<OrderReturnApply>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取订单退货申请详情
+     *
+     * @param id 订单退货申请主键id
+     * @return 订单退货申请详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("order:orderreturnapply:info")
-    public R info(@PathVariable("id") Long id) {
-        OrderReturnApplyEntity orderReturnApply = orderReturnApplyService.getById(id);
-
-        return R.ok().put("orderReturnApply", orderReturnApply);
+    @GetMapping("/{id}")
+    public BaseResult<OrderReturnApply> info(@PathVariable("id") Long id){
+        OrderReturnApply orderReturnApply = orderReturnApplyService.getById(id);
+        return (BaseResult<OrderReturnApply>) toResponseResult(orderReturnApply);
     }
 
     /**
-     * 保存
+     * 新增订单退货申请
+     *
+     * @param orderReturnApply 订单退货申请元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("order:orderreturnapply:save")
-    public R save(@RequestBody OrderReturnApplyEntity orderReturnApply) {
-        orderReturnApplyService.save(orderReturnApply);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ OrderReturnApply orderReturnApply) {
+        boolean save = orderReturnApplyService.save(orderReturnApply);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改订单退货申请
+     *
+     * @param orderReturnApply 订单退货申请,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("order:orderreturnapply:update")
-    public R update(@RequestBody OrderReturnApplyEntity orderReturnApply) {
-        orderReturnApplyService.updateById(orderReturnApply);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ OrderReturnApply orderReturnApply) {
+        boolean update = orderReturnApplyService.updateById(orderReturnApply);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除订单退货申请
+     *
+     * @param ids 订单退货申请id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("order:orderreturnapply:delete")
-    public R delete(@RequestBody Long[] ids) {
-        orderReturnApplyService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = orderReturnApplyService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

@@ -1,0 +1,32 @@
+2021-02-05 02:25:00,143 INFO GlobalConfig{taskDispatchPeriod=2000, batchSyncKeyCount=1000, syncRetryDelay=5000, dataWarmup=false, expireInstance=true, loadDataRetryDelayMillis=30000}
+
+2021-02-05 02:25:00,715 INFO open empty service auto clean job, initialDelay : 50000 ms, period : 30000 ms
+
+2021-02-05 02:25:00,715 INFO listen for service meta change
+
+2021-02-05 02:25:05,130 INFO [NACOS-DISTRO] healthy server list changed, old: [192.168.2.1:8848], new: [192.168.2.1:8848]
+
+2021-02-05 02:27:11,177 INFO creating empty service public:DEFAULT_GROUP@@lejing-coupon
+
+2021-02-05 02:27:11,387 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@lejing-coupon","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1612463231178,"checksum":"4aa759d310114e95bf5ca65cbd0515b8","clusterMap":{},"empty":true}
+
+2021-02-05 02:27:11,392 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612463231160,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}, will create new cluster with default configuration.
+
+2021-02-05 02:27:11,396 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612463231160,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-05 02:27:19,300 INFO creating empty service public:DEFAULT_GROUP@@lejing-member
+
+2021-02-05 02:27:19,300 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@lejing-member","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1612463239300,"checksum":"85e9bc1c8219a46dbb20348fd24d2fd2","clusterMap":{},"empty":true}
+
+2021-02-05 02:27:19,301 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.2.1#8000#DEFAULT#DEFAULT_GROUP@@lejing-member","ip":"192.168.2.1","port":8000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-member","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612463239299,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}, will create new cluster with default configuration.
+
+2021-02-05 02:27:19,301 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-member, value: {"instanceList":[{"instanceId":"192.168.2.1#8000#DEFAULT#DEFAULT_GROUP@@lejing-member","ip":"192.168.2.1","port":8000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-member","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612463239299,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-05 02:40:41,376 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@lejing-coupon, ip: {"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612464006759,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}
+
+2021-02-05 02:40:41,432 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[]}
+
+2021-02-05 02:40:44,472 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@lejing-member, ip: {"instanceId":"192.168.2.1#8000#DEFAULT#DEFAULT_GROUP@@lejing-member","ip":"192.168.2.1","port":8000,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-member","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612464009916,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}
+
+2021-02-05 02:40:44,474 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-member, value: {"instanceList":[]}
+

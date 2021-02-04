@@ -1,18 +1,16 @@
 package cn.alphahub.mall.ware.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.ware.entity.PurchaseDetailEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.ware.domain.PurchaseDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
+ * 仓储采购表Service接口
+ *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:14:08
+ * @date 2021-02-05 02:22:49
  */
-public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
+public interface PurchaseDetailService extends IService<PurchaseDetail>, PageService<PurchaseDetail> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

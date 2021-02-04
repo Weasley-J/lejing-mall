@@ -1,20 +1,16 @@
 package cn.alphahub.mall.product.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.product.entity.ProductAttrValueEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.product.domain.ProductAttrValue;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * spu属性值
+ * spu属性值Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:24:22
+ * @date 2021-02-05 02:20:39
  */
-public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
+public interface ProductAttrValueService extends IService<ProductAttrValue>, PageService<ProductAttrValue> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

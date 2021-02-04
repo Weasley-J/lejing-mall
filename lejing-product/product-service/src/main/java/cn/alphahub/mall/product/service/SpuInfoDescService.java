@@ -1,20 +1,16 @@
 package cn.alphahub.mall.product.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.product.entity.SpuInfoDescEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.product.domain.SpuInfoDesc;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * spu信息介绍
+ * spu信息介绍Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:24:22
+ * @date 2021-02-05 02:20:39
  */
-public interface SpuInfoDescService extends IService<SpuInfoDescEntity> {
+public interface SpuInfoDescService extends IService<SpuInfoDesc>, PageService<SpuInfoDesc> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

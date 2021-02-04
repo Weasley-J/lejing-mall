@@ -1,86 +1,104 @@
 package cn.alphahub.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import cn.alphahub.mall.coupon.entity.CouponHistoryEntity;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
+
+import cn.alphahub.mall.coupon.domain.CouponHistory;
 import cn.alphahub.mall.coupon.service.CouponHistoryService;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
 
-
+import java.util.Arrays;
 
 /**
- * 优惠券领取历史记录
+ * 优惠券领取历史记录Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:22:38
+ * @date 2021-02-05 02:10:59
  */
 @RestController
 @RequestMapping("coupon/couponhistory")
-public class CouponHistoryController {
+public class CouponHistoryController extends BaseController {
     @Autowired
     private CouponHistoryService couponHistoryService;
 
     /**
-     * 列表
+     * 查询优惠券领取历史记录列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param couponHistory 优惠券领取历史记录,字段选择性传入,默认等值查询
+     * @return 优惠券领取历史记录分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("coupon:couponhistory:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = couponHistoryService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<CouponHistory>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            CouponHistory couponHistory
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<CouponHistory> pageResult = couponHistoryService.queryPage(pageDomain, couponHistory);
+        return (BaseResult<PageResult<CouponHistory>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取优惠券领取历史记录详情
+     *
+     * @param id 优惠券领取历史记录主键id
+     * @return 优惠券领取历史记录详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("coupon:couponhistory:info")
-    public R info(@PathVariable("id") Long id){
-		CouponHistoryEntity couponHistory = couponHistoryService.getById(id);
-
-        return R.ok().put("couponHistory", couponHistory);
+    @GetMapping("/{id}")
+    public BaseResult<CouponHistory> info(@PathVariable("id") Long id){
+        CouponHistory couponHistory = couponHistoryService.getById(id);
+        return (BaseResult<CouponHistory>) toResponseResult(couponHistory);
     }
 
     /**
-     * 保存
+     * 新增优惠券领取历史记录
+     *
+     * @param couponHistory 优惠券领取历史记录元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("coupon:couponhistory:save")
-    public R save(@RequestBody CouponHistoryEntity couponHistory){
-		couponHistoryService.save(couponHistory);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ CouponHistory couponHistory) {
+        boolean save = couponHistoryService.save(couponHistory);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改优惠券领取历史记录
+     *
+     * @param couponHistory 优惠券领取历史记录,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
     //@RequiresPermissions("coupon:couponhistory:update")
-    public R update(@RequestBody CouponHistoryEntity couponHistory){
-		couponHistoryService.updateById(couponHistory);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ CouponHistory couponHistory) {
+        boolean update = couponHistoryService.updateById(couponHistory);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除优惠券领取历史记录
+     *
+     * @param ids 优惠券领取历史记录id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("coupon:couponhistory:delete")
-    public R delete(@RequestBody Long[] ids){
-		couponHistoryService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = couponHistoryService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

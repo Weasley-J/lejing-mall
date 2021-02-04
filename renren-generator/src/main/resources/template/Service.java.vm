@@ -1,20 +1,16 @@
 package ${package}.${moduleName}.service;
 
+import ${mainPath}.common.core.service.PageService;
+import ${package}.${moduleName}.domain.${className};
 import com.baomidou.mybatisplus.extension.service.IService;
-import ${mainPath}.common.utils.PageUtils;
-import ${package}.${moduleName}.cn.alphahub.mall.ware.entity.${className}Entity;
-
-import java.util.Map;
 
 /**
- * ${comments}
+ * ${comments}Service接口
  *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
  */
-public interface ${className}Service extends IService<${className}Entity> {
+public interface ${className}Service extends IService<${className}>, PageService<${className}> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

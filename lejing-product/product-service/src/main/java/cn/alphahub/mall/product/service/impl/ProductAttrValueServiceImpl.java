@@ -1,29 +1,47 @@
 package cn.alphahub.mall.product.service.impl;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.Query;
-import cn.alphahub.mall.product.dao.ProductAttrValueDao;
-import cn.alphahub.mall.product.entity.ProductAttrValueEntity;
-import cn.alphahub.mall.product.service.ProductAttrValueService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
-import java.util.Map;
+import cn.alphahub.mall.product.mapper.ProductAttrValueMapper;
+import cn.alphahub.mall.product.domain.ProductAttrValue;
+import cn.alphahub.mall.product.service.ProductAttrValueService;
 
+import java.util.List;
 
+/**
+ * spu属性值Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:20:39
+ */
 @Service("productAttrValueService")
-public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao, ProductAttrValueEntity> implements ProductAttrValueService {
+public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueMapper, ProductAttrValue> implements ProductAttrValueService {
 
+    /**
+     * 查询spu属性值分页列表
+     *
+     * @param pageDomain   分页数据
+     * @param productAttrValue 分页对象
+     * @return spu属性值分页数据
+     */
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<ProductAttrValueEntity> page = this.page(
-                new Query<ProductAttrValueEntity>().getPage(params),
-                new QueryWrapper<ProductAttrValueEntity>()
-        );
-
-        return new PageUtils(page);
+    public PageResult<ProductAttrValue> queryPage(PageDomain pageDomain, ProductAttrValue productAttrValue) {
+        pageDomain.startPage();
+        QueryWrapper<ProductAttrValue> wrapper = new QueryWrapper<>(productAttrValue);
+        List<ProductAttrValue> list = this.list(wrapper);
+        PageInfo<ProductAttrValue> pageInfo = new PageInfo<>(list);
+        PageResult<ProductAttrValue> pageResult = PageResult.<ProductAttrValue>builder()
+                .totalCount(pageInfo.getTotal())
+                .totalPage((long) pageInfo.getPages())
+                .items(pageInfo.getList())
+                .build();
+        return pageResult;
     }
 
 }

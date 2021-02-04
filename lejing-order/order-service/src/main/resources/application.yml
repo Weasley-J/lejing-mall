@@ -10,7 +10,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
-  type-aliases-package: com.**.domain,cn.**.domain,com.**.cn.alphahub.mall.ware.entity,cn.**.cn.alphahub.mall.ware.entity
+  type-aliases-package: com.**.domain,cn.**.domain,com.**.entity,cn.**.entity
   global-config:
     db-config:
       id-type: auto

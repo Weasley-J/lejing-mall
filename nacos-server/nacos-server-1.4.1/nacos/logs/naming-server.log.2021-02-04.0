@@ -1,0 +1,68 @@
+2021-02-04 00:01:36,259 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:01:36,334 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612368096334,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 00:01:37,311 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:01:37,335 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:04:25,445 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:04:25,521 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612368265521,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 00:04:26,498 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:04:26,523 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:08:03,979 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[]}
+
+2021-02-04 00:08:41,340 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612368521340,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 00:13:12,808 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:13:12,881 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612368792881,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 00:13:13,859 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:13:13,883 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:41:29,339 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@lejing-coupon, ip: {"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612370458793,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}
+
+2021-02-04 00:41:29,347 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[]}
+
+2021-02-04 00:43:31,426 WARN namespace : public, [DEFAULT_GROUP@@lejing-coupon] services are automatically cleaned
+
+2021-02-04 00:43:31,428 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@lejing-coupon","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1612370489347,"checksum":"b6752563323c73dfbb66e624fd479dcd","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@lejing-coupon","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"defIPPort":80,"empty":true}},"empty":true}
+
+2021-02-04 00:57:41,400 INFO creating empty service public:DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 00:57:41,401 INFO [NEW-SERVICE] {"name":"DEFAULT_GROUP@@lejing-coupon","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":0,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1612371461400,"checksum":"4aa759d310114e95bf5ca65cbd0515b8","clusterMap":{},"empty":true}
+
+2021-02-04 00:57:41,402 WARN cluster: DEFAULT not found, ip: {"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612371461400,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}, will create new cluster with default configuration.
+
+2021-02-04 00:57:41,402 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612371461400,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 01:01:06,235 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:01:06,324 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612371666324,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 01:01:07,296 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:01:07,325 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:02:09,462 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:02:09,535 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[{"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":true,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612371729535,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}]}
+
+2021-02-04 01:02:10,513 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:02:10,538 WARN protect threshold reached, return all ips, service: DEFAULT_GROUP@@lejing-coupon
+
+2021-02-04 01:11:31,549 INFO [AUTO-DELETE-IP] service: DEFAULT_GROUP@@lejing-coupon, ip: {"instanceId":"192.168.2.1#7000#DEFAULT#DEFAULT_GROUP@@lejing-coupon","ip":"192.168.2.1","port":7000,"weight":1.0,"healthy":false,"enabled":true,"ephemeral":true,"clusterName":"DEFAULT","serviceName":"DEFAULT_GROUP@@lejing-coupon","metadata":{"preserved.register.source":"SPRING_CLOUD"},"lastBeat":1612372259838,"marked":false,"app":"unknown","instanceHeartBeatInterval":5000,"instanceHeartBeatTimeOut":15000,"ipDeleteTimeout":30000}
+
+2021-02-04 01:11:31,551 INFO [NACOS-RAFT] datum is changed, key: com.alibaba.nacos.naming.iplist.ephemeral.public##DEFAULT_GROUP@@lejing-coupon, value: {"instanceList":[]}
+
+2021-02-04 01:14:01,426 WARN namespace : public, [DEFAULT_GROUP@@lejing-coupon] services are automatically cleaned
+
+2021-02-04 01:14:01,427 INFO [DEAD-SERVICE] {"name":"DEFAULT_GROUP@@lejing-coupon","protectThreshold":0.0,"groupName":"DEFAULT_GROUP","metadata":{},"finalizeCount":5,"owners":[],"resetWeight":false,"enabled":true,"selector":{"type":"none"},"namespaceId":"public","ipDeleteTimeout":30000,"lastModifiedMillis":1612372291551,"checksum":"b6752563323c73dfbb66e624fd479dcd","clusterMap":{"DEFAULT":{"serviceName":"DEFAULT_GROUP@@lejing-coupon","name":"DEFAULT","healthChecker":{"type":"TCP"},"defaultPort":80,"defaultCheckPort":80,"useIPPort4Check":true,"metadata":{},"sitegroup":"","defCkport":80,"defIPPort":80,"empty":true}},"empty":true}
+

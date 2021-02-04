@@ -1,0 +1,268 @@
+2021-02-03 02:17:33,299 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 02:17:33,302 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 02:26:28,270 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612290368581
+
+2021-02-03 02:26:28,976 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:26:33,977 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:31:23,349 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612290664166
+
+2021-02-03 02:31:38,403 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2021-02-03 02:31:38,403 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 
+
+2021-02-03 02:33:21,292 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 02:33:21,292 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 02:43:13,507 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612291376683
+
+2021-02-03 02:43:16,808 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:43:21,811 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:44:23,530 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612291446847
+
+2021-02-03 02:44:38,534 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2021-02-03 02:44:38,534 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 
+
+2021-02-03 02:44:39,875 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 02:44:39,875 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 02:46:18,552 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612291559930
+
+2021-02-03 02:46:21,228 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:46:26,231 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:47:03,563 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612291606246
+
+2021-02-03 02:47:18,567 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2021-02-03 02:47:18,567 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 
+
+2021-02-03 02:49:22,870 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 02:49:22,870 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 02:52:53,690 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612291957998
+
+2021-02-03 02:52:57,957 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:53:02,957 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:55:08,717 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612292093021
+
+2021-02-03 02:55:12,853 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:55:17,855 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:56:38,737 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612292182903
+
+2021-02-03 02:56:41,323 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:56:46,325 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 02:58:43,762 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612292306395
+
+2021-02-03 02:58:48,516 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 02:58:53,519 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 03:00:58,786 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612292443603
+
+2021-02-03 03:18:12,933 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 03:18:12,937 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 03:32:52,915 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 03:32:52,919 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 03:39:02,851 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612294723039
+
+2021-02-03 03:39:05,509 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 03:39:10,511 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 03:40:32,869 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612294815560
+
+2021-02-03 03:40:36,053 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 03:40:41,059 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:12:46,148 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 21:12:46,152 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 21:35:36,254 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612359316986
+
+2021-02-03 21:35:46,594 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:35:51,596 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:41:31,313 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612359671808
+
+2021-02-03 21:41:34,098 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:41:39,100 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:43:36,333 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612359799169
+
+2021-02-03 21:43:49,487 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:43:54,491 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:47:51,376 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360054637
+
+2021-02-03 21:47:56,647 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:48:01,648 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:52:26,425 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360326808
+
+2021-02-03 21:52:28,755 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:52:33,762 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:53:26,434 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360388790
+
+2021-02-03 21:53:40,394 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:53:45,396 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:56:36,469 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360580499
+
+2021-02-03 21:56:44,503 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:56:49,506 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:58:01,485 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360664550
+
+2021-02-03 21:58:06,102 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:58:11,106 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:58:36,490 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360701114
+
+2021-02-03 21:58:41,127 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:58:46,130 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 21:59:36,504 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612360761157
+
+2021-02-03 21:59:42,195 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 21:59:47,196 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:01:24,041 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 22:03:51,545 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612361014126
+
+2021-02-03 22:03:55,231 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:04:00,233 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:07:26,587 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612361230382
+
+2021-02-03 22:07:41,704 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2021-02-03 22:07:41,704 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 
+
+2021-02-03 22:07:43,700 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 22:07:43,700 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 22:11:11,694 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612361453806
+
+2021-02-03 22:11:20,168 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:11:25,169 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:13:31,720 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612361595239
+
+2021-02-03 22:13:46,725 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-DEAD} cluster: DEFAULT, dead ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_false_false_DEFAULT]
+
+2021-02-03 22:13:46,725 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 
+
+2021-02-03 22:19:22,721 INFO DEFAULT_GROUP@@lejing-coupon {SYNC} {IP-NEW} cluster: DEFAULT, new ips size: 1, content: [192.168.2.1:7000:unknown:DEFAULT_1.0_true_false_DEFAULT]
+
+2021-02-03 22:19:22,721 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_true,
+
+2021-02-03 22:20:57,736 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612362037784
+
+2021-02-03 22:21:01,353 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:21:06,354 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:23:42,771 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612362206441
+
+2021-02-03 22:23:44,653 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:23:49,656 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:29:42,847 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612362564869
+
+2021-02-03 22:29:46,865 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:29:51,866 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:44:03,011 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612363427396
+
+2021-02-03 22:44:09,695 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:44:14,696 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:45:38,032 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612363519741
+
+2021-02-03 22:45:39,715 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:45:44,717 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 22:56:58,160 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612364200097
+
+2021-02-03 22:57:02,469 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 22:57:07,475 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:08:03,282 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612364867835
+
+2021-02-03 23:08:11,265 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:08:16,267 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:09:13,296 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612364936296
+
+2021-02-03 23:09:16,216 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:09:21,218 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:29:28,527 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612366151867
+
+2021-02-03 23:29:34,421 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:29:39,422 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:35:43,611 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612366524620
+
+2021-02-03 23:35:50,602 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:35:55,606 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:55:53,854 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612367736340
+
+2021-02-03 23:56:03,185 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:56:08,187 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+
+2021-02-03 23:59:28,889 INFO {POS} {IP-DISABLED} valid: 192.168.2.1:7000@DEFAULT@DEFAULT_GROUP@@lejing-coupon, region: unknown, msg: client timeout after 15000, last beat: 1612367953304
+
+2021-02-03 23:59:38,697 INFO [IP-UPDATED] namespace: public, service: DEFAULT_GROUP@@lejing-coupon, ips: 192.168.2.1:7000_false,
+
+2021-02-03 23:59:43,698 INFO service: DEFAULT_GROUP@@lejing-coupon {POS} {IP-ENABLED} valid: 192.168.2.1:7000@DEFAULT, region: unknown, msg: client beat ok
+

@@ -1,0 +1,48 @@
+2021-02-04 00:02:11,545 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:02:11,645 WARN clearConfigHistory start
+
+2021-02-04 00:02:12,057 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 00:12:12,055 WARN clearConfigHistory start
+
+2021-02-04 00:12:12,058 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:12:12,061 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 00:22:12,060 WARN clearConfigHistory start
+
+2021-02-04 00:22:12,063 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:22:12,065 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 00:32:12,063 WARN clearConfigHistory start
+
+2021-02-04 00:32:12,066 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:32:12,069 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 00:42:12,067 WARN clearConfigHistory start
+
+2021-02-04 00:42:12,069 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:42:12,071 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 00:52:12,070 WARN clearConfigHistory start
+
+2021-02-04 00:52:12,072 INFO [capacityManagement] start correct usage
+
+2021-02-04 00:52:12,077 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 01:02:12,077 WARN clearConfigHistory start
+
+2021-02-04 01:02:12,079 INFO [capacityManagement] start correct usage
+
+2021-02-04 01:02:12,081 INFO [capacityManagement] end correct usage, cost: 0s
+
+2021-02-04 01:12:12,080 WARN clearConfigHistory start
+
+2021-02-04 01:12:12,083 INFO [capacityManagement] start correct usage
+
+2021-02-04 01:12:12,085 INFO [capacityManagement] end correct usage, cost: 0s
+

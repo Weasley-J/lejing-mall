@@ -18,7 +18,12 @@ import org.apache.velocity.app.Velocity;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -35,15 +40,15 @@ public class GenUtils {
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<String>();
-        templates.add("template/Entity.java.vm");
-        templates.add("template/Dao.xml.vm");
+        templates.add("template/Domain.java.vm");
+        templates.add("template/Mapper.xml.vm");
 
         templates.add("template/menu.sql.vm");
 
         templates.add("template/Service.java.vm");
         templates.add("template/ServiceImpl.java.vm");
         templates.add("template/Controller.java.vm");
-        templates.add("template/Dao.java.vm");
+        templates.add("template/Mapper.java.vm");
 
         templates.add("template/index.vue.vm");
         templates.add("template/add-or-update.vue.vm");
@@ -52,14 +57,14 @@ public class GenUtils {
             templates.remove(0);
             templates.remove(1);
             templates.remove(2);
-            templates.add("template/MongoEntity.java.vm");
+            templates.add("template/MongoDomain.java.vm");
         }
         return templates;
     }
 
     public static List<String> getMongoChildTemplates() {
         List<String> templates = new ArrayList<String>();
-        templates.add("template/MongoChildrenEntity.java.vm");
+        templates.add("template/MongoChildrenDomain.java.vm");
         return templates;
     }
 
@@ -100,7 +105,7 @@ public class GenUtils {
             columnEntity.setAttrType(attrType);
 
 
-            if (!hasBigDecimal && attrType.equals("BigDecimal")) {
+            if (!hasBigDecimal && "BigDecimal".equals(attrType)) {
                 hasBigDecimal = true;
             }
             if (!hasList && "array".equals(columnEntity.getExtra())) {
@@ -275,7 +280,7 @@ public class GenUtils {
     public static String tableToJava(String tableName, String[] tablePrefixArray) {
         if (null != tablePrefixArray && tablePrefixArray.length > 0) {
             for (String tablePrefix : tablePrefixArray) {
-                  if (tableName.startsWith(tablePrefix)){
+                if (tableName.startsWith(tablePrefix)) {
                     tableName = tableName.replaceFirst(tablePrefix, "");
                 }
             }
@@ -302,15 +307,15 @@ public class GenUtils {
         if (StringUtils.isNotBlank(packageName)) {
             packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
         }
-        if (template.contains("MongoChildrenEntity.java.vm")) {
-            return packagePath + "cn.alphahub.mall.ware.entity" + File.separator + "inner" + File.separator + currentTableName+ File.separator + splitInnerName(className)+ "InnerEntity.java";
+        if (template.contains("MongoChildrenDomain.java.vm")) {
+            return packagePath + "domain" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerDomain.java";
         }
-        if (template.contains("Entity.java.vm") || template.contains("MongoEntity.java.vm")) {
-            return packagePath + "cn.alphahub.mall.ware.entity" + File.separator + className + "Entity.java";
+        if (template.contains("Domain.java.vm") || template.contains("MongoDomain.java.vm")) {
+            return packagePath + "domain" + File.separator + className + ".java";
         }
 
-        if (template.contains("Dao.java.vm")) {
-            return packagePath + "dao" + File.separator + className + "Dao.java";
+        if (template.contains("Mapper.java.vm")) {
+            return packagePath + "mapper" + File.separator + className + "Mapper.java";
         }
 
         if (template.contains("Service.java.vm")) {
@@ -325,8 +330,8 @@ public class GenUtils {
             return packagePath + "controller" + File.separator + className + "Controller.java";
         }
 
-        if (template.contains("Dao.xml.vm")) {
-            return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Dao.xml";
+        if (template.contains("Mapper.xml.vm")) {
+            return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Mapper.xml";
         }
 
         if (template.contains("menu.sql.vm")) {
@@ -346,8 +351,8 @@ public class GenUtils {
         return null;
     }
 
-    private static String splitInnerName(String name){
-          name = name.replaceAll("\\.","_");
-          return name;
+    private static String splitInnerName(String name) {
+        name = name.replaceAll("\\.", "_");
+        return name;
     }
 }

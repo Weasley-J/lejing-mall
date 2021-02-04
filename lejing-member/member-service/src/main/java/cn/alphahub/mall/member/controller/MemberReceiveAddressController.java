@@ -1,83 +1,103 @@
 package cn.alphahub.mall.member.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.member.entity.MemberReceiveAddressEntity;
-import cn.alphahub.mall.member.service.MemberReceiveAddressService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.member.domain.MemberReceiveAddress;
+import cn.alphahub.mall.member.service.MemberReceiveAddressService;
+
+import java.util.Arrays;
 
 /**
- * 会员收货地址
+ * 会员收货地址Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:20:49
+ * @date 2021-02-05 02:14:36
  */
 @RestController
 @RequestMapping("member/memberreceiveaddress")
-public class MemberReceiveAddressController {
+public class MemberReceiveAddressController extends BaseController {
     @Autowired
     private MemberReceiveAddressService memberReceiveAddressService;
 
     /**
-     * 列表
+     * 查询会员收货地址列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param memberReceiveAddress 会员收货地址,字段选择性传入,默认等值查询
+     * @return 会员收货地址分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("member:memberreceiveaddress:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = memberReceiveAddressService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<MemberReceiveAddress>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            MemberReceiveAddress memberReceiveAddress
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<MemberReceiveAddress> pageResult = memberReceiveAddressService.queryPage(pageDomain, memberReceiveAddress);
+        return (BaseResult<PageResult<MemberReceiveAddress>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取会员收货地址详情
+     *
+     * @param id 会员收货地址主键id
+     * @return 会员收货地址详细信息
      */
-    @GetMapping("/info/{id}")
-    //@RequiresPermissions("member:memberreceiveaddress:info")
-    public R info(@PathVariable("id") Long id) {
-        MemberReceiveAddressEntity memberReceiveAddress = memberReceiveAddressService.getById(id);
-
-        return R.ok().put("memberReceiveAddress", memberReceiveAddress);
+    @GetMapping("/{id}")
+    public BaseResult<MemberReceiveAddress> info(@PathVariable("id") Long id){
+        MemberReceiveAddress memberReceiveAddress = memberReceiveAddressService.getById(id);
+        return (BaseResult<MemberReceiveAddress>) toResponseResult(memberReceiveAddress);
     }
 
     /**
-     * 保存
+     * 新增会员收货地址
+     *
+     * @param memberReceiveAddress 会员收货地址元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("member:memberreceiveaddress:save")
-    public R save(@RequestBody MemberReceiveAddressEntity memberReceiveAddress) {
-        memberReceiveAddressService.save(memberReceiveAddress);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ MemberReceiveAddress memberReceiveAddress) {
+        boolean save = memberReceiveAddressService.save(memberReceiveAddress);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改会员收货地址
+     *
+     * @param memberReceiveAddress 会员收货地址,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("member:memberreceiveaddress:update")
-    public R update(@RequestBody MemberReceiveAddressEntity memberReceiveAddress) {
-        memberReceiveAddressService.updateById(memberReceiveAddress);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ MemberReceiveAddress memberReceiveAddress) {
+        boolean update = memberReceiveAddressService.updateById(memberReceiveAddress);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除会员收货地址
+     *
+     * @param ids 会员收货地址id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("member:memberreceiveaddress:delete")
-    public R delete(@RequestBody Long[] ids) {
-        memberReceiveAddressService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+        boolean delete = memberReceiveAddressService.removeByIds(Arrays.asList(ids));
+        return toOperationResult(delete);
     }
-
 }

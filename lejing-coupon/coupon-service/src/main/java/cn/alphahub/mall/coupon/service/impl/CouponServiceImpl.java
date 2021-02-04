@@ -1,41 +1,47 @@
 package cn.alphahub.mall.coupon.service.impl;
 
-import cn.alphahub.common.core.page.PageDomain;
-import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.mall.coupon.dao.CouponDao;
-import cn.alphahub.mall.coupon.entity.CouponEntity;
-import cn.alphahub.mall.coupon.service.CouponService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
+
+import cn.alphahub.mall.coupon.mapper.CouponMapper;
+import cn.alphahub.mall.coupon.domain.Coupon;
+import cn.alphahub.mall.coupon.service.CouponService;
 
 import java.util.List;
 
 /**
- * @author liuwenjing
+ * 优惠券信息Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:10:59
  */
 @Service("couponService")
-public class CouponServiceImpl extends ServiceImpl<CouponDao, CouponEntity> implements CouponService {
+public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> implements CouponService {
 
     /**
-     * 查询分页列表
+     * 查询优惠券信息分页列表
      *
-     * @param pageDomain 分页数据
-     * @param domain     分页对象
-     * @return 分页集合
+     * @param pageDomain   分页数据
+     * @param coupon 分页对象
+     * @return 优惠券信息分页数据
      */
     @Override
-    public PageResult<CouponEntity> queryPage(PageDomain pageDomain, CouponEntity domain) {
+    public PageResult<Coupon> queryPage(PageDomain pageDomain, Coupon coupon) {
         pageDomain.startPage();
-        QueryWrapper<CouponEntity> wrapper = new QueryWrapper<>(domain);
-        List<CouponEntity> couponEntities = this.list(wrapper);
-        PageInfo<CouponEntity> pageInfo = new PageInfo<>(couponEntities);
-        PageResult<CouponEntity> pageResult = PageResult.<CouponEntity>builder()
+        QueryWrapper<Coupon> wrapper = new QueryWrapper<>(coupon);
+        List<Coupon> list = this.list(wrapper);
+        PageInfo<Coupon> pageInfo = new PageInfo<>(list);
+        PageResult<Coupon> pageResult = PageResult.<Coupon>builder()
                 .totalCount(pageInfo.getTotal())
                 .totalPage((long) pageInfo.getPages())
                 .items(pageInfo.getList())
                 .build();
         return pageResult;
     }
+
 }

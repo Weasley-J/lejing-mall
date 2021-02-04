@@ -23,7 +23,7 @@
         <module>lejing-ware</module>
         <module>lejing-member</module>
         <module>lejing-common</module>
-        <module>renren-fast</module>
+        <module>renren-admin</module>
         <module>renren-generator</module>
     </modules>
 

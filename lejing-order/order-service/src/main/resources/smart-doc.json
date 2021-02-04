@@ -4,8 +4,10 @@
   "allInOne": true,
   "outPath": "src/main/resources/static",
   "coverOld": true,
+  "createDebugPage": true,
   "packageFilters": "cn.alphahub.mall.order.controller",
   "md5EncryptedHtmlName": false,
+  "style": "xt256",
   "projectName": "order-service后端接口文档",
   "skipTransientField": true,
   "sortByTitle": false,
@@ -17,7 +19,24 @@
   "allInOneDocFileName": "index.html",
   "requestExample": "true",
   "responseExample": "true",
+  "displayActualType": false,
   "ignoreRequestParams": [
     "org.springframework.ui.ModelMap"
+  ],
+  "revisionLogs": [
+    {
+      "version": "1.0",
+      "revisionTime": "2020-12-31 10:30",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "创建api文档"
+    },
+    {
+      "version": "1.1",
+      "revisionTime": "2021-02-03 14:02",
+      "status": "更新",
+      "author": "Weasley J",
+      "remarks": "版本升级"
+    }
   ]
 }

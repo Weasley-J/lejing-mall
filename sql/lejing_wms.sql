@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 04/02/2021 00:46:59
+ Date: 04/02/2021 22:09:47
 */
 
 SET NAMES utf8mb4;
@@ -58,7 +58,7 @@ CREATE TABLE `wms_purchase`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `wms_purchase_detail`;
 CREATE TABLE `wms_purchase_detail`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `purchase_id` bigint NULL DEFAULT NULL COMMENT '采购单id',
   `sku_id` bigint NULL DEFAULT NULL COMMENT '采购商品id',
   `sku_num` int NULL DEFAULT NULL COMMENT '采购数量',
@@ -66,7 +66,7 @@ CREATE TABLE `wms_purchase_detail`  (
   `ware_id` bigint NULL DEFAULT NULL COMMENT '仓库id',
   `status` int NULL DEFAULT NULL COMMENT '状态[0新建，1已分配，2正在采购，3已完成，4采购失败]',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '仓储采购表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for wms_ware_info

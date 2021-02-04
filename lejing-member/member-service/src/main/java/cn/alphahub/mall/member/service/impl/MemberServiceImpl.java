@@ -1,29 +1,47 @@
 package cn.alphahub.mall.member.service.impl;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.Query;
-import cn.alphahub.mall.member.dao.MemberDao;
-import cn.alphahub.mall.member.entity.MemberEntity;
-import cn.alphahub.mall.member.service.MemberService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
-import java.util.Map;
+import cn.alphahub.mall.member.mapper.MemberMapper;
+import cn.alphahub.mall.member.domain.Member;
+import cn.alphahub.mall.member.service.MemberService;
 
+import java.util.List;
 
+/**
+ * 会员Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:14:36
+ */
 @Service("memberService")
-public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> implements MemberService {
+public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements MemberService {
 
+    /**
+     * 查询会员分页列表
+     *
+     * @param pageDomain   分页数据
+     * @param member 分页对象
+     * @return 会员分页数据
+     */
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<MemberEntity> page = this.page(
-                new Query<MemberEntity>().getPage(params),
-                new QueryWrapper<MemberEntity>()
-        );
-
-        return new PageUtils(page);
+    public PageResult<Member> queryPage(PageDomain pageDomain, Member member) {
+        pageDomain.startPage();
+        QueryWrapper<Member> wrapper = new QueryWrapper<>(member);
+        List<Member> list = this.list(wrapper);
+        PageInfo<Member> pageInfo = new PageInfo<>(list);
+        PageResult<Member> pageResult = PageResult.<Member>builder()
+                .totalCount(pageInfo.getTotal())
+                .totalPage((long) pageInfo.getPages())
+                .items(pageInfo.getList())
+                .build();
+        return pageResult;
     }
 
 }

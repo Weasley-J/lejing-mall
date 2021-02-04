@@ -42,10 +42,22 @@
 
 ![image-20210204010952249](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010952249.png)
 
+- [ ] 重新改造代码生成, 所有接口都可以生成测试文档, 支持在线调试接口, 执行`mvn package`自动出api文档,访问地址改成自己的端口号:http://127.0.0.1:10000/debug-all.html,
 
+  ![image-20210205025359610](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025359610.png)
+
+![image-20210205024651157](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205024651157.png)
+
+> 基于Mybatis-Plus自动生成,支持复杂分页查询, 数据库变动只需要修改实体类即可
+
+![image-20210205025122573](README.assets/image-20210205025122573.png)
+
+![image-20210205025022332](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025022332.png)
+
+**![image-20210205024941585](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205024941585.png)**
 
 # 2 待完成清单
 
-- [ ] 整合人人框架，提供：domain--> dao --> service --> controller --> 全自动api文档在线输出**&**在线调试，
+- [x] 整合人人框架，提供：domain--> dao --> service --> controller --> 全自动api文档在线输出**&**在线调试，
 
   目的：让今后因业务变动影响数据库的变动只需要码农修改数据库对应的领域模型即可，节省更多的时间

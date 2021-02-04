@@ -1,20 +1,16 @@
 package cn.alphahub.mall.member.service;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.mall.member.entity.MemberCollectSubjectEntity;
+import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.mall.member.domain.MemberCollectSubject;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Map;
-
 /**
- * 会员收藏的专题活动
+ * 会员收藏的专题活动Service接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:20:49
+ * @date 2021-02-05 02:14:36
  */
-public interface MemberCollectSubjectService extends IService<MemberCollectSubjectEntity> {
+public interface MemberCollectSubjectService extends IService<MemberCollectSubject>, PageService<MemberCollectSubject> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
-

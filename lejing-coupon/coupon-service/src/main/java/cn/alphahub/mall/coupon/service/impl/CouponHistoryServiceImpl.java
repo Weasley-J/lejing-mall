@@ -1,29 +1,47 @@
 package cn.alphahub.mall.coupon.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.Query;
+import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Service;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
-import cn.alphahub.mall.coupon.dao.CouponHistoryDao;
-import cn.alphahub.mall.coupon.entity.CouponHistoryEntity;
+import cn.alphahub.mall.coupon.mapper.CouponHistoryMapper;
+import cn.alphahub.mall.coupon.domain.CouponHistory;
 import cn.alphahub.mall.coupon.service.CouponHistoryService;
 
+import java.util.List;
 
+/**
+ * 优惠券领取历史记录Service业务层处理
+ *
+ * @author Weasley J
+ * @email 1432689025@qq.com
+ * @date 2021-02-05 02:10:59
+ */
 @Service("couponHistoryService")
-public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryDao, CouponHistoryEntity> implements CouponHistoryService {
+public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryMapper, CouponHistory> implements CouponHistoryService {
 
+    /**
+     * 查询优惠券领取历史记录分页列表
+     *
+     * @param pageDomain   分页数据
+     * @param couponHistory 分页对象
+     * @return 优惠券领取历史记录分页数据
+     */
     @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CouponHistoryEntity> page = this.page(
-                new Query<CouponHistoryEntity>().getPage(params),
-                new QueryWrapper<CouponHistoryEntity>()
-        );
-
-        return new PageUtils(page);
+    public PageResult<CouponHistory> queryPage(PageDomain pageDomain, CouponHistory couponHistory) {
+        pageDomain.startPage();
+        QueryWrapper<CouponHistory> wrapper = new QueryWrapper<>(couponHistory);
+        List<CouponHistory> list = this.list(wrapper);
+        PageInfo<CouponHistory> pageInfo = new PageInfo<>(list);
+        PageResult<CouponHistory> pageResult = PageResult.<CouponHistory>builder()
+                .totalCount(pageInfo.getTotal())
+                .totalPage((long) pageInfo.getPages())
+                .items(pageInfo.getList())
+                .build();
+        return pageResult;
     }
 
 }

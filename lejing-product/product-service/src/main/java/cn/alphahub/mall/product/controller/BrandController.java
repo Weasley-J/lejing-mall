@@ -1,83 +1,103 @@
 package cn.alphahub.mall.product.controller;
 
-import cn.alphahub.common.util.PageUtils;
-import cn.alphahub.common.util.R;
-import cn.alphahub.mall.product.entity.BrandEntity;
-import cn.alphahub.mall.product.service.BrandService;
+//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import cn.alphahub.common.core.controller.BaseController;
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 
+import cn.alphahub.mall.product.domain.Brand;
+import cn.alphahub.mall.product.service.BrandService;
+
+import java.util.Arrays;
 
 /**
- * 品牌
+ * 品牌Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-01-31 18:24:22
+ * @date 2021-02-05 02:20:39
  */
 @RestController
 @RequestMapping("product/brand")
-public class BrandController {
+public class BrandController extends BaseController {
     @Autowired
     private BrandService brandService;
 
     /**
-     * 列表
+     * 查询品牌列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param brand 品牌,字段选择性传入,默认等值查询
+     * @return 品牌分页数据
      */
     @GetMapping("/list")
     //@RequiresPermissions("product:brand:list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = brandService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public BaseResult<PageResult<Brand>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            Brand brand
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<Brand> pageResult = brandService.queryPage(pageDomain, brand);
+        return (BaseResult<PageResult<Brand>>) toPageableResult(pageResult);
     }
 
-
     /**
-     * 信息
+     * 获取品牌详情
+     *
+     * @param brandId 品牌主键id
+     * @return 品牌详细信息
      */
-    @GetMapping("/info/{brandId}")
-    //@RequiresPermissions("product:brand:info")
-    public R info(@PathVariable("brandId") Long brandId) {
-        BrandEntity brand = brandService.getById(brandId);
-
-        return R.ok().put("brand", brand);
+    @GetMapping("/{id}")
+    public BaseResult<Brand> info(@PathVariable("brandId") Long brandId){
+        Brand brand = brandService.getById(brandId);
+        return (BaseResult<Brand>) toResponseResult(brand);
     }
 
     /**
-     * 保存
+     * 新增品牌
+     *
+     * @param brand 品牌元数据
+     * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand) {
-        brandService.save(brand);
-
-        return R.ok();
+    public BaseResult<Boolean> save(/*@RequestBody*/ Brand brand) {
+        boolean save = brandService.save(brand);
+        return toOperationResult(save);
     }
 
     /**
-     * 修改
+     * 修改品牌
+     *
+     * @param brand 品牌,根据主键id选择性更新
+     * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand) {
-        brandService.updateById(brand);
-
-        return R.ok();
+    public BaseResult<Boolean> update(/*@RequestBody*/ Brand brand) {
+        boolean update = brandService.updateById(brand);
+        return toOperationResult(update);
     }
 
     /**
-     * 删除
+     * 批量删除品牌
+     *
+     * @param brandIds 品牌id集合
+     * @return 成功返回true,失败返回false
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{ids}")
     //@RequiresPermissions("product:brand:delete")
-    public R delete(@RequestBody Long[] brandIds) {
-        brandService.removeByIds(Arrays.asList(brandIds));
-
-        return R.ok();
+    public BaseResult<Boolean> delete(@PathVariable Long[] brandIds){
+        boolean delete = brandService.removeByIds(Arrays.asList(brandIds));
+        return toOperationResult(delete);
     }
-
 }
