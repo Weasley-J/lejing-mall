@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/memberlevel")
@@ -38,6 +38,7 @@ public class MemberLevelController extends BaseController {
      * @return 会员等级分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:memberlevel:list")
     public BaseResult<PageResult<MemberLevel>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberLevelController extends BaseController {
      * @return 会员等级详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:memberlevel:info")
     public BaseResult<MemberLevel> info(@PathVariable("id") Long id){
         MemberLevel memberLevel = memberLevelService.getById(id);
         return (BaseResult<MemberLevel>) toResponseResult(memberLevel);
@@ -83,6 +86,7 @@ public class MemberLevelController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberLevel memberLevel) {
         boolean update = memberLevelService.updateById(memberLevel);
         return toOperationResult(update);

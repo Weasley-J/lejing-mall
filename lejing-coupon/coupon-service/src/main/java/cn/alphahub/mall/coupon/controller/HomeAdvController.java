@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/homeadv")
@@ -38,6 +38,7 @@ public class HomeAdvController extends BaseController {
      * @return 首页轮播广告分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:homeadv:list")
     public BaseResult<PageResult<HomeAdv>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class HomeAdvController extends BaseController {
      * @return 首页轮播广告详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:homeadv:info")
     public BaseResult<HomeAdv> info(@PathVariable("id") Long id){
         HomeAdv homeAdv = homeAdvService.getById(id);
         return (BaseResult<HomeAdv>) toResponseResult(homeAdv);
@@ -83,6 +86,7 @@ public class HomeAdvController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ HomeAdv homeAdv) {
         boolean update = homeAdvService.updateById(homeAdv);
         return toOperationResult(update);

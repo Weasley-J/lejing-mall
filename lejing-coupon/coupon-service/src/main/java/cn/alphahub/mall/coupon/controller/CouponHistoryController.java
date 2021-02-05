@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/couponhistory")
@@ -38,6 +38,7 @@ public class CouponHistoryController extends BaseController {
      * @return 优惠券领取历史记录分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:couponhistory:list")
     public BaseResult<PageResult<CouponHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class CouponHistoryController extends BaseController {
      * @return 优惠券领取历史记录详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:couponhistory:info")
     public BaseResult<CouponHistory> info(@PathVariable("id") Long id){
         CouponHistory couponHistory = couponHistoryService.getById(id);
         return (BaseResult<CouponHistory>) toResponseResult(couponHistory);

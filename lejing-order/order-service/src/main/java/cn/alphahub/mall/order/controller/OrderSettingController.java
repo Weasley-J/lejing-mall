@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:32
  */
 @RestController
 @RequestMapping("order/ordersetting")
@@ -38,6 +38,7 @@ public class OrderSettingController extends BaseController {
      * @return 订单配置信息分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:ordersetting:list")
     public BaseResult<PageResult<OrderSetting>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class OrderSettingController extends BaseController {
      * @return 订单配置信息详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:ordersetting:info")
     public BaseResult<OrderSetting> info(@PathVariable("id") Long id){
         OrderSetting orderSetting = orderSettingService.getById(id);
         return (BaseResult<OrderSetting>) toResponseResult(orderSetting);
@@ -83,6 +86,7 @@ public class OrderSettingController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ OrderSetting orderSetting) {
         boolean update = orderSettingService.updateById(orderSetting);
         return toOperationResult(update);

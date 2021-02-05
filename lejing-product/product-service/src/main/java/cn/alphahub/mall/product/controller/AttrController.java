@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @RestController
 @RequestMapping("product/attr")
@@ -38,6 +38,7 @@ public class AttrController extends BaseController {
      * @return 商品属性分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:attr:list")
     public BaseResult<PageResult<Attr>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class AttrController extends BaseController {
      * @return 商品属性详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:attr:info")
     public BaseResult<Attr> info(@PathVariable("attrId") Long attrId){
         Attr attr = attrService.getById(attrId);
         return (BaseResult<Attr>) toResponseResult(attr);
@@ -83,6 +86,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ Attr attr) {
         boolean update = attrService.updateById(attr);
         return toOperationResult(update);

@@ -38,6 +38,7 @@ public class ${className}Controller extends BaseController {
      * @return ${comments}分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("${moduleName}:${pathName}:list")
     public BaseResult<PageResult<${className}>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class ${className}Controller extends BaseController {
      * @return ${comments}详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("${moduleName}:${pathName}:info")
     public BaseResult<${className}> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
         ${className} ${classname} = ${classname}Service.getById(${pk.attrname});
         return (BaseResult<${className}>) toResponseResult(${classname});

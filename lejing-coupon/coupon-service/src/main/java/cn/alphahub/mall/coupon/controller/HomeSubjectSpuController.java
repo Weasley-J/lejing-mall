@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/homesubjectspu")
@@ -38,6 +38,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 专题商品分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:homesubjectspu:list")
     public BaseResult<PageResult<HomeSubjectSpu>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 专题商品详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:homesubjectspu:info")
     public BaseResult<HomeSubjectSpu> info(@PathVariable("id") Long id){
         HomeSubjectSpu homeSubjectSpu = homeSubjectSpuService.getById(id);
         return (BaseResult<HomeSubjectSpu>) toResponseResult(homeSubjectSpu);
@@ -83,6 +86,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ HomeSubjectSpu homeSubjectSpu) {
         boolean update = homeSubjectSpuService.updateById(homeSubjectSpu);
         return toOperationResult(update);

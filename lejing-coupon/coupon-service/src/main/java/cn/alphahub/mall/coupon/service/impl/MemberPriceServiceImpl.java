@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @Service("memberPriceService")
 public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceMapper, MemberPrice> implements MemberPriceService {

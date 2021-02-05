@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:32
  */
 @RestController
 @RequestMapping("product/skusaleattrvalue")
@@ -38,6 +38,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return sku销售属性&值分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:skusaleattrvalue:list")
     public BaseResult<PageResult<SkuSaleAttrValue>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return sku销售属性&值详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:skusaleattrvalue:info")
     public BaseResult<SkuSaleAttrValue> info(@PathVariable("id") Long id){
         SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueService.getById(id);
         return (BaseResult<SkuSaleAttrValue>) toResponseResult(skuSaleAttrValue);
@@ -83,6 +86,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SkuSaleAttrValue skuSaleAttrValue) {
         boolean update = skuSaleAttrValueService.updateById(skuSaleAttrValue);
         return toOperationResult(update);

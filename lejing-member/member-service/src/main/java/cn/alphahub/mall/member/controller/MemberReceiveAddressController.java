@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/memberreceiveaddress")
@@ -38,6 +38,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 会员收货地址分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:memberreceiveaddress:list")
     public BaseResult<PageResult<MemberReceiveAddress>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 会员收货地址详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:memberreceiveaddress:info")
     public BaseResult<MemberReceiveAddress> info(@PathVariable("id") Long id){
         MemberReceiveAddress memberReceiveAddress = memberReceiveAddressService.getById(id);
         return (BaseResult<MemberReceiveAddress>) toResponseResult(memberReceiveAddress);
@@ -83,6 +86,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberReceiveAddress memberReceiveAddress) {
         boolean update = memberReceiveAddressService.updateById(memberReceiveAddress);
         return toOperationResult(update);

@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @Service("attrService")
 public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {

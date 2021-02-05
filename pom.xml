@@ -34,7 +34,7 @@
         <lejing-mall.latest.version>1.0.0-SNAPSHOT</lejing-mall.latest.version>
         <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
         <!-- 将打包生成jar文件复制到指定目录 -->
         <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
         <!--<copy.dest.dir>/usr/local/webapp</copy.dest.dir>-->

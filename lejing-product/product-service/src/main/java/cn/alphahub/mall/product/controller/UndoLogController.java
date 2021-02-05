@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:32
  */
 @RestController
 @RequestMapping("product/undolog")
@@ -38,6 +38,7 @@ public class UndoLogController extends BaseController {
      * @return 撤销日志表分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:undolog:list")
     public BaseResult<PageResult<UndoLog>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class UndoLogController extends BaseController {
      * @return 撤销日志表详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:undolog:info")
     public BaseResult<UndoLog> info(@PathVariable("id") Long id){
         UndoLog undoLog = undoLogService.getById(id);
         return (BaseResult<UndoLog>) toResponseResult(undoLog);
@@ -83,6 +86,7 @@ public class UndoLogController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ UndoLog undoLog) {
         boolean update = undoLogService.updateById(undoLog);
         return toOperationResult(update);

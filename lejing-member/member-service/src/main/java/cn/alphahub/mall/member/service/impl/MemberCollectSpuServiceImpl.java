@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @Service("memberCollectSpuService")
 public class MemberCollectSpuServiceImpl extends ServiceImpl<MemberCollectSpuMapper, MemberCollectSpu> implements MemberCollectSpuService {

@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:32
  */
 @RestController
 @RequestMapping("product/spuinfodesc")
@@ -38,6 +38,7 @@ public class SpuInfoDescController extends BaseController {
      * @return spu信息介绍分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:spuinfodesc:list")
     public BaseResult<PageResult<SpuInfoDesc>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SpuInfoDescController extends BaseController {
      * @return spu信息介绍详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:spuinfodesc:info")
     public BaseResult<SpuInfoDesc> info(@PathVariable("spuId") Long spuId){
         SpuInfoDesc spuInfoDesc = spuInfoDescService.getById(spuId);
         return (BaseResult<SpuInfoDesc>) toResponseResult(spuInfoDesc);
@@ -83,6 +86,7 @@ public class SpuInfoDescController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SpuInfoDesc spuInfoDesc) {
         boolean update = spuInfoDescService.updateById(spuInfoDesc);
         return toOperationResult(update);

@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:22:49
+ * @date 2021-02-06 02:37:25
  */
 @RestController
 @RequestMapping("ware/purchasedetail")
@@ -38,6 +38,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 仓储采购表分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("ware:purchasedetail:list")
     public BaseResult<PageResult<PurchaseDetail>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class PurchaseDetailController extends BaseController {
      * @return 仓储采购表详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("ware:purchasedetail:info")
     public BaseResult<PurchaseDetail> info(@PathVariable("id") Long id){
         PurchaseDetail purchaseDetail = purchaseDetailService.getById(id);
         return (BaseResult<PurchaseDetail>) toResponseResult(purchaseDetail);
@@ -83,6 +86,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ PurchaseDetail purchaseDetail) {
         boolean update = purchaseDetailService.updateById(purchaseDetail);
         return toOperationResult(update);

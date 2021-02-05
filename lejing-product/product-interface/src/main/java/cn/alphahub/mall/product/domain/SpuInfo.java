@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:32
  */
 @Data
 @Builder
@@ -53,7 +53,7 @@ public class SpuInfo implements Serializable {
     private Long brandId;
 
 	/**
-	 * 
+	 *
 	 */
     private BigDecimal weight;
 
@@ -63,12 +63,12 @@ public class SpuInfo implements Serializable {
     private Integer publishStatus;
 
 	/**
-	 * 
+	 *
 	 */
     private Date createTime;
 
 	/**
-	 * 
+	 *
 	 */
     private Date updateTime;
 

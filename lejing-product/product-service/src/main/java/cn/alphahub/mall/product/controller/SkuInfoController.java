@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @RestController
 @RequestMapping("product/skuinfo")
@@ -38,6 +38,7 @@ public class SkuInfoController extends BaseController {
      * @return sku信息分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:skuinfo:list")
     public BaseResult<PageResult<SkuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SkuInfoController extends BaseController {
      * @return sku信息详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:skuinfo:info")
     public BaseResult<SkuInfo> info(@PathVariable("skuId") Long skuId){
         SkuInfo skuInfo = skuInfoService.getById(skuId);
         return (BaseResult<SkuInfo>) toResponseResult(skuInfo);
@@ -83,6 +86,7 @@ public class SkuInfoController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SkuInfo skuInfo) {
         boolean update = skuInfoService.updateById(skuInfo);
         return toOperationResult(update);

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:22:49
+ * @date 2021-02-06 02:37:25
  */
 @Mapper
 public interface WareOrderTaskDetailMapper extends BaseMapper<WareOrderTaskDetail> {

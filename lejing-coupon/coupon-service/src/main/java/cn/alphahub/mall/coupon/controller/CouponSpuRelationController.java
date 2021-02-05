@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/couponspurelation")
@@ -38,6 +38,7 @@ public class CouponSpuRelationController extends BaseController {
      * @return 优惠券与产品关联分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:couponspurelation:list")
     public BaseResult<PageResult<CouponSpuRelation>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class CouponSpuRelationController extends BaseController {
      * @return 优惠券与产品关联详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:couponspurelation:info")
     public BaseResult<CouponSpuRelation> info(@PathVariable("id") Long id){
         CouponSpuRelation couponSpuRelation = couponSpuRelationService.getById(id);
         return (BaseResult<CouponSpuRelation>) toResponseResult(couponSpuRelation);
@@ -83,6 +86,7 @@ public class CouponSpuRelationController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ CouponSpuRelation couponSpuRelation) {
         boolean update = couponSpuRelationService.updateById(couponSpuRelation);
         return toOperationResult(update);

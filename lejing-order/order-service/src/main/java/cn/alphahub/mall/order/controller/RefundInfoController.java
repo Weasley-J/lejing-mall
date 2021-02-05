@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:32
  */
 @RestController
 @RequestMapping("order/refundinfo")
@@ -38,6 +38,7 @@ public class RefundInfoController extends BaseController {
      * @return 退款信息分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:refundinfo:list")
     public BaseResult<PageResult<RefundInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class RefundInfoController extends BaseController {
      * @return 退款信息详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:refundinfo:info")
     public BaseResult<RefundInfo> info(@PathVariable("id") Long id){
         RefundInfo refundInfo = refundInfoService.getById(id);
         return (BaseResult<RefundInfo>) toResponseResult(refundInfo);
@@ -83,6 +86,7 @@ public class RefundInfoController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ RefundInfo refundInfo) {
         boolean update = refundInfoService.updateById(refundInfo);
         return toOperationResult(update);

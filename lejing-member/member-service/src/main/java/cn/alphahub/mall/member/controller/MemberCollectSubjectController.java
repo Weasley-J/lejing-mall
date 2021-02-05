@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/membercollectsubject")
@@ -38,6 +38,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 会员收藏的专题活动分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:membercollectsubject:list")
     public BaseResult<PageResult<MemberCollectSubject>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 会员收藏的专题活动详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:membercollectsubject:info")
     public BaseResult<MemberCollectSubject> info(@PathVariable("id") Long id){
         MemberCollectSubject memberCollectSubject = memberCollectSubjectService.getById(id);
         return (BaseResult<MemberCollectSubject>) toResponseResult(memberCollectSubject);
@@ -83,6 +86,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberCollectSubject memberCollectSubject) {
         boolean update = memberCollectSubjectService.updateById(memberCollectSubject);
         return toOperationResult(update);

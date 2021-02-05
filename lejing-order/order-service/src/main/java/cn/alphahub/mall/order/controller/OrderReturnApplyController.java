@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:32
  */
 @RestController
 @RequestMapping("order/orderreturnapply")
@@ -38,6 +38,7 @@ public class OrderReturnApplyController extends BaseController {
      * @return 订单退货申请分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:orderreturnapply:list")
     public BaseResult<PageResult<OrderReturnApply>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class OrderReturnApplyController extends BaseController {
      * @return 订单退货申请详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:orderreturnapply:info")
     public BaseResult<OrderReturnApply> info(@PathVariable("id") Long id){
         OrderReturnApply orderReturnApply = orderReturnApplyService.getById(id);
         return (BaseResult<OrderReturnApply>) toResponseResult(orderReturnApply);
@@ -83,6 +86,7 @@ public class OrderReturnApplyController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ OrderReturnApply orderReturnApply) {
         boolean update = orderReturnApplyService.updateById(orderReturnApply);
         return toOperationResult(update);

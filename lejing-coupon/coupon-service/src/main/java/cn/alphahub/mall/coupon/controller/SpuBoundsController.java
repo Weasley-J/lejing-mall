@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/spubounds")
@@ -38,6 +38,7 @@ public class SpuBoundsController extends BaseController {
      * @return 商品spu积分设置分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:spubounds:list")
     public BaseResult<PageResult<SpuBounds>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SpuBoundsController extends BaseController {
      * @return 商品spu积分设置详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:spubounds:info")
     public BaseResult<SpuBounds> info(@PathVariable("id") Long id){
         SpuBounds spuBounds = spuBoundsService.getById(id);
         return (BaseResult<SpuBounds>) toResponseResult(spuBounds);
@@ -83,6 +86,7 @@ public class SpuBoundsController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SpuBounds spuBounds) {
         boolean update = spuBoundsService.updateById(spuBounds);
         return toOperationResult(update);

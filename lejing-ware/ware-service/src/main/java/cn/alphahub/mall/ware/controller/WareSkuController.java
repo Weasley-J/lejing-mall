@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:22:49
+ * @date 2021-02-06 02:37:25
  */
 @RestController
 @RequestMapping("ware/waresku")
@@ -38,6 +38,7 @@ public class WareSkuController extends BaseController {
      * @return 商品库存分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("ware:waresku:list")
     public BaseResult<PageResult<WareSku>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class WareSkuController extends BaseController {
      * @return 商品库存详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("ware:waresku:info")
     public BaseResult<WareSku> info(@PathVariable("id") Long id){
         WareSku wareSku = wareSkuService.getById(id);
         return (BaseResult<WareSku>) toResponseResult(wareSku);
@@ -83,6 +86,7 @@ public class WareSkuController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ WareSku wareSku) {
         boolean update = wareSkuService.updateById(wareSku);
         return toOperationResult(update);

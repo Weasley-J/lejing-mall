@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/integrationchangehistory")
@@ -38,6 +38,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 积分变化历史记录分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:integrationchangehistory:list")
     public BaseResult<PageResult<IntegrationChangeHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 积分变化历史记录详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:integrationchangehistory:info")
     public BaseResult<IntegrationChangeHistory> info(@PathVariable("id") Long id){
         IntegrationChangeHistory integrationChangeHistory = integrationChangeHistoryService.getById(id);
         return (BaseResult<IntegrationChangeHistory>) toResponseResult(integrationChangeHistory);
@@ -83,6 +86,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ IntegrationChangeHistory integrationChangeHistory) {
         boolean update = integrationChangeHistoryService.updateById(integrationChangeHistory);
         return toOperationResult(update);

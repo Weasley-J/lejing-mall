@@ -1,5 +1,6 @@
 package cn.alphahub.common.core.controller;
 
+import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.util.DateUtils;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * web层通用数据处理
@@ -41,8 +41,7 @@ public class BaseController {
      * @return 操作结果
      */
     protected BaseResult<Integer> toAffectedRows(int rows) {
-        BaseResult<Integer> result = new BaseResult<>();
-        return rows > 0 ? result.success(rows) : result.error();
+        return rows > 0 ? BaseResult.ok(rows) : BaseResult.fail();
     }
 
 
@@ -53,8 +52,7 @@ public class BaseController {
      * @return 操作提示
      */
     protected BaseResult<Boolean> toOperationResult(Boolean flag) {
-        BaseResult<Boolean> result = new BaseResult<>();
-        return flag ? result.success(Boolean.TRUE) : result.error();
+        return flag ? BaseResult.ok() : BaseResult.fail();
     }
 
     /**
@@ -64,8 +62,10 @@ public class BaseController {
      * @return 传入对象不为null返回封装的实体数据
      */
     protected BaseResult<?> toResponseResult(Object entity) {
-        BaseResult<?> result = new BaseResult<>();
-        return Objects.nonNull(entity) ? result.success("查询成功", entity) : result.error("查询失败");
+        if (ObjectUtils.isNotEmpty(entity)) {
+            return BaseResult.ok("查询成功", entity);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询失败,查找信息为空.");
     }
 
     /**
@@ -76,8 +76,8 @@ public class BaseController {
      */
     protected BaseResult<?> toPageableResult(PageResult<?> pageResult) {
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return new BaseResult<PageResult<?>>().success("查询成功", pageResult);
+            return BaseResult.ok("查询成功", pageResult);
         }
-        return new BaseResult<PageResult<?>>().error("查询失败");
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询失败,查找信息为空.");
     }
 }

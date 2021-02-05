@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:31
  */
 @RestController
 @RequestMapping("order/mqmessage")
@@ -38,6 +38,7 @@ public class MqMessageController extends BaseController {
      * @return MQ消息表分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:mqmessage:list")
     public BaseResult<PageResult<MqMessage>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MqMessageController extends BaseController {
      * @return MQ消息表详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:mqmessage:info")
     public BaseResult<MqMessage> info(@PathVariable("messageId") String messageId){
         MqMessage mqMessage = mqMessageService.getById(messageId);
         return (BaseResult<MqMessage>) toResponseResult(mqMessage);
@@ -83,6 +86,7 @@ public class MqMessageController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MqMessage mqMessage) {
         boolean update = mqMessageService.updateById(mqMessage);
         return toOperationResult(update);

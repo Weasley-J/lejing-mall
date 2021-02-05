@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @RestController
 @RequestMapping("product/attrattrgrouprelation")
@@ -38,6 +38,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 属性&属性分组关联分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:attrattrgrouprelation:list")
     public BaseResult<PageResult<AttrAttrgroupRelation>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 属性&属性分组关联详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:attrattrgrouprelation:info")
     public BaseResult<AttrAttrgroupRelation> info(@PathVariable("id") Long id){
         AttrAttrgroupRelation attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
         return (BaseResult<AttrAttrgroupRelation>) toResponseResult(attrAttrgroupRelation);
@@ -83,6 +86,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ AttrAttrgroupRelation attrAttrgroupRelation) {
         boolean update = attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
         return toOperationResult(update);

@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/memberloginlog")
@@ -38,6 +38,7 @@ public class MemberLoginLogController extends BaseController {
      * @return 会员登录记录分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:memberloginlog:list")
     public BaseResult<PageResult<MemberLoginLog>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberLoginLogController extends BaseController {
      * @return 会员登录记录详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:memberloginlog:info")
     public BaseResult<MemberLoginLog> info(@PathVariable("id") Long id){
         MemberLoginLog memberLoginLog = memberLoginLogService.getById(id);
         return (BaseResult<MemberLoginLog>) toResponseResult(memberLoginLog);
@@ -83,6 +86,7 @@ public class MemberLoginLogController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberLoginLog memberLoginLog) {
         boolean update = memberLoginLogService.updateById(memberLoginLog);
         return toOperationResult(update);

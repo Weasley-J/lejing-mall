@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @RestController
 @RequestMapping("product/category")
@@ -38,6 +38,7 @@ public class CategoryController extends BaseController {
      * @return 商品三级分类分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("product:category:list")
     public BaseResult<PageResult<Category>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class CategoryController extends BaseController {
      * @return 商品三级分类详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("product:category:info")
     public BaseResult<Category> info(@PathVariable("catId") Long catId){
         Category category = categoryService.getById(catId);
         return (BaseResult<Category>) toResponseResult(category);
@@ -83,6 +86,7 @@ public class CategoryController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ Category category) {
         boolean update = categoryService.updateById(category);
         return toOperationResult(update);

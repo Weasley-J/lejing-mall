@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:20:39
+ * @date 2021-02-06 02:39:31
  */
 @Data
 @Builder
@@ -25,7 +25,7 @@ public class CategoryBrandRelation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
     @TableId
     private Long id;
@@ -41,12 +41,12 @@ public class CategoryBrandRelation implements Serializable {
     private Long catelogId;
 
 	/**
-	 * 
+	 *
 	 */
     private String brandName;
 
 	/**
-	 * 
+	 *
 	 */
     private String catelogName;
 

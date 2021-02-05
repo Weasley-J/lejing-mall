@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/memberprice")
@@ -38,6 +38,7 @@ public class MemberPriceController extends BaseController {
      * @return 商品会员价格分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:memberprice:list")
     public BaseResult<PageResult<MemberPrice>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberPriceController extends BaseController {
      * @return 商品会员价格详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:memberprice:info")
     public BaseResult<MemberPrice> info(@PathVariable("id") Long id){
         MemberPrice memberPrice = memberPriceService.getById(id);
         return (BaseResult<MemberPrice>) toResponseResult(memberPrice);
@@ -83,6 +86,7 @@ public class MemberPriceController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberPrice memberPrice) {
         boolean update = memberPriceService.updateById(memberPrice);
         return toOperationResult(update);

@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:22:49
+ * @date 2021-02-06 02:37:25
  */
 @RestController
 @RequestMapping("ware/wareordertask")
@@ -38,6 +38,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 库存工作单分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("ware:wareordertask:list")
     public BaseResult<PageResult<WareOrderTask>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class WareOrderTaskController extends BaseController {
      * @return 库存工作单详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("ware:wareordertask:info")
     public BaseResult<WareOrderTask> info(@PathVariable("id") Long id){
         WareOrderTask wareOrderTask = wareOrderTaskService.getById(id);
         return (BaseResult<WareOrderTask>) toResponseResult(wareOrderTask);
@@ -83,6 +86,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ WareOrderTask wareOrderTask) {
         boolean update = wareOrderTaskService.updateById(wareOrderTask);
         return toOperationResult(update);

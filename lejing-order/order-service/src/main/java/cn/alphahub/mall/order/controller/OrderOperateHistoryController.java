@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:32
  */
 @RestController
 @RequestMapping("order/orderoperatehistory")
@@ -38,6 +38,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 订单操作历史记录分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:orderoperatehistory:list")
     public BaseResult<PageResult<OrderOperateHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 订单操作历史记录详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:orderoperatehistory:info")
     public BaseResult<OrderOperateHistory> info(@PathVariable("id") Long id){
         OrderOperateHistory orderOperateHistory = orderOperateHistoryService.getById(id);
         return (BaseResult<OrderOperateHistory>) toResponseResult(orderOperateHistory);
@@ -83,6 +86,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ OrderOperateHistory orderOperateHistory) {
         boolean update = orderOperateHistoryService.updateById(orderOperateHistory);
         return toOperationResult(update);

@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/seckillsession")
@@ -38,6 +38,7 @@ public class SeckillSessionController extends BaseController {
      * @return 秒杀活动场次分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:seckillsession:list")
     public BaseResult<PageResult<SeckillSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SeckillSessionController extends BaseController {
      * @return 秒杀活动场次详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:seckillsession:info")
     public BaseResult<SeckillSession> info(@PathVariable("id") Long id){
         SeckillSession seckillSession = seckillSessionService.getById(id);
         return (BaseResult<SeckillSession>) toResponseResult(seckillSession);
@@ -83,6 +86,7 @@ public class SeckillSessionController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SeckillSession seckillSession) {
         boolean update = seckillSessionService.updateById(seckillSession);
         return toOperationResult(update);

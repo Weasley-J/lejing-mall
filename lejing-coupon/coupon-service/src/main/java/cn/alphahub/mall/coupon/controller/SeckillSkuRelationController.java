@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:10:59
+ * @date 2021-02-06 02:47:18
  */
 @RestController
 @RequestMapping("coupon/seckillskurelation")
@@ -38,6 +38,7 @@ public class SeckillSkuRelationController extends BaseController {
      * @return 秒杀活动商品关联分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("coupon:seckillskurelation:list")
     public BaseResult<PageResult<SeckillSkuRelation>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class SeckillSkuRelationController extends BaseController {
      * @return 秒杀活动商品关联详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("coupon:seckillskurelation:info")
     public BaseResult<SeckillSkuRelation> info(@PathVariable("id") Long id){
         SeckillSkuRelation seckillSkuRelation = seckillSkuRelationService.getById(id);
         return (BaseResult<SeckillSkuRelation>) toResponseResult(seckillSkuRelation);
@@ -83,6 +86,7 @@ public class SeckillSkuRelationController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ SeckillSkuRelation seckillSkuRelation) {
         boolean update = seckillSkuRelationService.updateById(seckillSkuRelation);
         return toOperationResult(update);

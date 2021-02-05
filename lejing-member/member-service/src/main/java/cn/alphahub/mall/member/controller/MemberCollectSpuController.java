@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:14:36
+ * @date 2021-02-06 02:45:32
  */
 @RestController
 @RequestMapping("member/membercollectspu")
@@ -38,6 +38,7 @@ public class MemberCollectSpuController extends BaseController {
      * @return 会员收藏的商品分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("member:membercollectspu:list")
     public BaseResult<PageResult<MemberCollectSpu>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class MemberCollectSpuController extends BaseController {
      * @return 会员收藏的商品详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("member:membercollectspu:info")
     public BaseResult<MemberCollectSpu> info(@PathVariable("id") Long id){
         MemberCollectSpu memberCollectSpu = memberCollectSpuService.getById(id);
         return (BaseResult<MemberCollectSpu>) toResponseResult(memberCollectSpu);
@@ -83,6 +86,7 @@ public class MemberCollectSpuController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ MemberCollectSpu memberCollectSpu) {
         boolean update = memberCollectSpuService.updateById(memberCollectSpu);
         return toOperationResult(update);

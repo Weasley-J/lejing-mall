@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-05 02:17:51
+ * @date 2021-02-06 02:43:32
  */
 @RestController
 @RequestMapping("order/orderreturnreason")
@@ -38,6 +38,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 退货原因分页数据
      */
     @GetMapping("/list")
+    @SuppressWarnings("unchecked")
     //@RequiresPermissions("order:orderreturnreason:list")
     public BaseResult<PageResult<OrderReturnReason>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -58,6 +59,8 @@ public class OrderReturnReasonController extends BaseController {
      * @return 退货原因详细信息
      */
     @GetMapping("/{id}")
+    @SuppressWarnings("unchecked")
+    //@RequiresPermissions("order:orderreturnreason:info")
     public BaseResult<OrderReturnReason> info(@PathVariable("id") Long id){
         OrderReturnReason orderReturnReason = orderReturnReasonService.getById(id);
         return (BaseResult<OrderReturnReason>) toResponseResult(orderReturnReason);
@@ -83,6 +86,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
+    //@RequiresPermissions("coupon:couponhistory:update")
     public BaseResult<Boolean> update(/*@RequestBody*/ OrderReturnReason orderReturnReason) {
         boolean update = orderReturnReasonService.updateById(orderReturnReason);
         return toOperationResult(update);
