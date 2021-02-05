@@ -35,9 +35,9 @@
         <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
-        <!--将打包生成jar文件复制目录-->
-        <copy.dest.dir>E:/IdeaProjects/lejing-mall/springboot-webapp</copy.dest.dir>
-        <!--<copy.dest.dir>/usr/local/springboot-webapp</copy.dest.dir>-->
+        <!-- 将打包生成jar文件复制到指定目录 -->
+        <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
+        <!--<copy.dest.dir>/usr/local/webapp</copy.dest.dir>-->
         <lombok.version>1.18.18</lombok.version>
         <mysql.version>8.0.23</mysql.version>
         <mybatis.starter.version>2.1.4</mybatis.starter.version>
@@ -251,6 +251,20 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+            <!-- 避免font文件的二进制文件格式压缩破坏 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
             <!--复制jar包到指定文件目录-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -264,7 +278,7 @@
                             <target>
                                 <!--jar包保存位置 -->
                                 <copy todir="${copy.dest.dir}">
-                                    <!--antrun自动生成的配置文件的保存位置，这里默认是父项目的target文件夹 -->
+                                    <!-- antrun自动生成的配置文件的保存位置，这里默认是父项目的target文件夹 -->
                                     <fileset dir="${project.build.directory}">
                                         <include name="*.jar"/>
                                     </fileset>
@@ -277,6 +291,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- mvn clean时删除一些缓存文件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>

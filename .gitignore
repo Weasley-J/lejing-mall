@@ -32,6 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### Weasley J DIY ###
+/webapp/*.jar
 /springboot-webapp/*.jar
-/nacos-config/nacos-server-1.4.1/nacos/bin/logs/
-/nacos-config/nacos-server-1.4.1/nacos/logs/
+/nacos-server/**/nacos/**/logs/
+/nacos-config/**/nacos/**/logs/
