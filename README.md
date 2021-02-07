@@ -17,16 +17,26 @@
 综合上述调研，最终为乐景商城最终技术架构
 
 - JDK11
-
 - MySQL-8.0.23
-
 - apache-maven-3.6.3
+- springboot 2.3.8.RELEASE
+- spring-cloud-alibaba 2.2.5.RELEASE
 
-- springboot 2.2.9.RELEASE
 
-- spring-cloud-alibaba 2.2.1.RELEASE
 
-# 2 已完成清单
+# 2 IDEA环境JVM参数配置
+
+> tips: 主要目的减少web服务的的内存占用
+
+JVM参数: `-Xms512m -Xmx512m -Xmn200m -Xlog:gc*`
+
+![image-20210207215344410](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210207215344410.png)
+
+![image-20210207215556800](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210207215556800.png)
+
+
+
+# 3 已完成清单
 
 - [x] 分装好BaseController，用于Controller数据返回
 
@@ -62,7 +72,7 @@
 
 
 
-# 2 待完成清单
+# 4 待完成清单
 
 - [x] 整合人人框架，提供：domain--> dao --> service --> controller --> 全自动api文档在线输出**&**在线调试，
 

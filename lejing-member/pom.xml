@@ -19,8 +19,8 @@
     <description>乐璟商城-会员服务</description>
 
     <modules>
-        <module>member-interface</module>
-        <module>member-service</module>
+        <module>lejing-member-interface</module>
+        <module>lejing-member-service</module>
     </modules>
 
 </project>

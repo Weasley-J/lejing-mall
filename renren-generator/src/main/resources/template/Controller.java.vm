@@ -34,7 +34,7 @@ public class ${className}Controller extends BaseController {
      * @param rows         显示行数,默认10条
      * @param orderColumn  排序排序字段,默认不排序
      * @param isAsc        排序方式,desc或者asc
-     * @param ${classname} ${comments},字段选择性传入,默认等值查询
+     * @param ${classname} ${comments},字段选择性传入,默认为等值查询
      * @return ${comments}分页数据
      */
     @GetMapping("/list")
@@ -74,7 +74,7 @@ public class ${className}Controller extends BaseController {
      */
     @PostMapping("/save")
     //@RequiresPermissions("${moduleName}:${pathName}:save")
-    public BaseResult<Boolean> save(/*@RequestBody*/ ${className} ${classname}) {
+    public BaseResult<Boolean> save(@RequestBody ${className} ${classname}) {
         boolean save = ${classname}Service.save(${classname});
         return toOperationResult(save);
     }
@@ -86,8 +86,8 @@ public class ${className}Controller extends BaseController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("coupon:couponhistory:update")
-    public BaseResult<Boolean> update(/*@RequestBody*/ ${className} ${classname}) {
+    //@RequiresPermissions("${moduleName}:${pathName}:update")
+    public BaseResult<Boolean> update(@RequestBody ${className} ${classname}) {
         boolean update = ${classname}Service.updateById(${classname});
         return toOperationResult(update);
     }

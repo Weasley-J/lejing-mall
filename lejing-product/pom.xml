@@ -19,7 +19,7 @@
         如：1级->2级(pom打包,2.1,2.2)中间的2级父工程就不要添加版本号->3级
     -->
     <modules>
-        <module>product-interface</module>
-        <module>product-service</module>
+        <module>lejing-product-interface</module>
+        <module>lejing-product-service</module>
     </modules>
 </project>

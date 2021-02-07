@@ -1,0 +1,18 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: lejing-order
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
+  type-aliases-package: com.**.order.domain,cn.**.order.domain,com.**.order.entity,cn.**.order.entity
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    map-underscore-to-camel-case: true
