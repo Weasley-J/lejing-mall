@@ -1,8 +1,6 @@
 server:
   port: 11000
 spring:
-  application:
-    name: lejing-ware
   profiles:
     active: dev
   jackson:

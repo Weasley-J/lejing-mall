@@ -14,7 +14,7 @@
 
 ![image-20210126234531221](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210126234531221.png)
 
-综合上述调研，最终为乐景商城最终技术架构
+综合上述调研，最终为乐璟商城最终技术架构
 
 - JDK11
 - MySQL-8.0.23

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 会员Controller
@@ -109,9 +110,9 @@ public class MemberController extends BaseController {
      * @return 优惠券
      */
     @GetMapping("/coupon/{couponId}")
-    public BaseResult<Coupon> getMemberCoupon(@PathVariable("couponId") Long couponId) {
+    public Coupon getMemberCoupon(@PathVariable("couponId") Long couponId) {
         BaseResult<Coupon> info = couponClient.info(couponId);
-        return info;
+        return doConvertType(info, Coupon.class);
     }
 
     /**

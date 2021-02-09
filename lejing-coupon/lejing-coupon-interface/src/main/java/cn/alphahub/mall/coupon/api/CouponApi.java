@@ -6,7 +6,7 @@ import cn.alphahub.mall.coupon.domain.Coupon;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 优惠券信息Controller
+ * 优惠券信息api
  *
  * @author Weasley J
  * @date 2021-02-07 22:41:47

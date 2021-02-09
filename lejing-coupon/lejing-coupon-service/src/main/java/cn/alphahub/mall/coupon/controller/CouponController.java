@@ -8,10 +8,15 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.coupon.service.CouponService;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 优惠券信息Controller
@@ -20,11 +25,17 @@ import java.util.Arrays;
  * @email 1432689025@qq.com
  * @date 2021-02-07 22:41:47
  */
+@RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController extends BaseController {
     @Autowired
     private CouponService couponService;
+
+    @Value("${lejing.user.name}")
+    private String name;
+    @Value("${lejing.user.age}")
+    private int age;
 
     /**
      * 查询优惠券信息列表
@@ -97,5 +108,13 @@ public class CouponController extends BaseController {
     public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
+    }
+
+    @GetMapping("test")
+    public Map<String, Object> getTest() {
+        HashMap<String, Object> map = Maps.newHashMap();
+        map.put("name", this.name);
+        map.put("age", this.age);
+        return map;
     }
 }

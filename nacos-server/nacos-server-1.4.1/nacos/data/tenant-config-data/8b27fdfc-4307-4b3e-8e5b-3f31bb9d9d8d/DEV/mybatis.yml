@@ -1,0 +1,9 @@
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
+  type-aliases-package: com.**.coupon.domain,cn.**.coupon.domain,com.**.coupon.entity,cn.**.coupon.entity
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    map-underscore-to-camel-case: on
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
