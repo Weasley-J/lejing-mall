@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.8.RELEASE</version>
-        <relativePath/>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
@@ -23,6 +23,7 @@
         <module>lejing-ware</module>
         <module>lejing-member</module>
         <module>lejing-common</module>
+        <module>lejing-gateway</module>
         <module>renren-admin</module>
         <module>renren-generator</module>
     </modules>

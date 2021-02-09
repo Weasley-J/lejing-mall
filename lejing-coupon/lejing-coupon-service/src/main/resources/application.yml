@@ -3,6 +3,7 @@ server:
 spring:
   application:
     name: lejing-coupon
+  #运行环境: dev|test|prod
   profiles:
     active: dev
   jackson:

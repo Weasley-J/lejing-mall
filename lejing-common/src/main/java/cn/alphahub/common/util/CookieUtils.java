@@ -1,6 +1,5 @@
 package cn.alphahub.common.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Cookie 工具类
+ * Cookie工具类
+ *
+ * @author liuwenjing
  */
 public final class CookieUtils {
 

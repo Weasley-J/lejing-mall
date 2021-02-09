@@ -4,6 +4,7 @@ spring:
   application:
     name: lejing-product
   profiles:
+    #运行环境: dev|test|prod
     active: dev
   jackson:
     time-zone: GMT+8

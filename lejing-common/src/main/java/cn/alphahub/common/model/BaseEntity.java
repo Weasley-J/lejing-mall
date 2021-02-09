@@ -11,7 +11,8 @@ import java.util.Date;
 
 /**
  * Entity基类
- * @author liuwe
+ *
+ * @author ruoyi
  */
 @Data
 @NoArgsConstructor
