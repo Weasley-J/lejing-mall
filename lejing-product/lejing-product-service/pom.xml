@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>product-service</artifactId>
+    <artifactId>lejing-product-service</artifactId>
     <version>${lejing-mall.latest.version}</version>
     <description>商品服务</description>
 
