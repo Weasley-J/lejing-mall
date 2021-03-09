@@ -54,7 +54,6 @@ public class IndexCheckConfig implements ApplicationRunner {
                     + "索引版本：" + document.getVersion() + "\n"
                     + "映射信息：\n"
                     + JSONUtil.toJsonStr(mapping));
-
         } else {
             indexName = indexOps.getIndexCoordinates().getIndexName();
             mapping = indexOps.getMapping();
