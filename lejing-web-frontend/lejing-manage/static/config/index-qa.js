@@ -5,7 +5,7 @@
   window.SITE_CONFIG = {};
 
   // api接口请求地址
-  window.SITE_CONFIG['baseUrl'] = 'http://127.0.0.1:88/api';
+  window.SITE_CONFIG['baseUrl'] = 'http://alpha.fast.fgnwctvip.com/api';
 
   // cdn地址 = 域名 + 版本号
   window.SITE_CONFIG['domain'] = './'; // 域名
