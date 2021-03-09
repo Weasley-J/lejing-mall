@@ -49,19 +49,19 @@ public class IndexCheckConfig implements ApplicationRunner {
             indexOps.putMapping();
             indexName = indexOps.getIndexCoordinates().getIndexName();
             mapping = indexOps.getMapping();
-            System.out.println("\t\t\t已创建Elasticsearch索引:\n"
+            System.out.println("\t已创建Elasticsearch索引:\n"
                     + "索引名称：" + indexName + "\n"
                     + "索引版本：" + document.getVersion() + "\n"
                     + "映射信息：\n"
-                    + JSONUtil.toJsonPrettyStr(mapping));
+                    + JSONUtil.toJsonStr(mapping));
 
         } else {
             indexName = indexOps.getIndexCoordinates().getIndexName();
             mapping = indexOps.getMapping();
-            System.out.println("\t\t\tElasticsearch索引已存在:\n"
+            System.out.println("\tElasticsearch索引已存在:\n"
                     + "索引名称：" + indexName + "\n"
                     + "映射信息：\n"
-                    + JSONUtil.toJsonPrettyStr(mapping));
+                    + JSONUtil.toJsonStr(mapping));
         }
     }
 }
