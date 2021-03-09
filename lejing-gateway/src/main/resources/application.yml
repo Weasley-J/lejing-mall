@@ -7,17 +7,14 @@ spring:
     #运行环境: dev|test|prod
     active: dev
   cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
     gateway:
       routes:
-        #测试路由1
+        #测试路由1 - www.baidu.com
         - id: bd_route
           uri: https://www.baidu.com
           predicates:
             - Query=url,baidu
-        #测试路由2
+        #测试路由2 - im.qq.com
         - id: qq_route
           uri: https://im.qq.com
           predicates:
@@ -74,6 +71,35 @@ spring:
             #配置路由过滤器,将当前请求http://127.0.0.1:8080/api/product/1 --> http://127.0.0.1:8080/renren-fast/1
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+        #主机路由规则,根据域名路由
+        - id: lejing_host_route
+          uri: lb://lejing-product
+          predicates:
+            - Host=lejing.com,item.lejing.com
+        - id: lejing_search_route
+          uri: lb://lejing-search
+          predicates:
+            - Host=search.lejing.com
+        - id: lejing_auth_route
+          uri: lb://lejing-auth-server
+          predicates:
+            - Host=auth.lejing.com
+        - id: lejing_cart_route
+          uri: lb://lejing-cart
+          predicates:
+            - Host=cart.lejing.com
+        - id: lejing_order_route
+          uri: lb://lejing-order
+          predicates:
+            - Host=order.lejing.com
+        - id: lejing_member_route
+          uri: lb://lejing-member
+          predicates:
+            - Host=member.lejing.com
+        - id: lejing_seckill_route
+          uri: lb://lejing-seckill
+          predicates:
+            - Host=seckill.lejing.com
       #spring cloud gateway 跨域配置
       globalcors:
         add-to-simple-url-handler-mapping: on

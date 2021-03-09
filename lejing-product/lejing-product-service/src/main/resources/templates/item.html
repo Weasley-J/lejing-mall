@@ -15,7 +15,7 @@
         <!--品牌官方网站-->
         <div class="min">
             <ul class="header_ul_left">
-                <li class="glyphicon glyphicon-home"><a href="http://gulimall.com/" class="aa">京东首页</a></li>
+                <li class="glyphicon glyphicon-home"><a href="http://lejing.com/" class="aa">京东首页</a></li>
                 <li class="glyphicon glyphicon-map-marker"><a href="/static/item/javascript:;">北京</a>
                     <ol id="beijing">
                         <li style="background: red;"><a href="/static/item/javascript:;" style="color: white;">北京</a>
@@ -60,15 +60,15 @@
             `
             <ul class="header_ul_right">
                 <li style="border: 0;">
-                    <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/login.html"
+                    <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/login.html"
                        class="aa">你好，请登录</a>
                     <a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
                 </li>
                 <li>
-                    <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/reg.html"
+                    <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/reg.html"
                        style="color: red;">免费注册</a>
                 </li>
-                <li><a href="http://member.gulimall.com/memberOrder.html" class="aa">我的订单</a> |</li>
+                <li><a href="http://member.lejing.com/memberOrder.html" class="aa">我的订单</a> |</li>
                 <li class="jingdong"><a href="/static/item/javascript:;">我的京东</a><span
                         class="glyphicon glyphicon-menu-down">|</span>
                     <ol class="jingdong_ol">
@@ -264,11 +264,11 @@
     <nav>
         <div class="nav_min">
             <div class="nav_top">
-                <div class="nav_top_one"><a href="http://gulimall.com"><img src="/static/item/img/111.png"/></a></div>
+                <div class="nav_top_one"><a href="http://lejing.com"><img src="/static/item/img/111.png"/></a></div>
                 <div class="nav_top_two"><input type="text"/>
                     <button>搜索</button>
                 </div>
-                <div class="nav_top_three"><a href="http://cart.gulimall.com/cart.html">我的购物车</a><span
+                <div class="nav_top_three"><a href="http://cart.lejing.com/cart.html">我的购物车</a><span
                         class="glyphicon glyphicon-shopping-cart"></span>
                     <div class="nav_top_three_1">
                         <img src="/static/item/img/44.png"/>购物车还没有商品，赶紧选购吧！
@@ -1374,7 +1374,7 @@
             filterEle = $(filterEle).filter(skus[i])[0];
         }
 
-        location.href = "http://item.gulimall.com/" + filterEle + ".html";
+        location.href = "http://item.lejing.com/" + filterEle + ".html";
 
         return false;
     });
@@ -1391,7 +1391,7 @@
     $(".addToCart").click(function () {
         let skuId = $(this).attr("skuId");
         let num = $("#productNum").val();
-        location.href = "http://cart.gulimall.com/addCartItem?skuId=" + skuId + "&num=" + num;
+        location.href = "http://cart.lejing.com/addCartItem?skuId=" + skuId + "&num=" + num;
         return false;
     });
 
@@ -1401,7 +1401,7 @@
             var killId = $(this).attr("sessionid") + "-" + $(this).attr("skuid");
             var code = $(this).attr("code");
             var num = $("#productNum").val();
-            location.href = "http://seckill.gulimall.com/kill?killId=" + killId + "&key=" + code + "&num=" + num;
+            location.href = "http://seckill.lejing.com/kill?killId=" + killId + "&key=" + code + "&num=" + num;
         } else {
             alert("秒杀请先登录");
         }

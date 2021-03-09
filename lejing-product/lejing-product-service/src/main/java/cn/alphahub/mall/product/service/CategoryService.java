@@ -3,9 +3,11 @@ package cn.alphahub.mall.product.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Category;
+import cn.alphahub.mall.product.vo.SecondCategoryVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品三级分类Service接口
@@ -56,4 +58,20 @@ public interface CategoryService extends IService<Category> {
      * @return 商品三级分类分页数据
      */
     PageResult<Category> queryPage(PageDomain pageDomain, Category category);
+
+    /**
+     * 查出所有1级分类
+     *
+     * @return 商品1级分类
+     */
+    List<Category> getFirstLevelCategories();
+
+    /**
+     * <b>查出三级分类</b>
+     * key-1级分类,value-2级分类List
+     *
+     * @return 一级分类+二级分类列表集合
+     */
+    Map<String, List<SecondCategoryVO>> getCatalogJson();
+
 }
