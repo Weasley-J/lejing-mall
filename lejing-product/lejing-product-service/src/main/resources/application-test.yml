@@ -14,6 +14,18 @@ spring:
   #测试环境禁用thymeleaf的缓存
   thymeleaf:
     cache: off
+  #redis配置
+  redis:
+    host: 192.168.226.129
+    port: 6379
+    password: 123456
+    client-name: LEJING_REDIS_CLIENT
+    # Redisson settings
+    # Tips:
+    #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
+    # path to config - redisson.yml
+    redisson:
+      file: classpath:redisson-single.yml
 logging:
   level:
     cn.alphahub.mall.product: debug
