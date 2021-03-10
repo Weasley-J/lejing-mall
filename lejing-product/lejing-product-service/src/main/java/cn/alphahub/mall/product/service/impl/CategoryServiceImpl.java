@@ -63,9 +63,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return pageResult.getPage(categoryList);
     }
 
+    /**
+     * 查出所有1级分类
+     *
+     * @return 1级分类
+     */
     @Override
     public List<Category> getFirstLevelCategories() {
-        log.info("查出所有1级分类...");
+        log.info("查出所有1级分类");
         long start = System.currentTimeMillis();
         List<Category> categories = this.baseMapper.selectList(
                 new QueryWrapper<Category>().lambda().eq(Category::getParentCid, 0));
@@ -76,30 +81,32 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public Map<String, List<SecondCategoryVO>> getCatalogJson() {
         long start = System.currentTimeMillis();
-        List<Category> firstLevelCategories = getFirstLevelCategories();
+        // 一次查出所有分类, 减少db查询次数
+        List<Category> categoryList = baseMapper.selectList(null);
+        // 查找所有1级分类
+        List<Category> FirstLevelCategories = getCategoriesByParentCid(categoryList, 0L);
         //封装数据
-        Map<String, List<SecondCategoryVO>> map = firstLevelCategories.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+        Map<String, List<SecondCategoryVO>> map = FirstLevelCategories.stream().collect(Collectors.toMap(key -> key.getCatId().toString(), value -> {
             // 遍历1级分类,查找1级分类子级-2级分类菜单
-            QueryWrapper<Category> wrapper = new QueryWrapper<>();
-            List<Category> categories = baseMapper.selectList(wrapper.lambda().eq(Category::getParentCid, v.getCatId()));
+            List<Category> secondLevelCategories = getCategoriesByParentCid(categoryList, value.getCatId());
             List<SecondCategoryVO> secondCategoryVos = new ArrayList<>();
-            if (CollectionUtils.isNotEmpty(categories)) {
+            if (CollectionUtils.isNotEmpty(secondLevelCategories)) {
                 // 遍历2级分类, 查找2级分类子级-3级分类
-                secondCategoryVos = categories.stream().map(secondCategory -> {
+                secondCategoryVos = secondLevelCategories.stream().map(secondCategory -> {
                     // 查找3级分类
-                    QueryWrapper<Category> wrapper3 = new QueryWrapper<>();
-                    List<Category> thirdCategoryList = baseMapper.selectList(wrapper3.lambda().eq(Category::getParentCid, secondCategory.getCatId()));
+                    List<Category> thirdLevelCategories = getCategoriesByParentCid(categoryList, secondCategory.getCatId());
                     List<SecondCategoryVO.ThirdCategoryVO> thirdCategoryVos = new ArrayList<>();
-                    if (CollectionUtils.isNotEmpty(thirdCategoryList)) {
-                        // 封装3级分类
-                        thirdCategoryVos = thirdCategoryList.stream().map(thirdCategory -> SecondCategoryVO.ThirdCategoryVO.builder()
-                                .catalog2Id(secondCategory.getCatId())
-                                .id(thirdCategory.getCatId())
-                                .name(thirdCategory.getName())
-                                .build()).collect(Collectors.toList());
+                    // 封装3级分类
+                    if (CollectionUtils.isNotEmpty(thirdLevelCategories)) {
+                        thirdCategoryVos = thirdLevelCategories.stream().map(thirdCategory ->
+                                SecondCategoryVO.ThirdCategoryVO.builder()
+                                        .catalog2Id(secondCategory.getCatId())
+                                        .id(thirdCategory.getCatId())
+                                        .name(thirdCategory.getName())
+                                        .build()).collect(Collectors.toList());
                     }
                     return SecondCategoryVO.builder()
-                            .catalog1Id(v.getCatId())
+                            .catalog1Id(value.getCatId())
                             .catalog3List(thirdCategoryVos)
                             .id(secondCategory.getCatId())
                             .name(secondCategory.getName())
@@ -110,6 +117,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }));
         log.info("查出三级分类耗时: {} 毫秒", DateUtil.spendMs(start));
         return map;
+    }
+
+    /**
+     * 获根据分类父id获取三级分类列表
+     *
+     * @param catId        当前分类id
+     * @param categoryList 从这个列表里面获取分类父id
+     * @return 分类列表
+     */
+    private List<Category> getCategoriesByParentCid(List<Category> categoryList, Long catId) {
+        return categoryList.stream().filter(item -> Objects.equals(item.getParentCid(), catId)).collect(Collectors.toList());
     }
 
     /**

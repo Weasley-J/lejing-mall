@@ -16,3 +16,6 @@ spring:
   #生产环境禁用thymeleaf的缓存
   thymeleaf:
     cache: on
+logging:
+  level:
+    cn.alphahub.mall.product: info

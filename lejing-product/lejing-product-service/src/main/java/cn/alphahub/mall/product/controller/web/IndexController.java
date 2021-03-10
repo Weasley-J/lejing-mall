@@ -1,5 +1,6 @@
 package cn.alphahub.mall.product.controller.web;
 
+import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.product.domain.Category;
 import cn.alphahub.mall.product.service.CategoryService;
 import cn.alphahub.mall.product.vo.SecondCategoryVO;
@@ -49,5 +50,16 @@ public class IndexController {
     @GetMapping("/index/catalog.json")
     public Map<String, List<SecondCategoryVO>> getCatalogJson() {
         return categoryService.getCatalogJson();
+    }
+
+    /**
+     * 你好，Weasley J！
+     *
+     * @return 对Weasley J的问候
+     */
+    @ResponseBody
+    @GetMapping("/hello")
+    public BaseResult<String> helloWeasleyJ() {
+        return BaseResult.ok("响应成功", "Hello Weasley J!");
     }
 }

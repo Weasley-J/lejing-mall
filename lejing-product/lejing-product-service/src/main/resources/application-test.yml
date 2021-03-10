@@ -14,3 +14,6 @@ spring:
   #测试环境禁用thymeleaf的缓存
   thymeleaf:
     cache: off
+logging:
+  level:
+    cn.alphahub.mall.product: debug

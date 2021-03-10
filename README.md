@@ -180,6 +180,8 @@ db.password.0=123456
 使用`curl`命令模糊匹配删除，在`shell`终端上执行:
 
 ```shell
+#!/usr/bin/env bash
+
 # 全局变量，自行修改
 IP="192.168.40.132"
 PORT="9200"

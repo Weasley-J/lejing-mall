@@ -23,7 +23,7 @@ spring:
         - id: product_route
           uri: lb://lejing-product
           predicates:
-            - Path=/api/product/**
+            - Path=/api/product/**,/hello
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
         #会员服务路由
