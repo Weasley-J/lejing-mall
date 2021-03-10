@@ -67,11 +67,18 @@ public interface CategoryService extends IService<Category> {
     List<Category> getFirstLevelCategories();
 
     /**
-     * <b>查出三级分类</b>
+     * <b>从Redis查出三级分类</b>
      * key-1级分类,value-2级分类List
      *
      * @return 一级分类+二级分类列表集合
      */
-    Map<String, List<SecondCategoryVO>> getCatalogJson();
+    Map<String, List<SecondCategoryVO>> getCatalogJsonFromRedis();
 
+    /**
+     * <b>从数据库查出三级分类</b>
+     * key-1级分类,value-2级分类List
+     *
+     * @return 一级分类+二级分类列表集合
+     */
+    Map<String, List<SecondCategoryVO>> getCatalogJsonFromDatabase();
 }

@@ -33,8 +33,7 @@ public class IndexController {
      * @return 首页视图
      */
     @GetMapping({"/", "index", "index.html"})
-    public String indexPage(Model model) {
-        // 查出所有1级分类
+    public String indexPageWithFirstLevelCategories(Model model) {
         List<Category> categories = categoryService.getFirstLevelCategories();
         model.addAttribute("categories", categories);
         return "index";
@@ -49,7 +48,7 @@ public class IndexController {
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<SecondCategoryVO>> getCatalogJson() {
-        return categoryService.getCatalogJson();
+        return categoryService.getCatalogJsonFromRedis();
     }
 
     /**

@@ -8,21 +8,30 @@ import cn.alphahub.mall.product.service.CategoryBrandRelationService;
 import cn.alphahub.mall.product.service.CategoryService;
 import cn.alphahub.mall.product.vo.SecondCategoryVO;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -36,11 +45,19 @@ import java.util.stream.Collectors;
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
+    /**
+     * 商品三级分类Redis缓存数据的key前缀
+     */
+    public final static String REDIS_KEY_PREFIX = "product:category:";
 
-    @Autowired
+    @Resource
+    private CategoryMapper categoryMapper;
+    @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private ObjectMapper objectMapper;
 
     /**
      * 查询商品三级分类分页列表
@@ -51,15 +68,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public PageResult<Category> queryPage(PageDomain pageDomain, Category category) {
-        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<Category> wrapper = new QueryWrapper<>(category);
-        // 2. 创建一个分页对象
         PageResult<Category> pageResult = new PageResult<>();
-        // 3. 开始分页
         pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
         List<Category> categoryList = this.list(wrapper);
-        // 5. 分装并返回数据
         return pageResult.getPage(categoryList);
     }
 
@@ -70,16 +82,36 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public List<Category> getFirstLevelCategories() {
-        log.info("查出所有1级分类");
+        log.info("查出所有1级分类......");
         long start = System.currentTimeMillis();
-        List<Category> categories = this.baseMapper.selectList(
-                new QueryWrapper<Category>().lambda().eq(Category::getParentCid, 0));
+        List<Category> categories = new ArrayList<>();
+        String key = REDIS_KEY_PREFIX + "firstCategories";
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        String value = operations.get(key);
+        try {
+            if (StringUtils.isBlank(value)) {
+                LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda().eq(Category::getParentCid, 0);
+                categories = this.baseMapper.selectList(wrapper);
+                value = objectMapper.writeValueAsString(categories);
+                operations.set(key, value, 1, TimeUnit.DAYS);
+            }
+            categories = objectMapper.readValue(value, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
+        }
         log.info("消耗时间：{} 毫秒", (System.currentTimeMillis() - start));
         return categories;
     }
 
+    /**
+     * <b>从数据库查出三级分类</b>
+     * key-1级分类,value-2级分类List
+     *
+     * @return 一级分类+二级分类列表集合
+     */
     @Override
-    public Map<String, List<SecondCategoryVO>> getCatalogJson() {
+    public Map<String, List<SecondCategoryVO>> getCatalogJsonFromDatabase() {
         long start = System.currentTimeMillis();
         // 一次查出所有分类, 减少db查询次数
         List<Category> categoryList = baseMapper.selectList(null);
@@ -117,6 +149,35 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }));
         log.info("查出三级分类耗时: {} 毫秒", DateUtil.spendMs(start));
         return map;
+    }
+
+    /**
+     * <b>从Redis查出三级分类</b>
+     * key-1级分类,value-2级分类List
+     *
+     * @return 一级分类+二级分类列表集合
+     */
+    @Override
+    public Map<String, List<SecondCategoryVO>> getCatalogJsonFromRedis() {
+        Map<String, List<SecondCategoryVO>> categoryMap = new LinkedHashMap<>();
+        String key = REDIS_KEY_PREFIX + "allCategories";
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        String categoryJson = operations.get(key);
+        try {
+            if (StringUtils.isEmpty(categoryJson)) {
+                log.info("从数据库中获取三级分类数据......");
+                categoryMap = getCatalogJsonFromDatabase();
+                categoryJson = objectMapper.writeValueAsString(categoryMap);
+                operations.set(key, categoryJson, 1, TimeUnit.DAYS);
+            } else {
+                log.info("从缓存中获取三级分类数据......");
+                categoryMap = objectMapper.readValue(categoryJson, new TypeReference<>() {
+                });
+            }
+        } catch (JsonProcessingException e) {
+            log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
+        }
+        return categoryMap;
     }
 
     /**
