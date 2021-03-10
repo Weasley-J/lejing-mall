@@ -19,7 +19,7 @@ spring:
     host: 192.168.226.129
     port: 6379
     password: 123456
-    client-name: LEJING_REDIS_CLIENT
+    client-name: LEJING_REDIS
     # Redisson settings
     # Tips:
     #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
