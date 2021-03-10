@@ -1,7 +1,10 @@
 spring:
   elasticsearch:
     rest:
-      uris: http://localhost:9200,http://192.168.40.132:9200,http://192.168.40.128:9200
+      uris:
+        - http://localhost:9200
+        - http://192.168.40.132:9200
+        - http://192.168.40.128:9200
       connection-timeout: 2
       read-timeout: 40
       username: elastic

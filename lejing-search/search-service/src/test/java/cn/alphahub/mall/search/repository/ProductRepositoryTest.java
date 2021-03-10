@@ -7,10 +7,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -27,6 +30,8 @@ class ProductRepositoryTest {
     private ProductRepository productRepository;
     @Autowired
     private ElasticsearchRestTemplate restTemplate;
+    @Resource
+    private ElasticsearchRestClientProperties properties;
 
     @BeforeEach
     void setUp() {
@@ -146,5 +151,11 @@ class ProductRepositoryTest {
             SkuModel skuModel = skuModelOptional.get();
             System.out.println("skuModel = " + skuModel);
         }
+    }
+
+    @Test
+    void testResource() {
+        List<String> uris = properties.getUris();
+        System.out.println("uris = " + uris);
     }
 }

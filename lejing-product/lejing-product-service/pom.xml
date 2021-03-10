@@ -71,7 +71,7 @@
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
 
-        <!-- 商品 interface -->
+        <!-- 商品服务 interface -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-product-interface</artifactId>
@@ -79,15 +79,21 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- 搜索 interface -->
+        <!-- 搜索服务 interface -->
         <dependency>
             <groupId>cn.alphahub.mall.search</groupId>
             <artifactId>search-interface</artifactId>
             <version>${lejing-mall.latest.version}</version>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- 优惠券 interface -->
+        <!-- 优惠券服务 interface -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-coupon-interface</artifactId>
