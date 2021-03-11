@@ -39,7 +39,7 @@ public interface CategoryService extends IService<Category> {
      * @param catelogId 所属分类id
      * @return
      */
-    Long[] getCatelogFullPath(Long catelogId);
+    Long[] getCategoryFullPath(Long catelogId);
 
 
     /**
@@ -72,7 +72,7 @@ public interface CategoryService extends IService<Category> {
      *
      * @return 一级分类+二级分类列表集合
      */
-    Map<String, List<SecondCategoryVO>> getCatalogJsonFromRedis();
+    Map<String, List<SecondCategoryVO>> getAllLevelCategories();
 
     /**
      * <b>从数据库查出三级分类</b>

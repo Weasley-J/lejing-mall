@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * <b>商品-持久层接口</b>
- * <p>使用Spring Data Jpa 的简便方式一样基于Elasticsearch开发业务</p>
+ * <p>使用Spring Data Jpa的简便方式一样基于Elasticsearch开发业务</p>
  *
  * @author Weasley J
  * @date 2021年3月7日

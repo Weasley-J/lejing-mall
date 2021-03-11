@@ -27,7 +27,7 @@ clusterServersConfig:
   pingConnectionInterval: 0
   keepAlive: false
   tcpNoDelay: false
-  threads: 16
-  nettyThreads: 32
-  codec: !<org.redisson.codec.MarshallingCodec> { }
-  transportMode: "NIO"
+threads: 16
+nettyThreads: 32
+codec: !<org.redisson.codec.MarshallingCodec> { }
+transportMode: "NIO"

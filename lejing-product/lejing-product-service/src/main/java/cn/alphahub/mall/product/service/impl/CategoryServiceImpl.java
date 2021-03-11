@@ -8,7 +8,7 @@ import cn.alphahub.mall.product.service.CategoryBrandRelationService;
 import cn.alphahub.mall.product.service.CategoryService;
 import cn.alphahub.mall.product.vo.SecondCategoryVO;
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -18,9 +18,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Resource;
@@ -48,16 +53,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     /**
      * 商品三级分类Redis缓存数据的key前缀
      */
-    public final static String REDIS_KEY_PREFIX = "product:category:";
+    public final static String KEY_PREFIX = "product:category";
 
     @Resource
     private CategoryMapper categoryMapper;
     @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
-    @Resource
     private ObjectMapper objectMapper;
+    @Resource
+    private RedissonClient redissonClient;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 查询商品三级分类分页列表
@@ -81,27 +88,53 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return 1级分类
      */
     @Override
+    @Cacheable(value = {KEY_PREFIX}, key = "#root.methodName", sync = true)
     public List<Category> getFirstLevelCategories() {
         long start = System.currentTimeMillis();
-        List<Category> categories = new ArrayList<>();
-        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String key = REDIS_KEY_PREFIX + "firstCategory";
-        String value = operations.get(key);
-        try {
-            if (StringUtils.isBlank(value)) {
-                LambdaQueryWrapper<Category> wrapper = new QueryWrapper<Category>().lambda().eq(Category::getParentCid, 0);
-                categories = this.baseMapper.selectList(wrapper);
-                value = objectMapper.writeValueAsString(categories);
-                operations.set(key, value, 1, TimeUnit.DAYS);
-            }
-            categories = objectMapper.readValue(value, new TypeReference<>() {
-            });
-        } catch (JsonProcessingException e) {
-            log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
-        }
-        log.info("查出1级分类消耗时间：{} 毫秒", (System.currentTimeMillis() - start));
+        Wrapper<Category> wrapper = new QueryWrapper<Category>().lambda().eq(Category::getParentCid, 0);
+        List<Category> categories = this.baseMapper.selectList(wrapper);
+        log.info("查出1级分类消耗时间：{} 毫秒", DateUtil.spendMs(start));
         return categories;
     }
+
+    /**
+     * <b>从Redis查出三级分类</b>
+     * key-1级分类,value-2级分类List
+     *
+     * @return 一级分类+二级分类列表集合
+     */
+    @Override
+    @Cacheable(value = {KEY_PREFIX}, key = "#root.methodName")
+    public Map<String, List<SecondCategoryVO>> getAllLevelCategories() {
+        Map<String, List<SecondCategoryVO>> categoryMap = new LinkedHashMap<>();
+        // 获取分布式锁，细化锁的力度
+        RLock lock = redissonClient.getLock(KEY_PREFIX + ":all-level-lock");
+        lock.lock();
+        // redis中取值
+        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        String key = KEY_PREFIX + "::getAllLevelCategories";
+        String value = operations.get(key);
+        // 处理业务
+        try {
+            if (StringUtils.isEmpty(value)) {
+                log.info("从数据库中获取三级分类数据......");
+                categoryMap = getCatalogJsonFromDatabase();
+                value = objectMapper.writeValueAsString(categoryMap);
+                operations.set(key, value, 1, TimeUnit.DAYS);
+            } else {
+                log.info("从缓存中获取三级分类数据......");
+                categoryMap = objectMapper.readValue(value, new TypeReference<>() {
+                });
+            }
+        } catch (JsonProcessingException e) {
+            log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
+        } finally {
+            // 释放分布式锁
+            lock.unlock();
+        }
+        return categoryMap;
+    }
+
 
     /**
      * <b>从数据库查出三级分类</b>
@@ -115,9 +148,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // 一次查出所有分类, 减少db查询次数
         List<Category> categoryList = baseMapper.selectList(null);
         // 查找所有1级分类
-        List<Category> FirstLevelCategories = getCategoriesByParentCid(categoryList, 0L);
+        List<Category> firstLevelCategories = getCategoriesByParentCid(categoryList, 0L);
         //封装数据
-        Map<String, List<SecondCategoryVO>> map = FirstLevelCategories.stream().collect(Collectors.toMap(key -> key.getCatId().toString(), value -> {
+        Map<String, List<SecondCategoryVO>> map = firstLevelCategories.stream().collect(Collectors.toMap(key -> key.getCatId().toString(), value -> {
             // 遍历1级分类,查找1级分类子级-2级分类菜单
             List<Category> secondLevelCategories = getCategoriesByParentCid(categoryList, value.getCatId());
             List<SecondCategoryVO> secondCategoryVos = new ArrayList<>();
@@ -148,35 +181,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }));
         log.info("查出三级分类耗时: {} 毫秒", DateUtil.spendMs(start));
         return map;
-    }
-
-    /**
-     * <b>从Redis查出三级分类</b>
-     * key-1级分类,value-2级分类List
-     *
-     * @return 一级分类+二级分类列表集合
-     */
-    @Override
-    public Map<String, List<SecondCategoryVO>> getCatalogJsonFromRedis() {
-        Map<String, List<SecondCategoryVO>> categoryMap = new LinkedHashMap<>();
-        ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String key = REDIS_KEY_PREFIX + "allCategory";
-        String value = operations.get(key);
-        try {
-            if (StringUtils.isEmpty(value)) {
-                log.info("从数据库中获取三级分类数据......");
-                categoryMap = getCatalogJsonFromDatabase();
-                value = objectMapper.writeValueAsString(categoryMap);
-                operations.set(key, value, 1, TimeUnit.DAYS);
-            } else {
-                log.info("从缓存中获取三级分类数据......");
-                categoryMap = objectMapper.readValue(value, new TypeReference<>() {
-                });
-            }
-        } catch (JsonProcessingException e) {
-            log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
-        }
-        return categoryMap;
     }
 
     /**
@@ -221,7 +225,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @return [父, 子, 孙], [2,25,166]
      */
     @Override
-    public Long[] getCatelogFullPath(Long catelogId) {
+    public Long[] getCategoryFullPath(Long catelogId) {
         List<Long> list = new ArrayList<>();
         List<Long> parentPath = getParentPath(catelogId, list);
         return parentPath.toArray(new Long[parentPath.size()]);
@@ -233,7 +237,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @param category 商品三级分类,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
+    /*
+    @Caching(evict = {
+            @CacheEvict(value = {KEY_PREFIX}, key = "'getFirstLevelCategories'"),
+            @CacheEvict(value = {KEY_PREFIX}, key = "'getAllLevelCategories'")
+    })
+    // 二选一
+    @CacheEvict(value = {KEY_PREFIX}, allEntries = true)
+    */
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {KEY_PREFIX}, allEntries = true)
     public boolean updateCasecade(Category category) {
         boolean b1 = this.updateById(category);
         boolean b2 = this.categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
@@ -244,7 +258,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * 递归方法找父路径
      *
      * @param catelogId 分类id
-     * @return
+     * @return 分类id集合
      */
     private List<Long> getParentPath(Long catelogId, List<Long> initialList) {
         // 收集当前节点的id

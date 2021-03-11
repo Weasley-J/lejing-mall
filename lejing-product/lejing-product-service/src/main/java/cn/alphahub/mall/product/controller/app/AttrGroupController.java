@@ -152,7 +152,7 @@ public class AttrGroupController extends BaseController {
     public BaseResult<AttrGroup> info(@PathVariable("attrGroupId") Long attrGroupId) {
         AttrGroup attrGroup = attrGroupService.getById(attrGroupId);
         Long catelogId = attrGroup.getCatelogId();
-        Long[] catelogPath = categoryService.getCatelogFullPath(catelogId);
+        Long[] catelogPath = categoryService.getCategoryFullPath(catelogId);
         attrGroup.setCatelogPath(catelogPath);
         return ObjectUtils.anyNotNull(attrGroup) ? BaseResult.ok(attrGroup) : BaseResult.fail();
     }

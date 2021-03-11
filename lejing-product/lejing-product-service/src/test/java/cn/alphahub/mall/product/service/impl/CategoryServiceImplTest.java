@@ -28,7 +28,7 @@ class CategoryServiceImplTest {
 
     @Test
     void getCatelogFullPath() {
-        Long[] catelogFullPath = categoryService.getCatelogFullPath(225L);
+        Long[] catelogFullPath = categoryService.getCategoryFullPath(225L);
         for (Long id : catelogFullPath) {
             log.info("目录全路径: {}",id);
         }

@@ -219,7 +219,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
         }
 
         AttrGroup attrGroup = attrGroupMapper.selectById(attrId);
-        Long[] catelogFullPath = categoryService.getCatelogFullPath(attr.getCatelogId());
+        Long[] catelogFullPath = categoryService.getCategoryFullPath(attr.getCatelogId());
         Category category = categoryMapper.selectById(attr.getCatelogId());
         // 组装数据
         attrRespVo.setCatelogPath(catelogFullPath);

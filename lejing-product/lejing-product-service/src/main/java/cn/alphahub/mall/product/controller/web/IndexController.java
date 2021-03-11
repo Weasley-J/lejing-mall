@@ -4,6 +4,8 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.product.domain.Category;
 import cn.alphahub.mall.product.service.CategoryService;
 import cn.alphahub.mall.product.vo.SecondCategoryVO;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,9 @@ import java.util.Map;
  */
 @Controller
 public class IndexController {
+
+    @Resource
+    private RedissonClient redissonClient;
 
     @Resource
     private CategoryService categoryService;
@@ -48,7 +53,7 @@ public class IndexController {
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<SecondCategoryVO>> getCatalogJson() {
-        return categoryService.getCatalogJsonFromRedis();
+        return categoryService.getAllLevelCategories();
     }
 
     /**
@@ -59,6 +64,25 @@ public class IndexController {
     @ResponseBody
     @GetMapping("/hello")
     public BaseResult<String> helloWeasleyJ() {
-        return BaseResult.ok("响应成功", "Hello Weasley J!");
+        BaseResult<String> baseResult;
+
+        RLock lock = redissonClient.getLock("my:lock");
+        // 阻塞等待
+        lock.lock();
+
+        try {
+            System.out.println("加锁成功：" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
+
+            System.out.println("执行业务...");
+            baseResult = BaseResult.ok("响应成功", "Hello Weasley J!");
+
+        } catch (Exception e) {
+            baseResult = BaseResult.fail("响应失败", "Hello Weasley J!");
+        } finally {
+            System.out.println("释放成功：" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName() + "\n");
+            lock.unlock();
+        }
+
+        return baseResult;
     }
 }

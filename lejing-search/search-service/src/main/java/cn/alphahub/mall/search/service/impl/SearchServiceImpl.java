@@ -61,13 +61,13 @@ public class SearchServiceImpl implements SearchService {
     /**
      * 删除商品
      *
-     * @param spuId 商品spu id
+     * @param skuId 商品sku id
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteProduct(Long spuId) {
+    public Boolean deleteProduct(Long skuId) {
         try {
-            repository.deleteById(spuId);
+            repository.deleteById(skuId);
             return true;
         } catch (Exception e) {
             log.error("删除商品失败：{}\n", e.getClass(), e);
