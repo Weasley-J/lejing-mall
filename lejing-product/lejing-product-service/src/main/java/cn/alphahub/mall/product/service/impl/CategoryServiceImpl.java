@@ -82,11 +82,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      */
     @Override
     public List<Category> getFirstLevelCategories() {
-        log.info("查出所有1级分类......");
         long start = System.currentTimeMillis();
         List<Category> categories = new ArrayList<>();
-        String key = REDIS_KEY_PREFIX + "firstCategories";
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+        String key = REDIS_KEY_PREFIX + "firstCategory";
         String value = operations.get(key);
         try {
             if (StringUtils.isBlank(value)) {
@@ -100,7 +99,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         } catch (JsonProcessingException e) {
             log.error("JSON序列化异常, 异常信息：{}\n", e.getCause(), e);
         }
-        log.info("消耗时间：{} 毫秒", (System.currentTimeMillis() - start));
+        log.info("查出1级分类消耗时间：{} 毫秒", (System.currentTimeMillis() - start));
         return categories;
     }
 
@@ -160,18 +159,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public Map<String, List<SecondCategoryVO>> getCatalogJsonFromRedis() {
         Map<String, List<SecondCategoryVO>> categoryMap = new LinkedHashMap<>();
-        String key = REDIS_KEY_PREFIX + "allCategories";
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String categoryJson = operations.get(key);
+        String key = REDIS_KEY_PREFIX + "allCategory";
+        String value = operations.get(key);
         try {
-            if (StringUtils.isEmpty(categoryJson)) {
+            if (StringUtils.isEmpty(value)) {
                 log.info("从数据库中获取三级分类数据......");
                 categoryMap = getCatalogJsonFromDatabase();
-                categoryJson = objectMapper.writeValueAsString(categoryMap);
-                operations.set(key, categoryJson, 1, TimeUnit.DAYS);
+                value = objectMapper.writeValueAsString(categoryMap);
+                operations.set(key, value, 1, TimeUnit.DAYS);
             } else {
                 log.info("从缓存中获取三级分类数据......");
-                categoryMap = objectMapper.readValue(categoryJson, new TypeReference<>() {
+                categoryMap = objectMapper.readValue(value, new TypeReference<>() {
                 });
             }
         } catch (JsonProcessingException e) {
@@ -254,7 +253,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         if (!Objects.equals(category.getParentCid(), 0L)) {
             getParentPath(category.getParentCid(), initialList);
         }
-        //找到的是逆序的,使用Collections转换一下: [225,25,2] -> [2,25,225]
+        // 找到的是逆序的,使用Collections转换一下: [225,25,2] -> [2,25,225]
         Collections.reverse(initialList);
         return initialList;
     }
