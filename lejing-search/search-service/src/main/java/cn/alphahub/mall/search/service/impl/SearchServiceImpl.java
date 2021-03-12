@@ -10,10 +10,13 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.NestedQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -134,9 +137,8 @@ public class SearchServiceImpl implements SearchService {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
 
         // 1、对key进行全文检索查询
-        // QueryBuilder basicQuery = QueryBuilders.matchQuery("all", key).operator(Operator.AND);
         BoolQueryBuilder basicQuery = buildBoolSearchQuery(param);
-        searchQueryBuilder.withQuery(null);
+        searchQueryBuilder.withQuery(basicQuery);
 
         //2、通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
         SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
@@ -174,29 +176,62 @@ public class SearchServiceImpl implements SearchService {
      * @return BoolQueryBuilder 布尔查询构建器
      */
     private BoolQueryBuilder buildBoolSearchQuery(SearchParam param) {
-        String keyword = param.getKeyword();
-        if (StringUtils.isBlank(keyword)) {
-            return null;
-        }
-        // 查询关键字
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
-        boolQuery.must(QueryBuilders.matchQuery(ReflectUtil.propertyName(SkuModel::getSkuTitle), keyword).operator(Operator.AND));
-        /*param.getFilter().forEach((k, v) -> {
-            System.out.println(k + ":" + v);
-            // 搜索的过滤字段
-            switch (k) {
-                case "品牌":
-                    k = "brandId";
-                    break;
-                case "分类":
-                    k = "cid3";
-                    break;
-                default:
-                    k = "specs." + k + ".keyword";
-                    break;
+        // 1.1 must - 模糊匹配(skuTitle商品名称)
+        if (StringUtils.isNotBlank(param.getKeyword())) {
+            boolQuery.must(QueryBuilders.matchQuery(ReflectUtil.propertyName(SkuModel::getSkuTitle), param.getKeyword()).operator(Operator.AND));
+        }
+        // 1.2 filter - 3级分类id查询(catalogId)
+        if (ObjectUtils.isNotEmpty(param.getCatalog3Id())) {
+            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getCatalogId), param.getCatalog3Id()));
+        }
+        // 1.3 filter - 品牌id查询(brandId)
+        if (ObjectUtils.isNotEmpty(param.getBrandId())) {
+            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getBrandId), param.getBrandId()));
+        }
+        // 1.4 filter - 是否有库存查询(hasStock)
+        boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getHasStock), param.getHasStock()));
+
+        // 1.5 filter - 商品属性查询()
+        List<String> attrList = param.getAttrs();
+        if (CollectionUtils.isNotEmpty(attrList)) {
+            String attrs = ReflectUtil.propertyName(SkuModel::getAttrs);
+            for (String attr : attrList) {
+                // 切割属性: attr = "attrs=1_5寸:8寸&attrs=3_4核:8核&attrs=3_8G:12G"
+                String[] attrArray = attr.split("_");
+                String attrId = attrArray[0];
+                String[] attrValues = attrArray[1].split(":");
+                // 构建nested查询构造条件
+                BoolQueryBuilder nestedBoolQuery = QueryBuilders.boolQuery();
+                nestedBoolQuery.must(QueryBuilders.termQuery(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId), attrId));
+                nestedBoolQuery.must(QueryBuilders.termQuery(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
+                // 每个attr都必须生成一个与之对应的nested查询条件
+                NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery(attrs, null, ScoreMode.None);
+                boolQuery.filter(nestedQuery);
             }
-            boolQuery.filter(QueryBuilders.termQuery(k, v));
-        });*/
+        }
+
+        // 1.6 filter - 价格区间查询(skuPrice): 前台传来格式: 1_500 | _500 | 500_
+        String skuPrice = param.getSkuPrice();
+        if (StringUtils.isNotBlank(skuPrice)) {
+            RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery(ReflectUtil.propertyName(SkuModel::getSkuPrice));
+            // 处理价格区间
+            String[] prices = StringUtils.split(skuPrice, "_");
+            int length = prices.length;
+            if (length == 2) {
+                rangeQuery.gte(prices[0]).lte(prices[1]);
+            }
+            if (length == 1) {
+                if (StringUtils.startsWith(skuPrice, "_")) {
+                    rangeQuery.lte(prices[0]);
+                }
+                if (StringUtils.endsWith(skuPrice, "_")) {
+                    rangeQuery.gte(prices[0]);
+                }
+            }
+            boolQuery.filter(rangeQuery);
+        }
+
         return boolQuery;
     }
 

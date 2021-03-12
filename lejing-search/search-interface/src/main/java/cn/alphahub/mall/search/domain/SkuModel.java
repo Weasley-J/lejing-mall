@@ -119,4 +119,37 @@ public class SkuModel implements Serializable {
     @Field(type = FieldType.Nested, index = false)
     private List<Attrs> attrs;
 
+    /**
+     * 商品属性-数据模型
+     *
+     * @author liuwenjing
+     * @date 2021年3月7日
+     */
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Attrs implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * 属性id
+         */
+        @JsonSerialize(using = IdSerializer.class)
+        @Field(type = FieldType.Long)
+        private Long attrId;
+
+        /**
+         * 属性名称
+         */
+        @Field(type = FieldType.Keyword)
+        private String attrName;
+
+        /**
+         * 属性值
+         */
+        @Field(type = FieldType.Keyword)
+        private String attrValue;
+
+    }
 }

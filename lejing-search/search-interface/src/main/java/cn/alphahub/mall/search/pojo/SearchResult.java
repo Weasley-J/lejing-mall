@@ -52,28 +52,28 @@ public class SearchResult implements Serializable {
     /**
      * 当前查询到的结果，所有涉及到的品牌
      */
-    private List<BrandVo> brands;
+    private List<BrandVO> brands;
 
     /**
      * 当前查询到的结果，所有涉及到的所有属性
      */
-    private List<AttrVo> attrs;
+    private List<AttrVO> attrs;
 
     /**
      * 当前查询到的结果，所有涉及到的所有分类
      */
-    private List<CatalogVo> catalogs;
+    private List<CatalogVO> catalogs;
 
     /**
      * 面包屑导航数据
      */
-    private List<NavVo> navs;
+    private List<NavVO> navs;
 
     /**
      * 搜索页面面包屑导航
      */
     @Data
-    public static class NavVo {
+    public static class NavVO {
         /**
          * 导航名称
          */
@@ -92,7 +92,7 @@ public class SearchResult implements Serializable {
      * 商品品牌
      */
     @Data
-    public static class BrandVo {
+    public static class BrandVO {
         /**
          * 品牌id
          */
@@ -111,7 +111,7 @@ public class SearchResult implements Serializable {
      * 商品属性
      */
     @Data
-    public static class AttrVo {
+    public static class AttrVO {
         /**
          * 属性id
          */
@@ -130,7 +130,7 @@ public class SearchResult implements Serializable {
      * 商品分类
      */
     @Data
-    public static class CatalogVo {
+    public static class CatalogVO {
         /**
          * 分类id
          */

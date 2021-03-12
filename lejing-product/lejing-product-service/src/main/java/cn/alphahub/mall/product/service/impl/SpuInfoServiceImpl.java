@@ -18,7 +18,6 @@ import cn.alphahub.mall.product.vo.Bounds;
 import cn.alphahub.mall.product.vo.Images;
 import cn.alphahub.mall.product.vo.Skus;
 import cn.alphahub.mall.product.vo.SpuSaveVO;
-import cn.alphahub.mall.search.domain.Attrs;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -160,10 +159,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
         List<Long> searchAttrIds = attrService.querySearchAttrIds(attrValueIdList);
         Set<Long> idSet = new LinkedHashSet<>(searchAttrIds);
 
-        List<Attrs> attrsList = oldProductAttrValues.stream()
+        List<SkuModel.Attrs> attrsList = oldProductAttrValues.stream()
                 .filter(productAttrValue -> idSet.contains(productAttrValue.getAttrId()))
                 .map(productAttrValue -> {
-                    Attrs attrs = new Attrs();
+                    SkuModel.Attrs attrs = new SkuModel.Attrs();
                     BeanUtils.copyProperties(productAttrValue, attrs);
                     return attrs;
                 }).collect(Collectors.toList());
