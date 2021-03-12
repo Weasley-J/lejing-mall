@@ -33,6 +33,7 @@ build/
 .vscode/
 
 ### Weasley J DIY ###
+/README.assets
 /webapp/*.jar
 /springboot-webapp/*.jar
 /nacos-server/**/nacos/**/logs/
