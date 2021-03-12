@@ -102,6 +102,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * key-1级分类,value-2级分类List
      *
      * @return 一级分类+二级分类列表集合
+     * @link <a href="https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8"></a>
      */
     @Override
     @Cacheable(value = {KEY_PREFIX}, key = "#root.methodName")
