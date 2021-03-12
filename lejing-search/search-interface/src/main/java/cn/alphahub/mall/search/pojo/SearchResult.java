@@ -1,0 +1,143 @@
+package cn.alphahub.mall.search.pojo;
+
+import cn.alphahub.mall.search.domain.SkuModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * <b>搜索结果响应数据实体</b>
+ *
+ * @author liuwenjing
+ * @version 1.0
+ * @date 2021/03/12
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SearchResult implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 商品信息列表
+     */
+    private List<SkuModel> product;
+
+    /**
+     * 当前页码
+     */
+    private Integer pageNum;
+
+    /**
+     * 总记录数
+     */
+    private Long total;
+
+    /**
+     * 总页码
+     */
+    private Integer totalPages;
+
+    /**
+     * 面包屑导航数据集合
+     */
+    private List<Integer> pageNavs;
+
+    /**
+     * 当前查询到的结果，所有涉及到的品牌
+     */
+    private List<BrandVo> brands;
+
+    /**
+     * 当前查询到的结果，所有涉及到的所有属性
+     */
+    private List<AttrVo> attrs;
+
+    /**
+     * 当前查询到的结果，所有涉及到的所有分类
+     */
+    private List<CatalogVo> catalogs;
+
+    /**
+     * 面包屑导航数据
+     */
+    private List<NavVo> navs;
+
+    /**
+     * 搜索页面面包屑导航
+     */
+    @Data
+    public static class NavVo {
+        /**
+         * 导航名称
+         */
+        private String navName;
+        /**
+         * 导航值
+         */
+        private String navValue;
+        /**
+         * 导航链接
+         */
+        private String link;
+    }
+
+    /**
+     * 商品品牌
+     */
+    @Data
+    public static class BrandVo {
+        /**
+         * 品牌id
+         */
+        private Long brandId;
+        /**
+         * 品牌名称
+         */
+        private String brandName;
+        /**
+         * 品牌图标
+         */
+        private String brandImg;
+    }
+
+    /**
+     * 商品属性
+     */
+    @Data
+    public static class AttrVo {
+        /**
+         * 属性id
+         */
+        private Long attrId;
+        /**
+         * 属性名称
+         */
+        private String attrName;
+        /**
+         * 属性值集合
+         */
+        private List<String> attrValue;
+    }
+
+    /**
+     * 商品分类
+     */
+    @Data
+    public static class CatalogVo {
+        /**
+         * 分类id
+         */
+        private Long catalogId;
+        /**
+         * 分类名称
+         */
+        private String catalogName;
+    }
+}

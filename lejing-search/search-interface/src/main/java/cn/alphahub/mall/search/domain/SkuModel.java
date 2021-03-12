@@ -91,7 +91,7 @@ public class SkuModel implements Serializable {
     /**
      * 商品品牌名称
      */
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Keyword, index = false)
     private String brandName;
 
     /**
@@ -106,6 +106,7 @@ public class SkuModel implements Serializable {
     @Field(type = FieldType.Long)
     @JsonSerialize(using = IdSerializer.class)
     private Long catalogId;
+
     /**
      * 商品分类名称
      */

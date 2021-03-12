@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -32,6 +33,11 @@ class ProductRepositoryTest {
     private ElasticsearchRestTemplate restTemplate;
     @Resource
     private ElasticsearchRestClientProperties properties;
+    /**
+     * 索引名称
+     */
+    @Value("${spring.elasticsearch.rest.index-names}")
+    private String[] indexNames;
 
     @BeforeEach
     void setUp() {
@@ -157,5 +163,8 @@ class ProductRepositoryTest {
     void testResource() {
         List<String> uris = properties.getUris();
         System.out.println("uris = " + uris);
+        for (String indexName : indexNames) {
+            System.out.println("indexName = " + indexName);
+        }
     }
 }

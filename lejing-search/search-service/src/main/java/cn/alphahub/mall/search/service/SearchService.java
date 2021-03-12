@@ -1,6 +1,8 @@
 package cn.alphahub.mall.search.service;
 
 import cn.alphahub.mall.search.domain.SkuModel;
+import cn.alphahub.mall.search.pojo.SearchParam;
+import cn.alphahub.mall.search.pojo.SearchResult;
 
 import java.util.List;
 
@@ -24,7 +26,16 @@ public interface SearchService {
     /**
      * 删除商品
      *
-     * @param spuId 商品spu id
+     * @param skuId 商品spu id
+     * @return true|false
      */
-    Boolean deleteProduct(Long spuId);
+    Boolean deleteProductById(Long skuId);
+
+    /**
+     * 获取搜索结果列表
+     *
+     * @param param 搜索请求参数实体
+     * @return 获取搜索结果
+     */
+    SearchResult search(SearchParam param);
 }
