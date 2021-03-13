@@ -129,9 +129,8 @@ public class SearchServiceImpl implements SearchService {
         if (ObjectUtils.isEmpty(param)) {
             return null;
         }
-        // 2 获取Elasticsearch QueryBuilder instances
+        // 2. 获取Elasticsearch QueryBuilder instances
         NativeSearchQuery nativeSearchQuery = this.buildNativeSearchQuery(param);
-
         // 3. 从ES从查询数据, 封装查询结果返回
         return this.buildSearchResult(nativeSearchQuery, param);
     }
@@ -312,13 +311,13 @@ public class SearchServiceImpl implements SearchService {
         /* 保存商品分类 */
         List<SearchResult.CatalogVO> catalogVos = new ArrayList<>();
         /* 保存商品属性 */
-        ArrayList<SearchResult.AttrVO> attrVos = Lists.newArrayList();
+        List<SearchResult.AttrVO> attrVos = Lists.newArrayList();
         /* 保存商品品牌 */
-        ArrayList<SearchResult.BrandVO> brandVos = Lists.newArrayList();
+        List<SearchResult.BrandVO> brandVos = Lists.newArrayList();
         /* 保存商品包屑导航id */
-        ArrayList<Integer> pageNavs = Lists.newArrayList();
+        List<Integer> pageNavs = Lists.newArrayList();
         /* 保存商品面包屑导航 */
-        ArrayList<SearchResult.NavVO> navVos = Lists.newArrayList();
+        List<SearchResult.NavVO> navVos = Lists.newArrayList();
 
         // 断言聚合结果集不为空,否则抛出异常
         assert aggregations != null;
@@ -380,7 +379,7 @@ public class SearchServiceImpl implements SearchService {
      * @param attrVos     商品属性列表
      * @param aggregation 聚合结果
      */
-    private void parsedAttrNestedAgg(ArrayList<SearchResult.AttrVO> attrVos, Nested aggregation) {
+    private void parsedAttrNestedAgg(List<SearchResult.AttrVO> attrVos, Nested aggregation) {
         Terms attrIdTerms = aggregation.getAggregations().get("attr_id_agg");
         List<? extends Terms.Bucket> attrIdBuckets = attrIdTerms.getBuckets();
         for (Terms.Bucket bucket : attrIdBuckets) {
@@ -408,9 +407,9 @@ public class SearchServiceImpl implements SearchService {
      * @param brandVos    商品品牌列表
      * @param aggregation 聚合结果
      */
-    private void parsedBrandAgg(ArrayList<SearchResult.BrandVO> brandVos, Terms aggregation) {
+    private void parsedBrandAgg(List<SearchResult.BrandVO> brandVos, Terms aggregation) {
         List<? extends Terms.Bucket> brandBuckets = aggregation.getBuckets();
-        brandBuckets.forEach(brandBucket -> {
+        for (Terms.Bucket brandBucket : brandBuckets) {
             // 1. 获取品品牌id
             Long brandId = brandBucket.getKeyAsNumber().longValue();
             // 2. 获取品品牌名称,品牌图片
@@ -418,14 +417,12 @@ public class SearchServiceImpl implements SearchService {
             Terms brandImgTerms = brandBucket.getAggregations().get("brand_img_agg");
             List<String> nameList = brandNameTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.toList());
             List<String> imgList = brandImgTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.toList());
-            // 3. 获取品品牌图片
             brandVos.add(SearchResult.BrandVO.builder()
                     .brandId(brandId)
                     .brandName(CollectionUtils.isNotEmpty(nameList) ? nameList.get(0) : "")
-                    .brandImg(CollectionUtils.isNotEmpty(imgList) ? nameList.get(0) : "")
-                    .build()
-            );
-        });
+                    .brandImg(CollectionUtils.isNotEmpty(imgList) ? imgList.get(0) : "")
+                    .build());
+        }
     }
 
     /**
