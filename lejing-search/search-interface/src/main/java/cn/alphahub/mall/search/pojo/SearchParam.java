@@ -60,7 +60,7 @@ public class SearchParam implements Serializable {
     /**
      * 页码
      */
-    private Integer pageNum = 1;
+    private Integer pageNum;
 
     /**
      * 原生的所有查询条件
