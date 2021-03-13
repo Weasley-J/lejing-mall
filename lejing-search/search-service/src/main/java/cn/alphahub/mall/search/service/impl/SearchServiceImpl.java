@@ -34,6 +34,7 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -193,6 +194,7 @@ public class SearchServiceImpl implements SearchService {
             String[] sortArray = StringUtils.split(param.getSort(), "_");
             SortOrder order = StringUtils.equalsIgnoreCase(sortArray[1], SortOrder.ASC.toString()) ? SortOrder.ASC : SortOrder.DESC;
             FieldSortBuilder sortBuilder = SortBuilders.fieldSort(sortArray[0]).order(order);
+            System.out.println("ES 排序查询语句:\n" + sortBuilder);
             searchQueryBuilder.withSort(sortBuilder);
         }
 
@@ -208,8 +210,7 @@ public class SearchServiceImpl implements SearchService {
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
-        log.info("ES DQL查询语句:\n {}", queryBuilder);
-
+        System.out.println("\nES DQL查询语句:\n" + queryBuilder);
         return nativeSearchQuery;
     }
 
@@ -314,7 +315,7 @@ public class SearchServiceImpl implements SearchService {
         List<SearchResult.AttrVO> attrVos = Lists.newArrayList();
         /* 保存商品品牌 */
         List<SearchResult.BrandVO> brandVos = Lists.newArrayList();
-        /* 保存商品包屑导航id */
+        /* 保存商品分页页码集合 */
         List<Integer> pageNavs = Lists.newArrayList();
         /* 保存商品面包屑导航 */
         List<SearchResult.NavVO> navVos = Lists.newArrayList();
@@ -359,6 +360,44 @@ public class SearchServiceImpl implements SearchService {
         long totalRecord = searchHits.getTotalHits();
         // 分页总页数
         int totalPage = Math.toIntExact((totalRecord + PAGE_SIZE - 1) / PAGE_SIZE);
+        // 添加分页页码
+        for (int i = 1; i <= totalPage; i++) {
+            pageNavs.add(i);
+        }
+        // 构建面包屑导航
+        /**
+         if (param.getAttrs() != null && param.getAttrs().size() > 0) {
+         List<SearchResult.NavVo> collect = param.getAttrs().stream().map(attr -> {
+         //1、分析每一个attrs传过来的参数值
+         SearchResult.NavVo navVo = new SearchResult.NavVo();
+         String[] s = attr.split("_");
+         navVo.setNavValue(s[1]);
+         R r = productFeignService.attrInfo(Long.parseLong(s[0]));
+         if (r.getCode() == 0) {
+         AttrResponseVo data = r.getData("attr", new TypeReference<AttrResponseVo>() {
+         });
+         navVo.setNavName(data.getAttrName());
+         } else {
+         navVo.setNavName(s[0]);
+         }
+
+         //2、取消了这个面包屑以后，我们要跳转到哪个地方，将请求的地址url里面的当前置空
+         //拿到所有的查询条件，去掉当前
+         String encode = null;
+         try {
+         encode = URLEncoder.encode(attr,"UTF-8");
+         encode.replace("+","%20");  //浏览器对空格的编码和Java不一样，差异化处理
+         } catch (UnsupportedEncodingException e) {
+         e.printStackTrace();
+         }
+         String replace = param.get_queryString().replace("&attrs=" + attr, "");
+         navVo.setLink("http://search.lejing.com/list.html?" + replace);
+
+         return navVo;
+         }).collect(Collectors.toList());
+         result.setNavs(collect);
+         }*/
+
         // 封装结果数据
         SearchResult result = new SearchResult();
         result.setProduct(skuModels);
