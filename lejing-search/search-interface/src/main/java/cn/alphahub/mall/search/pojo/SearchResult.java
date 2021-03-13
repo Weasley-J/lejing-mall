@@ -92,7 +92,12 @@ public class SearchResult implements Serializable {
      * 商品品牌
      */
     @Data
-    public static class BrandVO {
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BrandVO implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         /**
          * 品牌id
          */
@@ -111,7 +116,12 @@ public class SearchResult implements Serializable {
      * 商品属性
      */
     @Data
-    public static class AttrVO {
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AttrVO implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         /**
          * 属性id
          */
@@ -130,7 +140,11 @@ public class SearchResult implements Serializable {
      * 商品分类
      */
     @Data
-    public static class CatalogVO {
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CatalogVO implements Serializable {
+        private static final long serialVersionUID = 1L;
         /**
          * 分类id
          */

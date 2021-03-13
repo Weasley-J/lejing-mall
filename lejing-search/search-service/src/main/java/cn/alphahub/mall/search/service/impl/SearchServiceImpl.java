@@ -22,7 +22,12 @@ import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.AggregatorFactories;
+import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
+import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.nested.NestedAggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedLongTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.ParsedStringTerms;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
@@ -38,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -145,14 +151,12 @@ public class SearchServiceImpl implements SearchService {
         searchQueryBuilder.withQuery(basicQuery);
 
         // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
-        /*
+        /**
          SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
          searchQueryBuilder.withSourceFilter(sourceFilter2);
          */
 
-        /**
-         *  3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
-         **/
+        //3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
         // 3.1 品牌聚合
         TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.propertyName(SkuModel::getBrandId)).size(60);
         // 商品品牌子聚合: brand_name_agg, brand_img_agg
@@ -160,23 +164,26 @@ public class SearchServiceImpl implements SearchService {
                 .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.propertyName(SkuModel::getBrandName)))
                 .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.propertyName(SkuModel::getBrandImg)))
         );
+
         // 3.2 分类聚合
         TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogId));
         // 分类子聚合: category_name_agg
         termsCategoryAgg.subAggregation(AggregationBuilders.terms("category_name_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogName)));
+
         // 3.3 属性聚合(嵌入式聚合)
-        String attrs = ReflectUtil.propertyName(SkuModel::getAttrs) + ".";
-        NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested("attr_agg", attrs);
-        // 属性子聚合
-        nestedTermsAttrAgg.subAggregations(AggregatorFactories.builder()
-                .addAggregator(AggregationBuilders.terms("attr_id_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId))
-                        .subAggregations(AggregatorFactories.builder()
-                                // 聚合出attr_id对应的attr_name
-                                .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrName)))
-                                // 聚合出attr_id对应的所有可能值attr_value
-                                .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue)).size(50))
+        String attrs = ReflectUtil.propertyName(SkuModel::getAttrs);
+        // 属性子聚合,创建一个嵌入式的子聚合
+        NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested("attr_agg", attrs)
+                .subAggregations(AggregatorFactories.builder().addAggregator(
+                        AggregationBuilders.terms("attr_id_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId))
+                                // 3.3.1 聚合出attr_id对应的attr_name
+                                // 3.3.2 聚合出attr_id对应的所有可能值attr_value
+                                .subAggregations(AggregatorFactories.builder()
+                                        .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrName)))
+                                        .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue)).size(50))
+                                )
                         )
-                ));
+                );
 
         searchQueryBuilder.addAggregation(termsBrandAgg);
         searchQueryBuilder.addAggregation(termsCategoryAgg);
@@ -301,13 +308,38 @@ public class SearchServiceImpl implements SearchService {
         // Tips: restTemplate会根据实体类的注解获取索引信息
         SearchHits<SkuModel> searchHits = restTemplate.search(nativeSearchQuery, SkuModel.class);
         Aggregations aggregations = searchHits.getAggregations();
+
+        /* 保存商品分类 */
+        List<SearchResult.CatalogVO> catalogVos = new ArrayList<>();
+        /* 保存商品属性 */
+        ArrayList<SearchResult.AttrVO> attrVos = Lists.newArrayList();
+        /* 保存商品品牌 */
+        ArrayList<SearchResult.BrandVO> brandVos = Lists.newArrayList();
+        /* 保存商品包屑导航id */
+        ArrayList<Integer> pageNavs = Lists.newArrayList();
+        /* 保存商品面包屑导航 */
+        ArrayList<SearchResult.NavVO> navVos = Lists.newArrayList();
+
+        // 断言聚合结果集不为空,否则抛出异常
         assert aggregations != null;
         for (Aggregation aggregation : aggregations) {
-            Map<String, Object> metadata = aggregation.getMetadata();
             String name = aggregation.getName();
             String type = aggregation.getType();
-            System.out.println("name:" + name + ", type:" + type + ", metadata:" + metadata);
+            log.info("name:" + name + ", type:" + type);
+            // 从聚合结果中解析分类聚合: category_agg
+            if (StringUtils.equals("category_agg", name)) {
+                parsedCategoryAgg(catalogVos, (ParsedLongTerms) aggregation);
+            }
+            // 从聚合结果中解析品牌聚合: brand_agg
+            if (StringUtils.equals("brand_agg", name)) {
+                parsedBrandAgg(brandVos, (Terms) aggregation);
+            }
+            // 从聚合结果中解析属性聚合: attr_agg
+            if (StringUtils.equals("attr_agg", name)) {
+                parsedAttrNestedAgg(attrVos, (Nested) aggregation);
+            }
         }
+
         System.out.println("");
         List<SkuModel> skuModels = searchHits.stream().map(hit -> {
             SkuModel skuModel = hit.getContent();
@@ -323,9 +355,9 @@ public class SearchServiceImpl implements SearchService {
             return skuModel;
         }).collect(Collectors.toList());
 
+        Integer currentPage = param.getPageNum();
         // 总记录数
         long totalRecord = searchHits.getTotalHits();
-        Integer currentPage = param.getPageNum();
         // 分页总页数
         int totalPage = Math.toIntExact((totalRecord + PAGE_SIZE - 1) / PAGE_SIZE);
         // 封装结果数据
@@ -334,11 +366,88 @@ public class SearchServiceImpl implements SearchService {
         result.setPageNum(currentPage);
         result.setTotal(totalRecord);
         result.setTotalPages(totalPage);
-        result.setPageNavs(Lists.newArrayList());
-        result.setBrands(Lists.newArrayList());
-        result.setAttrs(Lists.newArrayList());
-        result.setCatalogs(Lists.newArrayList());
-        result.setNavs(Lists.newArrayList());
+        result.setPageNavs(pageNavs);
+        result.setBrands(brandVos);
+        result.setAttrs(attrVos);
+        result.setCatalogs(catalogVos);
+        result.setNavs(navVos);
         return result;
+    }
+
+    /**
+     * 从聚合结果中解析属性聚合: attr_agg
+     *
+     * @param attrVos     商品属性列表
+     * @param aggregation 聚合结果
+     */
+    private void parsedAttrNestedAgg(ArrayList<SearchResult.AttrVO> attrVos, Nested aggregation) {
+        Terms attrIdTerms = aggregation.getAggregations().get("attr_id_agg");
+        List<? extends Terms.Bucket> attrIdBuckets = attrIdTerms.getBuckets();
+        for (Terms.Bucket bucket : attrIdBuckets) {
+            Terms attrNameTerms = bucket.getAggregations().get("attr_name_agg");
+            Terms attrValueTerms = bucket.getAggregations().get("attr_value_agg");
+            // 商品属性id
+            Long attrId = bucket.getKeyAsNumber().longValue();
+            // 商品属性名
+            String attrName = attrNameTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.joining(""));
+            // 商品属性值
+            List<String> attrValue = attrValueTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.toList());
+            // 封装商品属性数据
+            attrVos.add(SearchResult.AttrVO.builder()
+                    .attrId(attrId)
+                    .attrName(attrName)
+                    .attrValue(attrValue)
+                    .build()
+            );
+        }
+    }
+
+    /**
+     * 从聚合结果中解析品牌聚合: brand_agg
+     *
+     * @param brandVos    商品品牌列表
+     * @param aggregation 聚合结果
+     */
+    private void parsedBrandAgg(ArrayList<SearchResult.BrandVO> brandVos, Terms aggregation) {
+        List<? extends Terms.Bucket> brandBuckets = aggregation.getBuckets();
+        brandBuckets.forEach(brandBucket -> {
+            // 1. 获取品品牌id
+            Long brandId = brandBucket.getKeyAsNumber().longValue();
+            // 2. 获取品品牌名称,品牌图片
+            Terms brandNameTerms = brandBucket.getAggregations().get("brand_name_agg");
+            Terms brandImgTerms = brandBucket.getAggregations().get("brand_img_agg");
+            List<String> nameList = brandNameTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.toList());
+            List<String> imgList = brandImgTerms.getBuckets().stream().map(MultiBucketsAggregation.Bucket::getKeyAsString).collect(Collectors.toList());
+            // 3. 获取品品牌图片
+            brandVos.add(SearchResult.BrandVO.builder()
+                    .brandId(brandId)
+                    .brandName(CollectionUtils.isNotEmpty(nameList) ? nameList.get(0) : "")
+                    .brandImg(CollectionUtils.isNotEmpty(imgList) ? nameList.get(0) : "")
+                    .build()
+            );
+        });
+    }
+
+    /**
+     * 从聚合结果中解析分类聚合: category_agg
+     *
+     * @param catalogVos  商品分类
+     * @param aggregation 聚合结果
+     */
+    private void parsedCategoryAgg(List<SearchResult.CatalogVO> catalogVos, ParsedLongTerms aggregation) {
+        List<? extends Terms.Bucket> buckets = aggregation.getBuckets();
+        buckets.forEach(bucket -> {
+            ParsedStringTerms catalogNameTerms = bucket.getAggregations().get("category_name_agg");
+            List<? extends Terms.Bucket> bucketList = catalogNameTerms.getBuckets();
+            // 获取商品分类id
+            long catalogId = bucket.getKeyAsNumber().longValue();
+            // 获取商品分类名称
+            String catalogName = CollectionUtils.isNotEmpty(bucketList) ? bucketList.get(0).getKeyAsString() : "";
+            // 封装商品分类数据
+            SearchResult.CatalogVO catalogVO = new SearchResult.CatalogVO();
+            catalogVO.setCatalogId(catalogId);
+            catalogVO.setCatalogName(catalogName);
+            catalogVos.add(catalogVO);
+        });
     }
 }
