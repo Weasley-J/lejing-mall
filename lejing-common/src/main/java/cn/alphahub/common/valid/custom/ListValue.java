@@ -20,31 +20,24 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 public @interface ListValue {
+
     /**
-     * 提示信息
-     *
-     * @return 不设置，默认返回classpath下面的默认提示
+     * 提示信息，不设置，默认返回classpath下面的默认提示
      */
     String message() default "{cn.alphahub.common.valid.custom.ListValue.message}";
 
     /**
-     * 所属分组
-     *
-     * @return 分组class数据
+     * 所属Class分组
      */
     Class<?>[] groups() default {};
 
     /**
-     * payload
-     *
-     * @return Payload数组
+     * payload数组
      */
     Class<? extends Payload>[] payload() default {};
 
     /**
      * 默认值列表
-     *
-     * @return 默认值数组
      */
     int[] values() default {};
 }
