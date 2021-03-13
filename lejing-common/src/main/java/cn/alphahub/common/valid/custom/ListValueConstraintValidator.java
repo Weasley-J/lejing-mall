@@ -7,13 +7,15 @@ import java.util.Set;
 
 /**
  * 校验分组-自定义校验器
+ *
+ * @author liuwenjing
  */
 public class ListValueConstraintValidator implements ConstraintValidator<ListValue, Integer> {
 
     /**
      * 前置Set
      */
-    private Set<Integer> VALUE_SET = new LinkedHashSet<>();
+    private Set<Integer> valueSet = new LinkedHashSet<>();
 
     /**
      * 初始化方法
@@ -25,7 +27,7 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
         int[] values = constraintAnnotation.values();
         if (values.length > 0) {
             for (int value : values) {
-                VALUE_SET.add(value);
+                valueSet.add(value);
             }
         }
     }
@@ -39,6 +41,6 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
      */
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
-        return VALUE_SET.contains(value);
+        return valueSet.contains(value);
     }
 }
