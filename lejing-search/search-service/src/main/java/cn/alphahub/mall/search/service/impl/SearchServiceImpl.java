@@ -145,28 +145,28 @@ public class SearchServiceImpl implements SearchService {
         searchQueryBuilder.withQuery(basicQuery);
 
         // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
-        /**
+        /*
          SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
          searchQueryBuilder.withSourceFilter(sourceFilter2);
          */
 
-        // 3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
-        String brandAgg = "brand_agg", categoryAgg = "category_agg", attrAgg = "attr_agg";
+        /**
+         *  3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
+         **/
         // 3.1 品牌聚合
-        TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms(brandAgg);
-        termsBrandAgg.field(ReflectUtil.propertyName(SkuModel::getBrandId)).size(60)
-                // 商品品牌子聚合: brand_name_agg, brand_img_agg
-                .subAggregations(AggregatorFactories.builder()
-                        .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.propertyName(SkuModel::getBrandName)))
-                        .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.propertyName(SkuModel::getBrandImg)))
-                );
+        TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.propertyName(SkuModel::getBrandId)).size(60);
+        // 商品品牌子聚合: brand_name_agg, brand_img_agg
+        termsBrandAgg.subAggregations(AggregatorFactories.builder()
+                .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.propertyName(SkuModel::getBrandName)))
+                .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.propertyName(SkuModel::getBrandImg)))
+        );
         // 3.2 分类聚合
-        TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms(categoryAgg).field(ReflectUtil.propertyName(SkuModel::getCatalogId));
+        TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogId));
         // 分类子聚合: category_name_agg
         termsCategoryAgg.subAggregation(AggregationBuilders.terms("category_name_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogName)));
         // 3.3 属性聚合(嵌入式聚合)
         String attrs = ReflectUtil.propertyName(SkuModel::getAttrs) + ".";
-        NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested(attrAgg, attrs);
+        NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested("attr_agg", attrs);
         // 属性子聚合
         nestedTermsAttrAgg.subAggregations(AggregatorFactories.builder()
                 .addAggregator(AggregationBuilders.terms("attr_id_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId))
@@ -301,6 +301,7 @@ public class SearchServiceImpl implements SearchService {
         // Tips: restTemplate会根据实体类的注解获取索引信息
         SearchHits<SkuModel> searchHits = restTemplate.search(nativeSearchQuery, SkuModel.class);
         Aggregations aggregations = searchHits.getAggregations();
+        assert aggregations != null;
         for (Aggregation aggregation : aggregations) {
             Map<String, Object> metadata = aggregation.getMetadata();
             String name = aggregation.getName();
@@ -310,7 +311,7 @@ public class SearchServiceImpl implements SearchService {
         System.out.println("");
         List<SkuModel> skuModels = searchHits.stream().map(hit -> {
             SkuModel skuModel = hit.getContent();
-            // 替换高亮字段
+            // 替换高亮字段处理
             Map<String, List<String>> highlightFields = hit.getHighlightFields();
             highlightFields.forEach((key, values) -> {
                 String value = values.get(0);
@@ -324,14 +325,13 @@ public class SearchServiceImpl implements SearchService {
 
         // 总记录数
         long totalRecord = searchHits.getTotalHits();
-        Integer pageNum = param.getPageNum();
-        // 总页数
-        // int totalPage = Math.toIntExact(totalRecord % PAGE_SIZE == 0 ? totalRecord % PAGE_SIZE : (totalRecord % PAGE_SIZE + 1));
+        Integer currentPage = param.getPageNum();
+        // 分页总页数
         int totalPage = Math.toIntExact((totalRecord + PAGE_SIZE - 1) / PAGE_SIZE);
         // 封装结果数据
         SearchResult result = new SearchResult();
         result.setProduct(skuModels);
-        result.setPageNum(pageNum);
+        result.setPageNum(currentPage);
         result.setTotal(totalRecord);
         result.setTotalPages(totalPage);
         result.setPageNavs(Lists.newArrayList());
