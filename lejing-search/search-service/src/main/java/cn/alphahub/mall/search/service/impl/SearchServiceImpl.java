@@ -245,7 +245,7 @@ public class SearchServiceImpl implements SearchService {
         }
         // 1.3 filter - 品牌id查询(brandId)
         if (ObjectUtils.isNotEmpty(param.getBrandId())) {
-            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getBrandId), param.getBrandId()));
+            boolQuery.filter(QueryBuilders.termsQuery(ReflectUtil.propertyName(SkuModel::getBrandId), param.getBrandId()));
         }
         // 1.4 filter - 是否有库存查询(hasStock)
         Integer hasStock = param.getHasStock();
@@ -265,7 +265,7 @@ public class SearchServiceImpl implements SearchService {
                 // 构建nested查询构造条件
                 BoolQueryBuilder nestedBoolQuery = QueryBuilders.boolQuery();
                 nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId), attrId));
-                nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
+                nestedBoolQuery.must(QueryBuilders.termsQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
                 // 每个attr都必须生成一个与之对应的nested查询条件
                 NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery(attrsPropertyName, nestedBoolQuery, ScoreMode.None);
                 boolQuery.filter(nestedQuery);
