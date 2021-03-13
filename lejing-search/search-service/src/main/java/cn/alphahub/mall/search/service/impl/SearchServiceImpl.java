@@ -17,25 +17,23 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
-import org.springframework.data.elasticsearch.core.query.FetchSourceFilterBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SourceFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -120,7 +118,7 @@ public class SearchServiceImpl implements SearchService {
             return null;
         }
         // 2 获取Elasticsearch QueryBuilder instances
-        NativeSearchQuery nativeSearchQuery = buildNativeSearchQuery(param);
+        NativeSearchQuery nativeSearchQuery = this.buildNativeSearchQuery(param);
 
         // 3. 从ES从查询数据, 封装查询结果返回
         return this.buildSearchResult(nativeSearchQuery);
@@ -133,40 +131,62 @@ public class SearchServiceImpl implements SearchService {
      * @return a query created from Elasticsearch QueryBuilder instances
      */
     private NativeSearchQuery buildNativeSearchQuery(SearchParam param) {
-        // 自定查询构建器
+        // 初始化一个查询构建器
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
 
-        // 1、对key进行全文检索查询
+        // 1 对key进行全文检索查询
         BoolQueryBuilder basicQuery = buildBoolSearchQuery(param);
         searchQueryBuilder.withQuery(basicQuery);
 
-        //2、通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
+        // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
+        /*
         SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
         searchQueryBuilder.withSourceFilter(sourceFilter2);
+        */
 
-        //2.1 可以是多个高亮字段
-        searchQueryBuilder.withHighlightFields(
-                new HighlightBuilder.Field("all").preTags("<span style='color:red'>").postTags("</span>")
-        );
-
-        //3.1 分页, 分页页码默认从0开始
-        Integer page = 1;
-        Integer size = 2;
-        searchQueryBuilder.withPageable(PageRequest.of(page - 1, size));
-
-        //3.2 添加分类和商品聚合
+        // 3 添加分类和商品聚合
+        /*
         String categoryAggName = "categories", brandAggName = "brands";
         searchQueryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field("cid3"));
         searchQueryBuilder.addAggregation(AggregationBuilders.terms(brandAggName).field("brandId"));
+        */
 
-        //3.3 排序
-        boolean desc = false;
-        searchQueryBuilder.withSort(SortBuilders.fieldSort(null).order(desc ? SortOrder.DESC : SortOrder.ASC));
+        // 4 排序
+        if (StringUtils.isNotBlank(param.getSort())) {
+            String[] sortArray = StringUtils.split(param.getSort(), "_");
+            SortOrder order = StringUtils.equalsIgnoreCase(sortArray[1], SortOrder.ASC.toString()) ? SortOrder.ASC : SortOrder.DESC;
+            FieldSortBuilder sortBuilder = SortBuilders.fieldSort(sortArray[0]).order(order);
+            searchQueryBuilder.withSort(sortBuilder);
+        }
+
+        // 5 分页, 分页页码默认从0开始
+        int page = 1, size = 10;
+        searchQueryBuilder.withPageable(PageRequest.of(page - 1, size));
+
+        // 6 高亮字段
+        if (StringUtils.isNotBlank(param.getKeyword())) {
+            searchQueryBuilder.withHighlightBuilder(buildHighlightBuilder());
+        }
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
         log.info("ES DQL查询语句:\n {}", queryBuilder);
+
         return nativeSearchQuery;
+    }
+
+    /**
+     * <p>构建高亮字段</p>
+     * <em>Settings can control how large fields are summarized to show only selected snippets ("fragments") containing search terms.</em>
+     *
+     * @return 搜索突出显示的高亮构建器
+     */
+    private HighlightBuilder buildHighlightBuilder() {
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.preTags("<span style='color:red'>");
+        highlightBuilder.field(ReflectUtil.propertyName(SkuModel::getSkuTitle));
+        highlightBuilder.postTags("</span>");
+        return highlightBuilder;
     }
 
     /**
@@ -190,12 +210,15 @@ public class SearchServiceImpl implements SearchService {
             boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getBrandId), param.getBrandId()));
         }
         // 1.4 filter - 是否有库存查询(hasStock)
-        boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getHasStock), param.getHasStock()));
+        Integer hasStock = param.getHasStock();
+        if (ObjectUtils.isNotEmpty(hasStock)) {
+            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getHasStock), Objects.equals(hasStock, 1)));
+        }
 
-        // 1.5 filter - 商品属性查询()
+        // 1.5 filter - 商品属性查询(attrs)
         List<String> attrList = param.getAttrs();
         if (CollectionUtils.isNotEmpty(attrList)) {
-            String attrs = ReflectUtil.propertyName(SkuModel::getAttrs);
+            String attrsPropertyName = ReflectUtil.propertyName(SkuModel::getAttrs);
             for (String attr : attrList) {
                 // 切割属性: attr = "attrs=1_5寸:8寸&attrs=3_4核:8核&attrs=3_8G:12G"
                 String[] attrArray = attr.split("_");
@@ -203,10 +226,10 @@ public class SearchServiceImpl implements SearchService {
                 String[] attrValues = attrArray[1].split(":");
                 // 构建nested查询构造条件
                 BoolQueryBuilder nestedBoolQuery = QueryBuilders.boolQuery();
-                nestedBoolQuery.must(QueryBuilders.termQuery(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId), attrId));
-                nestedBoolQuery.must(QueryBuilders.termQuery(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
+                nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId), attrId));
+                nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
                 // 每个attr都必须生成一个与之对应的nested查询条件
-                NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery(attrs, null, ScoreMode.None);
+                NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery(attrsPropertyName, nestedBoolQuery, ScoreMode.None);
                 boolQuery.filter(nestedQuery);
             }
         }
@@ -223,10 +246,10 @@ public class SearchServiceImpl implements SearchService {
             }
             if (length == 1) {
                 if (StringUtils.startsWith(skuPrice, "_")) {
-                    rangeQuery.lte(prices[0]);
+                    rangeQuery.gt(BigDecimal.ZERO).lte(prices[0]);
                 }
                 if (StringUtils.endsWith(skuPrice, "_")) {
-                    rangeQuery.gte(prices[0]);
+                    rangeQuery.gte(prices[0]).lt(Long.MAX_VALUE);
                 }
             }
             boolQuery.filter(rangeQuery);
@@ -243,7 +266,7 @@ public class SearchServiceImpl implements SearchService {
      * @return 搜索结果响应数据实体
      */
     private SearchResult buildSearchResult(NativeSearchQuery nativeSearchQuery) {
-        SearchHits<SearchResult> searchHits = restTemplate.search(nativeSearchQuery, SearchResult.class, IndexCoordinates.of(indexNames));
+        // SearchHits<SearchResult> searchHits = restTemplate.search(nativeSearchQuery, SearchResult.class, IndexCoordinates.of(indexNames));
         return null;
     }
 }

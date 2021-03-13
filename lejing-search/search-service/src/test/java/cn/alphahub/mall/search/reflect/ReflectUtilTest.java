@@ -1,6 +1,7 @@
 package cn.alphahub.mall.search.reflect;
 
 import cn.alphahub.common.reflect.ReflectUtil;
+import cn.alphahub.mall.search.domain.SkuModel;
 import lombok.Data;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class ReflectUtilTest {
     }
 
     @Test
-    void testGetName() {
+    void testGetName1() {
         String property = ReflectUtil.propertyName(Person::getName);
         System.out.println("java property = " + property);
         property = ReflectUtil.propertyName(Person::getAge);
@@ -30,6 +31,11 @@ class ReflectUtilTest {
         System.out.println("java property = " + property);
         property = ReflectUtil.propertyName(Person::getIs);
         System.out.println("java property = " + property);
+    }
+
+    @Test
+    void testGetName2() {
+        System.out.println(ReflectUtil.propertyName(SkuModel::getHasStock));
     }
 
     @Data

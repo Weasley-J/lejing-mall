@@ -26,7 +26,8 @@ public class ReflectUtil {
 
     /**
      * <p>通过Java实体类某个属性的getter方法获取该属性的属性名称</p>
-     * <b>Java实体类:</b>
+     *
+     * <b>Java实体:</b>
      * <pre>
      * public class Person {
      *     private String name;
@@ -52,9 +53,9 @@ public class ReflectUtil {
      */
     public static <T> String propertyName(@NotNull FieldFunction<T, Object> propLambdaExpansion) {
         try {
-            Method replaceMethod = propLambdaExpansion.getClass().getDeclaredMethod("replaceMethod");
-            replaceMethod.setAccessible(true);
-            Object invokeObj = replaceMethod.invoke(propLambdaExpansion);
+            Method writeReplace = propLambdaExpansion.getClass().getDeclaredMethod("writeReplace");
+            writeReplace.setAccessible(true);
+            Object invokeObj = writeReplace.invoke(propLambdaExpansion);
             SerializedLambda serializedLambda = (SerializedLambda) invokeObj;
             // 传入方法名
             String implMethodName = serializedLambda.getImplMethodName();
