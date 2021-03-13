@@ -1,8 +1,9 @@
-package cn.alphahub.mall.product.exception;
+package cn.alphahub.mall.search.exception;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.exception.BusinessCodeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,8 +18,8 @@ import java.util.Map;
  * @author liuwenjing
  */
 @Slf4j
-@RestControllerAdvice(basePackages = {"cn.alphahub.mall.product.controller"})
-public class LejingControllerAdvice {
+@RestControllerAdvice(basePackages = {"cn.alphahub.mall.search.controller"})
+public class SearchControllerAdvice {
 
     /**
      * 数据校验异常

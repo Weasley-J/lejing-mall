@@ -492,8 +492,34 @@ api[15].list.push({
     desc: '批量删除撤销日志表',
 });
 api.push({
-    alias: 'dict',
+    alias: 'IndexController',
     order: '17',
+    link: '&lt;b&gt;首页controller&lt;/b&gt;',
+    desc: '&lt;b&gt;首页Controller&lt;/b&gt;',
+    list: []
+})
+api[16].list.push({
+    order: '1',
+    desc: '进入首页返回所有1级分类',
+});
+api[16].list.push({
+    order: '2',
+    desc: '&lt;b&gt;查出三级分类&lt;/b&gt;key-1级分类,value-2级分类List',
+});
+api[16].list.push({
+    order: '3',
+    desc: '你好，Weasley J！',
+});
+api.push({
+    alias: 'ItemController',
+    order: '18',
+    link: '&lt;b&gt;商品sku_controller&lt;/b&gt;',
+    desc: '&lt;b&gt;商品sku Controller&lt;/b&gt;',
+    list: []
+})
+api.push({
+    alias: 'dict',
+    order: '19',
     link: 'dict_list',
     desc: '数据字典',
     list: []

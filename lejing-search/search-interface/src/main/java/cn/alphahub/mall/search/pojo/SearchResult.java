@@ -45,7 +45,7 @@ public class SearchResult implements Serializable {
     private Integer totalPages;
 
     /**
-     * 面包屑导航数据集合
+     * 面包屑页码数据列表
      */
     private List<Integer> pageNavs;
 

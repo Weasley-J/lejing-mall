@@ -2,13 +2,21 @@ let api = [];
 api.push({
     alias: 'SearchController',
     order: '1',
-    link: '商品搜索controller',
-    desc: '商品搜索Controller',
+    link: '商品搜索首页controller',
+    desc: '商品搜索首页Controller',
     list: []
 })
 api[0].list.push({
     order: '1',
+    desc: '获取搜索结果html视图',
+});
+api[0].list.push({
+    order: '2',
     desc: '保存上架商品至Elasticsearch中',
+});
+api[0].list.push({
+    order: '3',
+    desc: '获取收缩及如果列表',
 });
 api.push({
     alias: 'dict',

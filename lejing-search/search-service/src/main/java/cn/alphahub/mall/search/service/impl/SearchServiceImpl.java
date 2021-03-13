@@ -34,7 +34,6 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
@@ -62,10 +61,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
-    /**
-     * 分页每页显示条数
-     */
-    private final static int PAGE_SIZE = 16;
 
     @Resource
     private ProductRepository repository;
@@ -200,8 +195,10 @@ public class SearchServiceImpl implements SearchService {
 
         // 5 分页, 分页页码默认从0开始
         Integer pageNum = param.getPageNum();
+        Integer pageSize = param.getPageSize();
         int page = Objects.nonNull(pageNum) && pageNum > 0 ? pageNum : 1;
-        searchQueryBuilder.withPageable(PageRequest.of(page - 1, PAGE_SIZE));
+        pageSize = Objects.nonNull(pageSize) && pageSize > 0 ? pageSize : 1;
+        searchQueryBuilder.withPageable(PageRequest.of(page - 1, pageSize));
 
         // 6 高亮字段
         if (StringUtils.isNotBlank(param.getKeyword())) {
@@ -356,10 +353,13 @@ public class SearchServiceImpl implements SearchService {
         }).collect(Collectors.toList());
 
         Integer currentPage = param.getPageNum();
+        Integer pageSize = param.getPageSize();
+        currentPage = Objects.nonNull(currentPage) && currentPage > 0 ? pageSize : 1;
+        pageSize = Objects.nonNull(pageSize) && pageSize > 0 ? pageSize : 1;
         // 总记录数
         long totalRecord = searchHits.getTotalHits();
         // 分页总页数
-        int totalPage = Math.toIntExact((totalRecord + PAGE_SIZE - 1) / PAGE_SIZE);
+        int totalPage = Math.toIntExact((totalRecord + pageSize - 1) / pageSize);
         // 添加分页页码
         for (int i = 1; i <= totalPage; i++) {
             pageNavs.add(i);

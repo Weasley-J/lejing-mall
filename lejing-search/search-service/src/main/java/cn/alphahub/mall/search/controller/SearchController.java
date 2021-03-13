@@ -3,6 +3,7 @@ package cn.alphahub.mall.search.controller;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.exception.BusinessCodeEnum;
+import cn.alphahub.common.valid.QueryGroup;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.pojo.SearchParam;
 import cn.alphahub.mall.search.pojo.SearchResult;
@@ -10,6 +11,7 @@ import cn.alphahub.mall.search.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,12 +34,12 @@ public class SearchController extends BaseController {
     private SearchService searchService;
 
     /**
-     * 获取搜索结果列表
+     * 获取搜索结果html视图
      *
      * @param param 所有可能的搜索参数
      * @return 搜索列表html
      */
-    @GetMapping({"/list.html"})
+    @GetMapping("/list.html")
     public String list(SearchParam param, Model model) {
         // 根据搜索请求参数去ES中检索数据
         SearchResult result = searchService.search(param);
@@ -63,5 +65,17 @@ public class SearchController extends BaseController {
         return save ? BaseResult.ok("保存成功") : BaseResult.fail(
                 BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),
                 BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getMessage());
+    }
+
+    /**
+     * 获取收缩及如果列表
+     *
+     * @param param 搜索请求参数实体
+     * @return 商品搜索结果数据
+     */
+    @ResponseBody
+    @GetMapping("/search/list")
+    public BaseResult<SearchResult> searchResult(@Validated(QueryGroup.class) SearchParam param) {
+        return BaseResult.success(searchService.search(param));
     }
 }
