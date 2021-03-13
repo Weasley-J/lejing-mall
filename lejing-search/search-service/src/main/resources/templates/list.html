@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/static/search/font/iconfont.css">
     <!--<script src="/static/search/./js/jquery-3.2.1.min.js"></script>-->
     <script src="/static/search/./js/jquery-1.12.4.js"></script>
-    <title>Document</title>
+    <title>乐璟商城</title>
 </head>
 <body>
 <!--头部-->
@@ -68,7 +68,8 @@
                 <a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
             </li>
             <li>
-                <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/reg.html" style="color: red;">免费注册</a>
+                <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/reg.html"
+                   style="color: red;">免费注册</a>
             </li>
             <span>|</span>
             <li>
@@ -768,7 +769,8 @@
         </div>
         <div class="JD_ipone_one c">
             <!-- 遍历面包屑功能 -->
-            <a th:href="${nav.link}" th:each="nav:${result.navs}"><span th:text="${nav.navName}"></span>：<span th:text="${nav.navValue}"></span> x</a>
+            <a th:href="${nav.link}" th:each="nav:${result.navs}"><span th:text="${nav.navName}"></span>：<span
+                    th:text="${nav.navValue}"></span> x</a>
         </div>
         <i><img src="/static/search/image/right-@1x.png" alt=""></i>
     </div>
@@ -1192,7 +1194,8 @@
                                 </li>
                                 <li>
                                     <a th:with="check = ${param.hasStock}">
-                                        <input id="showHasStock" type="checkbox" th:checked="${#strings.equals(check,'1')?true:false}">
+                                        <input id="showHasStock" type="checkbox"
+                                               th:checked="${#strings.equals(check,'1')?true:false}">
                                         仅显示有货
                                     </a>
                                 </li>
@@ -1214,8 +1217,8 @@
                                 <a href="/static/search/#">关注</a>
                             </div>
                             <p class="da">
-                                <a th:href="|http://item.lejing.com/${product.skuId}.html|" >
-                                    <img   class="dim" th:src="${product.skuImg}">
+                                <a th:href="|http://item.lejing.com/${product.skuId}.html|">
+                                    <img class="dim" th:src="${product.skuImg}">
                                 </a>
                             </p>
                             <ul class="tab_im">
@@ -2022,7 +2025,7 @@
 
     function searchProducts(name, value) {
         //原來的页面
-        location.href = replaceParamVal(location.href,name,value,true)
+        location.href = replaceParamVal(location.href, name, value, true)
     }
 
 
@@ -2042,11 +2045,11 @@
         return false;
     })
 
-    function replaceParamVal(url, paramName, replaceVal,forceAdd) {
+    function replaceParamVal(url, paramName, replaceVal, forceAdd) {
         var oUrl = url.toString();
         var nUrl;
         if (oUrl.indexOf(paramName) != -1) {
-            if( forceAdd ) {
+            if (forceAdd) {
                 if (oUrl.indexOf("?") != -1) {
                     nUrl = oUrl + "&" + paramName + "=" + replaceVal;
                 } else {
@@ -2070,7 +2073,7 @@
         changeStyle(this);
         let sort = $(this).attr("sort");
         sort = $(this).hasClass("desc") ? sort + "_desc" : sort + "_asc";
-        location.href = replaceParamVal(location.href, "sort", sort,false);
+        location.href = replaceParamVal(location.href, "sort", sort, false);
 
         return false;
     });
@@ -2105,17 +2108,17 @@
         let to = $(`#skuPriceTo`).val();
 
         let query = from + "_" + to;
-        location.href = replaceParamVal(location.href, "skuPrice", query,false);
+        location.href = replaceParamVal(location.href, "skuPrice", query, false);
     });
 
 
     $("#showHasStock").change(function () {
-        alert( $(this).prop("checked") );
-        if( $(this).prop("checked") ) {
-            location.href = replaceParamVal(location.href,"hasStock",1,false);
+        alert($(this).prop("checked"));
+        if ($(this).prop("checked")) {
+            location.href = replaceParamVal(location.href, "hasStock", 1, false);
         } else {
             let re = eval('/(hasStock=)([^&]*)/gi');
-            location.href = (location.href+"").replace(re,"");
+            location.href = (location.href + "").replace(re, "");
         }
         return false;
     });

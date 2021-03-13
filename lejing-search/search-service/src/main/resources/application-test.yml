@@ -9,8 +9,6 @@ spring:
       read-timeout: 40
       username: elastic
       password: 123456
-      # 多个索引库使用英文","逗号隔开
-      index-names: product
   thymeleaf:
     cache: off
 #  rabbitmq:

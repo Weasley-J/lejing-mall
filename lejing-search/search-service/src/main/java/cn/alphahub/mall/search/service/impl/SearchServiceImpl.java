@@ -7,6 +7,7 @@ import cn.alphahub.mall.search.pojo.SearchResult;
 import cn.alphahub.mall.search.repository.ProductRepository;
 import cn.alphahub.mall.search.service.SearchService;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,13 +18,19 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.AggregatorFactories;
+import org.elasticsearch.search.aggregations.bucket.nested.NestedAggregationBuilder;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -33,6 +40,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,12 +55,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
-
     /**
-     * 索引名称
+     * 分页每页显示条数
      */
-    @Value("${spring.elasticsearch.rest.index-names}")
-    private String[] indexNames;
+    private final static int PAGE_SIZE = 16;
 
     @Resource
     private ProductRepository repository;
@@ -121,7 +127,7 @@ public class SearchServiceImpl implements SearchService {
         NativeSearchQuery nativeSearchQuery = this.buildNativeSearchQuery(param);
 
         // 3. 从ES从查询数据, 封装查询结果返回
-        return this.buildSearchResult(nativeSearchQuery);
+        return this.buildSearchResult(nativeSearchQuery, param);
     }
 
     /**
@@ -139,17 +145,42 @@ public class SearchServiceImpl implements SearchService {
         searchQueryBuilder.withQuery(basicQuery);
 
         // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
-        /*
-        SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
-        searchQueryBuilder.withSourceFilter(sourceFilter2);
-        */
+        /**
+         SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
+         searchQueryBuilder.withSourceFilter(sourceFilter2);
+         */
 
-        // 3 添加分类和商品聚合
-        /*
-        String categoryAggName = "categories", brandAggName = "brands";
-        searchQueryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field("cid3"));
-        searchQueryBuilder.addAggregation(AggregationBuilders.terms(brandAggName).field("brandId"));
-        */
+        // 3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
+        String brandAgg = "brand_agg", categoryAgg = "category_agg", attrAgg = "attr_agg";
+        // 3.1 品牌聚合
+        TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms(brandAgg);
+        termsBrandAgg.field(ReflectUtil.propertyName(SkuModel::getBrandId)).size(60)
+                // 商品品牌子聚合: brand_name_agg, brand_img_agg
+                .subAggregations(AggregatorFactories.builder()
+                        .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.propertyName(SkuModel::getBrandName)))
+                        .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.propertyName(SkuModel::getBrandImg)))
+                );
+        // 3.2 分类聚合
+        TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms(categoryAgg).field(ReflectUtil.propertyName(SkuModel::getCatalogId));
+        // 分类子聚合: category_name_agg
+        termsCategoryAgg.subAggregation(AggregationBuilders.terms("category_name_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogName)));
+        // 3.3 属性聚合(嵌入式聚合)
+        String attrs = ReflectUtil.propertyName(SkuModel::getAttrs) + ".";
+        NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested(attrAgg, attrs);
+        // 属性子聚合
+        nestedTermsAttrAgg.subAggregations(AggregatorFactories.builder()
+                .addAggregator(AggregationBuilders.terms("attr_id_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId))
+                        .subAggregations(AggregatorFactories.builder()
+                                // 聚合出attr_id对应的attr_name
+                                .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrName)))
+                                // 聚合出attr_id对应的所有可能值attr_value
+                                .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue)).size(50))
+                        )
+                ));
+
+        searchQueryBuilder.addAggregation(termsBrandAgg);
+        searchQueryBuilder.addAggregation(termsCategoryAgg);
+        searchQueryBuilder.addAggregation(nestedTermsAttrAgg);
 
         // 4 排序
         if (StringUtils.isNotBlank(param.getSort())) {
@@ -160,8 +191,9 @@ public class SearchServiceImpl implements SearchService {
         }
 
         // 5 分页, 分页页码默认从0开始
-        int page = 1, size = 10;
-        searchQueryBuilder.withPageable(PageRequest.of(page - 1, size));
+        Integer pageNum = param.getPageNum();
+        int page = Objects.nonNull(pageNum) && pageNum > 0 ? pageNum : 1;
+        searchQueryBuilder.withPageable(PageRequest.of(page - 1, PAGE_SIZE));
 
         // 6 高亮字段
         if (StringUtils.isNotBlank(param.getKeyword())) {
@@ -265,8 +297,48 @@ public class SearchServiceImpl implements SearchService {
      * @param nativeSearchQuery Elasticsearch QueryBuilder instances
      * @return 搜索结果响应数据实体
      */
-    private SearchResult buildSearchResult(NativeSearchQuery nativeSearchQuery) {
-        // SearchHits<SearchResult> searchHits = restTemplate.search(nativeSearchQuery, SearchResult.class, IndexCoordinates.of(indexNames));
-        return null;
+    private SearchResult buildSearchResult(NativeSearchQuery nativeSearchQuery, SearchParam param) {
+        // Tips: restTemplate会根据实体类的注解获取索引信息
+        SearchHits<SkuModel> searchHits = restTemplate.search(nativeSearchQuery, SkuModel.class);
+        Aggregations aggregations = searchHits.getAggregations();
+        for (Aggregation aggregation : aggregations) {
+            Map<String, Object> metadata = aggregation.getMetadata();
+            String name = aggregation.getName();
+            String type = aggregation.getType();
+            System.out.println("name:" + name + ", type:" + type + ", metadata:" + metadata);
+        }
+        System.out.println("");
+        List<SkuModel> skuModels = searchHits.stream().map(hit -> {
+            SkuModel skuModel = hit.getContent();
+            // 替换高亮字段
+            Map<String, List<String>> highlightFields = hit.getHighlightFields();
+            highlightFields.forEach((key, values) -> {
+                String value = values.get(0);
+                if (StringUtils.equals(key, ReflectUtil.propertyName(SkuModel::getSkuTitle))) {
+                    skuModel.setSkuTitle(value);
+                }
+            });
+            System.out.println(skuModel);
+            return skuModel;
+        }).collect(Collectors.toList());
+
+        // 总记录数
+        long totalRecord = searchHits.getTotalHits();
+        Integer pageNum = param.getPageNum();
+        // 总页数
+        // int totalPage = Math.toIntExact(totalRecord % PAGE_SIZE == 0 ? totalRecord % PAGE_SIZE : (totalRecord % PAGE_SIZE + 1));
+        int totalPage = Math.toIntExact((totalRecord + PAGE_SIZE - 1) / PAGE_SIZE);
+        // 封装结果数据
+        SearchResult result = new SearchResult();
+        result.setProduct(skuModels);
+        result.setPageNum(pageNum);
+        result.setTotal(totalRecord);
+        result.setTotalPages(totalPage);
+        result.setPageNavs(Lists.newArrayList());
+        result.setBrands(Lists.newArrayList());
+        result.setAttrs(Lists.newArrayList());
+        result.setCatalogs(Lists.newArrayList());
+        result.setNavs(Lists.newArrayList());
+        return result;
     }
 }
