@@ -11,7 +11,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -94,7 +93,6 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
      * @return 成功返回true, 失败返回false
      */
     @Override
-    @Cacheable(value = "product:brand", key = "#root.methodName")
     public List<Brand> brandsInfo(List<Long> brandIds) {
         QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
         return baseMapper.selectList(queryWrapper.lambda().in(Brand::getBrandId, brandIds));

@@ -107,7 +107,7 @@ public class AttrController extends BaseController {
      * @return 商品属性详细信息
      */
     @GetMapping("/info/{attrId}")
-    @Cacheable(value = "product:attr", key = "'attrInfo:'+#root.args[0]")
+    @Cacheable(value = "product:attr", key = "'info:'+#root.args[0]")
     public BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId) {
         AttrRespVO attr = attrService.getAttrInfoById(attrId);
         return ObjectUtils.anyNotNull(attr) ? BaseResult.ok(attr) : BaseResult.fail();

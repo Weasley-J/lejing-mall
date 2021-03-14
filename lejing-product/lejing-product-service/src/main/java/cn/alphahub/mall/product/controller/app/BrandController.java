@@ -70,6 +70,7 @@ public class BrandController extends BaseController {
      * @return 品牌详细信息
      */
     @GetMapping("/info/{brandId}")
+    @Cacheable(value = "product:brand", key = "'info:'+#root.args[0]")
     public BaseResult<Brand> info(@PathVariable("brandId") Long brandId) {
         Brand brand = brandService.getById(brandId);
         return ObjectUtils.anyNotNull(brand) ? BaseResult.ok(brand) : BaseResult.fail();
@@ -106,7 +107,7 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    @CacheEvict(value = "product:brand",allEntries = true)
+    @CacheEvict(value = "product:brand", allEntries = true)
     public BaseResult<Boolean> update(@Validated({UpdateGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
         return toOperationResult(update);
@@ -119,7 +120,7 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update/status")
-    @CacheEvict(value = "product:brand",allEntries = true)
+    @CacheEvict(value = "product:brand", allEntries = true)
     public BaseResult<Boolean> updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
         return toOperationResult(update);
