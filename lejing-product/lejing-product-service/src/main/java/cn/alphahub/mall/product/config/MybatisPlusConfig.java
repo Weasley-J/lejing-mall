@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * mybatis plus 分页插件配置
  *
+ * @author Weasley J
  * @link https://mp.baomidou.com/guide/page.html
  */
 @Configuration
