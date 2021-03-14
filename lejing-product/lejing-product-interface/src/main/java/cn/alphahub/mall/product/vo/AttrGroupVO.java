@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * 属性分组-视图对象
+ *
+ * @author liuwenjing
  */
 @Data
 @Builder

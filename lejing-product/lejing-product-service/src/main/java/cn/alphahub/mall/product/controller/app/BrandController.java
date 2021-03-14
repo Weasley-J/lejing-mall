@@ -10,12 +10,16 @@ import cn.alphahub.common.valid.UpdateGroup;
 import cn.alphahub.common.valid.UpdateStatusGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.service.BrandService;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 品牌Controller
@@ -27,6 +31,7 @@ import java.util.Arrays;
 @RestController
 @RequestMapping("product/brand")
 public class BrandController extends BaseController {
+
     @Resource
     private BrandService brandService;
 
@@ -71,6 +76,18 @@ public class BrandController extends BaseController {
     }
 
     /**
+     * 批量获取品牌信息
+     *
+     * @param brandIds 品牌id集合
+     * @return 成功返回true, 失败返回false
+     */
+    @GetMapping("/infos/{brandIds}")
+    public BaseResult<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds) {
+        List<Brand> brands = brandService.brandsInfo(brandIds);
+        return CollectionUtils.isNotEmpty(brands) ? BaseResult.success(brands) : BaseResult.error();
+    }
+
+    /**
      * 新增品牌
      *
      * @param brand 品牌元数据
@@ -89,6 +106,7 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
+    @CacheEvict(value = "product:brand",allEntries = true)
     public BaseResult<Boolean> update(@Validated({UpdateGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
         return toOperationResult(update);
@@ -101,6 +119,7 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update/status")
+    @CacheEvict(value = "product:brand",allEntries = true)
     public BaseResult<Boolean> updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
         return toOperationResult(update);

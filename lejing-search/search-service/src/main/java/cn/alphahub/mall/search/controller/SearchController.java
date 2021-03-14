@@ -9,6 +9,7 @@ import cn.alphahub.mall.search.pojo.SearchParam;
 import cn.alphahub.mall.search.pojo.SearchResult;
 import cn.alphahub.mall.search.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -40,8 +44,12 @@ public class SearchController extends BaseController {
      * @return 搜索列表html
      */
     @GetMapping("/list.html")
-    public String list(SearchParam param, Model model) {
+    public String list(SearchParam param, Model model, HttpServletRequest request) {
+        String queryString = request.getQueryString();
         // 根据搜索请求参数去ES中检索数据
+        if (StringUtils.isNotBlank(queryString)) {
+            param.setQueryString(queryString);
+        }
         SearchResult result = searchService.search(param);
         model.addAttribute("result", result);
         return "list";

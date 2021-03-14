@@ -1,39 +1,25 @@
-package cn.alphahub.mall.product.controller.app;
+package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.ProductAttrValue;
-import cn.alphahub.mall.product.service.AttrService;
-import cn.alphahub.mall.product.service.ProductAttrValueService;
 import cn.alphahub.mall.product.vo.AttrRespVO;
 import cn.alphahub.mall.product.vo.AttrVO;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * 商品属性Controller
+ * 商品属性-远程调用api
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-24 15:36:31
+ * @date 2021年3月14日
  */
 @RestController
 @RequestMapping("product/attr")
-public class AttrController extends BaseController {
-    @Resource
-    private AttrService attrService;
-    @Resource
-    private ProductAttrValueService productAttrValueService;
+public interface AttrApi {
 
     /**
      * 获取spu规格
@@ -42,9 +28,7 @@ public class AttrController extends BaseController {
      * @return spu规格列表
      */
     @GetMapping("/base/listforspu/{spuId}")
-    public BaseResult<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId) {
-        return BaseResult.ok(productAttrValueService.listSpuBySpuId(spuId));
-    }
+    BaseResult<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId);
 
     /**
      * 查询属性base/sale list
@@ -59,7 +43,7 @@ public class AttrController extends BaseController {
      * @return 分页列表
      */
     @GetMapping("/{attrType}/list/{catelogId}")
-    public BaseResult<PageResult<AttrRespVO>> baseList(
+    BaseResult<PageResult<AttrRespVO>> baseList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -67,12 +51,7 @@ public class AttrController extends BaseController {
             @RequestParam(value = "key", defaultValue = "") String key,
             @PathVariable(value = "catelogId") Long catelogId,
             @PathVariable(value = "attrType") String attrType
-    ) {
-        // attrType=1 -> /base/list/{catelogId} | attrType=2 -> /sale/list/{catelogId}
-        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
-        PageResult<AttrRespVO> pageResult = attrService.queryPage(pageDomain, new Attr(), key, catelogId, attrType);
-        return BaseResult.ok(pageResult);
-    }
+    );
 
     /**
      * 查询商品属性列表
@@ -85,20 +64,13 @@ public class AttrController extends BaseController {
      * @return 商品属性分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Attr>> list(
+    BaseResult<PageResult<Attr>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
             @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
             Attr attr
-    ) {
-        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
-        PageResult<Attr> pageResult = attrService.queryPage(pageDomain, attr);
-        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
-        }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
-    }
+    );
 
     /**
      * 获取商品属性详情
@@ -107,11 +79,7 @@ public class AttrController extends BaseController {
      * @return 商品属性详细信息
      */
     @GetMapping("/info/{attrId}")
-    @Cacheable(value = "product:attr", key = "'attrInfo:'+#root.args[0]")
-    public BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId) {
-        AttrRespVO attr = attrService.getAttrInfoById(attrId);
-        return ObjectUtils.anyNotNull(attr) ? BaseResult.ok(attr) : BaseResult.fail();
-    }
+    BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId);
 
     /**
      * 新增商品属性
@@ -120,10 +88,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody AttrVO attr) {
-        boolean save = attrService.saveAttr(attr);
-        return toOperationResult(save);
-    }
+    BaseResult<Boolean> save(@RequestBody AttrVO attr);
 
     /**
      * 修改商品属性
@@ -132,11 +97,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    @CacheEvict(value = "product:attr", allEntries = true)
-    public BaseResult<Boolean> update(@RequestBody AttrVO attr) {
-        boolean update = attrService.updateAttrById(attr);
-        return toOperationResult(update);
-    }
+    BaseResult<Boolean> update(@RequestBody AttrVO attr);
 
     /**
      * 根据spuId修改商品属性
@@ -146,11 +107,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update/{spuId}")
-    @CacheEvict(value = "product:attr", allEntries = true)
-    public BaseResult<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues) {
-        boolean update = productAttrValueService.updateSpuAttr(spuId, attrValues);
-        return toOperationResult(update);
-    }
+    BaseResult<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues);
 
     /**
      * 批量删除商品属性
@@ -159,8 +116,5 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{attrIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] attrIds) {
-        boolean delete = attrService.removeByIds(Arrays.asList(attrIds));
-        return toOperationResult(delete);
-    }
+    BaseResult<Boolean> delete(@PathVariable Long[] attrIds);
 }

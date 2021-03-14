@@ -7,6 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 基础属性
+ *
+ * @author liuwenjing
+ */
 @Data
 @Builder
 @NoArgsConstructor

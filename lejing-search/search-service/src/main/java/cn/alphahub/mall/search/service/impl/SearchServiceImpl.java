@@ -1,11 +1,17 @@
 package cn.alphahub.mall.search.service.impl;
 
+import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.reflect.ReflectUtil;
+import cn.alphahub.mall.product.domain.Brand;
+import cn.alphahub.mall.product.vo.AttrRespVO;
 import cn.alphahub.mall.search.domain.SkuModel;
+import cn.alphahub.mall.search.feign.AttrClient;
+import cn.alphahub.mall.search.feign.BrandClient;
 import cn.alphahub.mall.search.pojo.SearchParam;
 import cn.alphahub.mall.search.pojo.SearchResult;
 import cn.alphahub.mall.search.repository.ProductRepository;
 import cn.alphahub.mall.search.service.SearchService;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -43,12 +49,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -62,10 +71,28 @@ import java.util.stream.Collectors;
 @Service
 public class SearchServiceImpl implements SearchService {
 
+    /**
+     * 商品-Elasticsearch持久层
+     */
     @Resource
     private ProductRepository repository;
+    /**
+     * The ElasticsearchRestTemplate is an implementation of the ElasticsearchOperations interface using the High Level REST Client.
+     *
+     * @link https://docs.spring.io/spring-data/elasticsearch/docs/4.1.5/reference/html/#elasticsearch.operations.resttemplate
+     */
     @Resource
     private ElasticsearchRestTemplate restTemplate;
+    /**
+     * 商品属性-feign远程调用客户端
+     */
+    @Resource
+    private AttrClient attrClient;
+    /**
+     * 品牌信息-feign客户端
+     */
+    @Resource
+    private BrandClient brandClient;
 
     /**
      * 使用spring提供的repository模板方法保存数据至es中
@@ -189,7 +216,7 @@ public class SearchServiceImpl implements SearchService {
             String[] sortArray = StringUtils.split(param.getSort(), "_");
             SortOrder order = StringUtils.equalsIgnoreCase(sortArray[1], SortOrder.ASC.toString()) ? SortOrder.ASC : SortOrder.DESC;
             FieldSortBuilder sortBuilder = SortBuilders.fieldSort(sortArray[0]).order(order);
-            System.out.println("ES 排序查询语句:\n" + sortBuilder);
+            System.out.println("ES 排序查询语句:\n" + JSONUtil.toJsonStr(sortBuilder));
             searchQueryBuilder.withSort(sortBuilder);
         }
 
@@ -207,7 +234,7 @@ public class SearchServiceImpl implements SearchService {
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
-        System.out.println("\nES DQL查询语句:\n" + queryBuilder);
+        System.out.println("\nES DQL查询语句:\n" + queryBuilder + "\n");
         return nativeSearchQuery;
     }
 
@@ -302,6 +329,8 @@ public class SearchServiceImpl implements SearchService {
      * @return 搜索结果响应数据实体
      */
     private SearchResult buildSearchResult(NativeSearchQuery nativeSearchQuery, SearchParam param) {
+        // 初始化一个搜索结果响应数据实体
+        SearchResult result = new SearchResult();
         // Tips: restTemplate会根据实体类的注解获取索引信息
         SearchHits<SkuModel> searchHits = restTemplate.search(nativeSearchQuery, SkuModel.class);
         Aggregations aggregations = searchHits.getAggregations();
@@ -322,7 +351,7 @@ public class SearchServiceImpl implements SearchService {
         for (Aggregation aggregation : aggregations) {
             String name = aggregation.getName();
             String type = aggregation.getType();
-            log.info("name:" + name + ", type:" + type);
+            log.info("aggregation name:" + name + ", aggregation type:" + type);
             // 从聚合结果中解析分类聚合: category_agg
             if (StringUtils.equals("category_agg", name)) {
                 parsedCategoryAgg(catalogVos, (ParsedLongTerms) aggregation);
@@ -333,7 +362,7 @@ public class SearchServiceImpl implements SearchService {
             }
             // 从聚合结果中解析属性聚合: attr_agg
             if (StringUtils.equals("attr_agg", name)) {
-                parsedAttrNestedAgg(attrVos, (Nested) aggregation);
+                parsedAttrNestedAgg(attrVos, (Nested) aggregation, result);
             }
         }
 
@@ -364,42 +393,13 @@ public class SearchServiceImpl implements SearchService {
         for (int i = 1; i <= totalPage; i++) {
             pageNavs.add(i);
         }
+
         // 构建面包屑导航
-        /**
-         if (param.getAttrs() != null && param.getAttrs().size() > 0) {
-         List<SearchResult.NavVo> collect = param.getAttrs().stream().map(attr -> {
-         //1、分析每一个attrs传过来的参数值
-         SearchResult.NavVo navVo = new SearchResult.NavVo();
-         String[] s = attr.split("_");
-         navVo.setNavValue(s[1]);
-         R r = productFeignService.attrInfo(Long.parseLong(s[0]));
-         if (r.getCode() == 0) {
-         AttrResponseVo data = r.getData("attr", new TypeReference<AttrResponseVo>() {
-         });
-         navVo.setNavName(data.getAttrName());
-         } else {
-         navVo.setNavName(s[0]);
-         }
-
-         //2、取消了这个面包屑以后，我们要跳转到哪个地方，将请求的地址url里面的当前置空
-         //拿到所有的查询条件，去掉当前
-         String encode = null;
-         try {
-         encode = URLEncoder.encode(attr,"UTF-8");
-         encode.replace("+","%20");  //浏览器对空格的编码和Java不一样，差异化处理
-         } catch (UnsupportedEncodingException e) {
-         e.printStackTrace();
-         }
-         String replace = param.get_queryString().replace("&attrs=" + attr, "");
-         navVo.setLink("http://search.lejing.com/list.html?" + replace);
-
-         return navVo;
-         }).collect(Collectors.toList());
-         result.setNavs(collect);
-         }*/
+        navVos.addAll(buildNavVoListOfAttr(param, result));
+        navVos.addAll(buildNavVoListOfBrand(param));
+        navVos.addAll(buildNavVoListOfCategory(param));
 
         // 封装结果数据
-        SearchResult result = new SearchResult();
         result.setProduct(skuModels);
         result.setPageNum(currentPage);
         result.setTotal(totalRecord);
@@ -413,12 +413,117 @@ public class SearchServiceImpl implements SearchService {
     }
 
     /**
+     * 构建属性面包屑导航
+     *
+     * @param param  请求参数
+     * @param result 搜索结果响应数据实
+     * @return 页面面包屑导航列表
+     */
+    private List<SearchResult.NavVO> buildNavVoListOfAttr(SearchParam param, SearchResult result) {
+        List<SearchResult.NavVO> navVos = new ArrayList<>();
+        List<String> attrs = param.getAttrs();
+        if (CollectionUtils.isNotEmpty(attrs)) {
+            navVos = attrs.stream().map(attr -> {
+                SearchResult.NavVO navVO = new SearchResult.NavVO();
+                // attr=2_5寸:6寸
+                String[] attrsArray = attr.split("_");
+                Long attrId = Long.parseLong(attrsArray[0]);
+
+                result.getAttrIds().add(attrId);
+
+                String navValue = attrsArray[1];
+                // 远程调用商品服务查询属性元数据信息
+                BaseResult<AttrRespVO> baseResult = attrClient.info(attrId);
+                if (baseResult.getSuccess()) {
+                    AttrRespVO attrRespVO = baseResult.getData();
+                    log.info("远程调用商品服务成功,响应数据{}", attrRespVO);
+                    String attrName = attrRespVO.getAttrName();
+                    navVO.setNavName(attrName);
+                } else {
+                    log.info("远程调用商品服务失败");
+                }
+                // 设置跳转，要跳转的页面，将请求的url里面当前的查询条件置空，无吊当前
+                String replace = replaceQueryString(param, "attr", attr);
+                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVO.setNavValue(navValue);
+                // 返回数据
+                return navVO;
+            }).collect(Collectors.toList());
+        }
+        return navVos;
+    }
+
+    /**
+     * 构建品牌面包屑导航
+     *
+     * @param param 请求参数
+     * @return 面包屑导航列表
+     */
+    private List<SearchResult.NavVO> buildNavVoListOfBrand(SearchParam param) {
+        List<SearchResult.NavVO> navVos = new ArrayList<>();
+        // 品牌
+        if (CollectionUtils.isNotEmpty(param.getBrandId())) {
+            BaseResult<List<Brand>> baseResult = brandClient.brandsInfo(param.getBrandId());
+            if (baseResult.getSuccess()) {
+                List<Brand> brands = baseResult.getData();
+                SearchResult.NavVO navVO = new SearchResult.NavVO();
+                log.info("远程调用商品服务查询品牌信息成功,响应数据:\n{}", JSONUtil.toJsonPrettyStr(brands));
+                AtomicReference<String> replace = new AtomicReference<>("");
+                String brandNames = brands.stream().map(brand -> {
+                    replace.set(replaceQueryString(param, ReflectUtil.propertyName(Brand::getBrandId), brand.getBrandId().toString()));
+                    return brand.getName();
+                }).collect(Collectors.joining(";"));
+                navVO.setNavName("品牌");
+                navVO.setNavValue(brandNames);
+                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVos.add(navVO);
+            } else {
+                log.info("远程调用商品服务查询品牌信息失败");
+            }
+        }
+        return navVos;
+    }
+
+    /**
+     * 构建分类面包屑导航
+     *
+     * @param param 请求参数
+     * @return 面包屑导航列表
+     */
+    private List<SearchResult.NavVO> buildNavVoListOfCategory(SearchParam param) {
+        List<SearchResult.NavVO> navVos = new ArrayList<>();
+        // 品牌
+        if (ObjectUtils.isNotEmpty(param.getCatalog3Id())) {
+            // TODO 构建分类面包屑导航
+        }
+        return navVos;
+    }
+
+    /**
+     * 替换跳转的URL字符串
+     *
+     * @param param 搜索请求参数实体
+     * @param key   要替换的字符串
+     * @param value 要替换的内容
+     * @return 替换后的URL字符串
+     */
+    private String replaceQueryString(SearchParam param, String key, String value) {
+        String queryString = param.getQueryString();
+        String encodedAttr = URLEncoder.encode(value, StandardCharsets.UTF_8);
+        // 浏览器对空格的编码和Java不一样，差异化处理
+        encodedAttr = StringUtils.replaceChars(encodedAttr, "+", "%20");
+        return queryString.replace("&" + key + "=" + encodedAttr, "");
+    }
+
+    /**
      * 从聚合结果中解析属性聚合: attr_agg
      *
      * @param attrVos     商品属性列表
      * @param aggregation 聚合结果
+     * @param result      搜索结果响应数据实体
      */
-    private void parsedAttrNestedAgg(List<SearchResult.AttrVO> attrVos, Nested aggregation) {
+    private void parsedAttrNestedAgg(List<SearchResult.AttrVO> attrVos, Nested aggregation, SearchResult result) {
+        List<Long> attrIds = Lists.newArrayList();
         Terms attrIdTerms = aggregation.getAggregations().get("attr_id_agg");
         List<? extends Terms.Bucket> attrIdBuckets = attrIdTerms.getBuckets();
         for (Terms.Bucket bucket : attrIdBuckets) {
@@ -437,7 +542,10 @@ public class SearchServiceImpl implements SearchService {
                     .attrValue(attrValue)
                     .build()
             );
+            // 相当于改集合被使用
+            attrIds.add(attrId);
         }
+        result.setAttrIds(attrIds);
     }
 
     /**

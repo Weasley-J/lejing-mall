@@ -5,13 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * @author liuwenjing
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bounds {
+public class Bounds implements Serializable {
 
     private BigDecimal buyBounds;
 

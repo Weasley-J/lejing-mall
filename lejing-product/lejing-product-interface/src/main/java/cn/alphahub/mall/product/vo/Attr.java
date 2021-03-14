@@ -7,11 +7,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * @author liuwenjing
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Attr {
+public class Attr implements Serializable {
 
     @JsonSerialize(using = IdSerializer.class)
     private Long attrId;

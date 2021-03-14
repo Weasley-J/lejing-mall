@@ -25,6 +25,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -213,9 +214,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
         AttrAttrgroupRelation attrgroupRelation = null;
         if (Objects.equals(attr.getAttrType(), ProductConstant.AttrEnum.BASE.getCode())) {
             //设置分组信息
-            attrgroupRelation = attrAttrgroupRelationMapper.selectOne(
-                    wrapper.lambda().eq(AttrAttrgroupRelation::getAttrId, attrId)
-            );
+            //attrgroupRelation
+            List<AttrAttrgroupRelation> relations = attrAttrgroupRelationMapper.selectList(wrapper.lambda().eq(AttrAttrgroupRelation::getAttrId, attrId));
+            if (CollectionUtils.isNotEmpty(relations)){
+                attrgroupRelation=relations.get(0);
+            }
         }
 
         AttrGroup attrGroup = attrGroupMapper.selectById(attrId);

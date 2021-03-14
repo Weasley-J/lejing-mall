@@ -5,11 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * @author liuwenjing
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Images {
+public class Images implements Serializable {
 
     private String imgUrl;
 

@@ -7,14 +7,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * @author liuwenjing
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpuSaveVO {
+public class SpuSaveVO implements Serializable {
 
     private String spuName;
 

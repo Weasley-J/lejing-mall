@@ -5,6 +5,8 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Brand;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * 品牌Service接口
  *
@@ -40,4 +42,12 @@ public interface BrandService extends IService<Brand> {
      * @return 成功返回true, 失败返回false
      */
     boolean updateDetailById(Brand brand);
+
+    /**
+     * 批量获取品牌信息
+     *
+     * @param brandIds 品牌id集合
+     * @return 成功返回true, 失败返回false
+     */
+    List<Brand> brandsInfo(List<Long> brandIds);
 }

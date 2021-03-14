@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -72,6 +74,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
+    @CacheEvict(value = "product:brand", allEntries = true)
     public boolean updateDetailById(Brand brand) {
         boolean b1 = false, b2 = false;
         b1 = this.updateById(brand);
@@ -79,10 +82,22 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         if (StringUtils.isNotEmpty(brand.getName())) {
             //同步更关联表中的数据
             b2 = categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
-
             // TODO 更新其他关联表
         }
         return b1 && b2;
+    }
+
+    /**
+     * 批量获取品牌信息
+     *
+     * @param brandIds 品牌id集合
+     * @return 成功返回true, 失败返回false
+     */
+    @Override
+    @Cacheable(value = "product:brand", key = "#root.methodName")
+    public List<Brand> brandsInfo(List<Long> brandIds) {
+        QueryWrapper<Brand> queryWrapper = new QueryWrapper<>();
+        return baseMapper.selectList(queryWrapper.lambda().in(Brand::getBrandId, brandIds));
     }
 
     /**

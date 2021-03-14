@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,9 +71,17 @@ public class SearchResult implements Serializable {
     private List<NavVO> navs;
 
     /**
+     * 属性id面包屑导航数据
+     */
+    private List<Long> attrIds = new ArrayList<>();
+
+    /**
      * 搜索页面面包屑导航
      */
     @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class NavVO {
         /**
          * 导航名称

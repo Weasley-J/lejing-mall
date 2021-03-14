@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 属性分组关联关系-视图对象
+ * @author liuwenjing
  */
 @Data
 @NoArgsConstructor

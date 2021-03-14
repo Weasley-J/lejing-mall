@@ -31,6 +31,12 @@
             <artifactId>search-interface</artifactId>
             <version>${lejing-mall.latest.version}</version>
         </dependency>
+        <!-- 通过feign远程地调用product服务的接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-product-interface</artifactId>
+            <version>${lejing-mall.latest.version}</version>
+        </dependency>
         <!-- feign远程调用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class SearchParam implements Serializable {
     /**
      * 品牌id,可以多选
      */
-    private List<Long> brandId;
+    private List<Long> brandId = new ArrayList<>();
 
     /**
      * 三级分类id
@@ -55,7 +56,7 @@ public class SearchParam implements Serializable {
     private String skuPrice;
 
     /**
-     * 按照属进行筛选, 格式: attrId_attrValue, 如: attr = attrs=1_5寸:8寸&attrs=3_4核:8核&attrs=3_8G:12G
+     * 按照属性进行筛选, 格式: attrId_attrValue, 如: attr = attrs=1_5寸:8寸&attrs=3_4核:8核&attrs=3_8G:12G
      */
     private List<String> attrs;
 
@@ -71,7 +72,11 @@ public class SearchParam implements Serializable {
     private Integer pageSize = 16;
 
     /**
-     * 原生的所有查询条件
+     * HttpServletRequest原生的所有查询条件
+     * <p>
+     * a <code>String</code> containing the query string or
+     * <code>null</code> if the URL contains no query string. The value
+     * is not decoded by the container.
      */
-    private String _queryString;
+    private String queryString;
 }

@@ -52,7 +52,7 @@ public class SecondCategoryVO implements Serializable {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ThirdCategoryVO {
+    public static class ThirdCategoryVO implements Serializable {
 
         /**
          * 父分类、二级分类id
