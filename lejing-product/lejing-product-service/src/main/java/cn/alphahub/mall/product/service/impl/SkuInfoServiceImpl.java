@@ -158,7 +158,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
         // 分装数据返回
         SkuItemVO itemVO = new SkuItemVO();
         itemVO.setInfo(skuInfo);
-        //itemVO.setHasStock(hasStock);
+        itemVO.setHasStock(true);
         itemVO.setImages(images);
         itemVO.setSaleAttr(saleAttr);
         itemVO.setDesc(spuInfoDesc);

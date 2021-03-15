@@ -33,7 +33,7 @@ public class SkuItemVO implements Serializable {
     /**
      * 是否有库存
      */
-    private Boolean hasStock = true;
+    private Boolean hasStock;
 
     /**
      * 秒杀商品的优惠信息
