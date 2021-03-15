@@ -492,7 +492,7 @@ public class SearchServiceImpl implements SearchService {
      */
     private List<SearchResult.NavVO> buildNavVoListOfCategory(SearchParam param) {
         List<SearchResult.NavVO> navVos = new ArrayList<>();
-        // 品牌
+        // 分类
         if (ObjectUtils.isNotEmpty(param.getCatalog3Id())) {
             // TODO 构建分类面包屑导航
         }
