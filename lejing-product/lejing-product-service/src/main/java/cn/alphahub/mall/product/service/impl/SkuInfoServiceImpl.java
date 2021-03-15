@@ -136,7 +136,6 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
         SkuInfo skuInfo = this.getById(skuId);
         // 准备基础参数
         SeckillSkuVO seckillSkuVo = new SeckillSkuVO();
-        Boolean hasStock = Boolean.FALSE;
         ArrayList<SkuImages> images = Lists.newArrayList();
         ArrayList<SkuItemSaleAttrVO> saleAttr = Lists.newArrayList();
         ArrayList<SpuItemAttrGroupVO> groupAttrs = Lists.newArrayList();
@@ -159,7 +158,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
         // 分装数据返回
         SkuItemVO itemVO = new SkuItemVO();
         itemVO.setInfo(skuInfo);
-        itemVO.setHasStock(hasStock);
+        //itemVO.setHasStock(hasStock);
         itemVO.setImages(images);
         itemVO.setSaleAttr(saleAttr);
         itemVO.setDesc(spuInfoDesc);
