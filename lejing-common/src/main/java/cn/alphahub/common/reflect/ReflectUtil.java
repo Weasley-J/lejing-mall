@@ -47,15 +47,15 @@ public class ReflectUtil {
      * ReflectUtil.property(Person::getIsEnable)  = isEnable
      * </pre>
      *
-     * @param propLambdaExpansion 属性名称lambda表达式
-     * @param <T>                 Java Bean的类型
+     * @param domainLambdaExpansion 属性名称lambda表达式
+     * @param <T>                   Java Bean的类型
      * @return 属性名称
      */
-    public static <T> String property(@NotNull FieldFunction<T, Object> propLambdaExpansion) {
+    public static <T> String property(@NotNull FieldFunction<T, Object> domainLambdaExpansion) {
         try {
-            Method writeReplace = propLambdaExpansion.getClass().getDeclaredMethod("writeReplace");
+            Method writeReplace = domainLambdaExpansion.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
-            Object invokeObj = writeReplace.invoke(propLambdaExpansion);
+            Object invokeObj = writeReplace.invoke(domainLambdaExpansion);
             SerializedLambda serializedLambda = (SerializedLambda) invokeObj;
             // 传入方法名
             String implMethodName = serializedLambda.getImplMethodName();
