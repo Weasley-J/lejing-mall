@@ -133,18 +133,22 @@ api[3].list.push({
 });
 api[3].list.push({
     order: '3',
-    desc: '新增品牌',
+    desc: '批量获取品牌信息',
 });
 api[3].list.push({
     order: '4',
-    desc: '修改品牌',
+    desc: '新增品牌',
 });
 api[3].list.push({
     order: '5',
-    desc: '修改品牌状态',
+    desc: '修改品牌',
 });
 api[3].list.push({
     order: '6',
+    desc: '修改品牌状态',
+});
+api[3].list.push({
+    order: '7',
     desc: '批量删除品牌',
 });
 api.push({
