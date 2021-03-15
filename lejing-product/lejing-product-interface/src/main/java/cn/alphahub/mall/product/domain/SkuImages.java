@@ -24,34 +24,34 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_sku_images")
 public class SkuImages implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * sku_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * 图片地址
-	 */
+    /**
+     * 图片地址
+     */
     private String imgUrl;
 
-	/**
-	 * 排序
-	 */
+    /**
+     * 排序
+     */
     private Integer imgSort;
 
-	/**
-	 * 默认图[0 - 不是默认图，1 - 是默认图]
-	 */
+    /**
+     * 默认图[0 - 不是默认图，1 - 是默认图]
+     */
     private Integer defaultImg;
 
 }

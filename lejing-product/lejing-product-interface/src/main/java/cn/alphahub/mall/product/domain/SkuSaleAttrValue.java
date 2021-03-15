@@ -24,40 +24,40 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_sku_sale_attr_value")
 public class SkuSaleAttrValue implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * sku_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * attr_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long attrId;
+    /**
+     * attr_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long attrId;
 
-	/**
-	 * 销售属性名
-	 */
+    /**
+     * 销售属性名
+     */
     private String attrName;
 
-	/**
-	 * 销售属性值
-	 */
+    /**
+     * 销售属性值
+     */
     private String attrValue;
 
-	/**
-	 * 顺序
-	 */
+    /**
+     * 顺序
+     */
     private Integer attrSort;
 
 }

@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * 保存Spu-VO
+ *
  * @author liuwenjing
  */
 @Data
@@ -20,27 +22,60 @@ import java.util.List;
 @AllArgsConstructor
 public class SpuSaveVO implements Serializable {
 
+    /**
+     * spu名称
+     */
     private String spuName;
 
+    /**
+     * spu描述
+     */
     private String spuDescription;
 
+    /**
+     * spu三级分类id
+     */
     @JsonSerialize(using = IdSerializer.class)
     private Long catalogId;
 
+    /**
+     * spu品牌id
+     */
     @JsonSerialize(using = IdSerializer.class)
     private Long brandId;
 
+    /**
+     * 重量
+     */
     private BigDecimal weight;
 
-    private int publishStatus;
+    /**
+     * 发布状态
+     */
+    private Integer publishStatus;
 
+    /**
+     * 详情描述
+     */
     private List<String> decript;
 
+    /**
+     * 图片列表
+     */
     private List<String> images;
 
+    /**
+     * 优惠信息
+     */
     private Bounds bounds;
 
+    /**
+     * 基础属性列表
+     */
     private List<BaseAttrs> baseAttrs;
 
+    /**
+     * 商品sku列表
+     */
     private List<Skus> skus;
 }

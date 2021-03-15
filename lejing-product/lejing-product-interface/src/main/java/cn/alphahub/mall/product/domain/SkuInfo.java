@@ -25,66 +25,66 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("pms_sku_info")
 public class SkuInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * skuId
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * skuId
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * spuId
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long spuId;
+    /**
+     * spuId
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long spuId;
 
-	/**
-	 * sku名称
-	 */
+    /**
+     * sku名称
+     */
     private String skuName;
 
-	/**
-	 * sku介绍描述
-	 */
+    /**
+     * sku介绍描述
+     */
     private String skuDesc;
 
-	/**
-	 * 所属分类id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long catalogId;
+    /**
+     * 所属分类id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long catalogId;
 
-	/**
-	 * 品牌id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long brandId;
+    /**
+     * 品牌id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long brandId;
 
-	/**
-	 * 默认图片
-	 */
+    /**
+     * 默认图片
+     */
     private String skuDefaultImg;
 
-	/**
-	 * 标题
-	 */
+    /**
+     * 标题
+     */
     private String skuTitle;
 
-	/**
-	 * 副标题
-	 */
+    /**
+     * 副标题
+     */
     private String skuSubtitle;
 
-	/**
-	 * 价格
-	 */
+    /**
+     * 价格
+     */
     private BigDecimal price;
 
-	/**
-	 * 销量
-	 */
+    /**
+     * 销量
+     */
     private Long saleCount;
 
 }

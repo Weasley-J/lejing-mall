@@ -8,21 +8,25 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 商品图片
+ * <b>商品属性值skuId列表-VO</b>
  *
  * @author liuwenjing
+ * @version 1.0
+ * @date 2021/03/15
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Images implements Serializable {
+public class AttrValueSkuIdVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
-     * 图片URL
+     * 属性值
      */
-    private String imgUrl;
+    private String attrValue;
+
     /**
-     * 默认图片
+     * 商品skuId集合
      */
-    private Integer defaultImg;
+    private String skuIds;
 }

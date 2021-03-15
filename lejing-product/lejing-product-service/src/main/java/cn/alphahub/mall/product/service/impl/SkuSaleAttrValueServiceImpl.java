@@ -5,10 +5,12 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
 import cn.alphahub.mall.product.mapper.SkuSaleAttrValueMapper;
 import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
+import cn.alphahub.mall.product.vo.SkuItemSaleAttrVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,16 +32,22 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueMap
      */
     @Override
     public PageResult<SkuSaleAttrValue> queryPage(PageDomain pageDomain, SkuSaleAttrValue skuSaleAttrValue) {
-        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<SkuSaleAttrValue> wrapper = new QueryWrapper<>(skuSaleAttrValue);
-        // 2. 创建一个分页对象
         PageResult<SkuSaleAttrValue> pageResult = new PageResult<>();
-        // 3. 开始分页
         pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
         List<SkuSaleAttrValue> skuSaleAttrValueList = this.list(wrapper);
-        // 5. 分装并返回数据
-        return pageResult.getPage(skuSaleAttrValueList);
+        return pageResult.getPage(this.list(wrapper));
+    }
+
+    /**
+     * 获取spu销售属性组合
+     *
+     * @param spuId 商品spuId
+     * @return 销售属性组合
+     */
+    @Override
+    public Collection<? extends SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId) {
+        return this.baseMapper.getSaleAttrBySpuId(spuId);
     }
 
 }

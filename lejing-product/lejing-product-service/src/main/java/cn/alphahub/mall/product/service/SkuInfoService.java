@@ -3,6 +3,7 @@ package cn.alphahub.mall.product.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.alphahub.mall.product.vo.SkuItemVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -28,12 +29,13 @@ public interface SkuInfoService extends IService<SkuInfo> {
     /**
      * 查询sku信息列表
      *
-     * @param key       检索关键字
-     * @param catelogId 三級分類id
-     * @param brandId   品牌id
-     * @param min       最低價格
-     * @param max       最大價格
-     * @return sku信息分页数据
+     * @param pageDomain Pagehelper分页对象
+     * @param key        检索关键字
+     * @param catelogId  三級分類id
+     * @param brandId    品牌id
+     * @param min        最低價格
+     * @param max        最大價格
+     * @return sku信息分页列表
      */
     PageResult<SkuInfo> queryPage(PageDomain pageDomain, String key, Long catelogId, Long brandId, Long min, Long max);
 
@@ -44,5 +46,13 @@ public interface SkuInfoService extends IService<SkuInfo> {
      * @return 所有sku信息
      */
     List<SkuInfo> getSkusBySpuId(Long spuId);
+
+    /**
+     * 根据skuId获取商品详情
+     *
+     * @param skuId 商品skuId
+     * @return 商品详情页数据
+     */
+    SkuItemVO getSkuItemBySkuId(Long skuId);
 
 }

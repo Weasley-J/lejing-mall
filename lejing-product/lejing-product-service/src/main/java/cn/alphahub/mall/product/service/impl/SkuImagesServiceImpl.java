@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,6 +41,19 @@ public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesMapper, SkuImages
         List<SkuImages> skuImagesList = this.list(wrapper);
         // 5. 分装并返回数据
         return pageResult.getPage(skuImagesList);
+    }
+
+    /**
+     * 获取skuId的对应的图片列表
+     *
+     * @param skuId 商品skuId
+     * @return 图片集合
+     */
+    @Override
+    public Collection<? extends SkuImages> getImagesBySkuId(Long skuId) {
+        QueryWrapper<SkuImages> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SkuImages::getSkuId, skuId);
+        return this.list(wrapper);
     }
 
 }

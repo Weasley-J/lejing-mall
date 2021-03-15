@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
+ * 优惠信息
+ *
  * @author liuwenjing
  */
 @Data

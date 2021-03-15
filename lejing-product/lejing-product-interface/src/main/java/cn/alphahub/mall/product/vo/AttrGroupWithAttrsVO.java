@@ -54,6 +54,9 @@ public class AttrGroupWithAttrsVO implements Serializable {
     @JsonSerialize(using = IdSerializer.class)
     private Long catelogId;
 
+    /**
+     * 商品属性列表
+     */
     private List<Attr> attrs;
 
 }

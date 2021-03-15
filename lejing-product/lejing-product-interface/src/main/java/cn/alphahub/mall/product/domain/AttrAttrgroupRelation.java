@@ -24,30 +24,30 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_attr_attrgroup_relation")
 public class AttrAttrgroupRelation implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 属性id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long attrId;
+    /**
+     * 属性id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long attrId;
 
-	/**
-	 * 属性分组id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long attrGroupId;
+    /**
+     * 属性分组id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long attrGroupId;
 
-	/**
-	 * 属性组内排序
-	 */
+    /**
+     * 属性组内排序
+     */
     private Integer attrSort;
 
 }

@@ -6,23 +6,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * 商品图片
+ * <b>商品sku属性组-VO</b>
  *
  * @author liuwenjing
+ * @version 1.0
+ * @date 2021/03/15
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Images implements Serializable {
+public class SpuItemAttrGroupVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
-     * 图片URL
+     * 属性名
      */
-    private String imgUrl;
+    private String groupName;
+
     /**
-     * 默认图片
+     * 属性集合
      */
-    private Integer defaultImg;
+    private List<Attr> attrs;
 }

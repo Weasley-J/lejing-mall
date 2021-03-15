@@ -24,24 +24,24 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_comment_replay")
 public class CommentReplay implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 评论id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long commentId;
+    /**
+     * 评论id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long commentId;
 
-	/**
-	 * 回复id
-	 */
+    /**
+     * 回复id
+     */
     private Long replyId;
 
 }

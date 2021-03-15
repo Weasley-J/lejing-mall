@@ -1,38 +1,36 @@
 package cn.alphahub.mall.product.vo;
 
-import cn.alphahub.common.util.IdSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * 商品sku属性
+ * <b>商品详情页销售属性-VO</b>
  *
  * @author liuwenjing
+ * @version 1.0
+ * @date 2021/03/15
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Attr implements Serializable {
-
+public class SkuItemSaleAttrVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     /**
      * 属性id
      */
-    @JsonSerialize(using = IdSerializer.class)
     private Long attrId;
-
     /**
      * 属性名
      */
     private String attrName;
-
     /**
-     * 属性值
+     * skuId销售属性值集合
      */
-    private String attrValue;
+    private List<AttrValueSkuIdVO> attrValues;
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 基础属性
  *
@@ -16,12 +18,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseAttrs {
-
+public class BaseAttrs implements Serializable {
+    /**
+     * 属性id
+     */
     @JsonSerialize(using = IdSerializer.class)
     private Long attrId;
 
+    /**
+     * 属性值
+     */
     private String attrValues;
 
-    private int showDesc;
+    /**
+     * 显示描述信息
+     */
+    private Integer showDesc;
 }

@@ -1,5 +1,6 @@
 package cn.alphahub.mall.product.controller.web;
 
+import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.product.domain.Category;
 import cn.alphahub.mall.product.service.CategoryService;
@@ -23,7 +24,7 @@ import java.util.Map;
  * @date 2021/03/09
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
 
     @Resource
     private RedissonClient redissonClient;

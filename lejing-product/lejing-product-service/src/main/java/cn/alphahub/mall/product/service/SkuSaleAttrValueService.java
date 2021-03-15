@@ -3,7 +3,10 @@ package cn.alphahub.mall.product.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
+import cn.alphahub.mall.product.vo.SkuItemSaleAttrVO;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Collection;
 
 /**
  * sku销售属性&值Service接口
@@ -23,4 +26,11 @@ public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValue> {
      */
     PageResult<SkuSaleAttrValue> queryPage(PageDomain pageDomain, SkuSaleAttrValue skuSaleAttrValue);
 
+    /**
+     * 获取spu销售属性组合
+     *
+     * @param spuId 商品spuId
+     * @return 销售属性组合
+     */
+    Collection<? extends SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId);
 }

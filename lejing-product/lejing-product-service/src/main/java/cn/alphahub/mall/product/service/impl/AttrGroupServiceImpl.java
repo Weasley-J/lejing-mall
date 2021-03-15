@@ -8,6 +8,7 @@ import cn.alphahub.mall.product.mapper.AttrGroupMapper;
 import cn.alphahub.mall.product.service.AttrGroupService;
 import cn.alphahub.mall.product.service.AttrService;
 import cn.alphahub.mall.product.vo.AttrGroupWithAttrsVO;
+import cn.alphahub.mall.product.vo.SpuItemAttrGroupVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
@@ -23,7 +24,6 @@ import java.util.stream.Collectors;
  * 属性分组Service业务层处理
  *
  * @author Weasley J
- * @email 1432689025@qq.com
  * @date 2021-02-24 15:36:31
  */
 @Service
@@ -59,7 +59,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
      * @param pageDomain 分页数据
      * @param attrGroup  分页对象
      * @param key        查询关键字
-     * @return
+     * @return 属性分组分页
      */
     @Override
     public PageResult<AttrGroup> queryPage(PageDomain pageDomain, AttrGroup attrGroup, String key) {
@@ -96,5 +96,17 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
                 .totalPage(pageInfo.getPages())
                 .items(pageInfo.getList())
                 .build();
+    }
+
+    /**
+     * 根据商品spuId获取商品sku的对应属性组
+     *
+     * @param catalogId 三级分类id
+     * @param spuId     商品spuId
+     * @return 商品sku属性列表
+     */
+    @Override
+    public List<SpuItemAttrGroupVO> listBySpuIdAndCatalogId(Long catalogId, Long spuId) {
+        return this.baseMapper.listBySpuIdAndCatalogId(catalogId, spuId);
     }
 }

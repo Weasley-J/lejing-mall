@@ -26,55 +26,55 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("pms_spu_info")
 public class SpuInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 商品id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * 商品id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 商品名称
-	 */
+    /**
+     * 商品名称
+     */
     private String spuName;
 
-	/**
-	 * 商品描述
-	 */
+    /**
+     * 商品描述
+     */
     private String spuDescription;
 
-	/**
-	 * 所属分类id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long catalogId;
+    /**
+     * 所属分类id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long catalogId;
 
-	/**
-	 * 品牌id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long brandId;
+    /**
+     * 品牌id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long brandId;
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     private BigDecimal weight;
 
-	/**
-	 * 上架状态[0 - 下架，1 - 上架]
-	 */
+    /**
+     * 上架状态[0 - 下架，1 - 上架]
+     */
     private Integer publishStatus;
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     private Date createTime;
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     private Date updateTime;
 
 }
