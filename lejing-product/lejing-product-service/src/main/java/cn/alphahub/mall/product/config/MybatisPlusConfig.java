@@ -23,7 +23,7 @@ public class MybatisPlusConfig {
     /**
      * 最新版分页配置
      *
-     * @return MybatisPlusInterceptor示例
+     * @return MybatisPlusInterceptor实例
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
