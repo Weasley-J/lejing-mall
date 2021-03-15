@@ -180,29 +180,29 @@ public class SearchServiceImpl implements SearchService {
 
         //3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
         // 3.1 品牌聚合
-        TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.propertyName(SkuModel::getBrandId)).size(60);
+        TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.property(SkuModel::getBrandId)).size(60);
         // 商品品牌子聚合: brand_name_agg, brand_img_agg
         termsBrandAgg.subAggregations(AggregatorFactories.builder()
-                .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.propertyName(SkuModel::getBrandName)))
-                .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.propertyName(SkuModel::getBrandImg)))
+                .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.property(SkuModel::getBrandName)))
+                .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.property(SkuModel::getBrandImg)))
         );
 
         // 3.2 分类聚合
-        TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogId));
+        TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.property(SkuModel::getCatalogId));
         // 分类子聚合: category_name_agg
-        termsCategoryAgg.subAggregation(AggregationBuilders.terms("category_name_agg").field(ReflectUtil.propertyName(SkuModel::getCatalogName)));
+        termsCategoryAgg.subAggregation(AggregationBuilders.terms("category_name_agg").field(ReflectUtil.property(SkuModel::getCatalogName)));
 
         // 3.3 属性聚合(嵌入式聚合)
-        String attrs = ReflectUtil.propertyName(SkuModel::getAttrs);
+        String attrs = ReflectUtil.property(SkuModel::getAttrs);
         // 属性子聚合,创建一个嵌入式的子聚合
         NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested("attr_agg", attrs)
                 .subAggregations(AggregatorFactories.builder().addAggregator(
-                        AggregationBuilders.terms("attr_id_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId))
+                        AggregationBuilders.terms("attr_id_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrId))
                                 // 3.3.1 聚合出attr_id对应的attr_name
                                 // 3.3.2 聚合出attr_id对应的所有可能值attr_value
                                 .subAggregations(AggregatorFactories.builder()
-                                        .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrName)))
-                                        .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue)).size(50))
+                                        .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrName)))
+                                        .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrValue)).size(50))
                                 )
                         )
                 );
@@ -247,7 +247,7 @@ public class SearchServiceImpl implements SearchService {
     private HighlightBuilder buildHighlightBuilder() {
         HighlightBuilder highlightBuilder = new HighlightBuilder();
         highlightBuilder.preTags("<span style='color:red'>");
-        highlightBuilder.field(ReflectUtil.propertyName(SkuModel::getSkuTitle));
+        highlightBuilder.field(ReflectUtil.property(SkuModel::getSkuTitle));
         highlightBuilder.postTags("</span>");
         return highlightBuilder;
     }
@@ -262,26 +262,26 @@ public class SearchServiceImpl implements SearchService {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         // 1.1 must - 模糊匹配(skuTitle商品名称)
         if (StringUtils.isNotBlank(param.getKeyword())) {
-            boolQuery.must(QueryBuilders.matchQuery(ReflectUtil.propertyName(SkuModel::getSkuTitle), param.getKeyword()).operator(Operator.AND));
+            boolQuery.must(QueryBuilders.matchQuery(ReflectUtil.property(SkuModel::getSkuTitle), param.getKeyword()).operator(Operator.AND));
         }
         // 1.2 filter - 3级分类id查询(catalogId)
         if (ObjectUtils.isNotEmpty(param.getCatalog3Id())) {
-            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getCatalogId), param.getCatalog3Id()));
+            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.property(SkuModel::getCatalogId), param.getCatalog3Id()));
         }
         // 1.3 filter - 品牌id查询(brandId)
         if (ObjectUtils.isNotEmpty(param.getBrandId())) {
-            boolQuery.filter(QueryBuilders.termsQuery(ReflectUtil.propertyName(SkuModel::getBrandId), param.getBrandId()));
+            boolQuery.filter(QueryBuilders.termsQuery(ReflectUtil.property(SkuModel::getBrandId), param.getBrandId()));
         }
         // 1.4 filter - 是否有库存查询(hasStock)
         Integer hasStock = param.getHasStock();
         if (ObjectUtils.isNotEmpty(hasStock)) {
-            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.propertyName(SkuModel::getHasStock), Objects.equals(hasStock, 1)));
+            boolQuery.filter(QueryBuilders.termQuery(ReflectUtil.property(SkuModel::getHasStock), Objects.equals(hasStock, 1)));
         }
 
         // 1.5 filter - 商品属性查询(attrs)
         List<String> attrList = param.getAttrs();
         if (CollectionUtils.isNotEmpty(attrList)) {
-            String attrsPropertyName = ReflectUtil.propertyName(SkuModel::getAttrs);
+            String attrsPropertyName = ReflectUtil.property(SkuModel::getAttrs);
             for (String attr : attrList) {
                 // 切割属性: attr = "attrs=1_5寸:8寸&attrs=3_4核:8核&attrs=3_8G:12G"
                 String[] attrArray = attr.split("_");
@@ -289,8 +289,8 @@ public class SearchServiceImpl implements SearchService {
                 String[] attrValues = attrArray[1].split(":");
                 // 构建nested查询构造条件
                 BoolQueryBuilder nestedBoolQuery = QueryBuilders.boolQuery();
-                nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrId), attrId));
-                nestedBoolQuery.must(QueryBuilders.termsQuery(attrsPropertyName + "." + ReflectUtil.propertyName(SkuModel.Attrs::getAttrValue), attrValues));
+                nestedBoolQuery.must(QueryBuilders.termQuery(attrsPropertyName + "." + ReflectUtil.property(SkuModel.Attrs::getAttrId), attrId));
+                nestedBoolQuery.must(QueryBuilders.termsQuery(attrsPropertyName + "." + ReflectUtil.property(SkuModel.Attrs::getAttrValue), attrValues));
                 // 每个attr都必须生成一个与之对应的nested查询条件
                 NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery(attrsPropertyName, nestedBoolQuery, ScoreMode.None);
                 boolQuery.filter(nestedQuery);
@@ -300,7 +300,7 @@ public class SearchServiceImpl implements SearchService {
         // 1.6 filter - 价格区间查询(skuPrice): 前台传来格式: 1_500 | _500 | 500_
         String skuPrice = param.getSkuPrice();
         if (StringUtils.isNotBlank(skuPrice)) {
-            RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery(ReflectUtil.propertyName(SkuModel::getSkuPrice));
+            RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery(ReflectUtil.property(SkuModel::getSkuPrice));
             // 处理价格区间
             String[] prices = StringUtils.split(skuPrice, "_");
             int length = prices.length;
@@ -373,7 +373,7 @@ public class SearchServiceImpl implements SearchService {
             Map<String, List<String>> highlightFields = hit.getHighlightFields();
             highlightFields.forEach((key, values) -> {
                 String value = values.get(0);
-                if (StringUtils.equals(key, ReflectUtil.propertyName(SkuModel::getSkuTitle))) {
+                if (StringUtils.equals(key, ReflectUtil.property(SkuModel::getSkuTitle))) {
                     skuModel.setSkuTitle(value);
                 }
             });
@@ -470,7 +470,7 @@ public class SearchServiceImpl implements SearchService {
                 log.info("远程调用商品服务查询品牌信息成功,响应数据:\n{}", JSONUtil.toJsonPrettyStr(brands));
                 AtomicReference<String> replace = new AtomicReference<>("");
                 String brandNames = brands.stream().map(brand -> {
-                    replace.set(replaceQueryString(param, ReflectUtil.propertyName(Brand::getBrandId), brand.getBrandId().toString()));
+                    replace.set(replaceQueryString(param, ReflectUtil.property(Brand::getBrandId), brand.getBrandId().toString()));
                     return brand.getName();
                 }).collect(Collectors.joining(";"));
                 navVO.setNavName("品牌");

@@ -21,21 +21,21 @@ class ReflectUtilTest {
 
     @Test
     void testGetName1() {
-        String property = ReflectUtil.propertyName(Person::getName);
+        String property = ReflectUtil.property(Person::getName);
         System.out.println("java property = " + property);
-        property = ReflectUtil.propertyName(Person::getAge);
+        property = ReflectUtil.property(Person::getAge);
         System.out.println("java property = " + property);
-        property = ReflectUtil.propertyName(Person::getHobby);
+        property = ReflectUtil.property(Person::getHobby);
         System.out.println("java property = " + property);
-        property = ReflectUtil.propertyName(Person::getIsEnable);
+        property = ReflectUtil.property(Person::getIsEnable);
         System.out.println("java property = " + property);
-        property = ReflectUtil.propertyName(Person::getIs);
+        property = ReflectUtil.property(Person::getIs);
         System.out.println("java property = " + property);
     }
 
     @Test
     void testGetName2() {
-        System.out.println(ReflectUtil.propertyName(SkuModel::getHasStock));
+        System.out.println(ReflectUtil.property(SkuModel::getHasStock));
     }
 
     @Data

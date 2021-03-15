@@ -40,18 +40,18 @@ public class ReflectUtil {
      * </pre>
      * <b>使用实例:</b>
      * <pre>
-     * ReflectUtil.propertyName(Person::getName)      = name
-     * ReflectUtil.propertyName(Person::getAge)       = age
-     * ReflectUtil.propertyName(Person::getHobby)     = hobby
-     * ReflectUtil.propertyName(Person::getIs)        = is
-     * ReflectUtil.propertyName(Person::getIsEnable)  = isEnable
+     * ReflectUtil.property(Person::getName)      = name
+     * ReflectUtil.property(Person::getAge)       = age
+     * ReflectUtil.property(Person::getHobby)     = hobby
+     * ReflectUtil.property(Person::getIs)        = is
+     * ReflectUtil.property(Person::getIsEnable)  = isEnable
      * </pre>
      *
      * @param propLambdaExpansion 属性名称lambda表达式
      * @param <T>                 Java Bean的类型
      * @return 属性名称
      */
-    public static <T> String propertyName(@NotNull FieldFunction<T, Object> propLambdaExpansion) {
+    public static <T> String property(@NotNull FieldFunction<T, Object> propLambdaExpansion) {
         try {
             Method writeReplace = propLambdaExpansion.getClass().getDeclaredMethod("writeReplace");
             writeReplace.setAccessible(true);
