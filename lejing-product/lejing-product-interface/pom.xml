@@ -12,7 +12,7 @@
 
     <packaging>jar</packaging>
     <artifactId>lejing-product-interface</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <description>商品服务接口，供其他微服务跨服务调用</description>
 
     <properties>

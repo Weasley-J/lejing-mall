@@ -1,60 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cn.alphahub.mall.search</groupId>
-        <artifactId>lejing-search</artifactId>
+        <groupId>cn.alphahub.mall</groupId>
+        <artifactId>lejing-auth</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>search-service</artifactId>
+    <artifactId>lejing-auth-service</artifactId>
     <version>${lejing.latest.version}</version>
 
-    <description>
-        Elasticsearch搜索服务;
-        其实RestHighLevelClient，spring-boot-starter-data-elasticsearch已经封装好了, 没必要像百度里面90%的垃圾教程一样重复造轮子!
-        本项目采用Spring提供的elasticsearch的模板方法：ElasticsearchRepository对ES进行CRUD,ElasticsearchRestTemplate对ES进行DSL查询
-    </description>
+    <description>授权服务-基于OAuth2.0的单点登录</description>
 
     <properties>
+        <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
-        <!-- search interface -->
+        <!-- thymeleaf模板引擎 -->
         <dependency>
-            <groupId>cn.alphahub.mall.search</groupId>
-            <artifactId>search-interface</artifactId>
-            <version>${lejing.latest.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!-- 通过feign远程地调用product服务的接口 -->
+        <!-- 客户端负载均衡器 -->
         <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-product-interface</artifactId>
-            <version>${lejing.latest.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <!-- feign远程调用 -->
+        <!-- openfeign远程调用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!-- 引入Logstash日志系统 -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-        <!-- Rabbit MQ启动器-->
-        <!--
+        <!--Spring Boot yml文件元数据配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
-        -->
-        <!-- nacos 服务注册/发现 -->
+        <!-- spring测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--  认证中心服务远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-auth-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+        </dependency>
+        <!-- 会员服务远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+        </dependency>
+        <!-- nacos 注册/发现 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -70,49 +76,24 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- 负载均衡器 -->
+        <!-- 引入Logstash日志系统 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-        <!-- 配置类属性映射 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- spring测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- 引入Hutool工具包 -->
+        <!-- hutool工具包 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        <!-- thymeleaf模板引擎 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>${parent.artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
@@ -148,4 +129,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-site-reserve</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <description>乐璟商城-场地预约服务</description>
 
     <properties>

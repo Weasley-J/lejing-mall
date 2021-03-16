@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>lejing-third-party</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <name>lejing-third-party</name>
     <description>乐璟商城-第三方服务</description>
 

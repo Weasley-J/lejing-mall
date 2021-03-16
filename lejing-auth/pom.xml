@@ -5,15 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>lejing-mall</artifactId>
         <groupId>cn.alphahub.mall</groupId>
+        <artifactId>lejing-mall</artifactId>
         <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>lejing-web-frontend</artifactId>
-    <version>${lejing.latest.version}</version>
+    <name>lejing-auth</name>
+    <artifactId>lejing-auth</artifactId>
     <packaging>pom</packaging>
-    <description>乐璟商城-前端项目</description>
+    <description>乐璟商城-授权中心（OAuth2.0、SSO单点登录、社交登录）</description>
 
+    <modules>
+        <module>lejing-auth-interface</module>
+        <module>lejing-auth-service</module>
+    </modules>
 
 </project>

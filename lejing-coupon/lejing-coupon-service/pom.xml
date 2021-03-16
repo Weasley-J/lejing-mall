@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-coupon-service</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <description>乐璟商城-优惠券服务</description>
 
     <properties>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-coupon-interface</artifactId>
-            <version>${lejing-mall.latest.version}</version>
+            <version>${lejing.latest.version}</version>
         </dependency>
 
         <dependency>

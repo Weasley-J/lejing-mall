@@ -18,6 +18,7 @@
     <url>https://github.com/Weasley-J/lejing-mall</url>
 
     <modules>
+        <module>lejing-auth</module>
         <module>lejing-coupon</module>
         <module>lejing-order</module>
         <module>lejing-product</module>
@@ -37,7 +38,7 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <lejing-mall.latest.version>1.0.0-SNAPSHOT</lejing-mall.latest.version>
+        <lejing.latest.version>1.0.0</lejing.latest.version>
         <spring-boot.version>2.4.3</spring-boot.version>
         <spring-boot-maven-plugin.version>2.4.3</spring-boot-maven-plugin.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
@@ -223,7 +224,7 @@
             <dependency>
                 <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-common</artifactId>
-                <version>${lejing-mall.latest.version}</version>
+                <version>${lejing.latest.version}</version>
             </dependency>
             <!-- google-guava -->
             <dependency>

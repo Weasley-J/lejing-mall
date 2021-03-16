@@ -3,38 +3,37 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>lejing-ware</artifactId>
         <groupId>cn.alphahub.mall</groupId>
+        <artifactId>lejing-auth</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
-    <artifactId>lejing-ware-interface</artifactId>
+    <artifactId>lejing-auth-interface</artifactId>
     <version>${lejing.latest.version}</version>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <java.version>11</java.version>
-    </properties>
+    <packaging>jar</packaging>
+    <description>认证中心服务远程接口，供其他微服务远程调用</description>
 
     <dependencies>
         <!-- common工程 -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
+            <exclusions>
+                <!-- 不需要查询db -->
+                <exclusion>
+                    <groupId>com.github.pagehelper</groupId>
+                    <artifactId>pagehelper-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -44,7 +43,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>cn.alphahub.mall.ware.LejingWareApplication</mainClass>
+                    <mainClass>cn.alphahub.mall.auth.LejingAuthApplication</mainClass>
                     <addResources>true</addResources>
                 </configuration>
                 <executions>
@@ -71,5 +70,4 @@
             </resource>
         </resources>
     </build>
-
 </project>

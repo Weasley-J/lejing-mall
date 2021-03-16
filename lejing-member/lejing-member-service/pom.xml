@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-member-service</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <description>乐璟商城-会员服务</description>
 
     <properties>
@@ -48,13 +48,13 @@
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-member-interface</artifactId>
-            <version>${lejing-mall.latest.version}</version>
+            <version>${lejing.latest.version}</version>
         </dependency>
         <!--member-service通过feign远程调用coupon-service接口-->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-coupon-interface</artifactId>
-            <version>${lejing-mall.latest.version}</version>
+            <version>${lejing.latest.version}</version>
         </dependency>
         <!-- nacos 注册/发现 -->
         <dependency>

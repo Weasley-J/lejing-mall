@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-order-service</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <description>订单服务</description>
 
     <properties>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-order-interface</artifactId>
-            <version>${lejing-mall.latest.version}</version>
+            <version>${lejing.latest.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

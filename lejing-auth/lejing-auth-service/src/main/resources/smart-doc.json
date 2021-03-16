@@ -1,0 +1,36 @@
+{
+  // "serverUrl": "http://127.0.0.1:10000",
+  "serverUrl": "http://localhost:8150",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static",
+  "coverOld": true,
+  "createDebugPage": true,
+  "packageFilters": "cn.alphahub.mall.auth.controller",
+  "md5EncryptedHtmlName": false,
+  "style": "xt256",
+  "projectName": "乐璟认证中心后端接口文档",
+  "skipTransientField": true,
+  "sortByTitle": false,
+  "showAuthor": true,
+  "requestFieldToUnderline": false,
+  "responseFieldToUnderline": false,
+  "inlineEnum": true,
+  "recursionLimit": 7,
+  "allInOneDocFileName": "index.html",
+  "requestExample": "true",
+  "responseExample": "true",
+  "displayActualType": false,
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ],
+  "revisionLogs": [
+    {
+      "version": "1.0",
+      "revisionTime": "2021-03-18 10:30",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "创建api文档"
+    }
+  ]
+}

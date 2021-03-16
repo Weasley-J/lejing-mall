@@ -12,7 +12,7 @@
 
     <packaging>jar</packaging>
     <artifactId>lejing-order-interface</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

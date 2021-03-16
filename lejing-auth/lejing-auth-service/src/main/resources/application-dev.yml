@@ -1,0 +1,7 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  thymeleaf:
+    cache: off

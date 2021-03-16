@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>lejing-gateway</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>${lejing.latest.version}</version>
     <name>lejing-gateway</name>
 
     <description>乐璟商城API 网关</description>

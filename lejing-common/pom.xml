@@ -8,8 +8,10 @@
         <groupId>cn.alphahub.mall</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+
     <packaging>jar</packaging>
     <artifactId>lejing-common</artifactId>
+    <version>${lejing.latest.version}</version>
 
     <description>
         通用工程模块(各微服务的公共依赖、bean、工具类);
