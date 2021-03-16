@@ -232,3 +232,14 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
 ## 7.1 为什么分页不用`mybatis-plus`自带的`IPage`？
 
 `mybatis-plus`的`IPage`分页入参不利于项目的`API`文档输出，毕竟我们都不想手写接口文档，如果你喜欢手写接口文档，然后再填入什么`RAP`、`YApi`里面，我推荐你用回`Swagger`。
+
+7.2 解决`github`提交代码`connection to github.com:443`
+
+`fatal: unable to access ‘https://github.com/Weasley-J/lejing-mall’: OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`
+
+在Git Bash终端中输入:
+
+```bash
+env GIT_SSL_NO_VERIFY=true
+```
+
