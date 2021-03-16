@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 阿里云OSS属性
+ *
+ * @author liuwenjing
  */
 @Data
 @Configuration

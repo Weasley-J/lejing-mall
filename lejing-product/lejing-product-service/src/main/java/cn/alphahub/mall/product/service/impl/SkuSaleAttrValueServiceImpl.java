@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,7 +45,7 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueMap
      * @return 销售属性组合
      */
     @Override
-    public Collection<? extends SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId) {
+    public List<SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId) {
         return this.baseMapper.getSaleAttrBySpuId(spuId);
     }
 

@@ -32,5 +32,5 @@ public class SkuItemSaleAttrVO implements Serializable {
     /**
      * skuId销售属性值集合
      */
-    private List<AttrValueSkuIdVO> attrValues;
+    private List<AttrValueWithSkuIdVO> attrValues;
 }

@@ -20,6 +20,14 @@
     </properties>
 
     <dependencies>
+
+        <!--Spring Boot yml文件元数据配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- MySQL驱动 -->
         <dependency>
             <groupId>mysql</groupId>

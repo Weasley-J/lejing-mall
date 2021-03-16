@@ -15,9 +15,9 @@
     <resultMap id="skuItemSaleAttrVOMap" type="cn.alphahub.mall.product.vo.SkuItemSaleAttrVO">
         <result property="attrId" column="attr_id"/>
         <result property="attrName" column="attr_name"/>
-        <collection property="attrValues" ofType="cn.alphahub.mall.product.vo.AttrValueSkuIdVO">
+        <collection property="attrValues" ofType="cn.alphahub.mall.product.vo.AttrValueWithSkuIdVO">
             <result property="attrValue" column="attr_value"/>
-            <result property="skuIds" column="sku_id"/>
+            <result property="skuIds" column="sku_ids"/>
         </collection>
     </resultMap>
 
@@ -25,11 +25,11 @@
     <select id="getSaleAttrBySpuId" resultMap="skuItemSaleAttrVOMap">
         select pssav.attr_id,
                pssav.attr_name,
-               group_concat(distinct pssav.attr_value) as attr_value,
-               group_concat(distinct psi.sku_id)       as sku_id
+               pssav.attr_value,
+               group_concat(distinct replace(psi.sku_id, ' ', '')) as sku_ids
         from pms_sku_info psi
                      left join pms_sku_sale_attr_value pssav using (sku_id)
         where psi.spu_id = #{spuId}
-        group by pssav.attr_id, pssav.attr_name
+        group by pssav.attr_id, pssav.attr_name, pssav.attr_value
     </select>
 </mapper>

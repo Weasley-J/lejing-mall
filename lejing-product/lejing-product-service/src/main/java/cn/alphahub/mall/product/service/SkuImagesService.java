@@ -5,7 +5,7 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuImages;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * sku图片Service接口
@@ -31,5 +31,5 @@ public interface SkuImagesService extends IService<SkuImages> {
      * @param skuId 商品skuId
      * @return 图片集合
      */
-    Collection<? extends SkuImages> getImagesBySkuId(Long skuId);
+    List<SkuImages> getImagesBySkuId(Long skuId);
 }

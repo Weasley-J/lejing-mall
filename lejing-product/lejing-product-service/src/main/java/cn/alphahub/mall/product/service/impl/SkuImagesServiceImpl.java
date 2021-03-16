@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -50,7 +49,7 @@ public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesMapper, SkuImages
      * @return 图片集合
      */
     @Override
-    public Collection<? extends SkuImages> getImagesBySkuId(Long skuId) {
+    public List<SkuImages> getImagesBySkuId(Long skuId) {
         QueryWrapper<SkuImages> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(SkuImages::getSkuId, skuId);
         return this.list(wrapper);

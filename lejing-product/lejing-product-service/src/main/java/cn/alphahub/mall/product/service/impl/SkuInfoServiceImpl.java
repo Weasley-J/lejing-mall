@@ -17,7 +17,6 @@ import cn.alphahub.mall.product.vo.SkuItemVO;
 import cn.alphahub.mall.product.vo.SpuItemAttrGroupVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,8 +24,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * sku信息Service业务层处理
@@ -46,6 +48,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
     private AttrGroupService attrGroupService;
     @Resource
     private SkuSaleAttrValueService skuSaleAttrValueService;
+    /**
+     * 注入我们配置的线程池
+     */
+    @Resource
+    private ThreadPoolExecutor executor;
 
     /**
      * 查询sku信息分页列表
@@ -128,42 +135,68 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
      */
     @Override
     public SkuItemVO getSkuItemBySkuId(Long skuId) {
-        // 查sku信息：pms_sku_info
+
         // skuId直接返回空数据,不用去查库了
-        if (ObjectUtils.allNull(skuId)) {
+        if (ObjectUtils.allNull(skuId) || Objects.equals(skuId, 404L)) {
             return null;
         }
-        SkuInfo skuInfo = this.getById(skuId);
-        // 准备基础参数
-        SeckillSkuVO seckillSkuVo = new SeckillSkuVO();
-        ArrayList<SkuImages> images = Lists.newArrayList();
-        ArrayList<SkuItemSaleAttrVO> saleAttr = Lists.newArrayList();
-        ArrayList<SpuItemAttrGroupVO> groupAttrs = Lists.newArrayList();
 
-        // 三级分类id
-        Long catalogId = skuInfo.getCatalogId();
-        // 商品spuId
-        Long spuId = skuInfo.getSpuId();
-
-        // 查sku图片：pms_sku_images
-        images.addAll(imagesService.getImagesBySkuId(skuId));
-        // 获取spu的介绍信息
-        SpuInfoDesc spuInfoDesc = spuInfoDescService.getById(spuId);
-        // 获取spu销售属性组合
-        saleAttr.addAll(skuSaleAttrValueService.getSaleAttrBySpuId(spuId));
-        // 获取商品sku属性组
-        groupAttrs.addAll(attrGroupService.listBySpuIdAndCatalogId(spuId, catalogId));
-        // 获取包装规格参数信息
-
-        // 分装数据返回
+        // 创建一个商品详情页-VO对象，用于数据封装
         SkuItemVO itemVO = new SkuItemVO();
-        itemVO.setInfo(skuInfo);
+
+        /*
+          使用CompletableFuture开启多线程任务 - 查询商品详情页数据
+         */
+
+        // 1. 开始异步线程编排: 查sku信息：pms_sku_info
+        CompletableFuture<SkuInfo> skuFuture = CompletableFuture.supplyAsync(() -> {
+            SkuInfo skuInfo = getById(skuId);
+            // set sku基本信息
+            itemVO.setInfo(skuInfo);
+            return skuInfo;
+        }, executor);
+
+        // 2. 查询sku信息信息完成后  --> 获取spu销售属性组合
+        CompletableFuture<Void> saleAttrFuture = skuFuture.thenAcceptAsync(skuInfo -> {
+            List<SkuItemSaleAttrVO> saleAttr = skuSaleAttrValueService.getSaleAttrBySpuId(skuInfo.getSpuId());
+            itemVO.setSaleAttr(saleAttr);
+        }, executor);
+
+        // 3. 查询sku信息信息完成后  --> 获取spu的介绍信息
+        CompletableFuture<Void> spuDescFuture = skuFuture.thenAcceptAsync(skuInfo -> {
+            Long spuId = skuInfo.getSpuId();
+            SpuInfoDesc spuInfoDesc = spuInfoDescService.getById(spuId);
+            itemVO.setDesc(spuInfoDesc);
+        }, executor);
+
+        // 4. 查询sku信息信息完成后  --> 获取商品sku属性组(获取包装规格参数信息)
+        CompletableFuture<Void> attrGroupFuture = skuFuture.thenAcceptAsync(skuInfo -> {
+            // 三级分类id
+            Long catalogId = skuInfo.getCatalogId();
+            // 商品spuId
+            Long spuId = skuInfo.getSpuId();
+            List<SpuItemAttrGroupVO> attrGroupVos = attrGroupService.listBySpuIdAndCatalogId(spuId, catalogId);
+            itemVO.setGroupAttrs(attrGroupVos);
+        }, executor);
+
+        // 5. 使用CompletableFuture新开一个任务查询sku图片列表: pms_sku_images
+        CompletableFuture<Void> skuImagesFuture = CompletableFuture.runAsync(() -> {
+            List<SkuImages> skuImages = imagesService.getImagesBySkuId(skuId);
+            itemVO.setImages(skuImages);
+        }, executor);
+
+        /*
+           使用多线程异步任务编排 - 等待所有任务执行完才返回数据
+         */
+        try {
+            CompletableFuture.allOf(saleAttrFuture, spuDescFuture, attrGroupFuture, skuImagesFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("所有多线程异步任务执行任务出错，异常原因：{}\n", e.getLocalizedMessage(), e);
+        }
+
+        // 数据返回
         itemVO.setHasStock(true);
-        itemVO.setImages(images);
-        itemVO.setSaleAttr(saleAttr);
-        itemVO.setDesc(spuInfoDesc);
-        itemVO.setGroupAttrs(groupAttrs);
-        itemVO.setSeckillSkuVo(seckillSkuVo);
+        itemVO.setSeckillSkuVo(new SeckillSkuVO());
         return itemVO;
     }
 

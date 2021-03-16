@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttrValueSkuIdVO implements Serializable {
+public class AttrValueWithSkuIdVO implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 属性值

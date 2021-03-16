@@ -36,10 +36,10 @@ public class ItemController extends BaseController {
     @GetMapping("/{skuId}.html")
     public String skuItem(@PathVariable("skuId") Long skuId, Model model) {
         //防止网关把404.html带过来
-        if (ObjectUtils.isEmpty(skuId) || Objects.equals(skuId, 404L)) {
+        SkuItemVO skuItemVo = skuInfoService.getSkuItemBySkuId(skuId);
+        if (ObjectUtils.isEmpty(skuItemVo) || Objects.equals(skuId, 404L)) {
             return "index";
         }
-        SkuItemVO skuItemVo = skuInfoService.getSkuItemBySkuId(skuId);
         model.addAttribute("item", skuItemVo);
         return "item";
     }
