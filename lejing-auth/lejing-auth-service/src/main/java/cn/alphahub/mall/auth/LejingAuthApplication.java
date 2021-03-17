@@ -15,9 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @SpringBootApplication
 public class LejingAuthApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(LejingAuthApplication.class, args);
     }
-
 }

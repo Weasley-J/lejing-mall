@@ -76,26 +76,32 @@ spring:
           uri: lb://lejing-product
           predicates:
             - Host=lejing.com,item.lejing.com
+        # search.lejing.com
         - id: lejing_search_route
           uri: lb://lejing-search
           predicates:
             - Host=search.lejing.com
+        # auth.lejing.com
         - id: lejing_auth_route
           uri: lb://lejing-auth-server
           predicates:
             - Host=auth.lejing.com
+        # cart.lejing.com
         - id: lejing_cart_route
           uri: lb://lejing-cart
           predicates:
             - Host=cart.lejing.com
+        # order.lejing.com
         - id: lejing_order_route
           uri: lb://lejing-order
           predicates:
             - Host=order.lejing.com
+        # member.lejing.com
         - id: lejing_member_route
           uri: lb://lejing-member
           predicates:
             - Host=member.lejing.com
+        # seckill.lejing.com
         - id: lejing_seckill_route
           uri: lb://lejing-seckill
           predicates:
