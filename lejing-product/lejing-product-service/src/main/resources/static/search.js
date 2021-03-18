@@ -517,10 +517,18 @@ api[16].list.push({
 api.push({
     alias: 'ItemController',
     order: '18',
-    link: '&lt;b&gt;商品sku_controller&lt;/b&gt;',
-    desc: '&lt;b&gt;商品sku Controller&lt;/b&gt;',
+    link: '&lt;b&gt;商品sku详情页controller&lt;/b&gt;',
+    desc: '&lt;b&gt;商品sku详情页Controller&lt;/b&gt;',
     list: []
 })
+api[17].list.push({
+    order: '1',
+    desc: '根据skuId获取商品详情页',
+});
+api[17].list.push({
+    order: '2',
+    desc: '根据skuId获取商品详情',
+});
 api.push({
     alias: 'dict',
     order: '19',

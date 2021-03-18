@@ -18,6 +18,7 @@
 
     <modules>
         <module>lejing-auth-interface</module>
+        <module>lejing-auth-common</module>
         <module>lejing-auth-service</module>
     </modules>
 
