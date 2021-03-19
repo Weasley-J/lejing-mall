@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
+        <groupId>cn.alphahub.mall</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lejing-third-party</artifactId>
+    <name>lejing-sms</name>
+    <artifactId>lejing-sms</artifactId>
     <version>${lejing.latest.version}</version>
-    <name>lejing-third-party</name>
-    <description>乐璟商城-第三方服务（文件上传）</description>
+    <description>乐璟商城-短信服务</description>
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
+
         <!-- 引入Logstash日志系统 -->
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
+
+        <!-- spring boot元数据映射 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
         <!-- common工程 -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
@@ -44,27 +47,32 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- nacos 服务注册,发现-->
+
+        <!-- 阿里云短信 Spring Boot Starter -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <artifactId>aliyun-sms-spring-boot-starter</artifactId>
         </dependency>
-        <!-- nacos 配置中心 -->
+
+        <!-- RabbitMQ启动器 -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <!-- 阿里云oss存储 spring boot starter -->
+
+        <!-- Redis启动器 -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <!-- spring boot测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -116,5 +124,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

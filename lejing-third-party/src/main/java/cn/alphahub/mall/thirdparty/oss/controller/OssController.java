@@ -1,8 +1,8 @@
-package cn.alphahub.mall.thirdparty.controller;
+package cn.alphahub.mall.thirdparty.oss.controller;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.thirdparty.config.OssProperties;
-import cn.alphahub.mall.thirdparty.domain.OSSServerSignature;
+import cn.alphahub.mall.thirdparty.oss.domain.OssServerSignature;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
@@ -38,7 +38,7 @@ public class OssController {
      * @return OSS服务端签名
      */
     @GetMapping("/oss/policy")
-    public BaseResult<OSSServerSignature> policy() {
+    public BaseResult<OssServerSignature> policy() {
         String host = ossProperties.getHostPrefix();
         // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
         //String callbackUrl = "http://88.88.88.88:8888";
@@ -46,7 +46,7 @@ public class OssController {
         String dir = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         Map<String, String> respMap = new LinkedHashMap<>();
-        OSSServerSignature ossServerSignature = new OSSServerSignature();
+        OssServerSignature ossServerSignature = new OssServerSignature();
         try {
             long expireTime = 30;
             long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
@@ -70,7 +70,7 @@ public class OssController {
             respMap.put("host", host);
             respMap.put("expire", expire);
 
-            ossServerSignature = OSSServerSignature.builder()
+            ossServerSignature = OssServerSignature.builder()
                     .accessId(ossProperties.getAccessKey())
                     .policy(encodedPolicy)
                     .signature(postSignature)

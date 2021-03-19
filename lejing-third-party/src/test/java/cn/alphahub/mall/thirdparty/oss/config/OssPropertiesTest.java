@@ -1,5 +1,6 @@
-package cn.alphahub.mall.thirdparty.config;
+package cn.alphahub.mall.thirdparty.oss.config;
 
+import cn.alphahub.mall.thirdparty.config.OssProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

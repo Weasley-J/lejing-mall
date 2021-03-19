@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
+        <version>2.4.4</version>
         <relativePath/>
     </parent>
 
@@ -28,6 +28,7 @@
         <module>lejing-gateway</module>
         <module>lejing-site-reserve</module>
         <module>lejing-search</module>
+        <module>lejing-sms</module>
         <module>lejing-third-party</module>
         <module>lejing-admin</module>
         <module>lejing-generator</module>
@@ -39,9 +40,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lejing.latest.version>1.0.0</lejing.latest.version>
-        <spring-boot.version>2.4.3</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.4.3</spring-boot-maven-plugin.version>
-        <spring-cloud.version>2020.0.1</spring-cloud.version>
+        <spring-boot.version>2.4.4</spring-boot.version>
+        <spring-boot-maven-plugin.version>2.4.4</spring-boot-maven-plugin.version>
+        <spring-cloud.version>2020.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
         <!-- 将打包生成jar文件复制到指定目录 -->
         <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
@@ -66,7 +67,10 @@
         <activation.version>1.1.1</activation.version>
         <guava.version>30.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.11.3</aliyun-sdk-oss.version>
+        <aliyun.sdk.version>4.5.18</aliyun.sdk.version>
+        <aliyun.java.sdk.dysmsapi>2.1.0</aliyun.java.sdk.dysmsapi>
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
+        <aliyun-sms.version>1.0.0</aliyun-sms.version>
         <redisson.version>3.15.1</redisson.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
@@ -238,11 +242,28 @@
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
-            <!-- aliyun oss spring boot starter -->
+            <!-- 覆盖aliyun sms spring starter的低版本 -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun.sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun.java.sdk.dysmsapi}</version>
+            </dependency>
+            <!-- Aliyun OSS spring boot starter -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>aliyun-oss-spring-boot-starter</artifactId>
                 <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!-- Aliyun SMS Spring Boot Starter -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>aliyun-sms-spring-boot-starter</artifactId>
+                <version>${aliyun-sms.version}</version>
             </dependency>
             <!-- ELK logstash logback日志依赖 -->
             <!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->

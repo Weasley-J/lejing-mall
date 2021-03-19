@@ -1,6 +1,5 @@
 package cn.alphahub.mall.thirdparty.oss;
 
-import cn.alphahub.mall.thirdparty.config.OssProperties;
 import com.aliyun.oss.OSSClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

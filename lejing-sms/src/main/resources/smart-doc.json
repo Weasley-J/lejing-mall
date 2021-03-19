@@ -1,14 +1,14 @@
 {
-  "serverUrl": "http://127.0.0.1:88/api/thirdparty",
+  "serverUrl": "http://localhost:30001",
   "isStrict": false,
   "allInOne": true,
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.thirdparty",
+  "packageFilters": "cn.alphahub.mall.sms.controller",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
-  "projectName": "第三方服务后端接口文档",
+  "projectName": "短信服务后端接口文档",
   "skipTransientField": true,
   "sortByTitle": false,
   "showAuthor": true,
@@ -26,17 +26,10 @@
   "revisionLogs": [
     {
       "version": "1.0",
-      "revisionTime": "2020-12-31 10:30",
+      "revisionTime": "3021-03-20 10:30",
       "status": "创建",
       "author": "Weasley J",
       "remarks": "创建api文档"
-    },
-    {
-      "version": "1.1",
-      "revisionTime": "2021-02-03 14:02",
-      "status": "更新",
-      "author": "Weasley J",
-      "remarks": "版本升级"
     }
   ]
 }

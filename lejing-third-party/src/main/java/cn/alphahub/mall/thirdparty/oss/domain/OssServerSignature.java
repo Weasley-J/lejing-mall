@@ -1,4 +1,4 @@
-package cn.alphahub.mall.thirdparty.domain;
+package cn.alphahub.mall.thirdparty.oss.domain;
 
 
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OSSServerSignature implements Serializable {
+public class OssServerSignature implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
