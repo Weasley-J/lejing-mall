@@ -48,7 +48,7 @@ public class AliyunSmsUtil {
      * @return CommonResponse，可以获取响应消息
      * @throws ClientException 客户端异常
      */
-    public CommonResponse sendSms(SmsParam smsParam) throws ClientException {
+    public CommonResponse sendCheckCode(SmsParam smsParam) throws ClientException {
         CommonResponse response = new CommonResponse();
         if (Objects.isNull(smsParam)) {
             log.warn("短信参数不能为空!");
@@ -104,7 +104,7 @@ public class AliyunSmsUtil {
      * @return CommonResponse，可以获取响应消息
      * @throws ClientException 客户端异常
      */
-    public CommonResponse sendSms(Map<String, Object> map) throws ClientException {
+    public CommonResponse sendCheckCode(Map<String, Object> map) throws ClientException {
 
         CommonResponse response = new CommonResponse();
 
@@ -178,5 +178,4 @@ public class AliyunSmsUtil {
         DefaultProfile.addEndpoint(REGION_ID, PRODUCT, DOMAIN);
         return new DefaultAcsClient(profile);
     }
-
 }

@@ -62,7 +62,7 @@ public class SmsRabbitListener {
         if (flag) {
             return;
         }
-        aliyunSmsUtil.sendSms(map);
+        aliyunSmsUtil.sendCheckCode(map);
     }
 
     /**
@@ -82,6 +82,6 @@ public class SmsRabbitListener {
             return;
         }
         SmsParam param = objectMapper.readValue(smsParam, SmsParam.class);
-        aliyunSmsUtil.sendSms(param);
+        aliyunSmsUtil.sendCheckCode(param);
     }
 }
