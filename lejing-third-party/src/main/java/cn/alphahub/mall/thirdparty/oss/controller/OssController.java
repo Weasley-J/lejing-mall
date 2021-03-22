@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * OSS对象存储Controller
+ * OSS文件存储Controller
  *
  * @author liuwenjing
  */
