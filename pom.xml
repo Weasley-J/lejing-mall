@@ -36,12 +36,12 @@
     </modules>
 
     <properties>
+        <lejing.latest.version>1.0.0</lejing.latest.version>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <lejing.latest.version>1.0.0</lejing.latest.version>
         <spring-boot.version>2.4.4</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.4.4</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
         <!-- 将打包生成jar文件复制到指定目录 -->
@@ -71,6 +71,7 @@
         <aliyun.java.sdk.dysmsapi>2.1.0</aliyun.java.sdk.dysmsapi>
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
+        <alicloud.version>2.2.0.RELEASE</alicloud.version>
         <redisson.version>3.15.1</redisson.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
@@ -253,17 +254,23 @@
                 <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
                 <version>${aliyun.java.sdk.dysmsapi}</version>
             </dependency>
-            <!-- Aliyun OSS spring boot starter -->
+            <!-- 阿里云 OSS spring boot starter -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>aliyun-oss-spring-boot-starter</artifactId>
                 <version>${aliyun-oss.version}</version>
             </dependency>
-            <!-- Aliyun SMS Spring Boot Starter -->
+            <!-- 阿里云 SMS Spring Boot Starter -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>aliyun-sms-spring-boot-starter</artifactId>
                 <version>${aliyun-sms.version}</version>
+            </dependency>
+            <!-- 阿里云短信短信启动器 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alicloud-sms</artifactId>
+                <version>${alicloud.version}</version>
             </dependency>
             <!-- ELK logstash logback日志依赖 -->
             <!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->

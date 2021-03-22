@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * jackson序列化工具类
+ * @author liuwenjing
+ */
 @Slf4j
 public class JsonUtils {
 

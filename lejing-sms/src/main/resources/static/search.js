@@ -1,29 +1,34 @@
 let api = [];
 api.push({
-    alias: 'OssController',
-    order: '1',
-    link: 'oss对象存储controller',
-    desc: 'OSS对象存储Controller',
-    list: []
-})
-api[0].list.push({
-    order: '1',
-    desc: '获取OSS文件上传服务端签名',
-});
-api.push({
     alias: 'SmsController',
-    order: '2',
+    order: '1',
     link: '短信controller',
     desc: '短信Controller',
     list: []
 })
-api[1].list.push({
+api[0].list.push({
     order: '1',
-    desc: '查询短信发送详情',
+    desc: '',
+});
+api[0].list.push({
+    order: '2',
+    desc: '',
+});
+api[0].list.push({
+    order: '3',
+    desc: '',
+});
+api[0].list.push({
+    order: '4',
+    desc: '',
+});
+api[0].list.push({
+    order: '5',
+    desc: '',
 });
 api.push({
     alias: 'dict',
-    order: '3',
+    order: '2',
     link: 'dict_list',
     desc: '数据字典',
     list: []

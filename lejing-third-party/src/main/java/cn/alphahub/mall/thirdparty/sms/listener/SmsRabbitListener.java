@@ -1,8 +1,7 @@
-package cn.alphahub.mall.sms.listener;
+package cn.alphahub.mall.thirdparty.sms.listener;
 
 import cn.alphahub.common.core.domain.SmsParam;
-import cn.alphahub.mall.sms.util.AliyunSmsUtil;
-import com.aliyuncs.exceptions.ClientException;
+import cn.alphahub.mall.thirdparty.sms.util.AliyunSmsUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +18,8 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 消息监听器
- * 当接收到消息后，我们使用MQ往队列里面发送短信发送短信
+ * <p>SMS消息监听器</p>
+ * <p>当接收到消息后，我们使用MQ往队列里面发送短信发送短信</p>
  *
  * @author liuwenjing
  */
@@ -46,14 +45,13 @@ public class SmsRabbitListener {
      * </pre>
      *
      * @param map 入参map
-     * @throws ClientException
      */
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "LEJING.SMS.QUEUE", durable = "true"),
             exchange = @Exchange(value = "LEJING.SMS.EXCHANGE", type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
             key = {"sms.verify.code"})
     )
-    public void sendSms(Map<String, Object> map) throws ClientException {
+    public void sendSms(Map<String, Object> map) {
         boolean flag = CollectionUtils.isEmpty(map)
                 || Objects.isNull(map.get("phone"))
                 || Objects.isNull(map.get("code"))
@@ -70,14 +68,13 @@ public class SmsRabbitListener {
      *
      * @param smsParam 短信参数实体
      * @throws JsonProcessingException
-     * @throws ClientException
      */
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "LEJING.SMS.QUEUE", durable = "true"),
             exchange = @Exchange(value = "LEJING.SMS.EXCHANGE", type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
             key = {"sms.verify.code"})
     )
-    public void sendSms(String smsParam) throws JsonProcessingException, ClientException {
+    public void sendSms(String smsParam) throws JsonProcessingException {
         if (StringUtils.isBlank(smsParam)) {
             return;
         }

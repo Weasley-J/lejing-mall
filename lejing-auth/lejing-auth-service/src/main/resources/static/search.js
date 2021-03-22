@@ -6,14 +6,6 @@ api.push({
     desc: '&lt;b&gt;登录页Controller&lt;/b&gt;',
     list: []
 })
-api[0].list.push({
-    order: '1',
-    desc: '',
-});
-api[0].list.push({
-    order: '2',
-    desc: '',
-});
 api.push({
     alias: 'dict',
     order: '2',
