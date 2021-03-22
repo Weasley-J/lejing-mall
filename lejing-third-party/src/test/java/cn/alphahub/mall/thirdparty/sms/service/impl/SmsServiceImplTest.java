@@ -2,6 +2,7 @@ package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.core.domain.SmsParam;
 import cn.alphahub.mall.thirdparty.sms.util.AliyunSmsUtil;
+import com.aliyuncs.CommonResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,17 @@ class SmsServiceImplTest {
     }
 
     @Test
-    void sendSms() {
+    void sendSmsByEntity() {
         smsUtil.sendSms(
                 SmsParam.builder().code("123456").phone(new String[]{"19121716816"}).build()
         );
+    }
+
+    @Test
+    void sendSmsByMap() {
+        CommonResponse response = smsUtil.sendSms("123456", "18121716816");
+        String string = response.toString();
+        System.out.println(string);
     }
 
 }

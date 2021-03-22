@@ -7,6 +7,7 @@ import com.aliyuncs.CommonResponse;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -165,5 +167,19 @@ public class AliyunSmsUtil {
         log.info("发送短信状态: {}", response.getData());
 
         return response;
+    }
+
+    /**
+     * 发送验证码给用户手机
+     *
+     * @param code   验证码
+     * @param phones 手机号,可以是多个
+     * @return CommonResponse，可以获取响应消息
+     */
+    public CommonResponse sendSms(String code, String... phones) {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("code", code);
+        map.put("phone", Arrays.asList(phones));
+        return this.sendSms(map);
     }
 }

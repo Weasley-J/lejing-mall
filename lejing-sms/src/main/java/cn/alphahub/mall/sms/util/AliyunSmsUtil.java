@@ -9,6 +9,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,13 +17,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * <p></p>
+ * <p>阿里云短信工具类</p>
  *
  * @author Weasley J
  * @date 2021年3月19日
@@ -46,9 +48,8 @@ public class AliyunSmsUtil {
      *
      * @param smsParam 短信参数实体
      * @return CommonResponse，可以获取响应消息
-     * @throws ClientException 客户端异常
      */
-    public CommonResponse sendSms(SmsParam smsParam) throws ClientException {
+    public CommonResponse sendSms(SmsParam smsParam) {
         CommonResponse response = new CommonResponse();
         if (Objects.isNull(smsParam)) {
             log.warn("短信参数不能为空!");
@@ -63,7 +64,7 @@ public class AliyunSmsUtil {
                 || phoneNumbers[0].isEmpty();
 
         if (!b1) {
-            IAcsClient client = getAcsClient(this.smsProperties);
+            IAcsClient acsClient = getAcsClient(this.smsProperties);
             CommonRequest request = new CommonRequest();
             request.setSysMethod(MethodType.POST);
             request.setSysDomain(DOMAIN);
@@ -78,7 +79,11 @@ public class AliyunSmsUtil {
             request.putQueryParameter("PhoneNumbers", StringUtils.join(phoneNumbers, ","));
             request.putQueryParameter("TemplateParam", "{\"code\":\"" + code + "\"}");
 
-            response = client.getCommonResponse(request);
+            try {
+                response = acsClient.getCommonResponse(request);
+            } catch (ClientException e) {
+                log.error("发送短信异常：{}\n", e.getMessage(), e);
+            }
             log.info("发送短信状态: {}", response.getData());
         } else {
             response.setData("手机号、验证码为空！");
@@ -102,9 +107,8 @@ public class AliyunSmsUtil {
      *
      * @param map 入参map
      * @return CommonResponse，可以获取响应消息
-     * @throws ClientException 客户端异常
      */
-    public CommonResponse sendSms(Map<String, Object> map) throws ClientException {
+    public CommonResponse sendSms(Map<String, Object> map) {
 
         CommonResponse response = new CommonResponse();
 
@@ -120,7 +124,7 @@ public class AliyunSmsUtil {
             return response;
         }
 
-        IAcsClient client = getAcsClient(this.smsProperties);
+        IAcsClient acsClient = getAcsClient(this.smsProperties);
 
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
@@ -153,7 +157,11 @@ public class AliyunSmsUtil {
             request.putQueryParameter("PhoneNumbers", StringUtils.join(phones, ","));
         }
 
-        response = client.getCommonResponse(request);
+        try {
+            response = acsClient.getCommonResponse(request);
+        } catch (ClientException e) {
+            log.error("发送短信异常：{}\n", e.getMessage(), e);
+        }
         log.info("发送短信状态: {}", response.getData());
 
         return response;
@@ -177,5 +185,19 @@ public class AliyunSmsUtil {
         );
         DefaultProfile.addEndpoint(REGION_ID, PRODUCT, DOMAIN);
         return new DefaultAcsClient(profile);
+    }
+
+    /**
+     * 发送验证码给用户手机
+     *
+     * @param code   验证码
+     * @param phones 手机号,可以是多个
+     * @return CommonResponse，可以获取响应消息
+     */
+    public CommonResponse sendSms(String code, String... phones) {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("code", code);
+        map.put("phone", Arrays.asList(phones));
+        return this.sendSms(map);
     }
 }
