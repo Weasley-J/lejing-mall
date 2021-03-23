@@ -77,6 +77,8 @@
         <logstash.logback.version>6.6</logstash.logback.version>
         <easypoi.starter.version>4.2.0</easypoi.starter.version>
         <easypoi-web.version>4.3.0</easypoi-web.version>
+        <joda-time.version>2.10.10</joda-time.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -289,6 +291,18 @@
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi-web</artifactId>
                 <version>${easypoi-web.version}</version>
+            </dependency>
+            <!-- jjwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- joda time -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

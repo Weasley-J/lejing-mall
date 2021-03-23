@@ -5,16 +5,22 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.enumeration.CheckUserExistsStatus;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.member.domain.Member;
+import cn.alphahub.mall.member.domain.MemberLevel;
 import cn.alphahub.mall.member.feign.CouponClient;
+import cn.alphahub.mall.member.service.MemberLevelService;
 import cn.alphahub.mall.member.service.MemberService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 会员Controller
@@ -28,9 +34,10 @@ import java.util.Arrays;
 public class MemberController extends BaseController {
     @Resource
     private MemberService memberService;
-
-    @Autowired
+    @Resource
     private CouponClient couponClient;
+    @Resource
+    private MemberLevelService memberLevelService;
 
     /**
      * 查询会员列表
@@ -78,8 +85,22 @@ public class MemberController extends BaseController {
      */
     @PostMapping("/save")
     public BaseResult<Boolean> save(@RequestBody Member member) {
-        boolean save = memberService.save(member);
-        return toOperationResult(save);
+        // 保存会员信息前先判断下是否已经注册过了
+        CheckUserExistsStatus status = memberService.checkUserExistsStatus(member);
+        if (CheckUserExistsStatus.USER_CAN_REGISTER.getValue().equals(status.getValue())) {
+            QueryWrapper<MemberLevel> wrapper = new QueryWrapper<>();
+            List<MemberLevel> memberLevels = memberLevelService.list(wrapper.lambda().eq(MemberLevel::getDefaultStatus, 1));
+            // 设置默认会员等级
+            if (CollectionUtils.isNotEmpty(memberLevels)) {
+                member.setLevelId(memberLevels.get(0).getId());
+            }
+            // 设置创建时间
+            member.setCreateTime(new Date());
+            boolean save = memberService.save(member);
+            return BaseResult.ok(member.getUsername() + "注册成功", save);
+        } else {
+            return BaseResult.fail(status.getValue(), status.getName(), false);
+        }
     }
 
     /**

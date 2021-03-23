@@ -2,6 +2,7 @@ package cn.alphahub.mall.member.service.impl;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.enumeration.CheckUserExistsStatus;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.mapper.MemberMapper;
 import cn.alphahub.mall.member.service.MemberService;
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 会员Service业务层处理
@@ -42,4 +44,37 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         return pageResult.getPage(memberList);
     }
 
+    /**
+     * 校验会员用户是否注册过,返回相应的提示消息给前端
+     *
+     * @param member 会员
+     * @return 校验会员用户存在状态
+     */
+    @Override
+    public CheckUserExistsStatus checkUserExistsStatus(Member member) {
+        // 1 member为空就不要查数据库了
+        if (Objects.isNull(member)) {
+            return CheckUserExistsStatus.USER_IS_EMPTY;
+        }
+        // 2 校验username是否存在
+        QueryWrapper<Member> wrapper1 = new QueryWrapper<>();
+        int userAmount = this.count(wrapper1.lambda().eq(Member::getUsername, member.getUsername()));
+        if (userAmount > 0) {
+            return CheckUserExistsStatus.USERNAME_EXISTS;
+        }
+        // 3 校验email是否存在
+        QueryWrapper<Member> wrapper2 = new QueryWrapper<>();
+        userAmount = this.count(wrapper2.lambda().eq(Member::getEmail, member.getEmail()));
+        if (userAmount > 0) {
+            return CheckUserExistsStatus.EMAIL_EXISTS;
+        }
+        // 4 校验phone是否存在
+        QueryWrapper<Member> wrapper3 = new QueryWrapper<>();
+        userAmount = this.count(wrapper3.lambda().eq(Member::getMobile, member.getMobile()));
+        if (userAmount > 0) {
+            return CheckUserExistsStatus.PHONE_EXISTS;
+        }
+        // 5 返回用户可以注册
+        return CheckUserExistsStatus.USER_CAN_REGISTER;
+    }
 }

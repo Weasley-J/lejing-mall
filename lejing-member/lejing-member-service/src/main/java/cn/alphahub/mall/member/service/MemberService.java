@@ -2,6 +2,7 @@ package cn.alphahub.mall.member.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.enumeration.CheckUserExistsStatus;
 import cn.alphahub.mall.member.domain.Member;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -23,4 +24,11 @@ public interface MemberService extends IService<Member> {
      */
     PageResult<Member> queryPage(PageDomain pageDomain, Member member);
 
+    /**
+     * 校验会员用户是否注册过,返回相应的提示消息给前端
+     *
+     * @param member 会员
+     * @return 校验会员用户存在状态
+     */
+    CheckUserExistsStatus checkUserExistsStatus(Member member);
 }
