@@ -2,8 +2,8 @@ let api = [];
 api.push({
     alias: 'OssController',
     order: '1',
-    link: 'oss对象存储controller',
-    desc: 'OSS对象存储Controller',
+    link: 'oss文件存储controller',
+    desc: 'OSS文件存储Controller',
     list: []
 })
 api[0].list.push({
@@ -19,6 +19,10 @@ api.push({
 })
 api[1].list.push({
     order: '1',
+    desc: '发送验证码给用户手机',
+});
+api[1].list.push({
+    order: '2',
     desc: '查询短信发送详情',
 });
 api.push({

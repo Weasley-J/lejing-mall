@@ -38,6 +38,7 @@ build/
 /springboot-webapp/*.jar
 /nacos-server/**/nacos/**/logs/
 /nacos-config/**/nacos/**/logs/
+/nacos-server/nacos-server-1.4.1/nacos/data/tenant-config-data
 
 ### 自定义配置文件，防止账号泄露 ###
 !**/src/main/resources/application-lwj.yml

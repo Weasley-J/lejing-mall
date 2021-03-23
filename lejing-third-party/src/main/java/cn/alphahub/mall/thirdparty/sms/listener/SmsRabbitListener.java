@@ -66,7 +66,7 @@ public class SmsRabbitListener {
     /**
      * 发送验证码给用户手机
      *
-     * @param smsParam 短信参数实体
+     * @param smsParam 短信json参数实体, 示例: {"code":"123456","phone":["19121716816"]}
      * @throws JsonProcessingException
      */
     @RabbitListener(bindings = @QueueBinding(

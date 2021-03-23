@@ -1,14 +1,13 @@
 package cn.alphahub.mall.thirdparty.sms.controller;
 
+import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.util.DateUtils;
 import cn.alphahub.mall.thirdparty.sms.service.SmsService;
-import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
-import com.aliyuncs.exceptions.ClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,38 +22,42 @@ import java.util.Date;
  */
 @Slf4j
 @RestController
-public class SmsController {
+@RequestMapping("/sms")
+public class SmsController extends BaseController {
 
     @Resource
     private SmsService smsService;
 
     /**
+     * 发送验证码给用户手机
+     *
+     * @param phone  接收验证码的手机号
+     * @param origin 请求来源: 1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源,默认: 0;
+     *               验证码长度: 移动端4位,浏览器6位, origin为空验证码长度6位;
+     * @return 操作提示
+     */
+    @GetMapping("/sendCode")
+    public BaseResult<Boolean> sendCheckCode(
+            @RequestParam("phone") String phone,
+            @RequestParam(value = "origin", defaultValue = "0") Integer origin
+    ) {
+        Boolean send = smsService.sendCheckCode(phone, origin);
+        return toOperationResult(send);
+    }
+
+    /**
      * 查询短信发送详情
      *
-     * @param telephone 手机号
+     * @param telephone 接收验证码的手机号
+     * @param sendDate  发送日期
      * @return 发送结果
      */
-    @GetMapping("/query")
+    @GetMapping("/sendStatus")
     public BaseResult<QuerySendDetailsResponse> querySendDetails(
             @RequestParam(name = "telephone") String telephone,
             @RequestParam("sendDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date sendDate
     ) {
-        // 组装请求对象
-        QuerySendDetailsRequest request = new QuerySendDetailsRequest();
-        // 必填-号码
-        request.setPhoneNumber(telephone);
-        // 必填-短信发送的日期 支持30天内记录查询（可查其中一天的发送数据），格式yyyyMMdd
-        request.setSendDate(DateUtils.parseDateToStr("yyyyMMdd", sendDate));
-        // 必填-页大小
-        request.setPageSize(10L);
-        // 必填-当前页码从1开始计数
-        request.setCurrentPage(1L);
-        try {
-            QuerySendDetailsResponse response = smsService.querySendDetails(request);
-            return BaseResult.ok(response);
-        } catch (ClientException e) {
-            log.error("发送短信异常：{}\n", e.getMessage(), e);
-            return BaseResult.fail();
-        }
+        QuerySendDetailsResponse response = smsService.querySendDetails(telephone, sendDate);
+        return BaseResult.ok(response);
     }
 }

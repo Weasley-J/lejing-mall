@@ -10,10 +10,11 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.io.Serializable;
 
 /**
- * Controller数据返回封装
+ * 数据返回封装
  *
  * @param <T> 返回对象
  * @author liuwenjing
+ * @version 1.0
  * @date 2021年2月17日
  */
 @Data
@@ -22,13 +23,13 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     private static final long serialVersionUID = -7804054241710086L;
 
     /**
-     * 初始化一个新创建的 T 对象，使其表示一个空消息
+     * 初始化一个新创建的 BaseResult 对象，使其表示一个空消息
      */
     public BaseResult() {
     }
 
     /**
-     * 初始化一个新创建的 T 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param code    状态码
      * @param msg     返回内容
@@ -41,7 +42,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 初始化一个新创建的 T 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param success 成功状态
      */
@@ -50,7 +51,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 初始化一个新创建的 T 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param success 成功状态
      * @param message 返回消息
@@ -61,7 +62,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 初始化一个新创建的 T 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param code    状态码
      * @param message 返回消息
@@ -72,7 +73,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 初始化一个新创建的 T 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param success 成功提示
      * @param message 返回消息
@@ -85,7 +86,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 初始化一个新创建的 R 对象
+     * 初始化一个新创建的 BaseResult 对象
      *
      * @param code 状态码
      * @param msg  返回内容
@@ -131,8 +132,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 携带数据返回成功消息
      *
-     * @param data 返回消息
      * @param <T>  数据对象
+     * @param data 返回消息
      * @return 数据对象
      */
     public static <T> BaseResult<T> ok(T data) {
@@ -140,11 +141,23 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
+     * 返回成功消息
+     *
+     * @param <T>  数据对象
+     * @param code 状态码
+     * @param msg  返回内容
+     * @return 成功消息
+     */
+    public static <T> BaseResult<T> ok(Integer code, String msg) {
+        return preCreate(code, msg, true, null);
+    }
+
+    /**
      * 携带数据返回成功消息
      *
+     * @param <T>  数据对象
      * @param msg  返回消息
      * @param data 数据载体
-     * @param <T>  数据对象
      * @return 封装的数据
      */
     public static <T> BaseResult<T> ok(String msg, T data) {
@@ -154,8 +167,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回成功消息
      *
-     * @param msg 返回消息
      * @param <T> 数据对象
+     * @param msg 返回消息
      * @return 数据对象
      */
     public static <T> BaseResult<T> ok(String msg) {
@@ -223,6 +236,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回成功消息
      *
+     * @param <T> 数据对象
      * @return 成功消息
      */
     public static <T> BaseResult<T> success() {
@@ -232,6 +246,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 携带数据返回成功消息
      *
+     * @param <T>  数据对象
      * @param data 封装返回的数据对象
      * @return 成功消息
      */
@@ -242,6 +257,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回成功消息
      *
+     * @param <T> 数据对象
      * @param msg 返回内容
      * @return 成功消息
      */
@@ -252,8 +268,21 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回成功消息
      *
+     * @param code 状态码
+     * @param msg  返回内容
+     * @param <T>  数据对象
+     * @return 成功消息
+     */
+    public static <T> BaseResult<T> success(Integer code, String msg) {
+        return preCreate(code, msg, true, null);
+    }
+
+    /**
+     * 返回成功消息
+     *
      * @param msg  返回内容
      * @param data 数据对象
+     * @param <T>  数据对象
      * @return 成功消息
      */
     public static <T> BaseResult<T> success(String msg, T data) {
@@ -263,6 +292,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回错误消息
      *
+     * @param <T> 数据对象
      * @return 错误消息
      */
     public static <T> BaseResult<T> error() {
@@ -273,6 +303,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * 返回错误消息
      *
      * @param msg 返回内容
+     * @param <T> 数据对象
      * @return 警告消息
      */
     public static <T> BaseResult<T> error(String msg) {
@@ -282,6 +313,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回错误消息
      *
+     * @param <T>  数据对象
      * @param msg  返回内容
      * @param data 数据对象
      * @return 警告消息
@@ -293,6 +325,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回错误消息
      *
+     * @param <T>  数据对象
      * @param msg  返回内容
      * @param data 数据对象
      * @param code 状态码
@@ -305,6 +338,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     /**
      * 返回错误消息
      *
+     * @param <T>  数据对象
      * @param code 状态码
      * @param msg  返回内容
      * @return 警告消息
