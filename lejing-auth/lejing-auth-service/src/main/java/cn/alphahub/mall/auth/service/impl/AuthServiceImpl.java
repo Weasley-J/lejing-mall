@@ -1,22 +1,32 @@
 package cn.alphahub.mall.auth.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
+import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enumeration.CheckCodeOrigin;
 import cn.alphahub.common.enumeration.CheckCodeStatus;
 import cn.alphahub.common.util.NumberUtils;
+import cn.alphahub.mall.auth.domain.UserRegister;
+import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.auth.service.AuthService;
+import cn.alphahub.mall.auth.util.CodecUtils;
+import cn.alphahub.mall.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * <b>授权服务-业务实现</b>
@@ -29,6 +39,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+    @Resource
+    private MemberClient memberClient;
     @Resource
     private AmqpTemplate amqpTemplate;
     @Resource
@@ -85,5 +97,73 @@ public class AuthServiceImpl implements AuthService {
             log.error("发送短信失败! phone：{}， code：{}, 异常信息:{}\n", phone, code, e.getMessage(), e);
             return CheckCodeStatus.ERROR;
         }
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param userRegister       注册提交的用户信息
+     * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @return 登录页|注册页面
+     */
+    @Override
+    public String register(UserRegister userRegister, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            Map<Object, Object> map = result.getFieldErrors().stream().collect(
+                    Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)
+            );
+            redirectAttributes.addFlashAttribute("errors", map);
+            // 校验错误转发到注册页面
+            return "redirect:http://auth.lejing.com/reg.html";
+        }
+        // 校验验证码
+        String phone = userRegister.getPhone();
+        String checkCode = userRegister.getCode();
+        ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
+        String key = AuthConstant.REDIS_KEY_PREFIX + phone;
+        String redisCacheCode = ops.get(key);
+        if (StringUtils.isNotBlank(redisCacheCode)) {
+            redisCacheCode = redisCacheCode.split(",")[0];
+            //验证码校验成功
+            if (StringUtils.equals(checkCode, redisCacheCode)) {
+
+                // 删除验证码
+                stringRedisTemplate.delete(key);
+
+                // 密码加密存储
+                String password = userRegister.getPassword();
+                String encodePassword = CodecUtils.encodePassword(password);
+
+                // 远程调用会员服务完后完成注册
+                Member member = Member.builder()
+                        .username(userRegister.getUserName())
+                        .password(encodePassword)
+                        .mobile(userRegister.getPhone())
+                        .build();
+                BaseResult<Boolean> save = memberClient.save(member);
+                String message = save.getMessage();
+                Integer repCode = save.getCode();
+                log.info("响应状态码：" + repCode + "；响应消息：" + message);
+                // 保存用户信息成功
+                if (save.getSuccess()) {
+                    log.info("远程调用会员服务保存用户信息成功");
+                    return "redirect:login.html";
+                } else {
+                    log.warn("远程调用会员服务保存用户信息失败");
+                    Map<Object, Object> map = new LinkedHashMap<>(2);
+                    map.put("code", repCode);
+                    map.put("msg", message);
+                    redirectAttributes.addFlashAttribute("errors", map);
+                    return "redirect:http://auth.lejing.com/reg.html";
+                }
+            }
+        } else {
+            Map<Object, Object> map = new LinkedHashMap<>(1);
+            map.put("checkCode", "验证码错误");
+            redirectAttributes.addFlashAttribute("errors", map);
+            return "redirect:http://auth.lejing.com/reg.html";
+        }
+        // 注册成功回到登录页
+        return "redirect:login.html";
     }
 }
