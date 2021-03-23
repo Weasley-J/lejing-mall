@@ -1,9 +1,0 @@
-#阿里云OSS参数
-alibaba:
-  cloud:
-    access-key: your-access-key
-    secret-key: your-secret-key
-    bucket-name: your-bucket-name
-    host-prefix: https://${alibaba.cloud.bucket-name}.${alibaba.cloud.oss.endpoint}
-    oss:
-      endpoint: oss-cn-shanghai.aliyuncs.com

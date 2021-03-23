@@ -2,10 +2,14 @@ let api = [];
 api.push({
     alias: 'LoginController',
     order: '1',
-    link: '&lt;b&gt;登录页controller&lt;/b&gt;',
-    desc: '&lt;b&gt;登录页Controller&lt;/b&gt;',
+    link: '登录页controller',
+    desc: '登录页Controller',
     list: []
 })
+api[0].list.push({
+    order: '1',
+    desc: '发送验证码给用户手机',
+});
 api.push({
     alias: 'dict',
     order: '2',
