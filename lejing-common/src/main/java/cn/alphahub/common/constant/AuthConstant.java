@@ -3,7 +3,7 @@ package cn.alphahub.common.constant;
 /**
  * <b>授权常量类</b>
  *
- * @author liuwe
+ * @author liuwenjing
  * @version 1.0
  * @date 2021/03/23
  */
