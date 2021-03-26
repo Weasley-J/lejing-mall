@@ -5,11 +5,11 @@ package cn.alphahub.mall.auth.util;
  */
 public abstract class JwtConstants {
     /**
-     * id
+     * 用户id
      */
     public static final String JWT_KEY_ID = "id";
     /**
-     * username
+     * 用户名
      */
     public static final String JWT_KEY_USER_NAME = "username";
 }
