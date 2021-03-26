@@ -3,8 +3,9 @@ package cn.alphahub.mall.auth.controller;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enumeration.CheckCodeStatus;
-import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.service.AuthService;
+import cn.alphahub.mall.auth.domain.UserLogin;
+import cn.alphahub.mall.auth.domain.UserRegister;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -61,5 +62,16 @@ public class LoginController extends BaseController {
     @PostMapping("/register")
     public String register(@Valid UserRegister userRegister, BindingResult result, RedirectAttributes redirectAttributes) {
         return authService.register(userRegister, result, redirectAttributes);
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param userLogin 用户信息
+     * @return 首页
+     */
+    @PostMapping("/login")
+    public String login(UserLogin userLogin, RedirectAttributes redirectAttributes) {
+        return authService.login(userLogin, redirectAttributes);
     }
 }

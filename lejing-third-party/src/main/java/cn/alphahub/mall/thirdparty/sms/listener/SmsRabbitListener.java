@@ -1,9 +1,6 @@
 package cn.alphahub.mall.thirdparty.sms.listener;
 
-import cn.alphahub.common.core.domain.SmsParam;
 import cn.alphahub.mall.thirdparty.sms.util.AliyunSmsUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -28,8 +25,6 @@ public class SmsRabbitListener {
 
     @Resource
     private AliyunSmsUtil aliyunSmsUtil;
-    @Resource
-    private ObjectMapper objectMapper;
 
     /**
      * 发送验证码给用户手机
@@ -61,24 +56,5 @@ public class SmsRabbitListener {
             return;
         }
         aliyunSmsUtil.sendSms(map);
-    }
-
-    /**
-     * 发送验证码给用户手机
-     *
-     * @param smsParam 短信json参数实体, 示例: {"code":"123456","phone":["19121716816"]}
-     * @throws JsonProcessingException
-     */
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "LEJING.SMS.QUEUE", durable = "true"),
-            exchange = @Exchange(value = "LEJING.SMS.EXCHANGE", type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {"sms.verify.code"})
-    )
-    public void sendSms(String smsParam) throws JsonProcessingException {
-        if (StringUtils.isBlank(smsParam)) {
-            return;
-        }
-        SmsParam param = objectMapper.readValue(smsParam, SmsParam.class);
-        aliyunSmsUtil.sendSms(param);
     }
 }

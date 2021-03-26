@@ -1,4 +1,4 @@
-package cn.alphahub.mall.auth.vo;
+package cn.alphahub.mall.auth.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +18,11 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoVo implements Serializable {
+public class UserLogin implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 登录用户名
+     * 登录账户(用户名,手机号,邮箱)
      */
     private String loginacct;
 

@@ -14,6 +14,7 @@ import cn.alphahub.mall.member.service.MemberLevelService;
 import cn.alphahub.mall.member.service.MemberService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 会员Controller
@@ -29,6 +31,7 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
+@Slf4j
 @RestController
 @RequestMapping("member/member")
 public class MemberController extends BaseController {
@@ -158,5 +161,31 @@ public class MemberController extends BaseController {
             Coupon coupon
     ) {
         return couponClient.list(page, rows, orderColumn, isAsc, coupon);
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param member 用户信息
+     * @return 用户信息
+     */
+    @PostMapping("login")
+    public BaseResult<Member> login(@RequestBody Member member) {
+        QueryWrapper<Member> wrapper = new QueryWrapper<>();
+        Member one;
+        try {
+            one = memberService.getOne(
+                    wrapper.lambda().eq(Member::getUsername, member.getUsername())
+                            .or().eq(Member::getMobile, member.getMobile())
+                            .or().eq(Member::getEmail, member.getEmail())
+            );
+        } catch (Exception e) {
+            log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
+            return BaseResult.error("查询用户失败, 异常原因: " + e.getLocalizedMessage());
+        }
+        if (Objects.isNull(one)) {
+            return BaseResult.error("用户[" + member.getUsername() + "]不存在");
+        }
+        return BaseResult.success(one);
     }
 }

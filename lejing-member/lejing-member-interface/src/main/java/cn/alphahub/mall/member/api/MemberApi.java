@@ -70,4 +70,13 @@ public interface MemberApi {
      */
     @DeleteMapping("/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
+
+    /**
+     * 用户登录
+     *
+     * @param member 用户信息
+     * @return 用户信息
+     */
+    @PostMapping("login")
+    BaseResult<Member> login(@RequestBody Member member);
 }

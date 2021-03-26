@@ -5,10 +5,11 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enumeration.CheckCodeOrigin;
 import cn.alphahub.common.enumeration.CheckCodeStatus;
 import cn.alphahub.common.util.NumberUtils;
-import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.auth.service.AuthService;
 import cn.alphahub.mall.auth.util.CodecUtils;
+import cn.alphahub.mall.auth.domain.UserLogin;
+import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +39,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
-
+    /**
+     * 授权服务域名
+     */
+    private static final String AUTH_LEJING_DOMAIN = "http://auth.lejing.com";
+    /**
+     * 商城首页
+     */
+    private static final String LEJING_DOMAIN = "http://lejing.com";
     @Resource
     private MemberClient memberClient;
     @Resource
@@ -114,7 +122,7 @@ public class AuthServiceImpl implements AuthService {
             );
             redirectAttributes.addFlashAttribute("errors", map);
             // 校验错误转发到注册页面
-            return "redirect:http://auth.lejing.com/reg.html";
+            return "redirect:" + AUTH_LEJING_DOMAIN + "/reg.html";
         }
         // 校验验证码
         String phone = userRegister.getPhone();
@@ -147,23 +155,95 @@ public class AuthServiceImpl implements AuthService {
                 // 保存用户信息成功
                 if (save.getSuccess()) {
                     log.info("远程调用会员服务保存用户信息成功");
-                    return "redirect:login.html";
+                    return "redirect:" + AUTH_LEJING_DOMAIN + "/login.html";
                 } else {
                     log.warn("远程调用会员服务保存用户信息失败");
                     Map<Object, Object> map = new LinkedHashMap<>(2);
                     map.put("code", repCode);
                     map.put("msg", message);
                     redirectAttributes.addFlashAttribute("errors", map);
-                    return "redirect:http://auth.lejing.com/reg.html";
+                    return "redirect:" + AUTH_LEJING_DOMAIN + "/reg.html";
                 }
             }
         } else {
             Map<Object, Object> map = new LinkedHashMap<>(1);
             map.put("checkCode", "验证码错误");
             redirectAttributes.addFlashAttribute("errors", map);
-            return "redirect:http://auth.lejing.com/reg.html";
+            return "redirect:" + AUTH_LEJING_DOMAIN + "/reg.html";
         }
         // 注册成功回到登录页
-        return "redirect:login.html";
+        return "redirect:" + AUTH_LEJING_DOMAIN + "/login.html";
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param user               用户信息
+     * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @return 首页
+     */
+    @Override
+    public String login(UserLogin user, RedirectAttributes redirectAttributes) {
+        Map<String, Object> errMap = new LinkedHashMap<>(2);
+        String passwordRaw = user.getPassword();
+        BaseResult<Member> res = getMemberLoginRequestResult(user, passwordRaw);
+        System.out.println(res);
+        Integer code = res.getCode();
+        String msg = res.getMessage();
+        if (res.getSuccess()) {
+            log.info("code: {}, msg:{}", code, msg);
+            Member data = res.getData();
+            String encodedPassword = data.getPassword();
+            // 验证前端提交的密码是否正确
+            Boolean matched = CodecUtils.matchesPassword(passwordRaw, encodedPassword);
+            if (matched) {
+                msg = "[" + user.getLoginacct() + "]的密码正确";
+                log.info(msg);
+                errMap.put("code", code);
+                errMap.put("msg", msg);
+                redirectAttributes.addFlashAttribute("errors", errMap);
+                return "redirect:" + LEJING_DOMAIN;
+            } else {
+                msg = "[" + user.getLoginacct() + "]的密码错误";
+                log.warn(msg);
+                errMap.put("code", code);
+                errMap.put("msg", msg);
+            }
+        } else {
+            msg = "用户[" + user.getLoginacct() + "]不存在";
+            log.warn(msg);
+        }
+        return "redirect:" + AUTH_LEJING_DOMAIN + "/login.html";
+    }
+
+    /**
+     * 获取远程会员登录结果
+     *
+     * @param user        用户信息
+     * @param passwordRaw 原明文密码
+     * @return 远程会员登录结果
+     */
+    private BaseResult<Member> getMemberLoginRequestResult(UserLogin user, String passwordRaw) {
+        BaseResult<Member> res = memberClient.login(Member.builder()
+                // 用户名
+                .username(user.getLoginacct())
+                .password(passwordRaw)
+                .build());
+        Member member = res.getData();
+        if (Objects.isNull(member)) {
+            res = memberClient.login(Member.builder()
+                    // 手机
+                    .mobile(user.getLoginacct())
+                    .password(passwordRaw)
+                    .build());
+        }
+        if (Objects.isNull(member)) {
+            res = memberClient.login(Member.builder()
+                    // 邮箱
+                    .email(user.getLoginacct())
+                    .password(passwordRaw)
+                    .build());
+        }
+        return res;
     }
 }

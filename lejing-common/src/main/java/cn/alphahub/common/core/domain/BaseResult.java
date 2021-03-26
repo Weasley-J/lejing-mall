@@ -5,6 +5,7 @@ import cn.alphahub.common.core.top.abstraction.AbstractResult;
 import cn.alphahub.common.util.DateUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.Serializable;
@@ -12,12 +13,13 @@ import java.io.Serializable;
 /**
  * 数据返回封装
  *
- * @param <T> 返回对象
+ * @param <T> 返回数据对象
  * @author liuwenjing
- * @version 1.0
- * @date 2021年2月17日
+ * @version 1.0.1
+ * @date @2021年3月26日
  */
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     private static final long serialVersionUID = -7804054241710086L;

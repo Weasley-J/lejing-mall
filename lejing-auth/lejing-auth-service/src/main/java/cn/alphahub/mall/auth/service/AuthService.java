@@ -1,6 +1,7 @@
 package cn.alphahub.mall.auth.service;
 
 import cn.alphahub.common.enumeration.CheckCodeStatus;
+import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,7 +29,17 @@ public interface AuthService {
      *
      * @param userRegister       注册提交的用户信息
      * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @param result             验证错误信息
      * @return 登录页|注册页面
      */
     String register(UserRegister userRegister, BindingResult result, RedirectAttributes redirectAttributes);
+
+    /**
+     * 用户登录
+     *
+     * @param userLogin 用户信息
+     * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @return 首页
+     */
+    String login(UserLogin userLogin, RedirectAttributes redirectAttributes);
 }
