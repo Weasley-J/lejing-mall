@@ -54,8 +54,7 @@ public class Oauth2Controller {
 
         //1 根据用户授权返回的code换取access_token
         String url = "https://api.weibo.com/oauth2/access_token";
-        HttpRequest post = HttpUtil.createPost(url);
-        post.form(map);
+        HttpRequest post = HttpUtil.createPost(url).form(map);
         HttpResponse response = post.execute();
         //2 处理
         if (response.getStatus() == 200) {
