@@ -72,8 +72,8 @@ public class Oauth2Controller {
                 Member member = result.getData();
                 log.info("登录成功, 用户信息：{}", member);
                 //1、第一次使用session，命令浏览器保存卡号，JSESSIONID这个cookie, 以后浏览器访问哪个网站就会带上这个网站的cookie
-                //TODO 1、默认发的令牌。当前域（解决子域session共享问题）
-                //TODO 2、使用JSON的序列化方式来序列化对象到Redis中
+                //TODO 1 默认发的令牌。当前域（解决子域session共享问题）
+                //TODO 2 使用JSON的序列化方式来序列化对象到Redis中
                 session.setAttribute(AuthConstant.LOGIN_USER, member);
 
                 //2、登录成功跳回首页
