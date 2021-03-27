@@ -43,7 +43,7 @@
         <spring-boot.version>2.4.4</spring-boot.version>
         <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2020.0.RC1</spring-cloud-alibaba.version>
         <!-- 将打包生成jar文件复制到指定目录 -->
         <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
         <!--<copy.dest.dir>/usr/local/webapp</copy.dest.dir>-->
