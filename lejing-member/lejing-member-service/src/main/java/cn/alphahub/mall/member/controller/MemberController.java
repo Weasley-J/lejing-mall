@@ -6,6 +6,7 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enumeration.CheckUserExistsStatus;
+import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberLevel;
@@ -187,5 +188,17 @@ public class MemberController extends BaseController {
             return BaseResult.error("用户[" + member.getUsername() + "]不存在");
         }
         return BaseResult.success(one);
+    }
+
+    /**
+     * 处理微博社交登录
+     *
+     * @param socialUser 微博社交用户实体
+     * @return 用户信息
+     */
+    @PostMapping("/oauth2/login")
+    BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
+        Member member = memberService.loginByWeibo(socialUser);
+        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail();
     }
 }

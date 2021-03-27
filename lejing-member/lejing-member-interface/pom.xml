@@ -26,6 +26,12 @@
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-common</artifactId>
         </dependency>
+        <!-- 授权实体类 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-auth-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>

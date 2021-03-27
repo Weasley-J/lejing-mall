@@ -6,6 +6,7 @@ spring:
   thymeleaf:
     cache: on
   jackson:
+    #返回数据忽略null值字段
     default-property-inclusion: non_null
   cloud:
     nacos:
@@ -46,3 +47,9 @@ spring:
     port: 6379
     password: 123456
     timeout: 6000ms
+#微信开放平台相关配置
+weixin:
+  open:
+    app-id: your-app-id
+    app-secret: your-app-secret
+    redirect-url: your-redirect-url

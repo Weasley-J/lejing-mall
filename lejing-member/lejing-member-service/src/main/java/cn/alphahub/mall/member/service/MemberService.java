@@ -3,6 +3,7 @@ package cn.alphahub.mall.member.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enumeration.CheckUserExistsStatus;
+import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.member.domain.Member;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -31,4 +32,12 @@ public interface MemberService extends IService<Member> {
      * @return 校验会员用户存在状态
      */
     CheckUserExistsStatus checkUserExistsStatus(Member member);
+
+    /**
+     * 处理微博社交登录
+     *
+     * @param socialUser 微博社交用户实体
+     * @return 用户信息
+     */
+    Member loginByWeibo(SocialUser socialUser);
 }

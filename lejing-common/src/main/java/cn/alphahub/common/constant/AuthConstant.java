@@ -12,4 +12,9 @@ public class AuthConstant {
      * Redis缓存的验证码key前缀
      */
     public static final String REDIS_KEY_PREFIX = "user:verify:";
+
+    /**
+     * 登录用户
+     */
+    public static final String LOGIN_USER = "loginUser";
 }

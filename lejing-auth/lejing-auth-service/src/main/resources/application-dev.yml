@@ -44,3 +44,9 @@ spring:
     port: 6379
     password: 123456
     timeout: 6000ms
+#微信开放平台相关配置
+weixin:
+  open:
+    app-id: wxed9954c01bb89b47
+    app-secret: a7482517235173ddb4083788de60b90e
+    redirect-url: http://lejing.shop/api/ucenter/wx/callback

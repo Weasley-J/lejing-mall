@@ -2,6 +2,7 @@ package cn.alphahub.mall.member.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.member.domain.Member;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,4 +80,13 @@ public interface MemberApi {
      */
     @PostMapping("login")
     BaseResult<Member> login(@RequestBody Member member);
+
+    /**
+     * 处理微博社交登录
+     *
+     * @param socialUser 微博社交用户实体
+     * @return 用户信息
+     */
+    @PostMapping("/oauth2/login")
+    BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser);
 }
