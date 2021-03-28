@@ -30,12 +30,11 @@ public class LoginController {
         return stringRedisTemplate.opsForValue().get(token);
     }
 
-
     @GetMapping("/login.html")
     public String loginPage(
             @RequestParam("redirect_url") String url,
-            Model model,
-            @CookieValue(value = "sso_token", required = false) String sso_token
+            @CookieValue(value = "sso_token", required = false) String sso_token,
+            Model model
     ) {
         if (!StringUtils.hasText(sso_token)) {
             return "redirect:" + url + "?token=" + sso_token;

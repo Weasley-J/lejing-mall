@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  thymeleaf:
+    cache: off
   redis:
     database: 0
     host: 192.168.40.132
