@@ -22,7 +22,7 @@ import java.util.UUID;
 public class LoginController {
 
     @Resource
-    StringRedisTemplate stringRedisTemplate;
+    public StringRedisTemplate stringRedisTemplate;
 
     @ResponseBody
     @GetMapping("/userinfo")
