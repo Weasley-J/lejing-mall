@@ -20,6 +20,9 @@
         <module>lejing-auth-interface</module>
         <module>lejing-auth-common</module>
         <module>lejing-auth-service</module>
+        <!-- 测试模块 -->
+        <module>lejing-demo-sso-server</module>
+        <module>lejing-demo-sso-client</module>
     </modules>
 
 </project>

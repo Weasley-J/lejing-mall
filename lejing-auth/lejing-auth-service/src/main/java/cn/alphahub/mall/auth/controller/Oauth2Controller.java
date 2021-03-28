@@ -30,8 +30,8 @@ import java.util.Map;
 @Controller
 public class Oauth2Controller {
 
-    private static final String LEJING_HOMEPAGE = "http://lejing.com";
-    private static final String LEJING_AUTH_HOMEPAGE = "http://auth.lejing.com";
+    public static final String LEJING_HOMEPAGE = "http://lejing.com";
+    public static final String LEJING_AUTH_HOMEPAGE = "http://auth.lejing.com";
 
     @Resource
     private MemberClient memberClient;

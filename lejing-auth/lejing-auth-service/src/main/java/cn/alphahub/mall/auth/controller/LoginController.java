@@ -1,5 +1,6 @@
 package cn.alphahub.mall.auth.controller;
 
+import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enumeration.CheckCodeStatus;
@@ -66,6 +67,18 @@ public class LoginController extends BaseController {
     }
 
     /**
+     * 登录页
+     *
+     * @param session 会话
+     * @return 登录页
+     */
+    @GetMapping("/login.html")
+    public String loginPage(HttpSession session) {
+        Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
+        return Objects.isNull(attribute) ? "login" : "redirect:" + Oauth2Controller.LEJING_HOMEPAGE;
+    }
+
+    /**
      * 用户登录
      *
      * @param userLogin 用户信息
@@ -73,6 +86,6 @@ public class LoginController extends BaseController {
      */
     @PostMapping("/login")
     public String login(UserLogin userLogin, RedirectAttributes redirectAttributes, HttpSession session) {
-        return authService.login(userLogin, redirectAttributes,session);
+        return authService.login(userLogin, redirectAttributes, session);
     }
 }

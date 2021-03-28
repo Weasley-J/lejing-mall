@@ -148,6 +148,7 @@ public class AuthServiceImpl implements AuthService {
                         .username(userRegister.getUserName())
                         .password(encodePassword)
                         .mobile(userRegister.getPhone())
+                        .nickname(userRegister.getUserName())
                         .build();
                 BaseResult<Boolean> save = memberClient.save(member);
                 String message = save.getMessage();

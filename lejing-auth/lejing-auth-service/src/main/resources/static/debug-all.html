@@ -1,10 +1,230 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="smart-doc"><title>乐璟认证中心后端接口文档</title><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"><link rel="stylesheet" href="AllInOne.css?v=1616444498612"/><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/styles/xt256.min.css"><style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint { background: #000    }    .hljs { padding: 0em    }</style><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script></head><body class="book toc2 toc-left"><div id="header"><h1>乐璟认证中心后端接口文档</h1><div id="toc" class="toc2"><div id="book-search-input"><input id="search" type="text" placeholder="Type to search"></div><div id="toctitle"><span>API Reference</span></div><ul id="accordion" class="sectlevel1"><li class="open"><a class="dd" href="#_登录页Controller">1.&nbsp;登录页Controller</a><ul class="sectlevel2" style="display: block"><li><a href="#_1_1_发送验证码给用户手机">1.1.&nbsp;发送验证码给用户手机</a></li></ul></li></ul></div></div><div id="content"><div id="preamble"><div class="sectionbody"><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Version</th><th class="tableblock halign-left valign-top">Update Time</th><th class="tableblock halign-left valign-top">Status</th><th class="tableblock halign-left valign-top">Author</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">2021-03-18 10:30</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">创建</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">创建api文档</p></td></tr></tbody></table></div></div><div class="sect1"><h2 id="_登录页Controller"><a class="anchor" href="#_登录页Controller"></a><a class="link" href="#_登录页Controller">1.&nbsp;登录页Controller</a></h2><div class="sectionbody"><div class="sect2" id="5243f7a5685157501af12b702b7f6715"><h3 id="_1_1_发送验证码给用户手机"><a class="anchor" href="#_1_1_发送验证码给用户手机"></a><a class="link" href="#_1_1_发送验证码给用户手机">1.1.&nbsp;发送验证码给用户手机</a></h3><div class="paragraph" id="5243f7a5685157501af12b702b7f6715-url" data-url="http://localhost:20000/sms/sendCode" data-download="false" data-page=""><p><strong>URL:</strong><a href="http://localhost:20000/sms/sendCode" class="bare">&nbsp;http://localhost:20000/sms/sendCode</a></p></div><div class="paragraph" id="5243f7a5685157501af12b702b7f6715-method" data-method="GET"><p><strong>Type:</strong>&nbsp;GET</p></div><div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div><div class="paragraph" id="5243f7a5685157501af12b702b7f6715-content-type" data-content-type="application/x-www-form-urlencoded;charset=utf-8"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8</p></div><div class="paragraph"><p><strong>Description:</strong>&nbsp;发送验证码给用户手机</p></div><div class="paragraph"><p><strong>Query-parameters:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 5%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" class="check-all" id="5243f7a5685157501af12b702b7f6715-query-checkbox" checked="checked" name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label for="5243f7a5685157501af12b702b7f6715-query-checkbox"></label></div></th><th class="tableblock halign-left valign-top">Parameter</th><th class="tableblock halign-left valign-top">Value</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Required</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody id="5243f7a5685157501af12b702b7f6715-query-params"><tr><td class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" id="5243f7a5685157501af12b702b7f6715-query-phone" checked="checked" name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label for="5243f7a5685157501af12b702b7f6715-query-phone"></label></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">phone</p></td><td class="tableblock halign-left valign-top"><p class="tableblock"><input name="phone" type="text" value="15109556818"/></p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td><td class="tableblock halign-left valign-top"><p class="tableblock"> 接收验证码的手机号</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" id="5243f7a5685157501af12b702b7f6715-query-origin" checked="checked" name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label for="5243f7a5685157501af12b702b7f6715-query-origin"></label></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">origin</p></td><td class="tableblock halign-left valign-top"><p class="tableblock"><input name="origin" type="text" value="0"/></p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">请求来源: 1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源,默认: 0;验证码长度: 移动端4位,浏览器6位, origin为空验证码长度6位;</p></td></tr></tbody></table><div class="paragraph"><p><strong>Response-fields:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Field</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th><th class="tableblock halign-left valign-top">Since</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr></tbody></table><div class="paragraph"><p><strong><button class="send-button" data-id="5243f7a5685157501af12b702b7f6715">Send Request</button></strong><span id="5243f7a5685157501af12b702b7f6715-resp-status"></span></p></div><div class="paragraph"><p><strong>Response-example:</strong></p></div><div class="listingblock"><div class="content" id="5243f7a5685157501af12b702b7f6715-response"><pre><code class="json">{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="smart-doc">
+    <title>乐璟认证中心后端接口文档</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+    <link rel="stylesheet" href="AllInOne.css?v=1616444498612"/>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/styles/xt256.min.css">
+    <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
+        background: #000
+    }
+
+    .hljs {
+        padding: 0em
+    }</style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body class="book toc2 toc-left">
+<div id="header"><h1>乐璟认证中心后端接口文档</h1>
+    <div id="toc" class="toc2">
+        <div id="book-search-input"><input id="search" type="text" placeholder="Type to search"></div>
+        <div id="toctitle"><span>API Reference</span></div>
+        <ul id="accordion" class="sectlevel1">
+            <li class="open"><a class="dd" href="#_登录页Controller">1.&nbsp;登录页Controller</a>
+                <ul class="sectlevel2" style="display: block">
+                    <li><a href="#_1_1_发送验证码给用户手机">1.1.&nbsp;发送验证码给用户手机</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="content">
+    <div id="preamble">
+        <div class="sectionbody">
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Version</th>
+                    <th class="tableblock halign-left valign-top">Update Time</th>
+                    <th class="tableblock halign-left valign-top">Status</th>
+                    <th class="tableblock halign-left valign-top">Author</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">2021-03-18 10:30</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建api文档</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_登录页Controller"><a class="anchor" href="#_登录页Controller"></a><a class="link"
+                                                                                               href="#_登录页Controller">1.&nbsp;登录页Controller</a>
+    </h2>
+        <div class="sectionbody">
+            <div class="sect2" id="5243f7a5685157501af12b702b7f6715"><h3 id="_1_1_发送验证码给用户手机"><a class="anchor"
+                                                                                                 href="#_1_1_发送验证码给用户手机"></a><a
+                    class="link" href="#_1_1_发送验证码给用户手机">1.1.&nbsp;发送验证码给用户手机</a></h3>
+                <div class="paragraph" id="5243f7a5685157501af12b702b7f6715-url"
+                     data-url="http://localhost:20000/sms/sendCode" data-download="false" data-page=""><p>
+                    <strong>URL:</strong><a href="http://localhost:20000/sms/sendCode" class="bare">&nbsp;http://localhost:20000/sms/sendCode</a>
+                </p></div>
+                <div class="paragraph" id="5243f7a5685157501af12b702b7f6715-method" data-method="GET"><p>
+                    <strong>Type:</strong>&nbsp;GET</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
+                <div class="paragraph" id="5243f7a5685157501af12b702b7f6715-content-type"
+                     data-content-type="application/x-www-form-urlencoded;charset=utf-8"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8</p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;发送验证码给用户手机</p></div>
+                <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 5%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input type="checkbox" class="check-all"
+                                                         id="5243f7a5685157501af12b702b7f6715-query-checkbox"
+                                                         checked="checked"
+                                                         name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label
+                                    for="5243f7a5685157501af12b702b7f6715-query-checkbox"></label></div>
+                        </th>
+                        <th class="tableblock halign-left valign-top">Parameter</th>
+                        <th class="tableblock halign-left valign-top">Value</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Required</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="5243f7a5685157501af12b702b7f6715-query-params">
+                    <tr>
+                        <td class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input type="checkbox"
+                                                         id="5243f7a5685157501af12b702b7f6715-query-phone"
+                                                         checked="checked"
+                                                         name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label
+                                    for="5243f7a5685157501af12b702b7f6715-query-phone"></label></div>
+                        </td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">phone</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="phone"
+                                                                                                   type="text"
+                                                                                                   value="15109556818"/>
+                        </p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"> 接收验证码的手机号</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input type="checkbox"
+                                                         id="5243f7a5685157501af12b702b7f6715-query-origin"
+                                                         checked="checked"
+                                                         name="5243f7a5685157501af12b702b7f6715-query-checkbox"><label
+                                    for="5243f7a5685157501af12b702b7f6715-query-origin"></label></div>
+                        </td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">origin</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="origin"
+                                                                                                   type="text"
+                                                                                                   value="0"/></p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">请求来源:
+                            1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源,默认: 0;验证码长度: 移动端4位,浏览器6位, origin为空验证码长度6位;</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Field</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                        <th class="tableblock halign-left valign-top">Since</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="5243f7a5685157501af12b702b7f6715">Send Request</button>
+                    </strong><span id="5243f7a5685157501af12b702b7f6715-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="5243f7a5685157501af12b702b7f6715-response"><pre><code class="json">{
 	"message": "success",
 	"success": true,
 	"timestamp": "2021-03-23 04:21:39",
 	"code": 111,
 	"data": "q35d20"
-}</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content" id="5243f7a5685157501af12b702b7f6715-curl"><pre><code class="bash">curl -X GET -i http://localhost:20000/sms/sendCode?phone=15109556818&origin=0</code></pre></div></div></div></div></div><footer class="page-footer"><span class="copyright">Generated by smart-doc at 2021-03-23 04:21:38</span><span class="footer-modification">Suggestions,contact,support and error reporting on<a href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer></div>
+}</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="5243f7a5685157501af12b702b7f6715-curl">
+                        <pre><code class="bash">curl -X GET -i http://localhost:20000/sms/sendCode?phone=15109556818&origin=0</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2021-03-23 04:21:38</span><span
+            class="footer-modification">Suggestions,contact,support and error reporting on<a
+            href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
+            href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
+</div>
 <script src="debug.js?v=1616444498612"></script>
 <script src="search.js?v=1616444498612"></script>
 </body>
