@@ -49,11 +49,11 @@ public class Oauth2Controller {
         map.put("client_id", "2077705774");
         map.put("client_secret", "40af02bd1c7e435ba6a6e9cd3bf799fd");
         map.put("grant_type", "authorization_code");
-        map.put("redirect_uri", "http://auth.gulimall.com/oauth2.0/weibo/success");
+        map.put("redirect_uri", "/oauth2.0/weibo/success");
         map.put("code", code);
 
         //1 根据用户授权返回的code换取access_token
-        String url = "https://api.weibo.com/oauth2/access_token";
+        String url = "https://api.weibo.com/http://auth.gulimall.comoauth2/access_token";
         HttpRequest post = HttpUtil.createPost(url).form(map);
         HttpResponse response = post.execute();
         //2 处理

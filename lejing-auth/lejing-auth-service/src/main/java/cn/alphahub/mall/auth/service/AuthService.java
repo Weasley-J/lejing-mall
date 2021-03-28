@@ -6,6 +6,8 @@ import cn.alphahub.mall.auth.domain.UserRegister;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 授权服务顶层接口
  *
@@ -37,9 +39,10 @@ public interface AuthService {
     /**
      * 用户登录
      *
-     * @param userLogin 用户信息
+     * @param userLogin          用户信息
      * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @param session            session
      * @return 首页
      */
-    String login(UserLogin userLogin, RedirectAttributes redirectAttributes);
+    String login(UserLogin userLogin, RedirectAttributes redirectAttributes, HttpSession session);
 }

@@ -5,11 +5,11 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enumeration.CheckCodeOrigin;
 import cn.alphahub.common.enumeration.CheckCodeStatus;
 import cn.alphahub.common.util.NumberUtils;
+import cn.alphahub.mall.auth.domain.UserLogin;
+import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.auth.service.AuthService;
 import cn.alphahub.mall.auth.util.CodecUtils;
-import cn.alphahub.mall.auth.domain.UserLogin;
-import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +22,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -180,10 +181,11 @@ public class AuthServiceImpl implements AuthService {
      *
      * @param user               用户信息
      * @param redirectAttributes 模拟重定向携带数据,重定向也可以保留数据，不会丢失
+     * @param session            session
      * @return 首页
      */
     @Override
-    public String login(UserLogin user, RedirectAttributes redirectAttributes) {
+    public String login(UserLogin user, RedirectAttributes redirectAttributes, HttpSession session) {
         Map<String, Object> errMap = new LinkedHashMap<>(2);
         String passwordRaw = user.getPassword();
         BaseResult<Member> res = getMemberLoginRequestResult(user, passwordRaw);
@@ -192,8 +194,8 @@ public class AuthServiceImpl implements AuthService {
         String msg = res.getMessage();
         if (res.getSuccess()) {
             log.info("code: {}, msg:{}", code, msg);
-            Member data = res.getData();
-            String encodedPassword = data.getPassword();
+            Member member = res.getData();
+            String encodedPassword = member.getPassword();
             // 验证前端提交的密码是否正确
             Boolean matched = CodecUtils.matchesPassword(passwordRaw, encodedPassword);
             if (matched) {
@@ -201,6 +203,7 @@ public class AuthServiceImpl implements AuthService {
                 log.info(msg);
                 errMap.put("code", code);
                 errMap.put("msg", msg);
+                session.setAttribute(AuthConstant.LOGIN_USER, member);
                 redirectAttributes.addFlashAttribute("errors", errMap);
                 return "redirect:" + LEJING_DOMAIN;
             } else {

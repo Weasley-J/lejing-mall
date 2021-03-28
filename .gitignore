@@ -43,3 +43,6 @@ build/
 ### 自定义配置文件，防止账号泄露 ###
 !**/src/main/resources/application-lwj.yml
 !**/src/main/resources/product_mapping.json
+/nacos-server/nacos-server-2.0.0/nacos/data/protocol/raft
+/nacos-server/nacos-server-2.0.0/nacos/data/tps
+/nacos-server/nacos-server-2.0.0/nacos/data/tps

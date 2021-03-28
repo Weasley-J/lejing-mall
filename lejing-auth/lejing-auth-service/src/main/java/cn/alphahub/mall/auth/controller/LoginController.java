@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
 
@@ -71,7 +72,7 @@ public class LoginController extends BaseController {
      * @return 首页
      */
     @PostMapping("/login")
-    public String login(UserLogin userLogin, RedirectAttributes redirectAttributes) {
-        return authService.login(userLogin, redirectAttributes);
+    public String login(UserLogin userLogin, RedirectAttributes redirectAttributes, HttpSession session) {
+        return authService.login(userLogin, redirectAttributes,session);
     }
 }

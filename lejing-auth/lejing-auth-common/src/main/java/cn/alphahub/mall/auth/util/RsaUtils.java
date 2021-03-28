@@ -45,7 +45,7 @@ public class RsaUtils {
      * 获取公钥
      *
      * @param bytes 公钥的字节形式
-     * @return
+     * @return 公钥对象
      * @throws Exception
      */
     public static PublicKey getPublicKey(byte[] bytes) throws Exception {
@@ -58,7 +58,7 @@ public class RsaUtils {
      * 获取密钥
      *
      * @param bytes 私钥的字节形式
-     * @return
+     * @return 私钥对象
      * @throws Exception
      */
     public static PrivateKey getPrivateKey(byte[] bytes) throws Exception {
@@ -93,6 +93,13 @@ public class RsaUtils {
         return Files.readAllBytes(new File(fileName).toPath());
     }
 
+    /**
+     * 写出文件
+     *
+     * @param destPath 目标路径
+     * @param bytes    写出的字节数组
+     * @throws IOException io异常
+     */
     private static void writeFile(String destPath, byte[] bytes) throws IOException {
         File dest = new File(destPath);
         if (!dest.exists()) {

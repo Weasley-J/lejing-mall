@@ -14,6 +14,10 @@ spring:
   #测试环境禁用thymeleaf的缓存
   thymeleaf:
     cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
   #redis配置
   redis:
     host: 192.168.226.129

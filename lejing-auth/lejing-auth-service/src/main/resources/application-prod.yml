@@ -28,6 +28,10 @@ spring:
           - data-id: common.yml
             group: DEFAULT_GROUP
             refresh: true
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
   rabbitmq:
     host: 192.168.40.132
     port: 5672
