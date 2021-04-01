@@ -1,0 +1,11 @@
+server:
+  port: 30000
+spring:
+  application:
+    name: lejing-cart
+  #运行环境: dev|test|prod
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss

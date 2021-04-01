@@ -30,6 +30,7 @@
         <module>lejing-search</module>
         <module>lejing-sms</module>
         <module>lejing-third-party</module>
+        <module>lejing-cart</module>
         <module>lejing-admin</module>
         <module>lejing-generator</module>
         <module>lejing-web-frontend</module>

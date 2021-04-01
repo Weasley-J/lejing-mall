@@ -6,17 +6,16 @@ import cn.alphahub.common.util.JsonUtils;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.member.domain.Member;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,27 +43,26 @@ public class Oauth2Controller {
      */
     @GetMapping(value = "/oauth2.0/weibo/success")
     public String weiboLogin(@RequestParam("code") String code, HttpSession session) {
-
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("client_id", "2077705774");
-        map.put("client_secret", "40af02bd1c7e435ba6a6e9cd3bf799fd");
+        log.info("code:{}", code);
+        Map<String, Object> map = new HashMap<>();
+        map.put("client_id", "561922463");
+        map.put("client_secret", "c99db94064f9d30c111a9ecc589f4cac");
         map.put("grant_type", "authorization_code");
-        map.put("redirect_uri", "/oauth2.0/weibo/success");
+        map.put("redirect_uri", "http://auth.lejing.com/oauth2.0/weibo/success");
         map.put("code", code);
-
         //1 根据用户授权返回的code换取access_token
-        String url = "https://api.weibo.com/http://auth.gulimall.comoauth2/access_token";
-        HttpRequest post = HttpUtil.createPost(url).form(map);
-        HttpResponse response = post.execute();
+        String url = "https://api.weibo.com/oauth2/access_token";
+        String response = HttpUtil.post(url, map);
+        log.info("response:{}", response);
         //2 处理
-        if (response.getStatus() == 200) {
+        if (StringUtils.hasText(response)) {
             //获取到了access_token,转为通用社交登录对象
-            SocialUser socialUser = JsonUtils.parse(response.body(), SocialUser.class);
+            SocialUser socialUser = JsonUtils.parse(response, SocialUser.class);
 
             //2.1 当前用户如果是第一次进网站，自动注册进来（为当前社交用户生成一个会员信息，以后这个社交账号就对应指定的会员）
             // 登录或者注册这个社交用户
             if (socialUser != null) {
-                System.out.println(socialUser.getAccess_token());
+                log.info("{}", socialUser.getAccess_token());
             }
             // 调用远程服务
             BaseResult<Member> result = memberClient.oauthLogin(socialUser);

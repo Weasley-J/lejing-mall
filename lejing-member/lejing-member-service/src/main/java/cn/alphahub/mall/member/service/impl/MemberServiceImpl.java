@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -124,11 +125,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 query.put("access_token", socialUser.getAccess_token());
                 query.put("uid", socialUser.getUid());
                 // HttpUtil.doGet("https://api.weibo.com/2/users/show.json", "get", new HashMap<String, String>(), query);
-                HttpRequest post = HttpUtil.createPost("https://api.weibo.com/2/users/show.json").form(query);
-                HttpResponse response = post.execute();
-                if (response.getStatus() == 200) {
+                String response = HttpUtil.get("https://api.weibo.com/2/users/show.json", query);
+                if (StringUtils.hasText(response)) {
                     // 查询成功
-                    JSONObject jsonObject = JSON.parseObject(response.body());
+                    JSONObject jsonObject = JSON.parseObject(response);
                     String name = jsonObject.getString("name");
                     String gender = jsonObject.getString("gender");
                     String profileImageUrl = jsonObject.getString("profile_image_url");
