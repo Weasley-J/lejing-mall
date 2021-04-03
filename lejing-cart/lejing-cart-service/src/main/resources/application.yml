@@ -1,5 +1,5 @@
 server:
-  port: 30000
+  port: 40000
 spring:
   application:
     name: lejing-cart

@@ -32,6 +32,12 @@ spring:
   session:
     store-type: redis
     timeout: 30m
+  redis:
+    database: 0
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    timeout: 6000ms
   rabbitmq:
     host: 192.168.40.132
     port: 5672
@@ -45,12 +51,6 @@ spring:
       exchange: LEJING.SMS.EXCHANGE
       #用于发送操作的默认路由键的名称
       routing-key: sms.verify.code
-  redis:
-    database: 0
-    host: 192.168.40.132
-    port: 6379
-    password: 123456
-    timeout: 6000ms
 #微信开放平台相关配置
 weixin:
   open:

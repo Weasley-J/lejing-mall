@@ -12,11 +12,12 @@ import java.io.Serializable;
 
 /**
  * 数据返回封装
+ * <p>通用面向对象基础返回数据封装</p>
  *
  * @param <T> 返回数据对象
  * @author liuwenjing
  * @version 1.0.1
- * @date @2021年3月26日
+ * @date 2021年3月26日
  */
 @Data
 @ToString(callSuper = true)

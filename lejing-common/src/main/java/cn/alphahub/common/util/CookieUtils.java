@@ -45,16 +45,16 @@ public final class CookieUtils {
             return null;
         }
         String retValue = null;
-        for (int i = 0; i < cookieList.length; i++) {
-            if (cookieList[i].getName().equals(cookieName)) {
+        for (Cookie cookie : cookieList) {
+            if (cookie.getName().equals(cookieName)) {
                 if (isDecoder) {
                     try {
-                        retValue = URLDecoder.decode(cookieList[i].getValue(), String.valueOf(StandardCharsets.UTF_8));
+                        retValue = URLDecoder.decode(cookie.getValue(), String.valueOf(StandardCharsets.UTF_8));
                     } catch (UnsupportedEncodingException e) {
                         log.error(e.getLocalizedMessage().concat("\n"), e);
                     }
                 } else {
-                    retValue = cookieList[i].getValue();
+                    retValue = cookie.getValue();
                 }
                 break;
             }
@@ -76,9 +76,9 @@ public final class CookieUtils {
         }
         String retValue = null;
         try {
-            for (int i = 0; i < cookieList.length; i++) {
-                if (cookieList[i].getName().equals(cookieName)) {
-                    retValue = URLDecoder.decode(cookieList[i].getValue(), encodeString);
+            for (Cookie cookie : cookieList) {
+                if (cookie.getName().equals(cookieName)) {
+                    retValue = URLDecoder.decode(cookie.getValue(), encodeString);
                     break;
                 }
             }
@@ -97,7 +97,7 @@ public final class CookieUtils {
      * @param cookieValue  value
      * @param encodeString 编码
      */
-    public static final void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, String encodeString) {
+    public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, String encodeString) {
         setCookie(request, response, cookieName, cookieValue, null, encodeString, null);
     }
 
@@ -110,14 +110,14 @@ public final class CookieUtils {
      * @param cookieValue  value
      * @param cookieMaxAge 生存时间
      */
-    public static final void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge) {
+    public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge) {
         setCookie(request, response, cookieName, cookieValue, cookieMaxAge, null, null);
     }
 
     /**
      * 设置cookie，不指定httpOnly属性
      */
-    public static final void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge, String encodeString) {
+    public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge, String encodeString) {
         setCookie(request, response, cookieName, cookieValue, cookieMaxAge, encodeString, null);
     }
 
@@ -126,10 +126,10 @@ public final class CookieUtils {
      *
      * @param cookieMaxAge cookie生效的最大秒数
      */
-    public static final void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge, String encodeString, Boolean httpOnly) {
+    public static void setCookie(HttpServletRequest request, HttpServletResponse response, String cookieName, String cookieValue, Integer cookieMaxAge, String encodeString, Boolean httpOnly) {
         try {
             if (StringUtils.isBlank(encodeString)) {
-                encodeString = "utf-8";
+                encodeString = StandardCharsets.UTF_8.toString();
             }
 
             if (cookieValue == null) {
@@ -162,7 +162,7 @@ public final class CookieUtils {
      * @param request request对象
      * @return domain for cookie
      */
-    private static final String getDomainName(HttpServletRequest request) {
+    private static String getDomainName(HttpServletRequest request) {
         String domainName;
         String serverName = request.getRequestURL().toString();
         if (StringUtils.isEmpty(serverName) || StringUtils.isBlank(serverName)) {
