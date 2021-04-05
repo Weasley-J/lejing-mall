@@ -1,6 +1,7 @@
 package cn.alphahub.common.constant;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 商品相关常量类
@@ -12,7 +13,6 @@ public class ProductConstant {
     /**
      * 商品属性枚举类
      */
-    @Getter
     public enum AttrEnum {
 
         /**
@@ -27,11 +27,16 @@ public class ProductConstant {
         /**
          * 属性类型码
          */
-        private final Integer code;
+        @Getter
+        @Setter
+        private Integer code;
+
         /**
          * 属性类型名称
          */
-        private final String name;
+        @Getter
+        @Setter
+        private String name;
 
         AttrEnum(Integer code, String name) {
             this.code = code;
@@ -42,7 +47,6 @@ public class ProductConstant {
     /**
      * 商品状态枚举
      */
-    @Getter
     public enum StatusEnum {
         /**
          * 新建商品
@@ -60,25 +64,20 @@ public class ProductConstant {
         /**
          * 属性类型码
          */
-        private final Integer code;
+        @Getter
+        @Setter
+        private Integer code;
 
         /**
          * 属性类型名称
          */
-        private final String name;
+        @Getter
+        @Setter
+        private String name;
 
         StatusEnum(int code, String name) {
             this.code = code;
             this.name = name;
         }
-
-        public int getCode() {
-            return code;
-        }
-
-        public String getName() {
-            return name;
-        }
-
     }
 }

@@ -1,6 +1,7 @@
 package cn.alphahub.common.constant;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 库存常量类
@@ -12,7 +13,6 @@ public class WareConstant {
     /**
      * 采购单状态枚举类
      */
-    @Getter
     public enum PurchaseStatusEnum {
         /**
          * 0 新建
@@ -38,12 +38,16 @@ public class WareConstant {
         /**
          * 属性类型码
          */
-        private final Integer code;
+        @Getter
+        @Setter
+        private Integer code;
 
         /**
          * 属性类型名称
          */
-        private final String name;
+        @Getter
+        @Setter
+        private String name;
 
         PurchaseStatusEnum(Integer code, String name) {
             this.code = code;
@@ -54,7 +58,6 @@ public class WareConstant {
     /**
      * 采购需求状态枚举类
      */
-    @Getter
     public enum PurchaseDemandStatusEnum {
         /**
          * 0 新建
@@ -80,12 +83,16 @@ public class WareConstant {
         /**
          * 属性类型码
          */
-        private final Integer code;
+        @Getter
+        @Setter
+        private Integer code;
 
         /**
          * 属性类型名称
          */
-        private final String name;
+        @Getter
+        @Setter
+        private String name;
 
         PurchaseDemandStatusEnum(Integer code, String name) {
             this.code = code;

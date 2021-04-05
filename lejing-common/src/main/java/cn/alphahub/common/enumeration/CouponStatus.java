@@ -1,6 +1,7 @@
 package cn.alphahub.common.enumeration;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
@@ -21,10 +22,12 @@ public enum CouponStatus implements BaseStatus {
     REFUNDED(5, "已退款");
 
     @Getter
-    private final Integer statusCode;
+    @Setter
+    private String statusName;
 
     @Getter
-    private final String statusName;
+    @Setter
+    private Integer statusCode;
 
     CouponStatus(Integer statusCode, String statusName) {
         this.statusCode = statusCode;
