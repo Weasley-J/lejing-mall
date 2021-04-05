@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Resource;
+
 /**
  * <b>拦截器配置</b>
  *
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class CartWebMvcConfig implements WebMvcConfigurer {
+    @Resource
+    private CartInterceptor cartInterceptor;
 
     /**
      * Add Spring MVC lifecycle interceptors for pre- and post-processing of
@@ -25,6 +29,6 @@ public class CartWebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new CartInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(cartInterceptor).addPathPatterns("/**");
     }
 }

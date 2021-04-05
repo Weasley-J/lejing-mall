@@ -7,10 +7,13 @@ import cn.alphahub.mall.product.mapper.SkuSaleAttrValueMapper;
 import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
 import cn.alphahub.mall.product.vo.SkuItemSaleAttrVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * sku销售属性&值Service业务层处理
@@ -47,6 +50,24 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueMap
     @Override
     public List<SkuItemSaleAttrVO> getSaleAttrBySpuId(Long spuId) {
         return this.baseMapper.getSaleAttrBySpuId(spuId);
+    }
+
+    /**
+     * 根据skuId获取商品的销售属性
+     *
+     * @param skuId 商品skuId
+     * @return 商品的销售属性列表
+     */
+    @Override
+    public List<String> getSkuAttrValues(Long skuId) {
+        QueryWrapper<SkuSaleAttrValue> wrapper = new QueryWrapper<>();
+        List<SkuSaleAttrValue> values = this.list(wrapper.lambda().eq(SkuSaleAttrValue::getSkuId, skuId));
+        if (CollectionUtils.isNotEmpty(values)) {
+            return values.stream()
+                    .map(skuSaleAttrValue -> skuSaleAttrValue.getAttrName()+":"+skuSaleAttrValue.getAttrValue())
+                    .collect(Collectors.toList());
+        }
+        return Lists.newArrayList();
     }
 
 }

@@ -17,11 +17,18 @@ public interface CartService {
     /**
      * 将商品添加至购物车
      *
-     * @param skuId sku id
-     * @param num   数量
+     * @param skuId 商品sku id
+     * @param num   购物车商品数量
      * @return 购物项内容
      */
-    CartItemVo addToCart(Long skuId, Integer num) throws ExecutionException, InterruptedException;
+    CartItemVo addCart(Long skuId, Integer num) throws ExecutionException, InterruptedException;
+
+    /**
+     * 删除购物车的商品
+     *
+     * @param skuId sku id
+     */
+    void deleteCart(Long skuId);
 
     /**
      * 获取购物车某个购物项
@@ -43,7 +50,7 @@ public interface CartService {
      *
      * @param cartKey 购物车的key
      */
-    void clearCartInfo(String cartKey);
+    Boolean clearCartInfo(String cartKey);
 
     /**
      * 勾选购物项

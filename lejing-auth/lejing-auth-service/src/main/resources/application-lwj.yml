@@ -51,6 +51,6 @@ spring:
 #微信开放平台相关配置
 wechat:
   open:
-    app-id: your-app-id
-    app-secret: your-app-secret
-    redirect-url: your-redirect-url
+    app-id: wxed9954c01bb89b47
+    app-secret: a7482517235173ddb4083788de60b90e
+    redirect-url: http://guli.shop/api/ucenter/wx/callback

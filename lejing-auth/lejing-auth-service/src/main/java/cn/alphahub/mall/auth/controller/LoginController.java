@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Objects;
@@ -75,7 +76,7 @@ public class LoginController extends BaseController {
     @GetMapping("/login.html")
     public String loginPage(HttpSession session) {
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
-        return Objects.isNull(attribute) ? "login" : "redirect:" + Oauth2Controller.LEJING_HOMEPAGE;
+        return Objects.isNull(attribute) ? "login" : "redirect:" + WeiboController.LEJING_HOMEPAGE;
     }
 
     /**
@@ -87,5 +88,19 @@ public class LoginController extends BaseController {
     @PostMapping("/login")
     public String login(UserLogin userLogin, RedirectAttributes redirectAttributes, HttpSession session) {
         return authService.login(userLogin, redirectAttributes, session);
+    }
+
+    /**
+     * 退出登录
+     * <p>从Session中删除的登录用户信息</p>
+     *
+     * @param request http servlet request
+     * @return 跳转到首页
+     */
+    @GetMapping(value = "/loguot.html")
+    public String signOut(HttpServletRequest request) {
+        request.getSession().removeAttribute(AuthConstant.LOGIN_USER);
+        request.getSession().invalidate();
+        return "redirect:http://lejing.com";
     }
 }

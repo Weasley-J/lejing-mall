@@ -7,11 +7,9 @@ import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.mapper.MemberMapper;
 import cn.alphahub.mall.member.service.MemberService;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -121,17 +119,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 //2、没有查到当前社交用户对应的记录我们就需要注册一个
                 Member registerUser = new Member();
                 //3、查询当前社交用户的社交账号信息（昵称、性别等）
-                Map<String, Object> query = new HashMap<>();
-                query.put("access_token", socialUser.getAccess_token());
-                query.put("uid", socialUser.getUid());
-                // HttpUtil.doGet("https://api.weibo.com/2/users/show.json", "get", new HashMap<String, String>(), query);
-                String response = HttpUtil.get("https://api.weibo.com/2/users/show.json", query);
+                Map<String, Object> queryMap = new HashMap<>(3);
+                queryMap.put("access_token", socialUser.getAccess_token());
+                queryMap.put("uid", socialUser.getUid());
+                String response = HttpUtil.get("https://api.weibo.com/2/users/show.json", queryMap);
                 if (StringUtils.hasText(response)) {
                     // 查询成功
-                    JSONObject jsonObject = JSON.parseObject(response);
-                    String name = jsonObject.getString("name");
-                    String gender = jsonObject.getString("gender");
-                    String profileImageUrl = jsonObject.getString("profile_image_url");
+                    JSONObject jsonObject = JSONUtil.parseObj(response);
+                    String name = jsonObject.getStr("name");
+                    String gender = jsonObject.getStr("gender");
+                    String profileImageUrl = jsonObject.getStr("profile_image_url");
                     registerUser.setNickname(name);
                     registerUser.setGender("m".equals(gender) ? 1 : 0);
                     registerUser.setHeader(profileImageUrl);
@@ -147,6 +144,64 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         } catch (Exception e) {
             log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
             return null;
+        }
+        return member;
+    }
+
+    /**
+     * 使用微信的accessToken登录注册用户
+     *
+     * @param accessTokenInfo 微信accessToken信息
+     * @return 用户信息
+     */
+    @Override
+    public Member loginWithWeChat(String accessTokenInfo) {
+        //从accessTokenInfo中获取出来两个值 access_token 和 oppenid
+        //把accessTokenInfo字符串转换成map集合，根据map里面中的key取出相对应的value
+        JSONObject jsonObject = JSONUtil.parseObj(accessTokenInfo);
+        log.info("使用微信的accessToken登录注册用户: \n{}", JSONUtil.toJsonPrettyStr(accessTokenInfo));
+        String accessToken = jsonObject.getStr("access_token");
+        String openid = jsonObject.getStr("openid");
+
+        //3、拿到access_token 和 oppenid，再去请求微信提供固定的API，获取到扫码人的信息
+        //TODO 查询数据库当前用用户是否曾经使用过微信登录
+        Member member = this.getOne(new QueryWrapper<Member>().lambda().eq(Member::getSocialUid, openid));
+
+        if (Objects.isNull(member)) {
+            log.info("新用户注册...");
+
+            // 访问微信的资源服务器，获取用户信息
+            String baseUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo" +
+                    "?access_token=%s" +
+                    "&openid=%s";
+            String userInfoUrl = String.format(baseUserInfoUrl, accessToken, openid);
+
+            // 发送请求
+            String respUserInfo = "";
+            try {
+                respUserInfo = HttpUtil.get(userInfoUrl);
+                log.info("访问微信的资源服务器，获取用户信息 : \n{}", JSONUtil.toJsonPrettyStr(respUserInfo));
+            } catch (Exception e) {
+                log.error("异常信息：\n{}", e.getLocalizedMessage(), e);
+            }
+
+            JSONObject resultJson = JSONUtil.parseObj(respUserInfo);
+            /*昵称*/
+            String nickName = resultJson.getStr("nickname");
+            /*性别*/
+            Double sex = resultJson.getDouble("sex");
+            /*微信头像*/
+            String headImgUrl = resultJson.getStr("headimgurl");
+
+            //把扫码人的信息添加到数据库中
+            member = new Member();
+            member.setNickname(nickName);
+            member.setGender(sex.intValue());
+            member.setHeader(headImgUrl);
+            member.setCreateTime(new Date());
+            member.setSocialUid(openid);
+            member.setStatus(1);
+            this.save(member);
         }
         return member;
     }

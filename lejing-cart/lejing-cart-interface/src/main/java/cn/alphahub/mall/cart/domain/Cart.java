@@ -80,6 +80,6 @@ public class Cart implements Serializable {
             }
         }
         // 计算优惠后的价格
-        return amount.subtract(getReduce());
+        return amount.subtract(this.reduce);
     }
 }

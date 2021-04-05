@@ -40,4 +40,12 @@ public interface MemberService extends IService<Member> {
      * @return 用户信息
      */
     Member loginByWeibo(SocialUser socialUser);
+
+    /**
+     * 使用微信的accessToken登录注册用户
+     *
+     * @param accessTokenInfo 微信accessToken信息
+     * @return 用户信息
+     */
+    Member loginWithWeChat(String accessTokenInfo);
 }

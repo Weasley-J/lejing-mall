@@ -5,7 +5,7 @@ spring:
     name: lejing-auth-server
   profiles:
     #运行环境: dev|test|prod
-    active: dev
+    active: lwj
   jackson:
     #设置为东八区时间
     time-zone: GMT+8

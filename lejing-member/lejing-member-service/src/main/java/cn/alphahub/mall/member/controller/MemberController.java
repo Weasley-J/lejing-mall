@@ -15,6 +15,7 @@ import cn.alphahub.mall.member.service.MemberLevelService;
 import cn.alphahub.mall.member.service.MemberService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.api.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
@@ -200,5 +201,20 @@ public class MemberController extends BaseController {
     BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
         Member member = memberService.loginByWeibo(socialUser);
         return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail();
+    }
+
+    /**
+     * 使用微信的accessToken登录注册用户
+     *
+     * @param accessTokenInfo 微信accessToken信息
+     * @return 用户信息
+     */
+    @PostMapping(value = "/weixin/login")
+    BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
+        Member member = memberService.loginWithWeChat(accessTokenInfo);
+        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail(
+                CheckUserExistsStatus.USER_IS_EMPTY.getValue(),
+                CheckUserExistsStatus.USER_IS_EMPTY.getName()
+        );
     }
 }

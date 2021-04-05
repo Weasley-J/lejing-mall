@@ -21,3 +21,16 @@ spring:
     port: 6379
     password: 123456
     timeout: 6000ms
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 20
+    #最大线程数
+    maximum-pool-size: 200
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 10000

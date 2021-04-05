@@ -27,7 +27,7 @@ public class UserInfoTo implements Serializable {
     private Long userId;
 
     /**
-     * 用户密钥
+     * 用户key - redis前缀
      */
     private String userKey;
 

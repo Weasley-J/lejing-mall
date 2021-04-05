@@ -55,8 +55,6 @@ public class CartController {
      */
     @GetMapping(value = "/cart.html")
     public String cartListPage(Model model) throws ExecutionException, InterruptedException {
-        //快速得到用户信息：id, user-key
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
         Cart cart = cartService.getCart();
         model.addAttribute("cart", cart);
         return "cartList";
@@ -68,6 +66,8 @@ public class CartController {
      * attributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次
      * attributes.addAttribute():将数据放在url后面
      *
+     * @param skuId 商品sku id
+     * @param num   购物车商品数量
      * @return redirect url
      */
     @GetMapping(value = "/addCartItem")
@@ -76,23 +76,23 @@ public class CartController {
             @RequestParam("num") Integer num,
             RedirectAttributes attributes
     ) throws ExecutionException, InterruptedException {
-        cartService.addToCart(skuId, num);
+        cartService.addCart(skuId, num);
         attributes.addAttribute("skuId", skuId);
-        return "redirect:" + LEJING_CART_HOME + "/addToCartSuccessPage.html";
+        return "redirect:" + LEJING_CART_HOME + "/addCartSuccess.html";
     }
 
 
     /**
      * 跳转到添加购物车成功页面
      *
-     * @param skuId sku id
+     * @param skuId 商品sku id
      * @return success
      */
-    @GetMapping(value = "/addToCartSuccessPage.html")
+    @GetMapping(value = "/addCartSuccess.html")
     public String addToCartSuccessPage(@RequestParam("skuId") Long skuId, Model model) {
         //重定向到成功页面。再次查询购物车数据即可
-        CartItemVo cartItemVo = cartService.getCartItem(skuId);
-        model.addAttribute("cartItem", cartItemVo);
+        CartItemVo cartItem = cartService.getCartItem(skuId);
+        model.addAttribute("cartItem", cartItem);
         return "success";
     }
 

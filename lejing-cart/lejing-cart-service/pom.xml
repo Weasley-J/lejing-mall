@@ -21,10 +21,22 @@
     </properties>
 
     <dependencies>
-        <!-- feign远程调用模块 -->
+        <!-- 购物车 - interface -->
         <dependency>
             <groupId>com.lejing.mall.cart</groupId>
             <artifactId>lejing-cart-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+        </dependency>
+        <!--会员 feign远程调用模块-->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+        </dependency>
+        <!-- 商品 feign远程调用模块 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-product-interface</artifactId>
             <version>${lejing.latest.version}</version>
         </dependency>
         <!--  thymeleaf -->
@@ -77,11 +89,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!--会员 Interface-->
+        <!--Spring Boot yml文件元数据配置-->
         <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-member-interface</artifactId>
-            <version>${lejing.latest.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

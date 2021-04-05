@@ -6,6 +6,7 @@ import cn.alphahub.mall.cart.to.UserInfoTo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,11 +25,21 @@ import java.util.UUID;
  * @version 1.0
  * @date 2021/04/03
  */
+@Component
 public class CartInterceptor implements HandlerInterceptor {
     /**
      * 保存用户信息的threadLocal变量
      */
-    public static ThreadLocal<UserInfoTo> threadLocal = new ThreadLocal<>();
+    public static ThreadLocal<UserInfoTo> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
+
+    /**
+     * 从线程的局部变量中获取用户信息
+     *
+     * @return User对象
+     */
+    public static UserInfoTo getUserInfo() {
+        return USER_INFO_THREAD_LOCAL.get();
+    }
 
     /**
      * 目标方法之前执行
@@ -39,10 +50,9 @@ public class CartInterceptor implements HandlerInterceptor {
         // session
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
-        Member member = new Member();
         if (attribute instanceof Member) {
             //已登录
-            member = (Member) attribute;
+            Member member = (Member) attribute;
             userInfo.setUserId(member.getId());
         }
         // cookie
@@ -63,10 +73,10 @@ public class CartInterceptor implements HandlerInterceptor {
             }
         }
         if (ObjectUtils.isNull(userInfo.getUserKey())) {
-            String userKey = UUID.randomUUID().toString();
+            String userKey = UUID.randomUUID().toString().replaceAll("-", "");
             userInfo.setUserKey(userKey);
         }
-        threadLocal.set(userInfo);
+        USER_INFO_THREAD_LOCAL.set(userInfo);
         return true;
     }
 
@@ -75,7 +85,7 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        UserInfoTo userInfo = threadLocal.get();
+        UserInfoTo userInfo = USER_INFO_THREAD_LOCAL.get();
         String userKey = userInfo.getUserKey();
         // 目标方法之后给浏览器设置Cookie
         if (userInfo.getTempUser()) {
@@ -91,6 +101,7 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        threadLocal.remove();
+        //清空线程的局部变量
+        USER_INFO_THREAD_LOCAL.remove();
     }
 }

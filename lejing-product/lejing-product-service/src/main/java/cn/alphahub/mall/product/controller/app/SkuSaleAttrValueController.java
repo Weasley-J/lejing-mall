@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * sku销售属性&值Controller
@@ -48,6 +49,21 @@ public class SkuSaleAttrValueController extends BaseController {
         PageResult<SkuSaleAttrValue> pageResult = skuSaleAttrValueService.queryPage(pageDomain, skuSaleAttrValue);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
             return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+    }
+
+    /**
+     * 根据skuId获取商品的销售属性
+     *
+     * @param skuId 商品skuId
+     * @return 商品的销售属性列表
+     */
+    @GetMapping("/skuAttrValues/{skuId}")
+    public BaseResult<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId) {
+        List<String> skuAttrValues = skuSaleAttrValueService.getSkuAttrValues(skuId);
+        if (ObjectUtils.isNotEmpty(skuAttrValues)) {
+            return BaseResult.ok(skuAttrValues);
         }
         return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }

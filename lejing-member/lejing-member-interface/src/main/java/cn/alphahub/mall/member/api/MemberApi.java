@@ -89,4 +89,13 @@ public interface MemberApi {
      */
     @PostMapping("/oauth2/login")
     BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser);
+
+    /**
+     * 使用微信的accessToken登录注册用户
+     *
+     * @param accessTokenInfo 微信accessToken信息
+     * @return 用户信息
+     */
+    @PostMapping(value = "/weixin/login")
+    BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo);
 }

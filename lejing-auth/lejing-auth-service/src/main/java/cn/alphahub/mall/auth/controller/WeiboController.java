@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
-public class Oauth2Controller {
+public class WeiboController {
 
     public static final String LEJING_HOMEPAGE = "http://lejing.com";
     public static final String LEJING_AUTH_HOMEPAGE = "http://auth.lejing.com";

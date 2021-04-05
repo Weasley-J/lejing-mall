@@ -52,7 +52,7 @@ spring:
       #用于发送操作的默认路由键的名称
       routing-key: sms.verify.code
 #微信开放平台相关配置
-weixin:
+wechat:
   open:
     app-id: your-app-id
     app-secret: your-app-secret
