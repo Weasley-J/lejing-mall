@@ -46,3 +46,4 @@ build/
 /nacos-server/nacos-server-2.0.0/nacos/data/protocol/raft
 /nacos-server/nacos-server-2.0.0/nacos/data/tps
 /nacos-server/nacos-server-2.0.0/nacos/data/tps
+/lejing-auth/lejing-auth-service/src/main/resources/application-lwj.yml
