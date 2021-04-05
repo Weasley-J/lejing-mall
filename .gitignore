@@ -45,4 +45,3 @@ build/
 ### 自定义配置文件，防止账号泄露 ###
 !**/src/main/resources/application-lwj.yml
 !**/src/main/resources/product_mapping.json
-/lejing-auth/lejing-auth-service/src/main/resources/application-lwj.yml
