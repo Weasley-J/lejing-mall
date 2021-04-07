@@ -16,6 +16,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 public class CartWebMvcConfig implements WebMvcConfigurer {
+
     @Resource
     private CartInterceptor cartInterceptor;
 

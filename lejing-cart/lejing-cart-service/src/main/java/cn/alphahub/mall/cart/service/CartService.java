@@ -17,23 +17,25 @@ public interface CartService {
     /**
      * 将商品添加至购物车
      *
-     * @param skuId 商品sku id
+     * @param skuId 商品skuId
      * @param num   购物车商品数量
      * @return 购物项内容
+     * @throws ExecutionException
+     * @throws InterruptedException
      */
     CartItemVo addCart(Long skuId, Integer num) throws ExecutionException, InterruptedException;
 
     /**
      * 删除购物车的商品
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      */
     void deleteCart(Long skuId);
 
     /**
      * 获取购物车某个购物项
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @return 购物项内容
      */
     CartItemVo getCartItem(Long skuId);
@@ -42,6 +44,8 @@ public interface CartService {
      * 获取购物车里面的信息
      *
      * @return 整个购物车存放的商品信息
+     * @throws ExecutionException
+     * @throws InterruptedException
      */
     Cart getCart() throws ExecutionException, InterruptedException;
 
@@ -49,30 +53,31 @@ public interface CartService {
      * 清空购物车的数据
      *
      * @param cartKey 购物车的key
+     * @return 清除成功|失败
      */
     Boolean clearCartInfo(String cartKey);
 
     /**
      * 勾选购物项
      *
-     * @param skuId sku id
-     * @param check 是否选中
+     * @param skuId 商品skuId
+     * @param check 选中状态：1 选中， 0 未选中
      */
     void checkItem(Long skuId, Integer check);
 
     /**
-     * 改变商品数量
+     * 修改购物车中商品数量
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @param num   数量
      */
     void changeItemCount(Long skuId, Integer num);
 
 
     /**
-     * 删除购物项
+     * 删除redis中用户的购物项
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      */
     void deleteIdCartInfo(Integer skuId);
 

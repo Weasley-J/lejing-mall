@@ -148,7 +148,7 @@ public class ThreadTest {
      * @throws InterruptedException 中断异常
      */
     @Test
-    void 组合多个异步线程任务() throws ExecutionException, InterruptedException {
+    void combineMultipleAsynchronousThreadTasks() throws ExecutionException, InterruptedException {
 
         CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
             System.out.println("future1线程：" + Thread.currentThread().getId() + " " + Thread.currentThread().getName());

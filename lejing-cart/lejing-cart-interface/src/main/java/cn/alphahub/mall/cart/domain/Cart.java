@@ -1,11 +1,11 @@
 package cn.alphahub.mall.cart.domain;
 
 import cn.alphahub.mall.cart.vo.CartItemVo;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -51,9 +51,25 @@ public class Cart implements Serializable {
      */
     private BigDecimal reduce = new BigDecimal("0.00");
 
+    /**
+     * <p>设置购物车元数据</p>
+     * <p>商品数量、商品类型数量、商品总价</p>
+     *
+     * @param cart 原来
+     * @return 整个购物车存放的商品信息
+     */
+    public Cart buildCartMetaData(Cart cart) {
+        if (CollectionUtils.isNotEmpty(cart.getItems())) {
+            cart.setCountNum(getCountNum());
+            cart.setCountType(getCountType());
+            cart.setTotalAmount(getTotalAmount());
+        }
+        return cart;
+    }
+
     public Integer getCountNum() {
         int count = 0;
-        if (items != null && items.size() > 0) {
+        if (CollectionUtils.isNotEmpty(items)) {
             for (CartItemVo item : items) {
                 count += item.getCount();
             }
@@ -63,8 +79,8 @@ public class Cart implements Serializable {
 
     public Integer getCountType() {
         int count = 0;
-        if (items != null && items.size() > 0) {
-            return items.size();
+        if (CollectionUtils.isNotEmpty(items)) {
+            count = items.size();
         }
         return count;
     }
@@ -72,7 +88,7 @@ public class Cart implements Serializable {
     public BigDecimal getTotalAmount() {
         BigDecimal amount = new BigDecimal("0");
         // 计算购物项总价
-        if (!CollectionUtils.isEmpty(items)) {
+        if (CollectionUtils.isNotEmpty(items)) {
             for (CartItemVo cartItem : items) {
                 if (cartItem.getCheck()) {
                     amount = amount.add(cartItem.getTotalPrice());
@@ -80,6 +96,6 @@ public class Cart implements Serializable {
             }
         }
         // 计算优惠后的价格
-        return amount.subtract(this.reduce);
+        return amount.subtract(getReduce());
     }
 }

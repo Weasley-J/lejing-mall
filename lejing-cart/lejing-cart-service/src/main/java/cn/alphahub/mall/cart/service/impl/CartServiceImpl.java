@@ -3,6 +3,7 @@ package cn.alphahub.mall.cart.service.impl;
 import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.cart.domain.Cart;
+import cn.alphahub.mall.cart.exception.CartExceptionHandler;
 import cn.alphahub.mall.cart.feign.SkuInfoClient;
 import cn.alphahub.mall.cart.feign.SkuSaleAttrValueClient;
 import cn.alphahub.mall.cart.interceptor.CartInterceptor;
@@ -69,10 +70,7 @@ public class CartServiceImpl implements CartService {
         // redis已经有了的话,只修改数量
         Object skuResult = cartOps.get(skuId.toString());
         if (Objects.nonNull(skuResult)) {
-            return this.updateCart(CartItemVo.builder()
-                    .skuId(skuId)
-                    .count(num).build()
-            );
+            return updateCart(CartItemVo.builder().skuId(skuId).count(num).build());
         }
 
         // 使用线程池: 远程查询商品服务获取sku信息
@@ -113,7 +111,6 @@ public class CartServiceImpl implements CartService {
      * 删除购物车的商品
      *
      * @param skuId 商品skuId
-     * @return
      */
     @Override
     public void deleteCart(Long skuId) {
@@ -133,9 +130,8 @@ public class CartServiceImpl implements CartService {
             String skuIdString = String.valueOf(skuId);
             Object obj = ops.get(skuIdString);
             if (Objects.nonNull(obj)) {
-                String cartJson = obj.toString();
                 // 获取购物车信息
-                CartItemVo oldCartItem = objectMapper.readValue(cartJson, CartItemVo.class);
+                CartItemVo oldCartItem = objectMapper.readValue(obj.toString(), CartItemVo.class);
                 // 更新数量
                 oldCartItem.setCount(oldCartItem.getCount() + cartItem.getCount());
                 oldCartItem.setTotalPrice(NumberUtil.add(oldCartItem.getTotalPrice(), cartItem.getTotalPrice()));
@@ -166,7 +162,7 @@ public class CartServiceImpl implements CartService {
     /**
      * 获取购物车某个购物项
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @return 购物项内容
      */
     @Override
@@ -184,7 +180,7 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public Cart getCart() throws ExecutionException, InterruptedException {
-        Cart cart = Cart.builder().build();
+        Cart cart = new Cart();
         // 从 thread local 获取用户信息
         UserInfoTo userInfo = CartInterceptor.getUserInfo();
         Long userId = userInfo.getUserId();
@@ -218,13 +214,14 @@ public class CartServiceImpl implements CartService {
                 cart.setItems(itemVos);
             }
         }
-        return cart;
+        return cart.buildCartMetaData(cart);
     }
 
     /**
      * 清空购物车的数据
      *
      * @param cartKey 购物车的key
+     * @return 清除成功|失败
      */
     @Override
     public Boolean clearCartInfo(String cartKey) {
@@ -234,33 +231,45 @@ public class CartServiceImpl implements CartService {
     /**
      * 勾选购物项
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @param check 是否选中
      */
     @Override
     public void checkItem(Long skuId, Integer check) {
-
+        CartItemVo cartItem = getCartItem(skuId);
+        String jsonStrBefore = JSONUtil.toJsonStr(cartItem);
+        cartItem.setCheck(Objects.equals(check, 1));
+        String jsonStrAfter = JSONUtil.toJsonStr(cartItem);
+        // 修改redis中的购物项
+        BoundHashOperations<String, Object, Object> ops = getCartOps();
+        ops.put(skuId.toString(), jsonStrAfter);
+        log.info("\n修改前：" + jsonStrBefore + "\n" +
+                "修改后：" + jsonStrAfter + "\n");
     }
 
     /**
-     * 改变商品数量
+     * 修改购物车中商品数量
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @param num   数量
      */
     @Override
     public void changeItemCount(Long skuId, Integer num) {
-
+        CartItemVo cartItem = getCartItem(skuId);
+        cartItem.setCount(num);
+        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
+        cartOps.put(String.valueOf(skuId), JSONUtil.toJsonStr(cartItem));
     }
 
     /**
-     * 删除购物项
+     * 删除redis中用户的购物项
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      */
     @Override
     public void deleteIdCartInfo(Integer skuId) {
-
+        BoundHashOperations<String, Object, Object> cartOps = getCartOps();
+        cartOps.delete(String.valueOf(skuId));
     }
 
     /**
@@ -270,7 +279,44 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public List<CartItemVo> getUserCartItems() {
-        return null;
+        List<CartItemVo> items = Lists.newArrayList();
+        UserInfoTo userInfo = CartInterceptor.getUserInfo();
+        if (Objects.isNull(userInfo.getUserId())) {
+            return items;
+        }
+
+        String cartKey = CartConstant.CART_PREFIX + userInfo.getUserId();
+        List<CartItemVo> cartItems = getCartItems(cartKey);
+        if (CollectionUtils.isEmpty(cartItems)) {
+            log.warn("用户的购物车为空!");
+            throw new CartExceptionHandler();
+        }
+
+        // 使用多线程 - 筛选出默认被选中的sku
+        CompletableFuture<List<CartItemVo>> queryLatestPriceFuture = CompletableFuture.supplyAsync(() -> {
+            List<CartItemVo> itemVos = cartItems.stream()
+                    .filter(CartItemVo::getCheck)
+                    .peek(item -> {
+                        // 远程查询商品的最新价格
+                        BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
+                        log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonPrettyStr(result));
+                        if (result.getSuccess()) {
+                            SkuInfo skuInfo = result.getData();
+                            item.setPrice(skuInfo.getPrice());
+                        }
+                    }).collect(Collectors.toList());
+            items.addAll(itemVos);
+            return itemVos;
+        }, executor);
+
+        // 使用多线程异步任务编排 - 等待所有任务执行完才返回数据
+        try {
+            CompletableFuture.allOf(queryLatestPriceFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+        }
+
+        return items;
     }
 
     /**
@@ -284,7 +330,7 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> operations = stringRedisTemplate.boundHashOps(cartKey);
         List<Object> values = operations.values();
         if (CollectionUtils.isNotEmpty(values)) {
-            return values.stream().map(o -> JSONUtil.toBean(o.toString(), CartItemVo.class)).collect(Collectors.toList());
+            return values.stream().map(obj -> JSONUtil.toBean(String.valueOf(obj), CartItemVo.class)).collect(Collectors.toList());
         }
         return Lists.newArrayList();
     }

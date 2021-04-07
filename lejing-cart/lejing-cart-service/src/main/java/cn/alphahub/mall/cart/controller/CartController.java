@@ -1,9 +1,7 @@
 package cn.alphahub.mall.cart.controller;
 
 import cn.alphahub.mall.cart.domain.Cart;
-import cn.alphahub.mall.cart.interceptor.CartInterceptor;
 import cn.alphahub.mall.cart.service.CartService;
-import cn.alphahub.mall.cart.to.UserInfoTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +31,7 @@ public class CartController {
     /**
      * 获取当前用户的购物车商品项
      *
-     * @return
+     * @return 用户当前的购物项
      */
     @GetMapping(value = "/currentUserCartItems")
     @ResponseBody
@@ -66,7 +64,7 @@ public class CartController {
      * attributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次
      * attributes.addAttribute():将数据放在url后面
      *
-     * @param skuId 商品sku id
+     * @param skuId 商品skuId
      * @param num   购物车商品数量
      * @return redirect url
      */
@@ -85,7 +83,7 @@ public class CartController {
     /**
      * 跳转到添加购物车成功页面
      *
-     * @param skuId 商品sku id
+     * @param skuId 商品skuId
      * @return success
      */
     @GetMapping(value = "/addCartSuccess.html")
@@ -100,24 +98,21 @@ public class CartController {
     /**
      * 商品是否选中
      *
-     * @param skuId   skuId
-     * @param checked 选中
+     * @param skuId   商品skuId
+     * @param checked 选中状态：1 选中， 0 未选中
      * @return redirect url
      */
     @GetMapping(value = "/checkItem")
-    public String checkItem(
-            @RequestParam(value = "skuId") Long skuId,
-            @RequestParam(value = "checked") Integer checked
-    ) {
+    public String checkItem(@RequestParam(value = "skuId") Long skuId,
+                            @RequestParam(value = "checked") Integer checked) {
         cartService.checkItem(skuId, checked);
         return "redirect:" + LEJING_CART_HTML;
-
     }
 
     /**
-     * 改变商品数量
+     * 修改购物车中商品数量
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @param num   数量
      * @return redirect url
      */
@@ -131,7 +126,7 @@ public class CartController {
     /**
      * 删除商品信息
      *
-     * @param skuId sku id
+     * @param skuId 商品skuId
      * @return redirect url
      */
     @GetMapping(value = "/deleteItem")
