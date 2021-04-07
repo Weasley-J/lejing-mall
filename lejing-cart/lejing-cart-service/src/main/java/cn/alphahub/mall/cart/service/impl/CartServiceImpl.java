@@ -328,9 +328,9 @@ public class CartServiceImpl implements CartService {
     private List<CartItemVo> getCartItems(String cartKey) {
         // 获取购物车里面的所有商品
         BoundHashOperations<String, Object, Object> operations = stringRedisTemplate.boundHashOps(cartKey);
-        List<Object> values = operations.values();
-        if (CollectionUtils.isNotEmpty(values)) {
-            return values.stream().map(obj -> JSONUtil.toBean(String.valueOf(obj), CartItemVo.class)).collect(Collectors.toList());
+        List<Object> tempCartValues = operations.values();
+        if (CollectionUtils.isNotEmpty(tempCartValues)) {
+            return tempCartValues.stream().map(obj -> JSONUtil.toBean(String.valueOf(obj), CartItemVo.class)).collect(Collectors.toList());
         }
         return Lists.newArrayList();
     }
