@@ -8,6 +8,19 @@ spring:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档
       add-mappings: on
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #显式指定没有接收消息的默认队列的名称
+      default-receive-queue: LEJING.ORDER.QUEUE
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.ORDER.EXCHANGE
+      #用于发送操作的默认路由键的名称
+      routing-key: lejing.order.item
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

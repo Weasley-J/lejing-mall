@@ -142,6 +142,18 @@ api[4].list.push({
     order: '7',
     desc: '查询优惠券信息列表-测试feign远程调用',
 });
+api[4].list.push({
+    order: '8',
+    desc: '用户登录',
+});
+api[4].list.push({
+    order: '9',
+    desc: '处理微博社交登录',
+});
+api[4].list.push({
+    order: '10',
+    desc: '使用微信的accessToken登录注册用户',
+});
 api.push({
     alias: 'MemberLevelController',
     order: '6',

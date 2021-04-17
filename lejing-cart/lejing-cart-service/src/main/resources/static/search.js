@@ -1,60 +1,42 @@
 let api = [];
 api.push({
-    alias: 'LoginController',
+    alias: 'CartController',
     order: '1',
-    link: '登录页controller',
-    desc: '登录页Controller',
+    link: '&lt;b&gt;购物车controller&lt;/b&gt;',
+    desc: '&lt;b&gt;购物车Controller&lt;/b&gt;',
     list: []
 })
 api[0].list.push({
     order: '1',
-    desc: '发送验证码给用户手机',
+    desc: '获取当前用户的购物车商品项',
 });
 api[0].list.push({
     order: '2',
-    desc: '用户注册',
+    desc: '去购物车页面的请求浏览器有一个cookie:user-key 标识用户的身份，一个月过期如果第一次使用jd的购物车功能，都会给一个临时的用户身份:浏览器以后保存，每次访问都会带上这个cookie；&lt;p&gt;登录：session有没登录：按照cookie里面带来user-key来做第一次，如果没有临时用户，自动创建一个临时用户',
 });
 api[0].list.push({
     order: '3',
-    desc: '登录页',
+    desc: '添加商品到购物车attributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次attributes.addAttribute():将数据放在url后面',
 });
 api[0].list.push({
     order: '4',
-    desc: '用户登录',
+    desc: '跳转到添加购物车成功页面',
 });
 api[0].list.push({
     order: '5',
-    desc: '退出登录&lt;p&gt;从Session中删除的登录用户信息&lt;/p&gt;',
+    desc: '商品是否选中',
 });
-api.push({
-    alias: 'WeChatController',
-    order: '2',
-    link: '微信登录_-_登录_&_授权回调',
-    desc: '微信登录 - 登录 & 授权回调',
-    list: []
-})
-api[1].list.push({
-    order: '1',
-    desc: '获取扫码人的信息&lt;P&gt;添加数据&lt;/P&gt;',
+api[0].list.push({
+    order: '6',
+    desc: '修改购物车中商品数量',
 });
-api[1].list.push({
-    order: '2',
-    desc: '生成微信扫描二维码图片',
-});
-api.push({
-    alias: 'WeiboController',
-    order: '3',
-    link: '&lt;b&gt;oauth2社交登录controller&lt;/b&gt;',
-    desc: '&lt;b&gt;Oauth2社交登录Controller&lt;/b&gt;',
-    list: []
-})
-api[2].list.push({
-    order: '1',
-    desc: '新浪微博登录',
+api[0].list.push({
+    order: '7',
+    desc: '删除商品信息',
 });
 api.push({
     alias: 'dict',
-    order: '4',
+    order: '2',
     link: 'dict_list',
     desc: '数据字典',
     list: []

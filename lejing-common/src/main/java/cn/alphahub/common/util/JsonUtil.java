@@ -12,15 +12,16 @@ import java.util.Map;
 
 /**
  * jackson序列化工具类
+ *
  * @author liuwenjing
  */
 @Slf4j
-public class JsonUtils {
+public class JsonUtil {
 
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Nullable
-    public static String serialize(Object obj) {
+    public static String toJsonStr(Object obj) {
         if (obj == null) {
             return null;
         }
@@ -30,17 +31,17 @@ public class JsonUtils {
         try {
             return MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            log.error("json序列化出错：" + obj, e);
+            log.error("json序列化出错:{}", obj, e);
             return null;
         }
     }
 
     @Nullable
-    public static <T> T parse(String json, Class<T> tClass) {
+    public static <T> T parseString(String json, Class<T> tClass) {
         try {
             return MAPPER.readValue(json, tClass);
         } catch (IOException e) {
-            log.error("json解析出错：" + json, e);
+            log.error("json解析出错:{}", json, e);
             return null;
         }
     }
@@ -50,7 +51,7 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(List.class, eClass));
         } catch (IOException e) {
-            log.error("json解析出错：" + json, e);
+            log.error("json解析出错:{}", json, e);
             return null;
         }
     }
@@ -60,7 +61,7 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructMapType(Map.class, kClass, vClass));
         } catch (IOException e) {
-            log.error("json解析出错：" + json, e);
+            log.error("json解析出错:{}", json, e);
             return null;
         }
     }
@@ -70,7 +71,7 @@ public class JsonUtils {
         try {
             return MAPPER.readValue(json, type);
         } catch (IOException e) {
-            log.error("json解析出错：" + json, e);
+            log.error("json解析出错:{}", json, e);
             return null;
         }
     }

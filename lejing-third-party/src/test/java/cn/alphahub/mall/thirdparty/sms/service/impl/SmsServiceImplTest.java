@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.core.domain.SmsParam;
-import cn.alphahub.common.util.JsonUtils;
+import cn.alphahub.common.util.JsonUtil;
 import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.thirdparty.sms.util.AliyunSmsUtil;
 import com.aliyuncs.CommonResponse;
@@ -50,7 +50,7 @@ class SmsServiceImplTest {
     @Test
     void sendSmsByEntity() {
         SmsParam smsParam = SmsParam.builder().code("123456").phone(new String[]{"19121716816"}).build();
-        String serialize = JsonUtils.serialize(smsParam);
+        String serialize = JsonUtil.toJsonStr(smsParam);
         System.out.println(serialize);
         // smsUtil.sendSms(smsParam);
     }

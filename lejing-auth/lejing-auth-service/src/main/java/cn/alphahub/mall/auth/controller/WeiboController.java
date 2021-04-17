@@ -2,7 +2,7 @@ package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.util.JsonUtils;
+import cn.alphahub.common.util.JsonUtil;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.member.domain.Member;
@@ -57,7 +57,7 @@ public class WeiboController {
         //2 处理
         if (StringUtils.hasText(response)) {
             //获取到了access_token,转为通用社交登录对象
-            SocialUser socialUser = JsonUtils.parse(response, SocialUser.class);
+            SocialUser socialUser = JsonUtil.parseString(response, SocialUser.class);
 
             //2.1 当前用户如果是第一次进网站，自动注册进来（为当前社交用户生成一个会员信息，以后这个社交账号就对应指定的会员）
             // 登录或者注册这个社交用户

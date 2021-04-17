@@ -342,18 +342,22 @@ api[10].list.push({
 });
 api[10].list.push({
     order: '2',
-    desc: '获取sku销售属性&值详情',
+    desc: '根据skuId获取商品的销售属性',
 });
 api[10].list.push({
     order: '3',
-    desc: '新增sku销售属性&值',
+    desc: '获取sku销售属性&值详情',
 });
 api[10].list.push({
     order: '4',
-    desc: '修改sku销售属性&值',
+    desc: '新增sku销售属性&值',
 });
 api[10].list.push({
     order: '5',
+    desc: '修改sku销售属性&值',
+});
+api[10].list.push({
+    order: '6',
     desc: '批量删除sku销售属性&值',
 });
 api.push({
