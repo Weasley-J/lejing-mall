@@ -8,6 +8,22 @@ spring:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档
       add-mappings: on
+  #开发环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    database: 0
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
   rabbitmq:
     host: 192.168.40.132
     port: 5672
@@ -15,12 +31,35 @@ spring:
     password: 123456
     virtual-host: /lejing
     template:
+      #只要消息抵达Queue，就会异步发送优先回调returnfirm
+      mandatory: on
       #显式指定没有接收消息的默认队列的名称
       default-receive-queue: LEJING.ORDER.QUEUE
       #用于发送操作的默认交换机的名称
       exchange: LEJING.ORDER.EXCHANGE
       #用于发送操作的默认路由键的名称
       routing-key: lejing.order.item
+    #开启发送端消息抵达Broker确认
+    publisher-confirm-type: correlated
+    #开启发送端消息抵达Queue确认
+    publisher-returns: on
+    listener:
+      simple:
+        #手动ack消息，不使用默认的消费端确认
+        acknowledge-mode: manual
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 20
+    #最大线程数
+    maximum-pool-size: 200
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 10000

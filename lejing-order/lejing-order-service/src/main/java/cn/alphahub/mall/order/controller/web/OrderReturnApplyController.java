@@ -1,4 +1,4 @@
-package cn.alphahub.mall.order.controller;
+package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;

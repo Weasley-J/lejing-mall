@@ -10,9 +10,38 @@ spring:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档，生产服务器不需要暴露文档
       add-mappings: off
+  #生产环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: on
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    database: 0
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
   rabbitmq:
     host: 192.168.40.132
     port: 5672
     username: lejing
     password: 123456
     virtual-host: /lejing
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 50
+    #最大线程数
+    maximum-pool-size: 300
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 200000

@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * 订单服务 - 启动类
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author liuwenjing
  */
 @EnableRabbit
+@EnableRedisHttpSession
 @SpringBootApplication
 @MapperScans(value = {@MapperScan(value = {"cn.**.order.dao", "cn.**.order.mapper"})})
 public class LejingOrderApplication {
