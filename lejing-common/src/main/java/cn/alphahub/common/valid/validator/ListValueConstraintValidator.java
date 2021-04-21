@@ -1,6 +1,7 @@
 package cn.alphahub.common.valid.validator;
 
-import com.wbcloudhealth.biz.mall.common.util.valid.annotation.ListValue;
+
+import cn.alphahub.common.valid.annotation.ListValue;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

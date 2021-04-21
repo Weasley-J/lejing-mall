@@ -2,6 +2,9 @@ package cn.alphahub.mall.product.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.UpdateGroup;
+import cn.alphahub.common.valid.group.UpdateStatusGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

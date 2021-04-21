@@ -1,6 +1,7 @@
 package cn.alphahub.common.valid.validator;
 
-import com.wbcloudhealth.biz.mall.common.util.valid.annotation.DecimalRange;
+
+import cn.alphahub.common.valid.annotation.DecimalRange;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

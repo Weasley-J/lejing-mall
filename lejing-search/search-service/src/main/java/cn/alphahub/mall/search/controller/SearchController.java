@@ -3,6 +3,7 @@ package cn.alphahub.mall.search.controller;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.exception.BusinessCodeEnum;
+import cn.alphahub.common.valid.group.QueryGroup;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.pojo.SearchParam;
 import cn.alphahub.mall.search.pojo.SearchResult;
