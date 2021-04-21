@@ -1,4 +1,6 @@
-package cn.alphahub.common.valid.custom;
+package cn.alphahub.common.valid.validator;
+
+import com.wbcloudhealth.biz.mall.common.util.valid.annotation.ListValue;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -7,8 +9,11 @@ import java.util.Set;
 
 /**
  * 校验分组-自定义校验器
+ * <p>
+ * <b>列表值校验器，校验指定范围中的值</b>
  *
  * @author liuwenjing
+ * @date 2021年4月21日10:11:06
  */
 public class ListValueConstraintValidator implements ConstraintValidator<ListValue, Integer> {
 

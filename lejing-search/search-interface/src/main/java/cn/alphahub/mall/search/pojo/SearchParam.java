@@ -1,6 +1,5 @@
 package cn.alphahub.mall.search.pojo;
 
-import cn.alphahub.common.valid.QueryGroup;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
