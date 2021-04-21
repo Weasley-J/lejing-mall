@@ -42,11 +42,28 @@ spring:
     #开启发送端消息抵达Broker确认
     publisher-confirm-type: correlated
     #开启发送端消息抵达Queue确认
-    publisher-returns: on
+    publisher-returns: true
     listener:
       simple:
-        #手动ack消息，不使用默认的消费端确认
+        #手动ack确认消息，不使用默认的消费端确认
         acknowledge-mode: manual
+        #限制每次发送一条数据。
+        prefetch: 1
+        #同一个队列启动几个消费者
+        concurrency: 3
+        #启动消费者最大数量
+        max-concurrency: 3
+        #重试策略相关配置
+        retry:
+          #是否支持重试
+          enabled: true
+          max-attempts: 5
+          stateless: false
+          #时间策略乘数因子
+          multiplier: 1.0
+          initial-interval: 1000ms
+          max-interval: 10000ms
+        default-requeue-rejected: true
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

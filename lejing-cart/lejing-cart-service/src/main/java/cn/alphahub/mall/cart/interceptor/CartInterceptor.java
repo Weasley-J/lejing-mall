@@ -2,7 +2,7 @@ package cn.alphahub.mall.cart.interceptor;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.constant.CartConstant;
-import cn.alphahub.mall.cart.to.UserInfoTo;
+import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -30,7 +30,7 @@ public class CartInterceptor implements HandlerInterceptor {
     /**
      * 保存用户信息的threadLocal变量
      */
-    public static ThreadLocal<UserInfoTo> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
+    public static ThreadLocal<UserInfoTo> userInfoThreadLocal = new ThreadLocal<>();
 
     /**
      * 从线程的局部变量中获取用户信息
@@ -38,7 +38,7 @@ public class CartInterceptor implements HandlerInterceptor {
      * @return User对象
      */
     public static UserInfoTo getUserInfo() {
-        return USER_INFO_THREAD_LOCAL.get();
+        return userInfoThreadLocal.get();
     }
 
     /**
@@ -76,7 +76,7 @@ public class CartInterceptor implements HandlerInterceptor {
             String userKey = UUID.randomUUID().toString().replaceAll("-", "");
             userInfo.setUserKey(userKey);
         }
-        USER_INFO_THREAD_LOCAL.set(userInfo);
+        userInfoThreadLocal.set(userInfo);
         return true;
     }
 
@@ -85,7 +85,7 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        UserInfoTo userInfo = USER_INFO_THREAD_LOCAL.get();
+        UserInfoTo userInfo = userInfoThreadLocal.get();
         String userKey = userInfo.getUserKey();
         // 目标方法之后给浏览器设置Cookie
         if (userInfo.getTempUser()) {
@@ -97,11 +97,11 @@ public class CartInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * 目标方法之后执行的回调
+     * 目标方法之执行完成后的回调
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //清空线程的局部变量
-        USER_INFO_THREAD_LOCAL.remove();
+        //标方法之执行完成后的清空线程的局部变量
+        userInfoThreadLocal.remove();
     }
 }

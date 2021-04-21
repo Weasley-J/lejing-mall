@@ -1,4 +1,4 @@
-package cn.alphahub.mall.cart.to;
+package cn.alphahub.common.to;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * <b>用户信息</b>
+ * 用户信息
+ * <p>
+ * <b>用于拦截器的ThreadLocal变量中获取用户身份的数据传输对象</b>
  *
  * @author liuwenjing
  * @version 1.0
@@ -34,5 +36,5 @@ public class UserInfoTo implements Serializable {
     /**
      * 是否临时用户
      */
-    private Boolean tempUser = false;
+    private Boolean tempUser = Boolean.FALSE;
 }

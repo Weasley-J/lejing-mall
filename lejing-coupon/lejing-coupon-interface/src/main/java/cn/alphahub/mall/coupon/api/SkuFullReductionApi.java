@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.to.SkuReductionTO;
+import cn.alphahub.common.to.SkuReductionTo;
 import cn.alphahub.mall.coupon.domain.SkuFullReduction;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,5 +77,5 @@ public interface SkuFullReductionApi {
      * @return
      */
     @PostMapping("/saveinfo")
-    BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTO skuReductionTo);
+    BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo);
 }

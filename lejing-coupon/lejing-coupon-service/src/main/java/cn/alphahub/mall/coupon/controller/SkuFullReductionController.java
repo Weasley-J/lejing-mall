@@ -5,7 +5,7 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.to.SkuReductionTO;
+import cn.alphahub.common.to.SkuReductionTo;
 import cn.alphahub.mall.coupon.domain.SkuFullReduction;
 import cn.alphahub.mall.coupon.service.SkuFullReductionService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -108,7 +108,7 @@ public class SkuFullReductionController extends BaseController {
      * @return
      */
     @PostMapping("/saveinfo")
-    BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTO skuReductionTo) {
+    BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo) {
         Boolean flag = skuFullReductionService.saveSkuReduction(skuReductionTo);
         return flag ? BaseResult.ok("保存成功") : BaseResult.fail("保存失败");
     }

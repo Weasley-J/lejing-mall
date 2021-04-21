@@ -4,7 +4,8 @@ import cn.alphahub.common.constant.ProductConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.to.SkuReductionTO;
+import cn.alphahub.common.to.MemberPriceTo;
+import cn.alphahub.common.to.SkuReductionTo;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import cn.alphahub.mall.product.domain.*;
 import cn.alphahub.mall.product.feign.SearchClient;
@@ -340,12 +341,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
                     log.warn("{}", "远程保存商品spu积分失败");
                 }
                 //将前端提交的价格转换为TO对象
-                List<cn.alphahub.common.to.MemberPrice> memberPriceToList = sku.getMemberPrice().stream().map(memberPrice -> {
-                    cn.alphahub.common.to.MemberPrice memberPriceTo = new cn.alphahub.common.to.MemberPrice();
+                List<MemberPriceTo> memberPriceToList = sku.getMemberPrice().stream().map(memberPrice -> {
+                    MemberPriceTo memberPriceTo = new MemberPriceTo();
                     BeanUtils.copyProperties(memberPrice, memberPriceTo);
                     return memberPriceTo;
                 }).collect(Collectors.toList());
-                SkuReductionTO skuReductionTo = new SkuReductionTO();
+                SkuReductionTo skuReductionTo = new SkuReductionTo();
                 skuReductionTo.setSkuId(skuId);
                 skuReductionTo.setMemberPrice(memberPriceToList);
                 BeanUtils.copyProperties(vo, skuReductionTo);

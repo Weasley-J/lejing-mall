@@ -2,13 +2,17 @@ package cn.alphahub.mall.order.config;
 
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
+
+import javax.annotation.Resource;
 
 /**
  * RabbitMQ配置类
@@ -21,10 +25,8 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class RabbitMqConfig {
 
-    /**
-     * 私有化RabbitTemplate成员变量，以构造函数的方式注入Spring IOC
-     */
-    private RabbitTemplate rabbitTemplate;
+    @Resource
+    private CachingConnectionFactory connectionFactory;
 
     /**
      * <b>给Spring IOC容器中初始化一个RabbitTemplate</b>
@@ -34,12 +36,11 @@ public class RabbitMqConfig {
      */
     @Bean
     @Primary
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(messageConverter());
-        this.rabbitTemplate = rabbitTemplate;
-        customizeRabbitTemplate();
-        return rabbitTemplate;
+        return customizeRabbit(rabbitTemplate);
     }
 
     /**
@@ -59,16 +60,16 @@ public class RabbitMqConfig {
      * <b>定制RabbitTemplate</b>
      * <p>
      * <ul>
-     *     <li>1. 服务收到消息就会回调:<br><code>spring.rabbitmq.publisher-confirms: true</code></li>
-     *     <li>2. 设置确认回调(消息正确抵达队列就会进行回调):<br><code>spring.rabbitmq.publisher-returns: true<br>spring.rabbitmq.template.mandatory: true</code></li>
+     *     <li>1. 服务收到消息就会回调:<br><code>spring.rabbitmq.publisher-confirm-type=correlated</code></li>
+     *     <li>2. 设置确认回调(消息正确抵达队列就会进行回调):<br><code>spring.rabbitmq.publisher-returns=true<br>spring.rabbitmq.template.mandatory=true</code></li>
      *     <li>3. 设置确认回调ReturnsCallback</li>
      *     <li>4. 消费端确认(保证每个消息都被正确消费，此时才可以broker删除这个消息)</li>
      * </ul>
      */
-    public void customizeRabbitTemplate() {
-
+    private RabbitTemplate customizeRabbit(RabbitTemplate rabbitTemplate) {
         /**
-         * 设置确认回调
+         *
+         * 设置生产者消息publish-confirm确认回调函数
          * 1: 只要消息抵达Broker就ack=true
          * correlationData: 当前消息的唯一关联数据(这个是消息的唯一id)
          * ack: 消息是否成功收到
@@ -77,7 +78,6 @@ public class RabbitMqConfig {
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
             log.info("confirm correlation data:[{}] ==> ack:[{}] ==> cause:[{}]", correlationData, ack, cause);
         });
-
         /**
          * 只要消息没有投递给指定的队列，就触发这个失败回调
          * message: 投递失败的消息详细信息
@@ -89,5 +89,7 @@ public class RabbitMqConfig {
         rabbitTemplate.setReturnsCallback(returned -> {
             log.info("RabbitMQ失败回调信息:[{}]", JSONUtil.toJsonStr(returned));
         });
+        return rabbitTemplate;
     }
+
 }

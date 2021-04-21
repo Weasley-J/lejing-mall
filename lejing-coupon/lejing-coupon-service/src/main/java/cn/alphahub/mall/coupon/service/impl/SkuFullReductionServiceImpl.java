@@ -2,7 +2,8 @@ package cn.alphahub.mall.coupon.service.impl;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.to.SkuReductionTO;
+import cn.alphahub.common.to.MemberPriceTo;
+import cn.alphahub.common.to.SkuReductionTo;
 import cn.alphahub.mall.coupon.domain.MemberPrice;
 import cn.alphahub.mall.coupon.domain.SkuFullReduction;
 import cn.alphahub.mall.coupon.domain.SkuLadder;
@@ -60,7 +61,7 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionMap
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean saveSkuReduction(SkuReductionTO reductionTO) {
+    public Boolean saveSkuReduction(SkuReductionTo reductionTO) {
         boolean b1 = false, b2 = false, b3 = false;
         // 1. 保存满减、打折、会员价
         //  5.4）、sku的优惠、满减等信息；lejing_sms -> sms_sku_ladder|sms_sku_full_reduction|sms_member_price
@@ -82,7 +83,7 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionMap
         }
 
         // insert into sms_member_price
-        List<cn.alphahub.common.to.MemberPrice> memberPriceList = reductionTO.getMemberPrice();
+        List<MemberPriceTo> memberPriceList = reductionTO.getMemberPrice();
         if (CollectionUtils.isNotEmpty(memberPriceList)) {
             List<MemberPrice> memberPrices = memberPriceList.stream().map(item -> MemberPrice.builder()
                     .skuId(reductionTO.getSkuId())

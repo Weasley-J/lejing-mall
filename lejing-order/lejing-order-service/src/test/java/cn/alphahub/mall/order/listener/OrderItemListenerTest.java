@@ -41,7 +41,7 @@ class OrderItemListenerTest {
             item.setSkuName("哈哈哈哈哈");
             item.setSkuPic("哈哈哈哈哈");
             item.setSkuAttrsVals("哈哈哈哈哈");
-            amqpTemplate.convertAndSend(RabbitConstant.ORDER_ITEM_ROUTING_KEY + ".test", item);
+            amqpTemplate.convertAndSend(RabbitConstant.ORDER_ITEM_ROUTING_KEY, item);
             log.info("发送消息:{}", JSONUtil.toJsonStr(item));
         }
     }

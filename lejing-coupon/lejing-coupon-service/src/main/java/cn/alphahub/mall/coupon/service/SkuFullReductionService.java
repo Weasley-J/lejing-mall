@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.to.SkuReductionTO;
+import cn.alphahub.common.to.SkuReductionTo;
 import cn.alphahub.mall.coupon.domain.SkuFullReduction;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -20,7 +20,7 @@ public interface SkuFullReductionService extends IService<SkuFullReduction> {
      *
      * @param skuReductionTo
      */
-    Boolean saveSkuReduction(SkuReductionTO skuReductionTo);
+    Boolean saveSkuReduction(SkuReductionTo skuReductionTo);
 
     /**
      * 查询商品满减信息分页列表

@@ -13,19 +13,16 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * <b>订单列表监听器</b>
  * <p>
- *     <ul><code>@RabbitListener</code>可标注在类、方法上，<code>@RabbitHandler</code>标注在方法上</ul>
- *     <ul>
- *         <li>1. 当<code>@RabbitListener</code>标注在类上面可以使用<code>@RabbitHandler</code>标注在不同的方法上，通过方法重载的方式处理消息</li>
- *         <li>2. 也可以根据单一职责将<code>@RabbitListener</code>标注在不同业务类的业务方法上进行业务处理</li>
- *     </ul>
- * </p>
  *
  * @author liuwenjing
  * @version 1.0
@@ -33,11 +30,6 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@RabbitListener(bindings = @QueueBinding(
-        value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
-        exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-        key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
-)
 public class OrderItemListener {
 
     /**
@@ -50,9 +42,14 @@ public class OrderItemListener {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
             exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY + ".test"})
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
     )
-    public void receiveMessage(Message message, Channel channel, OrderItem domain) {
+    public void receiveMessage(
+            @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag,
+            Message message,
+            Channel channel,
+            OrderItem domain
+    ) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
         byte[] body = message.getBody();
@@ -70,8 +67,12 @@ public class OrderItemListener {
      * @param message 收到的消息（消息头、消息体）
      * @param domain  订单数据
      */
-    @RabbitHandler
-    public void receiveMessage(Message message, Order domain) {
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
+            exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
+    )
+    public void receiveMessage(Message message, Channel channel, Order domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
         byte[] body = message.getBody();
@@ -88,8 +89,12 @@ public class OrderItemListener {
      * @param message 收到的消息（消息头、消息体）
      * @param domain  退货原因元数据
      */
-    @RabbitHandler
-    public void receiveMessage(Message message, OrderReturnReason domain) {
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
+            exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
+    )
+    public void receiveMessage(Message message, Channel channel, OrderReturnReason domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
         byte[] body = message.getBody();
