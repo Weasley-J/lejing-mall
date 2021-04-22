@@ -33,7 +33,7 @@ spring:
     password: 123456
     virtual-host: /lejing
     template:
-      #只要消息抵达Queue，就会异步发送优先回调returnfirm
+      #只要消息抵达Queue，就会异步发送优先回调return-confirm
       mandatory: on
       #显式指定没有接收消息的默认队列的名称
       default-receive-queue: LEJING.ORDER.QUEUE
@@ -44,7 +44,7 @@ spring:
     #开启发送端消息抵达Broker确认
     publisher-confirm-type: correlated
     #开启发送端消息抵达Queue确认
-    publisher-returns: true
+    publisher-returns: on
     listener:
       simple:
         #手动ack确认消息，不使用默认的消费端确认

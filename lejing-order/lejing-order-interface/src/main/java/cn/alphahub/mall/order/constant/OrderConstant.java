@@ -12,5 +12,5 @@ public class OrderConstant {
     /**
      * 用户登录URL链接
      */
-    public static final String LOGIN_SERVICE_URL = "http://auth.lejing.com/login.html";
+    public static final String LOGIN_PAGE_URL = "http://auth.lejing.com/login.html";
 }

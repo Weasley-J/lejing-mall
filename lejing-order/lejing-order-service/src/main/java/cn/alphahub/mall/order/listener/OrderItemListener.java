@@ -42,14 +42,8 @@ public class OrderItemListener {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
             exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
-    )
-    public void receiveMessage(
-            @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag,
-            Message message,
-            Channel channel,
-            OrderItem domain
-    ) {
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
+    public void receiveMessage(@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Message message, Channel channel, OrderItem domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
         byte[] body = message.getBody();
@@ -57,8 +51,16 @@ public class OrderItemListener {
         MessageProperties prop = message.getMessageProperties();
         log.info("传输数据的通道:{}", channel);
         log.info("消息体:{}", new String(body));
-        log.info("消息头:{}", JSONUtil.toJsonPrettyStr(prop));
+        log.info("correlationId:{}, 消息头:{}", prop.getCorrelationId(), JSONUtil.toJsonPrettyStr(prop));
         log.info("实体类元数据:{}", JSONUtil.toJsonPrettyStr(domain));
+
+        // deliveryTag在channel内按顺序自增
+        try {
+            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+            channel.basicAck(deliveryTag, false);
+        } catch (IOException e) {
+            log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
+        }
     }
 
     /**
@@ -70,8 +72,7 @@ public class OrderItemListener {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
             exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
-    )
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
     public void receiveMessage(Message message, Channel channel, Order domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
@@ -79,8 +80,17 @@ public class OrderItemListener {
         // 消息头
         MessageProperties prop = message.getMessageProperties();
         log.info("消息体:{}", new String(body));
-        log.info("消息头:{}", JSONUtil.toJsonPrettyStr(prop));
+        log.info("correlationId:[{}], 消息头:{}", prop.getCorrelationId(), JSONUtil.toJsonPrettyStr(prop));
         log.info("实体类元数据:{}", JSONUtil.toJsonPrettyStr(domain));
+
+        // deliveryTag在channel内按顺序自增
+        long deliveryTag = prop.getDeliveryTag();
+        try {
+            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+            channel.basicAck(deliveryTag, false);
+        } catch (IOException e) {
+            log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
+        }
     }
 
     /**
@@ -92,8 +102,7 @@ public class OrderItemListener {
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
             exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY})
-    )
+            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
     public void receiveMessage(Message message, Channel channel, OrderReturnReason domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
@@ -101,7 +110,16 @@ public class OrderItemListener {
         // 消息头
         MessageProperties prop = message.getMessageProperties();
         log.info("消息体:{}", new String(body));
-        log.info("消息头:{}", JSONUtil.toJsonPrettyStr(prop));
+        log.info("correlationId:[{}], 消息头:{}", prop.getCorrelationId(), JSONUtil.toJsonPrettyStr(prop));
         log.info("实体类元数据:{}", JSONUtil.toJsonPrettyStr(domain));
+
+        // deliveryTag在channel内按顺序自增
+        long deliveryTag = prop.getDeliveryTag();
+        try {
+            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+            channel.basicAck(deliveryTag, false);
+        } catch (IOException e) {
+            log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
+        }
     }
 }

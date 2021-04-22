@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 /**
  * <b>登录拦截器</b>
@@ -46,17 +47,19 @@ public class LoginInterceptor implements HandlerInterceptor {
         // session
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
-        if (attribute instanceof Member) {
-            // 用户已登录
+        // 用户未登录，重定向到登录链接
+        if (Objects.isNull(attribute)) {
+            response.sendRedirect(OrderConstant.LOGIN_PAGE_URL);
+            return false;
+        }
+        // 用户已登录
+        if (Objects.requireNonNull(attribute) instanceof Member) {
             Member member = (Member) attribute;
             userInfo.setUserId(member.getId());
             userInfoThreadLocal.set(userInfo);
             return true;
-        } else {
-            // 用户未登录重定向到登录链接
-            response.sendRedirect(OrderConstant.LOGIN_SERVICE_URL);
-            return false;
         }
+        return false;
     }
 
     /**

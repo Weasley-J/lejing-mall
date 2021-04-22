@@ -6,11 +6,9 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Scope;
 
 import javax.annotation.Resource;
 
@@ -36,7 +34,6 @@ public class RabbitMqConfig {
      */
     @Bean
     @Primary
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(messageConverter());
@@ -76,7 +73,7 @@ public class RabbitMqConfig {
          * cause: 失败的原因
          */
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            log.info("confirm correlation data:[{}] ==> ack:[{}] ==> cause:[{}]", correlationData, ack, cause);
+            log.info("确认相关数据（confirm correlation data）:{} ==> 是否确认（ack）:{} ==> 原因: {}", correlationData, ack, cause);
         });
         /**
          * 只要消息没有投递给指定的队列，就触发这个失败回调
@@ -87,7 +84,7 @@ public class RabbitMqConfig {
          * routingKey: 当时这个消息用哪个路由键
          */
         rabbitTemplate.setReturnsCallback(returned -> {
-            log.info("RabbitMQ失败回调信息:[{}]", JSONUtil.toJsonStr(returned));
+            log.info("RabbitMQ失败回调信息:[{}]", JSONUtil.toJsonPrettyStr(returned));
         });
         return rabbitTemplate;
     }
