@@ -56,8 +56,16 @@ public class OrderItemListener {
 
         // deliveryTag在channel内按顺序自增
         try {
-            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
-            channel.basicAck(deliveryTag, false);
+            if (deliveryTag % 2 == 0) {
+                // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+                channel.basicAck(deliveryTag, false);
+                System.out.println("签收了[" + deliveryTag + "]号消息");
+            } else {
+                // 退收消息，requeue=false 丢弃，requeue=true 发回服务器从新入队，
+                // true if the rejected message(s) should be requeued rather than discarded/dead-lettered
+                channel.basicNack(deliveryTag, false, true);
+                System.out.println("未签收[" + deliveryTag + "]号消息");
+            }
         } catch (IOException e) {
             log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
         }
@@ -86,8 +94,16 @@ public class OrderItemListener {
         // deliveryTag在channel内按顺序自增
         long deliveryTag = prop.getDeliveryTag();
         try {
-            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
-            channel.basicAck(deliveryTag, false);
+            if (deliveryTag % 2 == 0) {
+                // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+                channel.basicAck(deliveryTag, false);
+                System.out.println("签收了[" + deliveryTag + "]号消息");
+            } else {
+                // 退收消息，requeue=false 丢弃，requeue=true 发回服务器从新入队，
+                // true if the rejected message(s) should be requeued rather than discarded/dead-lettered
+                channel.basicNack(deliveryTag, false, true);
+                System.out.println("未签收[" + deliveryTag + "]号消息");
+            }
         } catch (IOException e) {
             log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
         }
@@ -116,8 +132,16 @@ public class OrderItemListener {
         // deliveryTag在channel内按顺序自增
         long deliveryTag = prop.getDeliveryTag();
         try {
-            // 消费者处理完消息，确认ACK，签收消息（非批量签收）
-            channel.basicAck(deliveryTag, false);
+            if (deliveryTag % 2 == 0) {
+                // 消费者处理完消息，确认ACK，签收消息（非批量签收）
+                channel.basicAck(deliveryTag, false);
+                System.out.println("签收了[" + deliveryTag + "]号消息");
+            } else {
+                // 退收消息，requeue=false 丢弃，requeue=true 发回服务器从新入队，
+                // true if the rejected message(s) should be requeued rather than discarded/dead-lettered
+                channel.basicNack(deliveryTag, false, true);
+                System.out.println("未签收[" + deliveryTag + "]号消息");
+            }
         } catch (IOException e) {
             log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
         }
