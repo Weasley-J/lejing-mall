@@ -47,19 +47,19 @@ public class LoginInterceptor implements HandlerInterceptor {
         // session
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
-        // 用户未登录，重定向到登录链接
-        if (Objects.isNull(attribute)) {
-            response.sendRedirect(OrderConstant.LOGIN_PAGE_URL);
-            return false;
-        }
-        // 用户已登录
-        if (Objects.requireNonNull(attribute) instanceof Member) {
+
+        if (Objects.nonNull(attribute) && (attribute instanceof Member)) {
+            // 用户已登录
             Member member = (Member) attribute;
             userInfo.setUserId(member.getId());
             userInfoThreadLocal.set(userInfo);
             return true;
+        } else {
+            // 用户未登录，重定向到登录链接
+            request.getSession().setAttribute("msg", "请先登录");
+            response.sendRedirect(OrderConstant.LOGIN_PAGE_URL);
+            return false;
         }
-        return false;
     }
 
     /**

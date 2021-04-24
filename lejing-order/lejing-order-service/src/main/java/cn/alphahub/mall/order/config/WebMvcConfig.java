@@ -1,6 +1,7 @@
 package cn.alphahub.mall.order.config;
 
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
  * @version 1.0
  * @date 2021/04/19
  */
-//@Configuration
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Resource
