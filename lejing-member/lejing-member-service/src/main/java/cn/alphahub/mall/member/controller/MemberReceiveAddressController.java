@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 会员收货地址Controller
@@ -82,7 +83,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @param memberReceiveAddress 会员收货地址, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @GetMapping("/update")
     public BaseResult<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress) {
         boolean update = memberReceiveAddressService.updateById(memberReceiveAddress);
         return toOperationResult(update);
@@ -98,5 +99,16 @@ public class MemberReceiveAddressController extends BaseController {
     public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberReceiveAddressService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
+    }
+
+    /**
+     * 查询用户的收货地址列表
+     *
+     * @param memberId 用户id
+     * @return 收货地址列表
+     */
+    @GetMapping("/addresses/{memberId}")
+    BaseResult<List<MemberReceiveAddress>> memberAddressList(@PathVariable(value = "memberId") Long memberId) {
+        return BaseResult.success(memberReceiveAddressService.memberAddressList(memberId));
     }
 }

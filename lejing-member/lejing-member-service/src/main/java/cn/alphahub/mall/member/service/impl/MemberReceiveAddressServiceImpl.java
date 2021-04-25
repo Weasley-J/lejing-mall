@@ -6,6 +6,7 @@ import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.member.mapper.MemberReceiveAddressMapper;
 import cn.alphahub.mall.member.service.MemberReceiveAddressService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,13 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
         List<MemberReceiveAddress> memberReceiveAddressList = this.list(wrapper);
         // 5. 分装并返回数据
         return pageResult.getPage(memberReceiveAddressList);
+    }
+
+    @Override
+    public List<MemberReceiveAddress> memberAddressList(Long memberId) {
+        return this.list(Wrappers.<MemberReceiveAddress>lambdaQuery()
+                .eq(MemberReceiveAddress::getMemberId, memberId)
+        );
     }
 
 }

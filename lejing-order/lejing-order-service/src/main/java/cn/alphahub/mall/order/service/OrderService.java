@@ -3,6 +3,7 @@ package cn.alphahub.mall.order.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
+import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -23,4 +24,8 @@ public interface OrderService extends IService<Order> {
      */
     PageResult<Order> queryPage(PageDomain pageDomain, Order order);
 
+    /**
+     * 去结算确认页
+     */
+    OrderConfirmVo confirmOrder();
 }

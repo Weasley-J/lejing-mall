@@ -5,6 +5,8 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 会员收货地址Controller
  *
@@ -34,6 +36,15 @@ public interface MemberReceiveAddressApi {
             @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
             MemberReceiveAddress memberReceiveAddress
     );
+
+    /**
+     * 查询用户的收货地址列表
+     *
+     * @param memberId 用户id
+     * @return 收货地址列表
+     */
+    @GetMapping("/addresses/{memberId}")
+    BaseResult<List<MemberReceiveAddress>> memberAddressList(@PathVariable("memberId") Long memberId);
 
     /**
      * 获取会员收货地址详情

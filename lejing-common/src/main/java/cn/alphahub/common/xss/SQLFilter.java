@@ -1,6 +1,6 @@
 package cn.alphahub.common.xss;
 
-import cn.alphahub.common.exception.CustomException;
+import cn.alphahub.common.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -34,7 +34,7 @@ public class SQLFilter {
         //判断是否包含非法字符
         for (String keyword : keywords) {
             if (str.contains(keyword)) {
-                throw new CustomException("包含非法字符");
+                throw new BizException("包含非法字符");
             }
         }
 

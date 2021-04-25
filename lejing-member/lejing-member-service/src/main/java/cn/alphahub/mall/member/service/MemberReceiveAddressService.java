@@ -5,6 +5,8 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * 会员收货地址Service接口
  *
@@ -23,4 +25,11 @@ public interface MemberReceiveAddressService extends IService<MemberReceiveAddre
      */
     PageResult<MemberReceiveAddress> queryPage(PageDomain pageDomain, MemberReceiveAddress memberReceiveAddress);
 
+    /**
+     * 查询用户的收货地址列表
+     *
+     * @param memberId 用户id
+     * @return 收货地址列表
+     */
+    List<MemberReceiveAddress> memberAddressList(Long memberId);
 }
