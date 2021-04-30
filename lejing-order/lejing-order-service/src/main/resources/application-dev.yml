@@ -1,3 +1,7 @@
+logging:
+  level:
+    cn.alphahub.mall.order.controller: debug
+    cn.alphahub.mall.order.service: debug
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -21,9 +25,11 @@ spring:
     port: 6379
     password: 123456
     database: 0
+  #nacos server
   cloud:
     nacos:
-      server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: 127.0.0.1:8848
   rabbitmq:
     host: 192.168.40.132
     port: 5672

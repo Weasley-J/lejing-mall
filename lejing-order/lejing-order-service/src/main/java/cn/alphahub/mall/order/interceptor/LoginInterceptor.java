@@ -27,14 +27,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     /**
      * 保存用户信息的threadLocal变量
      */
-    public static ThreadLocal<UserInfoTo> userInfoThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<Member> userInfoThreadLocal = new ThreadLocal<>();
 
     /**
      * 从线程的局部变量中获取用户信息
      *
      * @return User对象
      */
-    public static UserInfoTo getUserInfo() {
+    public static Member getUserInfo() {
         return userInfoThreadLocal.get();
     }
 
@@ -51,8 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (Objects.nonNull(attribute) && (attribute instanceof Member)) {
             // 用户已登录
             Member member = (Member) attribute;
-            userInfo.setUserId(member.getId());
-            userInfoThreadLocal.set(userInfo);
+            userInfoThreadLocal.set(member);
             return true;
         } else {
             // 用户未登录，重定向到登录链接

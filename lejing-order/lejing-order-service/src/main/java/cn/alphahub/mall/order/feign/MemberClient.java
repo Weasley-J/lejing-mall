@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @version 1.0
  * @date 2021/04/25
  */
-@FeignClient(name = AppConstant.MEMBER_SERVICE,contextId = "memberClient")
+@FeignClient(name = AppConstant.MEMBER_SERVICE, contextId = "memberClient")
 public interface MemberClient extends MemberApi {
 
 }

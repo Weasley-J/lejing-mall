@@ -2,9 +2,12 @@ package cn.alphahub.mall.order.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * 订单Service接口
@@ -26,6 +29,15 @@ public interface OrderService extends IService<Order> {
 
     /**
      * 去结算确认页
+     *
+     * @return 订单确认页需要用的数据
      */
     OrderConfirmVo confirmOrder();
+
+    /**
+     * 查询购物项内容列表
+     *
+     * @return 购物项内容列表
+     */
+    List<CartItemVo> getUserCartItems();
 }

@@ -26,10 +26,6 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
         <!--Spring Boot yml文件元数据配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,7 +34,16 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!-- nacos 配置中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!-- nacos 注册/发现 -->
         <dependency>
@@ -50,11 +55,6 @@
                     <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <!-- nacos 配置中心 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -98,12 +98,28 @@
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-order-interface</artifactId>
             <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- 会员服务feign远程接口 -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-member-interface</artifactId>
             <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 购物车feign远程接口 -->
+        <dependency>
+            <groupId>com.lejing.mall.cart</groupId>
+            <artifactId>lejing-cart-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 商品服务feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-product-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

@@ -39,7 +39,7 @@
 
 > tips: 主要目的减少web服务的的内存占用
 
-JVM参数: `-Xms512m -Xmx512m -Xmn200m -Xlog:gc*`
+JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 ![image-20210207215344410](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210207215344410.png)
 

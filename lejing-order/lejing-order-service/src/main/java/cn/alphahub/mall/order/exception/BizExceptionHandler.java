@@ -47,6 +47,6 @@ public class BizExceptionHandler {
     @ExceptionHandler(Exception.class)
     public BaseResult<BizException> exceptionHandler(Exception e) {
         log.error(e.getMessage(), e);
-        return BaseResult.fail();
+        return BaseResult.fail(e.getLocalizedMessage());
     }
 }

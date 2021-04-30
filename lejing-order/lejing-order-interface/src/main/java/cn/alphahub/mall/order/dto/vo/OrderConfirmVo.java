@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -73,25 +74,20 @@ public class OrderConfirmVo implements Serializable {
     }
 
     /**
-     * @return 计算订单总额
+     * 计算订单总额
+     *
+     * @return 付款价格
      */
-    public BigDecimal getTotal() {
-        BigDecimal totalNum = BigDecimal.ZERO;
+    public BigDecimal getPayPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
         if (CollectionUtils.isNotEmpty(items)) {
             for (OrderItemVo item : items) {
                 // 计算当前商品的总价格
                 BigDecimal itemPrice = item.getPrice().multiply(new BigDecimal(item.getCount().toString()));
                 // 再计算全部商品的总价格
-                totalNum = totalNum.add(itemPrice);
+                totalPrice = totalPrice.add(itemPrice);
             }
         }
-        return totalNum;
-    }
-
-    /**
-     * @return 付款价格
-     */
-    public BigDecimal getPayPrice() {
-        return getTotal();
+        return totalPrice.setScale(2, RoundingMode.DOWN);
     }
 }

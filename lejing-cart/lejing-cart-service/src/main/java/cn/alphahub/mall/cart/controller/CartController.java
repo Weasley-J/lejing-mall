@@ -33,8 +33,8 @@ public class CartController {
      *
      * @return 用户当前的购物项
      */
-    @GetMapping(value = "/currentUserCartItems")
     @ResponseBody
+    @GetMapping(value = "/currentUserCartItems")
     public List<CartItemVo> getCurrentCartItems() {
         return cartService.getUserCartItems();
     }

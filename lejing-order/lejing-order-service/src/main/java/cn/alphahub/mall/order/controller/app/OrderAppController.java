@@ -32,5 +32,4 @@ public class OrderAppController {
         //展示订单确认的数据
         return "confirm";
     }
-
 }

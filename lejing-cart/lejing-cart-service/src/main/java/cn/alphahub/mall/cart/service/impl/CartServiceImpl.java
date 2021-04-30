@@ -4,7 +4,7 @@ import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.cart.domain.Cart;
-import cn.alphahub.mall.cart.exception.CartExceptionHandler;
+import cn.alphahub.mall.cart.exception.CartException;
 import cn.alphahub.mall.cart.feign.SkuInfoClient;
 import cn.alphahub.mall.cart.feign.SkuSaleAttrValueClient;
 import cn.alphahub.mall.cart.interceptor.CartInterceptor;
@@ -44,13 +44,13 @@ public class CartServiceImpl implements CartService {
     @Resource
     private ThreadPoolExecutor executor;
     @Resource
+    private ObjectMapper objectMapper;
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private SkuInfoClient skuInfoClient;
     @Resource
     private SkuSaleAttrValueClient attrValueClient;
-    @Resource
-    private ObjectMapper objectMapper;
 
     /**
      * 将商品添加至购物车
@@ -289,7 +289,7 @@ public class CartServiceImpl implements CartService {
         List<CartItemVo> cartItems = getCartItems(cartKey);
         if (CollectionUtils.isEmpty(cartItems)) {
             log.warn("用户的购物车为空!");
-            throw new CartExceptionHandler();
+            throw new CartException("用户的购物车为空!");
         }
 
         // 使用多线程 - 筛选出默认被选中的sku

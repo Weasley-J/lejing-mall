@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2021/04/03
  */
 @ControllerAdvice
-public class RuntimeExceptionHandler {
+public class CartExceptionAdvice {
 
     /**
      * 全局统一异常处理
@@ -23,7 +23,7 @@ public class RuntimeExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(RuntimeException.class)
-    public BaseResult<String> handleUnknownException(RuntimeException exception) {
+    public BaseResult<Object> handleUnknownException(RuntimeException exception) {
         return BaseResult.error(exception.getMessage());
     }
 
@@ -33,8 +33,8 @@ public class RuntimeExceptionHandler {
      * @param exception 异常
      * @return 错误提示
      */
-    @ExceptionHandler(CartExceptionHandler.class)
-    public BaseResult<String> handleUserCustomizeException(CartExceptionHandler exception) {
+    @ExceptionHandler(CartException.class)
+    public BaseResult<Object> handleUserCustomizeException(CartException exception) {
         return BaseResult.error("购物车无此商品");
     }
 }

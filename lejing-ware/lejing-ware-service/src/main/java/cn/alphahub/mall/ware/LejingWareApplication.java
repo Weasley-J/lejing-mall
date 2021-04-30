@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author liuwenjing
  */
-@EnableTransactionManagement
 @EnableFeignClients
-@EnableDiscoveryClient
 @SpringBootApplication
+@EnableDiscoveryClient
+@EnableTransactionManagement
 @MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
 public class LejingWareApplication {
 
