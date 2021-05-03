@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 库存服务
+ * 乐璟商城-库存服务
  *
  * @author liuwenjing
  */

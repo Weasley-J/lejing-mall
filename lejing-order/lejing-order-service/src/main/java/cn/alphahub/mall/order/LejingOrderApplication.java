@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
- * 订单服务 - 启动类
+ * 乐璟商城 - 订单服务
  *
  * @author liuwenjing
  */

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 订单业务 Controller
@@ -23,13 +22,14 @@ public class OrderAppController {
     private OrderService orderService;
 
     /**
-     * 去结算确认页
+     * 去订单结算确认页
+     *
+     * @return 订单确认页
      */
     @GetMapping(value = "/toTrade")
-    public String toTrade(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
+    public String toTrade(Model model, HttpServletRequest request) {
         OrderConfirmVo confirmVo = orderService.confirmOrder();
         model.addAttribute("confirmOrderData", confirmVo);
-        //展示订单确认的数据
         return "confirm";
     }
 }

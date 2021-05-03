@@ -28,7 +28,7 @@ public interface OrderService extends IService<Order> {
     PageResult<Order> queryPage(PageDomain pageDomain, Order order);
 
     /**
-     * 去结算确认页
+     * 订单结算确认页
      *
      * @return 订单确认页需要用的数据
      */

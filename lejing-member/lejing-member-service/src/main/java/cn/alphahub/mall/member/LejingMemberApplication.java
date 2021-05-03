@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * 会员服务
+ * 乐璟商城 - 会员服务
  *
  * @author liuwenjing
  */

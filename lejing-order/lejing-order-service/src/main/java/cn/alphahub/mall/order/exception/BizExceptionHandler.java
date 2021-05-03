@@ -4,6 +4,7 @@ import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.domain.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  * @author liuwenjing
  */
 @Slf4j
+@ControllerAdvice
 @RestControllerAdvice
 public class BizExceptionHandler {
 

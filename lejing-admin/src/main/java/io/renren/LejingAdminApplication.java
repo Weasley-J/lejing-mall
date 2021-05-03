@@ -13,9 +13,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+/**
+ * 乐璟商城-后台服务
+ */
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan(value = {"io.renren.**.dao","cn.**.mapper"})
+@MapperScan(value = {"io.renren.**.dao", "cn.**.mapper"})
 public class LejingAdminApplication {
 
     public static void main(String[] args) {

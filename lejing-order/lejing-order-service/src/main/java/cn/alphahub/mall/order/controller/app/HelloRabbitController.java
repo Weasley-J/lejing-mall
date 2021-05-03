@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 /**
- * 测试 - Controller
+ * 测试Rabbit - Controller
  *
  * @author lwj
  */

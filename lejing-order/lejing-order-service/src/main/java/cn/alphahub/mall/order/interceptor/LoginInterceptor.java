@@ -43,7 +43,6 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        UserInfoTo userInfo = new UserInfoTo();
         // session
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);

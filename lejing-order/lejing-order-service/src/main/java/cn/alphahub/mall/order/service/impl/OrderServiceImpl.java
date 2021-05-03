@@ -10,7 +10,9 @@ import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
+import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import cn.alphahub.mall.order.exception.BizException;
+import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
 import cn.alphahub.mall.order.feign.SkuInfoClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
@@ -23,10 +25,14 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.function.Failable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,6 +56,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private SkuInfoClient skuInfoClient;
     @Resource
+    private CartClient cartClient;
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private MemberReceiveAddressClient memberReceiveAddressClient;
@@ -70,45 +78,60 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     /**
-     * 去结算确认页
+     * 订单结算确认页
+     * <ul>
+     *     <li>使用CompletableFuture进行异步任务编排时让所有线程共享一个requestAttributes（{@code RequestContextHolder.getRequestAttributes()}）中获取</li>
+     *     <li>使用CompletableFuture进行异步任务编排，让所有Feign远程查询 一起执行</li>
+     * </ul>
      */
     @Override
     public OrderConfirmVo confirmOrder() {
-        OrderConfirmVo vo = new OrderConfirmVo();
-
-        //从拦截器中获取当前用户信息
+        OrderConfirmVo confirmVo = new OrderConfirmVo();
         Member member = LoginInterceptor.getUserInfo();
+        confirmVo.setIntegration(ObjectUtils.defaultIfNull(member.getIntegration(), 0));
 
-        log.info("开始远程查询查询用户【{}】的收货地址列表:{}", member.getId(), JSONUtil.toJsonStr(member));
-        BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
-        if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
-            List<MemberAddressVo> vos = result.getData().stream().map(memberReceiveAddress -> {
-                MemberAddressVo addressVo = MemberAddressVo.builder().build();
-                BeanUtils.copyProperties(memberReceiveAddress, addressVo);
-                return addressVo;
-            }).collect(Collectors.toList());
-            vo.setMemberAddressVos(vos);
+        RequestAttributes mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
+        log.info("线程mainThread,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
+
+        CompletableFuture<Void> addressListFuture = CompletableFuture.runAsync(() -> {
+            log.info("异步线程addressListFuture,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
+            log.info("开始远程查询查询用户[{}]的收货地址列表:{}", member.getId(), JSONUtil.toJsonStr(member));
+            RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
+            List<MemberAddressVo> addressVos;
+            BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
+            if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
+                addressVos = result.getData().stream().map(memberReceiveAddress -> {
+                    MemberAddressVo addressVo = MemberAddressVo.builder().build();
+                    BeanUtils.copyProperties(memberReceiveAddress, addressVo);
+                    return addressVo;
+                }).collect(Collectors.toList());
+                confirmVo.setMemberAddressVos(addressVos);
+            }
+        }, executor);
+
+        CompletableFuture<Void> cartItemFuture = CompletableFuture.runAsync(() -> {
+            log.info("异步线程cartItemFuture,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
+            log.info("远程查询用户[{}]购物中的所有购物项...", member.getId());
+            RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
+            List<OrderItemVo> itemVos = Failable.apply(input -> input.stream().map(cartItem -> {
+                OrderItemVo orderItemVo = new OrderItemVo();
+                BeanUtils.copyProperties(cartItem, orderItemVo);
+                return orderItemVo;
+            }).collect(Collectors.toList()), cartClient.getCurrentCartItems());
+            confirmVo.setItems(itemVos);
+        }, executor);
+
+        try {
+            CompletableFuture.allOf(addressListFuture, cartItemFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("订单结算确认多线程异步任务执行任务出错,异常原因:{}", e.getMessage(), e);
         }
 
-        log.info("远程查询用户【{}】购物中的所有购物项...", member.getId());
-        /*List<CartItemVo> itemVos = cartClient.getCurrentCartItems();
-        if (CollectionUtils.isNotEmpty(itemVos)) {
-            List<OrderItemVo> orderItemVos = itemVos.stream().map(cartItemVo -> {
-                OrderItemVo orderItemVo = new OrderItemVo();
-                BeanUtils.copyProperties(cartItemVo, orderItemVo);
-                return orderItemVo;
-            }).collect(Collectors.toList());
-            vo.setItems(orderItemVos);
-        }*/
-
-        // 设置会员积分
-        vo.setIntegration(member.getIntegration());
-
-        return vo;
+        return confirmVo;
     }
 
     /**
-     * 查询购物项内容列表
+     * 查询当前登录用户购物项内容列表
      *
      * @return 购物项内容列表
      */
