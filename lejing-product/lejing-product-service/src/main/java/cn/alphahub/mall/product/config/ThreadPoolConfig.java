@@ -58,29 +58,24 @@ public class ThreadPoolConfig {
     @ConfigurationProperties(prefix = "lejing.thread")
     public static class ThreadPoolProperties implements Serializable {
         private static final long serialVersionUID = 1L;
-
         /**
          * 核心线程池数量
          */
         private Integer corePoolSize;
-
         /**
          * 最大线程数
          */
         private Integer maximumPoolSize;
-
         /**
          * 时间单位
          *
          * @see TimeUnit
          */
         private TimeUnit timeUnit;
-
         /**
          * 存活时间
          */
         private Long keepAliveTime;
-
         /**
          * 最大任务数量
          */

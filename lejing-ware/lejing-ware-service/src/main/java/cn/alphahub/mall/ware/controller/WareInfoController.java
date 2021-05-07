@@ -5,6 +5,7 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
 import cn.alphahub.mall.ware.service.WareInfoService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -27,6 +28,17 @@ public class WareInfoController extends BaseController {
     private WareInfoService wareInfoService;
 
     /**
+     * 获取运费信息
+     *
+     * @param addrId 收货地址id
+     * @return 邮资
+     */
+    @GetMapping("/postage/info")
+    public BaseResult<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId) {
+        return BaseResult.ok(wareInfoService.getPostageInfoByAddressId(addrId));
+    }
+
+    /**
      * 查询仓库信息列表
      *
      * @param page        当前页码,默认第1页
@@ -43,11 +55,11 @@ public class WareInfoController extends BaseController {
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
             @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
-            WareInfo wareInfo,
-            @RequestParam(value = "key", defaultValue = "") String key
+            @RequestParam(value = "key", defaultValue = "") String key,
+            WareInfo wareInfo
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
-        PageResult<WareInfo> pageResult = wareInfoService.queryPage(pageDomain, wareInfo,key);
+        PageResult<WareInfo> pageResult = wareInfoService.queryPage(pageDomain, wareInfo, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
             return BaseResult.ok(pageResult);
         }

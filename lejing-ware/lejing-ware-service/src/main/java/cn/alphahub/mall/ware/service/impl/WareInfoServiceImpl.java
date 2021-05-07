@@ -1,16 +1,27 @@
 package cn.alphahub.mall.ware.service.impl;
 
+import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.member.domain.MemberReceiveAddress;
+import cn.alphahub.mall.order.dto.vo.FareVo;
+import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
+import cn.alphahub.mall.ware.feign.MemberReceiveAddressClient;
 import cn.alphahub.mall.ware.mapper.WareInfoMapper;
 import cn.alphahub.mall.ware.service.WareInfoService;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 仓库信息Service业务层处理
@@ -19,8 +30,11 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
+@Slf4j
 @Service
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> implements WareInfoService {
+    @Resource
+    private MemberReceiveAddressClient memberReceiveAddressClient;
 
     /**
      * 查询仓库信息分页列表
@@ -31,15 +45,10 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> i
      */
     @Override
     public PageResult<WareInfo> queryPage(PageDomain pageDomain, WareInfo wareInfo) {
-        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<WareInfo> wrapper = new QueryWrapper<>(wareInfo);
-        // 2. 创建一个分页对象
         PageResult<WareInfo> pageResult = new PageResult<>();
-        // 3. 开始分页
         pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
         List<WareInfo> wareInfoList = this.list(wrapper);
-        // 5. 分装并返回数据
         return pageResult.getPage(wareInfoList);
     }
 
@@ -56,4 +65,21 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> i
         return pageResult.getPage(wareInfoList);
     }
 
+    @Override
+    public FareVo getPostageInfoByAddressId(Long addrId) {
+        FareVo fare = new FareVo();
+        BaseResult<MemberReceiveAddress> result = memberReceiveAddressClient.info(addrId);
+        log.info("远程查询收货地址:{}", JSONUtil.toJsonStr(result));
+        if (result.getSuccess() && Objects.nonNull(result.getData())) {
+            MemberReceiveAddress receiveAddress = result.getData();
+            String phone = receiveAddress.getPhone();
+            //TODO 调用第三那方接口查询邮资
+            BigDecimal postage = new BigDecimal(StringUtils.substring(phone, phone.length() - 1, phone.length()));
+            MemberAddressVo addressVo = new MemberAddressVo();
+            BeanUtils.copyProperties(receiveAddress, addressVo);
+            fare.setFare(postage);
+            fare.setAddress(addressVo);
+        }
+        return fare;
+    }
 }

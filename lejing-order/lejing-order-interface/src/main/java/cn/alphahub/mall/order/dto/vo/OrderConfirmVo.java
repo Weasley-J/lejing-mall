@@ -44,41 +44,27 @@ public class OrderConfirmVo implements Serializable {
      * 订单总额
      */
     private BigDecimal total;
-
+    /**
+     * 商品数量
+     */
+    private Integer count;
     /**
      * 应付价格
      */
     private BigDecimal payPrice;
-
     /**
      * 优惠券（会员积分）
      */
     private Integer integration;
-
     /**
      * 防止重复提交的令牌
      */
     private String orderToken;
 
     /**
-     * @return 数量
+     * @return 订单总额
      */
-    public Integer getCount() {
-        Integer count = 0;
-        if (CollectionUtils.isNotEmpty(items)) {
-            for (OrderItemVo item : items) {
-                count += item.getCount();
-            }
-        }
-        return count;
-    }
-
-    /**
-     * 计算订单总额
-     *
-     * @return 付款价格
-     */
-    public BigDecimal getPayPrice() {
+    public BigDecimal getTotal() {
         BigDecimal totalPrice = BigDecimal.ZERO;
         if (CollectionUtils.isNotEmpty(items)) {
             for (OrderItemVo item : items) {
@@ -89,5 +75,27 @@ public class OrderConfirmVo implements Serializable {
             }
         }
         return totalPrice.setScale(2, RoundingMode.DOWN);
+    }
+
+    /**
+     * @return 商品数量
+     */
+    public Integer getCount() {
+        Integer tempCount = 0;
+        if (CollectionUtils.isNotEmpty(items)) {
+            for (OrderItemVo item : items) {
+                tempCount += item.getCount();
+            }
+        }
+        return tempCount;
+    }
+
+    /**
+     * 计算订单总额
+     *
+     * @return 付款价格
+     */
+    public BigDecimal getPayPrice() {
+        return getTotal();
     }
 }

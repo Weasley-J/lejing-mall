@@ -76,7 +76,6 @@ public class ThreadPoolConfig {
          * 存活时间
          */
         private Long keepAliveTime;
-
         /**
          * 最大任务数量
          */

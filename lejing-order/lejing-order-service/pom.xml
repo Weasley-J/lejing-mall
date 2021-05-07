@@ -121,6 +121,13 @@
             <version>${lejing.latest.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- 库存服务feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-ware-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

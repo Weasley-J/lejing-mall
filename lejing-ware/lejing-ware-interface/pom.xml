@@ -21,10 +21,11 @@
     </properties>
 
     <dependencies>
-        <!-- common工程 -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-common</artifactId>
+            <artifactId>lejing-order-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>

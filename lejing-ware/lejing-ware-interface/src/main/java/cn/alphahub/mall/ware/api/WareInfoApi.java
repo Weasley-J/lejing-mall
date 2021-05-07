@@ -2,6 +2,7 @@ package cn.alphahub.mall.ware.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("ware/wareinfo")
 public interface WareInfoApi {
+
+    /**
+     * 获取运费信息
+     *
+     * @param addrId 收货地址id
+     * @return 邮资
+     */
+    @GetMapping("/postage/info")
+    BaseResult<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId);
 
     /**
      * 查询仓库信息列表

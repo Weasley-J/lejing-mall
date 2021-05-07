@@ -72,6 +72,16 @@
             <version>${lejing.latest.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+            <version>${lejing.latest.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

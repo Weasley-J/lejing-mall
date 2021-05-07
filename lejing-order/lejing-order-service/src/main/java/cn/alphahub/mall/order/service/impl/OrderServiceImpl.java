@@ -15,10 +15,12 @@ import cn.alphahub.mall.order.exception.BizException;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
 import cn.alphahub.mall.order.feign.SkuInfoClient;
+import cn.alphahub.mall.order.feign.WareSkuClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.alphahub.mall.ware.vo.WareSkuVO;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -36,6 +38,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -57,6 +60,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private SkuInfoClient skuInfoClient;
     @Resource
     private CartClient cartClient;
+    @Resource
+    private WareSkuClient wareSkuClient;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
@@ -101,7 +106,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
             if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
                 addressVos = result.getData().stream().map(memberReceiveAddress -> {
-                    MemberAddressVo addressVo = MemberAddressVo.builder().build();
+                    MemberAddressVo addressVo = new MemberAddressVo();
                     BeanUtils.copyProperties(memberReceiveAddress, addressVo);
                     return addressVo;
                 }).collect(Collectors.toList());
@@ -119,6 +124,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 return orderItemVo;
             }).collect(Collectors.toList()), cartClient.getCurrentCartItems());
             confirmVo.setItems(itemVos);
+        }, executor).thenRunAsync(() -> {
+            List<Long> skuIds = confirmVo.getItems().stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
+            BaseResult<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
+            log.info("远程查询用户[{}]购物中商品的库存信息,响应:{}", member.getId(), JSONUtil.toJsonPrettyStr(result));
+            if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
+                Map<Long, Boolean> skuHasStockMap = result.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
+                confirmVo.setStocks(skuHasStockMap);
+            }
         }, executor);
 
         try {

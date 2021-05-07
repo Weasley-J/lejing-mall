@@ -590,7 +590,7 @@
 <!--</div>-->
 <!--</div>-->
 <!--主体部分-->
-<p class="p1">填写并核对订单信息 <span style="color: red" th:if="${msg!=null}" th:text="${msg}"></span> </p>
+<p class="p1">填写并核对订单信息 <span style="color: red" th:if="${msg!=null}" th:text="${msg}"></span></p>
 <div class="section">
     <!--收货人信息-->
     <div class="top-2">
@@ -740,8 +740,8 @@
         <p class="yfze_b">寄送至： <span id="receiveAddress"></span> 收货人：<span id="receiver"></span></p>
     </div>
     <form action="http://order.lejing.com/submitOrder" method="post">
-		<input id="addrInput" type="hidden" name="addrId" />
-		<input id="payPriceInput" type="hidden" name="payPrice">
+        <input id="addrInput" type="hidden" name="addrId"/>
+        <input id="payPriceInput" type="hidden" name="payPrice">
         <input name="orderToken" th:value="${confirmOrderData.orderToken}" type="hidden"/>
         <button class="tijiao" type="submit">提交订单</button>
     </form>
@@ -1003,17 +1003,17 @@
 
     //查运费
     function getFare(addrId) {
-    	//给表单回填选择的地址
-		$("#addrInput").val(addrId);
-        $.get("http://lejing.com/api/ware/wareinfo/fare?addrId=" + addrId, function (resp) {
-            console.log(resp);
+        //给表单回填选择的地址
+        $("#addrInput").val(addrId);
+        $.get("http://lejing.com/api/ware/wareinfo/postage/info?addrId=" + addrId, function (resp) {
+            console.log("查运费:" + resp);
             $("#fare").text(resp.data.fare);
             var total = [[${confirmOrderData.total}]];
 
             var payPrice = total * 1 + resp.data.fare * 1;
             //设置运费
             $("#payPrice").text(payPrice);
-			$("#payPriceInput").val(payPrice);
+            $("#payPriceInput").val(payPrice);
 
             //设置收获地址人信息
             $("#receiveAddress").text(resp.data.address.province + " " + resp.data.address.city + " " + " " + resp.data.address.region + resp.data.address.detailAddress);

@@ -2,8 +2,11 @@ package cn.alphahub.mall.ware.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.math.BigDecimal;
 
 /**
  * 仓库信息Service接口
@@ -31,4 +34,12 @@ public interface WareInfoService extends IService<WareInfo> {
      * @return 仓库信息分页数据
      */
     PageResult<WareInfo> queryPage(PageDomain pageDomain, WareInfo wareInfo, String key);
+
+    /**
+     * 获取运费信息
+     *
+     * @param addrId 收货地址id
+     * @return 邮资
+     */
+    FareVo getPostageInfoByAddressId(Long addrId);
 }
