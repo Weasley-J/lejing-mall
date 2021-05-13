@@ -1,5 +1,6 @@
 package cn.alphahub.mall.search.feign;
 
+import cn.alphahub.common.constant.AppConstant;
 import cn.alphahub.mall.product.api.BrandApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
@@ -11,7 +12,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @email 1432689025@qq.com
  * @date 2021/03/14
  */
-@FeignClient(value = "lejing-product", contextId = "brandClient")
+@FeignClient(value = AppConstant.SEARCH_SERVICE, contextId = "brandClient")
 public interface BrandClient extends BrandApi {
 
 }

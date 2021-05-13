@@ -70,6 +70,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
+    /**
+     * 导航链接
+     */
+    public static final String LINK = "http://search.lejing.com/list.html";
 
     /**
      * 商品-Elasticsearch持久层
@@ -114,7 +118,6 @@ public class SearchServiceImpl implements SearchService {
             log.info("保存成功: {}", skuModel);
             newRecords.add(skuModel);
         }
-        System.out.println("\n");
         Set<SkuModel> failRecords = oldRecords.stream().filter(skuModel -> !newRecords.contains(skuModel)).collect(Collectors.toCollection(LinkedHashSet::new));
         for (SkuModel skuModel : failRecords) {
             log.info("保存失败：{}", skuModel);
@@ -172,21 +175,21 @@ public class SearchServiceImpl implements SearchService {
         BoolQueryBuilder basicQuery = buildBoolSearchQuery(param);
         searchQueryBuilder.withQuery(basicQuery);
 
-        // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
+        /* 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle */
+
         /**
          SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
          searchQueryBuilder.withSourceFilter(sourceFilter2);
          */
 
         //3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
-        // 3.1 品牌聚合
+        // 品牌聚合
         TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.property(SkuModel::getBrandId)).size(60);
         // 商品品牌子聚合: brand_name_agg, brand_img_agg
         termsBrandAgg.subAggregations(AggregatorFactories.builder()
                 .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.property(SkuModel::getBrandName)))
                 .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.property(SkuModel::getBrandImg)))
         );
-
         // 3.2 分类聚合
         TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.property(SkuModel::getCatalogId));
         // 分类子聚合: category_name_agg
@@ -234,7 +237,7 @@ public class SearchServiceImpl implements SearchService {
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
-        System.out.println("\nES DQL查询语句:\n" + queryBuilder + "\n");
+        System.err.println("ES DQL查询语句:\n" + queryBuilder + "\n");
         return nativeSearchQuery;
     }
 
@@ -245,11 +248,10 @@ public class SearchServiceImpl implements SearchService {
      * @return 搜索突出显示的高亮构建器
      */
     private HighlightBuilder buildHighlightBuilder() {
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.preTags("<span style='color:red'>");
-        highlightBuilder.field(ReflectUtil.property(SkuModel::getSkuTitle));
-        highlightBuilder.postTags("</span>");
-        return highlightBuilder;
+        return new HighlightBuilder()
+                .preTags("<span style='color:red'>")
+                .field(ReflectUtil.property(SkuModel::getSkuTitle))
+                .postTags("</span>");
     }
 
     /**
@@ -366,7 +368,6 @@ public class SearchServiceImpl implements SearchService {
             }
         }
 
-        System.out.println("");
         List<SkuModel> skuModels = searchHits.stream().map(hit -> {
             SkuModel skuModel = hit.getContent();
             // 替换高亮字段处理
@@ -444,7 +445,7 @@ public class SearchServiceImpl implements SearchService {
                 }
                 // 设置跳转，要跳转的页面，将请求的url里面当前的查询条件置空，无吊当前
                 String replace = replaceQueryString(param, "attr", attr);
-                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVO.setLink(LINK + "?" + replace);
                 navVO.setNavValue(navValue);
                 // 返回数据
                 return navVO;
@@ -475,7 +476,7 @@ public class SearchServiceImpl implements SearchService {
                 }).collect(Collectors.joining(";"));
                 navVO.setNavName("品牌");
                 navVO.setNavValue(brandNames);
-                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVO.setLink(LINK + "?" + replace);
                 navVos.add(navVO);
             } else {
                 log.info("远程调用商品服务查询品牌信息失败");

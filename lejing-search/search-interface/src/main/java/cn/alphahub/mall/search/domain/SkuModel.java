@@ -1,11 +1,14 @@
 package cn.alphahub.mall.search.domain;
 
 import cn.alphahub.common.util.IdSerializer;
+import cn.alphahub.mall.search.constant.IkConstant;
+import cn.alphahub.mall.search.constant.SearchConstant;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -26,7 +29,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(indexName = "product", shards = 1, replicas = 1, createIndex = true)
+@Accessors(chain = true)
+@Document(indexName = SearchConstant.PRODUCT_INDEX, shards = 1, replicas = 1, createIndex = true)
 public class SkuModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +52,7 @@ public class SkuModel implements Serializable {
     /**
      * 商品名称
      */
-    @Field(type = FieldType.Text, analyzer = "ik_smart", searchAnalyzer = "ik_max_word")
+    @Field(type = FieldType.Text, analyzer = IkConstant.IK_SMART, searchAnalyzer = IkConstant.IK_MAX_WORD)
     private String skuTitle;
 
     /**
