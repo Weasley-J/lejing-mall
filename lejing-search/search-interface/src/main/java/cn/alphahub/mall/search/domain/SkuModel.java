@@ -52,7 +52,7 @@ public class SkuModel implements Serializable {
     /**
      * 商品名称
      */
-    @Field(type = FieldType.Text, analyzer = IkConstant.ANALYZER_IK_SMART, searchAnalyzer = IkConstant.ANALYZER_IK_MAX_WORD)
+    @Field(type = FieldType.Text, analyzer = IkConstant.IK_SMART, searchAnalyzer = IkConstant.IK_MAX_WORD)
     private String skuTitle;
 
     /**

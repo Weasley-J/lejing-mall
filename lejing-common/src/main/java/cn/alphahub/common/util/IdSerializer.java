@@ -26,6 +26,7 @@ import java.io.IOException;
  * @author liuwenjing
  * @date 2021年2月28日
  * @see com.fasterxml.jackson.databind.JsonSerializer
+ * @see com.fasterxml.jackson.databind.ser.std.ToStringSerializer
  */
 public class IdSerializer extends JsonSerializer<Long> {
 
