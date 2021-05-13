@@ -64,7 +64,7 @@ public class ReflectUtil {
             String lambdaImplClass = serializedLambda.getImplClass();
             return methodToProperty(Objects.requireNonNull(implMethodName));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            log.error("获取Java Bean属性名失败, 异常信息: {}\n", e.getMessage(), e);
+            log.error("获取Java Bean属性名失败, 异常信息: {}", e.getMessage(), e);
             throw new RuntimeException("获取Java Bean属性名失败");
         }
     }
