@@ -176,8 +176,9 @@ public class SearchServiceImpl implements SearchService {
         BoolQueryBuilder basicQuery = buildBoolSearchQuery(param);
         searchQueryBuilder.withQuery(basicQuery);
 
-        // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
-        /*
+        /* 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle */
+
+        /**
          SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
          searchQueryBuilder.withSourceFilter(sourceFilter2);
          */
