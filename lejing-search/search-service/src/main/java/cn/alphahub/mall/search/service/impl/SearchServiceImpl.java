@@ -118,7 +118,6 @@ public class SearchServiceImpl implements SearchService {
             log.info("保存成功: {}", skuModel);
             newRecords.add(skuModel);
         }
-        System.out.println("\n");
         Set<SkuModel> failRecords = oldRecords.stream().filter(skuModel -> !newRecords.contains(skuModel)).collect(Collectors.toCollection(LinkedHashSet::new));
         for (SkuModel skuModel : failRecords) {
             log.info("保存失败：{}", skuModel);
