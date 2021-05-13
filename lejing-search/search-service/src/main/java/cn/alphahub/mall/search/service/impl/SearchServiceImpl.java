@@ -70,6 +70,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SearchServiceImpl implements SearchService {
+    /**
+     * 导航链接
+     */
+    public static final String LINK = "http://search.lejing.com/list.html";
 
     /**
      * 商品-Elasticsearch持久层
@@ -173,7 +177,7 @@ public class SearchServiceImpl implements SearchService {
         searchQueryBuilder.withQuery(basicQuery);
 
         // 2 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle
-        /**
+        /*
          SourceFilter sourceFilter2 = new FetchSourceFilterBuilder().withIncludes("id", "skus", "subTitle").withExcludes().build();
          searchQueryBuilder.withSourceFilter(sourceFilter2);
          */
@@ -365,7 +369,6 @@ public class SearchServiceImpl implements SearchService {
             }
         }
 
-        System.out.println("");
         List<SkuModel> skuModels = searchHits.stream().map(hit -> {
             SkuModel skuModel = hit.getContent();
             // 替换高亮字段处理
@@ -443,7 +446,7 @@ public class SearchServiceImpl implements SearchService {
                 }
                 // 设置跳转，要跳转的页面，将请求的url里面当前的查询条件置空，无吊当前
                 String replace = replaceQueryString(param, "attr", attr);
-                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVO.setLink(LINK + "?" + replace);
                 navVO.setNavValue(navValue);
                 // 返回数据
                 return navVO;
@@ -474,7 +477,7 @@ public class SearchServiceImpl implements SearchService {
                 }).collect(Collectors.joining(";"));
                 navVO.setNavName("品牌");
                 navVO.setNavValue(brandNames);
-                navVO.setLink("http://search.lejing.com/list.html?" + replace);
+                navVO.setLink(LINK + "?" + replace);
                 navVos.add(navVO);
             } else {
                 log.info("远程调用商品服务查询品牌信息失败");
