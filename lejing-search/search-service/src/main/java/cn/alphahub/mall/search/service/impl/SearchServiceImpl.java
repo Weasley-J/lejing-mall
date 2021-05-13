@@ -249,11 +249,10 @@ public class SearchServiceImpl implements SearchService {
      * @return 搜索突出显示的高亮构建器
      */
     private HighlightBuilder buildHighlightBuilder() {
-        HighlightBuilder highlightBuilder = new HighlightBuilder();
-        highlightBuilder.preTags("<span style='color:red'>");
-        highlightBuilder.field(ReflectUtil.property(SkuModel::getSkuTitle));
-        highlightBuilder.postTags("</span>");
-        return highlightBuilder;
+        return new HighlightBuilder()
+                .preTags("<span style='color:red'>")
+                .field(ReflectUtil.property(SkuModel::getSkuTitle))
+                .postTags("</span>");
     }
 
     /**
