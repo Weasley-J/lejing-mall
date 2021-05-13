@@ -186,7 +186,6 @@ public class SearchServiceImpl implements SearchService {
                 .addAggregator(AggregationBuilders.terms("brand_name_agg").field(ReflectUtil.property(SkuModel::getBrandName)))
                 .addAggregator(AggregationBuilders.terms("brand_img_agg").field(ReflectUtil.property(SkuModel::getBrandImg)))
         );
-
         // 3.2 分类聚合
         TermsAggregationBuilder termsCategoryAgg = AggregationBuilders.terms("category_agg").field(ReflectUtil.property(SkuModel::getCatalogId));
         // 分类子聚合: category_name_agg

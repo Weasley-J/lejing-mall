@@ -107,7 +107,7 @@ public class ReflectUtil {
      * @param methodName Java Bean某个属性的getter或者setter方法
      * @return 返回属性值名称
      */
-    public static String methodToProperty(@NotNull String methodName) {
+    private static String methodToProperty(@NotNull String methodName) {
         if (methodName.startsWith(IS)) {
             methodName = methodName.substring(2);
         } else {
@@ -175,7 +175,7 @@ public class ReflectUtil {
      *
      * @since 2.7 (was previously called }
      */
-    public static String translate(String input) {
+    private static String translate(String input) {
         // garbage in, garbage out
         if (input == null) {
             return null;
