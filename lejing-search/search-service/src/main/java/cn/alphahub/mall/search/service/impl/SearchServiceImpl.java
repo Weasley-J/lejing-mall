@@ -237,7 +237,7 @@ public class SearchServiceImpl implements SearchService {
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
-        System.err.println("\nES DQL查询语句:\n" + queryBuilder + "\n");
+        System.err.println("ES DQL查询语句:\n" + queryBuilder + "\n");
         return nativeSearchQuery;
     }
 
