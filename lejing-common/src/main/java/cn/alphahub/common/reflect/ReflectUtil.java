@@ -76,13 +76,10 @@ public class ReflectUtil {
      * <pre>
      * public static class SocialUser implements Serializable {
      *     private static final long serialVersionUID = 1L;
-     *     // 访问令牌
+     *
      *     private String accessToken;
-     *     // 过期时间
      *     private Long expiresIn;
-     *     // 用户id
      *     private String uid;
-     *     // 是真名吗
      *     private String isRealName;
      *     // 省略getter, setter, 构造方法, 建议使用lombok
      * }
@@ -127,6 +124,7 @@ public class ReflectUtil {
     }
 
     /**
+     * <p>属性名转下划线</p>
      * A {@link PropertyNamingStrategy} that translates typical camel case Java
      * property names to lower case JSON element names, separated by
      * underscores.  This implementation is somewhat lenient, in that it
@@ -179,15 +177,17 @@ public class ReflectUtil {
      */
     public static String translate(String input) {
         // garbage in, garbage out
-        if (input == null) return null;
+        if (input == null) {
+            return null;
+        }
         int length = input.length();
         StringBuilder result = new StringBuilder(length * 2);
         int resultLength = 0;
         boolean wasPrevTranslated = false;
         for (int i = 0; i < length; i++) {
             char c = input.charAt(i);
-            if (i > 0 || c != '_') // skip first starting underscore
-            {
+            // skip first starting underscore
+            if (i > 0 || c != '_') {
                 if (Character.isUpperCase(c)) {
                     if (!wasPrevTranslated && resultLength > 0 && result.charAt(resultLength - 1) != '_') {
                         result.append('_');

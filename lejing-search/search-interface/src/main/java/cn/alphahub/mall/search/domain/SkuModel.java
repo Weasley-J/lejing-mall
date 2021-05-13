@@ -29,7 +29,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true, fluent = true)
+@Accessors(chain = true)
 @Document(indexName = SearchConstant.PRODUCT_INDEX, shards = 1, replicas = 1, createIndex = true)
 public class SkuModel implements Serializable {
     private static final long serialVersionUID = 1L;

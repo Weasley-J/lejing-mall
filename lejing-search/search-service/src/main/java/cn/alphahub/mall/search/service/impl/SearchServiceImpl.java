@@ -179,7 +179,7 @@ public class SearchServiceImpl implements SearchService {
          */
 
         //3 添加聚合条件: 品牌聚合，分类聚合，属性聚合
-        // 3.1 品牌聚合
+        // 品牌聚合
         TermsAggregationBuilder termsBrandAgg = AggregationBuilders.terms("brand_agg").field(ReflectUtil.property(SkuModel::getBrandId)).size(60);
         // 商品品牌子聚合: brand_name_agg, brand_img_agg
         termsBrandAgg.subAggregations(AggregatorFactories.builder()
@@ -234,7 +234,7 @@ public class SearchServiceImpl implements SearchService {
 
         NativeSearchQuery nativeSearchQuery = searchQueryBuilder.build();
         QueryBuilder queryBuilder = nativeSearchQuery.getQuery();
-        System.out.println("\nES DQL查询语句:\n" + queryBuilder + "\n");
+        System.err.println("\nES DQL查询语句:\n" + queryBuilder + "\n");
         return nativeSearchQuery;
     }
 
