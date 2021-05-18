@@ -46,8 +46,8 @@ public interface OrderService extends IService<Order> {
     /**
      * 提交订单结算 - 下单功能
      *
-     * @param vo 订单提交数据
+     * @param submitVo 订单提交数据
      * @return 提交订单响应数据
      */
-    SubmitOrderResponseVo submitOrder(OrderSubmitVo vo);
+    SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo);
 }

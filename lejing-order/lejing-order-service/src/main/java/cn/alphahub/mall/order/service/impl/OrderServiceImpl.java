@@ -12,6 +12,8 @@ import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
+import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
+import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
 import cn.alphahub.mall.order.exception.BizException;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
@@ -195,6 +197,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
         }
         return items;
+    }
+
+    /**
+     * 提交订单结算 - 下单功能
+     *
+     * @param submitVo 订单提交数据
+     * @return 提交订单响应数据
+     */
+    @Override
+    public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
+        // TODO
+        return null;
     }
 
     /**

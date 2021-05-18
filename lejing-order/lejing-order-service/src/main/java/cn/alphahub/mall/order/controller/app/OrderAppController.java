@@ -46,13 +46,13 @@ public class OrderAppController {
     /**
      * 提交订单结算
      *
-     * @param vo 订单提交数据
+     * @param submitVo 订单提交数据
      * @return 提交订单响应数据
      */
     @PostMapping(value = "/submitOrder")
-    public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes attributes) {
+    public String submitOrder(OrderSubmitVo submitVo, Model model, RedirectAttributes attributes) {
         try {
-            SubmitOrderResponseVo responseVo = orderService.submitOrder(vo);
+            SubmitOrderResponseVo responseVo = orderService.submitOrder(submitVo);
             //下单成功来到支付选择页，下单失败回到订单确认页重新确定订单信息
             if (responseVo.getCode() == 0) {
                 //成功
@@ -78,8 +78,7 @@ public class OrderAppController {
             }
         } catch (Exception exception) {
             if (exception instanceof NoStockException) {
-                String message = exception.getMessage();
-                attributes.addFlashAttribute("msg", message);
+                attributes.addFlashAttribute("msg", exception.getMessage());
             }
             return "redirect:" + OrderConstant.TO_TRADE_URL;
         }
