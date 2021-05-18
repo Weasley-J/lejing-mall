@@ -76,9 +76,9 @@ public class OrderAppController {
                 attributes.addFlashAttribute("msg", msg);
                 return "redirect:" + OrderConstant.TO_TRADE_URL;
             }
-        } catch (Exception exception) {
-            if (exception instanceof NoStockException) {
-                attributes.addFlashAttribute("msg", exception.getMessage());
+        } catch (Exception e) {
+            if (e instanceof NoStockException) {
+                attributes.addFlashAttribute("msg", e.getMessage());
             }
             return "redirect:" + OrderConstant.TO_TRADE_URL;
         }

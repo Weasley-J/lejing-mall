@@ -49,5 +49,5 @@ public class OrderSubmitVo implements Serializable {
      **/
     private String remarks;
 
-    //用户相关的信息，直接去session中取出即可
+    //用户相关的信息，直接去session中取用即可
 }
