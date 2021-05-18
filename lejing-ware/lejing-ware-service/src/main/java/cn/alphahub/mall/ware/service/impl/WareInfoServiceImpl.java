@@ -33,6 +33,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> implements WareInfoService {
+
     @Resource
     private MemberReceiveAddressClient memberReceiveAddressClient;
 

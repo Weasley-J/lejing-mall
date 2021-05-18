@@ -5,6 +5,8 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
+import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
+import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -40,4 +42,12 @@ public interface OrderService extends IService<Order> {
      * @return 购物项内容列表
      */
     List<CartItemVo> getUserCartItems();
+
+    /**
+     * 提交订单结算 - 下单功能
+     *
+     * @param vo 订单提交数据
+     * @return 提交订单响应数据
+     */
+    SubmitOrderResponseVo submitOrder(OrderSubmitVo vo);
 }

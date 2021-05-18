@@ -7,6 +7,7 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
+import cn.alphahub.mall.order.constant.OrderConstant;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
@@ -21,6 +22,7 @@ import cn.alphahub.mall.order.mapper.OrderMapper;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -43,6 +45,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -133,6 +136,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 confirmVo.setStocks(skuHasStockMap);
             }
         }, executor);
+
+        //接口幂等性-防重复提交
+        String token = IdUtil.fastSimpleUUID();
+        stringRedisTemplate.opsForValue().set(OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId(), token, 15, TimeUnit.SECONDS);
+        confirmVo.setOrderToken(token);
 
         try {
             CompletableFuture.allOf(addressListFuture, cartItemFuture).get();
