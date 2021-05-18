@@ -54,7 +54,7 @@ public class OrderAppController {
         try {
             SubmitOrderResponseVo responseVo = orderService.submitOrder(submitVo);
             //下单成功来到支付选择页，下单失败回到订单确认页重新确定订单信息
-            if (responseVo.getCode() == 0) {
+            if (0 == responseVo.getCode()) {
                 //成功
                 model.addAttribute("submitOrderResp", responseVo);
                 return "pay";
