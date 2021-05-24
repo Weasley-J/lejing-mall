@@ -36,6 +36,7 @@ import org.apache.commons.lang3.function.Failable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -201,14 +202,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 提交订单结算 - 下单功能
+     * <p>下单：创建订单 、验证令牌、验证价格、锁定库存</p>
      *
      * @param submitVo 订单提交数据
      * @return 提交订单响应数据
      */
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
-        // TODO
-        return null;
+        SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
+
+        Member member = LoginInterceptor.getUserInfo();
+        String token = submitVo.getOrderToken();
+        String key = OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId();
+
+        //1、验证令牌是否合法【令牌的对比和删除必须保证原子性】, rua脚本执行结果: 1L 验证成功；0L 验证失败
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Lists.newArrayList(key), token);
+
+        if (Objects.equals(result, 0L)) {
+            log.info("令牌验证不通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+            return responseVo;
+        }
+
+        if (Objects.equals(result, 1L)) {
+            log.info("令牌验证通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+
+        }
+
+        return responseVo;
     }
 
     /**

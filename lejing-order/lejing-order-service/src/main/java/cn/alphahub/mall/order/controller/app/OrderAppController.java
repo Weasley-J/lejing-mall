@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * 订单业务 Controller
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Controller
 public class OrderAppController {
+
     @Resource
     private OrderService orderService;
 
@@ -55,12 +57,12 @@ public class OrderAppController {
         try {
             SubmitOrderResponseVo responseVo = orderService.submitOrder(submitVo);
             //下单成功来到支付选择页，下单失败回到订单确认页重新确定订单信息
-            if (0 == responseVo.getCode()) {
+            if (Objects.equals(0, responseVo.getCode())) {
                 //成功
                 model.addAttribute("submitOrderResp", responseVo);
                 return "pay";
             } else {
-                String msg = "下单失败";
+                String msg = "下单失败：";
                 switch (responseVo.getCode()) {
                     case 1:
                         msg += "令牌订单信息过期，请刷新再次提交";
