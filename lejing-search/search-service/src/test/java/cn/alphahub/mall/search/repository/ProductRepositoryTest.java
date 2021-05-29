@@ -108,47 +108,6 @@ class ProductRepositoryTest {
         System.out.println(exists);
     }
 
-    /**
-     * 保存Spu信息到ES中
-     */
-    @Test
-    void testSaveSpuDataToElasticsearch() {
-        if (restTemplate.indexExists(SkuModel.class)) {
-            restTemplate.deleteIndex(SkuModel.class);
-        } else {
-            // 创建索引
-            this.restTemplate.createIndex(SkuModel.class);
-            // 配置映射
-            this.restTemplate.putMapping(SkuModel.class);
-        }
-
-        Integer page = 1;
-        int rows = 100;
-
-       /*
-       do {
-            System.out.println("---------------------------");
-            // 分批查询spuBo
-            PageResult<SpuBo> pageResult = goodsClient.querySpuBoByPage(null, true, page, rows);
-
-            List<SpuBo> items = pageResult.getItems();
-            List<SkuModel> goodsList = items.stream().map(spuBo -> {
-                try {
-                    return searchService.buildGoods(spuBo);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }).collect(Collectors.toList());
-            goodsRepository.saveAll(goodsList);
-
-            // 获取当前页的数据条数，如果是最后一页，没有100条
-            rows = pageResult.getItems().size();
-            page++;
-        } while (rows == 100);
-        */
-    }
-
     @Test
     void findById() {
         Optional<SkuModel> skuModelOptional = productRepository.findById(1L);

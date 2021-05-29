@@ -9,6 +9,9 @@ import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.constant.OrderConstant;
 import cn.alphahub.mall.order.domain.Order;
+import cn.alphahub.mall.order.domain.OrderItem;
+import cn.alphahub.mall.order.dto.to.OrderCreateTo;
+import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
@@ -18,6 +21,7 @@ import cn.alphahub.mall.order.exception.BizException;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
 import cn.alphahub.mall.order.feign.SkuInfoClient;
+import cn.alphahub.mall.order.feign.WareInfoClient;
 import cn.alphahub.mall.order.feign.WareSkuClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
@@ -28,6 +32,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +47,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +56,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static cn.alphahub.mall.order.constant.OrderConstant.OrderStatusEnum;
 
 /**
  * 订单Service业务层处理
@@ -60,6 +68,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+    /**
+     * 共享订单数据
+     */
+    private ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
+
     @Resource
     private ThreadPoolExecutor executor;
     @Resource
@@ -68,6 +81,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private CartClient cartClient;
     @Resource
     private WareSkuClient wareSkuClient;
+    @Resource
+    private WareInfoClient wareInfoClient;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
@@ -151,6 +166,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             log.error("订单结算确认多线程异步任务执行任务出错,异常原因:{}", e.getMessage(), e);
         }
 
+        confirmVoThreadLocal.remove();
+
         return confirmVo;
     }
 
@@ -210,7 +227,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
-
+        confirmVoThreadLocal.set(submitVo);
         Member member = LoginInterceptor.getUserInfo();
         String token = submitVo.getOrderToken();
         String key = OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId();
@@ -226,11 +243,82 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         if (Objects.equals(result, 1L)) {
             log.info("令牌验证通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
-
+            OrderCreateTo order = createOrder();
         }
 
         return responseVo;
     }
+
+    /**
+     * 创建订单
+     *
+     * @param addrId 收货地址id
+     * @return 订单数据
+     */
+    private OrderCreateTo createOrder() {
+        OrderCreateTo createTo = new OrderCreateTo();
+
+        // 所有订单项数据
+        createTo.setOrder(buildOrder());
+        createTo.setOrderItems(buildOrderItems());
+        createTo.setPayPrice(new BigDecimal("0"));
+        createTo.setFare(new BigDecimal("0"));
+        return createTo;
+    }
+
+    /**
+     * 构建订单
+     *
+     * @return 订单
+     */
+    private Order buildOrder() {
+        log.info("构建订单...");
+        Order order = new Order();
+        // 订单号
+        String orderSn = IdWorker.getTimeId();
+        order.setOrderSn(orderSn);
+        order.setStatus(OrderStatusEnum.CREATE_NEW.getValue());
+
+        // 收货人信息+运费
+        BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(confirmVoThreadLocal.get().getAddrId());
+        FareVo data = postageInfo.getData();
+        if (postageInfo.getSuccess() && Objects.nonNull(data)) {
+            MemberAddressVo address = data.getAddress();
+            order.setReceiverName(address.getName());
+            order.setReceiverPhone(address.getPhone());
+            order.setReceiverPostCode(address.getPostCode());
+            order.setReceiverProvince(address.getProvince());
+            order.setReceiverCity(address.getCity());
+            order.setReceiverRegion(address.getRegion());
+            order.setReceiverDetailAddress(address.getDetailAddress());
+            order.setFreightAmount(data.getFare());
+        }
+
+        return order;
+    }
+
+    /**
+     * 构建订单项数据列表
+     *
+     * @return 订单项信息列表
+     */
+    private List<OrderItem> buildOrderItems() {
+        log.info("构建订单项数据列表...");
+        return getUserCartItems().stream().map(this::buildOrderItem).collect(Collectors.toList());
+    }
+
+    /**
+     * 构建某一个订单项数据列表
+     *
+     * @param cartItemVo 购物项内容
+     * @return 订单项信息
+     */
+    private OrderItem buildOrderItem(CartItemVo cartItemVo) {
+        log.info("构建某一个订单项数据列表:{}", JSONUtil.toJsonPrettyStr(cartItemVo));
+        OrderItem item = new OrderItem();
+        return item;
+    }
+
 
     /**
      * 获取临时购物车里面的数据

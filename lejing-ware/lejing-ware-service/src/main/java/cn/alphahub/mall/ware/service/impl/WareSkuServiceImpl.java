@@ -46,15 +46,10 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
      */
     @Override
     public PageResult<WareSku> queryPage(PageDomain pageDomain, WareSku wareSku) {
-        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<WareSku> wrapper = new QueryWrapper<>(wareSku);
-        // 2. 创建一个分页对象
         PageResult<WareSku> pageResult = new PageResult<>();
-        // 3. 开始分页
         pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
         List<WareSku> wareSkuList = this.list(wrapper);
-        // 5. 分装并返回数据
         return pageResult.getPage(wareSkuList);
     }
 

@@ -235,6 +235,10 @@ api[7].list.push({
     order: '5',
     desc: '批量删除会员收货地址',
 });
+api[7].list.push({
+    order: '6',
+    desc: '查询用户的收货地址列表',
+});
 api.push({
     alias: 'MemberStatisticsInfoController',
     order: '9',

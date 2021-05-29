@@ -105,22 +105,26 @@ api.push({
 })
 api[3].list.push({
     order: '1',
-    desc: '查询仓库信息列表',
+    desc: '获取运费信息',
 });
 api[3].list.push({
     order: '2',
-    desc: '获取仓库信息详情',
+    desc: '查询仓库信息列表',
 });
 api[3].list.push({
     order: '3',
-    desc: '新增仓库信息',
+    desc: '获取仓库信息详情',
 });
 api[3].list.push({
     order: '4',
-    desc: '修改仓库信息',
+    desc: '新增仓库信息',
 });
 api[3].list.push({
     order: '5',
+    desc: '修改仓库信息',
+});
+api[3].list.push({
+    order: '6',
     desc: '批量删除仓库信息',
 });
 api.push({
