@@ -281,7 +281,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 所有订单项数据
         createTo.setOrder(buildOrder());
         createTo.setOrderItems(buildOrderItems(createTo.getOrder().getOrderSn()));
-        //验价
         computePrice(createTo.getOrder(), createTo.getOrderItems());
         createTo.setPayPrice(createTo.getOrder().getPayAmount());
         createTo.setFare(createTo.getOrder().getFreightAmount());
