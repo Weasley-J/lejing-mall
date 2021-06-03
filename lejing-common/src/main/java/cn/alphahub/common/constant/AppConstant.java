@@ -60,4 +60,8 @@ public class AppConstant {
      * 后台管理服务
      */
     public static final String ADMIN_SERVICE = "renren-fast";
+    /**
+     * 支付服务
+     */
+    public static final String PAY_SERVICE = "lejing-pay";
 }

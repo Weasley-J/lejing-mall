@@ -18,17 +18,22 @@ import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
 import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
 import cn.alphahub.mall.order.exception.BizException;
+import cn.alphahub.mall.order.feign.BrandClient;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
 import cn.alphahub.mall.order.feign.SkuInfoClient;
+import cn.alphahub.mall.order.feign.SpuInfoClient;
 import cn.alphahub.mall.order.feign.WareInfoClient;
 import cn.alphahub.mall.order.feign.WareSkuClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
 import cn.alphahub.mall.order.service.OrderService;
+import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.alphahub.mall.product.domain.SpuInfo;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -37,6 +42,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.Failable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -48,6 +54,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -78,7 +85,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private SkuInfoClient skuInfoClient;
     @Resource
+    public SpuInfoClient spuInfoClient;
+    @Resource
     private CartClient cartClient;
+    @Resource
+    public BrandClient brandClient;
     @Resource
     private WareSkuClient wareSkuClient;
     @Resource
@@ -238,12 +249,23 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         if (Objects.equals(result, 0L)) {
             log.info("令牌验证不通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+            responseVo.setCode(1);
             return responseVo;
         }
 
         if (Objects.equals(result, 1L)) {
             log.info("令牌验证通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+            // 创建订单项
             OrderCreateTo order = createOrder();
+            // 验价
+            BigDecimal payAmount = order.getOrder().getPayAmount();
+            if (Math.abs(submitVo.getPayPrice().subtract(payAmount).doubleValue()) < 0.01) {
+                //验价成功
+            } else {
+                //验价失败
+                responseVo.setCode(2);
+                return responseVo;
+            }
         }
 
         return responseVo;
@@ -252,18 +274,59 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     /**
      * 创建订单
      *
-     * @param addrId 收货地址id
      * @return 订单数据
      */
     private OrderCreateTo createOrder() {
         OrderCreateTo createTo = new OrderCreateTo();
-
         // 所有订单项数据
         createTo.setOrder(buildOrder());
-        createTo.setOrderItems(buildOrderItems());
-        createTo.setPayPrice(new BigDecimal("0"));
-        createTo.setFare(new BigDecimal("0"));
+        createTo.setOrderItems(buildOrderItems(createTo.getOrder().getOrderSn()));
+        //验价
+        computePrice(createTo.getOrder(), createTo.getOrderItems());
+        createTo.setPayPrice(createTo.getOrder().getPayAmount());
+        createTo.setFare(createTo.getOrder().getFreightAmount());
         return createTo;
+    }
+
+    /**
+     * 计算价格
+     *
+     * @param order      订单
+     * @param orderItems 订单项列表
+     */
+    private void computePrice(Order order, List<OrderItem> orderItems) {
+        // 总金额=每一个订单项的总额叠加
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        BigDecimal promotionDiscountPrice = BigDecimal.ZERO;
+        BigDecimal couponDiscountPrice = BigDecimal.ZERO;
+        BigDecimal integrationDiscountPrice = BigDecimal.ZERO;
+
+        Integer giftGrowth = 0;
+        Integer integration = 0;
+        for (OrderItem item : orderItems) {
+            promotionDiscountPrice = promotionDiscountPrice.add(item.getPromotionAmount());
+            couponDiscountPrice = couponDiscountPrice.add(item.getCouponAmount());
+            integrationDiscountPrice = integrationDiscountPrice.add(item.getIntegrationAmount());
+            totalPrice = totalPrice.add(item.getRealAmount());
+
+            giftGrowth += item.getGiftGrowth();
+            integration += item.getGiftIntegration();
+        }
+        // 促销优慧金额
+        order.setPromotionAmount(promotionDiscountPrice);
+        // 优惠券抵扣金额
+        order.setCouponAmount(couponDiscountPrice);
+        // 积分抵扣金额
+        order.setIntegrationAmount(integrationDiscountPrice);
+
+        // 订单总额
+        order.setTotalAmount(totalPrice);
+        // 应付总额
+        order.setPayAmount(totalPrice.add(order.getFreightAmount()).setScale(2, RoundingMode.DOWN));
+        order.setGrowth(giftGrowth);
+        order.setIntegration(integration);
+        order.setDeleteStatus(0);
     }
 
     /**
@@ -278,9 +341,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         String orderSn = IdWorker.getTimeId();
         order.setOrderSn(orderSn);
         order.setStatus(OrderStatusEnum.CREATE_NEW.getValue());
-
+        order.setAutoConfirmDay(7);
         // 收货人信息+运费
-        BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(confirmVoThreadLocal.get().getAddrId());
+        OrderSubmitVo submitVo = confirmVoThreadLocal.get();
+        BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(submitVo.getAddrId());
         FareVo data = postageInfo.getData();
         if (postageInfo.getSuccess() && Objects.nonNull(data)) {
             MemberAddressVo address = data.getAddress();
@@ -293,7 +357,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             order.setReceiverDetailAddress(address.getDetailAddress());
             order.setFreightAmount(data.getFare());
         }
-
         return order;
     }
 
@@ -302,23 +365,86 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      *
      * @return 订单项信息列表
      */
-    private List<OrderItem> buildOrderItems() {
+    private List<OrderItem> buildOrderItems(String orderSn) {
         log.info("构建订单项数据列表...");
-        return getUserCartItems().stream().map(this::buildOrderItem).collect(Collectors.toList());
+        List<CartItemVo> userCartItems = getUserCartItems();
+        if (CollectionUtils.isEmpty(userCartItems)) {
+            return null;
+        }
+        return userCartItems.stream().map(cartItemVo -> {
+            OrderItem orderItem = buildOrderItem(cartItemVo);
+            assert orderItem != null;
+            orderItem.setOrderSn(orderSn);
+            return orderItem;
+        }).collect(Collectors.toList());
     }
 
     /**
      * 构建某一个订单项数据列表
+     * <ul>
+     *     <p>构建的数据项</p>
+     *     <li>订单数据、订单号</li>
+     *     <li>商品SPU信息</li>
+     *     <li>商品SKU信息</li>
+     *     <li>优惠信息<em>（不做)</em></li>
+     *     <li>积分信息</li>
+     * </ul>
      *
      * @param cartItemVo 购物项内容
      * @return 订单项信息
      */
     private OrderItem buildOrderItem(CartItemVo cartItemVo) {
         log.info("构建某一个订单项数据列表:{}", JSONUtil.toJsonPrettyStr(cartItemVo));
-        OrderItem item = new OrderItem();
-        return item;
-    }
+        if (Objects.isNull(cartItemVo)) {
+            return null;
+        }
+        OrderItem orderItem = new OrderItem();
 
+        // TODO 使用多线程查询
+        Long skuId = cartItemVo.getSkuId();
+        BaseResult<SkuInfo> skuInfoBaseResult = skuInfoClient.info(skuId);
+        SkuInfo skuInfo = skuInfoBaseResult.getData();
+        if (skuInfoBaseResult.getSuccess() && Objects.nonNull(skuInfo)) {
+            orderItem.setSpuId(skuInfo.getSpuId());
+            orderItem.setSpuPic(skuInfo.getSkuDefaultImg());
+            // 查SPU信息
+            BaseResult<SpuInfo> spuInfoBaseResult = spuInfoClient.info(skuInfo.getSpuId());
+            SpuInfo spuInfo = spuInfoBaseResult.getData();
+            if (spuInfoBaseResult.getSuccess() && Objects.nonNull(spuInfo)) {
+                orderItem.setSpuName(spuInfo.getSpuName());
+                orderItem.setCategoryId(spuInfo.getCatalogId());
+                //  查品牌
+                BaseResult<Brand> brandBaseResult = brandClient.info(skuInfo.getBrandId());
+                if (brandBaseResult.getSuccess() && Objects.nonNull(brandBaseResult.getData())) {
+                    orderItem.setSpuBrand(brandBaseResult.getData().getName());
+                }
+            }
+        }
+
+        // SKU
+        orderItem.setSkuId(skuId);
+        orderItem.setSkuName(cartItemVo.getTitle());
+        orderItem.setSkuPic(cartItemVo.getImage());
+        orderItem.setSkuPrice(cartItemVo.getPrice());
+        orderItem.setSkuQuantity(cartItemVo.getCount());
+        orderItem.setSkuAttrsVals(StringUtils.join(cartItemVo.getSkuAttrValues(), ";"));
+
+        //优惠信息（不做)
+
+        // 设置优惠价格
+        orderItem.setPromotionAmount(BigDecimal.ZERO);
+        orderItem.setCouponAmount(BigDecimal.ZERO);
+        orderItem.setIntegrationAmount(BigDecimal.ZERO);
+
+        BigDecimal originAmount = NumberUtil.mul(orderItem.getSkuPrice(), new BigDecimal("" + orderItem.getSkuQuantity()));
+        originAmount = NumberUtil.sub(originAmount, orderItem.getPromotionAmount(), orderItem.getCouponAmount(), orderItem.getIntegrationAmount());
+        // 最终付款金额
+        orderItem.setRealAmount(originAmount);
+
+        orderItem.setGiftGrowth(cartItemVo.getPrice().intValue() * cartItemVo.getCount());
+        orderItem.setGiftIntegration(cartItemVo.getPrice().intValue() * cartItemVo.getCount());
+        return orderItem;
+    }
 
     /**
      * 获取临时购物车里面的数据
