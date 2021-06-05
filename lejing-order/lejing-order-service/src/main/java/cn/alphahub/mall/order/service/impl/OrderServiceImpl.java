@@ -309,7 +309,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             couponDiscountPrice = couponDiscountPrice.add(item.getCouponAmount());
             integrationDiscountPrice = integrationDiscountPrice.add(item.getIntegrationAmount());
             totalPrice = totalPrice.add(item.getRealAmount());
-
             giftGrowth += item.getGiftGrowth();
             integration += item.getGiftIntegration();
         }
@@ -319,7 +318,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setCouponAmount(couponDiscountPrice);
         // 积分抵扣金额
         order.setIntegrationAmount(integrationDiscountPrice);
-
         // 订单总额
         order.setTotalAmount(totalPrice);
         // 应付总额
