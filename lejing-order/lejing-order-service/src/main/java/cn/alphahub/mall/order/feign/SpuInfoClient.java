@@ -1,7 +1,6 @@
 package cn.alphahub.mall.order.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.mall.product.api.SkuInfoApi;
 import cn.alphahub.mall.product.api.SpuInfoApi;
 import org.springframework.cloud.openfeign.FeignClient;
 

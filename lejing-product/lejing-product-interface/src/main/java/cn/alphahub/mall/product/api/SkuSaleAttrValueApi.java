@@ -14,7 +14,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:36:31
  */
-@RestController
 @RequestMapping("product/skusaleattrvalue")
 public interface SkuSaleAttrValueApi {
 

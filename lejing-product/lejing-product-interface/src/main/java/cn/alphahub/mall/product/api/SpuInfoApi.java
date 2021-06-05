@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Weasley J
  */
-@RestController
 @RequestMapping("product/spuinfo")
 public interface SpuInfoApi {
     /**

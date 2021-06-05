@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-14 18:57:50
  */
-@RestController
 @RequestMapping("coupon/spubounds")
 public interface SpuBoundsApi {
     /**

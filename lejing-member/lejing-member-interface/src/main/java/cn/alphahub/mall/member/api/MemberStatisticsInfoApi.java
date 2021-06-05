@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RestController
 @RequestMapping("member/memberstatisticsinfo")
 public interface MemberStatisticsInfoApi {
     /**

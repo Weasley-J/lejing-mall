@@ -11,6 +11,8 @@ import java.io.Serializable;
 
 /**
  * 载荷对象
+ *
+ * @author lwj
  */
 @Data
 @Builder

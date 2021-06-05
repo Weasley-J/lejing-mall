@@ -1,7 +1,6 @@
 package cn.alphahub.mall.cart.api;
 
 import cn.alphahub.mall.cart.vo.CartItemVo;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,7 +13,6 @@ import java.util.List;
  * @version 1.0
  * @date 2021/04/30
  */
-@Controller
 public interface CartApi {
 
     /**

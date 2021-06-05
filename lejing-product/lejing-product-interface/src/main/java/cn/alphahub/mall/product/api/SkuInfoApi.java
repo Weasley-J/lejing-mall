@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @author Weasley J
  * @date 2021-02-24 15:36:31
  */
-@RestController
 @RequestMapping("product/skuinfo")
 public interface SkuInfoApi {
 

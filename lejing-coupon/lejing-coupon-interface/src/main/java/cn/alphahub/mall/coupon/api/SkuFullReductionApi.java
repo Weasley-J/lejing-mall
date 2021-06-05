@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @author Weasley J
  * @date 2021-02-14 18:57:50
  */
-@RestController
 @RequestMapping("coupon/skufullreduction")
 public interface SkuFullReductionApi {
     /**

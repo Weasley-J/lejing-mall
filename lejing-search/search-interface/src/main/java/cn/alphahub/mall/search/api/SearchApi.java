@@ -5,7 +5,6 @@ import cn.alphahub.mall.search.domain.SkuModel;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @author Weasley J
  * @date 2021年3月7日
  */
-@RestController
 @RequestMapping("/search")
 public interface SearchApi {
 
