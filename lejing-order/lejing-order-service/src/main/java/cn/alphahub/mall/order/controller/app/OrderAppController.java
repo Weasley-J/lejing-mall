@@ -1,10 +1,10 @@
 package cn.alphahub.mall.order.controller.app;
 
+import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.mall.order.constant.OrderConstant;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
 import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
-import cn.alphahub.mall.order.exception.NoStockException;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -71,7 +71,7 @@ public class OrderAppController {
                         msg += "订单商品价格发生变化，请确认后再次提交";
                         break;
                     case 3:
-                        msg += "库存锁定失败，商品库存不足";
+                        msg += "库存锁定失败，" + responseVo.getMsg();
                         break;
                     default:
                         break;

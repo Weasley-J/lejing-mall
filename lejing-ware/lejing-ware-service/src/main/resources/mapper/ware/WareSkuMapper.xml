@@ -24,4 +24,19 @@
         FROM wms_ware_sku
         WHERE sku_id = #{skuId}
     </select>
+
+    <select id="listWareIdWhichHasStock" resultType="java.lang.Long">
+        SELECT ware_id
+        FROM `wms_ware_sku`
+        WHERE sku_id = #{skuId}
+          AND stock - stock_locked > 0
+    </select>
+
+    <update id="lockSkuStock">
+        UPDATE `wms_ware_sku`
+        SET stock_locked = stock_locked + #{num}
+        WHERE sku_id = #{skuId}
+          AND ware_id = #{wareId}
+          AND (stock - stock_locked) >= #{num}
+    </update>
 </mapper>

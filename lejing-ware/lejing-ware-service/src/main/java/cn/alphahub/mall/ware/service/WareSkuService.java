@@ -2,6 +2,8 @@ package cn.alphahub.mall.ware.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -43,4 +45,12 @@ public interface WareSkuService extends IService<WareSku> {
      * @return 商品库存列表
      */
     List<WareSkuVO> getSkuHasStock(List<Long> skuIds);
+
+    /**
+     * 下单锁定库存
+     *
+     * @param skuLockVo 锁定库存
+     * @return 库存锁定结果
+     */
+    LockStockResultTo orderLockStock(WareSkuLockVo skuLockVo);
 }

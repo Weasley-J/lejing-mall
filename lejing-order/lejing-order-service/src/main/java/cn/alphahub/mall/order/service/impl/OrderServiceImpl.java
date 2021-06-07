@@ -4,6 +4,8 @@ import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.exception.BizException;
+import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
@@ -17,7 +19,7 @@ import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
 import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
-import cn.alphahub.mall.order.exception.BizException;
+import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.order.feign.BrandClient;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
@@ -27,11 +29,13 @@ import cn.alphahub.mall.order.feign.WareInfoClient;
 import cn.alphahub.mall.order.feign.WareSkuClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
+import cn.alphahub.mall.order.service.OrderItemService;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.domain.SpuInfo;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.json.JSONUtil;
@@ -49,12 +53,14 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -75,21 +81,22 @@ import static cn.alphahub.mall.order.constant.OrderConstant.OrderStatusEnum;
 @Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+    @Resource
+    public SpuInfoClient spuInfoClient;
+    @Resource
+    public BrandClient brandClient;
+    @Resource
+    private OrderItemService orderItemService;
     /**
      * 共享订单数据
      */
     private ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
-
     @Resource
     private ThreadPoolExecutor executor;
     @Resource
     private SkuInfoClient skuInfoClient;
     @Resource
-    public SpuInfoClient spuInfoClient;
-    @Resource
     private CartClient cartClient;
-    @Resource
-    public BrandClient brandClient;
     @Resource
     private WareSkuClient wareSkuClient;
     @Resource
@@ -168,7 +175,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         //接口幂等性-防重复提交
         String token = IdUtil.fastSimpleUUID();
-        stringRedisTemplate.opsForValue().set(OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId(), token, 15, TimeUnit.SECONDS);
+        stringRedisTemplate.opsForValue().set(OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId(), token, 15, TimeUnit.MINUTES);
         confirmVo.setOrderToken(token);
 
         try {
@@ -236,8 +243,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return 提交订单响应数据
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
+
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
+        responseVo.setCode(0);
+
         confirmVoThreadLocal.set(submitVo);
         Member member = LoginInterceptor.getUserInfo();
         String token = submitVo.getOrderToken();
@@ -256,19 +267,61 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if (Objects.equals(result, 1L)) {
             log.info("令牌验证通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
             // 创建订单项
-            OrderCreateTo order = createOrder();
+            OrderCreateTo to = createOrder();
             // 验价
-            BigDecimal payAmount = order.getOrder().getPayAmount();
-            if (Math.abs(submitVo.getPayPrice().subtract(payAmount).doubleValue()) < 0.01) {
-                //验价成功
+            BigDecimal payAmount = to.getOrder().getPayAmount();
+            if (CompareUtil.compare(submitVo.getPayPrice().subtract(payAmount).abs(), OrderConstant.RMB_MIN_UNIT) < 0) {
+                log.info("验价成功.");
+                // 保存订单数据
+                saveOrder(to);
+                // 锁定库存, 只要有异常就回滚订单数据, 订单号,所有订单项数据(skuId,skuName,num)
+                WareSkuLockVo lockVo = new WareSkuLockVo();
+                lockVo.setOrderSn(to.getOrder().getOrderSn());
+                List<OrderItemVo> itemVos = to.getOrderItems().stream().map(orderItem -> {
+                    OrderItemVo orderItemVo = new OrderItemVo();
+                    orderItemVo.setSkuId(orderItem.getSkuId());
+                    orderItemVo.setTitle(orderItem.getSkuName());
+                    orderItemVo.setImage(orderItem.getSkuPic());
+                    orderItemVo.setSkuAttrValues(Lists.newArrayList(orderItem.getSkuAttrsVals().split(";")));
+                    orderItemVo.setPrice(orderItem.getSkuPrice());
+                    orderItemVo.setCount(orderItem.getSkuQuantity());
+                    orderItemVo.setTotalPrice(orderItem.getRealAmount());
+                    return orderItemVo;
+                }).collect(Collectors.toList());
+                lockVo.setLocks(itemVos);
+
+                BaseResult<LockStockResultTo> baseResult = wareSkuClient.orderLockStock(lockVo);
+                if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
+                    log.info("锁库存成功");
+                    responseVo.setOrder(to.getOrder());
+                } else {
+                    log.warn("锁库存失败：{}", JSONUtil.toJsonStr(baseResult));
+                    responseVo.setCode(3);
+                    responseVo.setMsg(baseResult.getMessage());
+                }
             } else {
-                //验价失败
+                log.info("验价失败!");
                 responseVo.setCode(2);
                 return responseVo;
             }
         }
 
         return responseVo;
+    }
+
+    /**
+     * 保存订单数据
+     *
+     * @param to 创建订单的数据
+     */
+    private void saveOrder(OrderCreateTo to) {
+        Date now = new Date();
+        Order order = to.getOrder();
+        order.setCreateTime(now);
+        order.setModifyTime(now);
+        save(order);
+        List<OrderItem> orderItems = to.getOrderItems();
+        orderItemService.saveBatch(orderItems);
     }
 
     /**
@@ -340,6 +393,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setOrderSn(orderSn);
         order.setStatus(OrderStatusEnum.CREATE_NEW.getValue());
         order.setAutoConfirmDay(7);
+        order.setMemberId(LoginInterceptor.getUserInfo().getId());
+        order.setMemberUsername(LoginInterceptor.getUserInfo().getUsername());
         // 收货人信息+运费
         OrderSubmitVo submitVo = confirmVoThreadLocal.get();
         BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(submitVo.getAddrId());

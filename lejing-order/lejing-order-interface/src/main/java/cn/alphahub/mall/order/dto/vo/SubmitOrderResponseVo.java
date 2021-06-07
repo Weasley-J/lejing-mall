@@ -31,4 +31,9 @@ public class SubmitOrderResponseVo implements Serializable {
      * 错误状态码
      **/
     private Integer code;
+
+    /**
+     * 库存锁定结果
+     */
+    private String msg;
 }

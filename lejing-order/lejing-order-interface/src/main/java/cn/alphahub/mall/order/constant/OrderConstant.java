@@ -3,6 +3,8 @@ package cn.alphahub.mall.order.constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 /**
  * <b>订单常量类</b>
  * <p>
@@ -27,6 +29,10 @@ public class OrderConstant {
      */
     public static final String TO_TRADE_URL = "http://order.lejing.com/toTrade";
 
+    /**
+     * 人民币最小单位：￥0.01元
+     */
+    public static final BigDecimal RMB_MIN_UNIT = new BigDecimal("0.01");
 
     /**
      * 订单状态枚举

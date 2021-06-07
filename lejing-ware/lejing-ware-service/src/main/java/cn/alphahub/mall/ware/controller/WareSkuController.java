@@ -5,6 +5,10 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.exception.BusinessCodeEnum;
+import cn.alphahub.common.exception.NoStockException;
+import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.service.WareSkuService;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
@@ -28,6 +32,22 @@ import java.util.List;
 public class WareSkuController extends BaseController {
     @Resource
     private WareSkuService wareSkuService;
+
+    /**
+     * 下单锁定库存
+     *
+     * @param skuLockVo 锁定库存
+     * @return 库存锁定结果
+     */
+    @PostMapping("/order/lock/stock")
+    public BaseResult<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo) {
+        try {
+            LockStockResultTo lockStockResults = wareSkuService.orderLockStock(skuLockVo);
+            return BaseResult.ok(lockStockResults);
+        } catch (NoStockException e) {
+            return BaseResult.error(BusinessCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
+        }
+    }
 
     /**
      * 查看是否有库存
@@ -76,10 +96,7 @@ public class WareSkuController extends BaseController {
     @GetMapping("/list/{skuId}")
     public BaseResult<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId) {
         PageDomain pageDomain = new PageDomain(1, 10, null, null);
-        PageResult<WareSku> pageResult = wareSkuService.queryPage(
-                pageDomain,
-                WareSku.builder().skuId(skuId).build()
-        );
+        PageResult<WareSku> pageResult = wareSkuService.queryPage(pageDomain, WareSku.builder().skuId(skuId).build());
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
             return BaseResult.ok(pageResult);
         }

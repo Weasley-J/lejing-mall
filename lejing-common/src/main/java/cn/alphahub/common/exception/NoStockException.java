@@ -1,4 +1,4 @@
-package cn.alphahub.mall.order.exception;
+package cn.alphahub.common.exception;
 
 import lombok.Getter;
 import lombok.Setter;

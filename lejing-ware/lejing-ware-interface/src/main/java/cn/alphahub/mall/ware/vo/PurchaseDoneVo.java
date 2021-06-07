@@ -1,11 +1,14 @@
 package cn.alphahub.mall.ware.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,12 +20,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseDoneVo {
+public class PurchaseDoneVo implements Serializable {
 
     /**
      * 采购单id
      */
     @NotNull
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**
