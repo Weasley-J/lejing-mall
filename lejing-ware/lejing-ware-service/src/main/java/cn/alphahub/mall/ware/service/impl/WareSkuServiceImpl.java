@@ -3,23 +3,31 @@ package cn.alphahub.mall.ware.service.impl;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.exception.NoStockException;
+import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.feign.SkuInfoClient;
 import cn.alphahub.mall.ware.mapper.WareSkuMapper;
 import cn.alphahub.mall.ware.service.WareSkuService;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -102,5 +110,84 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     .build();
         }).collect(Collectors.toList());
         return vos;
+    }
+
+    @Override
+    @Transactional(rollbackFor = NoStockException.class)
+    public LockStockResultTo orderLockStock(WareSkuLockVo skuLockVo) {
+        log.info("下单锁定库存:{}", JSONUtil.toJsonStr(skuLockVo));
+        if (ObjectUtils.isEmpty(skuLockVo)) {
+            return null;
+        }
+
+        LockStockResultTo lockStockResult = new LockStockResultTo();
+        List<LockStockResultTo.SkuLockStock> skuLockStocks = Lists.newArrayList();
+
+        // 查询当前sku在那些仓库有库存
+        List<SkuWareHasStockVo> hasStockVos = skuLockVo.getLocks().stream().map(orderItemVo -> {
+            SkuWareHasStockVo hasStockVo = new SkuWareHasStockVo();
+            List<Long> wareIds = wareSkuMapper.listWareIdWhichHasStock(orderItemVo.getSkuId());
+            hasStockVo.setSkuId(orderItemVo.getSkuId());
+            hasStockVo.setNum(orderItemVo.getCount());
+            hasStockVo.setWareIds(wareIds);
+            return hasStockVo;
+        }).collect(Collectors.toList());
+
+        AtomicReference<Boolean> allLocked = new AtomicReference<>(true);
+        // 锁定库存
+        for (SkuWareHasStockVo hasStockVo : hasStockVos) {
+            AtomicReference<Boolean> skuLocked = new AtomicReference<>(false);
+            Long skuId = hasStockVo.getSkuId();
+            List<Long> wareIds = hasStockVo.getWareIds();
+            if (ObjectUtils.isEmpty(wareIds)) {
+                throw new NoStockException("商品id[" + skuId + "]库存不足!");
+            }
+            for (Long wareId : wareIds) {
+                Integer count = wareSkuMapper.lockSkuStock(skuId, wareId, hasStockVo.getNum());
+                // 锁定库存成功
+                if (Objects.equals(count, 1)) {
+                    skuLocked.set(true);
+                    break;
+                } else {
+                    // 锁定库存失败
+                    allLocked.set(false);
+                    skuLocked.set(false);
+                }
+            }
+            skuLockStocks.add(new LockStockResultTo.SkuLockStock()
+                    .setSkuId(skuId)
+                    .setNum(hasStockVo.num)
+                    .setLocked(skuLocked.get())
+            );
+            // 当前商品所有仓库都没锁住
+            if (skuLocked.get().equals(Boolean.FALSE)) {
+                throw new NoStockException("商品id[" + skuId + "]没有库存了!");
+            }
+        }
+
+        lockStockResult.setSkuLockStocks(skuLockStocks);
+        lockStockResult.setIsAllSkuLocked(allLocked.get());
+
+        // 能运行到这里锁定库存成功
+        return lockStockResult;
+    }
+
+    /**
+     * 商品sku和仓库列表
+     */
+    @Data
+    public static class SkuWareHasStockVo implements Serializable {
+        /**
+         * skuId
+         */
+        private Long skuId;
+        /**
+         * 锁定数量
+         */
+        private Integer num;
+        /**
+         * 仓库id列表
+         */
+        private List<Long> wareIds;
     }
 }

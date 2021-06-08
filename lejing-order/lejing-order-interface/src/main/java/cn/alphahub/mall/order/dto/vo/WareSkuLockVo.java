@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -31,5 +32,4 @@ public class WareSkuLockVo implements Serializable {
      * 需要锁住的所有库存信息
      **/
     private List<OrderItemVo> locks;
-
 }

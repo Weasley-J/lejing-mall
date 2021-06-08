@@ -18,7 +18,7 @@ public class MybatisPlusConfig {
     /**
      * mybatis plus 支持的数据库类型,主要用于分页方言
      */
-    private DbType dbType = DbType.MYSQL;
+    private final DbType dbType = DbType.MYSQL;
 
     /**
      * 最新版分页配置

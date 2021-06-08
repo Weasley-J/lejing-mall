@@ -2,6 +2,8 @@ package cn.alphahub.mall.ware.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,16 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
-@RestController
 @RequestMapping("ware/waresku")
 public interface WareSkuApi {
+    /**
+     * 下单锁定库存
+     *
+     * @param skuLockVo 锁定库存
+     * @return 库存锁定结果
+     */
+    @PostMapping("/order/lock/stock")
+    BaseResult<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo);
 
     /**
      * 查看是否有库存

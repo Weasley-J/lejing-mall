@@ -17,7 +17,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021年3月14日
  */
-@RestController
 @RequestMapping("product/attr")
 public interface AttrApi {
 

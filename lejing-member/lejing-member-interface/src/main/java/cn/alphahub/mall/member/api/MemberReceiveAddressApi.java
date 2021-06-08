@@ -14,7 +14,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RestController
 @RequestMapping("member/memberreceiveaddress")
 public interface MemberReceiveAddressApi {
 

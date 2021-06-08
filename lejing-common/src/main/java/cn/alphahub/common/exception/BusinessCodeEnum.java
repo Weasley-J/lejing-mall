@@ -1,5 +1,6 @@
 package cn.alphahub.common.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /***
@@ -19,6 +20,7 @@ import lombok.Getter;
  * @author liuwenjing
  */
 @Getter
+@AllArgsConstructor
 public enum BusinessCodeEnum {
     /**
      * 系统未知异常
@@ -66,17 +68,4 @@ public enum BusinessCodeEnum {
      * 错误消息
      */
     private final String message;
-
-    BusinessCodeEnum(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

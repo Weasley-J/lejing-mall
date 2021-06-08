@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @version 1.0
  * @date 2021-06-03 16:23
  */
-@FeignClient(value = AppConstant.PRODUCT_SERVICE,contextId = "brandClient")
+@FeignClient(value = AppConstant.PRODUCT_SERVICE, contextId = "brandClient")
 public interface BrandClient extends BrandApi {
 
 }

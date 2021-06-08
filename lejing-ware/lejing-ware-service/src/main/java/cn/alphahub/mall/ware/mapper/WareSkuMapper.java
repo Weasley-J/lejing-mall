@@ -4,6 +4,10 @@ import cn.alphahub.mall.ware.domain.WareSku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * 商品库存
@@ -31,4 +35,22 @@ public interface WareSkuMapper extends BaseMapper<WareSku> {
      * @return 可用库存总量
      */
     Integer getSkuStockBySkuId(@Param("skuId") Long skuId);
+
+    /**
+     * 查询当前sku在那个仓库有库存
+     *
+     * @param skuId 商品skuId
+     * @return 仓库id列表
+     */
+    List<Long> listWareIdWhichHasStock(@Param("skuId") Long skuId);
+
+    /**
+     * 锁定库存
+     *
+     * @param skuId  商品skuId
+     * @param wareId 仓库id
+     * @param num    锁定数量
+     * @return 受影响行数
+     */
+    Integer lockSkuStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("num") Integer num);
 }

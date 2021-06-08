@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:02:31
  */
-@RestController
 @RequestMapping("order/ordersetting")
 public interface OrderSettingApi {
 
