@@ -5,6 +5,7 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
+import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
@@ -298,6 +299,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     log.warn("锁库存失败：{}", JSONUtil.toJsonStr(baseResult));
                     responseVo.setCode(3);
                     responseVo.setMsg(baseResult.getMessage());
+                    throw new NoStockException(baseResult.getMessage());
                 }
             } else {
                 log.info("验价失败!");
