@@ -40,7 +40,7 @@ public class OrderAppController {
     @GetMapping(value = "/toTrade")
     public String toTrade(Model model, HttpServletRequest request) {
         OrderConfirmVo confirmVo = orderService.confirmOrder();
-        log.info("订单确认页数据:{}", JSONUtil.toJsonStr(confirmVo));
+        log.info("订单确认页数据:{}", JSONUtil.toJsonPrettyStr(confirmVo));
         model.addAttribute("confirmOrderData", confirmVo);
         return "confirm";
     }
@@ -53,7 +53,7 @@ public class OrderAppController {
      */
     @PostMapping(value = "/submitOrder")
     public String submitOrder(OrderSubmitVo submitVo, Model model, RedirectAttributes attributes) {
-        log.info("提交订单结算:{}", JSONUtil.toJsonStr(submitVo));
+        log.info("提交订单结算:{}", JSONUtil.toJsonPrettyStr(submitVo));
         try {
             SubmitOrderResponseVo responseVo = orderService.submitOrder(submitVo);
             //下单成功来到支付选择页，下单失败回到订单确认页重新确定订单信息

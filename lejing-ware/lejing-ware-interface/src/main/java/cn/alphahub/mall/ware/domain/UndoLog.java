@@ -1,10 +1,9 @@
 package cn.alphahub.mall.ware.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +13,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * AT transaction mode undo table对象 undo_log
+ * 撤销日志表
  *
  * @author Weasley J
- * @date 2021-06-12 03:06:42
+ * @email 1432689025@qq.com
+ * @date 2021-02-24 15:19:57
  */
 @Data
 @Builder
@@ -31,45 +31,48 @@ public class UndoLog implements Serializable {
      * 主键id
      */
     @TableId
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
     /**
-     * branch transaction id
+     * 相关的branch id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = IdSerializer.class)
     private Long branchId;
 
     /**
-     * global transaction id
+     * 相关的xid
      */
     private String xid;
 
     /**
-     * undo_log context,such as serialization
+     * 内容
      */
     private String context;
 
     /**
-     * rollback info
+     * 回滚信息
      */
     private String rollbackInfo;
 
     /**
-     * 0:normal status,1:defense status
+     * 日志状态码
      */
     private Integer logStatus;
 
     /**
-     * create datetime
+     * 日志创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date logCreated;
 
     /**
-     * modify datetime
+     * 日志修改时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date logModified;
+
+    /**
+     * 其他信息
+     */
+    private String ext;
 
 }

@@ -1,6 +1,5 @@
 package cn.alphahub.mall.product;
 
-import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +15,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @author liuwenjing
  */
 @EnableCaching
-@EnableAutoDataSourceProxy
 @EnableRedisHttpSession
 @EnableDiscoveryClient
 @SpringBootApplication

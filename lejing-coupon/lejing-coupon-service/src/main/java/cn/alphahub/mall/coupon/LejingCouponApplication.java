@@ -1,6 +1,5 @@
 package cn.alphahub.mall.coupon;
 
-import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +11,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *
  * @author liuwenjing
  */
-@EnableAutoDataSourceProxy
 @EnableDiscoveryClient
 @SpringBootApplication
 @MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})

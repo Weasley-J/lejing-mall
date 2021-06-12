@@ -34,14 +34,13 @@ public class BaseController {
     @SuppressWarnings("unchecked")
     protected <T> T doConvertType(@NotNull BaseResult<?> result, @NotNull Class<T> requiredType) {
         Object data = result.getData();
+        if (requiredType.isInstance(data)) {
+            return (T) data;
+        }
         if (ObjectUtils.allNull(data)) {
             throw new BizException("传入数据为空！");
         }
-        if (requiredType.isInstance(data)) {
-            return (T) data;
-        } else {
-            throw new BizException("类型换换异常，请检查转换的类型与所需类型是否一致！");
-        }
+        throw new BizException("类型换换异常，请检查转换的类型与所需类型是否一致！");
     }
 
     /**

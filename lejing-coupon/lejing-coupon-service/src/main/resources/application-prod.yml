@@ -14,29 +14,3 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-    alibaba:
-      seata:
-        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
-        tx-service-group: lejing_tx_group
-#seata 配置
-seata:
-  enabled: on
-  application-id: ${spring.application.name}
-  tx-service-group: ${spring.cloud.alibaba.seata.tx-service-group}
-  enable-auto-data-source-proxy: on
-  registry:
-    type: nacos
-    nacos:
-      application: seata-server
-      group: SEATA_GROUP
-      server-addr: ${spring.cloud.nacos.discovery.server-addr}
-      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
-      username: nacos
-      password: nacos
-  config:
-    type: nacos
-    nacos:
-      group: SEATA_GROUP
-      server-addr: ${spring.cloud.nacos.discovery.server-addr}
-      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
-      username: nacos

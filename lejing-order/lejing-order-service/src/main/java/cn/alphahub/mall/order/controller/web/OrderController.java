@@ -60,9 +60,6 @@ public class OrderController extends BaseController {
      */
     @GetMapping("/info/{id}")
     public BaseResult<Order> info(@PathVariable("id") Long id) {
-
-        int i = 1/0;
-
         Order order = orderService.getById(id);
         return ObjectUtils.anyNotNull(order) ? BaseResult.ok(order) : BaseResult.fail();
     }
