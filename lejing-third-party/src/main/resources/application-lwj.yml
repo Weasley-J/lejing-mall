@@ -1,0 +1,51 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #显式指定没有接收消息的默认队列的名称
+      default-receive-queue: LEJING.SMS.QUEUE
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.SMS.EXCHANGE
+      #用于发送操作的默认路由键的名称
+      routing-key: sms.verify.code
+  redis:
+    database: 0
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    timeout: 6000ms
+#阿里云OSS参数
+alibaba:
+  cloud:
+    #OSS参数
+    access-key: LTAI4GFKKZSC4w9gCLfTcAZY
+    secret-key: Vc8yXYHrVs9ioJ4AUNKFZZ4SykCTfA
+    bucket-name: alphahub-test-bucket
+    host-prefix: https://${alibaba.cloud.bucket-name}.${alibaba.cloud.oss.endpoint}
+    oss:
+      endpoint: oss-cn-shanghai.aliyuncs.com
+    #SMS参数
+    sms:
+      access-key: LTAI4G6Zsey9xd3vXiWGBCow
+      secret-key: JlQYpcrBNEbMXmYX16snROLdvL8fqA
+      region-id: cn-hangzhou
+      sign-name: AlphaHub
+      template-code: SMS_202823833
+      access-key-id: ${alibaba.cloud.sms.access-key}
+      access-secret: ${alibaba.cloud.sms.secret-key}
+      #上行消息接收
+      up-queue-name: Alicom-Queue-1517376638469790-SmsUp
+      #状态报告接收
+      report-queue-name: Alicom-Queue-1517376638469790-SmsReport

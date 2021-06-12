@@ -243,3 +243,18 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
 env GIT_SSL_NO_VERIFY=true
 ```
 
+## 7.3 项目启动报错`Web server failed to start. Port 8000 was already in use.`
+
+> windows
+
+```bat
+netstat -aon | findstr "10000"
+
+tasklist | findstr "1532"
+
+taskkill /f /t /im "yundetectservice.exe"
+```
+
+![image-20210611221759994](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210611221759994.png)
+
+![image-20210611221811205](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210611221811205.png)

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.0</version>
+        <version>2.5.1</version>
         <relativePath/>
     </parent>
 
@@ -37,13 +37,13 @@
     </modules>
 
     <properties>
-        <lejing.latest.version>1.0.8-SNAPSHOT</lejing.latest.version>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.5.0</spring-boot.version>
+        <lejing.latest.version>1.0.9-SNAPSHOT</lejing.latest.version>
+        <spring-boot.version>2.5.1</spring-boot.version>
         <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
-        <spring-cloud.version>2020.0.2</spring-cloud.version>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <!-- 将打包生成jar文件复制到指定目录，根绝自己的情况修改，注意Linux和Windows的路径的书写-->
         <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
@@ -62,7 +62,7 @@
         <netty-all.version>4.1.65.Final</netty-all.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
-        <smart-doc.version>2.1.8</smart-doc.version>
+        <smart-doc.version>2.1.9</smart-doc.version>
         <hutool-all.version>5.6.6</hutool-all.version>
         <activation.version>1.1.1</activation.version>
         <guava.version>30.1-jre</guava.version>
@@ -79,6 +79,10 @@
         <easypoi-web.version>4.3.0</easypoi-web.version>
         <joda-time.version>2.10.10</joda-time.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <seata.starter.version>1.4.2</seata.starter.version>
+        <kryo-kryo-version>2.24.0</kryo-kryo-version>
+        <kryo-version>4.0.2</kryo-version>
+        <kryo-serializers.version>0.45</kryo-serializers.version>
     </properties>
 
     <dependencyManagement>
@@ -304,6 +308,28 @@
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
             </dependency>
+            <!-- seata启动器  -->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware.kryo</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo-kryo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.javakaffee</groupId>
+                <artifactId>kryo-serializers</artifactId>
+                <version>${kryo-serializers.version}</version>
+            </dependency>
+            <!-- end seata启动器  -->
         </dependencies>
     </dependencyManagement>
 

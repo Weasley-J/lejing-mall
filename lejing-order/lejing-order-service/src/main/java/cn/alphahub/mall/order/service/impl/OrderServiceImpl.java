@@ -45,15 +45,18 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.Failable;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -167,7 +170,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }, executor).thenRunAsync(() -> {
             List<Long> skuIds = confirmVo.getItems().stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
             BaseResult<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
-            log.info("远程查询用户[{}]购物中商品的库存信息,响应:{}", member.getId(), JSONUtil.toJsonPrettyStr(result));
+            log.info("远程查询用户[{}]购物中商品的库存信息,响应:{}", member.getId(), JSONUtil.toJsonStr(result));
             if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
                 Map<Long, Boolean> skuHasStockMap = result.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
                 confirmVo.setStocks(skuHasStockMap);
@@ -191,62 +194,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     /**
-     * 查询当前登录用户购物项内容列表
-     *
-     * @return 购物项内容列表
-     */
-    @Override
-    public List<CartItemVo> getUserCartItems() {
-        List<CartItemVo> items = Lists.newArrayList();
-        Member userInfo = LoginInterceptor.getUserInfo();
-        if (Objects.isNull(userInfo.getId())) {
-            return items;
-        }
-
-        String cartKey = CartConstant.CART_PREFIX + userInfo.getId();
-        List<CartItemVo> cartItems = getCartItems(cartKey);
-        if (CollectionUtils.isEmpty(cartItems)) {
-            log.warn("用户的购物车为空!");
-            throw new BizException("用户的购物车为空!");
-        }
-
-        // 使用多线程 - 筛选出默认被选中的sku
-        CompletableFuture<List<CartItemVo>> queryLatestPriceFuture = CompletableFuture.supplyAsync(() -> {
-            List<CartItemVo> itemVos = cartItems.stream()
-                    .filter(CartItemVo::getCheck)
-                    .peek(item -> {
-                        // 远程查询商品的最新价格
-                        BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
-                        log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonPrettyStr(result));
-                        if (result.getSuccess()) {
-                            SkuInfo skuInfo = result.getData();
-                            item.setPrice(skuInfo.getPrice());
-                        }
-                    }).collect(Collectors.toList());
-            items.addAll(itemVos);
-            return itemVos;
-        }, executor);
-
-        // 使用多线程异步任务编排 - 等待所有任务执行完才返回数据
-        try {
-            CompletableFuture.allOf(queryLatestPriceFuture).get();
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
-        }
-        return items;
-    }
-
-    /**
      * 提交订单结算 - 下单功能
      * <p>下单：创建订单 、验证令牌、验证价格、锁定库存</p>
+     * <ul>
+     *     <li>1. 使用分布式事务同意管理提交订单和扣减库存事务的提交和回滚</li>
+     *     <li>2. 事务的发起者(提交订单)标注{@code @GlobalTransactional}, 参与分布式事务的被调用者（扣减库存） 标注{@code @Transactional}即可</li>
+     * </ul>
      *
      * @param submitVo 订单提交数据
      * @return 提交订单响应数据
      */
+    // @GlobalTransactional(rollbackFor = Exception.class)
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
-
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
         responseVo.setCode(0);
 
@@ -255,18 +216,18 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         String token = submitVo.getOrderToken();
         String key = OrderConstant.USER_ORDER_CONFIRM_TOKEN + member.getId();
 
-        //1、验证令牌是否合法【令牌的对比和删除必须保证原子性】, rua脚本执行结果: 1L 验证成功；0L 验证失败
+        //1、验证令牌是否合法（令牌的对比和删除必须保证原子性）, rua脚本执行结果: 1L 验证成功；0L 验证失败
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Lists.newArrayList(key), token);
 
         if (Objects.equals(result, 0L)) {
-            log.info("令牌验证不通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+            log.info("令牌验证不通过：{}", JSONUtil.toJsonStr(submitVo));
             responseVo.setCode(1);
             return responseVo;
         }
 
         if (Objects.equals(result, 1L)) {
-            log.info("令牌验证通过：{}", JSONUtil.toJsonPrettyStr(submitVo));
+            log.info("令牌验证通过：{}", JSONUtil.toJsonStr(submitVo));
             // 创建订单项
             OrderCreateTo to = createOrder();
             // 验价
@@ -292,6 +253,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 lockVo.setLocks(itemVos);
 
                 BaseResult<LockStockResultTo> baseResult = wareSkuClient.orderLockStock(lockVo);
+
                 if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
                     log.info("锁库存成功");
                     responseVo.setOrder(to.getOrder());
@@ -448,7 +410,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return 订单项信息
      */
     private OrderItem buildOrderItem(CartItemVo cartItemVo) {
-        log.info("构建某一个订单项数据列表:{}", JSONUtil.toJsonPrettyStr(cartItemVo));
+        log.info("构建某一个订单项数据列表:{}", JSONUtil.toJsonStr(cartItemVo));
         if (Objects.isNull(cartItemVo)) {
             return null;
         }
@@ -500,6 +462,53 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return orderItem;
     }
 
+
+    /**
+     * 查询当前登录用户购物项内容列表
+     *
+     * @return 购物项内容列表
+     */
+    @Override
+    public List<CartItemVo> getUserCartItems() {
+        List<CartItemVo> items = Lists.newArrayList();
+        Member userInfo = LoginInterceptor.getUserInfo();
+        if (Objects.isNull(userInfo.getId())) {
+            return items;
+        }
+
+        String cartKey = CartConstant.CART_PREFIX + userInfo.getId();
+        List<CartItemVo> cartItems = getCartItems(cartKey);
+        if (CollectionUtils.isEmpty(cartItems)) {
+            log.warn("用户的购物车为空!");
+            throw new BizException("用户的购物车为空!");
+        }
+
+        // 使用多线程 - 筛选出默认被选中的sku
+        CompletableFuture<List<CartItemVo>> queryLatestPriceFuture = CompletableFuture.supplyAsync(() -> {
+            List<CartItemVo> itemVos = cartItems.stream()
+                    .filter(CartItemVo::getCheck)
+                    .peek(item -> {
+                        // 远程查询商品的最新价格
+                        BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
+                        log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonStr(result));
+                        if (result.getSuccess()) {
+                            SkuInfo skuInfo = result.getData();
+                            item.setPrice(skuInfo.getPrice());
+                        }
+                    }).collect(Collectors.toList());
+            items.addAll(itemVos);
+            return itemVos;
+        }, executor);
+
+        // 使用多线程异步任务编排 - 等待所有任务执行完才返回数据
+        try {
+            CompletableFuture.allOf(queryLatestPriceFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+        }
+        return items;
+    }
+
     /**
      * 获取临时购物车里面的数据
      *
@@ -515,4 +524,71 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         return Lists.newArrayList();
     }
+
+    // --------------------------------------------- 分界线  ------------------------------------------
+
+    /**
+     * A方法
+     */
+    @Transactional(rollbackFor = {Exception.class})
+    public void a() {
+        System.err.println("A方法");
+    }
+
+    /**
+     * B方法
+     */
+    @Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED, timeout = 7 * 1000)
+    public void b() {
+        System.err.println("B方法");
+    }
+
+    /**
+     * C方法
+     */
+    @Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRES_NEW)
+    public void c() {
+        System.err.println("C方法");
+    }
+
+    /**
+     * ABC方法
+     * <p>
+     * <ul>
+     *     <li>a(), b(), abc()属于同一个事务, c()属于新事物</li>
+     *     <li>a(),b(),abc()事务同时回滚/提交</li>
+     *     <li>b()事务的超时对于abc()事务而言不生效, 应为b()已经和abc()同用一个事务了</li>
+     *     <li>c()事务属于新事务, 所以abc()的事务对c()不起作用</li>
+     * </ul>
+     * <ul>
+     *     <b>注意:</b>
+     *     <li>
+     *         1. 当这a, b, c方法属于同-个service时, abc()调用a, b, c; 此时a, b, c的事务不会生效(同一个对象内的事务方法互相调绕过了代理对象).
+     *     想要使其生效, 使用是spring-aop模块提供的aspectj的代理对象调用, 所有动态代理的由aspectj创建(没有接口也能代理), 启动类添加{@code @EnableAspectJAutoProxy(exposeProxy = true)}开启,
+     *     使用{@code AopContext.currentProxy()}拿到的对象强转为当前业务类即可, 如:
+     *     <pre>
+     *         OrderServiceImpl currentProxy = (OrderServiceImpl) AopContext.currentProxy();
+     *         currentProxy.a();
+     *         currentProxy.b();
+     *         currentProxy.c();
+     *     </pre>
+     *     </li>
+     *     <li>2. 当这a, b, c方法不属于同-个service时, abc的事务是有用的, 使用代理对象调用</li>
+     *  </ul>
+     * </p>
+     */
+    @Transactional(rollbackFor = {Exception.class}, timeout = 30 * 1000)
+    public void abc() {
+        OrderServiceImpl currentProxy = (OrderServiceImpl) AopContext.currentProxy();
+        currentProxy.a();
+        currentProxy.b();
+        currentProxy.c();
+        System.err.println("ABC方法\n");
+        a();
+        b();
+        // 新事务
+        c();
+        int i = 3 / 0;
+    }
+
 }
