@@ -190,11 +190,11 @@ api.push({
 })
 api[6].list.push({
     order: '1',
-    desc: '查看是否有库存',
+    desc: '下单锁定库存',
 });
 api[6].list.push({
     order: '2',
-    desc: '查询商品库存列表',
+    desc: '查看是否有库存',
 });
 api[6].list.push({
     order: '3',
@@ -202,18 +202,22 @@ api[6].list.push({
 });
 api[6].list.push({
     order: '4',
-    desc: '获取商品库存详情',
+    desc: '查询商品库存列表',
 });
 api[6].list.push({
     order: '5',
-    desc: '新增商品库存',
+    desc: '获取商品库存详情',
 });
 api[6].list.push({
     order: '6',
-    desc: '修改商品库存',
+    desc: '新增商品库存',
 });
 api[6].list.push({
     order: '7',
+    desc: '修改商品库存',
+});
+api[6].list.push({
+    order: '8',
     desc: '批量删除商品库存',
 });
 api.push({
