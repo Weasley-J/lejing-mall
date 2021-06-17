@@ -16,6 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public interface OrderApi {
 
     /**
+     * 根据订单号查询订单状态
+     *
+     * @param orderSn 订单号
+     * @return 订单状态
+     */
+    @GetMapping(value = "/status")
+    BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn);
+
+
+    /**
      * 查询订单列表
      *
      * @param page        当前页码,默认第1页

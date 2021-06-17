@@ -107,6 +107,11 @@
             <artifactId>kryo-serializers</artifactId>
         </dependency>
         <!-- end 引入分布式事务Seata -->
+        <!-- RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

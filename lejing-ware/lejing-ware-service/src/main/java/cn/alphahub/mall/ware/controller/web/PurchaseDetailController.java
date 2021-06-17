@@ -1,4 +1,4 @@
-package cn.alphahub.mall.ware.controller;
+package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
@@ -7,7 +7,6 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.PurchaseDetail;
 import cn.alphahub.mall.ware.service.PurchaseDetailService;
-import cn.alphahub.mall.ware.vo.MergeVo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 

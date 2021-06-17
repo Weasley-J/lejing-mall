@@ -1,17 +1,20 @@
 package cn.alphahub.mall.order.interceptor;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.order.constant.OrderConstant;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * <b>登录拦截器</b>
@@ -24,6 +27,14 @@ import java.util.Objects;
  */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
+    /**
+     * 允许URI放行的白名单，不需要登录，ant match pattern
+     */
+    public static final Set<String> URI_WHITELIST_ANT_MATCH_PATTERN = new LinkedHashSet<>(20) {{
+        add("/order/order/status/**");
+        add("/payed/notify");
+    }};
+    private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
     /**
      * 保存用户信息的threadLocal变量
      */
@@ -43,6 +54,14 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 白名单放行
+        String requestUri = request.getRequestURI();
+        for (String uriPattern : URI_WHITELIST_ANT_MATCH_PATTERN) {
+            if (antPathMatcher.match(uriPattern, requestUri)) {
+                return true;
+            }
+        }
+
         // session
         HttpSession session = request.getSession();
         Object attribute = session.getAttribute(AuthConstant.LOGIN_USER);
@@ -54,8 +73,13 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         } else {
             // 用户未登录，重定向到登录链接
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('请先进行登录，再进行后续操作！');location.href='" + OrderConstant.LOGIN_PAGE_URL + "'</script>");
+            /*
             request.getSession().setAttribute("msg", "请先登录");
             response.sendRedirect(OrderConstant.LOGIN_PAGE_URL);
+            */
             return false;
         }
     }

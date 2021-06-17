@@ -1,5 +1,6 @@
 package cn.alphahub.mall.ware.feign;
 
+import cn.alphahub.common.constant.AppConstant;
 import cn.alphahub.mall.product.api.SkuInfoApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
@@ -8,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  *
  * @author Weasley J
  */
-@FeignClient(value = "lejing-product")
+@FeignClient(value = AppConstant.PRODUCT_SERVICE)
 public interface SkuInfoClient extends SkuInfoApi {
 
 }

@@ -4,7 +4,6 @@ import cn.alphahub.mall.ware.domain.WareSku;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -53,4 +52,15 @@ public interface WareSkuMapper extends BaseMapper<WareSku> {
      * @return 受影响行数
      */
     Integer lockSkuStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("num") Integer num);
+
+    /**
+     * 解锁库存(减少的库存加回去)
+     *
+     * @param skuId  sku id
+     * @param wareId 仓库id
+     * @param num    解锁数量
+     * @return update rows
+     */
+    @Update({"update wms_ware_sku set stock_locked = stock_locked - #{num} where sku_id = #{skuId} and ware_id = #{wareId} "})
+    Integer unlockStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("num") Integer num);
 }

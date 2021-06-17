@@ -8,6 +8,7 @@ import cn.alphahub.mall.product.service.SpuInfoDescService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescMapper, SpuIn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveSpuInfoDesc(SpuInfoDesc spuInfoDesc) {
         baseMapper.insert(spuInfoDesc);
     }

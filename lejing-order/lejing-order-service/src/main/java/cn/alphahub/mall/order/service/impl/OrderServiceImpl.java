@@ -45,7 +45,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -142,8 +141,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         log.info("线程mainThread,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
 
         CompletableFuture<Void> addressListFuture = CompletableFuture.runAsync(() -> {
-            log.info("异步线程addressListFuture,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
-            log.info("开始远程查询查询用户[{}]的收货地址列表:{}", member.getId(), JSONUtil.toJsonStr(member));
+            log.info("异步线程addressListFuture,当前线程Id:{},当前线程Name:{},开始远程查询查询用户[{}]的收货地址列表:{}", Thread.currentThread().getId(), Thread.currentThread().getName(), member.getId(), JSONUtil.toJsonStr(member));
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             List<MemberAddressVo> addressVos;
             BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
@@ -158,8 +156,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }, executor);
 
         CompletableFuture<Void> cartItemFuture = CompletableFuture.runAsync(() -> {
-            log.info("异步线程cartItemFuture,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
-            log.info("远程查询用户[{}]购物中的所有购物项...", member.getId());
+            log.info("异步线程cartItemFuture,当前线程Id:{},当前线程Name:{},远程查询用户[{}]购物中的所有购物项,", Thread.currentThread().getId(), Thread.currentThread().getName(), member.getId());
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             List<OrderItemVo> itemVos = Failable.apply(input -> input.stream().map(cartItem -> {
                 OrderItemVo orderItemVo = new OrderItemVo();
@@ -256,6 +253,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
                 if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
                     log.info("锁库存成功");
+                    // 库存锁定，订单回滚
+                    int i = 1 / 0;
                     responseVo.setOrder(to.getOrder());
                 } else {
                     log.warn("锁库存失败：{}", JSONUtil.toJsonStr(baseResult));

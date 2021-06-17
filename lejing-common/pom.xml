@@ -105,6 +105,16 @@
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
         </dependency>
+        <!--  start  mapstruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+        <!--  end  mapstruct -->
     </dependencies>
 
     <build>

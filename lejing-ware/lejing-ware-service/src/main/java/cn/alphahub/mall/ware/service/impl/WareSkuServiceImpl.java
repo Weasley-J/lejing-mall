@@ -4,14 +4,21 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.NoStockException;
+import cn.alphahub.common.mq.StockDetailTo;
+import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.alphahub.mall.ware.domain.WareOrderTask;
+import cn.alphahub.mall.ware.domain.WareOrderTaskDetail;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.feign.SkuInfoClient;
 import cn.alphahub.mall.ware.mapper.WareSkuMapper;
+import cn.alphahub.mall.ware.service.WareOrderTaskDetailService;
+import cn.alphahub.mall.ware.service.WareOrderTaskService;
 import cn.alphahub.mall.ware.service.WareSkuService;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -20,15 +27,21 @@ import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import static cn.alphahub.common.constant.MqConstant.STOCK_EVENT_EXCHANGE;
+import static cn.alphahub.common.constant.MqConstant.STOCK_ROUTING_KEY_STOCK_LOCKED;
 
 /**
  * 商品库存Service业务层处理
@@ -44,6 +57,12 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
     private WareSkuMapper wareSkuMapper;
     @Resource
     private SkuInfoClient skuInfoClient;
+    @Resource
+    private WareOrderTaskService wareOrderTaskService;
+    @Resource
+    private WareOrderTaskDetailService wareOrderTaskDetailService;
+    @Resource
+    private AmqpTemplate amqpTemplate;
 
     /**
      * 查询商品库存分页列表
@@ -59,6 +78,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
         pageResult.startPage(pageDomain);
         List<WareSku> wareSkuList = this.list(wrapper);
         return pageResult.getPage(wareSkuList);
+    }
+
+    /**
+     * 解锁库存(减少的库存加回去)
+     *
+     * @param skuId        sku id
+     * @param wareId       仓库id
+     * @param num          解锁数量
+     */
+    @Override
+    public void unlockStock(Long skuId, Long wareId, Integer num) {
+        wareSkuMapper.unlockStock(skuId, wareId, num);
     }
 
     /**
@@ -84,7 +115,6 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     .stock(skuNum)
                     .stockLocked(0)
                     .build();
-            //TODO 远程查询sku的名字保存即可
             try {
                 BaseResult<SkuInfo> baseResult = skuInfoClient.info(skuId);
                 if (baseResult.getSuccess()) {
@@ -120,6 +150,13 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
             return null;
         }
 
+        //保存库存工作详情
+        Date now = new Date();
+        WareOrderTask wareOrderTask = new WareOrderTask();
+        wareOrderTask.setOrderSn(skuLockVo.getOrderSn());
+        wareOrderTask.setCreateTime(now);
+        wareOrderTaskService.save(wareOrderTask);
+
         LockStockResultTo lockStockResult = new LockStockResultTo();
         List<LockStockResultTo.SkuLockStock> skuLockStocks = Lists.newArrayList();
 
@@ -147,6 +184,27 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                 // 锁定库存成功
                 if (Objects.equals(count, 1)) {
                     skuLocked.set(true);
+                    // 保存库存工作单
+                    WareOrderTaskDetail orderTaskDetail = new WareOrderTaskDetail(null, skuId, null, hasStockVo.getNum(), wareOrderTask.getId(), wareId, 1);
+                    BaseResult<SkuInfo> result = skuInfoClient.info(skuId);
+                    log.info("远程查询SKU信息：{}", JSONUtil.toJsonStr(result));
+                    if (result.getSuccess() && Objects.nonNull(result.getData())) {
+                        orderTaskDetail.setSkuName(result.getData().getSkuName());
+                    }
+                    wareOrderTaskDetailService.save(orderTaskDetail);
+
+                    // 准备MQ载荷数据
+                    StockLockedTo stockLocked = new StockLockedTo();
+                    StockDetailTo stockDetailTo = new StockDetailTo();
+                    BeanUtils.copyProperties(orderTaskDetail, stockDetailTo);
+                    stockLocked.setId(wareOrderTask.getId());
+                    stockLocked.setDetailTo(stockDetailTo);
+
+                    // 锁定库存成功就给MQ发消息
+                    amqpTemplate.convertAndSend(STOCK_EVENT_EXCHANGE, STOCK_ROUTING_KEY_STOCK_LOCKED, stockLocked, message -> {
+                        message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
+                        return message;
+                    });
                     break;
                 } else {
                     // 锁定库存失败

@@ -1,4 +1,4 @@
-package cn.alphahub.mall.ware.controller;
+package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;

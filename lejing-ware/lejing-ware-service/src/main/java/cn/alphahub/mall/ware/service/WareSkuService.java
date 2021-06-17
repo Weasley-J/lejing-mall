@@ -28,6 +28,14 @@ public interface WareSkuService extends IService<WareSku> {
      */
     PageResult<WareSku> queryPage(PageDomain pageDomain, WareSku wareSku);
 
+    /**
+     * 解锁库存(减少的库存加回去)
+     *
+     * @param skuId  sku id
+     * @param wareId 仓库id
+     * @param num    解锁数量
+     */
+    void unlockStock(Long skuId, Long wareId, Integer num);
 
     /**
      * 更新库存信息
@@ -48,6 +56,16 @@ public interface WareSkuService extends IService<WareSku> {
 
     /**
      * 下单锁定库存
+     * <p><b>锁库存场景：</b>
+     * <ul>
+     *     <li>下单成功</li>
+     *     <li>超时未付</li>
+     *     <li>被用户手动取消</li>
+     * </ul>
+     * <ul>
+     *     <li>下单成功，存库锁定成功，接下来的业务代码逻辑调用失败，导致之前订单数据回滚，之前锁定的库存就要被释放掉（还原回去）</li>
+     * </ul>
+     * </p>
      *
      * @param skuLockVo 锁定库存
      * @return 库存锁定结果

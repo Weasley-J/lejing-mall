@@ -7,6 +7,8 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.service.OrderService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +22,25 @@ import java.util.Arrays;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:02:31
  */
+@Slf4j
 @RestController
 @RequestMapping("order/order")
 public class OrderController extends BaseController {
     @Resource
     private OrderService orderService;
+
+    /**
+     * 根据订单号查询订单状态
+     *
+     * @param orderSn 订单号
+     * @return 订单
+     */
+    @GetMapping(value = "/status")
+    public BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
+        log.info("根据订单号查询订单状态,订单号:{}", orderSn);
+        Order order = orderService.getOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn).last(" limit 1"));
+        return BaseResult.ok(order);
+    }
 
     /**
      * 查询订单列表
@@ -60,9 +76,6 @@ public class OrderController extends BaseController {
      */
     @GetMapping("/info/{id}")
     public BaseResult<Order> info(@PathVariable("id") Long id) {
-
-        int i = 1/0;
-
         Order order = orderService.getById(id);
         return ObjectUtils.anyNotNull(order) ? BaseResult.ok(order) : BaseResult.fail();
     }

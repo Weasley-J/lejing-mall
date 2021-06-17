@@ -63,7 +63,7 @@
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
         <smart-doc.version>2.1.9</smart-doc.version>
-        <hutool-all.version>5.6.6</hutool-all.version>
+        <hutool-all.version>5.7.0</hutool-all.version>
         <activation.version>1.1.1</activation.version>
         <guava.version>30.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.11.3</aliyun-sdk-oss.version>
@@ -83,6 +83,7 @@
         <kryo-kryo-version>2.24.0</kryo-kryo-version>
         <kryo-version>4.0.2</kryo-version>
         <kryo-serializers.version>0.45</kryo-serializers.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
     <dependencyManagement>
@@ -330,6 +331,18 @@
                 <version>${kryo-serializers.version}</version>
             </dependency>
             <!-- end seata启动器  -->
+            <!--  start  mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <!--  end  mapstruct -->
         </dependencies>
     </dependencyManagement>
 

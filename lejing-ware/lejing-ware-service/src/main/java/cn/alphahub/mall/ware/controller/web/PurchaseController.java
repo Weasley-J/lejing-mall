@@ -1,4 +1,4 @@
-package cn.alphahub.mall.ware.controller;
+package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
@@ -13,7 +13,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;

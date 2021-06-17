@@ -8,6 +8,7 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import cn.alphahub.mall.coupon.service.SpuBoundsService;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -71,6 +72,7 @@ public class SpuBoundsController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
+    @Transactional(rollbackFor = {Exception.class})
     public BaseResult<Boolean> save(@RequestBody SpuBounds spuBounds) {
         boolean save = spuBoundsService.save(spuBounds);
         return toOperationResult(save);

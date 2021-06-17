@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.listener;
 
-import cn.alphahub.common.mq.RabbitConstant;
+import cn.alphahub.common.constant.MqConstant;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
 import cn.alphahub.mall.order.domain.OrderReturnReason;
@@ -40,9 +40,9 @@ public class OrderItemListener {
      * @param channel 传输数据的通道，收发消息的通道
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
-            exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
+            value = @Queue(value = MqConstant.ORDER_ITEM_QUEUE, durable = Exchange.TRUE),
+            exchange = @Exchange(value = MqConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = Exchange.TRUE),
+            key = {MqConstant.ORDER_ITEM_ROUTING_KEY}))
     public void receiveMessage(@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Message message, Channel channel, OrderItem domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
@@ -78,9 +78,9 @@ public class OrderItemListener {
      * @param domain  订单数据
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
-            exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
+            value = @Queue(value = MqConstant.ORDER_ITEM_QUEUE, durable = Exchange.TRUE),
+            exchange = @Exchange(value = MqConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
+            key = {MqConstant.ORDER_ITEM_ROUTING_KEY}))
     public void receiveMessage(Message message, Channel channel, Order domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体
@@ -116,9 +116,9 @@ public class OrderItemListener {
      * @param domain  退货原因元数据
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = RabbitConstant.ORDER_ITEM_QUEUE, durable = "true"),
-            exchange = @Exchange(value = RabbitConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
-            key = {RabbitConstant.ORDER_ITEM_ROUTING_KEY}))
+            value = @Queue(value = MqConstant.ORDER_ITEM_QUEUE, durable = Exchange.TRUE),
+            exchange = @Exchange(value = MqConstant.ORDER_ITEM_EXCHANGE, type = ExchangeTypes.TOPIC, ignoreDeclarationExceptions = "true"),
+            key = {MqConstant.ORDER_ITEM_ROUTING_KEY}))
     public void receiveMessage(Message message, Channel channel, OrderReturnReason domain) {
         log.info("接受订单正向流事件:{}", message);
         // 消息体

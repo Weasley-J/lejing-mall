@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.listener;
 
-import cn.alphahub.common.mq.RabbitConstant;
+import cn.alphahub.common.constant.MqConstant;
 import cn.alphahub.mall.order.domain.OrderItem;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ class OrderItemListenerTest {
             item.setSkuName("哈哈哈哈哈");
             item.setSkuPic("哈哈哈哈哈");
             item.setSkuAttrsVals("哈哈哈哈哈");
-            amqpTemplate.convertAndSend(RabbitConstant.ORDER_ITEM_ROUTING_KEY, item);
+            amqpTemplate.convertAndSend(MqConstant.ORDER_ITEM_ROUTING_KEY, item);
             log.info("发送消息:{}", JSONUtil.toJsonStr(item));
         }
     }

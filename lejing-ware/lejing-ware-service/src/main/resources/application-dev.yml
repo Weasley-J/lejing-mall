@@ -8,6 +8,23 @@ spring:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档
       add-mappings: on
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #只要消息抵达Queue，就会异步发送优先回调return-confirm
+      mandatory: on
+    #开启发送端消息抵达Broker确认
+    publisher-confirm-type: correlated
+    #开启发送端消息抵达Queue确认
+    publisher-returns: on
+    listener:
+      simple:
+        #手动ack确认消息，不使用默认的消费端确认
+        acknowledge-mode: manual
   cloud:
     nacos:
       discovery:

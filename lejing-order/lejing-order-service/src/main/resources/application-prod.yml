@@ -30,7 +30,7 @@ spring:
         server-addr: 127.0.0.1:8848
     alibaba:
       seata:
-        #自定义组名称, 需要与seata-server中配置的对应
+        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
         tx-service-group: lejing_tx_group
   rabbitmq:
     host: 192.168.40.132

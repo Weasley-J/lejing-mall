@@ -45,8 +45,8 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueMap
         return pageResult.getPage(productAttrValueList);
     }
 
-
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void saveProductAttrValues(List<ProductAttrValue> productAttrValues) {
         this.saveBatch(productAttrValues);
     }

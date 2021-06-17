@@ -27,8 +27,8 @@
 - `JDK11`
 - `MySQL-8.0.25`
 - `apache-maven-3.6.3`
-- `spring-boot 2.5.0`
-- `spring-cloud-2020.0.2`
+- `spring-boot 2.5.1`
+- `spring-cloud-2020.0.3`
 - `spring-cloud-alibaba 2021.1`
 
 **架构图**
