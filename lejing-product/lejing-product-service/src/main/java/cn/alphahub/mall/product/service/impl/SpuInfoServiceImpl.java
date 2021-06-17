@@ -21,6 +21,7 @@ import cn.alphahub.mall.product.vo.Skus;
 import cn.alphahub.mall.product.vo.SpuSaveVO;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -352,13 +353,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
                 skuReductionTo.setSkuId(skuId);
                 skuReductionTo.setMemberPrice(memberPriceToList);
                 BeanUtils.copyProperties(vo, skuReductionTo);
-                if (skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(BigDecimal.ZERO) > 0) {
+                Boolean b1 = Objects.nonNull(skuReductionTo.getFullCount()) && skuReductionTo.getFullCount() > 0;
+                Boolean b2 = Objects.nonNull(skuReductionTo.getFullPrice()) && skuReductionTo.getFullPrice().compareTo(BigDecimal.ZERO) > 0;
+                if (b1 || b2) {
                     BaseResult<Boolean> baseResult = skuFullReductionClient.saveSkuReduction(skuReductionTo);
-                    if (baseResult.getSuccess()) {
-                        log.info("{}", "远程保存sku成功");
-                    } else {
-                        log.warn("{}", "远程保存sku失败");
-                    }
+                    log.info("保存结果：{}", JSONUtil.toJsonStr(baseResult));
                 }
             });
         }

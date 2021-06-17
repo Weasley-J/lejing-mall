@@ -83,13 +83,20 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
     /**
      * 解锁库存(减少的库存加回去)
      *
-     * @param skuId        sku id
-     * @param wareId       仓库id
-     * @param num          解锁数量
+     * @param skuId  sku id
+     * @param wareId 仓库id
+     * @param num    解锁数量
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void unlockStock(Long skuId, Long wareId, Integer num) {
+        // 释放库存
         wareSkuMapper.unlockStock(skuId, wareId, num);
+        // 更新工作单状态
+        WareOrderTaskDetail taskDetail = new WareOrderTaskDetail();
+        taskDetail.setId(wareId);
+        taskDetail.setLockStatus(2);
+        wareOrderTaskDetailService.updateById(taskDetail);
     }
 
     /**

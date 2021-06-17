@@ -2,8 +2,11 @@ package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +22,8 @@ class WareSkuClientTest {
 
     @Resource
     private WareSkuClient wareSkuClient;
+    @Resource
+    private SkuInfoService skuInfoService;
 
     @BeforeEach
     void setUp() {
@@ -58,6 +63,27 @@ class WareSkuClientTest {
         if (skuHasStock.getSuccess()) {
             List<WareSkuVO> data = skuHasStock.getData();
             data.forEach(System.out::println);
+        }
+    }
+
+    /**
+     * 批量加库存
+     */
+    @Test
+    void incStock() {
+        List<SkuInfo> infos = skuInfoService.list();
+        for (SkuInfo skuInfo : infos) {
+            BaseResult<PageResult<WareSku>> result = wareSkuClient.listBySkuId(skuInfo.getSkuId());
+            if (!result.getSuccess()) {
+                WareSku wareSku = new WareSku();
+                wareSku.setSkuId(skuInfo.getSkuId());
+                wareSku.setWareId(1L);
+                wareSku.setStock(30);
+                wareSku.setSkuName(skuInfo.getSkuName());
+                wareSku.setStockLocked(0);
+                wareSkuClient.save(wareSku);
+                System.err.println(JSONUtil.toJsonStr(wareSku));
+            }
         }
     }
 }

@@ -30,7 +30,7 @@ public class SkuReductionTo implements Serializable {
     /**
      * 总数
      */
-    private int fullCount;
+    private Integer fullCount;
 
     /**
      * 折扣
@@ -40,7 +40,7 @@ public class SkuReductionTo implements Serializable {
     /**
      * 计数状态
      */
-    private int countStatus;
+    private Integer countStatus;
 
     /**
      * 总价
@@ -55,7 +55,7 @@ public class SkuReductionTo implements Serializable {
     /**
      * 价格状态
      */
-    private int priceStatus;
+    private Integer priceStatus;
 
     /**
      * 会员价格列表

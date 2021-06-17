@@ -72,14 +72,14 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionMap
         skuLadder.setDiscount(reductionTO.getDiscount());
         skuLadder.setAddOther(reductionTO.getCountStatus());
         if (skuLadder.getFullCount() > 0) {
-            b1 = skuLadderService.save(skuLadder);
+            skuLadderService.save(skuLadder);
         }
 
         // insert into sms_sku_full_reduction
         SkuFullReduction reduction = new SkuFullReduction();
         BeanUtils.copyProperties(reductionTO, reduction);
         if (reduction.getFullPrice().compareTo(BigDecimal.ZERO) > 0) {
-            b2 = this.save(reduction);
+            this.save(reduction);
         }
 
         // insert into sms_member_price
@@ -94,8 +94,8 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionMap
                     .build())
                     .filter(memberPrice -> memberPrice.getMemberPrice().compareTo(BigDecimal.ZERO) > 0)
                     .collect(Collectors.toList());
-            b3 = memberPriceService.saveBatch(memberPrices);
+            memberPriceService.saveBatch(memberPrices);
         }
-        return b1 || b2 || b3;
+        return true;
     }
 }

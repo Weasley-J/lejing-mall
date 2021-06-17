@@ -66,49 +66,52 @@ public class StockReleaseEventListener {
     })
     public void onMessage(@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, @Header(AmqpHeaders.CORRELATION_ID) String correlationId, Message message, Channel channel, StockLockedTo data) {
         try {
-            log.info("处理解锁库存事件，MQ correlationId：{}, 载荷：{}, message：{}", correlationId, JsonUtil.toJsonStr(data), new String(message.getBody()));
+            log.info("处理解锁库存事件，correlationId：{}, 载荷：{}, message：{}", correlationId, JsonUtil.toJsonStr(data), new String(message.getBody()));
             StockDetailTo detail = data.getDetailTo();
             //查询“库存工作单”判断
             List<WareOrderTaskDetail> list = wareOrderTaskDetailService.list(new QueryWrapper<WareOrderTaskDetail>().lambda()
                     .select(WareOrderTaskDetail::getSkuId)
                     .eq(WareOrderTaskDetail::getId, detail.getId())
-                    .last(" limit 1")
+                    .last(" limit 3")
             );
             // 无需解锁库存
             if (ObjectUtils.isEmpty(list)) {
-                log.info("库存工作单不存在，无需解锁库存.");
+                log.info("库存工作单不存在，消费消息，无需解锁库存.");
                 channel.basicAck(deliveryTag, false);
-            } else {
-                /*
-                 * 解锁库存:
-                 * (1). 订单数据不存在,必须解锁;
-                 * (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
-                 */
-                WareOrderTask wareOrderTask = wareOrderTaskService.getById(data.getId());
-                BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
-                log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
-                if (orderStatus.getSuccess()) {
-                    Order order = orderStatus.getData();
-                    // 订单已取消
-                    if (null == order || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
-                        log.info("订单已取消，解锁库存.");
-                        wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getSkuNum());
-                        channel.basicAck(deliveryTag, false);
-                    } else {
-                        // 其他订单状态, msg拒绝，重回队列
-                        log.info("远程根据订单号查询订单状态失败，拒绝处理，重回队列.");
-                        channel.basicReject(deliveryTag, true);
-                    }
-                } else {
-                    throw new BizException("查询订单[" + wareOrderTask.getOrderSn() + "]状态失败");
-                }
+                return;
             }
-        } catch (IOException e) {
-            log.error("消费者签收消息错误:{}", e.getLocalizedMessage(), e);
+            /*
+             * 解锁库存:
+             * (1). 订单数据不存在,必须解锁;
+             * (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
+             */
+            WareOrderTask wareOrderTask = wareOrderTaskService.getById(data.getId());
+            BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
+            log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
+            if (orderStatus.getSuccess()) {
+                Order order = orderStatus.getData();
+                // 订单已取消
+                if (null == order || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
+                    log.info("订单已取消，解锁库存.");
+                    // 1 = 已锁定 -> 才能解锁释放库存
+                    if (Objects.equals(detail.getLockStatus(), 1)) {
+                        wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getSkuNum());
+                    }
+                    channel.basicAck(deliveryTag, false);
+                } else {
+                    // 其他订单状态, msg拒绝，重回队列
+                    log.info("远程根据订单号查询订单状态失败，拒绝处理，重回队列.");
+                    channel.basicReject(deliveryTag, true);
+                }
+            } else {
+                throw new BizException("查询订单[" + wareOrderTask.getOrderSn() + "]状态失败");
+            }
+        } catch (Exception ex1) {
+            log.error("消费者签收消息错误:{}", ex1.getLocalizedMessage(), ex1);
             try {
                 channel.basicNack(deliveryTag, false, true);
-            } catch (IOException ioException) {
-                log.error("拒绝签收消息错误:{}", e.getLocalizedMessage(), e);
+            } catch (IOException ex2) {
+                log.error("拒绝签收消息错误:{}", ex2.getLocalizedMessage(), ex2);
             }
         }
     }

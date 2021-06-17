@@ -1,7 +1,6 @@
 package cn.alphahub.common.mq;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +15,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockDetailTo implements Serializable {
+    /**
+     * 库存工作单id
+     */
     private Long id;
     /**
      * sku_id
@@ -38,7 +40,7 @@ public class StockDetailTo implements Serializable {
      */
     private Long wareId;
     /**
-     * 锁定状态
+     * 1-已锁定 2-已解锁 3-已扣减
      */
     private Integer lockStatus;
 }
