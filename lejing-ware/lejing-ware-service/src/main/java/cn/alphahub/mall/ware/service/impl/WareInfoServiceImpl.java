@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,6 +34,9 @@ import java.util.Objects;
 @Slf4j
 @Service
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> implements WareInfoService {
+
+    @Value(value = "${lejing.fee.postage}")
+    private BigDecimal postage;
 
     @Resource
     private MemberReceiveAddressClient memberReceiveAddressClient;
@@ -67,18 +71,18 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> i
     }
 
     @Override
-    public FareVo getPostageInfoByAddressId(Long addrId) {
+    public FareVo getPostageInfoByAddressId(Long addressId) {
         FareVo fare = new FareVo(null, BigDecimal.ZERO);
-        BaseResult<MemberReceiveAddress> result = memberReceiveAddressClient.info(addrId);
+        BaseResult<MemberReceiveAddress> result = memberReceiveAddressClient.info(addressId);
         log.info("远程查询收货地址:{}", JSONUtil.toJsonStr(result));
         if (result.getSuccess() && Objects.nonNull(result.getData())) {
             MemberReceiveAddress receiveAddress = result.getData();
             String phone = receiveAddress.getPhone();
             //TODO 调用第三那方接口查询邮资
-            BigDecimal postage = new BigDecimal(StringUtils.substring(phone, phone.length() - 1, phone.length()));
+            BigDecimal postFee = Objects.nonNull(postage) ? postage : new BigDecimal(StringUtils.substring(phone, phone.length() - 1, phone.length()));
             MemberAddressVo addressVo = new MemberAddressVo();
             BeanUtils.copyProperties(receiveAddress, addressVo);
-            fare.setFare(postage);
+            fare.setFare(postFee);
             fare.setAddress(addressVo);
         }
         return fare;

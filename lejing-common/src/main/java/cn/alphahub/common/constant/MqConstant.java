@@ -46,6 +46,11 @@ public class MqConstant {
      * 订单事件普通队列 - 释放订单路由键
      */
     public static final String ORDER_ROUTING_KEY_RELEASE_ORDER = "order.release.order";
+    /**
+     * 订单事件：释放订单和释放库存路由键
+     */
+    public static final String ORDER_ROUTING_KEY_RELEASE_OTHERS = "order.release.other.#";
+    public static final String ORDER_ROUTING_KEY_RELEASE_OTHER = "order.release.other";
 
     // 订单事件 - 延时队列（死信交换机、死信路由键、消息存活时间,延时队列参数）
     /**

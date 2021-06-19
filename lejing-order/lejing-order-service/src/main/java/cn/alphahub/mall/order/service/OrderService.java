@@ -50,4 +50,11 @@ public interface OrderService extends IService<Order> {
      * @return 提交订单响应数据
      */
     SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo);
+
+    /**
+     * 关闭订单
+     *
+     * @param order 订单数据
+     */
+    void closeOrder(Order order);
 }

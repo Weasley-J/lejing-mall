@@ -7,6 +7,7 @@ import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.mq.StockDetailTo;
 import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.ware.domain.WareOrderTask;
@@ -27,6 +28,7 @@ import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -80,23 +82,38 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
         return pageResult.getPage(wareSkuList);
     }
 
-    /**
-     * 解锁库存(减少的库存加回去)
-     *
-     * @param skuId  sku id
-     * @param wareId 仓库id
-     * @param num    解锁数量
-     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void unlockStock(Long skuId, Long wareId, Integer num) {
-        // 释放库存
-        wareSkuMapper.unlockStock(skuId, wareId, num);
-        // 更新工作单状态
+    public void unlockStock(Long skuId, Long wareId, Long taskDetailId, Integer num) {
+        // 1. 更新工作单状态
         WareOrderTaskDetail taskDetail = new WareOrderTaskDetail();
-        taskDetail.setId(wareId);
+        taskDetail.setId(taskDetailId);
         taskDetail.setLockStatus(2);
         wareOrderTaskDetailService.updateById(taskDetail);
+        // 2. 释放库存
+        wareSkuMapper.unlockStock(skuId, wareId, num);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void unlockStock(Order order) {
+        log.info("库存服务处理关闭订单:{}", JSONUtil.toJsonStr(order));
+        String orderSn = order.getOrderSn();
+        if (StringUtils.isAllBlank(orderSn)) {
+            log.warn("订单号不存在");
+            return;
+        }
+        WareOrderTask one = wareOrderTaskService.getOne(new QueryWrapper<WareOrderTask>().lambda()
+                .eq(WareOrderTask::getOrderSn, orderSn)
+                .last(" LIMIT 1")
+        );
+        List<WareOrderTaskDetail> taskDetails = wareOrderTaskDetailService.list(new QueryWrapper<WareOrderTaskDetail>().lambda()
+                .eq(WareOrderTaskDetail::getTaskId, one.getId())
+                .eq(WareOrderTaskDetail::getLockStatus, 1)
+        );
+        for (WareOrderTaskDetail detail : taskDetails) {
+            unlockStock(detail.getSkuId(), detail.getWareId(), detail.getId(), detail.getSkuNum());
+        }
     }
 
     /**
@@ -208,6 +225,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     stockLocked.setDetailTo(stockDetailTo);
 
                     // 锁定库存成功就给MQ发消息
+                    log.info("锁定库存成功就给MQ发消息:{}", JSONUtil.toJsonStr(stockLocked));
                     amqpTemplate.convertAndSend(STOCK_EVENT_EXCHANGE, STOCK_ROUTING_KEY_STOCK_LOCKED, stockLocked, message -> {
                         message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
                         return message;

@@ -1,6 +1,7 @@
 package cn.alphahub.mall.order.service.impl;
 
 import cn.alphahub.common.constant.CartConstant;
+import cn.alphahub.common.constant.MqConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
@@ -11,6 +12,7 @@ import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.constant.OrderConstant;
+import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
 import cn.alphahub.mall.order.dto.to.OrderCreateTo;
@@ -30,6 +32,7 @@ import cn.alphahub.mall.order.feign.WareInfoClient;
 import cn.alphahub.mall.order.feign.WareSkuClient;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
+import cn.alphahub.mall.order.service.MqMessageService;
 import cn.alphahub.mall.order.service.OrderItemService;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.alphahub.mall.product.domain.Brand;
@@ -49,6 +52,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.Failable;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.BoundHashOperations;
@@ -88,6 +95,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public SpuInfoClient spuInfoClient;
     @Resource
     public BrandClient brandClient;
+    /**
+     * MQ correlation id
+     */
+    private String correlationId;
     @Resource
     private OrderItemService orderItemService;
     /**
@@ -105,9 +116,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private WareInfoClient wareInfoClient;
     @Resource
+    private RabbitTemplate rabbitTemplate;
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
     private MemberReceiveAddressClient memberReceiveAddressClient;
+    @Resource
+    private MqMessageService mqMessageService;
 
     /**
      * 查询订单分页列表
@@ -230,7 +245,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             // 验价
             BigDecimal payAmount = to.getOrder().getPayAmount();
             if (CompareUtil.compare(submitVo.getPayPrice().subtract(payAmount).abs(), OrderConstant.RMB_MIN_UNIT) < 0) {
-                log.info("验价成功.");
+                log.info("验价成功：￥{}", payAmount.toPlainString());
                 // 保存订单数据
                 saveOrder(to);
                 // 锁定库存, 只要有异常就回滚订单数据, 订单号,所有订单项数据(skuId,skuName,num)
@@ -250,14 +265,39 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 lockVo.setLocks(itemVos);
 
                 BaseResult<LockStockResultTo> baseResult = wareSkuClient.orderLockStock(lockVo);
-
+                log.warn("远程库存锁定结果：{}", JSONUtil.toJsonStr(baseResult));
                 if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
-                    log.info("锁库存成功");
+                    log.info("锁库存成功, 订单信息:{}", JSONUtil.toJsonStr(to.getOrder()));
                     // 库存锁定，订单回滚
-                    int i = 1 / 0;
+                    // int i = 1 / 0;
                     responseVo.setOrder(to.getOrder());
+
+                    MqMessage mqMessage = new MqMessage();
+                    try {
+                        // 给MQ发消息：订单创建成功+锁库存成功
+                        log.info("订单创建成功+锁库存成功,发消息MQ:{}", JSONUtil.toJsonStr(to.getOrder()));
+                        correlationId = IdUtil.fastSimpleUUID();
+                        CorrelationData correlationData = new CorrelationData();
+                        correlationData.setId(correlationId);
+                        rabbitTemplate.convertAndSend(MqConstant.ORDER_EVENT_EXCHANGE, MqConstant.ORDER_ROUTING_KEY_CREATE_ORDER, to.getOrder(), message -> {
+                            message.getMessageProperties().setCorrelationId(correlationId);
+                            return message;
+                        }, correlationData);
+
+                        // 记录MQ发送消息保证可靠抵达
+                        mqMessage.setMessageId(correlationId);
+                        mqMessage.setContent(JSONUtil.toJsonStr(to.getOrder()));
+                        mqMessage.setToExchange(MqConstant.ORDER_EVENT_EXCHANGE);
+                        mqMessage.setRoutingKey(MqConstant.ORDER_ROUTING_KEY_CREATE_ORDER);
+                        mqMessage.setClassType(this.getClass().getTypeName());
+                        mqMessage.setMessageStatus(1);
+                        mqMessage.setCreateTime(new Date());
+                    } catch (AmqpException e) {
+                        mqMessage.setMessageStatus(0);
+                        log.error("执行 AMQP 操作时发生的错误:{}", e.getMessage(), e);
+                    }
+                    mqMessageService.save(mqMessage);
                 } else {
-                    log.warn("锁库存失败：{}", JSONUtil.toJsonStr(baseResult));
                     responseVo.setCode(3);
                     responseVo.setMsg(baseResult.getMessage());
                     throw new NoStockException(baseResult.getMessage());
@@ -270,6 +310,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
 
         return responseVo;
+    }
+
+    /**
+     * 关闭订单
+     *
+     * @param order 订单数据
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void closeOrder(Order order) {
+        log.info("订单服务关闭订单:{}", JSONUtil.toJsonStr(order));
+        Order orderExists = this.getById(order.getId());
+        if (Objects.equals(orderExists.getStatus(), OrderStatusEnum.CREATE_NEW.getValue())) {
+            order = new Order();
+            order.setId(orderExists.getId());
+            order.setStatus(OrderStatusEnum.CANCELLED.getValue());
+            this.updateById(order);
+            // 关闭订单成功再给MQ发个消息
+            log.info("关闭订单成功,发消息MQ:{}", JSONUtil.toJsonStr(orderExists));
+            rabbitTemplate.convertAndSend(MqConstant.ORDER_EVENT_EXCHANGE, MqConstant.ORDER_ROUTING_KEY_RELEASE_OTHER, orderExists, message -> {
+                message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
+                return message;
+            });
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package cn.alphahub.mall.ware.service;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
@@ -31,11 +32,23 @@ public interface WareSkuService extends IService<WareSku> {
     /**
      * 解锁库存(减少的库存加回去)
      *
-     * @param skuId  sku id
-     * @param wareId 仓库id
-     * @param num    解锁数量
+     * @param skuId        sku id
+     * @param wareId       仓库id
+     * @param taskDetailId 库存工作单id
+     * @param num          解锁数量
      */
-    void unlockStock(Long skuId, Long wareId, Integer num);
+    void unlockStock(Long skuId, Long wareId, Long taskDetailId, Integer num);
+
+    /**
+     * <b>库存服务处理关闭订单事件</b>
+     * <p>
+     * 防止订单库存服务卡顿,导致订单消息一直不能修改, 库存消息优先到期,
+     * 查询的订单状态一直新建状态, 订单状态卡顿, 库存得不到解锁.
+     * </p>
+     *
+     * @param order 订单
+     */
+    void unlockStock(Order order);
 
     /**
      * 更新库存信息
@@ -43,6 +56,7 @@ public interface WareSkuService extends IService<WareSku> {
      * @param skuId  产品skuId
      * @param wareId 库存id
      * @param skuNum 添加的库存量
+     * @return rows
      */
     Integer addStock(Long skuId, Long wareId, Integer skuNum);
 
@@ -71,4 +85,5 @@ public interface WareSkuService extends IService<WareSku> {
      * @return 库存锁定结果
      */
     LockStockResultTo orderLockStock(WareSkuLockVo skuLockVo);
+
 }

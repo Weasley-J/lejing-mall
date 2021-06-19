@@ -59,3 +59,7 @@ seata:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#运费配置
+lejing:
+  fee:
+    postage: 0.01

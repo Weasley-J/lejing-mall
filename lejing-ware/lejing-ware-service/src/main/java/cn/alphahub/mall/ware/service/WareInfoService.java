@@ -38,8 +38,8 @@ public interface WareInfoService extends IService<WareInfo> {
     /**
      * 获取运费信息
      *
-     * @param addrId 收货地址id
+     * @param addressId 收货地址id
      * @return 邮资
      */
-    FareVo getPostageInfoByAddressId(Long addrId);
+    FareVo getPostageInfoByAddressId(Long addressId);
 }

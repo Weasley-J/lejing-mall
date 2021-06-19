@@ -1,7 +1,11 @@
 package cn.alphahub.mall.order.config;
 
+import cn.alphahub.mall.order.domain.MqMessage;
+import cn.alphahub.mall.order.service.MqMessageService;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -11,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * RabbitMQ配置类
@@ -25,11 +30,12 @@ public class RabbitMqConfig {
 
     @Resource
     private CachingConnectionFactory connectionFactory;
+    @Resource
+    private MqMessageService mqMessageService;
 
     /**
      * <b>给Spring IOC容器中初始化一个RabbitTemplate</b>
      *
-     * @param connectionFactory Rabbit连接工厂
      * @return RabbitTemplate实例
      */
     @Bean
@@ -73,7 +79,14 @@ public class RabbitMqConfig {
          * cause: 失败的原因
          */
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            log.info("确认相关数据（confirm correlation data）:{} ==> 是否确认（ack）:{} ==> 原因: {}", correlationData, ack, cause);
+            log.info("消息确认相关数据:{} ==> 是否确认（ack）:{} ==> 原因: {}", JSONUtil.toJsonStr(correlationData), ack, cause);
+            if (null != correlationData) {
+                MqMessage mqMessage = new MqMessage();
+                mqMessage.setMessageId(correlationData.getId());
+                mqMessage.setUpdateTime(new Date());
+                mqMessage.setMessageStatus(!ack ? 2 : 3);
+                mqMessageService.updateById(mqMessage);
+            }
         });
         /**
          * 只要消息没有投递给指定的队列，就触发这个失败回调
@@ -84,7 +97,8 @@ public class RabbitMqConfig {
          * routingKey: 当时这个消息用哪个路由键
          */
         rabbitTemplate.setReturnsCallback(returned -> {
-            log.info("RabbitMQ失败回调信息:[{}]", JSONUtil.toJsonPrettyStr(returned));
+            Message returnedMessage = returned.getMessage();
+            log.info("RabbitMQ失败回调信息:[{}]", JSONUtil.toJsonStr(returnedMessage));
         });
         return rabbitTemplate;
     }

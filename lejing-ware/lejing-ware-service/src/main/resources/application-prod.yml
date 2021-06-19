@@ -58,3 +58,7 @@ seata:
       namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
       username: nacos
       password: nacos
+#运费配置
+lejing:
+  fee:
+    postage: null
