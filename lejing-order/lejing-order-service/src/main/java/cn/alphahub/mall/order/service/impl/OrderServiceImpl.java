@@ -12,6 +12,7 @@ import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.constant.OrderConstant;
+import cn.alphahub.mall.order.convertor.BeanUtil;
 import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
@@ -53,7 +54,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.Failable;
 import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.framework.AopContext;
@@ -251,17 +251,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 // 锁定库存, 只要有异常就回滚订单数据, 订单号,所有订单项数据(skuId,skuName,num)
                 WareSkuLockVo lockVo = new WareSkuLockVo();
                 lockVo.setOrderSn(to.getOrder().getOrderSn());
-                List<OrderItemVo> itemVos = to.getOrderItems().stream().map(orderItem -> {
-                    OrderItemVo orderItemVo = new OrderItemVo();
-                    orderItemVo.setSkuId(orderItem.getSkuId());
-                    orderItemVo.setTitle(orderItem.getSkuName());
-                    orderItemVo.setImage(orderItem.getSkuPic());
-                    orderItemVo.setSkuAttrValues(Lists.newArrayList(orderItem.getSkuAttrsVals().split(";")));
-                    orderItemVo.setPrice(orderItem.getSkuPrice());
-                    orderItemVo.setCount(orderItem.getSkuQuantity());
-                    orderItemVo.setTotalPrice(orderItem.getRealAmount());
-                    return orderItemVo;
-                }).collect(Collectors.toList());
+                List<OrderItemVo> itemVos = to.getOrderItems().stream().map(BeanUtil.INSTANCE::copy).collect(Collectors.toList());
                 lockVo.setLocks(itemVos);
 
                 BaseResult<LockStockResultTo> baseResult = wareSkuClient.orderLockStock(lockVo);
@@ -322,6 +312,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public void closeOrder(Order order) {
         log.info("订单服务关闭订单:{}", JSONUtil.toJsonStr(order));
         Order orderExists = this.getById(order.getId());
+        if (null == orderExists) {
+            return;
+        }
         if (Objects.equals(orderExists.getStatus(), OrderStatusEnum.CREATE_NEW.getValue())) {
             order = new Order();
             order.setId(orderExists.getId());
@@ -329,10 +322,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             this.updateById(order);
             // 关闭订单成功再给MQ发个消息
             log.info("关闭订单成功,发消息MQ:{}", JSONUtil.toJsonStr(orderExists));
+            String correlationId = IdUtil.fastSimpleUUID();
+            CorrelationData correlationData = new CorrelationData();
+            correlationData.setId(correlationId);
             rabbitTemplate.convertAndSend(MqConstant.ORDER_EVENT_EXCHANGE, MqConstant.ORDER_ROUTING_KEY_RELEASE_OTHER, orderExists, message -> {
-                message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
+                message.getMessageProperties().setCorrelationId(correlationId);
                 return message;
-            });
+            }, correlationData);
         }
     }
 

@@ -258,3 +258,17 @@ taskkill /f /t /im "yundetectservice.exe"
 ![image-20210611221759994](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210611221759994.png)
 
 ![image-20210611221811205](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210611221811205.png)
+
+
+
+# 8 接入三方支付
+
+## 8.1 支付宝支付-2021年6月20日
+
+### 8.1.1 [个人开发者申请登录后台](https://open.alipay.com/platform/developerIndex.htm)
+
+![image-20210620223425913](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210620223425913.png)
+
+### 8.1.2 [新版`api`文档](https://opendocs.alipay.com/open/54/00y8k9)
+
+![image-20210620223644859](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210620223644859.png)

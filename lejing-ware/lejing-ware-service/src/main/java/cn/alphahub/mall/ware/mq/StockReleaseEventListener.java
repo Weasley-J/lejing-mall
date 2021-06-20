@@ -67,38 +67,40 @@ public class StockReleaseEventListener {
     })
     public void onMessage(@Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag,
                           @Header(AmqpHeaders.CORRELATION_ID) String correlationId,
-                          Message message, Channel channel, StockLockedTo data
+                          Message message, Channel channel, StockLockedTo stockLocked
     ) {
-        log.info("处理解锁库存事件，correlationId：{}, 载荷：{}, message：{}", correlationId, JsonUtil.toJsonStr(data), new String(message.getBody()));
+        log.info("处理解锁库存事件，correlationId：{}, 载荷：{}, message：{}", correlationId, JsonUtil.toJsonStr(stockLocked), new String(message.getBody()));
         try {
-            StockDetailTo detail = data.getDetailTo();
-            if (ObjectUtils.isNotEmpty(detail)) {
-                // 查询“库存工作单”是否存在，如果库存工作单不存在无需解锁库存
-                WareOrderTaskDetail wareOrderTaskDetail = wareOrderTaskDetailService.getById(detail.getId());
-                if (ObjectUtils.isNotEmpty(wareOrderTaskDetail)) {
-                    /**
-                     * 解锁库存:
-                     *     (1). 订单数据不存在,必须解锁;
-                     *     (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
-                     */
-                    WareOrderTask wareOrderTask = wareOrderTaskService.getById(data.getId());
-                    BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
-                    log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
-                    if (orderStatus.getSuccess()) {
-                        Order order = orderStatus.getData();
-                        // 订单已取消
-                        if (null == order || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
-                            log.info("订单已取消，解锁库存.");
-                            // 1 = 已锁定 -> 才能解锁释放库存
-                            if (Objects.equals(detail.getLockStatus(), 1)) {
-                                wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getId(), detail.getSkuNum());
-                            }
-                            channel.basicAck(deliveryTag, false);
-                        }
-                    } else {
-                        throw new BizException("查询订单[" + wareOrderTask.getOrderSn() + "]状态失败");
+            StockDetailTo detail = stockLocked.getDetailTo();
+            if (ObjectUtils.isEmpty(detail)) {
+                return;
+            }
+            // 查询“库存工作单”是否存在，如果库存工作单不存在无需解锁库存
+            WareOrderTaskDetail wareOrderTaskDetail = wareOrderTaskDetailService.getById(detail.getId());
+            if (ObjectUtils.isEmpty(wareOrderTaskDetail)) {
+                return;
+            }
+            /**
+             * 解锁库存:
+             *     (1). 订单数据不存在,必须解锁;
+             *     (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
+             */
+            WareOrderTask wareOrderTask = wareOrderTaskService.getById(stockLocked.getId());
+            BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
+            log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
+            if (orderStatus.getSuccess()) {
+                Order order = orderStatus.getData();
+                // 订单已取消
+                if (null == order || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
+                    // 1 = 已锁定 -> 才能解锁释放库存
+                    if (Objects.equals(detail.getLockStatus(), 1)) {
+                        log.info("订单已取消，解锁库存: {}", JsonUtil.toJsonStr(detail));
+                        wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getId(), detail.getSkuNum());
                     }
+                    channel.basicAck(deliveryTag, false);
                 }
+            } else {
+                throw new BizException("查询订单[" + wareOrderTask.getOrderSn() + "]状态失败");
             }
         } catch (Exception ex1) {
             log.error("消费者签收消息错误:{}, correlationId: {}", ex1.getLocalizedMessage(), correlationId, ex1);

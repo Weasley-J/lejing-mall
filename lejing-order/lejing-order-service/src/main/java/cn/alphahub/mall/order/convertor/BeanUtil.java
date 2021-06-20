@@ -1,7 +1,13 @@
 package cn.alphahub.mall.order.convertor;
 
+import cn.alphahub.mall.order.domain.OrderItem;
+import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Arrays;
 
 /**
  * mapstruct的java bean属性拷贝类
@@ -11,7 +17,7 @@ import org.mapstruct.factory.Mappers;
  * @version 1.0
  * @date 2021/06/17
  */
-@Mapper
+@Mapper(imports = {Arrays.class})
 public interface BeanUtil {
 
     /**
@@ -19,4 +25,19 @@ public interface BeanUtil {
      */
     BeanUtil INSTANCE = Mappers.getMapper(BeanUtil.class);
 
+    /**
+     * orderItem -> OrderItemVo
+     *
+     * @param orderItem 订单项信息
+     * @return OrderItemVo
+     */
+    @Mappings(value = {
+            @Mapping(target = "title", source = "skuName"),
+            @Mapping(target = "image", source = "skuPic"),
+            @Mapping(target = "skuAttrValues", expression = "java(Arrays.asList(orderItem.getSkuAttrsVals().split(\";\")))"),
+            @Mapping(target = "price", source = "skuPrice"),
+            @Mapping(target = "count", source = "skuQuantity"),
+            @Mapping(target = "totalPrice", source = "realAmount")
+    })
+    OrderItemVo copy(OrderItem orderItem);
 }

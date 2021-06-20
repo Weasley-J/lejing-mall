@@ -54,7 +54,7 @@ public class OrderCloseEventListener {
                           @Header(AmqpHeaders.CORRELATION_ID) String correlationId,
                           Message message, Channel channel, Order order
     ) throws IOException {
-        log.info("处理关闭订单事件，correlationId: {}, 载荷：{}, MQ数据：{}", correlationId, JSONUtil.toJsonStr(order), JSONUtil.toJsonStr(new String(message.getBody())));
+        log.info("订单服务处理关闭订单事件，correlationId: {}, 载荷：{}, MQ数据：{}", correlationId, JSONUtil.toJsonStr(order), JSONUtil.toJsonStr(new String(message.getBody())));
         try {
             orderService.closeOrder(order);
             channel.basicAck(deliveryTag, false);
