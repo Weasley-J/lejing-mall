@@ -1,6 +1,8 @@
 package cn.alphahub.mall.order.convertor;
 
+import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.OrderItem;
+import cn.alphahub.mall.order.dto.response.MqMessageResp;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -40,4 +42,15 @@ public interface BeanUtil {
             @Mapping(target = "totalPrice", source = "realAmount")
     })
     OrderItemVo copy(OrderItem orderItem);
+
+    /**
+     * MqMessage -> MqMessageResp
+     *
+     * @param mqMessage MQ消息
+     * @return MqMessageResp
+     */
+    @Mappings(value = {
+            @Mapping(target = "status", source = "messageStatus")
+    })
+    MqMessageResp copy(MqMessage mqMessage);
 }

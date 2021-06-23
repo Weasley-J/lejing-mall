@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestControllerAdvice(basePackages = {"cn.alphahub.mall.product.controller"})
-public class ProducControllerAdvice {
+public class ProductControllerAdvice {
 
     /**
      * 数据校验异常

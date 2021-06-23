@@ -5,13 +5,22 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.order.convertor.BeanUtil;
 import cn.alphahub.mall.order.domain.MqMessage;
+import cn.alphahub.mall.order.dto.request.MqMessageReq;
+import cn.alphahub.mall.order.dto.response.MqMessageResp;
 import cn.alphahub.mall.order.service.MqMessageService;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * MQ消息表Controller
@@ -20,11 +29,35 @@ import java.util.Arrays;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:02:31
  */
+@Slf4j
 @RestController
 @RequestMapping("order/mqmessage")
 public class MqMessageController extends BaseController {
     @Resource
     private MqMessageService mqMessageService;
+
+    /**
+     * 精装版查询MQ消息表列表
+     *
+     * @param req 查询数据
+     * @return 分页数据
+     */
+    @GetMapping("/grace/list")
+    public BaseResult<PageResult<MqMessageResp>> query(@ModelAttribute(name = "req") MqMessageReq req) {
+        log.info("精装版查询MQ消息表列表：{}", JSONUtil.toJsonStr(req));
+        PageResult<MqMessageResp> pageResult = new PageResult<>();
+        pageResult.startPage(req);
+        List<MqMessageResp> respList = mqMessageService.list(new QueryWrapper<MqMessage>().lambda()
+                .eq(StringUtils.isNotBlank(req.getMessageId()), MqMessage::getMessageId, req.getMessageId())
+                .eq(StringUtils.isNotBlank(req.getToExchange()), MqMessage::getToExchange, req.getToExchange())
+                .eq(StringUtils.isNotBlank(req.getMessageId()), MqMessage::getMessageId, req.getMessageId())
+                .eq(StringUtils.isNotBlank(req.getRoutingKey()), MqMessage::getRoutingKey, req.getRoutingKey())
+                .eq(ObjectUtils.isNotEmpty(req.getStatus()), MqMessage::getMessageStatus, req.getStatus())
+                .ge(ObjectUtils.isNotEmpty(req.getCreateTimeStart()), MqMessage::getCreateTime, req.getCreateTimeStart())
+                .le(ObjectUtils.isNotEmpty(req.getCreateTimeEnd()), MqMessage::getCreateTime, req.getCreateTimeEnd())
+        ).stream().map(BeanUtil.INSTANCE::copy).collect(Collectors.toList());
+        return BaseResult.ok(pageResult.getPage(respList));
+    }
 
     /**
      * 查询MQ消息表列表

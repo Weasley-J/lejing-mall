@@ -9,13 +9,17 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
   #开启Redis缓存
   cache:
     type: redis
     redis:
       #缓存的过期时间，1天
       time-to-live: 1d
-
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.product.domain,cn.**.product.domain,com.**.product.entity,cn.**.product.entity

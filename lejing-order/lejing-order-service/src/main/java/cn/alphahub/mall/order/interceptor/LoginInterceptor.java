@@ -33,6 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public static final Set<String> URI_WHITELIST_ANT_MATCH_PATTERN = new LinkedHashSet<>(20) {{
         add("/order/order/status/**");
         add("/payed/notify");
+        add("/order/mqmessage/grace/list");
     }};
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
     /**
