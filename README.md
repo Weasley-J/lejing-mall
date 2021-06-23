@@ -261,6 +261,14 @@ taskkill /f /t /im "yundetectservice.exe"
 
 
 
+## 7.4  关于前端查询数据需要根据时间区间查询时`spring`全局`mvc`字符串日期转换配置
+
+![image-20210623234349087](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210623234349087.png)
+
+笔者亲生经历，土鳖公司当查询参数过多的时候就用POST，实在是很不习惯。所有就这个全局配置，当然不止这2种方式，有兴趣自行探索。
+
+
+
 # 8 接入三方支付
 
 ## 8.1 支付宝支付-2021年6月20日
@@ -268,6 +276,8 @@ taskkill /f /t /im "yundetectservice.exe"
 ### 8.1.1 [个人开发者申请登录后台](https://open.alipay.com/platform/developerIndex.htm)
 
 ![image-20210620223425913](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210620223425913.png)
+
+
 
 ### 8.1.2 [新版`api`文档](https://opendocs.alipay.com/open/54/00y8k9)
 

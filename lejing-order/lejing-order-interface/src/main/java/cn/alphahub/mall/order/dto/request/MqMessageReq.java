@@ -45,11 +45,19 @@ public class MqMessageReq extends PageDomain implements Serializable {
     private Integer status;
     /**
      * 创建时间起
+     * <ul>
+     *     <p>提示：</p>
+     *     <li>在yml文件里面配置了{@code spring.mvc.format.date-time}等全局属性，可以不加@DateTimeFormat转换前端提交的字符串日期</li>
+     * </ul>
      */
     @DateTimeFormat(fallbackPatterns = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"})
     private LocalDateTime createTimeStart;
     /**
      * 创建时间始
+     * <ul>
+     *     <p>提示：</p>
+     *     <li>在yml文件里面配置了{@code spring.mvc.format.date-time}等全局属性，可以不加@DateTimeFormat转换前端提交的字符串日期</li>
+     * </ul>
      */
     @DateTimeFormat(fallbackPatterns = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"})
     private LocalDateTime createTimeEnd;
