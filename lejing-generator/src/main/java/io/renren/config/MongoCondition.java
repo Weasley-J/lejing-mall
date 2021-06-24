@@ -1,6 +1,5 @@
 package io.renren.config;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;

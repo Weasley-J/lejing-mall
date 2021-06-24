@@ -21,7 +21,6 @@ import java.util.List;
  **/
 @Component
 @ConfigurationProperties(prefix = "mongodb")
-
 public class MongoConfig {
     private String host;
     private int port;
