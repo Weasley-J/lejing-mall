@@ -133,6 +133,7 @@ public class SkuModel implements Serializable {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @Accessors(chain = true)
     public static class Attrs implements Serializable {
         private static final long serialVersionUID = 1L;
 
