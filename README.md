@@ -190,16 +190,17 @@ PWD="123456"
 
 # 删除乐景商城的日志索引库
 curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/lejing-*,renren-fast-*
-
 # 删除kibana的日志索引库
 curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.monitoring-kibana-*
-
 # 删除logstash的日志索引库
 curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.monitoring-logstash-*
-
 # 删除es的日志索引库
 curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.monitoring-es-*
-
+# 其他
+curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/ilm-history-*
+curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.kibana-event-*
+curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/*run_env*
+curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.kibana_*
 ```
 
 

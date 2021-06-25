@@ -73,7 +73,7 @@
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
         <alicloud.version>2.2.0.RELEASE</alicloud.version>
         <redisson.version>3.15.6</redisson.version>
-        <elasticsearch.version>7.10.1</elasticsearch.version>
+        <elasticsearch.version>7.13.2</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
         <easypoi.starter.version>4.3.0</easypoi.starter.version>
         <easypoi-web.version>4.3.0</easypoi-web.version>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,7 +43,7 @@ public class SearchController extends BaseController {
      * @return 搜索列表html
      */
     @GetMapping("/list.html")
-    public String list(SearchParam param, Model model, HttpServletRequest request) {
+    public String list(@ModelAttribute(name = "param") SearchParam param, Model model, HttpServletRequest request) {
         String queryString = request.getQueryString();
         // 根据搜索请求参数去ES中检索数据
         if (StringUtils.isNotBlank(queryString)) {

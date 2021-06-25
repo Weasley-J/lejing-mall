@@ -33,11 +33,6 @@ class ProductRepositoryTest {
     private ElasticsearchRestTemplate restTemplate;
     @Resource
     private ElasticsearchRestClientProperties properties;
-    /**
-     * 索引名称
-     */
-    @Value("${spring.elasticsearch.rest.index-names}")
-    private String[] indexNames;
 
     @BeforeEach
     void setUp() {
@@ -114,7 +109,7 @@ class ProductRepositoryTest {
         boolean present = skuModelOptional.isPresent();
         if (present) {
             SkuModel skuModel = skuModelOptional.get();
-            System.out.println("skuModel = " + skuModel);
+            System.out.println(JSONUtil.toJsonPrettyStr(skuModel));
         }
     }
 
@@ -122,8 +117,5 @@ class ProductRepositoryTest {
     void testResource() {
         List<String> uris = properties.getUris();
         System.out.println("uris = " + uris);
-        for (String indexName : indexNames) {
-            System.out.println("indexName = " + indexName);
-        }
     }
 }

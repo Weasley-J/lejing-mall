@@ -1,6 +1,7 @@
 {
   // "serverUrl": "http://localhost:88/api",
-  "serverUrl": "http://localhost:12000",
+  // "serverUrl": "http://localhost:12000",
+  "serverUrl": "http://lejing.fgifast1.vipnps.vip/api",
   "isStrict": false,
   "allInOne": true,
   "outPath": "src/main/resources/static",

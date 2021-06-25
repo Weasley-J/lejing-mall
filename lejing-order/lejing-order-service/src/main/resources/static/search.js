@@ -14,6 +14,14 @@ api[0].list.push({
     order: '2',
     desc: '送消息给MQ',
 });
+api[0].list.push({
+    order: '3',
+    desc: '测试创建订单发送消息给 ORDER_EVENT_RELEASE_ORDER_QUEUE 队列',
+});
+api[0].list.push({
+    order: '4',
+    desc: '',
+});
 api.push({
     alias: 'OrderAppController',
     order: '2',
@@ -38,22 +46,26 @@ api.push({
 })
 api[2].list.push({
     order: '1',
-    desc: '查询MQ消息表列表',
+    desc: '精装版查询MQ消息表列表',
 });
 api[2].list.push({
     order: '2',
-    desc: '获取MQ消息表详情',
+    desc: '查询MQ消息表列表',
 });
 api[2].list.push({
     order: '3',
-    desc: '新增MQ消息表',
+    desc: '获取MQ消息表详情',
 });
 api[2].list.push({
     order: '4',
-    desc: '修改MQ消息表',
+    desc: '新增MQ消息表',
 });
 api[2].list.push({
     order: '5',
+    desc: '修改MQ消息表',
+});
+api[2].list.push({
+    order: '6',
     desc: '批量删除MQ消息表',
 });
 api.push({
@@ -65,22 +77,26 @@ api.push({
 })
 api[3].list.push({
     order: '1',
-    desc: '查询订单列表',
+    desc: '根据订单号查询订单状态',
 });
 api[3].list.push({
     order: '2',
-    desc: '获取订单详情',
+    desc: '查询订单列表',
 });
 api[3].list.push({
     order: '3',
-    desc: '新增订单',
+    desc: '获取订单详情',
 });
 api[3].list.push({
     order: '4',
-    desc: '修改订单',
+    desc: '新增订单',
 });
 api[3].list.push({
     order: '5',
+    desc: '修改订单',
+});
+api[3].list.push({
+    order: '6',
     desc: '批量删除订单',
 });
 api.push({
