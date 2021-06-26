@@ -228,6 +228,150 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
 
 
 
+## 6.5  集成`SonarQube`
+
+- 项目父`pom.xml`添加maven插件
+
+版本自行取中央仓库查找
+
+```xml
+           <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+```
+
+- maven的`settings.xml`新加如下配置
+
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+      <pluginGroups>
+          <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+      </pluginGroups>
+      
+      <mirrors>
+          <mirror>
+              <id>aliyunmaven</id>
+              <mirrorOf>central</mirrorOf>
+              <name>阿里云公共仓库</name>
+              <url>https://maven.aliyun.com/repository/public</url>
+          </mirror>
+      </mirrors>
+  
+      <profiles>
+          <profile>
+              <id>sonar</id>
+              <activation>
+                  <activeByDefault>true</activeByDefault>
+              </activation>
+              <properties>
+                  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                  <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+                  <sonar.host.url>http://192.168.40.132:9001</sonar.host.url>
+                  <sonar.login>d65fc87408fd94ef8328b03a52d06bfec0fe388f</sonar.login>
+                  <!-- 排除的文件 -->
+                  <sonar.exclusions>*.js</sonar.exclusions>
+                  <sonar.exclusions>*.bat</sonar.exclusions>
+                  <sonar.exclusions>*.cmd</sonar.exclusions>
+                  <sonar.exclusions>*.xml</sonar.exclusions>
+                  <sonar.exclusions>*.md</sonar.exclusions>
+                  <sonar.exclusions>*.NET</sonar.exclusions>
+                  <sonar.exclusions>*.cpp</sonar.exclusions>
+                  <sonar.exclusions>*.css</sonar.exclusions>
+                  <sonar.exclusions>*.html</sonar.exclusions>
+                  <sonar.exclusions>*.vue</sonar.exclusions>
+                  <sonar.exclusions>src/test/**</sonar.exclusions>
+              </properties>
+          </profile>
+      </profiles>
+  
+      <activeProfiles>
+          <activeProfile>sonar</activeProfile>
+      </activeProfiles>
+  
+  </settings>
+  ```
+
+- docker安装`SonarQube`
+
+```shell
+#!/bin/bash
+
+BASE_DIR_POSTGRES="/usr/local/postgres"
+BASE_DIR_SONARQUBE="/usr/local/sonarqube"
+
+#主机ip
+POSTGRESQL_HOST="192.168.40.132"
+
+clear && rm -rfv ${BASE_DIR_POSTGRES} && rm -rfv ${BASE_DIR_SONARQUBE}
+mkdir -pv ${BASE_DIR_POSTGRES} && mkdir -pv ${BASE_DIR_SONARQUBE}/{data,extensions,logs}
+chown -vR 0999 ${BASE_DIR_SONARQUBE}/
+
+docker stop postgres && docker rm -f postgres
+docker run --name postgres \
+  -p 5432:5432 \
+  -v ${BASE_DIR_POSTGRES}:/var/lib/postgresql/data \
+  -v /etc/timezone:/etc/timezone \
+  -v /etc/localtime:/etc/localtime \
+  -e POSTGRES_USER=root \
+  -e POSTGRES_DB=postgres \
+  -e POSTGRES_PASSWORD=123456 \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -d postgres
+
+# 开启postgresql远程访问参考连接: https://www.cnblogs.com/chendongbky/p/14874794.html, 看5 -> 5.(1)
+
+docker exec -it postgres psql -h ${POSTGRESQL_HOST} -U root
+# 界面运行下面的SQL, 创建sonarqube的数据库
+CREATE DATABASE "sonarqube" WITH OWNER = "root" TEMPLATE = "postgres" ENCODING = 'UTF8' TABLESPACE = "pg_default";
+COMMENT ON DATABASE "sonarqube" IS 'SonarQube数据库';
+
+#退出容器
+
+# 社区版本
+docker stop sonarqube && docker rm -f sonarqube
+docker run --name sonarqube \
+  -p 9001:9000 \
+  -p 9092:9092 \
+  -e SONAR_JDBC_USERNAME=root \
+  -e SONAR_JDBC_PASSWORD=123456 \
+  -e SONAR_JDBC_URL="jdbc:postgresql://${POSTGRESQL_HOST}:5432/sonarqube" \
+  -v ${BASE_DIR_SONARQUBE}/data:/opt/sonarqube/data \
+  -v ${BASE_DIR_SONARQUBE}/extensions:/opt/sonarqube/extensions \
+  -v ${BASE_DIR_SONARQUBE}/logs:/opt/sonarqube/logs \
+  -d sonarqube
+
+# 企业版本
+#docker run -d -p 9001:9000  -p 9092:9092 --name sonarqube \
+#-v ${BASE_DIR_SONARQUBE}/sonarqube_data:/opt/sonarqube/data \
+#-v ${BASE_DIR_SONARQUBE}/sonarqube_extensions:/opt/sonarqube/extensions \
+#-v ${BASE_DIR_SONARQUBE}/sonarqube_logs:/opt/sonarqube/logs \
+#-e SONAR_JDBC_USERNAME=sonarqube \
+#-e SONAR_JDBC_PASSWORD=sonarqube \
+#-e SONAR_JDBC_URL="jdbc:postgresql://${POSTGRESQL_HOST}:5432/sonarqube" \
+#sonarqube:enterprise
+
+#编辑这个文件, 再末尾追加(已经有就不用追加): vm.max_map_count=655360
+vim /etc/sysctl.conf
+sysctl -p
+
+# echo后边用单引号包围要添加的内容
+echo 'vm.max_map_count=655360' >>/etc/sysctl.conf
+sysctl -p
+
+# 浏览器访问sonarqube: http://192.168.40.132:9001, 默认用户名密码为：admin/admin , 进入界面后: Administration --> marketplace --> 搜索chinese, 安装中文语言
+
+# token - > 99bfe61d5bba8bb2164d6679ee345c03ad30d5d7
+
+```
+
+
+
 # 7 Q&A
 
 ## 7.1 为什么分页不用`mybatis-plus`自带的`IPage`？
