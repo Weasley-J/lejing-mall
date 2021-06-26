@@ -27,8 +27,8 @@ docker run --name postgres \
 docker exec -it postgres psql -h ${POSTGRESQL_HOST} -U root
 
 # 界面运行下面的SQL, 创建sonarqube的数据库
-CREATE DATABASE "sonarqube" WITH OWNER = "root" TEMPLATE = "postgres" ENCODING = 'UTF8' TABLESPACE = "pg_default";
-COMMENT ON DATABASE "sonarqube" IS 'SonarQube数据库';
+CREATE DATABASE "sonarqube" WITH OWNER = "root" TEMPLATE = "postgres" ENCODING = 'UTF8' TABLESPACE = "pg_default"
+COMMENT ON DATABASE "sonarqube" IS 'SonarQube数据库'
 
 #退出容器
 
