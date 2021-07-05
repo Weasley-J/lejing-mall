@@ -24,7 +24,7 @@ public class PayVo implements Serializable {
     /**
      * 商户订单号 必填
      */
-    private String out_trade_no;
+    private String outTradeNo;
     /**
      * 订单名称 必填
      */
@@ -32,7 +32,7 @@ public class PayVo implements Serializable {
     /**
      * 付款金额 必填
      */
-    private String total_amount;
+    private String totalAmount;
     /**
      * 商品描述 可空
      */

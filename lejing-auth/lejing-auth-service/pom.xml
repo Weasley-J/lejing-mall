@@ -5,12 +5,12 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-auth</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>lejing-auth-service</artifactId>
-    <version>${lejing.latest.version}</version>
+    <version>1.1.2-SNAPSHOT</version>
 
     <description>授权服务-基于OAuth2.0的单点登录</description>
 
@@ -21,6 +21,24 @@
     </properties>
 
     <dependencies>
+        <!--  认证中心服务远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-dependencies-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-auth-interface</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-auth-common</artifactId>
+        </dependency>
+        <!-- 会员服务远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+        </dependency>
         <!-- thymeleaf模板引擎 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,30 +53,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <!--Spring Boot yml文件元数据配置-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!-- spring测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!--  认证中心服务远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-auth-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-        </dependency>
-        <!-- 会员服务远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-member-interface</artifactId>
-            <version>${lejing.latest.version}</version>
         </dependency>
         <!-- nacos 注册/发现 -->
         <dependency>
@@ -81,11 +75,6 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-        <!-- hutool工具包 -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
         <!-- RabbitMQ启动器 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -101,11 +90,11 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
-        <!--Spring Boot yml文件元数据配置-->
+        <!-- spring boot测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -115,6 +104,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->

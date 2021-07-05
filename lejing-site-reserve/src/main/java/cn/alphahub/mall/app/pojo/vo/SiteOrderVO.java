@@ -1,6 +1,6 @@
 package cn.alphahub.mall.app.pojo.vo;
 
-import cn.alphahub.common.enumeration.CouponStatus;
+import cn.alphahub.common.enums.CouponStatus;
 import cn.alphahub.common.util.IdSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

@@ -2,7 +2,6 @@ package cn.alphahub.mall.app.service.impl;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.mall.app.pojo.bo.SiteBookBO;
 import cn.alphahub.mall.app.pojo.bo.SiteCouponBO;
 import cn.alphahub.mall.app.pojo.bo.SiteDetailBO;
 import cn.alphahub.mall.app.pojo.bo.SiteReserveDateBO;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -73,11 +71,12 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
 
         PageInfo<SiteReserveVO> pageInfo = new PageInfo<>(reserveVOList);
 
-        return PageResult.<SiteReserveVO>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SiteReserveVO>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+
+        return pageResult;
     }
 
     /**

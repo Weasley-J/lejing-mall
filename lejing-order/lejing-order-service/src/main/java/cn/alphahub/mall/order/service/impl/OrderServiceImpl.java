@@ -17,13 +17,7 @@ import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
 import cn.alphahub.mall.order.dto.to.OrderCreateTo;
-import cn.alphahub.mall.order.dto.vo.FareVo;
-import cn.alphahub.mall.order.dto.vo.MemberAddressVo;
-import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
-import cn.alphahub.mall.order.dto.vo.OrderItemVo;
-import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
-import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
-import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
+import cn.alphahub.mall.order.dto.vo.*;
 import cn.alphahub.mall.order.feign.BrandClient;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
@@ -91,6 +85,10 @@ import static cn.alphahub.mall.order.constant.OrderConstant.OrderStatusEnum;
 @Slf4j
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+    /**
+     * 共享订单数据
+     */
+    private final ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
     @Resource
     public SpuInfoClient spuInfoClient;
     @Resource
@@ -101,10 +99,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private String correlationId;
     @Resource
     private OrderItemService orderItemService;
-    /**
-     * 共享订单数据
-     */
-    private ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
     @Resource
     private ThreadPoolExecutor executor;
     @Resource
@@ -332,6 +326,58 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
     }
 
+    @Override
+    public PayVo getOrderPaymentInfo(String orderSn) {
+        log.info("订单号: {}", orderSn);
+        if (StringUtils.isBlank(orderSn)) {
+            return null;
+        }
+        //查询订单数据
+        var order = this.baseMapper.selectOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn));
+        if (Objects.isNull(order)) {
+            throw new BizException("订单【" + orderSn + "】信息不存在");
+        }
+        log.info("订单信息：{}", JSONUtil.toJsonStr(order));
+        BigDecimal payAmount = order.getPayAmount().setScale(2, RoundingMode.UP);
+
+        var pay = new PayVo();
+        pay.setOutTradeNo(order.getOrderSn());
+        pay.setTotalAmount(payAmount.toPlainString());
+
+        //查询子订单的数据
+        orderItemService.list(new QueryWrapper<OrderItem>().lambda()
+                .eq(OrderItem::getOrderSn, orderSn)
+        ).stream().findFirst().ifPresent(orderItem -> {
+            pay.setSubject(orderItem.getSpuName());
+            pay.setBody(orderItem.getSkuAttrsVals());
+        });
+
+        return pay;
+    }
+
+    @Override
+    public PageResult<OrderVo> getMemberOrderList(PageDomain page) {
+        PageResult<OrderVo> result = new PageResult<>();
+        result.startPage(page);
+
+        Member member = LoginInterceptor.getUserInfo();
+        log.info("用户信息：{}", JSONUtil.toJsonStr(member));
+        if (Objects.isNull(member)) {
+            log.warn("用户未登录!");
+            return null;
+        }
+        List<OrderVo> vos = list(new QueryWrapper<Order>().lambda()
+                .eq(Order::getMemberId, member.getId())
+                .orderByDesc(Order::getId)
+        ).stream().map(order -> {
+            List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().lambda().eq(OrderItem::getOrderSn, order.getOrderSn()));
+            return BeanUtil.INSTANCE.copy(order).setOrderItems(orderItems);
+        }).collect(Collectors.toList());
+        PageResult<OrderVo> resultPage = result.getPage(vos);
+        log.info("当前登录用的订单分页数据:{}", JSONUtil.toJsonPrettyStr(vos));
+        return resultPage;
+    }
+
     /**
      * 保存订单数据
      *
@@ -353,7 +399,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return 订单数据
      */
     private OrderCreateTo createOrder() {
-        OrderCreateTo createTo = new OrderCreateTo();
+        var createTo = new OrderCreateTo();
         // 所有订单项数据
         createTo.setOrder(buildOrder());
         createTo.setOrderItems(buildOrderItems(createTo.getOrder().getOrderSn()));

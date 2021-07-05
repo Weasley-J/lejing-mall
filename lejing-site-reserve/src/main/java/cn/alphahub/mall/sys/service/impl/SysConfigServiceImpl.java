@@ -49,11 +49,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     private PageResult<SysConfig> getPageResult(QueryWrapper<SysConfig> wrapper) {
         List<SysConfig> list = this.list(wrapper);
         PageInfo<SysConfig> pageInfo = new PageInfo<>(list);
-        PageResult<SysConfig> pageResult = PageResult.<SysConfig>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SysConfig>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
         return pageResult;
     }
 

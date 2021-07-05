@@ -1,8 +1,10 @@
 package cn.alphahub.mall.order.api;
 
 import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
+import cn.alphahub.mall.order.dto.vo.OrderVo;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,6 +26,14 @@ public interface OrderApi {
     @GetMapping(value = "/status")
     BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn);
 
+    /**
+     * 获取当前登录用的订单数据
+     *
+     * @param page 分页数据
+     * @return 当前登录用户的订单数据
+     */
+    @PostMapping("/member/order/list")
+    BaseResult<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page);
 
     /**
      * 查询订单列表

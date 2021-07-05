@@ -7,8 +7,7 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <name>lejing-auth</name>
@@ -20,9 +19,6 @@
         <module>lejing-auth-interface</module>
         <module>lejing-auth-common</module>
         <module>lejing-auth-service</module>
-        <!-- 测试模块 -->
-        <module>lejing-demo-sso-server</module>
-        <module>lejing-demo-sso-client</module>
     </modules>
 
 </project>

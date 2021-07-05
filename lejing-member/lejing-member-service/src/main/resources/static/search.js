@@ -294,8 +294,19 @@ api[9].list.push({
     desc: '批量删除撤销日志表',
 });
 api.push({
-    alias: 'dict',
+    alias: 'MemberWebController',
     order: '11',
+    link: '会员订单页controller',
+    desc: '会员订单页Controller',
+    list: []
+})
+api[10].list.push({
+    order: '1',
+    desc: '获取当前会员的所有订单列表数据',
+});
+api.push({
+    alias: 'dict',
+    order: '12',
     link: 'dict_list',
     desc: '数据字典',
     list: []

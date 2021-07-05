@@ -49,11 +49,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     private PageResult<SysDictType> getPageResult(QueryWrapper<SysDictType> wrapper) {
         List<SysDictType> list = this.list(wrapper);
         PageInfo<SysDictType> pageInfo = new PageInfo<>(list);
-        PageResult<SysDictType> pageResult = PageResult.<SysDictType>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SysDictType>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
         return pageResult;
     }
 

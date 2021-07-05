@@ -18,7 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *
  * @author liuwenjing
  */
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"cn.**.order.feign"})
 @SpringBootApplication
 @EnableRedisHttpSession
 @EnableDiscoveryClient

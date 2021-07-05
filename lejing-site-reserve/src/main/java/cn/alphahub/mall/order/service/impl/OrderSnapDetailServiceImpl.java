@@ -49,11 +49,11 @@ public class OrderSnapDetailServiceImpl extends ServiceImpl<OrderSnapDetailMappe
     private PageResult<OrderSnapDetail> getPageResult(QueryWrapper<OrderSnapDetail> wrapper) {
         List<OrderSnapDetail> list = this.list(wrapper);
         PageInfo<OrderSnapDetail> pageInfo = new PageInfo<>(list);
-        return PageResult.<OrderSnapDetail>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<OrderSnapDetail>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

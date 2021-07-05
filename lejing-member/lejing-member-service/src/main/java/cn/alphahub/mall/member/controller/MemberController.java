@@ -5,7 +5,7 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.enumeration.CheckUserExistsStatus;
+import cn.alphahub.common.enums.CheckUserExistsStatus;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.member.domain.Member;

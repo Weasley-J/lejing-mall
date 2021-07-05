@@ -2,8 +2,8 @@ package cn.alphahub.mall.auth.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.enumeration.CheckCodeOrigin;
-import cn.alphahub.common.enumeration.CheckCodeStatus;
+import cn.alphahub.common.enums.CheckCodeOrigin;
+import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;

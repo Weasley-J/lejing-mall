@@ -24,11 +24,11 @@
     <!-- 获取spu销售属性组合 -->
     <select id="getSaleAttrBySpuId" resultMap="skuItemSaleAttrVOMap">
         select pssav.attr_id,
-               pssav.attr_name,
-               pssav.attr_value,
-               group_concat(distinct replace(psi.sku_id, ' ', '')) as sku_ids
+        pssav.attr_name,
+        pssav.attr_value,
+        group_concat(distinct replace(psi.sku_id, ' ', '')) as sku_ids
         from pms_sku_info psi
-                     left join pms_sku_sale_attr_value pssav using (sku_id)
+        left join pms_sku_sale_attr_value pssav using (sku_id)
         where psi.spu_id = #{spuId}
         group by pssav.attr_id, pssav.attr_name, pssav.attr_value
     </select>

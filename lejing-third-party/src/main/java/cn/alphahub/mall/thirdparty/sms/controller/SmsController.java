@@ -1,6 +1,5 @@
 package cn.alphahub.mall.thirdparty.sms.controller;
 
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.thirdparty.sms.service.SmsService;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
@@ -23,7 +22,7 @@ import java.util.Date;
 @Slf4j
 @RestController
 @RequestMapping("/sms")
-public class SmsController extends BaseController {
+public class SmsController {
 
     @Resource
     private SmsService smsService;
@@ -42,7 +41,7 @@ public class SmsController extends BaseController {
             @RequestParam(value = "origin", defaultValue = "0") Integer origin
     ) {
         Boolean send = smsService.sendCheckCode(phone, origin);
-        return toOperationResult(send);
+        return BaseResult.ok(send);
     }
 
     /**

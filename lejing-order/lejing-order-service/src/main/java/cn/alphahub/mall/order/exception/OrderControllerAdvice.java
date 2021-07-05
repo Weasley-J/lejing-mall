@@ -1,8 +1,8 @@
 package cn.alphahub.mall.order.exception;
 
 import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.enums.BusinessCodeEnum;
 import cn.alphahub.common.exception.BizException;
-import cn.alphahub.common.exception.BusinessCodeEnum;
 import cn.alphahub.common.exception.NoStockException;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;

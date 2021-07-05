@@ -5,22 +5,69 @@
     <parent>
         <artifactId>lejing-order</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-order-service</artifactId>
-    <version>${lejing.latest.version}</version>
+    <packaging>jar</packaging>
+    <version>1.1.2-SNAPSHOT</version>
     <description>订单服务</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <java.version>11</java.version>
+        <!--
+        <alipay-sdk-java.version>4.13.50.ALL</alipay-sdk-java.version>
+        -->
+        <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
     </properties>
 
     <dependencies>
+        <!-- 订单feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-order-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-dependencies-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-dependencies-db</artifactId>
+        </dependency>
+        <!-- 会员服务feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 购物车feign远程接口 -->
+        <dependency>
+            <groupId>com.lejing.mall.cart</groupId>
+            <artifactId>lejing-cart-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 商品服务feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-product-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 库存服务feign远程接口 -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-ware-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!-- spring boot测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- 引入Logstash日志系统 -->
         <dependency>
             <groupId>net.logstash.logback</groupId>
@@ -56,27 +103,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
         <!-- RabbitMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
         </dependency>
         <!-- thymeleaf -->
         <dependency>
@@ -92,41 +122,6 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
-        <!-- 订单feign远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-order-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- 会员服务feign远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-member-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- 购物车feign远程接口 -->
-        <dependency>
-            <groupId>com.lejing.mall.cart</groupId>
-            <artifactId>lejing-cart-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- 商品服务feign远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-product-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- 库存服务feign远程接口 -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-ware-interface</artifactId>
-            <version>${lejing.latest.version}</version>
-            <scope>compile</scope>
         </dependency>
         <!-- 引入aop -->
         <dependency>
@@ -152,6 +147,12 @@
             <artifactId>kryo-serializers</artifactId>
         </dependency>
         <!-- end 引入分布式事务Seata -->
+        <!-- 支付宝支付SDK -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>${alipay-sdk-java.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -159,6 +160,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->

@@ -1,9 +1,11 @@
 package cn.alphahub.mall.order.convertor;
 
 import cn.alphahub.mall.order.domain.MqMessage;
+import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
 import cn.alphahub.mall.order.dto.response.MqMessageResp;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
+import cn.alphahub.mall.order.dto.vo.OrderVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -53,4 +55,12 @@ public interface BeanUtil {
             @Mapping(target = "status", source = "messageStatus")
     })
     MqMessageResp copy(MqMessage mqMessage);
+
+    /**
+     * order + orderItems -> OrderVo
+     *
+     * @param order 主订单
+     * @return 订单数据
+     */
+    OrderVo copy(Order order);
 }

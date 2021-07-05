@@ -3,6 +3,7 @@ package cn.alphahub.mall.site.service.impl;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.site.domain.SiteReserve;
+import cn.alphahub.mall.site.domain.SiteReserveSession;
 import cn.alphahub.mall.site.mapper.SiteReserveMapper;
 import cn.alphahub.mall.site.service.SiteReserveService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,11 +50,11 @@ public class SiteReserveServiceImpl extends ServiceImpl<SiteReserveMapper, SiteR
     private PageResult<SiteReserve> getPageResult(QueryWrapper<SiteReserve> wrapper) {
         List<SiteReserve> list = this.list(wrapper);
         PageInfo<SiteReserve> pageInfo = new PageInfo<>(list);
-        return PageResult.<SiteReserve>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SiteReserve>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

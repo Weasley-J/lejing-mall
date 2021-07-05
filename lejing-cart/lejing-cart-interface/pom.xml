@@ -5,13 +5,12 @@
     <parent>
         <artifactId>lejing-cart</artifactId>
         <groupId>com.lejing.mall.cart</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lejing-cart-interface</artifactId>
-    <version>${lejing.latest.version}</version>
+    <version>1.1.2-SNAPSHOT</version>
     <description>购物车模块 - feign远程调用接口</description>
 
     <properties>
@@ -20,29 +19,17 @@
     </properties>
 
     <dependencies>
-        <!-- common工程 -->
         <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-common</artifactId>
-            <exclusions>
-                <!-- 不需要查询db -->
-                <exclusion>
-                    <groupId>com.github.pagehelper</groupId>
-                    <artifactId>pagehelper-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-base-public</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-base-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-util</artifactId>
         </dependency>
     </dependencies>
 
@@ -54,7 +41,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>cn.alphahub.mall.cart.LejingCartApplication</mainClass>
+                    <mainClass>cn.alphahub.common.assist.CommonPackageAssist</mainClass>
                     <addResources>true</addResources>
                 </configuration>
                 <executions>
@@ -67,12 +54,6 @@
             </plugin>
         </plugins>
         <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>

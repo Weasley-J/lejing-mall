@@ -31,15 +31,16 @@ public class LoginInterceptor implements HandlerInterceptor {
      * 允许URI放行的白名单，不需要登录，ant match pattern
      */
     public static final Set<String> URI_WHITELIST_ANT_MATCH_PATTERN = new LinkedHashSet<>(20) {{
-        add("/order/order/status/**");
         add("/payed/notify");
+        add("/order/order/status/**");
         add("/order/mqmessage/grace/list");
     }};
-    private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+    private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
     /**
      * 保存用户信息的threadLocal变量
      */
-    public static ThreadLocal<Member> userInfoThreadLocal = new ThreadLocal<>();
+    public static ThreadLocal<Member> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
 
     /**
      * 从线程的局部变量中获取用户信息
@@ -47,7 +48,7 @@ public class LoginInterceptor implements HandlerInterceptor {
      * @return User对象
      */
     public static Member getUserInfo() {
-        return userInfoThreadLocal.get();
+        return USER_INFO_THREAD_LOCAL.get();
     }
 
     /**
@@ -58,7 +59,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 白名单放行
         String requestUri = request.getRequestURI();
         for (String uriPattern : URI_WHITELIST_ANT_MATCH_PATTERN) {
-            if (antPathMatcher.match(uriPattern, requestUri)) {
+            if (ANT_PATH_MATCHER.match(uriPattern, requestUri)) {
                 return true;
             }
         }
@@ -70,7 +71,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (Objects.nonNull(attribute) && (attribute instanceof Member)) {
             // 用户已登录
             Member member = (Member) attribute;
-            userInfoThreadLocal.set(member);
+            USER_INFO_THREAD_LOCAL.set(member);
             return true;
         } else {
             // 用户未登录，重定向到登录链接
@@ -99,6 +100,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         //标方法之执行完成后的清空线程的局部变量
-        userInfoThreadLocal.remove();
+        USER_INFO_THREAD_LOCAL.remove();
     }
 }

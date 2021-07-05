@@ -25,7 +25,6 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -123,21 +122,22 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
         }).collect(Collectors.toList());
 
         // 重新构造一个分页对象
-        return PageResult.<AttrRespVO>builder()
-                .totalCount(pageResult.getTotalCount())
-                .totalPage(pageResult.getTotalPage())
-                .items(respVos)
-                .build();
+        PageResult<AttrRespVO> result = new PageResult<>();
+        result.setTotalCount(pageResult.getTotalCount());
+        result.setTotalPage(pageResult.getTotalPage());
+        result.setItems(respVos);
+
+        return result;
     }
 
     private PageResult<Attr> getPageResult(Wrapper<Attr> wrapper) {
         List<Attr> list = this.list(wrapper);
         PageInfo<Attr> pageInfo = new PageInfo<>(list);
-        return PageResult.<Attr>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        PageResult<Attr> result = new PageResult<>();
+        result.setTotalCount(pageInfo.getTotal());
+        result.setTotalPage(pageInfo.getPages());
+        result.setItems(pageInfo.getList());
+        return result;
     }
 
     @Override
@@ -216,8 +216,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
             //设置分组信息
             //attrgroupRelation
             List<AttrAttrgroupRelation> relations = attrAttrgroupRelationMapper.selectList(wrapper.lambda().eq(AttrAttrgroupRelation::getAttrId, attrId));
-            if (CollectionUtils.isNotEmpty(relations)){
-                attrgroupRelation=relations.get(0);
+            if (CollectionUtils.isNotEmpty(relations)) {
+                attrgroupRelation = relations.get(0);
             }
         }
 

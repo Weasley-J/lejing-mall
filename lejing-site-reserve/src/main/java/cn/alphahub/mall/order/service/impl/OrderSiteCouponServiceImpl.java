@@ -49,11 +49,11 @@ public class OrderSiteCouponServiceImpl extends ServiceImpl<OrderSiteCouponMappe
     private PageResult<OrderSiteCoupon> getPageResult(QueryWrapper<OrderSiteCoupon> wrapper) {
         List<OrderSiteCoupon> list = this.list(wrapper);
         PageInfo<OrderSiteCoupon> pageInfo = new PageInfo<>(list);
-        return PageResult.<OrderSiteCoupon>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<OrderSiteCoupon>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

@@ -4,6 +4,7 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.AttrGroup;
+import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.mapper.AttrGroupMapper;
 import cn.alphahub.mall.product.service.AttrGroupService;
 import cn.alphahub.mall.product.service.AttrService;
@@ -91,11 +92,11 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
     private PageResult<AttrGroup> getAttrGroupPageResult(QueryWrapper<AttrGroup> wrapper) {
         List<AttrGroup> list = this.list(wrapper);
         PageInfo<AttrGroup> pageInfo = new PageInfo<>(list);
-        return PageResult.<AttrGroup>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        PageResult<AttrGroup> pageResult = new PageResult<>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
     /**

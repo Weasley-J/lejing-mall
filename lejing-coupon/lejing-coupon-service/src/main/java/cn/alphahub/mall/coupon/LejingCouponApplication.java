@@ -12,10 +12,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *
  * @author liuwenjing
  */
-@EnableAutoDataSourceProxy
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
+@EnableAutoDataSourceProxy
+@MapperScans(value = {@MapperScan(value = {"cn.**.coupon.dao", "cn.**.coupon.mapper"})})
 public class LejingCouponApplication {
 
     public static void main(String[] args) {

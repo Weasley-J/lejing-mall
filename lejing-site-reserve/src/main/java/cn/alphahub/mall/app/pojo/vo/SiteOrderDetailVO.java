@@ -1,7 +1,7 @@
 package cn.alphahub.mall.app.pojo.vo;
 
 
-import cn.alphahub.common.enumeration.CouponStatus;
+import cn.alphahub.common.enums.CouponStatus;
 import cn.alphahub.common.util.IdSerializer;
 import cn.alphahub.mall.app.pojo.bo.SiteDetailBO;
 import cn.alphahub.mall.app.pojo.bo.SiteReserveDateBO;

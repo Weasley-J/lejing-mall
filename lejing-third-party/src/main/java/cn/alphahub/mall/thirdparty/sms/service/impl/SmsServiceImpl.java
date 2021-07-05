@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.enumeration.CheckCodeOrigin;
+import cn.alphahub.common.enums.CheckCodeOrigin;
 import cn.alphahub.common.util.DateUtils;
 import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.thirdparty.config.SmsProperties;

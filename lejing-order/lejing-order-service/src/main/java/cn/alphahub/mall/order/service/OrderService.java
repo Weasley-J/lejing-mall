@@ -6,6 +6,8 @@ import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
+import cn.alphahub.mall.order.dto.vo.OrderVo;
+import cn.alphahub.mall.order.dto.vo.PayVo;
 import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -57,4 +59,23 @@ public interface OrderService extends IService<Order> {
      * @param order 订单数据
      */
     void closeOrder(Order order);
+
+    /**
+     * 获取当前订单的支付信息（构建支付数据）
+     *
+     * @param orderSn 订单号
+     * @return 支付宝数据
+     */
+    PayVo getOrderPaymentInfo(String orderSn);
+
+    /**
+     * 获取当前登录用的订单数据
+     * <ul>
+     *     <li>用户信息从拦截器里面取</li>
+     * </ul>
+     *
+     * @param page 分页数据
+     * @return 当前登录用户的订单数据
+     */
+    PageResult<OrderVo> getMemberOrderList(PageDomain page);
 }

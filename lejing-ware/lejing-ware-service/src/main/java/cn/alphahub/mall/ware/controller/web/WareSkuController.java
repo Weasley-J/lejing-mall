@@ -5,7 +5,7 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.exception.BusinessCodeEnum;
+import cn.alphahub.common.enums.BusinessCodeEnum;
 import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;

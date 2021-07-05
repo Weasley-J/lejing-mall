@@ -18,7 +18,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan(value = {"io.renren.**.dao", "cn.**.mapper"})
+@MapperScan(value = {"io.renren.**.dao"})
 public class LejingAdminApplication {
 
     public static void main(String[] args) {

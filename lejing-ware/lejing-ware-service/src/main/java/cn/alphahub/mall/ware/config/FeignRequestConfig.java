@@ -1,6 +1,7 @@
 package cn.alphahub.mall.ware.config;
 
 import com.google.common.net.HttpHeaders;
+import feign.Logger;
 import feign.RequestInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -45,5 +46,13 @@ public class FeignRequestConfig {
                 requestTemplate.header(HttpHeaders.COOKIE, originalHeader);
             }
         };
+    }
+
+    /**
+     * @return Log the headers, body, and metadata for both requests and responses.
+     */
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
     }
 }

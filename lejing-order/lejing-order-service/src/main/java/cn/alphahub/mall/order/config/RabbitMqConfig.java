@@ -3,7 +3,6 @@ package cn.alphahub.mall.order.config;
 import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.service.MqMessageService;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;

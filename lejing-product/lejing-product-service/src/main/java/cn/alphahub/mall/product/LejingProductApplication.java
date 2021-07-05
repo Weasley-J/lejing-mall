@@ -21,7 +21,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"cn.**.product.feign"})
-@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
+@MapperScans(value = {@MapperScan(value = {"cn.**.product.dao", "cn.**.product.mapper"})})
 public class LejingProductApplication {
     public static void main(String[] args) {
         SpringApplication.run(LejingProductApplication.class, args);

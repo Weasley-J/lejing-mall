@@ -6,8 +6,6 @@ import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.math.BigDecimal;
-
 /**
  * 仓库信息Service接口
  *
@@ -29,8 +27,8 @@ public interface WareInfoService extends IService<WareInfo> {
     /**
      * 查询仓库信息列表
      *
-     * @param wareInfo    仓库信息, 查询字段选择性传入, 默认为等值查询
-     * @param key         检索关键字
+     * @param wareInfo 仓库信息, 查询字段选择性传入, 默认为等值查询
+     * @param key      检索关键字
      * @return 仓库信息分页数据
      */
     PageResult<WareInfo> queryPage(PageDomain pageDomain, WareInfo wareInfo, String key);

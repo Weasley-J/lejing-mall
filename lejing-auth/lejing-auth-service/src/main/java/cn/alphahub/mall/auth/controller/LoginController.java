@@ -1,9 +1,8 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.enumeration.CheckCodeStatus;
+import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.service.AuthService;
@@ -31,7 +30,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Controller
-public class LoginController extends BaseController {
+public class LoginController {
     @Resource
     private AuthService authService;
 

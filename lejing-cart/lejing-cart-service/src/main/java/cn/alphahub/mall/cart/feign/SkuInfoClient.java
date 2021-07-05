@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @author liuwenjing
  * @date 2021年4月3日
  */
-@FeignClient(value = "lejing-product",contextId = "skuInfoClient")
+@FeignClient(value = "lejing-product", contextId = "skuInfoClient")
 public interface SkuInfoClient extends SkuInfoApi {
 
 }

@@ -5,7 +5,6 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.Purchase;
 import cn.alphahub.mall.ware.domain.PurchaseDetail;
-import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.mapper.PurchaseMapper;
 import cn.alphahub.mall.ware.service.PurchaseDetailService;
 import cn.alphahub.mall.ware.service.PurchaseService;

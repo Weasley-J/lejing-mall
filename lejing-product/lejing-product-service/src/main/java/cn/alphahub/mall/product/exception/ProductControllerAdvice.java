@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.exception;
 
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.exception.BusinessCodeEnum;
+import cn.alphahub.common.enums.BusinessCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;

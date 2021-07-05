@@ -1,7 +1,7 @@
 package cn.alphahub.mall.auth.entity;
 
-import cn.alphahub.common.util.IdSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class UserInfo implements Serializable {
     /**
      * 用户id
      */
-    @JsonSerialize(using = IdSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     /**

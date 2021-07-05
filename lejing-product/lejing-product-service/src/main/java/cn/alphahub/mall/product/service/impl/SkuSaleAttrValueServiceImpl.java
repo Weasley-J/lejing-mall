@@ -64,7 +64,7 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueMap
         List<SkuSaleAttrValue> values = this.list(wrapper.lambda().eq(SkuSaleAttrValue::getSkuId, skuId));
         if (CollectionUtils.isNotEmpty(values)) {
             return values.stream()
-                    .map(skuSaleAttrValue -> skuSaleAttrValue.getAttrName()+":"+skuSaleAttrValue.getAttrValue())
+                    .map(skuSaleAttrValue -> skuSaleAttrValue.getAttrName() + ":" + skuSaleAttrValue.getAttrValue())
                     .collect(Collectors.toList());
         }
         return Lists.newArrayList();

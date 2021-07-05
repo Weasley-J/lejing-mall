@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author liuwenjing
  */
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"cn.**.ware.feign"})
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableAutoDataSourceProxy
 @EnableTransactionManagement
-@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
+@MapperScans(value = {@MapperScan(value = {"cn.**.ware.dao", "cn.**.ware.mapper"})})
 public class LejingWareApplication {
 
     public static void main(String[] args) {

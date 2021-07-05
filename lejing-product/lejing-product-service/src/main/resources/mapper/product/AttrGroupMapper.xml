@@ -25,16 +25,16 @@
 
     <select id="listBySpuIdAndCatalogId" resultMap="spuItemAttrGroupVoMap">
         select ppav.spu_id,
-               pag.attr_group_name,
-               pag.attr_group_id,
-               paar.attr_id,
-               pa.attr_name,
-               ppav.attr_value
+        pag.attr_group_name,
+        pag.attr_group_id,
+        paar.attr_id,
+        pa.attr_name,
+        ppav.attr_value
         from pms_attr_group pag
-                     left join pms_attr_attrgroup_relation paar using (attr_group_id)
-                     left join pms_attr pa using (attr_id)
-                     left join pms_product_attr_value ppav using (attr_id)
+        left join pms_attr_attrgroup_relation paar using (attr_group_id)
+        left join pms_attr pa using (attr_id)
+        left join pms_product_attr_value ppav using (attr_id)
         where pag.catelog_id = #{catalogId}
-          and ppav.spu_id = #{spuId}
+        and ppav.spu_id = #{spuId}
     </select>
 </mapper>

@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
+        <version>2.5.2</version>
         <relativePath/>
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-mall</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>lejing-mall</name>
     <packaging>pom</packaging>
     <description>乐璟商城父工程</description>
@@ -31,6 +31,7 @@
         <module>lejing-sms</module>
         <module>lejing-third-party</module>
         <module>lejing-cart</module>
+        <module>lejing-seckill</module>
         <module>lejing-admin</module>
         <module>lejing-generator</module>
         <module>lejing-web-frontend</module>
@@ -38,21 +39,20 @@
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <lejing.latest.version>1.1.0-SNAPSHOT</lejing.latest.version>
-        <spring-boot.version>2.5.1</spring-boot.version>
-        <spring-boot-maven-plugin.version>${spring-boot.version}</spring-boot-maven-plugin.version>
+        <lejing.latest.version>${project.version}</lejing.latest.version>
+        <spring-boot.version>2.5.2</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
-        <!-- 将打包生成jar文件复制到指定目录，根绝自己的情况修改，注意Linux和Windows的路径的书写-->
-        <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
         <lombok.version>1.18.20</lombok.version>
         <mysql.version>8.0.25</mysql.version>
         <mybatis.starter.version>2.2.0</mybatis.starter.version>
         <mybatis.plus.version>3.4.3.1</mybatis.plus.version>
-        <mapper.starter.version>2.1.5</mapper.starter.version>
         <pageHelper.starter.version>1.3.1</pageHelper.starter.version>
+        <pagehelper.version>5.2.1</pagehelper.version>
         <druid.starter.version>1.2.6</druid.starter.version>
         <shiro.starter.version>1.7.1</shiro.starter.version>
         <fastjson.version>1.2.76</fastjson.version>
@@ -65,7 +65,7 @@
         <smart-doc.version>2.1.9</smart-doc.version>
         <hutool-all.version>5.7.0</hutool-all.version>
         <activation.version>1.1.1</activation.version>
-        <guava.version>30.1-jre</guava.version>
+        <guava.version>30.1.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.11.3</aliyun-sdk-oss.version>
         <aliyun.sdk.version>4.5.18</aliyun.sdk.version>
         <aliyun.java.sdk.dysmsapi>2.1.0</aliyun.java.sdk.dysmsapi>
@@ -85,10 +85,88 @@
         <kryo-serializers.version>0.45</kryo-serializers.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--  start 乐璟内部  -->
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-base-domain</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-base-public</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-util</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-dependencies-web</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-dependencies-db</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-auth-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-auth-common</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lejing.mall.cart</groupId>
+                <artifactId>lejing-cart-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-coupon-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-member-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-order-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-product-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.search</groupId>
+                <artifactId>lejing-search-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.seckill</groupId>
+                <artifactId>lejing-seckill-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-ware-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <!--  end 乐璟内部  -->
             <!-- spring cloud -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -122,17 +200,16 @@
                 <artifactId>mybatis-plus-core</artifactId>
                 <version>${mybatis.plus.version}</version>
             </dependency>
-            <!-- 通用Mapper启动器 -->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${mapper.starter.version}</version>
-            </dependency>
             <!-- 分页助手启动器 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pageHelper.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
             <!-- mysql驱动 -->
             <dependency>
@@ -232,12 +309,6 @@
                 <artifactId>servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
                 <scope>provided</scope>
-            </dependency>
-            <!-- 通用工程模块 -->
-            <dependency>
-                <groupId>cn.alphahub.mall</groupId>
-                <artifactId>lejing-common</artifactId>
-                <version>${lejing.latest.version}</version>
             </dependency>
             <!-- google-guava -->
             <dependency>
@@ -349,49 +420,20 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <target>${java.version}</target>
                         <source>${java.version}</source>
-                        <encoding>UTF-8</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
             <!--打包时跳过所有测试类-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -400,79 +442,7 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <!-- 避免font文件的二进制文件格式压缩破坏 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
-            </plugin>
-            <!--复制jar包到指定文件目录-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>${maven-antrun-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <!-- 在maven进行package的时候执行-->
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <!--jar包保存位置 -->
-                                <copy todir="${copy.dest.dir}">
-                                    <!-- antrun自动生成的配置文件的保存位置，这里默认是父项目的target文件夹 -->
-                                    <fileset dir="${project.build.directory}">
-                                        <include name="*.jar"/>
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- mvn clean时删除一些缓存文件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>auto-clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <configuration>
-                            <filesets>
-                                <!-- 可以配置多个<fileset></fileset>进行递归删除 -->
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*common.jar</includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*interface.jar</includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*exec.jar</includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+            <!-- sonar -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>

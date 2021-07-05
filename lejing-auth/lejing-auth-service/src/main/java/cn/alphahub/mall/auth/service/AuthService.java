@@ -1,6 +1,6 @@
 package cn.alphahub.mall.auth.service;
 
-import cn.alphahub.common.enumeration.CheckCodeStatus;
+import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
 import org.springframework.validation.BindingResult;

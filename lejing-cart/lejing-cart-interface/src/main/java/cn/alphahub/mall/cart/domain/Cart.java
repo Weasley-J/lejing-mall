@@ -1,11 +1,11 @@
 package cn.alphahub.mall.cart.domain;
 
 import cn.alphahub.mall.cart.vo.CartItemVo;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -59,7 +59,7 @@ public class Cart implements Serializable {
      * @return 整个购物车存放的商品信息
      */
     public Cart buildCartMetaData(Cart cart) {
-        if (CollectionUtils.isNotEmpty(cart.getItems())) {
+        if (!CollectionUtils.isEmpty(cart.getItems())) {
             cart.setCountNum(getCountNum());
             cart.setCountType(getCountType());
             cart.setTotalAmount(getTotalAmount());
@@ -69,7 +69,7 @@ public class Cart implements Serializable {
 
     public Integer getCountNum() {
         int count = 0;
-        if (CollectionUtils.isNotEmpty(items)) {
+        if (!CollectionUtils.isEmpty(items)) {
             for (CartItemVo item : items) {
                 count += item.getCount();
             }
@@ -79,7 +79,7 @@ public class Cart implements Serializable {
 
     public Integer getCountType() {
         int count = 0;
-        if (CollectionUtils.isNotEmpty(items)) {
+        if (!CollectionUtils.isEmpty(items)) {
             count = items.size();
         }
         return count;
@@ -88,7 +88,7 @@ public class Cart implements Serializable {
     public BigDecimal getTotalAmount() {
         BigDecimal amount = new BigDecimal("0");
         // 计算购物项总价
-        if (CollectionUtils.isNotEmpty(items)) {
+        if (!CollectionUtils.isEmpty(items)) {
             for (CartItemVo cartItem : items) {
                 if (cartItem.getCheck()) {
                     amount = amount.add(cartItem.getTotalPrice());

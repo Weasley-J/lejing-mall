@@ -2,7 +2,6 @@ package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

@@ -107,11 +107,11 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     private PageResult<Brand> getBrandPageResult(QueryWrapper<Brand> wrapper) {
         List<Brand> list = this.list(wrapper);
         PageInfo<Brand> pageInfo = new PageInfo<>(list);
-        return PageResult.<Brand>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        PageResult<Brand> pageResult = new PageResult<>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

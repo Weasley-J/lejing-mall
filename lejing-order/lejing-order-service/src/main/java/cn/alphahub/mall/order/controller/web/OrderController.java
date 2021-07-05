@@ -6,6 +6,7 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
+import cn.alphahub.mall.order.dto.vo.OrderVo;
 import cn.alphahub.mall.order.service.OrderService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,21 @@ public class OrderController extends BaseController {
         log.info("根据订单号查询订单状态,订单号:{}", orderSn);
         Order order = orderService.getOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn).last(" limit 1"));
         return BaseResult.ok(order);
+    }
+
+    /**
+     * 获取当前登录用的订单数据
+     * <ul>
+     *     <li>用户信息从拦截器里面取</li>
+     * </ul>
+     *
+     * @param page 分页数据
+     * @return 当前登录用户的订单数据
+     */
+    @PostMapping("/member/order/list")
+    public BaseResult<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page) {
+        PageResult<OrderVo> pageResult = orderService.getMemberOrderList(page);
+        return BaseResult.ok(pageResult);
     }
 
     /**

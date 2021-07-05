@@ -2,6 +2,7 @@ package cn.alphahub.mall.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -19,10 +20,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @author liuwenjing
  * @date 2021年3月17日
  */
-@EnableFeignClients
 @EnableDiscoveryClient
 @EnableRedisHttpSession
 @SpringBootApplication
+@EnableFeignClients(basePackages = {"cn.**.auth.feign"})
 public class LejingAuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(LejingAuthApplication.class, args);

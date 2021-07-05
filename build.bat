@@ -1,5 +1,5 @@
 @echo off & color 0A
 setlocal enabledelayedexpansion
-set name=打包springboot应用为可执行jar文件
-title %name%                 日期: %date%    时间: %time%
-cls && mvn clean && mvn package && mvn clean && exit
+set name=锟斤拷锟絪pringboot应锟斤拷为锟斤拷执锟斤拷jar锟侥硷拷
+title %name%                 锟斤拷锟斤拷: %date%    时锟斤拷: %time%
+cls && mvn clean && mvn package && exit

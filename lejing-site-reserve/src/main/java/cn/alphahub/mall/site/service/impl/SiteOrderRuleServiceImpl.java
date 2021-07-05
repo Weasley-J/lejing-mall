@@ -3,6 +3,7 @@ package cn.alphahub.mall.site.service.impl;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.site.domain.SiteOrderRule;
+import cn.alphahub.mall.site.domain.SiteReserveSession;
 import cn.alphahub.mall.site.mapper.SiteOrderRuleMapper;
 import cn.alphahub.mall.site.service.SiteOrderRuleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,11 +50,11 @@ public class SiteOrderRuleServiceImpl extends ServiceImpl<SiteOrderRuleMapper, S
     private PageResult<SiteOrderRule> getPageResult(QueryWrapper<SiteOrderRule> wrapper) {
         List<SiteOrderRule> list = this.list(wrapper);
         PageInfo<SiteOrderRule> pageInfo = new PageInfo<>(list);
-        return PageResult.<SiteOrderRule>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SiteOrderRule>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

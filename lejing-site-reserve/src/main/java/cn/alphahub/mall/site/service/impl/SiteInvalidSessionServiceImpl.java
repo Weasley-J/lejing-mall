@@ -3,6 +3,7 @@ package cn.alphahub.mall.site.service.impl;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.site.domain.SiteInvalidSession;
+import cn.alphahub.mall.site.domain.SiteReserveSession;
 import cn.alphahub.mall.site.mapper.SiteInvalidSessionMapper;
 import cn.alphahub.mall.site.service.SiteInvalidSessionService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,11 +50,11 @@ public class SiteInvalidSessionServiceImpl extends ServiceImpl<SiteInvalidSessio
     private PageResult<SiteInvalidSession> getPageResult(QueryWrapper<SiteInvalidSession> wrapper) {
         List<SiteInvalidSession> list = this.list(wrapper);
         PageInfo<SiteInvalidSession> pageInfo = new PageInfo<>(list);
-        return PageResult.<SiteInvalidSession>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage(pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
+        var pageResult = new PageResult<SiteInvalidSession>();
+        pageResult.setTotalCount(pageInfo.getTotal());
+        pageResult.setTotalPage(pageInfo.getPages());
+        pageResult.setItems(pageInfo.getList());
+        return pageResult;
     }
 
 }

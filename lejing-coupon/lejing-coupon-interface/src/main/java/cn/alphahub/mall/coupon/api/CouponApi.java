@@ -1,5 +1,6 @@
 package cn.alphahub.mall.coupon.api;
 
+
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.Coupon;
