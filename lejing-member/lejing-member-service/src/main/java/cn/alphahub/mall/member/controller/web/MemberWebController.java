@@ -38,9 +38,10 @@ public class MemberWebController {
                                   Model model,
                                   HttpServletRequest request
     ) {
-        PageDomain pageDomain = new PageDomain();
-        pageDomain.setPage(pageNum);
-        BaseResult<PageResult<OrderVo>> result = orderClient.getMemberOrderList(pageDomain);
+        var domain = new PageDomain();
+        domain.setPage(pageNum);
+        domain.setRows(100);
+        BaseResult<PageResult<OrderVo>> result = orderClient.getMemberOrderList(domain);
         log.info("当前登录用的订单数据:{}", JSONUtil.toJsonPrettyStr(result));
         model.addAttribute("orders", result);
         return "orderList";

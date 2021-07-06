@@ -79,7 +79,7 @@ public interface CartService {
      *
      * @param skuId 商品skuId
      */
-    void deleteIdCartInfo(Integer skuId);
+    void deleteIdCartInfo(Long skuId);
 
     /**
      * 查询购物项内容列表

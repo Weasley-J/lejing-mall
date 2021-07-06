@@ -17,10 +17,6 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <!--
-        <alipay-sdk-java.version>4.13.50.ALL</alipay-sdk-java.version>
-        -->
-        <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
     </properties>
 
     <dependencies>
@@ -151,7 +147,6 @@
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
-            <version>${alipay-sdk-java.version}</version>
         </dependency>
     </dependencies>
 

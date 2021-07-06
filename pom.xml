@@ -84,6 +84,7 @@
         <kryo-version>4.0.2</kryo-version>
         <kryo-serializers.version>0.45</kryo-serializers.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
@@ -415,6 +416,11 @@
                 <version>${mapstruct.version}</version>
             </dependency>
             <!--  end  mapstruct -->
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java</artifactId>
+                <version>${alipay-sdk-java.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

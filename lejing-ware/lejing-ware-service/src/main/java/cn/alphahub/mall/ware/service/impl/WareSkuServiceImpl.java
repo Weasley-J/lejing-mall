@@ -154,7 +154,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
 
     @Override
     public List<WareSkuVO> getSkuHasStock(List<Long> skuIds) {
-        List<WareSkuVO> vos = skuIds.stream().map(skuId -> {
+        return skuIds.stream().map(skuId -> {
             // 查当前sku可用库存总量: 每个仓库的总库存量 - 每个仓库锁定的总库存量
             Integer stock = baseMapper.getSkuStockBySkuId(skuId);
             return WareSkuVO.builder()
@@ -163,7 +163,6 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     .hasStock(ObjectUtils.isNotEmpty(stock) && stock > 0)
                     .build();
         }).collect(Collectors.toList());
-        return vos;
     }
 
     @Override

@@ -427,3 +427,83 @@ taskkill /f /t /im "yundetectservice.exe"
 ### 8.1.2 [新版`api`文档](https://opendocs.alipay.com/open/54/00y8k9)
 
 ![image-20210620223644859](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210620223644859.png)
+
+### 8.1.3  `nginx`配置支付宝支付成功异步POST回调
+
+```nginx
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+pid        logs/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    #解决"nginx could not build the server_names_hash"的方法
+    server_names_hash_bucket_size 64;
+
+    client_max_body_size 4G;
+
+
+	#乐璟商城
+    server {
+        listen       80;
+        
+        server_name  lejing.fgifast1.vipnps.vip;#内网穿透域名地址
+
+        proxy_ssl_verify off;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header cookie $http_cookie;
+        proxy_set_header Proxy-Connection "";
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+		# 接受支付宝支付成功异步回调
+        location /payed/ {
+		   proxy_set_header Host order.lejing.com;#把内网穿透过来的请求改为order.lejing.com;
+           proxy_pass http://order.lejing.com/payed/;#接受支付宝异步通知的POST接口
+        }
+		
+        location / {
+           proxy_pass http://localhost:88/api;
+        }
+
+        error_page  404              /404.html;
+
+        error_page   500 502 503 504  /50x.html;
+        
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
+

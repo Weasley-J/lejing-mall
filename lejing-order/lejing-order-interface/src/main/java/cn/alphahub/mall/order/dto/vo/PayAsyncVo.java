@@ -4,34 +4,31 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * 付款异步回调数据
  *
- * @author liuwenjing
+ * @author liuwe
  * @version 1.0
- * @date 2021/04/25
- **/
+ * @date 2021/07/06
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class PayAsyncVo implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    private String gmt_create;
-
+    private Date gmt_create;
     private String charset;
-
-    private String gmt_payment;
-
+    private Date gmt_payment;
     private Date notify_time;
-
     private String subject;
-
     private String sign;
     /**
      * 支付者的id
@@ -41,11 +38,7 @@ public class PayAsyncVo implements Serializable {
      * 订单的信息
      */
     private String body;
-    /**
-     * 支付金额
-     */
-    private String invoice_amount;
-
+    private BigDecimal invoice_amount;
     private String version;
     /**
      * 通知id
@@ -58,13 +51,13 @@ public class PayAsyncVo implements Serializable {
      */
     private String notify_type;
     /**
-     * 订单号
+     * 商户订单号
      */
     private String out_trade_no;
     /**
      * 支付的总额
      */
-    private String total_amount;
+    private BigDecimal total_amount;
     /**
      * 交易状态  TRADE_SUCCESS
      */
@@ -73,14 +66,12 @@ public class PayAsyncVo implements Serializable {
      * 流水号
      */
     private String trade_no;
-
     private String auth_app_id;
     /**
      * 商家收到的款
      */
-    private String receipt_amount;
-
-    private String point_amount;
+    private BigDecimal receipt_amount;
+    private BigDecimal point_amount;
     /**
      * 应用id
      */
@@ -88,7 +79,7 @@ public class PayAsyncVo implements Serializable {
     /**
      * 最终支付的金额
      */
-    private String buyer_pay_amount;
+    private BigDecimal buyer_pay_amount;
     /**
      * 签名类型
      */

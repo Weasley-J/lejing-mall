@@ -267,7 +267,7 @@ public class CartServiceImpl implements CartService {
      * @param skuId 商品skuId
      */
     @Override
-    public void deleteIdCartInfo(Integer skuId) {
+    public void deleteIdCartInfo(Long skuId) {
         BoundHashOperations<String, Object, Object> cartOps = getCartOps();
         cartOps.delete(String.valueOf(skuId));
     }

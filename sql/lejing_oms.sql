@@ -58,7 +58,7 @@ CREATE TABLE `oms_order`
     `discount_amount`         decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '后台调整订单使用的折扣金额',
     `pay_type`                tinyint                                                       NULL DEFAULT NULL COMMENT '支付方式【1->支付宝；2->微信；3->银联； 4->货到付款；】',
     `source_type`             tinyint                                                       NULL DEFAULT NULL COMMENT '订单来源[0->PC订单；1->app订单]',
-    `status`                  tinyint                                                       NULL DEFAULT NULL COMMENT '订单状态【0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单】',
+    `status`                  tinyint                                                       NULL DEFAULT NULL COMMENT '订单状态: 0 待付款, 1 已付款, 2 已发货, 3 已完成, 4 已取消, 5 售后中, 6 售后完成',
     `delivery_company`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '物流公司(配送方式)',
     `delivery_sn`             varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '物流单号',
     `auto_confirm_day`        int                                                           NULL DEFAULT NULL COMMENT '自动确认时间（天）',

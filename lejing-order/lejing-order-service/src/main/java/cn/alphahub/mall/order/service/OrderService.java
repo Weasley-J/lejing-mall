@@ -7,6 +7,7 @@ import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
 import cn.alphahub.mall.order.dto.vo.OrderSubmitVo;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
+import cn.alphahub.mall.order.dto.vo.PayAsyncVo;
 import cn.alphahub.mall.order.dto.vo.PayVo;
 import cn.alphahub.mall.order.dto.vo.SubmitOrderResponseVo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -78,4 +79,12 @@ public interface OrderService extends IService<Order> {
      * @return 当前登录用户的订单数据
      */
     PageResult<OrderVo> getMemberOrderList(PageDomain page);
+
+    /**
+     * 根据支付结果修改订单状态
+     *
+     * @param asyncVo 付款异步回调数据
+     * @return success
+     */
+    String handlePaidResult(PayAsyncVo asyncVo);
 }

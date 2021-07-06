@@ -7,7 +7,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -24,7 +24,6 @@ import java.time.format.DateTimeFormatter;
 @EqualsAndHashCode(callSuper = true)
 public class BaseResult<T> extends AbstractResult<T> implements Serializable {
     private static final long serialVersionUID = -7804054241710086L;
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 初始化一个新创建的 BaseResult 对象，使其表示一个空消息
@@ -118,7 +117,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
         result.setCode(code);
         result.setMessage(msg);
         result.setSuccess(success);
-        result.setTimestamp(FORMATTER.format(LocalDate.now()));
+        result.setTimestamp(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
         result.setData(data);
         return result;
     }

@@ -62,4 +62,4 @@ mybatis-plus:
 #运费配置
 lejing:
   fee:
-    postage: 0.01
+    postage: 12

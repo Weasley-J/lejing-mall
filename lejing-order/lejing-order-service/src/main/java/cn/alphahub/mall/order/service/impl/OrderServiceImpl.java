@@ -16,8 +16,10 @@ import cn.alphahub.mall.order.convertor.BeanUtil;
 import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
+import cn.alphahub.mall.order.domain.PaymentInfo;
 import cn.alphahub.mall.order.dto.to.OrderCreateTo;
 import cn.alphahub.mall.order.dto.vo.*;
+import cn.alphahub.mall.order.enums.TradeStatusEnum;
 import cn.alphahub.mall.order.feign.BrandClient;
 import cn.alphahub.mall.order.feign.CartClient;
 import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
@@ -30,6 +32,7 @@ import cn.alphahub.mall.order.mapper.OrderMapper;
 import cn.alphahub.mall.order.service.MqMessageService;
 import cn.alphahub.mall.order.service.OrderItemService;
 import cn.alphahub.mall.order.service.OrderService;
+import cn.alphahub.mall.order.service.PaymentInfoService;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.domain.SpuInfo;
@@ -117,6 +120,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private MemberReceiveAddressClient memberReceiveAddressClient;
     @Resource
     private MqMessageService mqMessageService;
+    @Resource
+    private PaymentInfoService paymentInfoService;
 
     /**
      * 查询订单分页列表
@@ -376,6 +381,48 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         PageResult<OrderVo> resultPage = result.getPage(vos);
         log.info("当前登录用的订单分页数据:{}", JSONUtil.toJsonPrettyStr(vos));
         return resultPage;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String handlePaidResult(PayAsyncVo asyncVo) {
+        log.info("根据支付结果修改订单状态:{}", JSONUtil.toJsonStr(asyncVo));
+        // 保存交易流水
+        var info = new PaymentInfo();
+        var createTime = new Date();
+
+        var order = this.getOne(new QueryWrapper<Order>().lambda()
+                .select(Order::getId)
+                .eq(Order::getOrderSn, asyncVo.getOut_trade_no())
+                .last(" LIMIT 1")
+        );
+        if (null != order) {
+            info.setOrderId(order.getId());
+        }
+        info.setOrderSn(asyncVo.getOut_trade_no());
+        info.setAlipayTradeNo(asyncVo.getTrade_no());
+        info.setTotalAmount(asyncVo.getTotal_amount());
+        info.setSubject(asyncVo.getSubject());
+        info.setPaymentStatus(asyncVo.getTrade_status());
+        info.setCreateTime(createTime);
+        info.setConfirmTime(createTime);
+        info.setCallbackContent(JSONUtil.toJsonStr(asyncVo));
+        info.setCallbackTime(asyncVo.getNotify_time());
+        paymentInfoService.save(info);
+
+        // 修改订单状态
+        if (TradeStatusEnum.TRADE_SUCCESS.getName().equals(asyncVo.getTrade_status())
+                || TradeStatusEnum.TRADE_FINISHED.getName().equals(asyncVo.getTrade_status())
+        ) {
+            order = new Order();
+            order.setOrderSn(asyncVo.getOut_trade_no());
+            order.setStatus(OrderStatusEnum.PAID.getValue());
+            log.info("支付成功修改订单状态：{}", JSONUtil.toJsonStr(order));
+            this.update(order, new QueryWrapper<Order>().lambda()
+                    .eq(Order::getOrderSn, asyncVo.getOut_trade_no())
+            );
+        }
+        return "success";
     }
 
     /**

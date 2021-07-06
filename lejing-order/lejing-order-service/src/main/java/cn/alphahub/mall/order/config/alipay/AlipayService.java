@@ -56,7 +56,7 @@ public class AlipayService {
         payRequest.setNotifyUrl(alipayProperties.getNotifyUrl());
 
         //3. 封装入参map
-        Map<String, Object> params = new LinkedHashMap<>(6);
+        Map<String, Object> params = new LinkedHashMap<>(20);
         params.put("out_trade_no", pay.getOutTradeNo());
         params.put("total_amount", pay.getTotalAmount());
         params.put("subject", pay.getSubject());
@@ -69,9 +69,10 @@ public class AlipayService {
         AlipayTradePagePayResponse payResponse = alipayClient.pageExecute(payRequest);
         String payResult = payResponse.getBody();
         //4. 收到支付宝的响应，响应的是一个页面，只要浏览器显示这个页面，就会自动来到支付宝的收银台页面
-        log.info("\n支付宝支付的响应:\n{}\n", payResult);
+        log.info("支付宝支付的响应:\n{}\n", payResult);
         return payResult;
     }
+
 
     /**
      * 支付宝支付配置参数
@@ -118,6 +119,9 @@ public class AlipayService {
         private String charset = "UTF-8";
         /**
          * 订单超时时间，如：1m
+         * <ul>
+         *     <li>用于支付宝自动收单</li>
+         * </ul>
          */
         private String timeout = "1m";
     }

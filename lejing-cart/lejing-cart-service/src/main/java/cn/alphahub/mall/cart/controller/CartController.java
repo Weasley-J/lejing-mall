@@ -130,7 +130,7 @@ public class CartController {
      * @return redirect url
      */
     @GetMapping(value = "/deleteItem")
-    public String deleteItem(@RequestParam("skuId") Integer skuId) {
+    public String deleteItem(@RequestParam("skuId") Long skuId) {
         cartService.deleteIdCartInfo(skuId);
         return "redirect:" + LEJING_CART_HTML;
     }
