@@ -410,7 +410,7 @@ taskkill /f /t /im "yundetectservice.exe"
 
 ![image-20210623234349087](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210623234349087.png)
 
-笔者亲生经历，土鳖公司当查询参数过多的时候就用POST，实在是很不习惯。所有就这个全局配置，当然不止这2种方式，有兴趣自行探索。
+笔者亲身经历，土鳖公司当查询参数过多的时候就用POST，实在是很不习惯。所有就这个全局配置，当然不止这2种方式，有兴趣自行探索。
 
 
 
