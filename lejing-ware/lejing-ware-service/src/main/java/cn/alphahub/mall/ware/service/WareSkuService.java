@@ -2,6 +2,7 @@ package cn.alphahub.mall.ware.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.mq.StockDetailTo;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
@@ -51,6 +52,13 @@ public interface WareSkuService extends IService<WareSku> {
     void unlockStock(Order order);
 
     /**
+     * 处理是否能解锁库存
+     *
+     * @param stockDetail 库存工作单的锁定数据，锁定状态： 1 已锁定，2 已解锁， 3 已扣减
+     */
+    void handleWhetherCanUnlockStock(StockDetailTo stockDetail);
+
+    /**
      * 更新库存信息
      *
      * @param skuId  产品skuId
@@ -86,4 +94,15 @@ public interface WareSkuService extends IService<WareSku> {
      */
     LockStockResultTo orderLockStock(WareSkuLockVo skuLockVo);
 
+    /**
+     * 真实的减库存, 锁定多少， 库存量减多少，修改库存工作单的状态为：3 已扣减
+     * <ul>
+     *     <b>主要做两件事</b>
+     *     <li>减少sku的库存量</li>
+     *     <li>修改库存工作单的状态为: 3 已扣减</li>
+     * </ul>
+     *
+     * @param detail MQ库存数据对象
+     */
+    void reduceStock(StockDetailTo detail);
 }

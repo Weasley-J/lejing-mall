@@ -63,4 +63,14 @@ public interface WareSkuMapper extends BaseMapper<WareSku> {
      */
     @Update({"update wms_ware_sku set stock_locked = stock_locked - #{num} where sku_id = #{skuId} and ware_id = #{wareId} "})
     Integer unlockStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("num") Integer num);
+
+    /**
+     * 扣减库存，释放锁定库存量
+     *
+     * @param skuId  sku id
+     * @param wareId 仓库id
+     * @param skuNum 扣减的商品数量
+     * @return update rows
+     */
+    Integer reduceStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("skuNum") Integer skuNum);
 }

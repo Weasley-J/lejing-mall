@@ -3,10 +3,12 @@ package cn.alphahub.mall.ware.service.impl;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.mq.StockDetailTo;
 import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.common.util.JsonUtil;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.product.domain.SkuInfo;
@@ -116,6 +118,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
         }
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void handleWhetherCanUnlockStock(StockDetailTo stockDetail) {
+        log.info("处理是否能解锁库存: {}", JsonUtil.toJsonStr(stockDetail));
+        if (Objects.isNull(stockDetail)) {
+            return;
+        }
+        if (Objects.equals(stockDetail.getLockStatus(), 1)) {
+            this.unlockStock(stockDetail.getSkuId(), stockDetail.getWareId(), stockDetail.getId(), stockDetail.getSkuNum());
+        }
+    }
+
     /**
      * 更新库存信息
      *
@@ -141,8 +155,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     .build();
             try {
                 BaseResult<SkuInfo> baseResult = skuInfoClient.info(skuId);
-                if (baseResult.getSuccess()) {
-                    SkuInfo skuInfo = baseResult.getData();
+                if (baseResult.getSuccess().equals(Boolean.TRUE)) {
+                    var skuInfo = baseResult.getData();
                     entity.setSkuName(skuInfo.getSkuName());
                 }
             } catch (Exception e) {
@@ -252,6 +266,30 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
 
         // 能运行到这里锁定库存成功
         return lockStockResult;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void reduceStock(StockDetailTo detail) {
+        log.info("真实扣减库存,修改库存工作单状态为已扣减:{}", JSONUtil.toJsonStr(detail));
+        var wareOrderTaskDetail = wareOrderTaskDetailService.getOne(new QueryWrapper<WareOrderTaskDetail>().lambda()
+                .eq(WareOrderTaskDetail::getSkuId, detail.getSkuId())
+                .eq(WareOrderTaskDetail::getTaskId, detail.getTaskId())
+                .eq(WareOrderTaskDetail::getWareId, detail.getWareId())
+                .eq(WareOrderTaskDetail::getLockStatus, detail.getLockStatus())
+                .last(" LIMIT 1")
+        );
+        if (Objects.isNull(wareOrderTaskDetail)) {
+            throw new BizException("库存工作单不存在!");
+        }
+        // 扣减库存
+        this.baseMapper.reduceStock(wareOrderTaskDetail.getSkuId(), wareOrderTaskDetail.getWareId(), wareOrderTaskDetail.getSkuNum());
+
+        // 修改状态
+        var newWareOrderTaskDetail = new WareOrderTaskDetail();
+        newWareOrderTaskDetail.setId(wareOrderTaskDetail.getId());
+        newWareOrderTaskDetail.setLockStatus(3);
+        wareOrderTaskDetailService.updateById(newWareOrderTaskDetail);
     }
 
     /**

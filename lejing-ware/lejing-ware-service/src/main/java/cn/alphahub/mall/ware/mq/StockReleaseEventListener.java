@@ -7,8 +7,6 @@ import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.util.JsonUtil;
 import cn.alphahub.mall.order.constant.OrderConstant;
 import cn.alphahub.mall.order.domain.Order;
-import cn.alphahub.mall.ware.domain.WareOrderTask;
-import cn.alphahub.mall.ware.domain.WareOrderTaskDetail;
 import cn.alphahub.mall.ware.feign.OrderClient;
 import cn.alphahub.mall.ware.service.WareOrderTaskDetailService;
 import cn.alphahub.mall.ware.service.WareOrderTaskService;
@@ -71,12 +69,13 @@ public class StockReleaseEventListener {
     ) {
         log.info("处理解锁库存事件，correlationId：{}, 载荷：{}, message：{}", correlationId, JsonUtil.toJsonStr(stockLocked), new String(message.getBody()));
         try {
-            StockDetailTo detail = stockLocked.getDetailTo();
+            var detail = stockLocked.getDetailTo();
             if (ObjectUtils.isEmpty(detail)) {
+                channel.basicAck(deliveryTag, false);
                 return;
             }
             // 查询“库存工作单”是否存在，如果库存工作单不存在无需解锁库存
-            WareOrderTaskDetail wareOrderTaskDetail = wareOrderTaskDetailService.getById(detail.getId());
+            var wareOrderTaskDetail = wareOrderTaskDetailService.getById(detail.getId());
             if (ObjectUtils.isEmpty(wareOrderTaskDetail)) {
                 return;
             }
@@ -85,22 +84,28 @@ public class StockReleaseEventListener {
              *     (1). 订单数据不存在,必须解锁;
              *     (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
              */
-            WareOrderTask wareOrderTask = wareOrderTaskService.getById(stockLocked.getId());
+            var wareOrderTask = wareOrderTaskService.getById(stockLocked.getId());
             BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
             log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
-            if (orderStatus.getSuccess()) {
-                Order order = orderStatus.getData();
-                // 签收确认消息：订单不存在，订单已取消，订单已付款
-                if (null == order
-                        || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())
-                        || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.PAID.getValue())
-                ) {
+            if (Boolean.TRUE.equals(orderStatus.getSuccess())) {
+                var order = orderStatus.getData();
+                // 签收确认消息：订单不存在，订单已取消
+                if (Objects.isNull(order)) {
                     // 1 = 已锁定 -> 才能解锁释放库存
-                    if (Objects.equals(detail.getLockStatus(), 1)) {
-                        log.info("解锁释放库存: {}", JsonUtil.toJsonStr(detail));
-                        wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getId(), detail.getSkuNum());
-                    }
+                    wareSkuService.handleWhetherCanUnlockStock(detail);
                     channel.basicAck(deliveryTag, false);
+                }
+                if (Objects.nonNull(order)) {
+                    // 订单已取消
+                    if (Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
+                        wareSkuService.handleWhetherCanUnlockStock(detail);
+                        channel.basicAck(deliveryTag, false);
+                    }
+                    // 订单已付款: 真实扣减库存, 锁定多少， 库存量减多少，修改库存工作单的状态为：3 已扣减
+                    if (Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.PAID.getValue())) {
+                        wareSkuService.reduceStock(detail);
+                        channel.basicAck(deliveryTag, false);
+                    }
                 }
             } else {
                 throw new BizException("查询订单[" + wareOrderTask.getOrderSn() + "]状态失败");
@@ -148,5 +153,4 @@ public class StockReleaseEventListener {
             }
         }
     }
-
 }
