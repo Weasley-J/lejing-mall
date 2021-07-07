@@ -34,6 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         add("/payed/notify");
         add("/order/order/status/**");
         add("/order/mqmessage/grace/list");
+        add("/order/public/**");
     }};
 
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();

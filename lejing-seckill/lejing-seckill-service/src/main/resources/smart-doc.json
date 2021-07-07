@@ -8,7 +8,7 @@
   "packageFilters": "cn.alphahub.mall.ware.controller",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
-  "projectName": "ware-service后端接口文档",
+  "projectName": "seckill-service后端接口文档",
   "skipTransientField": true,
   "sortByTitle": false,
   "showAuthor": true,

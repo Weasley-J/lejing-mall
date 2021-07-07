@@ -435,8 +435,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         Order order = to.getOrder();
         order.setCreateTime(now);
         order.setModifyTime(now);
-        save(order);
+        this.save(order);
         List<OrderItem> orderItems = to.getOrderItems();
+        orderItems.forEach(orderItem -> orderItem.setOrderId(order.getId()));
         orderItemService.saveBatch(orderItems);
     }
 

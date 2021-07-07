@@ -87,6 +87,7 @@
         <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <easyexcel.version>2.2.10</easyexcel.version>
     </properties>
 
     <dependencyManagement>
@@ -420,6 +421,12 @@
                 <groupId>com.alipay.sdk</groupId>
                 <artifactId>alipay-sdk-java</artifactId>
                 <version>${alipay-sdk-java.version}</version>
+            </dependency>
+            <!-- alibaba easyexcel -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -90,11 +90,14 @@ public class StockReleaseEventListener {
             log.info("远程根据订单号查询订单状态:{}", JsonUtil.toJsonStr(orderStatus));
             if (orderStatus.getSuccess()) {
                 Order order = orderStatus.getData();
-                // 订单已取消
-                if (null == order || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())) {
+                // 签收确认消息：订单不存在，订单已取消，订单已付款
+                if (null == order
+                        || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.CANCELLED.getValue())
+                        || Objects.equals(order.getStatus(), OrderConstant.OrderStatusEnum.PAID.getValue())
+                ) {
                     // 1 = 已锁定 -> 才能解锁释放库存
                     if (Objects.equals(detail.getLockStatus(), 1)) {
-                        log.info("订单已取消，解锁库存: {}", JsonUtil.toJsonStr(detail));
+                        log.info("解锁释放库存: {}", JsonUtil.toJsonStr(detail));
                         wareSkuService.unlockStock(detail.getSkuId(), detail.getWareId(), detail.getId(), detail.getSkuNum());
                     }
                     channel.basicAck(deliveryTag, false);
