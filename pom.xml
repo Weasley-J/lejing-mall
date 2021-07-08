@@ -75,8 +75,7 @@
         <redisson.version>3.15.6</redisson.version>
         <elasticsearch.version>7.13.2</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
-        <easypoi.starter.version>4.3.0</easypoi.starter.version>
-        <easypoi-web.version>4.3.0</easypoi-web.version>
+        <easypoi.starter.version>4.4.0</easypoi.starter.version>
         <joda-time.version>2.10.10</joda-time.version>
         <jjwt.version>0.9.1</jjwt.version>
         <seata.starter.version>1.4.2</seata.starter.version>
@@ -365,11 +364,6 @@
                 <groupId>cn.afterturn</groupId>
                 <artifactId>easypoi-spring-boot-starter</artifactId>
                 <version>${easypoi.starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.afterturn</groupId>
-                <artifactId>easypoi-web</artifactId>
-                <version>${easypoi-web.version}</version>
             </dependency>
             <!-- jjwt -->
             <dependency>

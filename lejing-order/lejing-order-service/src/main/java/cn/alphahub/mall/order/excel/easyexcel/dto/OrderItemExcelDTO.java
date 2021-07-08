@@ -2,7 +2,10 @@ package cn.alphahub.mall.order.excel.easyexcel.dto;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -15,6 +18,8 @@ import java.util.Date;
  * @date 2021年7月8日
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItemExcelDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
