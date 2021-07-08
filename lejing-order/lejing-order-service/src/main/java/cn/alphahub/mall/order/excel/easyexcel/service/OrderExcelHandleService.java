@@ -77,6 +77,6 @@ public class OrderExcelHandleService implements EasyExcelReadEvent<OrderItemExce
     @Override
     public void read(List<OrderItemExcelDTO> items) {
         //读取excel文件后的逻辑
-        items.forEach(orderItemExcelDTO -> System.out.println("读取到数据:" + JsonUtil.toJsonStr(orderItemExcelDTO)));
+        items.forEach(orderItemExcelDTO -> log.info("读取到数据:{}", JsonUtil.toJsonStr(orderItemExcelDTO)));
     }
 }
