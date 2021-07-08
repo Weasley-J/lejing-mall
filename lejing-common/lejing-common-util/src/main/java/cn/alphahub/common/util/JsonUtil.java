@@ -18,20 +18,21 @@ import java.util.Map;
 @Slf4j
 public class JsonUtil {
 
-    public static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final String ERROR_MSG = "json序列化出错";
 
     @Nullable
-    public static String toJsonStr(Object obj) {
-        if (obj == null) {
+    public static String toJsonStr(Object data) {
+        if (data == null) {
             return null;
         }
-        if (obj.getClass() == String.class) {
-            return (String) obj;
+        if (data.getClass() == String.class) {
+            return (String) data;
         }
         try {
-            return MAPPER.writeValueAsString(obj);
+            return MAPPER.writeValueAsString(data);
         } catch (JsonProcessingException e) {
-            log.error("json序列化出错:{}", obj, e);
+            log.error(ERROR_MSG + ":{}", data, e);
             return null;
         }
     }
@@ -41,7 +42,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, tClass);
         } catch (IOException e) {
-            log.error("json解析出错:{}", json, e);
+            log.error(ERROR_MSG + ":{}", json, e);
             return null;
         }
     }
@@ -51,7 +52,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructCollectionType(List.class, eClass));
         } catch (IOException e) {
-            log.error("json解析出错:{}", json, e);
+            log.error(ERROR_MSG + ":{}", json, e);
             return null;
         }
     }
@@ -61,7 +62,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructMapType(Map.class, kClass, vClass));
         } catch (IOException e) {
-            log.error("json解析出错:{}", json, e);
+            log.error(ERROR_MSG + ":{}", json, e);
             return null;
         }
     }
@@ -71,8 +72,12 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, type);
         } catch (IOException e) {
-            log.error("json解析出错:{}", json, e);
+            log.error(ERROR_MSG + ":{}", json, e);
             return null;
         }
+    }
+
+    public static void printJsonStr(Object data) {
+        System.err.println(toJsonStr(data));
     }
 }
