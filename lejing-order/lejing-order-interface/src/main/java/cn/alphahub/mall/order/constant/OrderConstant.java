@@ -78,4 +78,37 @@ public class OrderConstant {
          */
         private final Integer value;
     }
+
+    /**
+     * 支付方式枚举常量
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum PayTypeEnum {
+        /**
+         * 1 支付宝支付
+         */
+        ALIPAY(1, "支付宝支付"),
+        /**
+         * 2 微信支付
+         */
+        WECHAT_PAY(2, "微信支付"),
+        /**
+         * 3 银联支付
+         */
+        UNION_PAY(3, "银联支付"),
+        /**
+         * 4 货到付款
+         */
+        CASH_ON_DELIVERY(4, "货到付款");
+
+        /**
+         * 枚举值
+         */
+        private final Integer value;
+        /**
+         * 枚举名称
+         */
+        private final String name;
+    }
 }

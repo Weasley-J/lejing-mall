@@ -3,10 +3,13 @@ package cn.alphahub.mall.order.convertor;
 import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderItem;
+import cn.alphahub.mall.order.domain.PaymentInfo;
 import cn.alphahub.mall.order.dto.response.MqMessageResp;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
 import cn.alphahub.mall.order.excel.easyexcel.dto.OrderItemExcelDTO;
+import cn.alphahub.mall.order.excel.easypoi.dto.OrderEasyPoiDTO;
+import cn.alphahub.mall.order.excel.easypoi.dto.PaymentInfoEasyPoiDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -77,4 +80,20 @@ public interface BeanUtil {
             @Mapping(target = "orderId", expression = "java(orderItem.getOrderId().toString())")
     })
     OrderItemExcelDTO copyToExcelDto(OrderItem orderItem);
+
+    /**
+     * Order -> OrderEasyPoiDTO
+     *
+     * @param order 订单
+     * @return OrderEasyPoiDTO
+     */
+    OrderEasyPoiDTO copyToOrderEasyPoiDTO(Order order);
+
+    /**
+     * PaymentInfo -> PaymentInfoEasyPoiDTO
+     *
+     * @param paymentInfo 支付信息表
+     * @return PaymentInfoEasyPoiDTO
+     */
+    PaymentInfoEasyPoiDTO copyToPaymentInfoEasyPoiDTO(PaymentInfo paymentInfo);
 }

@@ -52,7 +52,7 @@ CREATE TABLE `oms_order`
     `total_amount`            decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '订单总额',
     `pay_amount`              decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '应付总额',
     `freight_amount`          decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '运费金额',
-    `promotion_amount`        decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '促销优化金额（促销价、满减、阶梯价）',
+    `promotion_amount`        decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '促销优惠金额（促销价、满减、阶梯价）',
     `integration_amount`      decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '积分抵扣金额',
     `coupon_amount`           decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '优惠券抵扣金额',
     `discount_amount`         decimal(18, 4)                                                NULL DEFAULT NULL COMMENT '后台调整订单使用的折扣金额',

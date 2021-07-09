@@ -389,7 +389,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         log.info("根据支付结果修改订单状态:{}", JSONUtil.toJsonStr(asyncVo));
         // 保存交易流水
         var info = new PaymentInfo();
-        var createTime = new Date();
+        Date now = new Date();
+        var createTime = now;
 
         var order = this.getOne(new QueryWrapper<Order>().lambda()
                 .select(Order::getId)
@@ -417,6 +418,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             order = new Order();
             order.setOrderSn(asyncVo.getOut_trade_no());
             order.setStatus(OrderStatusEnum.PAID.getValue());
+            order.setPaymentTime(asyncVo.getGmt_payment());
+            order.setPayType(OrderConstant.PayTypeEnum.ALIPAY.getValue());
+            order.setConfirmStatus(0);
+            order.setModifyTime(now);
             log.info("支付成功修改订单状态：{}", JSONUtil.toJsonStr(order));
             this.update(order, new QueryWrapper<Order>().lambda()
                     .eq(Order::getOrderSn, asyncVo.getOut_trade_no())
