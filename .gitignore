@@ -44,4 +44,3 @@ build/
 !**/src/main/resources/application-lwj.yml
 !**/src/main/resources/product_mapping.json
 /resources/seata/seata-server-1.4.2/logs
-/lejing-auth/lejing-auth-service/src/main/resources/application-lwj.yml
