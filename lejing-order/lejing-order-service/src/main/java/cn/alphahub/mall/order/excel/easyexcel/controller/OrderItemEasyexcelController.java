@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @RestController
 @RequestMapping("/order/public/easyexcel")
-public class OrderItemExcelWebController {
+public class OrderItemEasyexcelController {
     @Resource
     private OrderExcelHandleService orderExcelHandleService;
 

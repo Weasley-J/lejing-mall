@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/order/public/easypoi")
-public class OrderEasyPoiExportController {
+public class OrderEasypoiController {
     @Resource
     private OrderService orderService;
 
