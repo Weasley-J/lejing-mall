@@ -82,18 +82,18 @@ public interface BeanUtil {
     OrderItemExcelDTO copyToExcelDto(OrderItem orderItem);
 
     /**
-     * Order -> OrderEasyPoiDTO
+     * Order -> OrderExcelDTO
      *
      * @param order 订单
-     * @return OrderEasyPoiDTO
+     * @return OrderExcelDTO
      */
     OrderExcelDTO copyToOrderEasyPoiDTO(Order order);
 
     /**
-     * PaymentInfo -> PaymentInfoEasyPoiDTO
+     * PaymentInfo -> PaymentInfoExcelDTO
      *
      * @param paymentInfo 支付信息表
-     * @return PaymentInfoEasyPoiDTO
+     * @return PaymentInfoExcelDTO
      */
     PaymentInfoExcelDTO copyToPaymentInfoEasyPoiDTO(PaymentInfo paymentInfo);
 }
