@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.order.convertor.BeanUtil;
-import cn.alphahub.mall.order.excel.easypoi.dto.OrderEasyPoiDTO;
+import cn.alphahub.mall.order.excel.easypoi.dto.OrderExcelDTO;
 import cn.alphahub.mall.order.service.OrderService;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +50,10 @@ public class OrderEasyPoExportController {
         response.setHeader("content-Type", "application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename.trim(), StandardCharsets.UTF_8));
 
-        List<OrderEasyPoiDTO> list = orderService.list().stream().map(BeanUtil.INSTANCE::copyToOrderEasyPoiDTO).collect(Collectors.toList());
+        List<OrderExcelDTO> list = orderService.list().stream().map(BeanUtil.INSTANCE::copyToOrderEasyPoiDTO).collect(Collectors.toList());
 
         try (ServletOutputStream outputStream = response.getOutputStream()) {
-            var workbook = ExcelExportUtil.exportExcel(new ExportParams("主订单数据", "订单"), OrderEasyPoiDTO.class, list);
+            var workbook = ExcelExportUtil.exportExcel(new ExportParams("主订单数据", "订单"), OrderExcelDTO.class, list);
             workbook.write(outputStream);
         } catch (IOException e) {
             log.error("{}", e.getLocalizedMessage(), e);

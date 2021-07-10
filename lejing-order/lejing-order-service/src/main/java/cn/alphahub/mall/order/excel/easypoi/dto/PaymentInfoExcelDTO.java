@@ -20,7 +20,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentInfoEasyPoiDTO implements Serializable {
+public class PaymentInfoExcelDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

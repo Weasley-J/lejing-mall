@@ -21,7 +21,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderEasyPoiDTO implements Serializable {
+public class OrderExcelDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
