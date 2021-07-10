@@ -7,9 +7,9 @@ import cn.alphahub.mall.order.domain.PaymentInfo;
 import cn.alphahub.mall.order.dto.response.MqMessageResp;
 import cn.alphahub.mall.order.dto.vo.OrderItemVo;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
+//import cn.alphahub.mall.order.excel.easyexcel.dto.OrderItemExcelDTO;
 import cn.alphahub.mall.order.excel.easyexcel.dto.OrderItemExcelDTO;
 import cn.alphahub.mall.order.excel.easypoi.dto.OrderExcelDTO;
-import cn.alphahub.mall.order.excel.easypoi.dto.PaymentInfoExcelDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -88,12 +88,4 @@ public interface BeanUtil {
      * @return OrderExcelDTO
      */
     OrderExcelDTO copyToOrderEasyPoiDTO(Order order);
-
-    /**
-     * PaymentInfo -> PaymentInfoExcelDTO
-     *
-     * @param paymentInfo 支付信息表
-     * @return PaymentInfoExcelDTO
-     */
-    PaymentInfoExcelDTO copyToPaymentInfoEasyPoiDTO(PaymentInfo paymentInfo);
 }
