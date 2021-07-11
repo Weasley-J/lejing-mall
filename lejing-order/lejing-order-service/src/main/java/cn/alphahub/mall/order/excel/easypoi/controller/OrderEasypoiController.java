@@ -50,7 +50,7 @@ public class OrderEasypoiController {
     public BaseResult<Void> downloadOrder(HttpServletRequest request, HttpServletResponse response) {
         String filename = "主订单-" + LocalDateTimeUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss") + ".xlsx";
         List<OrderExcelDTO> list = orderService.list().stream().map(order -> {
-            var orderExcelDTO = BeanUtil.INSTANCE.copyToOrderEasyPoiDTO(order);
+            var orderExcelDTO = BeanUtil.INSTANCE.copyToOrderExcelDTO(order);
             orderExcelDTO.setDiscountRate(new BigDecimal("0.0116"));
             return orderExcelDTO;
         }).collect(Collectors.toList());

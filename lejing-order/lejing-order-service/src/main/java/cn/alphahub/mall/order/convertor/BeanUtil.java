@@ -87,5 +87,5 @@ public interface BeanUtil {
      * @param order 订单
      * @return OrderExcelDTO
      */
-    OrderExcelDTO copyToOrderEasyPoiDTO(Order order);
+    OrderExcelDTO copyToOrderExcelDTO(Order order);
 }
