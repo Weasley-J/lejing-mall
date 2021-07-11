@@ -19,11 +19,11 @@ spring:
           uri: https://im.qq.com
           predicates:
             - Query=url,qq
-        #商品服务路由
-        - id: product_route
-          uri: lb://lejing-product
+        #优惠券服务路由
+        - id: coupon_route
+          uri: lb://lejing-coupon
           predicates:
-            - Path=/api/product/**,/hello
+            - Path=/api/coupon/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
         #会员服务路由
@@ -33,7 +33,42 @@ spring:
             - Path=/api/member/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
-        #场地预约服务路由
+        #lejing-order
+        - id: order_route
+          uri: lb://lejing-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #商品服务路由
+        - id: product_route
+          uri: lb://lejing-product
+          predicates:
+            - Path=/api/product/**,/hello
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-search
+        - id: search_route
+          uri: lb://lejing-search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-seckill
+        - id: seckill_route
+          uri: lb://lejing-seckill
+          predicates:
+            - Path=/api/seckill/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #库存服务路由
+        - id: ware_route
+          uri: lb://lejing-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-site-reserve
         - id: site_reserve_route
           uri: lb://lejing-site-reserve
           predicates:
@@ -44,23 +79,9 @@ spring:
         - id: third_party_route
           uri: lb://lejing-third-party
           predicates:
-            - Path=/api/thirdparty/**
+            - Path=/api/thirdparty/**,/api/sms/**
           filters:
             - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
-        #会员服务路由
-        - id: member_route
-          uri: lb://lejing-member
-          predicates:
-            - Path=/api/member/**
-          filters:
-            - RewritePath=/api/(?<segment>.*),/$\{segment}
-        #库存服务路由
-        - id: ware_route
-          uri: lb://lejing-ware
-          predicates:
-            - Path=/api/ware/**
-          filters:
-            - RewritePath=/api/(?<segment>.*),/$\{segment}
         #后台管理路由
         - id: admin_route
           uri: lb://renren-fast

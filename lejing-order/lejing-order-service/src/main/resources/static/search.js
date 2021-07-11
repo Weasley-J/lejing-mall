@@ -23,30 +23,30 @@ api[0].list.push({
     desc: '',
 });
 api.push({
-    alias: 'IndexController',
-    order: '2',
-    link: '首页controller',
-    desc: '首页Controller',
-    list: []
-})
-api[1].list.push({
-    order: '1',
-    desc: '首页',
-});
-api.push({
     alias: 'OrderAppController',
-    order: '3',
+    order: '2',
     link: '订单业务_controller',
     desc: '订单业务 Controller',
     list: []
 })
-api[2].list.push({
+api[1].list.push({
     order: '1',
     desc: '去订单结算确认页',
 });
-api[2].list.push({
+api[1].list.push({
     order: '2',
     desc: '提交订单结算',
+});
+api.push({
+    alias: 'IndexController',
+    order: '3',
+    link: '首页controller',
+    desc: '首页Controller',
+    list: []
+})
+api[2].list.push({
+    order: '1',
+    desc: '首页',
 });
 api.push({
     alias: 'MqMessageController',

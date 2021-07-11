@@ -240,12 +240,31 @@ api[7].list.push({
     desc: '批量删除商品库存',
 });
 api.push({
-    alias: 'dict',
+    alias: 'error',
     order: '9',
+    link: 'error_code_list',
+    desc: '错误码列表',
+    list: []
+})
+api.push({
+    alias: 'dict',
+    order: '10',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
+api[9].list.push({
+    order: '1',
+    desc: '响应http状态码字典',
+});
+api[9].list.push({
+    order: '2',
+    desc: '验证码请求来源字典',
+});
+api[9].list.push({
+    order: '3',
+    desc: '电子入场券状态字典',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;
