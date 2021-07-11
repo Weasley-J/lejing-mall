@@ -342,66 +342,36 @@ api[13].list.push({
     desc: '批量删除撤销日志表',
 });
 api.push({
-    alias: 'OrderItemEasyexcelController',
-    order: '15',
-    link: '订单导入导出_controller&lt;ul&gt;____&lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;&lt;/ul&gt;',
-    desc: '订单导入导出 Controller&lt;ul&gt;    &lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;&lt;/ul&gt;',
-    list: []
-})
-api[14].list.push({
-    order: '1',
-    desc: '上传订单的excel文件',
-});
-api[14].list.push({
-    order: '2',
-    desc: '下载订单的excel文件',
-});
-api.push({
-    alias: 'OrderEasypoiController',
-    order: '16',
-    link: '主订单数据excel导入导出controller',
-    desc: '主订单数据excel导入导出Controller',
-    list: []
-})
-api[15].list.push({
-    order: '1',
-    desc: '导出订单数据',
-});
-api[15].list.push({
-    order: '2',
-    desc: '导入订单数据',
-});
-api.push({
     alias: 'error',
-    order: '17',
+    order: '15',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '18',
+    order: '16',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[17].list.push({
+api[15].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[17].list.push({
+api[15].list.push({
     order: '2',
     desc: '订单状态字典',
 });
-api[17].list.push({
+api[15].list.push({
     order: '3',
     desc: '支付方式字典',
 });
-api[17].list.push({
+api[15].list.push({
     order: '4',
     desc: '验证码请求来源字典',
 });
-api[17].list.push({
+api[15].list.push({
     order: '5',
     desc: '电子入场券状态字典',
 });

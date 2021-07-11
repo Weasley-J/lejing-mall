@@ -147,6 +147,10 @@
                 <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-order-interface</artifactId>
                 <version>${lejing.latest.version}</version>
+            </dependency>            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-order-share</artifactId>
+                <version>${lejing.latest.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.alphahub.mall</groupId>

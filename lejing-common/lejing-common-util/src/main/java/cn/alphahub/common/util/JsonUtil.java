@@ -78,6 +78,6 @@ public class JsonUtil {
     }
 
     public static void printJsonStr(Object data) {
-        System.err.println(toJsonStr(data));
+        System.out.println(toJsonStr(data));
     }
 }

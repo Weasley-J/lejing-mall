@@ -13,9 +13,16 @@
     <packaging>pom</packaging>
     <description>乐璟商城-订单服务</description>
 
+    <properties>
+
+    </properties>
+
     <modules>
         <module>lejing-order-interface</module>
+        <module>lejing-order-share</module>
         <module>lejing-order-service</module>
+        <module>lejing-order-export-easyexcel</module>
+        <module>lejing-order-export-easypoi</module>
     </modules>
 
 </project>

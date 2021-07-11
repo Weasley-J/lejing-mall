@@ -33,6 +33,20 @@ spring:
             - Path=/api/member/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-order-easyexcel
+        - id: order_easyexcel_route
+          uri: lb://lejing-order-easyexcel
+          predicates:
+            - Path=/api/order/public/easyexcel/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-order-easypoi
+        - id: order_easypoi_route
+          uri: lb://lejing-order-easypoi
+          predicates:
+            - Path=/api/order/public/easypoi/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
         #lejing-order
         - id: order_route
           uri: lb://lejing-order
