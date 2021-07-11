@@ -54,6 +54,7 @@ public class OrderItemEasyexcelController {
      * @param request  http servlet request
      * @param response http servlet response
      * @return true
+     * @download
      */
     @GetMapping("/excel/download")
     public BaseResult<Void> download(HttpServletRequest request, HttpServletResponse response) {

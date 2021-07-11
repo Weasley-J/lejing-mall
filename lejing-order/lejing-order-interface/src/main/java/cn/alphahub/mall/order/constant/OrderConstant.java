@@ -43,40 +43,40 @@ public class OrderConstant {
         /**
          * 待付款 0
          */
-        CREATE_NEW("待付款", 0),
+        CREATE_NEW(0, "待付款"),
         /**
          * 已付款 1
          */
-        PAID("已付款", 1),
+        PAID(1, "已付款"),
         /**
          * 已发货-2
          */
-        SEND("已发货", 2),
+        SEND(2, "已发货"),
         /**
          * 已完成 3
          */
-        RECEIVED("已完成", 3),
+        RECEIVED(3, "已完成"),
         /**
          * 已取消 4
          */
-        CANCELLED("已取消", 4),
+        CANCELLED(4, "已取消"),
         /**
          * 售后中 5
          */
-        SERVICING("售后中", 5),
+        SERVICING(5, "售后中"),
         /**
          * 售后完成 6
          */
-        SERVICED("售后完成", 6);
+        SERVICED(6, "售后完成");
+        /**
+         * 枚举值
+         */
+        private final Integer value;
 
         /**
          * 枚举名称
          */
         private final String name;
-        /**
-         * 枚举值
-         */
-        private final Integer value;
     }
 
     /**

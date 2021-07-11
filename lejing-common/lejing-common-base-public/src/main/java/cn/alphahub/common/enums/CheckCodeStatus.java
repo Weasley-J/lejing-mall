@@ -1,12 +1,16 @@
 package cn.alphahub.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 验证码发送结果-枚举
  *
  * @author liuwenjing
  * @date 2021年3月23日
  */
-
+@AllArgsConstructor
 public enum CheckCodeStatus {
     /**
      * 10001：手机号为空
@@ -26,33 +30,17 @@ public enum CheckCodeStatus {
     ERROR(10004, "发送错误");
 
     /**
-     * 枚举名称
-     */
-    private String name;
-
-    /**
      * 枚举值
      */
+    @Getter
+    @Setter
     private Integer value;
 
-    CheckCodeStatus(Integer value, String name) {
-        this.name = name;
-        this.value = value;
-    }
+    /**
+     * 枚举名称
+     */
+    @Getter
+    @Setter
+    private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
 }

@@ -1,7 +1,22 @@
 let api = [];
 api.push({
-    alias: 'dict',
+    alias: 'HelloController',
     order: '1',
+    link: 'hello_controller',
+    desc: 'Hello Controller',
+    list: []
+})
+api[0].list.push({
+    order: '1',
+    desc: '你好',
+});
+api[0].list.push({
+    order: '2',
+    desc: '秒杀',
+});
+api.push({
+    alias: 'dict',
+    order: '2',
     link: 'dict_list',
     desc: '数据字典',
     list: []

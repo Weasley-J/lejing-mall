@@ -44,6 +44,7 @@ public class OrderEasypoiController {
      *
      * @param request  http servlet request
      * @param response http servlet response
+     * @download
      */
     @GetMapping(value = "/download/order")
     public BaseResult<Void> downloadOrder(HttpServletRequest request, HttpServletResponse response) {

@@ -1,5 +1,8 @@
 package cn.alphahub.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /***
  * <b>错误码和错误信息枚举类</b>
  * <br><br/>
@@ -16,6 +19,8 @@ package cn.alphahub.common.enums;
  *       14: 物流
  * @author liuwenjing
  */
+@Getter
+@AllArgsConstructor
 public enum BusinessCodeEnum {
     /**
      * 系统未知异常
@@ -63,17 +68,4 @@ public enum BusinessCodeEnum {
      * 错误消息
      */
     private final String message;
-
-    BusinessCodeEnum(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

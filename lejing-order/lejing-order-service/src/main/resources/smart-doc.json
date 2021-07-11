@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.order.controller",
+  "packageFilters": "cn.alphahub.mall.order.controller.*,cn.alphahub.mall.order.excel.*.*Controller",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "order-service后端接口文档",
@@ -22,6 +22,58 @@
   "displayActualType": false,
   "ignoreRequestParams": [
     "org.springframework.ui.ModelMap"
+  ],
+  "dataDictionaries": [
+    {
+      "title": "响应http状态码字典",
+      "enumClassName": "cn.alphahub.common.enums.HttpCodeEnum",
+      "codeField": "code",
+      "descField": "name"
+    },
+    {
+      "title": "订单状态字典",
+      "enumClassName": "cn.alphahub.mall.order.constant.OrderConstant$OrderStatusEnum",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "支付方式字典",
+      "enumClassName": "cn.alphahub.mall.order.constant.OrderConstant$PayTypeEnum",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "验证码请求来源字典",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeOrigin",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "电子入场券状态字典",
+      "enumClassName": "cn.alphahub.common.enums.CouponStatus",
+      "codeField": "code",
+      "descField": "name"
+    }
+  ],
+  "errorCodeDictionaries": [
+    {
+      "title": "错误码和错误信息",
+      "enumClassName": "cn.alphahub.common.enums.BusinessCodeEnum",
+      "codeField": "code",
+      "descField": "message"
+    },
+    {
+      "title": "验证码发送错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeStatus",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "会员注册错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckUserExistsStatus",
+      "codeField": "value",
+      "descField": "name"
+    }
   ],
   "revisionLogs": [
     {

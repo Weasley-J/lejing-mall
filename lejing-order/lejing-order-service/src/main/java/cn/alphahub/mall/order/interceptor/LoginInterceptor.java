@@ -1,13 +1,16 @@
 package cn.alphahub.mall.order.interceptor;
 
 import cn.alphahub.common.constant.AuthConstant;
+import cn.alphahub.common.enums.AppEnvironmentEnum;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.order.constant.OrderConstant;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,12 +39,13 @@ public class LoginInterceptor implements HandlerInterceptor {
         add("/order/mqmessage/grace/list");
         add("/order/public/**");
     }};
-
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
     /**
      * 保存用户信息的threadLocal变量
      */
     public static ThreadLocal<Member> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
+    @Resource
+    private Environment environment;
 
     /**
      * 从线程的局部变量中获取用户信息
@@ -57,6 +61,11 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 开发环境直接放行
+        String activeProfile = environment.getActiveProfiles()[0];
+        if (AppEnvironmentEnum.DEV.getEnv().equals(activeProfile)) {
+            return true;
+        }
         // 白名单放行
         String requestUri = request.getRequestURI();
         for (String uriPattern : URI_WHITELIST_ANT_MATCH_PATTERN) {
@@ -79,10 +88,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.println("<script>alert('请先进行登录，再进行后续操作！');location.href='" + OrderConstant.LOGIN_PAGE_URL + "'</script>");
-            /*
-            request.getSession().setAttribute("msg", "请先登录");
-            response.sendRedirect(OrderConstant.LOGIN_PAGE_URL);
-            */
             return false;
         }
     }

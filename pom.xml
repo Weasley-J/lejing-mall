@@ -43,6 +43,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <lejing.latest.version>${project.version}</lejing.latest.version>
         <spring-boot.version>2.5.2</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
@@ -62,8 +64,8 @@
         <netty-all.version>4.1.65.Final</netty-all.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
-        <smart-doc.version>2.1.9</smart-doc.version>
-        <hutool-all.version>5.7.0</hutool-all.version>
+        <smart-doc.version>2.2.2</smart-doc.version>
+        <hutool-all.version>5.7.3</hutool-all.version>
         <activation.version>1.1.1</activation.version>
         <guava.version>30.1.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.11.3</aliyun-sdk-oss.version>
@@ -85,7 +87,6 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <easyexcel.version>2.2.10</easyexcel.version>
     </properties>
 
@@ -438,10 +439,21 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
+                <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
+                <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                    <version>${smart-doc.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
-            <!--打包时跳过所有测试类-->
+            <!-- 打包跳过所有测试类 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -454,6 +466,54 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+            <!-- source源代码，用于smart-doc解析项目API文档 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- smart-doc -->
+            <plugin>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <version>${smart-doc.version}</version>
+                <configuration>
+                    <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <!--指定项目名称-->
+                    <projectName>${project.artifactId}</projectName>
+                    <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
+                    <excludes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <exclude>com.alibaba:fastjson</exclude>
+                    </excludes>
+                    <!--自1.0.8版本开始，插件提供includes支持-->
+                    <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
+                    <includes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <include>com.alibaba:fastjson</include>
+                        <include>cn.alphahub.mall.common:lejing-common-base-public</include>
+                        <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>html</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

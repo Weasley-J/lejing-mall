@@ -1,5 +1,8 @@
 package cn.alphahub.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
@@ -7,6 +10,7 @@ import org.apache.commons.lang3.ObjectUtils;
  *
  * @author lwj
  */
+@AllArgsConstructor
 public enum CouponStatus implements BaseStatus {
     /* 1-未使用  */
     UNUSED(1, "未使用"),
@@ -20,19 +24,18 @@ public enum CouponStatus implements BaseStatus {
     REFUNDED(5, "已退款");
 
     /**
-     * 枚举名
-     */
-    private final String name;
-
-    /**
      * 枚举值
      */
-    private final Integer code;
+    @Getter
+    @Setter
+    private Integer code;
 
-    CouponStatus(Integer code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+    /**
+     * 枚举名
+     */
+    @Getter
+    @Setter
+    private String name;
 
     /**
      * 通过code取枚举
@@ -71,19 +74,6 @@ public enum CouponStatus implements BaseStatus {
         System.out.println("statusCode=" + code + ", statusName=" + name);
     }
 
-    /**
-     * 获取状态名称
-     *
-     * @return 状态名称
-     */
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
 }
 
 interface BaseStatus {

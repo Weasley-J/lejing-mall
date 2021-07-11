@@ -1,5 +1,9 @@
 package cn.alphahub.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 校验会员用户存在状态-枚举
  *
@@ -7,6 +11,7 @@ package cn.alphahub.common.enums;
  * @version 1.0
  * @date 2021/03/23
  */
+@AllArgsConstructor
 public enum CheckUserExistsStatus {
     /**
      * 15016 该用户名已注册过
@@ -28,34 +33,18 @@ public enum CheckUserExistsStatus {
      * 15020 用户信息为空
      */
     USER_IS_EMPTY(15020, "用户信息为空");
-    /**
-     * 枚举名
-     */
-    private String name;
 
     /**
      * 枚举值
      */
+    @Getter
+    @Setter
     private Integer value;
 
-    CheckUserExistsStatus(Integer value, String name) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
+    /**
+     * 枚举名
+     */
+    @Getter
+    @Setter
+    private String name;
 }
