@@ -1,7 +1,9 @@
 package cn.alphahub.mall.coupon.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,18 +30,21 @@ public class CouponHistory implements Serializable {
 	/**
 	 * id
 	 */
-    @TableId
-    private Long id;
+	@TableId
+	@JsonSerialize(using = IdSerializer.class)
+	private Long id;
 
 	/**
 	 * 优惠券id
 	 */
-    private Long couponId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long couponId;
 
 	/**
 	 * 会员id
 	 */
-    private Long memberId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long memberId;
 
 	/**
 	 * 会员名字
@@ -69,11 +74,13 @@ public class CouponHistory implements Serializable {
 	/**
 	 * 订单id
 	 */
-    private Long orderId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long orderId;
 
 	/**
 	 * 订单号
 	 */
-    private Long orderSn;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long orderSn;
 
 }

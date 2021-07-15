@@ -35,22 +35,34 @@ api.push({
 })
 api[1].list.push({
     order: '1',
-    desc: '查询商品属性列表',
+    desc: '获取spu规格',
 });
 api[1].list.push({
     order: '2',
-    desc: '获取商品属性详情',
+    desc: '查询属性base/sale list',
 });
 api[1].list.push({
     order: '3',
-    desc: '新增商品属性',
+    desc: '查询商品属性列表',
 });
 api[1].list.push({
     order: '4',
-    desc: '修改商品属性',
+    desc: '获取商品属性详情',
 });
 api[1].list.push({
     order: '5',
+    desc: '新增商品属性',
+});
+api[1].list.push({
+    order: '6',
+    desc: '修改商品属性',
+});
+api[1].list.push({
+    order: '7',
+    desc: '根据spuId修改商品属性',
+});
+api[1].list.push({
+    order: '8',
     desc: '批量删除商品属性',
 });
 api.push({
@@ -62,23 +74,47 @@ api.push({
 })
 api[2].list.push({
     order: '1',
-    desc: '查询属性分组列表',
+    desc: '获取当属性分组id的关联关系',
 });
 api[2].list.push({
     order: '2',
-    desc: '获取属性分组详情',
+    desc: '获取分类下所有分组&关联属性',
 });
 api[2].list.push({
     order: '3',
-    desc: '新增属性分组',
+    desc: '获取当分组id的没有关联关系的属性',
 });
 api[2].list.push({
     order: '4',
-    desc: '修改属性分组',
+    desc: '查询属性分组列表',
 });
 api[2].list.push({
     order: '5',
+    desc: '根据catelogId查询属性分组列表',
+});
+api[2].list.push({
+    order: '6',
+    desc: '获取属性分组详情',
+});
+api[2].list.push({
+    order: '7',
+    desc: '新增属性分组',
+});
+api[2].list.push({
+    order: '8',
+    desc: '修改属性分组',
+});
+api[2].list.push({
+    order: '9',
     desc: '批量删除属性分组',
+});
+api[2].list.push({
+    order: '10',
+    desc: '删除属性分组关联关系',
+});
+api[2].list.push({
+    order: '11',
+    desc: '新增属性分组关联关系',
 });
 api.push({
     alias: 'BrandController',
@@ -97,14 +133,22 @@ api[3].list.push({
 });
 api[3].list.push({
     order: '3',
-    desc: '新增品牌',
+    desc: '批量获取品牌信息',
 });
 api[3].list.push({
     order: '4',
-    desc: '修改品牌',
+    desc: '新增品牌',
 });
 api[3].list.push({
     order: '5',
+    desc: '修改品牌',
+});
+api[3].list.push({
+    order: '6',
+    desc: '修改品牌状态',
+});
+api[3].list.push({
+    order: '7',
     desc: '批量删除品牌',
 });
 api.push({
@@ -116,22 +160,30 @@ api.push({
 })
 api[4].list.push({
     order: '1',
-    desc: '查询品牌分类关联列表',
+    desc: '根据分类id获取品牌列表',
 });
 api[4].list.push({
     order: '2',
-    desc: '获取品牌分类关联详情',
+    desc: '查询品牌分类关联列表',
 });
 api[4].list.push({
     order: '3',
-    desc: '新增品牌分类关联',
+    desc: '获取当前品牌关联的分类列表',
 });
 api[4].list.push({
     order: '4',
-    desc: '修改品牌分类关联',
+    desc: '获取品牌分类关联详情',
 });
 api[4].list.push({
     order: '5',
+    desc: '新增品牌分类关联',
+});
+api[4].list.push({
+    order: '6',
+    desc: '修改品牌分类关联',
+});
+api[4].list.push({
+    order: '7',
     desc: '批量删除品牌分类关联',
 });
 api.push({
@@ -147,18 +199,26 @@ api[5].list.push({
 });
 api[5].list.push({
     order: '2',
-    desc: '获取商品三级分类详情',
+    desc: '查出所有分类及其子分类， 树形结构组装',
 });
 api[5].list.push({
     order: '3',
-    desc: '新增商品三级分类',
+    desc: '获取商品三级分类详情',
 });
 api[5].list.push({
     order: '4',
-    desc: '修改商品三级分类',
+    desc: '新增商品三级分类',
 });
 api[5].list.push({
     order: '5',
+    desc: '级联更新-商品三级分类',
+});
+api[5].list.push({
+    order: '6',
+    desc: '批量修改三级分类排序',
+});
+api[5].list.push({
+    order: '7',
     desc: '批量删除商品三级分类',
 });
 api.push({
@@ -282,18 +342,22 @@ api[10].list.push({
 });
 api[10].list.push({
     order: '2',
-    desc: '获取sku销售属性&值详情',
+    desc: '根据skuId获取商品的销售属性',
 });
 api[10].list.push({
     order: '3',
-    desc: '新增sku销售属性&值',
+    desc: '获取sku销售属性&值详情',
 });
 api[10].list.push({
     order: '4',
-    desc: '修改sku销售属性&值',
+    desc: '新增sku销售属性&值',
 });
 api[10].list.push({
     order: '5',
+    desc: '修改sku销售属性&值',
+});
+api[10].list.push({
+    order: '6',
     desc: '批量删除sku销售属性&值',
 });
 api.push({
@@ -371,10 +435,14 @@ api[13].list.push({
 });
 api[13].list.push({
     order: '4',
-    desc: '修改spu信息',
+    desc: '上架商品',
 });
 api[13].list.push({
     order: '5',
+    desc: '修改spu信息',
+});
+api[13].list.push({
+    order: '6',
     desc: '批量删除spu信息',
 });
 api.push({
@@ -432,12 +500,65 @@ api[15].list.push({
     desc: '批量删除撤销日志表',
 });
 api.push({
-    alias: 'dict',
+    alias: 'IndexController',
     order: '17',
+    link: '&lt;b&gt;首页controller&lt;/b&gt;',
+    desc: '&lt;b&gt;首页Controller&lt;/b&gt;',
+    list: []
+})
+api[16].list.push({
+    order: '1',
+    desc: '进入首页返回所有1级分类',
+});
+api[16].list.push({
+    order: '2',
+    desc: '&lt;b&gt;查出三级分类&lt;/b&gt;key-1级分类,value-2级分类List',
+});
+api[16].list.push({
+    order: '3',
+    desc: '你好，Weasley J！',
+});
+api.push({
+    alias: 'ItemController',
+    order: '18',
+    link: '&lt;b&gt;商品sku详情页controller&lt;/b&gt;',
+    desc: '&lt;b&gt;商品sku详情页Controller&lt;/b&gt;',
+    list: []
+})
+api[17].list.push({
+    order: '1',
+    desc: '根据skuId获取商品详情页',
+});
+api[17].list.push({
+    order: '2',
+    desc: '根据skuId获取商品详情',
+});
+api.push({
+    alias: 'error',
+    order: '19',
+    link: 'error_code_list',
+    desc: '错误码列表',
+    list: []
+})
+api.push({
+    alias: 'dict',
+    order: '20',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
+api[19].list.push({
+    order: '1',
+    desc: '响应http状态码字典',
+});
+api[19].list.push({
+    order: '2',
+    desc: '验证码请求来源字典',
+});
+api[19].list.push({
+    order: '3',
+    desc: '电子入场券状态字典',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

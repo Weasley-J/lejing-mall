@@ -1,0 +1,10 @@
+#
+# 乐璟商城hosts文件映射, ip需要改成自己虚拟机的
+#
+192.168.40.132 lejing.com
+192.168.40.132 search.lejing.com
+192.168.40.132 auth.lejing.com
+192.168.40.132 cart.lejing.com
+192.168.40.132 order.lejing.com
+192.168.40.132 item.lejing.com
+192.168.40.132 member.lejing.com

@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.alphahub.mall.product.mapper.ProductAttrValueMapper">
-
-	<!-- 可根据自己的需求，按需使用 -->
+    <!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.product.domain.ProductAttrValue" id="productAttrValueResult">
         <result property="id" column="id"/>
         <result property="spuId" column="spu_id"/>
@@ -13,5 +12,4 @@
         <result property="attrSort" column="attr_sort"/>
         <result property="quickShow" column="quick_show"/>
     </resultMap>
-
 </mapper>

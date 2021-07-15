@@ -1,0 +1,60 @@
+package ${package}.${moduleName}.domain;
+
+#if(${javaFieldContainsNameOrTitle})
+import com.baomidou.mybatisplus.annotation.SqlCondition;
+import com.baomidou.mybatisplus.annotation.TableField;
+#end
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+#if(${javaTypeHasDate})
+import com.fasterxml.jackson.annotation.JsonFormat;
+#end
+#if(${hasLong})
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+#end
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ${comments}对象 ${tableName}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("${tableName}")
+public class ${className} implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    /**
+     * $column.comments
+     */
+#if($column.columnName == $pk.columnName)
+    @TableId
+#end
+#if(${column.attrType} == 'Long')
+    @JsonSerialize(using = ToStringSerializer.class)
+#elseif(${column.attrType} == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#elseif($column.attrname.toLowerCase().contains("name") || $column.attrname.toLowerCase().contains("title"))
+    @TableField(condition = SqlCondition.LIKE)
+#end
+    private $column.attrType $column.attrname;
+
+#end
+}

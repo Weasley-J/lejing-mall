@@ -1,6 +1,109 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.40.132:33306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.40.132:3306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  #测试环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    database: 0
+  #nacos server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
+        tx-service-group: lejing_tx_group
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #只要消息抵达Queue，就会异步发送优先回调return-confirm
+      mandatory: on
+      #显式指定没有接收消息的默认队列的名称
+      default-receive-queue: LEJING.ORDER.QUEUE
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.ORDER.EXCHANGE
+      #用于发送操作的默认路由键的名称
+      routing-key: lejing.order.item
+    #开启发送端消息抵达Broker确认
+    publisher-confirm-type: correlated
+    #开启发送端消息抵达Queue确认
+    publisher-returns: on
+    listener:
+      simple:
+        #手动ack确认消息，不使用默认的消费端确认
+        acknowledge-mode: manual
+#seata 配置
+seata:
+  enabled: on
+  application-id: ${spring.application.name}
+  tx-service-group: ${spring.cloud.alibaba.seata.tx-service-group}
+  enable-auto-data-source-proxy: on
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos
+      password: nacos
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 50
+    #最大线程数
+    maximum-pool-size: 300
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 200000
+  #三方支付配置参数
+  thirdpay:
+    alipay:
+      app-id: 2021000117677132
+      merchant-private-key: MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC2hAF2MRhEeNI8vq+/5XwcY618aUd8C/IDyLi8RagXSHfx1i9d4vP6/u39U4TfAK+qqaASCHOSSdSAVJLS5SPebGbYzrv7syI5EGdyjHvLVRqh+Ah4WKyYfvlV8dstn3Ej5q/X8DVu1rSKX2Aa7WHgTDO6F8upgvh+VtORqCq0bdeZOJG3laP3IBg1bw+/fZh4zFcPFgmEo5zCjhQNmq7icO7qyZx1gjajhMxW8W2dulEw/8dCbdLltgcoUulaYbXy2TQBzJ+axmMowk6Zv780o3WDn0TfPAObOzi5P05isyRfJwR9xwrNIeYURBKwLa6qVOw9ljZBhYaBF3GIT1JLAgMBAAECggEAHIruU5Z/7g1bC4bio0b3LtVjxyYLuNmBYpgcU80s6V866sYNKEia0TDW9Rv/loRb9HuMfeV2dXU4V01inLqa7mjTeKpz+XvdKUFofCB+J6FKhfPtFyz+6OZKhedJ2IurvOqRq1p0cL4BA/bAZ9Whzdr85+hawEqsI83eTlQXQZn8Bftk88eQMsrr0aHcc15Y7k0dOqZqSo8GylYNoKyAYFJk6B43Kap+Kjgdt+FTXKUaJEKWRhSQfAsm+8p4J2eCt8M22RcUMIPGYNPatBOxyNmPZKgUwee4VoSbVzVqsh9/gJPKmd0Y2ZsDqwPQ75+2kSQNIGp1EYhn4ldnv8uOOQKBgQDuEp/yXdMxqJRbQoS7eWn5ACs0da3vcMjecOoJjaGkiv9WtaoeX2fPwBG123pfzlQ7/xg9YI21oYEOC+G4qVVT1fqnL9uYTDS35Nerg+t9N1iYHb+Z2jydG7mZ1LMWJLvVgulMUh9QvPOYf8snwxnJg6XYVDlX/6UlivD5CZI3JQKBgQDEQmVLUfQaeaFHY2ypnjRJZ9fS5nKk4Zc4E+yHONtqSWMG0o586lNBlBZYjJ+2UBL2EDDcXj7EWrihtt6+y3vIRCLzH2AS7o3mZfSwoAXRUyiJ90JSLEa05fFTdrNJqcqbUPTHcNOyALKnpmthfGKyMxUho0jmDPxxlAd+4msgrwKBgQDMICwEI25xpZmOpfooxHGYjgx9bmk0Y//WufnxNv7hlkxYjGrQn/zipEyLISRMAR04VAD0n1Th5xhAcu+W5ZnDyDSiJOakLrME+bHx3aqMMmhEBT3DLNvL2XnJ7BWhZt2mtBhU2BUBpQE4QFpwPVhe8AHC+nQwf4GaLwdugEZeAQKBgQC6dHX1zAOEj5+oyg23S+VTBAQoiuXKPcTD8zHY+iyC2vvoxGu4w4qbmAxuzhMCSyroeVNiWWt6ctJMWQdf7sRH7Gvj3SASfG91v9FraGx+hWnTQYTRutzmCjtu1yvYRSaGzq/vNwL4bu9MlbAY6up9cEiYL6AXZ6kCYueIJaYvYwKBgQDgheJNBWkGNz6J71FWF5CDjDyteXtvqFocB0EuCM+vIAE4kULJ1UNLRUWOqy2WRmJzuMIM9fZA5gDtejtn57VVHOUyyhg3z/z8fTNHzqJsbgM5UDbf2lCxo795JrIx6v6h56JYnO6V/Zz6Zgfl10BdNN2zgbyTN/e16S5i+Xq+lA==
+      alipay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4zhb/pGMrl+cpXKsJRqlPM0czqU5+C5ihcqpl63btnrqsaKHQW063x5+A98ret84bKPjT+t6QVAp9VZqqJwnaHj8KJTpP9qEM34ZlM1T4EtvlWHZSid16yPtysw4X80pOUyXPOr0wLGA9pVUir//LOPc3eqCZa9bKcAhtM9g779KzXJgusCTobAy+8CVJS+lDWVzjX9kncjoKY4K3GnNelWQ4reZ8R9uknw8M27TIfccxfdamV4+uDMnAsDFnHHA30DeYODzIgK9GTnYA5qIue+6eLkTfL0IleBHWFoPs1CSy0t8aXqdEoQVUUbBuqEBoGCGmI07lVa8qCd3TjXK2wIDAQAB
+      gateway-url: https://openapi.alipaydev.com/gateway.do
+      notify-url: http://lejing.fgifast1.vipnps.vip/payed/notify
+      return-url: http://member.lejing.com/memberOrder.html
+      sign-type: RSA2
+      charset: UTF-8
+      timeout: 30m
+    wechatpay:
+      app_id: wxd898fcb01713c654
+      mch_id: 1483469313
+      mch_key: BCD4621D373CADE4E832627B4F7
+      notify_url: http://lejing.fgifast1.vipnps.vip/payed/notify
+      return_url: http://lejing.com/memberOrder.html

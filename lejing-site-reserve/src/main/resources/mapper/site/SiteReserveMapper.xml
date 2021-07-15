@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.site.mapper.SiteReserveMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.site.domain.SiteReserve" id="siteReserveResult">
+        <result property="siteId" column="site_id"/>
+        <result property="siteCode" column="site_code"/>
+        <result property="projectCode" column="project_code"/>
+        <result property="siteOrderType" column="site_order_type"/>
+        <result property="siteTitle" column="site_title"/>
+        <result property="siteSubtitle" column="site_subtitle"/>
+        <result property="sitePrice" column="site_price"/>
+        <result property="siteLocationDesc" column="site_location_desc"/>
+        <result property="siteCommunity" column="site_community"/>
+        <result property="siteManagerPhone" column="site_manager_phone"/>
+        <result property="siteOpenTime" column="site_open_time"/>
+        <result property="siteCloseTime" column="site_close_time"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="siteShelfStatus" column="site_shelf_status"/>
+        <result property="siteOpenStatus" column="site_open_status"/>
+        <result property="sort" column="sort"/>
+        <result property="deleted" column="deleted"/>
+        <result property="siteReserveCount" column="site_reserve_count"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+</mapper>

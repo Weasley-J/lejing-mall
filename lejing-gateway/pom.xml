@@ -5,12 +5,11 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>lejing-gateway</artifactId>
-    <version>${lejing-mall.latest.version}</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>lejing-gateway</name>
 
     <description>乐璟商城API 网关</description>
@@ -20,28 +19,31 @@
     </properties>
 
     <dependencies>
+        <!-- common工程 -->
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-util</artifactId>
+        </dependency>
+        <!-- 引入Logstash日志系统 -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
         <!--网关-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!-- loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
         <!-- configuration processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <!-- TEST -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- nacos discovery -->
         <dependency>
@@ -53,9 +55,20 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+        <!-- actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

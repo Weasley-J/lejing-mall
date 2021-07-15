@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: lejing-cart
+  cloud:
+    nacos:
+      #配置中心
+      config:
+        #namespace做环境隔离
+        namespace: 9f369d41-473f-40f8-9638-02805b4a0c4e
+        server-addr: 127.0.0.1:8848
+        refresh-enabled: true
+        #垃圾nacos特么居然严格区分yaml和yml
+        file-extension: yml
+#        extension-configs:
+#          - data-id: datasource.yml
+#            group: dev
+#            refresh: true
+#          - data-id: mybatis.yml
+#            group: dev
+#            refresh: true
+#          - data-id: common.yml
+#            group: DEFAULT_GROUP
+#            refresh: true

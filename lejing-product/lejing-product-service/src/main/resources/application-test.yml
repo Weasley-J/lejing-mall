@@ -1,6 +1,77 @@
 spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.40.132:33306/lejing_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.40.132:3306/lejing_pms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+    alibaba:
+      seata:
+        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
+        tx-service-group: lejing_tx_group
+  #测试环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.226.129
+    port: 6379
+    password: 123456
+    client-name: LEJING_REDIS
+    # Redisson settings
+    # Tips:
+    #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
+    # path to config - redisson.yml
+    redisson:
+      file: classpath:redisson-single.yml
+logging:
+  level:
+    cn.alphahub.mall.product: debug
+#seata 配置
+seata:
+  enabled: on
+  application-id: ${spring.application.name}
+  tx-service-group: ${spring.cloud.alibaba.seata.tx-service-group}
+  enable-auto-data-source-proxy: on
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos
+      password: nacos
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 50
+    #最大线程数
+    maximum-pool-size: 300
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 200000

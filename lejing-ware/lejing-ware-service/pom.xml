@@ -6,11 +6,11 @@
     <parent>
         <artifactId>lejing-ware</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>lejing-ware-service</artifactId>
+    <version>1.1.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -18,28 +18,94 @@
     </properties>
 
     <dependencies>
+        <!--  项目内部开始 -->
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-dependencies-db</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-dependencies-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-ware-interface</artifactId>
-            <version>${lejing-mall.latest.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-product-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-member-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-order-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!--  项目内部结束 -->
+        <!-- spring boot测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- 引入Logstash日志系统 -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+        <!-- nacos 注册与发现 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- nacos 配置中心 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- start 引入分布式事务Seata -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-seata -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware.kryo</groupId>
+            <artifactId>kryo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+        </dependency>
+        <!-- end 引入分布式事务Seata -->
+        <!-- RabbitMQ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
 
@@ -49,38 +115,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
-                <groupId>com.github.shalousun</groupId>
-                <artifactId>smart-doc-maven-plugin</artifactId>
-                <version>${smart-doc.version}</version>
-                <configuration>
-                    <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
-                    <configFile>./src/main/resources/smart-doc.json</configFile>
-                    <!--指定项目名称-->
-                    <projectName>${project.artifactId}</projectName>
-                    <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
-                    <excludes>
-                        <!--格式为：groupId:artifactId;参考如下-->
-                        <exclude>com.alibaba:fastjson</exclude>
-                    </excludes>
-                    <!--自1.0.8版本开始，插件提供includes支持-->
-                    <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
-                    <includes>
-                        <!--格式为：groupId:artifactId;参考如下-->
-                        <include>com.alibaba:fastjson</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>html</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

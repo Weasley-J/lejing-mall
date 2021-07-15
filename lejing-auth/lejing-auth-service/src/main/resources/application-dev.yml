@@ -1,0 +1,56 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  thymeleaf:
+    cache: off
+  cloud:
+    nacos:
+      #配置中心
+      config:
+        #namespace做环境隔离
+        namespace: acae20ec-5e2b-4e9e-92bb-cb985a7e0f9e
+        server-addr: 127.0.0.1:8848
+        refresh-enabled: true
+        #垃圾nacos特么居然严格区分yaml和yml
+        file-extension: yml
+        extension-configs:
+          - data-id: datasource.yml
+            group: dev
+            refresh: true
+          - data-id: mybatis.yml
+            group: dev
+            refresh: true
+          - data-id: common.yml
+            group: DEFAULT_GROUP
+            refresh: true
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  redis:
+    database: 0
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    timeout: 6000ms
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #显式指定没有接收消息的默认队列的名称
+      default-receive-queue: LEJING.SMS.QUEUE
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.SMS.EXCHANGE
+      #用于发送操作的默认路由键的名称
+      routing-key: sms.verify.code
+#微信开放平台相关配置
+wechat:
+  open:
+    app-id: your-app-id
+    app-secret: your-app-secret
+    redirect-url: your-redirect-url

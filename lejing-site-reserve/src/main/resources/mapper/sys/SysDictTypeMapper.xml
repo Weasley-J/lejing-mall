@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.sys.mapper.SysDictTypeMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.sys.domain.SysDictType" id="sysDictTypeResult">
+        <result property="dictId" column="dict_id"/>
+        <result property="dictName" column="dict_name"/>
+        <result property="dictType" column="dict_type"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+</mapper>

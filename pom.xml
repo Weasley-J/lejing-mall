@@ -5,18 +5,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.8.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.5.2</version>
+        <relativePath/>
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-mall</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>lejing-mall</name>
     <packaging>pom</packaging>
     <description>乐璟商城父工程</description>
+    <url>https://github.com/Weasley-J/lejing-mall</url>
 
     <modules>
+        <module>lejing-auth</module>
         <module>lejing-coupon</module>
         <module>lejing-order</module>
         <module>lejing-product</module>
@@ -24,45 +26,155 @@
         <module>lejing-member</module>
         <module>lejing-common</module>
         <module>lejing-gateway</module>
-        <module>renren-admin</module>
-        <module>renren-generator</module>
+        <module>lejing-site-reserve</module>
+        <module>lejing-search</module>
+        <module>lejing-sms</module>
+        <module>lejing-third-party</module>
+        <module>lejing-cart</module>
+        <module>lejing-seckill</module>
+        <module>lejing-admin</module>
+        <module>lejing-generator</module>
+        <module>lejing-web-frontend</module>
     </modules>
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <lejing-mall.latest.version>1.0.0-SNAPSHOT</lejing-mall.latest.version>
-        <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
-        <spring-boot-maven-plugin.version>2.4.2</spring-boot-maven-plugin.version>
-        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
-        <!-- 将打包生成jar文件复制到指定目录 -->
-        <copy.dest.dir>E:/IdeaProjects/lejing-mall/webapp</copy.dest.dir>
-        <!--<copy.dest.dir>/usr/local/webapp</copy.dest.dir>-->
-        <lombok.version>1.18.18</lombok.version>
-        <mysql.version>8.0.23</mysql.version>
-        <mybatis.starter.version>2.1.4</mybatis.starter.version>
-        <mybatis.plus.version>3.4.2</mybatis.plus.version>
-        <mapper.starter.version>2.1.5</mapper.starter.version>
-        <pageHelper.starter.version>1.3.0</pageHelper.starter.version>
-        <druid.starter.version>1.2.4</druid.starter.version>
-        <fastjson.version>1.2.75</fastjson.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <lejing.latest.version>${project.version}</lejing.latest.version>
+        <spring-boot.version>2.5.2</spring-boot.version>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <lombok.version>1.18.20</lombok.version>
+        <mysql.version>8.0.25</mysql.version>
+        <mybatis.starter.version>2.2.0</mybatis.starter.version>
+        <mybatis.plus.version>3.4.3.1</mybatis.plus.version>
+        <pageHelper.starter.version>1.3.1</pageHelper.starter.version>
+        <pagehelper.version>5.2.1</pagehelper.version>
+        <druid.starter.version>1.2.6</druid.starter.version>
+        <shiro.starter.version>1.7.1</shiro.starter.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.8.0</commons-io.version>
         <javase.version>3.4.1</javase.version>
-        <netty-all.version>4.1.58.Final</netty-all.version>
+        <netty-all.version>4.1.65.Final</netty-all.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
-        <smart-doc.version>2.0.7</smart-doc.version>
-        <hutool-all.version>5.5.8</hutool-all.version>
+        <smart-doc.version>2.2.2</smart-doc.version>
+        <hutool-all.version>5.7.3</hutool-all.version>
         <activation.version>1.1.1</activation.version>
-        <guava.version>30.1-jre</guava.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <aliyun-sdk-oss.version>3.13.0</aliyun-sdk-oss.version>
+        <aliyun.sdk.version>4.5.22</aliyun.sdk.version>
+        <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
+        <aliyun-oss.version>1.0.0</aliyun-oss.version>
+        <aliyun-sms.version>1.0.0</aliyun-sms.version>
+        <alicloud.version>2.2.0.RELEASE</alicloud.version>
+        <redisson.version>3.15.6</redisson.version>
+        <elasticsearch.version>7.13.2</elasticsearch.version>
+        <logstash.logback.version>6.6</logstash.logback.version>
+        <easypoi.starter.version>4.4.0</easypoi.starter.version>
+        <joda-time.version>2.10.10</joda-time.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <seata.starter.version>1.4.2</seata.starter.version>
+        <kryo-kryo-version>2.24.0</kryo-kryo-version>
+        <kryo-version>4.0.2</kryo-version>
+        <kryo-serializers.version>0.45</kryo-serializers.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <easyexcel.version>2.2.10</easyexcel.version>
     </properties>
 
     <dependencyManagement>
-        <!-- spring cloud -->
         <dependencies>
+            <!--  start 乐璟内部  -->
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-base-domain</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-base-public</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-util</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-dependencies-web</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-dependencies-db</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-auth-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-auth-common</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lejing.mall.cart</groupId>
+                <artifactId>lejing-cart-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-coupon-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-member-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-order-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-order-share</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-product-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.search</groupId>
+                <artifactId>lejing-search-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall.seckill</groupId>
+                <artifactId>lejing-seckill-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.alphahub.mall</groupId>
+                <artifactId>lejing-ware-interface</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <!--  end 乐璟内部  -->
+            <!-- spring cloud -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -90,17 +202,21 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.plus.version}</version>
             </dependency>
-            <!-- 通用Mapper启动器 -->
             <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${mapper.starter.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis.plus.version}</version>
             </dependency>
             <!-- 分页助手启动器 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pageHelper.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
             <!-- mysql驱动 -->
             <dependency>
@@ -114,24 +230,37 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+            <!-- redisson启动器 -->
+            <!--https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter-->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <!--apache shiro 启动器-->
+            <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring-boot-starter -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring-boot-starter</artifactId>
+                <version>${shiro.starter.version}</version>
+            </dependency>
             <!--druid连接池-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.starter.version}</version>
             </dependency>
-            <!-- testng -->
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>RELEASE</version>
-                <scope>compile</scope>
-            </dependency>
             <!-- 阿里巴巴-fastjson -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <!-- 解决nacos相关依赖引入导致springboot启动失败 -->
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${activation.version}</version>
             </dependency>
             <!--commons-lang3工具包-->
             <dependency>
@@ -188,23 +317,116 @@
                 <version>${servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- 通用工程模块 -->
-            <dependency>
-                <groupId>cn.alphahub.mall</groupId>
-                <artifactId>lejing-common</artifactId>
-                <version>${lejing-mall.latest.version}</version>
-            </dependency>
-            <!-- 解决nacos相关依赖引入导致springboot启动失败 -->
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>${activation.version}</version>
-            </dependency>
             <!-- google-guava -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <!-- 覆盖aliyun oss spring starter的低版本 -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
+            </dependency>
+            <!-- 覆盖aliyun sms spring starter的低版本 -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun.sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun.dysmsapi.version}</version>
+            </dependency>
+            <!-- 阿里云 OSS spring boot starter -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>aliyun-oss-spring-boot-starter</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!-- 阿里云 SMS Spring Boot Starter -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>aliyun-sms-spring-boot-starter</artifactId>
+                <version>${aliyun-sms.version}</version>
+            </dependency>
+            <!-- 阿里云短信短信启动器 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alicloud-sms</artifactId>
+                <version>${alicloud.version}</version>
+            </dependency>
+            <!-- ELK logstash logback日志依赖 -->
+            <!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.logback.version}</version>
+            </dependency>
+            <!-- EasyPoi Excel Word简易工具类启动器 -->
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-spring-boot-starter</artifactId>
+                <version>${easypoi.starter.version}</version>
+            </dependency>
+            <!-- jjwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- joda time -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+            <!-- seata启动器  -->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware.kryo</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo-kryo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.javakaffee</groupId>
+                <artifactId>kryo-serializers</artifactId>
+                <version>${kryo-serializers.version}</version>
+            </dependency>
+            <!-- end seata启动器  -->
+            <!--  start  mapstruct -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <!--  end  mapstruct -->
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java</artifactId>
+                <version>${alipay-sdk-java.version}</version>
+            </dependency>
+            <!-- alibaba easyexcel -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -214,46 +436,29 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>build-info</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <target>${java.version}</target>
                         <source>${java.version}</source>
-                        <encoding>UTF-8</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
+                </plugin>
+                <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
+                <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                    <version>${smart-doc.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot-maven-plugin.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <!--打包时跳过所有测试类-->
+            <!-- 打包跳过所有测试类 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -261,75 +466,57 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <!-- 避免font文件的二进制文件格式压缩破坏 -->
+            <!-- sonar -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <nonFilteredFileExtensions>
-                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
-                        <nonFilteredFileExtension>svg</nonFilteredFileExtension>
-                    </nonFilteredFileExtensions>
-                </configuration>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
-            <!--复制jar包到指定文件目录-->
+            <!-- source源代码，用于smart-doc解析项目API文档 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>${maven-antrun-plugin.version}</version>
+                <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!-- 在maven进行package的时候执行-->
+                        <id>attach-sources</id>
                         <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <!--jar包保存位置 -->
-                                <copy todir="${copy.dest.dir}">
-                                    <!-- antrun自动生成的配置文件的保存位置，这里默认是父项目的target文件夹 -->
-                                    <fileset dir="${project.build.directory}">
-                                        <include name="*.jar"/>
-                                    </fileset>
-                                </copy>
-                            </target>
-                        </configuration>
                         <goals>
-                            <goal>run</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <!-- mvn clean时删除一些缓存文件 -->
+            <!-- smart-doc -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven-clean-plugin.version}</version>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <version>${smart-doc.version}</version>
+                <configuration>
+                    <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <!--指定项目名称-->
+                    <projectName>${project.artifactId}</projectName>
+                    <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
+                    <excludes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <exclude>com.alibaba:fastjson</exclude>
+                    </excludes>
+                    <!--自1.0.8版本开始，插件提供includes支持-->
+                    <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
+                    <includes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <include>com.alibaba:fastjson</include>
+                        <include>cn.alphahub.mall.common:lejing-common-base-public</include>
+                        <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>auto-clean</id>
-                        <phase>clean</phase>
+                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
+                        <phase>compile</phase>
                         <goals>
-                            <goal>clean</goal>
+                            <goal>html</goal>
                         </goals>
-                        <configuration>
-                            <filesets>
-                                <!-- 可以配置多个<fileset></fileset>进行递归删除 -->
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*common.jar</includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*interface.jar</includes>
-                                </fileset>
-                                <fileset>
-                                    <directory>${copy.dest.dir}</directory>
-                                    <includes>*exec.jar</includes>
-                                </fileset>
-                            </filesets>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

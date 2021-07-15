@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 商品三级分类
- * 
+ *
  * @author Weasley J
  * @email 1432689025@qq.com
  * @date 2021-02-07 22:46:24
  */
 @Mapper
 public interface CategoryMapper extends BaseMapper<Category> {
-	
+
 }

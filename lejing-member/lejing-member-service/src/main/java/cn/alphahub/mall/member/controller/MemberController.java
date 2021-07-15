@@ -1,34 +1,47 @@
 package cn.alphahub.mall.member.controller;
 
+import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.enums.CheckUserExistsStatus;
+import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.coupon.domain.Coupon;
-import cn.alphahub.mall.member.client.CouponClient;
 import cn.alphahub.mall.member.domain.Member;
+import cn.alphahub.mall.member.domain.MemberLevel;
+import cn.alphahub.mall.member.feign.CouponClient;
+import cn.alphahub.mall.member.service.MemberLevelService;
 import cn.alphahub.mall.member.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 会员Controller
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-02-24 16:15:38
  */
+@Slf4j
 @RestController
 @RequestMapping("member/member")
 public class MemberController extends BaseController {
-    @Autowired
+    @Resource
     private MemberService memberService;
-
-    @Autowired
+    @Resource
     private CouponClient couponClient;
+    @Resource
+    private MemberLevelService memberLevelService;
 
     /**
      * 查询会员列表
@@ -37,11 +50,10 @@ public class MemberController extends BaseController {
      * @param rows        显示行数,默认10条
      * @param orderColumn 排序排序字段,默认不排序
      * @param isAsc       排序方式,desc或者asc
-     * @param member      会员,字段选择性传入,默认为等值查询
+     * @param member      会员, 查询字段选择性传入, 默认为等值查询
      * @return 会员分页数据
      */
     @GetMapping("/list")
-    @SuppressWarnings("unchecked")
     public BaseResult<PageResult<Member>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -51,7 +63,10 @@ public class MemberController extends BaseController {
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Member> pageResult = memberService.queryPage(pageDomain, member);
-        return (BaseResult<PageResult<Member>>) toPageableResult(pageResult);
+        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
+            return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -60,11 +75,10 @@ public class MemberController extends BaseController {
      * @param id 会员主键id
      * @return 会员详细信息
      */
-    @GetMapping("/{id}")
-    @SuppressWarnings("unchecked")
+    @GetMapping("/info/{id}")
     public BaseResult<Member> info(@PathVariable("id") Long id) {
         Member member = memberService.getById(id);
-        return (BaseResult<Member>) toResponseResult(member);
+        return ObjectUtils.anyNotNull(member) ? BaseResult.ok(member) : BaseResult.fail();
     }
 
     /**
@@ -75,14 +89,28 @@ public class MemberController extends BaseController {
      */
     @PostMapping("/save")
     public BaseResult<Boolean> save(@RequestBody Member member) {
-        boolean save = memberService.save(member);
-        return toOperationResult(save);
+        // 保存会员信息前先判断下是否已经注册过了
+        CheckUserExistsStatus status = memberService.checkUserExistsStatus(member);
+        if (CheckUserExistsStatus.USER_CAN_REGISTER.getValue().equals(status.getValue())) {
+            QueryWrapper<MemberLevel> wrapper = new QueryWrapper<>();
+            List<MemberLevel> memberLevels = memberLevelService.list(wrapper.lambda().eq(MemberLevel::getDefaultStatus, 1));
+            // 设置默认会员等级
+            if (CollectionUtils.isNotEmpty(memberLevels)) {
+                member.setLevelId(memberLevels.get(0).getId());
+            }
+            // 设置创建时间
+            member.setCreateTime(new Date());
+            boolean save = memberService.save(member);
+            return BaseResult.ok(member.getUsername() + "注册成功", save);
+        } else {
+            return BaseResult.fail(status.getValue(), status.getName(), false);
+        }
     }
 
     /**
      * 修改会员
      *
-     * @param member 会员,根据主键id选择性更新
+     * @param member 会员, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
@@ -97,7 +125,7 @@ public class MemberController extends BaseController {
      * @param ids 会员id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/{ids}")
+    @DeleteMapping("/delete/{ids}")
     public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
@@ -112,7 +140,7 @@ public class MemberController extends BaseController {
     @GetMapping("/coupon/{couponId}")
     public Coupon getMemberCoupon(@PathVariable("couponId") Long couponId) {
         BaseResult<Coupon> info = couponClient.info(couponId);
-        return doConvertType(info, Coupon.class);
+        return ObjectUtils.isNotEmpty(info) ? doConvertType(info, Coupon.class) : null;
     }
 
     /**
@@ -134,5 +162,58 @@ public class MemberController extends BaseController {
             Coupon coupon
     ) {
         return couponClient.list(page, rows, orderColumn, isAsc, coupon);
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param member 用户信息
+     * @return 用户信息
+     */
+    @PostMapping("login")
+    public BaseResult<Member> login(@RequestBody Member member) {
+        QueryWrapper<Member> wrapper = new QueryWrapper<>();
+        Member one;
+        try {
+            one = memberService.getOne(
+                    wrapper.lambda().eq(Member::getUsername, member.getUsername())
+                            .or().eq(Member::getMobile, member.getMobile())
+                            .or().eq(Member::getEmail, member.getEmail())
+            );
+        } catch (Exception e) {
+            log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
+            return BaseResult.error("查询用户失败, 异常原因: " + e.getLocalizedMessage());
+        }
+        if (Objects.isNull(one)) {
+            return BaseResult.error("用户[" + member.getUsername() + "]不存在");
+        }
+        return BaseResult.success(one);
+    }
+
+    /**
+     * 处理微博社交登录
+     *
+     * @param socialUser 微博社交用户实体
+     * @return 用户信息
+     */
+    @PostMapping("/oauth2/login")
+    BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
+        Member member = memberService.loginByWeibo(socialUser);
+        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail();
+    }
+
+    /**
+     * 使用微信的accessToken登录注册用户
+     *
+     * @param accessTokenInfo 微信accessToken信息
+     * @return 用户信息
+     */
+    @PostMapping(value = "/weixin/login")
+    BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
+        Member member = memberService.loginWithWeChat(accessTokenInfo);
+        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail(
+                CheckUserExistsStatus.USER_IS_EMPTY.getValue(),
+                CheckUserExistsStatus.USER_IS_EMPTY.getName()
+        );
     }
 }

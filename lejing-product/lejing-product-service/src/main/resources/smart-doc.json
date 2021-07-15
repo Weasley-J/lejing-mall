@@ -1,14 +1,20 @@
 {
-  "serverUrl": "http://127.0.0.1:10000",
+  "serverUrl": "http://localhost:10000",
   "isStrict": false,
   "allInOne": true,
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.product.controller",
+  "packageFilters": "cn.alphahub.mall.product.controller.*",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "product-service后端接口文档",
+  "appKey": "20210711863837521337909248",
+  "secret": "7BnU4yz6UGR26<ykCTiJ0Sr$BU@24=1g",
+  "appToken": "c12790fcd19d4ef8a850f88aa69be7aa",
+  "openUrl": "http://192.168.40.132:7700/api",
+  "debugEnvName": "商品服务测试环境",
+  "debugEnvUrl": "http://192.168.31.113:88/api",
   "skipTransientField": true,
   "sortByTitle": false,
   "showAuthor": true,
@@ -22,6 +28,46 @@
   "displayActualType": false,
   "ignoreRequestParams": [
     "org.springframework.ui.ModelMap"
+  ],
+  "dataDictionaries": [
+    {
+      "title": "响应http状态码字典",
+      "enumClassName": "cn.alphahub.common.enums.HttpCodeEnum",
+      "codeField": "code",
+      "descField": "name"
+    },
+    {
+      "title": "验证码请求来源字典",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeOrigin",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "电子入场券状态字典",
+      "enumClassName": "cn.alphahub.common.enums.CouponStatus",
+      "codeField": "code",
+      "descField": "name"
+    }
+  ],
+  "errorCodeDictionaries": [
+    {
+      "title": "错误码和错误信息",
+      "enumClassName": "cn.alphahub.common.enums.BusinessCodeEnum",
+      "codeField": "code",
+      "descField": "message"
+    },
+    {
+      "title": "验证码发送错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeStatus",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "会员注册错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckUserExistsStatus",
+      "codeField": "value",
+      "descField": "name"
+    }
   ],
   "revisionLogs": [
     {

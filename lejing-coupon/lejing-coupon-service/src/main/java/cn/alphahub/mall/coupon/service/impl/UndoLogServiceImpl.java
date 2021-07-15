@@ -7,7 +7,6 @@ import cn.alphahub.mall.coupon.mapper.UndoLogMapper;
 import cn.alphahub.mall.coupon.service.UndoLogService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
-@Service("undoLogService")
+@Service
 public class UndoLogServiceImpl extends ServiceImpl<UndoLogMapper, UndoLog> implements UndoLogService {
 
     /**
@@ -31,16 +30,16 @@ public class UndoLogServiceImpl extends ServiceImpl<UndoLogMapper, UndoLog> impl
      */
     @Override
     public PageResult<UndoLog> queryPage(PageDomain pageDomain, UndoLog undoLog) {
-        pageDomain.startPage();
+        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<UndoLog> wrapper = new QueryWrapper<>(undoLog);
-        List<UndoLog> list = this.list(wrapper);
-        PageInfo<UndoLog> pageInfo = new PageInfo<>(list);
-        PageResult<UndoLog> pageResult = PageResult.<UndoLog>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage((long) pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
-        return pageResult;
+        // 2. 创建一个分页对象
+        PageResult<UndoLog> pageResult = new PageResult<>();
+        // 3. 开始分页
+        pageResult.startPage(pageDomain);
+        // 4. 执行Dao|Mapper SQL查询
+        List<UndoLog> undoLogList = this.list(wrapper);
+        // 5. 分装并返回数据
+        return pageResult.getPage(undoLogList);
     }
 
 }

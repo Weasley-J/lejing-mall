@@ -1,7 +1,9 @@
 package cn.alphahub.mall.order.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:45:12
+ * @date 2021-02-24 16:02:31
  */
 @Data
 @Builder
@@ -23,42 +25,43 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("oms_refund_info")
 public class RefundInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * 退款的订单
-	 */
+    /**
+     * 退款的订单
+     */
     private Long orderReturnId;
 
-	/**
-	 * 退款金额
-	 */
+    /**
+     * 退款金额
+     */
     private BigDecimal refund;
 
-	/**
-	 * 退款交易流水号
-	 */
+    /**
+     * 退款交易流水号
+     */
     private String refundSn;
 
-	/**
-	 * 退款状态
-	 */
+    /**
+     * 退款状态
+     */
     private Integer refundStatus;
 
-	/**
-	 * 退款渠道[1-支付宝，2-微信，3-银联，4-汇款]
-	 */
+    /**
+     * 退款渠道[1-支付宝，2-微信，3-银联，4-汇款]
+     */
     private Integer refundChannel;
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     private String refundContent;
 
 }

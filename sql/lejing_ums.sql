@@ -176,21 +176,21 @@ CREATE TABLE `ums_member_statistics_info`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '会员统计信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for undo_log
+-- for AT mode you must to init this sql for you business database. the seata server not need it.
 -- ----------------------------
 DROP TABLE IF EXISTS `undo_log`;
-CREATE TABLE `undo_log`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `branch_id` bigint NOT NULL COMMENT '相关的branch id',
-  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '相关的xid',
-  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '内容',
-  `rollback_info` longblob NOT NULL COMMENT '回滚信息',
-  `log_status` int NOT NULL COMMENT '日志状态码',
-  `log_created` datetime NOT NULL COMMENT '日志创建时间',
-  `log_modified` datetime NOT NULL COMMENT '日志修改时间',
-  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '其他信息',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '撤销日志表' ROW_FORMAT = DYNAMIC;
-
-SET FOREIGN_KEY_CHECKS = 1;
+CREATE TABLE IF NOT EXISTS `undo_log`
+(
+    `id`            bigint       NOT NULL AUTO_INCREMENT COMMENT '主键id',
+    `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
+    `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',
+    `context`       VARCHAR(128) NOT NULL COMMENT 'undo_log context,such as serialization',
+    `rollback_info` LONGBLOB     NOT NULL COMMENT 'rollback info',
+    `log_status`    INT(11)      NOT NULL COMMENT '0:normal status,1:defense status',
+    `log_created`   timestamp    NOT NULL COMMENT 'create datetime',
+    `log_modified`  timestamp    NOT NULL COMMENT 'modify datetime',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8mb4 COMMENT ='AT transaction mode undo table';

@@ -7,7 +7,6 @@ import cn.alphahub.mall.coupon.mapper.SeckillSkuNoticeMapper;
 import cn.alphahub.mall.coupon.service.SeckillSkuNoticeService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
-@Service("seckillSkuNoticeService")
+@Service
 public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeMapper, SeckillSkuNotice> implements SeckillSkuNoticeService {
 
     /**
@@ -31,16 +30,16 @@ public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeMap
      */
     @Override
     public PageResult<SeckillSkuNotice> queryPage(PageDomain pageDomain, SeckillSkuNotice seckillSkuNotice) {
-        pageDomain.startPage();
+        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<SeckillSkuNotice> wrapper = new QueryWrapper<>(seckillSkuNotice);
-        List<SeckillSkuNotice> list = this.list(wrapper);
-        PageInfo<SeckillSkuNotice> pageInfo = new PageInfo<>(list);
-        PageResult<SeckillSkuNotice> pageResult = PageResult.<SeckillSkuNotice>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage((long) pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
-        return pageResult;
+        // 2. 创建一个分页对象
+        PageResult<SeckillSkuNotice> pageResult = new PageResult<>();
+        // 3. 开始分页
+        pageResult.startPage(pageDomain);
+        // 4. 执行Dao|Mapper SQL查询
+        List<SeckillSkuNotice> seckillSkuNoticeList = this.list(wrapper);
+        // 5. 分装并返回数据
+        return pageResult.getPage(seckillSkuNoticeList);
     }
 
 }

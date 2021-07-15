@@ -1,0 +1,100 @@
+{
+  "serverUrl": "http://localhost:88/api",
+  "isStrict": false,
+  "allInOne": true,
+  "outPath": "src/main/resources/static",
+  "coverOld": true,
+  "createDebugPage": true,
+  "packageFilters": "cn.alphahub.mall.order.excel.*.*Controller",
+  "md5EncryptedHtmlName": false,
+  "style": "xt256",
+  "projectName": "order-service-easypoi后端接口文档",
+  "appKey": "20210711863837521337909248",
+  "secret": "7BnU4yz6UGR26<ykCTiJ0Sr$BU@24=1g",
+  "appToken": "cf827bb62f424cd6b9875dcddb5454cc",
+  "openUrl": "http://192.168.40.132:7700/api",
+  "debugEnvName": "order-service-easypoi测试环境",
+  "debugEnvUrl": "http://192.168.31.113:88/api",
+  "skipTransientField": true,
+  "sortByTitle": false,
+  "showAuthor": true,
+  "requestFieldToUnderline": false,
+  "responseFieldToUnderline": false,
+  "inlineEnum": true,
+  "recursionLimit": 7,
+  "allInOneDocFileName": "index.html",
+  "requestExample": "true",
+  "responseExample": "true",
+  "displayActualType": false,
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ],
+  "dataDictionaries": [
+    {
+      "title": "响应http状态码字典",
+      "enumClassName": "cn.alphahub.common.enums.HttpCodeEnum",
+      "codeField": "code",
+      "descField": "name"
+    },
+    {
+      "title": "订单状态字典",
+      "enumClassName": "cn.alphahub.mall.order.constant.OrderConstant$OrderStatusEnum",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "支付方式字典",
+      "enumClassName": "cn.alphahub.mall.order.constant.OrderConstant$PayTypeEnum",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "验证码请求来源字典",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeOrigin",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "电子入场券状态字典",
+      "enumClassName": "cn.alphahub.common.enums.CouponStatus",
+      "codeField": "code",
+      "descField": "name"
+    }
+  ],
+  "errorCodeDictionaries": [
+    {
+      "title": "错误码和错误信息",
+      "enumClassName": "cn.alphahub.common.enums.BusinessCodeEnum",
+      "codeField": "code",
+      "descField": "message"
+    },
+    {
+      "title": "验证码发送错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckCodeStatus",
+      "codeField": "value",
+      "descField": "name"
+    },
+    {
+      "title": "会员注册错误提示",
+      "enumClassName": "cn.alphahub.common.enums.CheckUserExistsStatus",
+      "codeField": "value",
+      "descField": "name"
+    }
+  ],
+  "revisionLogs": [
+    {
+      "version": "1.0",
+      "revisionTime": "2020-12-31 10:30",
+      "status": "创建",
+      "author": "Weasley J",
+      "remarks": "创建api文档"
+    },
+    {
+      "version": "1.1",
+      "revisionTime": "2021-02-03 14:02",
+      "status": "更新",
+      "author": "Weasley J",
+      "remarks": "版本升级"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.site.mapper.SiteInvalidSessionMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.site.domain.SiteInvalidSession" id="siteInvalidSessionResult">
+        <result property="invalidId" column="invalid_id"/>
+        <result property="siteId" column="site_id"/>
+        <result property="siteSessionIds" column="site_session_ids"/>
+        <result property="projectCode" column="project_code"/>
+        <result property="projectStatus" column="project_status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+</mapper>

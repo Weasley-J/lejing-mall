@@ -1,12 +1,42 @@
 spring:
   jackson:
     default-property-inclusion: non_null
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档，生产服务器不需要暴露文档
+      add-mappings: off
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.40.132:33306/lejing_sms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.40.132:3306/lejing_sms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
+        tx-service-group: lejing_tx_group
+#seata 配置
+seata:
+  enabled: on
+  application-id: ${spring.application.name}
+  tx-service-group: ${spring.cloud.alibaba.seata.tx-service-group}
+  enable-auto-data-source-proxy: on
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      group: SEATA_GROUP
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
+      username: nacos

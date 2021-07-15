@@ -1,7 +1,9 @@
 package cn.alphahub.mall.coupon.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,23 +30,27 @@ public class SeckillSkuRelation implements Serializable {
 	/**
 	 * id
 	 */
-    @TableId
-    private Long id;
+	@TableId
+	@JsonSerialize(using = IdSerializer.class)
+	private Long id;
 
 	/**
 	 * 活动id
 	 */
-    private Long promotionId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long promotionId;
 
 	/**
 	 * 活动场次id
 	 */
-    private Long promotionSessionId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long promotionSessionId;
 
 	/**
 	 * 商品id
 	 */
-    private Long skuId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long skuId;
 
 	/**
 	 * 秒杀价格

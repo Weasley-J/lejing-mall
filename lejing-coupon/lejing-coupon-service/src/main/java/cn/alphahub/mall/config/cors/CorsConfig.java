@@ -2,9 +2,6 @@ package cn.alphahub.mall.config.cors;
 
 import lombok.Data;
 import org.springframework.boot.SpringBootVersion;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -20,8 +17,8 @@ import java.util.List;
  * @date 2021年2月3日
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "cors.config")
+//@Configuration
+//@ConfigurationProperties(prefix = "cors.config")
 public class CorsConfig {
 
     /**
@@ -34,26 +31,20 @@ public class CorsConfig {
      */
     private List<String> allowedOrigins;
 
-    /**
-     * CORS allowed Origins according to version of Springboot
-     *
-     * @param allowedOrigins allowed Origins
-     * @return list of allowed Origins
-     */
-    protected List<String> getAllowedOrigins(List<String> allowedOrigins) {
+    //@Bean
+    public CorsFilter corsFilter() {
+        //CORS allowed Origins according to version of Springboot
         String springBootVersion = SpringBootVersion.getVersion();
         String[] versionArray = springBootVersion.split("\\.");
-        //spring-boot-version 2.4.x or < spring-boot-version 2.4.x
-        String all = Integer.parseInt(versionArray[1]) < 4 ? "*" : "allowedOriginPatterns";
-        return isAllowsAllDomain ? Collections.singletonList(all) : allowedOrigins;
-    }
 
-    @Bean
-    public CorsFilter corsFilter() {
         //1.添加CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //1) 允许的域,不要写*，否则cookie就无法使用了
-        config.setAllowedOrigins(this.getAllowedOrigins(this.allowedOrigins));
+        if (Integer.parseInt(versionArray[1]) >= 4) {
+            config.setAllowedOriginPatterns(isAllowsAllDomain ? Collections.singletonList("*") : allowedOrigins);
+        } else {
+            config.setAllowedOrigins(isAllowsAllDomain ? Collections.singletonList("*") : allowedOrigins);
+        }
         //2) 是否发送Cookie信息
         config.setAllowCredentials(Boolean.TRUE);
         //3) 允许的请求方式

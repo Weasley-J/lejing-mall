@@ -1,16 +1,16 @@
 package cn.alphahub.mall.coupon.controller;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
+import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SkuLadder;
 import cn.alphahub.mall.coupon.service.SkuLadderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -18,12 +18,12 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
 @RestController
 @RequestMapping("coupon/skuladder")
 public class SkuLadderController extends BaseController {
-    @Autowired
+    @Resource
     private SkuLadderService skuLadderService;
 
     /**
@@ -33,12 +33,10 @@ public class SkuLadderController extends BaseController {
      * @param rows        显示行数,默认10条
      * @param orderColumn 排序排序字段,默认不排序
      * @param isAsc       排序方式,desc或者asc
-     * @param skuLadder   商品阶梯价格,字段选择性传入,默认为等值查询
+     * @param skuLadder   商品阶梯价格, 查询字段选择性传入, 默认为等值查询
      * @return 商品阶梯价格分页数据
      */
     @GetMapping("/list")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("coupon:skuladder:list")
     public BaseResult<PageResult<SkuLadder>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -48,7 +46,10 @@ public class SkuLadderController extends BaseController {
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuLadder> pageResult = skuLadderService.queryPage(pageDomain, skuLadder);
-        return (BaseResult<PageResult<SkuLadder>>) toPageableResult(pageResult);
+        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
+            return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -57,12 +58,10 @@ public class SkuLadderController extends BaseController {
      * @param id 商品阶梯价格主键id
      * @return 商品阶梯价格详细信息
      */
-    @GetMapping("/{id}")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("coupon:skuladder:info")
+    @GetMapping("/info/{id}")
     public BaseResult<SkuLadder> info(@PathVariable("id") Long id) {
         SkuLadder skuLadder = skuLadderService.getById(id);
-        return (BaseResult<SkuLadder>) toResponseResult(skuLadder);
+        return ObjectUtils.anyNotNull(skuLadder) ? BaseResult.ok(skuLadder) : BaseResult.fail();
     }
 
     /**
@@ -72,7 +71,6 @@ public class SkuLadderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    //@RequiresPermissions("coupon:skuladder:save")
     public BaseResult<Boolean> save(@RequestBody SkuLadder skuLadder) {
         boolean save = skuLadderService.save(skuLadder);
         return toOperationResult(save);
@@ -81,11 +79,10 @@ public class SkuLadderController extends BaseController {
     /**
      * 修改商品阶梯价格
      *
-     * @param skuLadder 商品阶梯价格,根据主键id选择性更新
+     * @param skuLadder 商品阶梯价格, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("coupon:skuladder:update")
     public BaseResult<Boolean> update(@RequestBody SkuLadder skuLadder) {
         boolean update = skuLadderService.updateById(skuLadder);
         return toOperationResult(update);
@@ -97,8 +94,7 @@ public class SkuLadderController extends BaseController {
      * @param ids 商品阶梯价格id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/{ids}")
-    //@RequiresPermissions("coupon:skuladder:delete")
+    @DeleteMapping("/delete/{ids}")
     public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuLadderService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);

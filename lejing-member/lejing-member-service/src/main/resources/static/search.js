@@ -142,6 +142,18 @@ api[4].list.push({
     order: '7',
     desc: '查询优惠券信息列表-测试feign远程调用',
 });
+api[4].list.push({
+    order: '8',
+    desc: '用户登录',
+});
+api[4].list.push({
+    order: '9',
+    desc: '处理微博社交登录',
+});
+api[4].list.push({
+    order: '10',
+    desc: '使用微信的accessToken登录注册用户',
+});
 api.push({
     alias: 'MemberLevelController',
     order: '6',
@@ -223,6 +235,10 @@ api[7].list.push({
     order: '5',
     desc: '批量删除会员收货地址',
 });
+api[7].list.push({
+    order: '6',
+    desc: '查询用户的收货地址列表',
+});
 api.push({
     alias: 'MemberStatisticsInfoController',
     order: '9',
@@ -278,12 +294,42 @@ api[9].list.push({
     desc: '批量删除撤销日志表',
 });
 api.push({
-    alias: 'dict',
+    alias: 'MemberWebController',
     order: '11',
+    link: '会员订单页controller',
+    desc: '会员订单页Controller',
+    list: []
+})
+api[10].list.push({
+    order: '1',
+    desc: '获取当前会员的所有订单列表数据',
+});
+api.push({
+    alias: 'error',
+    order: '12',
+    link: 'error_code_list',
+    desc: '错误码列表',
+    list: []
+})
+api.push({
+    alias: 'dict',
+    order: '13',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
+api[12].list.push({
+    order: '1',
+    desc: '响应http状态码字典',
+});
+api[12].list.push({
+    order: '2',
+    desc: '验证码请求来源字典',
+});
+api[12].list.push({
+    order: '3',
+    desc: '电子入场券状态字典',
+});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

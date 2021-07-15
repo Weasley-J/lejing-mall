@@ -1,7 +1,9 @@
 package cn.alphahub.mall.product.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,62 +25,66 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("pms_sku_info")
 public class SkuInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * skuId
-	 */
+    /**
+     * skuId
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long skuId;
 
-	/**
-	 * spuId
-	 */
+    /**
+     * spuId
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long spuId;
 
-	/**
-	 * sku名称
-	 */
+    /**
+     * sku名称
+     */
     private String skuName;
 
-	/**
-	 * sku介绍描述
-	 */
+    /**
+     * sku介绍描述
+     */
     private String skuDesc;
 
-	/**
-	 * 所属分类id
-	 */
+    /**
+     * 所属分类id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long catalogId;
 
-	/**
-	 * 品牌id
-	 */
+    /**
+     * 品牌id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long brandId;
 
-	/**
-	 * 默认图片
-	 */
+    /**
+     * 默认图片
+     */
     private String skuDefaultImg;
 
-	/**
-	 * 标题
-	 */
+    /**
+     * 标题
+     */
     private String skuTitle;
 
-	/**
-	 * 副标题
-	 */
+    /**
+     * 副标题
+     */
     private String skuSubtitle;
 
-	/**
-	 * 价格
-	 */
+    /**
+     * 价格
+     */
     private BigDecimal price;
 
-	/**
-	 * 销量
-	 */
+    /**
+     * 销量
+     */
     private Long saleCount;
 
 }

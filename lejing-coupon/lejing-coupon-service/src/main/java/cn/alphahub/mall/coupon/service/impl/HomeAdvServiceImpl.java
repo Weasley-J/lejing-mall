@@ -7,7 +7,6 @@ import cn.alphahub.mall.coupon.mapper.HomeAdvMapper;
 import cn.alphahub.mall.coupon.service.HomeAdvService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
-@Service("homeAdvService")
+@Service
 public class HomeAdvServiceImpl extends ServiceImpl<HomeAdvMapper, HomeAdv> implements HomeAdvService {
 
     /**
@@ -31,16 +30,16 @@ public class HomeAdvServiceImpl extends ServiceImpl<HomeAdvMapper, HomeAdv> impl
      */
     @Override
     public PageResult<HomeAdv> queryPage(PageDomain pageDomain, HomeAdv homeAdv) {
-        pageDomain.startPage();
+        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<HomeAdv> wrapper = new QueryWrapper<>(homeAdv);
-        List<HomeAdv> list = this.list(wrapper);
-        PageInfo<HomeAdv> pageInfo = new PageInfo<>(list);
-        PageResult<HomeAdv> pageResult = PageResult.<HomeAdv>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage((long) pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
-        return pageResult;
+        // 2. 创建一个分页对象
+        PageResult<HomeAdv> pageResult = new PageResult<>();
+        // 3. 开始分页
+        pageResult.startPage(pageDomain);
+        // 4. 执行Dao|Mapper SQL查询
+        List<HomeAdv> homeAdvList = this.list(wrapper);
+        // 5. 分装并返回数据
+        return pageResult.getPage(homeAdvList);
     }
 
 }

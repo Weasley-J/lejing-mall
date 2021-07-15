@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    nacos:
+      #配置中心
+      config:
+        #namespace做环境隔离
+        namespace: d2277150-0a8e-4b7b-aa3f-00482fadda0e
+        server-addr: 127.0.0.1:8848
+        refresh-enabled: true
+        #垃圾nacos特么居然严格区分yaml和yml
+        file-extension: yml
+#        extension-configs:
+#          - data-id: datasource.yml
+#            group: dev
+#            refresh: true
+#          - data-id: mybatis.yml
+#            group: dev
+#            refresh: true
+#          - data-id: common.yml
+#            group: DEFAULT_GROUP
+#            refresh: true

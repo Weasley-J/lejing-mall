@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--读取spring容器中的属性，这里是获取项目名称和运行的服务器IP-->
+    <springProperty scope="context" name="server_port" source="server.port"/>
+    <springProperty scope="context" name="app_name" source="spring.application.name"/>
+    <springProperty scope="context" name="run_env" source="spring.profiles.active"/>
+
+    <!--定义日志输出文件的存储位置，勿在 logback 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="/root/log"/>
+    <property name="COLOR_PATTERN"
+              value="%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta( %replace(%caller{1}){'\t|Caller.{1}0|\r\n', ''})- %gray(%msg%xEx%n)"/>
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <!-- 日志输出编码 -->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 输出到文件配置 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"${app_name}"}</customFields>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${app_name}-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 输出到Logstash配置 -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!-- ip:port -->
+        <destination>192.168.40.132:5044</destination>
+        <!-- encoder 必须配置,有多种可选 -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app_name":"${app_name}"}</customFields>
+            <customFields>{"run_env":"${run_env}"}</customFields>
+            <customFields>{"server_port":"${server_port}"}</customFields>
+        </encoder>
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 minutes</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+    </appender>
+
+    <!-- 在application.yml中指定spring.profiles.active属性值，配置线上与线下环境日志的输出 -->
+    <!-- 开发环境 -->
+    <springProfile name="dev,lwj">
+        <!-- 日志输出级别 -->
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="LOGSTASH"/>
+        </root>
+    </springProfile>
+
+    <!-- 测试环境 -->
+    <springProfile name="test">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="LOGSTASH"/>
+        </root>
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="LOGSTASH"/>
+        </root>
+    </springProfile>
+
+</configuration>

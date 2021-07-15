@@ -1,7 +1,9 @@
 package cn.alphahub.mall.product.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,27 +24,30 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_attr_attrgroup_relation")
 public class AttrAttrgroupRelation implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * 属性id
-	 */
+    /**
+     * 属性id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long attrId;
 
-	/**
-	 * 属性分组id
-	 */
+    /**
+     * 属性分组id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long attrGroupId;
 
-	/**
-	 * 属性组内排序
-	 */
+    /**
+     * 属性组内排序
+     */
     private Integer attrSort;
 
 }

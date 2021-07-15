@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>微信支付页</title>
+        <link rel="icon" href="./img/favicon.ico">
+
+
+    <link rel="stylesheet" type="text/css" href="./css/all.css" />
+    <link rel="stylesheet" type="text/css" href="./css/pages-weixinpay.css" />
+</head>
+
+	<body>
+		<!--head-->
+		<div id="nav-bottom">
+			<!--顶部-->
+			<div class="nav-top">
+				<div class="top">
+					<div class="py-container">
+						<div class="shortcut">
+							<ul class="fl">
+								<li class="f-item">乐璟商城欢迎您！</li>
+								<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+							</ul>
+							<div class="fr typelist">
+								<ul class="types">
+									<li class="f-item"><span>我的订单</span></li>
+
+									<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
+									<li class="f-item"><span><a href="home.html" target="_blank">我的乐璟</a></span></li>
+									<li class="f-item"><span>乐璟会员</span></li>
+									<li class="f-item"><span>企业采购</span></li>
+									<li class="f-item"><span>关注乐璟</span></li>
+									<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
+									<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!--头部-->
+				<div class="header">
+					<div class="py-container">
+						<div class="yui3-g Logo">
+							<div class="yui3-u Left logoArea">
+								<a class="logo-bd" title="乐璟商城" href="index.html" target="_blank"></a>
+							</div>
+							<div class="yui3-u Rit searchArea">
+								<div class="search">
+									<form action="" class="sui-form form-inline">
+										<!--searchAutoComplete-->
+										<div class="input-append">
+											<input type="text" id="autocomplete"   class="input-error input-xxlarge" />
+											<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cart py-container">
+
+			<!--主内容-->
+			<div class="checkout py-container  pay">
+				<div class="checkout-tit">
+					<h4 class="fl tit-txt"><span class="success-icon"></span><span  class="success-info">订单提交成功，请您及时付款！订单号：56789065645</span></h4>
+                    <span class="fr"><em class="sui-lead">应付金额：</em><em  class="orange money">￥17,654</em>元</span>
+					<div class="clearfix"></div>
+				</div>
+				<div class="checkout-steps">
+					<div class="fl weixin">微信支付</div>
+                    <div class="fl sao">
+                        <p class="red"></p>
+                        <div class="fl code">
+                            <div id="qrcode"></div>
+                            <div class="saosao">
+                                <p>请使用微信扫一扫</p>
+                                <p>扫描二维码支付</p>
+                            </div>
+                        </div>
+                        <div class="fl phone">
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+				    <p><a href="pay.html" target="_blank">> 其他支付方式</a></p>
+				</div>
+			</div>
+
+		</div>
+		<!-- 底部栏位 -->
+		<!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div class="footlink">
+			<div class="clearfix Mod-list">
+				<div class="yui3-g">
+					<div class="yui3-u-1-6">
+						<h4>购物指南</h4>
+						<ul class="unstyled">
+							<li>购物流程</li>
+							<li>会员介绍</li>
+							<li>生活旅行/团购</li>
+							<li>常见问题</li>
+							<li>购物指南</li>
+						</ul>
+
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>配送方式</h4>
+						<ul class="unstyled">
+							<li>上门自提</li>
+							<li>211限时达</li>
+							<li>配送服务查询</li>
+							<li>配送费收取标准</li>
+							<li>海外配送</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>支付方式</h4>
+						<ul class="unstyled">
+							<li>货到付款</li>
+							<li>在线支付</li>
+							<li>分期付款</li>
+							<li>邮局汇款</li>
+							<li>公司转账</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>售后服务</h4>
+						<ul class="unstyled">
+							<li>售后政策</li>
+							<li>价格保护</li>
+							<li>退款说明</li>
+							<li>返修/退换货</li>
+							<li>取消订单</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>特色服务</h4>
+						<ul class="unstyled">
+							<li>夺宝岛</li>
+							<li>DIY装机</li>
+							<li>延保服务</li>
+							<li>乐璟E卡</li>
+							<li>乐璟通信</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>帮助中心</h4>
+						<img src="./img/wx_cz.jpg">
+					</div>
+				</div>
+			</div>
+			<div class="Mod-copyright">
+				<ul class="helpLink">
+					<li>关于我们<span class="space"></span></li>
+					<li>联系我们<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>商家入驻<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们</li>
+				</ul>
+				<p>地址：上海市长宁区泉口路xx路xx弄乐璟科技社区</p>
+				<p>沪ICP备88888888号</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!--页面底部END-->
+
+
+
+
+</body>
+<script src="js/plugins/qrcode.min.js" ></script>
+<script src="js/plugins/stomp.min.js" ></script>
+<script type="text/javascript">
+let qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 240,
+	height : 240
+});
+qrcode.makeCode("weixin://wxpay/bizpayurl?pr=Y3hDTZy");
+
+
+let client = Stomp.client('ws://127.0.0.1:15674/ws');
+let on_connect = function(x) {
+    id = client.subscribe("/exchange/paynotify", function(d) {
+        let orderId="11001021010312";//订单号
+        if(d.body==orderId){
+            location.href='/paysuccess.html?payMoney=1'; //参数支付金额
+        }
+    });
+};
+let on_error =  function() {
+    console.log('error');
+};
+client.connect('webguest', 'itcast', on_connect, on_error, '/');
+
+
+</script>
+
+
+
+
+</html>

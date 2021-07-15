@@ -1,7 +1,9 @@
 package cn.alphahub.mall.product.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,37 +24,40 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_sku_sale_attr_value")
 public class SkuSaleAttrValue implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * sku_id
-	 */
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long skuId;
 
-	/**
-	 * attr_id
-	 */
+    /**
+     * attr_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long attrId;
 
-	/**
-	 * 销售属性名
-	 */
+    /**
+     * 销售属性名
+     */
     private String attrName;
 
-	/**
-	 * 销售属性值
-	 */
+    /**
+     * 销售属性值
+     */
     private String attrValue;
 
-	/**
-	 * 顺序
-	 */
+    /**
+     * 顺序
+     */
     private Integer attrSort;
 
 }

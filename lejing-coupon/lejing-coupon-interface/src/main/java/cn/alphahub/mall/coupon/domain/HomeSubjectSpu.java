@@ -1,7 +1,9 @@
 package cn.alphahub.mall.coupon.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +29,9 @@ public class HomeSubjectSpu implements Serializable {
 	/**
 	 * id
 	 */
-    @TableId
-    private Long id;
+	@TableId
+	@JsonSerialize(using = IdSerializer.class)
+	private Long id;
 
 	/**
 	 * 专题名字
@@ -38,12 +41,14 @@ public class HomeSubjectSpu implements Serializable {
 	/**
 	 * 专题id
 	 */
-    private Long subjectId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long subjectId;
 
 	/**
 	 * spu_id
 	 */
-    private Long spuId;
+	@JsonSerialize(using = IdSerializer.class)
+	private Long spuId;
 
 	/**
 	 * 排序

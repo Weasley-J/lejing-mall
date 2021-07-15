@@ -1,7 +1,9 @@
 package cn.alphahub.mall.order.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +18,7 @@ import java.util.Date;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:45:12
+ * @date 2021-02-24 16:02:31
  */
 @Data
 @Builder
@@ -24,62 +26,64 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("oms_payment_info")
 public class PaymentInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * 订单号（对外业务号）
-	 */
+    /**
+     * 订单号（对外业务号）
+     */
     private String orderSn;
 
-	/**
-	 * 订单id
-	 */
+    /**
+     * 订单id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long orderId;
 
-	/**
-	 * 支付宝交易流水号
-	 */
+    /**
+     * 支付宝交易流水号
+     */
     private String alipayTradeNo;
 
-	/**
-	 * 支付总金额
-	 */
+    /**
+     * 支付总金额
+     */
     private BigDecimal totalAmount;
 
-	/**
-	 * 交易内容
-	 */
+    /**
+     * 交易内容
+     */
     private String subject;
 
-	/**
-	 * 支付状态
-	 */
+    /**
+     * 支付状态
+     */
     private String paymentStatus;
 
-	/**
-	 * 创建时间
-	 */
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
-	/**
-	 * 确认时间
-	 */
+    /**
+     * 确认时间
+     */
     private Date confirmTime;
 
-	/**
-	 * 回调内容
-	 */
+    /**
+     * 回调内容
+     */
     private String callbackContent;
 
-	/**
-	 * 回调时间
-	 */
+    /**
+     * 回调时间
+     */
     private Date callbackTime;
 
 }

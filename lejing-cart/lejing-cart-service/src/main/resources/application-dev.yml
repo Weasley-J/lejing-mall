@@ -1,0 +1,36 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  #开发环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: off
+  #nacos server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  redis:
+    database: 0
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    timeout: 6000ms
+#乐璟商城-线程池配置
+lejing:
+  thread:
+    #核心线程池数量
+    core-pool-size: 20
+    #最大线程数
+    maximum-pool-size: 200
+    #时间单位代表-秒
+    time-unit: seconds
+    #存活时间
+    keep-alive-time: 10
+    #最大任务数量
+    capacity: 10000

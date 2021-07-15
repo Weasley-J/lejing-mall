@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.alphahub.mall.product.mapper.CategoryMapper">
-
-	<!-- 可根据自己的需求，按需使用 -->
+    <!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.product.domain.Category" id="categoryResult">
         <result property="catId" column="cat_id"/>
         <result property="name" column="name"/>
@@ -15,5 +14,4 @@
         <result property="productUnit" column="product_unit"/>
         <result property="productCount" column="product_count"/>
     </resultMap>
-
 </mapper>

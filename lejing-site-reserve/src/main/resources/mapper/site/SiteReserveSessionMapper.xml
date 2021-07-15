@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.site.mapper.SiteReserveSessionMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.site.domain.SiteReserveSession" id="siteReserveSessionResult">
+        <result property="siteSessionId" column="site_session_id"/>
+        <result property="siteId" column="site_id"/>
+        <result property="sessionStartTime" column="session_start_time"/>
+        <result property="sessionFinishTime" column="session_finish_time"/>
+        <result property="currentPrice" column="current_price"/>
+        <result property="sessionStatus" column="session_status"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+</mapper>

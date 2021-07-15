@@ -1,7 +1,9 @@
 package cn.alphahub.mall.ware.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.io.Serializable;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:47:37
+ * @date 2021-02-24 15:19:57
  */
 @Data
 @Builder
@@ -22,42 +24,46 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("wms_ware_order_task_detail")
 public class WareOrderTaskDetail implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * sku_id
-	 */
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long skuId;
 
-	/**
-	 * sku_name
-	 */
+    /**
+     * sku_name
+     */
     private String skuName;
 
-	/**
-	 * 购买个数
-	 */
+    /**
+     * 购买个数
+     */
     private Integer skuNum;
 
-	/**
-	 * 工作单id
-	 */
+    /**
+     * 工作单id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long taskId;
 
-	/**
-	 * 仓库id
-	 */
+    /**
+     * 仓库id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long wareId;
 
-	/**
-	 * 1-已锁定 2-已解锁 3-已扣减
-	 */
+    /**
+     * 1-已锁定 2-已解锁 3-已扣减
+     */
     private Integer lockStatus;
 
 }

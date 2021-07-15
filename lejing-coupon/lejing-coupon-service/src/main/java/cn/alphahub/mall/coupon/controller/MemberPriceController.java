@@ -1,16 +1,16 @@
 package cn.alphahub.mall.coupon.controller;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-
+import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.MemberPrice;
 import cn.alphahub.mall.coupon.service.MemberPriceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -18,12 +18,12 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
 @RestController
 @RequestMapping("coupon/memberprice")
 public class MemberPriceController extends BaseController {
-    @Autowired
+    @Resource
     private MemberPriceService memberPriceService;
 
     /**
@@ -33,12 +33,10 @@ public class MemberPriceController extends BaseController {
      * @param rows        显示行数,默认10条
      * @param orderColumn 排序排序字段,默认不排序
      * @param isAsc       排序方式,desc或者asc
-     * @param memberPrice 商品会员价格,字段选择性传入,默认为等值查询
+     * @param memberPrice 商品会员价格, 查询字段选择性传入, 默认为等值查询
      * @return 商品会员价格分页数据
      */
     @GetMapping("/list")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("coupon:memberprice:list")
     public BaseResult<PageResult<MemberPrice>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -48,7 +46,10 @@ public class MemberPriceController extends BaseController {
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberPrice> pageResult = memberPriceService.queryPage(pageDomain, memberPrice);
-        return (BaseResult<PageResult<MemberPrice>>) toPageableResult(pageResult);
+        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
+            return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -57,12 +58,10 @@ public class MemberPriceController extends BaseController {
      * @param id 商品会员价格主键id
      * @return 商品会员价格详细信息
      */
-    @GetMapping("/{id}")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("coupon:memberprice:info")
+    @GetMapping("/info/{id}")
     public BaseResult<MemberPrice> info(@PathVariable("id") Long id) {
         MemberPrice memberPrice = memberPriceService.getById(id);
-        return (BaseResult<MemberPrice>) toResponseResult(memberPrice);
+        return ObjectUtils.anyNotNull(memberPrice) ? BaseResult.ok(memberPrice) : BaseResult.fail();
     }
 
     /**
@@ -72,7 +71,6 @@ public class MemberPriceController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    //@RequiresPermissions("coupon:memberprice:save")
     public BaseResult<Boolean> save(@RequestBody MemberPrice memberPrice) {
         boolean save = memberPriceService.save(memberPrice);
         return toOperationResult(save);
@@ -81,11 +79,10 @@ public class MemberPriceController extends BaseController {
     /**
      * 修改商品会员价格
      *
-     * @param memberPrice 商品会员价格,根据主键id选择性更新
+     * @param memberPrice 商品会员价格, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("coupon:memberprice:update")
     public BaseResult<Boolean> update(@RequestBody MemberPrice memberPrice) {
         boolean update = memberPriceService.updateById(memberPrice);
         return toOperationResult(update);
@@ -97,8 +94,7 @@ public class MemberPriceController extends BaseController {
      * @param ids 商品会员价格id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/{ids}")
-    //@RequiresPermissions("coupon:memberprice:delete")
+    @DeleteMapping("/delete/{ids}")
     public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberPriceService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);

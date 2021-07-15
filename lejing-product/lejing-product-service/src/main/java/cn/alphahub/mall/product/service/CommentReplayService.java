@@ -1,6 +1,7 @@
 package cn.alphahub.mall.product.service;
 
-import cn.alphahub.common.core.service.PageService;
+import cn.alphahub.common.core.page.PageDomain;
+import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.CommentReplay;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,8 +10,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:46:24
+ * @date 2021-02-24 15:36:31
  */
-public interface CommentReplayService extends IService<CommentReplay>, PageService<CommentReplay> {
+public interface CommentReplayService extends IService<CommentReplay> {
+
+    /**
+     * 查询商品评价回复关系分页列表
+     *
+     * @param pageDomain    分页数据
+     * @param commentReplay 分页对象
+     * @return 商品评价回复关系分页数据
+     */
+    PageResult<CommentReplay> queryPage(PageDomain pageDomain, CommentReplay commentReplay);
 
 }

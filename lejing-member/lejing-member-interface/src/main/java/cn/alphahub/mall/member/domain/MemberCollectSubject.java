@@ -1,7 +1,9 @@
 package cn.alphahub.mall.member.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.io.Serializable;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-02-24 16:15:38
  */
 @Data
 @Builder
@@ -22,32 +24,34 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("ums_member_collect_subject")
 public class MemberCollectSubject implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * subject_id
-	 */
+    /**
+     * subject_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long subjectId;
 
-	/**
-	 * subject_name
-	 */
+    /**
+     * subject_name
+     */
     private String subjectName;
 
-	/**
-	 * subject_img
-	 */
+    /**
+     * subject_img
+     */
     private String subjectImg;
 
-	/**
-	 * 活动url
-	 */
+    /**
+     * 活动url
+     */
     private String subjectUrll;
 
 }

@@ -1,0 +1,104 @@
+package ${package}.${moduleName}.controller;
+
+import ${mainPath}.common.constant.HttpStatus;
+import ${mainPath}.common.core.controller.BaseController;
+import ${mainPath}.common.core.domain.BaseResult;
+import ${mainPath}.common.core.page.PageDomain;
+import ${mainPath}.common.core.page.PageResult;
+
+import ${package}.${moduleName}.domain.${className};
+import ${package}.${moduleName}.service.${className}Service;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Arrays;
+
+/**
+ * ${comments}Controller
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("${moduleName}/${pathName}")
+public class ${className}Controller extends BaseController {
+    @Resource
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 查询${comments}列表
+     *
+     * @param page         当前页码,默认第1页
+     * @param rows         显示行数,默认10条
+     * @param orderColumn  排序排序字段,默认不排序
+     * @param isAsc        排序方式,desc或者asc
+     * @param ${classname} ${comments}, 查询字段选择性传入, 默认为等值查询
+     * @return ${comments}分页数据
+     */
+    @GetMapping("/list")
+    public BaseResult<PageResult<${className}>> list(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
+            @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
+            @RequestParam(value = "isAsc", defaultValue = "") String isAsc,
+            ${className} ${classname}
+    ) {
+        PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
+        PageResult<${className}> pageResult = ${classname}Service.queryPage(pageDomain, ${classname});
+        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
+            return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+    }
+
+    /**
+     * 获取${comments}详情
+     *
+     * @param ${pk.attrname} ${comments}主键id
+     * @return ${comments}详细信息
+     */
+    @GetMapping("/info/{${pk.attrname}}")
+    public BaseResult<${className}> info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+        ${className} ${classname} = ${classname}Service.getById(${pk.attrname});
+        return ObjectUtils.anyNotNull(${classname}) ? BaseResult.ok(${classname}) : BaseResult.fail();
+    }
+
+    /**
+     * 新增${comments}
+     *
+     * @param ${classname} ${comments}元数据
+     * @return 成功返回true,失败返回false
+     */
+    @PostMapping("/save")
+    public BaseResult<Boolean> save(@RequestBody ${className} ${classname}) {
+        boolean save = ${classname}Service.save(${classname});
+        return toOperationResult(save);
+    }
+
+    /**
+     * 修改${comments}
+     *
+     * @param ${classname} ${comments}, 根据id选择性更新
+     * @return 成功返回true,失败返回false
+     */
+    @PutMapping("/update")
+    public BaseResult<Boolean> update(@RequestBody ${className} ${classname}) {
+        boolean update = ${classname}Service.updateById(${classname});
+        return toOperationResult(update);
+    }
+
+    /**
+     * 批量删除${comments}
+     *
+     * @param ${pk.attrname}s ${comments}id集合
+     * @return 成功返回true,失败返回false
+     */
+    @DeleteMapping("/delete/{${pk.attrname}s}")
+    public BaseResult<Boolean> delete(@PathVariable ${pk.attrType}[] ${pk.attrname}s){
+        boolean delete = ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+        return toOperationResult(delete);
+    }
+}

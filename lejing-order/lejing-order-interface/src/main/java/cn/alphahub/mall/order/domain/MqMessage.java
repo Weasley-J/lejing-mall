@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:45:12
+ * @date 2021-02-24 16:02:31
  */
 @Data
 @Builder
@@ -23,47 +23,47 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("mq_message")
 public class MqMessage implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 消息id
-	 */
+    /**
+     * 消息id
+     */
     @TableId
     private String messageId;
 
-	/**
-	 * 内容
-	 */
+    /**
+     * 内容
+     */
     private String content;
 
-	/**
-	 * 目标交换机
-	 */
+    /**
+     * 目标交换机
+     */
     private String toExchange;
 
-	/**
-	 * 路由键
-	 */
+    /**
+     * 路由键
+     */
     private String routingKey;
 
-	/**
-	 * 全限定类名
-	 */
+    /**
+     * 全限定类名
+     */
     private String classType;
 
-	/**
-	 * 0-新建1-已发送2错误抵达3-已抵达
-	 */
+    /**
+     * 0-新建，1-已发送，2-错误抵达，3-已抵达
+     */
     private Integer messageStatus;
 
-	/**
-	 * 创建时间
-	 */
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
-	/**
-	 * 更新时间
-	 */
+    /**
+     * 更新时间
+     */
     private Date updateTime;
 
 }

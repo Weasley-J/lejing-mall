@@ -1,7 +1,9 @@
 package cn.alphahub.mall.member.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,7 @@ import java.util.Date;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-02-24 16:15:38
  */
 @Data
 @Builder
@@ -23,37 +25,39 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("ums_integration_change_history")
 public class IntegrationChangeHistory implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * member_id
-	 */
+    /**
+     * member_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long memberId;
 
-	/**
-	 * create_time
-	 */
+    /**
+     * create_time
+     */
     private Date createTime;
 
-	/**
-	 * 变化的值
-	 */
+    /**
+     * 变化的值
+     */
     private Integer changeCount;
 
-	/**
-	 * 备注
-	 */
+    /**
+     * 备注
+     */
     private String note;
 
-	/**
-	 * 来源[0->购物；1->管理员修改;2->活动]
-	 */
+    /**
+     * 来源[0->购物；1->管理员修改;2->活动]
+     */
     private Integer sourceTyoe;
 
 }

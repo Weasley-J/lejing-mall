@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.alphahub.mall.member.mapper.MemberReceiveAddressMapper">
-
-	<!-- 可根据自己的需求，按需使用 -->
+    <!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.member.domain.MemberReceiveAddress" id="memberReceiveAddressResult">
         <result property="id" column="id"/>
         <result property="memberId" column="member_id"/>
@@ -17,5 +16,4 @@
         <result property="areacode" column="areacode"/>
         <result property="defaultStatus" column="default_status"/>
     </resultMap>
-
 </mapper>

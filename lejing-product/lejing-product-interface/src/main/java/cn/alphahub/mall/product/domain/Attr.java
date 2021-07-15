@@ -1,7 +1,9 @@
 package cn.alphahub.mall.product.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,57 +24,59 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_attr")
 public class Attr implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 属性id
-	 */
+    /**
+     * 属性id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long attrId;
 
-	/**
-	 * 属性名
-	 */
+    /**
+     * 属性名
+     */
     private String attrName;
 
-	/**
-	 * 是否需要检索[0-不需要，1-需要]
-	 */
+    /**
+     * 是否需要检索[0-不需要，1-需要]
+     */
     private Integer searchType;
 
-	/**
-	 * 属性图标
-	 */
+    /**
+     * 属性图标
+     */
     private String icon;
 
-	/**
-	 * 可选值列表[用逗号分隔]
-	 */
+    /**
+     * 可选值列表[用逗号分隔]
+     */
     private String valueSelect;
 
-	/**
-	 * 属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]
-	 */
+    /**
+     * 属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]
+     */
     private Integer attrType;
 
-	/**
-	 * 启用状态[0 - 禁用，1 - 启用]
-	 */
+    /**
+     * 启用状态[0 - 禁用，1 - 启用]
+     */
     private Long enable;
 
-	/**
-	 * 所属分类
-	 */
+    /**
+     * 所属分类
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long catelogId;
 
-	/**
-	 * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
-	 */
+    /**
+     * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
+     */
     private Integer showDesc;
 
-	/**
-	 * 单选 多选[0 1]
-	 */
+    /**
+     * 单选 多选[0 1]
+     */
     private String valueType;
 
 }

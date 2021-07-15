@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.site.mapper.SiteReserveStatusMapper">
+    <!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.site.domain.SiteReserveStatus" id="siteReserveStatusResult">
+        <result property="siteStatusId" column="site_status_id"/>
+        <result property="siteSessionId" column="site_session_id"/>
+        <result property="siteId" column="site_id"/>
+        <result property="siteReserveStatus" column="site_reserve_status"/>
+        <result property="siteStockQuantity" column="site_stock_quantity"/>
+        <result property="siteAvailableStock" column="site_available_stock"/>
+        <result property="effectDate" column="effect_date"/>
+        <result property="currentPrice" column="current_price"/>
+        <result property="stockQuantity" column="stock_quantity"/>
+        <result property="stockFreeze" column="stock_freeze"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <resultMap id="siteDetailBOResult" type="cn.alphahub.mall.app.pojo.vo.SiteBookVO">
+        <result property="siteSessionId" column="site_session_id"/>
+        <result property="effectDate" column="effect_date"/>
+        <result property="sessionStartTime" column="session_start_time"/>
+        <result property="sessionFinishTime" column="session_finish_time"/>
+    </resultMap>
+
+    <!-- app -->
+    <select id="getDataInDays" resultMap="siteReserveStatusResult">
+        SELECT *
+        FROM `eb_site_reserve_status`
+        <where>
+            <if test="siteId != null">
+                and site_id = #{siteId}
+            </if>
+            <if test="days != null">
+                and effect_date between now() and (date_add(now(), interval #{days} day))
+            </if>
+        </where>
+        LIMIT 0,50
+    </select>
+
+    <!-- app -->
+    <select id="getDataCountInDays" resultType="integer">
+        select count(*)
+        from eb_site_reserve_status esrs
+        <where>
+            <!--可预订-->
+            and site_reserve_status = '0'
+            <if test="siteId != null">
+                and site_id = #{siteId}
+            </if>
+            <if test="days != null">
+                and esrs.effect_date between now() and (date_add(now(), interval #{days} day))
+            </if>
+        </where>
+    </select>
+
+    <!-- app -->
+    <select id="getLatestSessionDataInDays" resultMap="siteDetailBOResult">
+        SELECT rs.site_session_id,
+               es.effect_date,
+               rs.session_start_time,
+               rs.session_finish_time
+        FROM `eb_site_reserve_status` es
+                     LEFT JOIN `eb_site_reserve_session` rs USING (site_session_id)
+        WHERE es.effect_date BETWEEN now()
+                AND (date_add(now(), INTERVAL #{days} day))
+          AND rs.site_id = #{siteId}
+          AND LEFT(rs.session_start_time, 2) > date_format(now(), '%k')
+          AND rs.session_status = 0
+        GROUP BY es.effect_date
+    </select>
+</mapper>

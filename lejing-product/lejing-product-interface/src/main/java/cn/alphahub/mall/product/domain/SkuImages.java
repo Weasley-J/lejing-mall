@@ -1,7 +1,9 @@
 package cn.alphahub.mall.product.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,32 +24,34 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("pms_sku_images")
 public class SkuImages implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * sku_id
-	 */
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long skuId;
 
-	/**
-	 * 图片地址
-	 */
+    /**
+     * 图片地址
+     */
     private String imgUrl;
 
-	/**
-	 * 排序
-	 */
+    /**
+     * 排序
+     */
     private Integer imgSort;
 
-	/**
-	 * 默认图[0 - 不是默认图，1 - 是默认图]
-	 */
+    /**
+     * 默认图[0 - 不是默认图，1 - 是默认图]
+     */
     private Integer defaultImg;
 
 }

@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.alphahub.mall.member.mapper.UndoLogMapper">
-
-	<!-- 可根据自己的需求，按需使用 -->
+    <!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.member.domain.UndoLog" id="undoLogResult">
         <result property="id" column="id"/>
         <result property="branchId" column="branch_id"/>
@@ -15,5 +14,4 @@
         <result property="logModified" column="log_modified"/>
         <result property="ext" column="ext"/>
     </resultMap>
-
 </mapper>

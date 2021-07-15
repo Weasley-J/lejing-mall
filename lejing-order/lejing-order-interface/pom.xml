@@ -5,13 +5,13 @@
     <parent>
         <artifactId>lejing-order</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
     <artifactId>lejing-order-interface</artifactId>
+    <packaging>jar</packaging>
+    <version>1.1.2-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -19,55 +19,20 @@
     </properties>
 
     <dependencies>
+        <!-- common工程 -->
         <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-common</artifactId>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-base-public</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-util</artifactId>
         </dependency>
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <classifier>exec</classifier>
-                    <mainClass>cn.alphahub.mall.order.LejingOrderApplication</mainClass>
-                    <addResources>true</addResources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
         <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>

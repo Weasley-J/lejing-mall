@@ -9,22 +9,32 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.coupon.domain,cn.**.coupon.domain,com.**.coupon.entity,cn.**.coupon.entity
   global-config:
     db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"
       id-type: auto
   configuration:
     map-underscore-to-camel-case: on
+# PageHelper分页插件
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
 #全局跨域设置
 cors:
   config:
-    #是否允许所有域名跨域：true|false
     is-allows-all-domain: true
-    #允许跨域的域名集合
     allowed-origins:
       - http://127.0.0.1
       - http://127.0.0.1:7000
-      - http://api.alphahub.cn
       - http://www.alphahub.cn
+      - http://www.leyou.com
+      - http://www.leyou.com:7000

@@ -5,23 +5,24 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>lejing-order</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <name>lejing-order</name>
     <packaging>pom</packaging>
     <description>乐璟商城-订单服务</description>
 
-    <!--
-    二级子模块的父工程不要添加版本号，
-        如：1级->2级(pom打包,2.1,2.2)中间的2级父工程就不要添加版本号->3级
-    -->
+    <properties>
+
+    </properties>
+
     <modules>
         <module>lejing-order-interface</module>
+        <module>lejing-order-share</module>
         <module>lejing-order-service</module>
+        <module>lejing-order-export-easyexcel</module>
+        <module>lejing-order-export-easypoi</module>
     </modules>
 
 </project>

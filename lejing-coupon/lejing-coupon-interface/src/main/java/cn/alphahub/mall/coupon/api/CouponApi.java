@@ -1,5 +1,6 @@
 package cn.alphahub.mall.coupon.api;
 
+
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.Coupon;
@@ -21,11 +22,10 @@ public interface CouponApi {
      * @param rows        显示行数,默认10条
      * @param orderColumn 排序排序字段,默认不排序
      * @param isAsc       排序方式,desc或者asc
-     * @param coupon      优惠券信息,字段选择性传入,默认为等值查询
+     * @param coupon      优惠券信息,查询字段选择性传入,默认为等值查询
      * @return 优惠券信息分页数据
      */
     @PostMapping("/list")
-    @SuppressWarnings("unchecked")
     BaseResult<PageResult<Coupon>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -40,8 +40,7 @@ public interface CouponApi {
      * @param id 优惠券信息主键id
      * @return 优惠券信息详细信息
      */
-    @GetMapping("/{id}")
-    @SuppressWarnings("unchecked")
+    @GetMapping("/info/{id}")
     BaseResult<Coupon> info(@PathVariable("id") Long id);
 
     /**
@@ -56,7 +55,7 @@ public interface CouponApi {
     /**
      * 修改优惠券信息
      *
-     * @param coupon 优惠券信息,根据主键id选择性更新
+     * @param coupon 优惠券信息,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
@@ -68,7 +67,7 @@ public interface CouponApi {
      * @param ids 优惠券信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/{ids}")
+    @DeleteMapping("/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 
 }

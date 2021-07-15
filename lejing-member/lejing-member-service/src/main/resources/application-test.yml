@@ -1,6 +1,22 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.40.132:33306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.40.132:3306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  thymeleaf:
+    cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    database: 0

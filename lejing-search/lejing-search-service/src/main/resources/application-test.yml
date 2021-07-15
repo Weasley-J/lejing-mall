@@ -1,0 +1,30 @@
+spring:
+  elasticsearch:
+    rest:
+      uris:
+        - http://localhost:9200
+        - http://192.168.40.132:9200
+        - http://192.168.40.128:9200
+      connection-timeout: 2
+      read-timeout: 40
+      username: elastic
+      password: 123456
+  thymeleaf:
+    cache: off
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    client-name: LEJING_REDIS
+#  rabbitmq:
+#    host: 192.168.40.132
+#    username: lejing
+#    password: 123456
+#    virtual-host: /lejing
+#    template:
+#      exchange: LEJING.ITEM.EXCHANGE

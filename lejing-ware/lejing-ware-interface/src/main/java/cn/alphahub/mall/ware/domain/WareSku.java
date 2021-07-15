@@ -1,7 +1,9 @@
 package cn.alphahub.mall.ware.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.io.Serializable;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:47:37
+ * @date 2021-02-24 15:19:57
  */
 @Data
 @Builder
@@ -22,37 +24,40 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("wms_ware_sku")
 public class WareSku implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * sku_id
-	 */
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long skuId;
 
-	/**
-	 * 仓库id
-	 */
+    /**
+     * 仓库id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long wareId;
 
-	/**
-	 * 库存数
-	 */
+    /**
+     * 库存数
+     */
     private Integer stock;
 
-	/**
-	 * sku_name
-	 */
+    /**
+     * sku_name
+     */
     private String skuName;
 
-	/**
-	 * 锁定库存
-	 */
+    /**
+     * 锁定库存
+     */
     private Integer stockLocked;
 
 }

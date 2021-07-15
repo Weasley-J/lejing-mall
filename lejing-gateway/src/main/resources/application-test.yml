@@ -3,3 +3,7 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:884
+  servlet:
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB

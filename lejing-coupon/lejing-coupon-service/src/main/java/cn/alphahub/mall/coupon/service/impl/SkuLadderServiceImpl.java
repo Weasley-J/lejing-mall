@@ -7,7 +7,6 @@ import cn.alphahub.mall.coupon.mapper.SkuLadderMapper;
 import cn.alphahub.mall.coupon.service.SkuLadderService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:41:47
+ * @date 2021-02-24 16:31:15
  */
-@Service("skuLadderService")
+@Service
 public class SkuLadderServiceImpl extends ServiceImpl<SkuLadderMapper, SkuLadder> implements SkuLadderService {
 
     /**
@@ -31,16 +30,16 @@ public class SkuLadderServiceImpl extends ServiceImpl<SkuLadderMapper, SkuLadder
      */
     @Override
     public PageResult<SkuLadder> queryPage(PageDomain pageDomain, SkuLadder skuLadder) {
-        pageDomain.startPage();
+        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<SkuLadder> wrapper = new QueryWrapper<>(skuLadder);
-        List<SkuLadder> list = this.list(wrapper);
-        PageInfo<SkuLadder> pageInfo = new PageInfo<>(list);
-        PageResult<SkuLadder> pageResult = PageResult.<SkuLadder>builder()
-                .totalCount(pageInfo.getTotal())
-                .totalPage((long) pageInfo.getPages())
-                .items(pageInfo.getList())
-                .build();
-        return pageResult;
+        // 2. 创建一个分页对象
+        PageResult<SkuLadder> pageResult = new PageResult<>();
+        // 3. 开始分页
+        pageResult.startPage(pageDomain);
+        // 4. 执行Dao|Mapper SQL查询
+        List<SkuLadder> skuLadderList = this.list(wrapper);
+        // 5. 分装并返回数据
+        return pageResult.getPage(skuLadderList);
     }
 
 }

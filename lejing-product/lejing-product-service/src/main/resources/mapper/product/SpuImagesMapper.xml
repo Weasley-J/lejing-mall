@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.alphahub.mall.product.mapper.SpuImagesMapper">
-
-	<!-- 可根据自己的需求，按需使用 -->
+    <!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.product.domain.SpuImages" id="spuImagesResult">
         <result property="id" column="id"/>
         <result property="spuId" column="spu_id"/>
@@ -12,5 +11,4 @@
         <result property="imgSort" column="img_sort"/>
         <result property="defaultImg" column="default_img"/>
     </resultMap>
-
 </mapper>

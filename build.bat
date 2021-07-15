@@ -1,5 +1,35 @@
 @echo off & color 0A
-setlocal enabledelayedexpansion
-set name=´ò°üspringbootÓ¦ÓÃÎª¿ÉÖ´ĞĞjarÎÄ¼ş
-title %name%                 ÈÕÆÚ: %date%    Ê±¼ä: %time%
-cls && mvn clean && mvn package && mvn clean && exit
+
+REM åªæ‰“åŒ…æŸä¸ªservice
+REM mvn clean package -pl "lejing-auth/lejing-auth-service" -am ^
+
+REM å®‰è£…åŸºç¡€ä¾èµ–åˆ°æœ¬åœ°ä»“åº“, æ–¹ä¾¿åç»­serviceæ‰“åŒ…
+mvn clean ^
+&& mvn install -pl "lejing-common/lejing-common-util" -am ^
+&& mvn install -pl "lejing-common/lejing-common-base-domain" -am ^
+&& mvn install -pl "lejing-common/lejing-common-base-public" -am ^
+&& mvn install -pl "lejing-common/lejing-common-dependencies-db" -am ^
+&& mvn install -pl "lejing-common/lejing-common-dependencies-web" -am ^
+
+&& mvn install -pl "lejing-auth/lejing-auth-common" -am ^
+&& mvn install -pl "lejing-auth/lejing-auth-interface" -am ^
+
+&& mvn install -pl "lejing-cart/lejing-cart-interface" -am ^
+
+&& mvn install -pl "lejing-coupon/lejing-coupon-interface" -am ^
+
+&& mvn install -pl "lejing-member/lejing-member-interface" -am ^
+
+&& mvn install -pl "lejing-order/lejing-order-interface" -am ^
+&& mvn install -pl "lejing-order/lejing-order-share" -am ^
+
+&& mvn install -pl "lejing-product/lejing-product-interface" -am ^
+
+&& mvn install -pl "lejing-search/lejing-search-interface" -am ^
+
+&& mvn install -pl "lejing-seckill/lejing-seckill-interface" -am ^
+
+&& mvn install -pl "lejing-ware/lejing-ware-interface" -am ^
+
+&& cls && mvn clean ^
+&& exit

@@ -1,17 +1,16 @@
 package cn.alphahub.mall.member.controller;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-
 import cn.alphahub.mall.member.domain.IntegrationChangeHistory;
 import cn.alphahub.mall.member.service.IntegrationChangeHistoryService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 
 /**
@@ -19,27 +18,25 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-02-24 16:15:38
  */
 @RestController
 @RequestMapping("member/integrationchangehistory")
 public class IntegrationChangeHistoryController extends BaseController {
-    @Autowired
+    @Resource
     private IntegrationChangeHistoryService integrationChangeHistoryService;
 
     /**
      * 查询积分变化历史记录列表
      *
-     * @param page         当前页码,默认第1页
-     * @param rows         显示行数,默认10条
-     * @param orderColumn  排序排序字段,默认不排序
-     * @param isAsc        排序方式,desc或者asc
-     * @param integrationChangeHistory 积分变化历史记录,字段选择性传入,默认为等值查询
+     * @param page                     当前页码,默认第1页
+     * @param rows                     显示行数,默认10条
+     * @param orderColumn              排序排序字段,默认不排序
+     * @param isAsc                    排序方式,desc或者asc
+     * @param integrationChangeHistory 积分变化历史记录, 查询字段选择性传入, 默认为等值查询
      * @return 积分变化历史记录分页数据
      */
     @GetMapping("/list")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("member:integrationchangehistory:list")
     public BaseResult<PageResult<IntegrationChangeHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -49,7 +46,10 @@ public class IntegrationChangeHistoryController extends BaseController {
     ) {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<IntegrationChangeHistory> pageResult = integrationChangeHistoryService.queryPage(pageDomain, integrationChangeHistory);
-        return (BaseResult<PageResult<IntegrationChangeHistory>>) toPageableResult(pageResult);
+        if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
+            return BaseResult.ok(pageResult);
+        }
+        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -58,22 +58,19 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @param id 积分变化历史记录主键id
      * @return 积分变化历史记录详细信息
      */
-    @GetMapping("/{id}")
-    @SuppressWarnings("unchecked")
-    //@RequiresPermissions("member:integrationchangehistory:info")
-    public BaseResult<IntegrationChangeHistory> info(@PathVariable("id") Long id){
+    @GetMapping("/info/{id}")
+    public BaseResult<IntegrationChangeHistory> info(@PathVariable("id") Long id) {
         IntegrationChangeHistory integrationChangeHistory = integrationChangeHistoryService.getById(id);
-        return (BaseResult<IntegrationChangeHistory>) toResponseResult(integrationChangeHistory);
+        return ObjectUtils.anyNotNull(integrationChangeHistory) ? BaseResult.ok(integrationChangeHistory) : BaseResult.fail();
     }
 
     /**
      * 新增积分变化历史记录
      *
      * @param integrationChangeHistory 积分变化历史记录元数据
-     * @return 成功返回true,失败返回false
+     * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    //@RequiresPermissions("member:integrationchangehistory:save")
     public BaseResult<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean save = integrationChangeHistoryService.save(integrationChangeHistory);
         return toOperationResult(save);
@@ -82,11 +79,10 @@ public class IntegrationChangeHistoryController extends BaseController {
     /**
      * 修改积分变化历史记录
      *
-     * @param integrationChangeHistory 积分变化历史记录,根据主键id选择性更新
-     * @return 成功返回true,失败返回false
+     * @param integrationChangeHistory 积分变化历史记录, 根据id选择性更新
+     * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    //@RequiresPermissions("member:integrationchangehistory:update")
     public BaseResult<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean update = integrationChangeHistoryService.updateById(integrationChangeHistory);
         return toOperationResult(update);
@@ -96,11 +92,10 @@ public class IntegrationChangeHistoryController extends BaseController {
      * 批量删除积分变化历史记录
      *
      * @param ids 积分变化历史记录id集合
-     * @return 成功返回true,失败返回false
+     * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/{ids}")
-    //@RequiresPermissions("member:integrationchangehistory:delete")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids){
+    @DeleteMapping("/delete/{ids}")
+    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = integrationChangeHistoryService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

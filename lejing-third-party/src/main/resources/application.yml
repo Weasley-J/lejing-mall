@@ -1,0 +1,16 @@
+server:
+  port: 30000
+spring:
+  application:
+    name: lejing-third-party
+  #运行环境: dev|test|prod
+  profiles:
+    active: lwj
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss

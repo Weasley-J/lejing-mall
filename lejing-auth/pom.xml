@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.alphahub.mall</groupId>
+        <artifactId>lejing-mall</artifactId>
+        <version>1.1.2-SNAPSHOT</version>
+    </parent>
+
+    <name>lejing-auth</name>
+    <artifactId>lejing-auth</artifactId>
+    <packaging>pom</packaging>
+    <description>乐璟商城-授权中心（OAuth2.0、SSO单点登录、社交登录）</description>
+
+    <modules>
+        <module>lejing-auth-interface</module>
+        <module>lejing-auth-common</module>
+        <module>lejing-auth-service</module>
+    </modules>
+
+</project>

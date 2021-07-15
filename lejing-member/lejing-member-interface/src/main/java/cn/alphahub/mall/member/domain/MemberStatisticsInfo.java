@@ -1,7 +1,9 @@
 package cn.alphahub.mall.member.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-02-24 16:15:38
  */
 @Data
 @Builder
@@ -23,82 +25,84 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("ums_member_statistics_info")
 public class MemberStatisticsInfo implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 * 会员id
-	 */
+    /**
+     * 会员id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long memberId;
 
-	/**
-	 * 累计消费金额
-	 */
+    /**
+     * 累计消费金额
+     */
     private BigDecimal consumeAmount;
 
-	/**
-	 * 累计优惠金额
-	 */
+    /**
+     * 累计优惠金额
+     */
     private BigDecimal couponAmount;
 
-	/**
-	 * 订单数量
-	 */
+    /**
+     * 订单数量
+     */
     private Integer orderCount;
 
-	/**
-	 * 优惠券数量
-	 */
+    /**
+     * 优惠券数量
+     */
     private Integer couponCount;
 
-	/**
-	 * 评价数
-	 */
+    /**
+     * 评价数
+     */
     private Integer commentCount;
 
-	/**
-	 * 退货数量
-	 */
+    /**
+     * 退货数量
+     */
     private Integer returnOrderCount;
 
-	/**
-	 * 登录次数
-	 */
+    /**
+     * 登录次数
+     */
     private Integer loginCount;
 
-	/**
-	 * 关注数量
-	 */
+    /**
+     * 关注数量
+     */
     private Integer attendCount;
 
-	/**
-	 * 粉丝数量
-	 */
+    /**
+     * 粉丝数量
+     */
     private Integer fansCount;
 
-	/**
-	 * 收藏的商品数量
-	 */
+    /**
+     * 收藏的商品数量
+     */
     private Integer collectProductCount;
 
-	/**
-	 * 收藏的专题活动数量
-	 */
+    /**
+     * 收藏的专题活动数量
+     */
     private Integer collectSubjectCount;
 
-	/**
-	 * 收藏的评论数量
-	 */
+    /**
+     * 收藏的评论数量
+     */
     private Integer collectCommentCount;
 
-	/**
-	 * 邀请的朋友数量
-	 */
+    /**
+     * 邀请的朋友数量
+     */
     private Integer inviteFriendCount;
 
 }

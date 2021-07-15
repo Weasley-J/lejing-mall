@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.order.mapper.OrderReimburseMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.order.domain.OrderReimburse" id="orderReimburseResult">
+        <result property="reimburseId" column="reimburse_id"/>
+        <result property="masterOrderId" column="master_order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="productTitle" column="product_title"/>
+        <result property="actuallyPrice" column="actually_price"/>
+        <result property="receiveAccount" column="receive_account"/>
+        <result property="reimburseStatus" column="reimburse_status"/>
+        <result property="reimburseApplyDate" column="reimburse_apply_date"/>
+        <result property="merchantProcessDate" column="merchant_process_date"/>
+        <result property="refundSuccessfulDate" column="refund_successful_date"/>
+        <result property="reimburseSerialCode" column="reimburse_serial_code"/>
+        <result property="thirdOutTradeCode" column="third_out_trade_code"/>
+        <result property="ebTransactionCode" column="eb_transaction_code"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+</mapper>

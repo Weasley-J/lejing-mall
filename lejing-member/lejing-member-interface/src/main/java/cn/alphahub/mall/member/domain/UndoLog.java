@@ -2,6 +2,9 @@ package cn.alphahub.mall.member.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +14,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 撤销日志表
+ * AT transaction mode undo table对象 undo_log
  *
  * @author Weasley J
- * @email 1432689025@qq.com
- * @date 2021-02-07 22:43:41
+ * @date 2021-06-12 03:06:42
  */
 @Data
 @Builder
@@ -23,52 +25,51 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("undo_log")
 public class UndoLog implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 主键id
-	 */
+    /**
+     * 主键id
+     */
     @TableId
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-	/**
-	 * 相关的branch id
-	 */
+    /**
+     * branch transaction id
+     */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long branchId;
 
-	/**
-	 * 相关的xid
-	 */
+    /**
+     * global transaction id
+     */
     private String xid;
 
-	/**
-	 * 内容
-	 */
+    /**
+     * undo_log context,such as serialization
+     */
     private String context;
 
-	/**
-	 * 回滚信息
-	 */
+    /**
+     * rollback info
+     */
     private String rollbackInfo;
 
-	/**
-	 * 日志状态码
-	 */
+    /**
+     * 0:normal status,1:defense status
+     */
     private Integer logStatus;
 
-	/**
-	 * 日志创建时间
-	 */
+    /**
+     * create datetime
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date logCreated;
 
-	/**
-	 * 日志修改时间
-	 */
+    /**
+     * modify datetime
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date logModified;
-
-	/**
-	 * 其他信息
-	 */
-    private String ext;
 
 }

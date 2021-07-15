@@ -7,18 +7,157 @@ spring:
     #运行环境: dev|test|prod
     active: dev
   cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
     gateway:
       routes:
-        #第1个路由
+        #测试路由1 - www.baidu.com
         - id: bd_route
           uri: https://www.baidu.com
           predicates:
             - Query=url,baidu
-        #第2个路由
+        #测试路由2 - im.qq.com
         - id: qq_route
           uri: https://im.qq.com
           predicates:
             - Query=url,qq
+        #优惠券服务路由
+        - id: coupon_route
+          uri: lb://lejing-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #会员服务路由
+        - id: member_route
+          uri: lb://lejing-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-order-easyexcel
+        - id: order_easyexcel_route
+          uri: lb://lejing-order-easyexcel
+          predicates:
+            - Path=/api/order/public/easyexcel/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-order-easypoi
+        - id: order_easypoi_route
+          uri: lb://lejing-order-easypoi
+          predicates:
+            - Path=/api/order/public/easypoi/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-order
+        - id: order_route
+          uri: lb://lejing-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #商品服务路由
+        - id: product_route
+          uri: lb://lejing-product
+          predicates:
+            - Path=/api/product/**,/hello
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-search
+        - id: search_route
+          uri: lb://lejing-search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-seckill
+        - id: seckill_route
+          uri: lb://lejing-seckill
+          predicates:
+            - Path=/api/seckill/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #库存服务路由
+        - id: ware_route
+          uri: lb://lejing-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #lejing-site-reserve
+        - id: site_reserve_route
+          uri: lb://lejing-site-reserve
+          predicates:
+            - Path=/api/site/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+        #三方服务路由: SMS, OSS
+        - id: third_party_route
+          uri: lb://lejing-third-party
+          predicates:
+            - Path=/api/thirdparty/**,/api/sms/**
+          filters:
+            - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+        #后台管理路由
+        - id: admin_route
+          uri: lb://renren-fast
+          # 前端项目: /api
+          predicates:
+            # 将当前请求转发到http://127.0.0.1:8080/api/1
+            - Path=/api/**
+            #配置路由过滤器,将当前请求http://127.0.0.1:8080/api/product/1 --> http://127.0.0.1:8080/renren-fast/1
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+        #主机路由规则,根据域名路由
+        - id: lejing_host_route
+          uri: lb://lejing-product
+          predicates:
+            - Host=lejing.com,item.lejing.com
+        # search.lejing.com
+        - id: lejing_search_route
+          uri: lb://lejing-search
+          predicates:
+            - Host=search.lejing.com
+        # auth.lejing.com
+        - id: lejing_auth_route
+          uri: lb://lejing-auth-server
+          predicates:
+            - Host=auth.lejing.com
+        # cart.lejing.com
+        - id: lejing_cart_route
+          uri: lb://lejing-cart
+          predicates:
+            - Host=cart.lejing.com
+        # order.lejing.com
+        - id: lejing_order_route
+          uri: lb://lejing-order
+          predicates:
+            - Host=order.lejing.com
+        # member.lejing.com
+        - id: lejing_member_route
+          uri: lb://lejing-member
+          predicates:
+            - Host=member.lejing.com
+        # seckill.lejing.com
+        - id: lejing_seckill_route
+          uri: lb://lejing-seckill
+          predicates:
+            - Host=seckill.lejing.com
+      #spring cloud gateway 跨域配置
+      globalcors:
+        add-to-simple-url-handler-mapping: on
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: '*'
+            allowCredentials: true
+            allowedMethods: '*'
+            allowedHeaders: '*'
+            exposedHeaders: '*'
+            max-age: 3600
+#全局跨域设置
+cors:
+  config:
+    is-allows-all-domain: true
+    allowed-origins:
+      - http://127.0.0.1
+      - http://127.0.0.1:7000
+      - http://www.alphahub.cn
+      - http://www.leyou.com

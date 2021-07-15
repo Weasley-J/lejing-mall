@@ -1,0 +1,18 @@
+server:
+  port: 20000
+spring:
+  application:
+    name: lejing-auth-server
+  profiles:
+    #运行环境: dev|test|prod
+    active: lwj
+  jackson:
+    #设置为东八区时间
+    time-zone: GMT+8
+    #字符串时间，用这行表示
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss

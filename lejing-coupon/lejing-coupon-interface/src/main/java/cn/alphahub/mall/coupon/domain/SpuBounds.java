@@ -1,7 +1,9 @@
 package cn.alphahub.mall.coupon.domain;
 
+import cn.alphahub.common.util.IdSerializer;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,32 +25,38 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("sms_spu_bounds")
 public class SpuBounds implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
+    /**
+     * id
+     */
     @TableId
+    @JsonSerialize(using = IdSerializer.class)
     private Long id;
 
-	/**
-	 *
-	 */
+    /**
+     * spu id
+     */
+    @JsonSerialize(using = IdSerializer.class)
     private Long spuId;
 
-	/**
-	 * 成长积分
-	 */
+    /**
+     * 成长积分
+     */
     private BigDecimal growBounds;
 
-	/**
-	 * 购物积分
-	 */
+    /**
+     * 购物积分
+     */
     private BigDecimal buyBounds;
 
-	/**
-	 * 优惠生效情况[1111（四个状态位，从右到左）;0 - 无优惠，成长积分是否赠送;1 - 无优惠，购物积分是否赠送;2 - 有优惠，成长积分是否赠送;3 - 有优惠，购物积分是否赠送【状态位0：不赠送，1：赠送】]
-	 */
+    /**
+     * 优惠生效情况[1111（四个状态位，从右到左）;
+     * 0 - 无优惠，成长积分是否赠送;
+     * 1 - 无优惠，购物积分是否赠送;
+     * 2 - 有优惠，成长积分是否赠送;
+     * 3 - 有优惠，购物积分是否赠送【状态位0：不赠送，1：赠送】]
+     */
     private Integer work;
 
 }
