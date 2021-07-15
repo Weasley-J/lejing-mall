@@ -34,8 +34,10 @@ alibaba:
     secret-key: your-secret-key
     bucket-name: your-bucket-name
     host-prefix: https://${alibaba.cloud.bucket-name}.${alibaba.cloud.oss.endpoint}
+    url-prefix: ${alibaba.cloud.host-prefix}/
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
+      authorization-mode: ak_sk
     #SMS参数
     sms:
       access-key: your-access-key

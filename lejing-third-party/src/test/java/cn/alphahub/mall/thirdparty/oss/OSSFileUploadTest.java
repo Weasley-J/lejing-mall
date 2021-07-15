@@ -1,12 +1,8 @@
 package cn.alphahub.mall.thirdparty.oss;
 
-import cn.alphahub.common.constant.AppConstant;
 import cn.alphahub.mall.thirdparty.config.OssProperties;
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.common.comm.ResponseMessage;
-import com.aliyun.oss.model.PutObjectResult;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 @Slf4j
 @SpringBootTest
@@ -63,16 +58,6 @@ public class OSSFileUploadTest {
      * 测试上传网络图片
      */
     @Test
-    void testUploadWebImage() throws IOException {
-        System.out.println(ossProperties);
-        String imgUrl = "https://gulimall-hello.oss-cn-beijing.aliyuncs.com/2019-11-27/ffc5a377-b037-4f26-84a0-df5b1c7cf42d_f205d9c99a2b4b01.jpg";
-        String fileDir = AppConstant.LEJING_MALL + "/";
-        String filename = StringUtils.substringAfterLast(imgUrl, "/");
-        InputStream inputStream = new URL(imgUrl).openStream();
-        PutObjectResult putObject = ossClient.putObject(ossProperties.getBucketName(), fileDir + filename, inputStream);
-        ResponseMessage response = putObject.getResponse();
-        System.out.println(response);
-        ossClient.shutdown();
-        System.out.println("上传成功");
+    void testUploadWebImage() {
     }
 }

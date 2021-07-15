@@ -1,7 +1,6 @@
 package cn.alphahub.mall.thirdparty.config;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +45,7 @@ public class OssProperties implements Serializable {
      * 外网可访问的url前缀：https://${alibaba.cloud.bucket-name}.${alibaba.cloud.oss.endpoint}/
      * <p>直接拼后缀外网可访问</p>
      */
-    private String urlPrefix = this.getHostPrefix() + "/";
+    private String urlPrefix;
     /**
      * 存储空间所在的地域对应的访问域名
      * <p>

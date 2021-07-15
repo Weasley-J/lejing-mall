@@ -1,8 +1,9 @@
 package cn.alphahub.mall.thirdparty.oss.service;
 
+import cn.alphahub.common.util.URLUtil;
 import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.hutool.core.io.FileUtil;
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.model.Bucket;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.DeleteObjectsResult;
 import com.aliyun.oss.model.OSSObject;
@@ -16,11 +17,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.StringJoiner;
  */
 @Slf4j
 @Service
-public class AliyunOssService {
+public class OssService {
     @Resource
     private OSS ossClient;
     @Resource
@@ -48,8 +49,7 @@ public class AliyunOssService {
      */
     public String createBucket(String bucketName) {
         log.info("创建存储空间：{}", bucketName);
-        Bucket bucket = ossClient.createBucket(bucketName);
-        return bucket.getName();
+        return ossClient.createBucket(bucketName).getName();
     }
 
     /**
@@ -65,22 +65,43 @@ public class AliyunOssService {
     }
 
     /**
-     * 上传本地文件
-     * <p>以下代码用于上传文件至OSS</p>
+     * 上传文件至OSS
+     * <p>
+     * 可以上传的文件类型：
+     *     <ul>
+     *         <li>上传本地文件到OSS时需要指定包含文件后缀在内的完整路径，例如: E:\IdeaProjects\lejing-mall\lejing-third-party\src\main\resources\application-dev.yml</li>
+     *         <li>上传网络文件，如：https://lejing.com/1.jpg</li>
+     *     </ul>
+     * </p>
      *
-     * @param objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
-     * @return 文件完整url
+     * @param objectName 对象名，可以是本地文件，可以是网络文件
+     * @return 文件的url
      */
-    public String upload(String objectName) {
+    public String upload(String objectName, String fileDirOfOss) {
         log.info("上传本地文件：{}", objectName);
-        String bucketName = ossProperties.getBucketName();
-        if (!isBucketExist(ossClient)) {
-            this.createBucket(bucketName);
+        if (StringUtils.isBlank(objectName)) {
+            return null;
         }
-        // 上传文件到指定的存储空间（bucketName）并将其保存为指定的文件名称（objectName）
-        String content = "Hello OSS";
-        PutObjectResult result = ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(content.getBytes()));
-        return ObjectUtils.isNotEmpty(result) ? ossProperties.getUrlPrefix().concat(objectName) : null;
+        String bucketName = ossProperties.getBucketName();
+        if (!isBucketExist(bucketName)) {
+            createBucket(bucketName);
+        }
+        fileDirOfOss = StringUtils.isBlank(fileDirOfOss) ? "" : fileDirOfOss + "/";
+        PutObjectResult result = new PutObjectResult();
+        String filename;
+        if (URLUtil.isValidUrl(objectName)) {
+            filename = StringUtils.substringAfterLast(objectName, "/");
+            try (InputStream inputStream = new URL(objectName).openStream()) {
+                result = ossClient.putObject(ossProperties.getBucketName(), fileDirOfOss + filename, inputStream);
+            } catch (IOException e) {
+                log.error("上传失败：{}", e.getMessage(), e);
+            }
+        } else {
+            filename = FileUtil.getName(objectName);
+            result = ossClient.putObject(bucketName, fileDirOfOss + filename, new File(objectName));
+        }
+        shutdown();
+        return ObjectUtils.isNotEmpty(result) ? ossProperties.getUrlPrefix() + fileDirOfOss + filename : null;
     }
 
     /**
@@ -90,14 +111,13 @@ public class AliyunOssService {
      * @param file 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
      * @return 文件完整url
      */
-
     public String upload(File file) {
         log.info("上传本地文件.");
         //从IOC容器中读取阿里云oss配置参数
         String bucketName = ossProperties.getBucketName();
         // 创建OSSClient实例。
 
-        if (!isBucketExist(ossClient)) {
+        if (!isBucketExist(bucketName)) {
             return null;
         }
         //组装文件名-uri路径
@@ -118,13 +138,12 @@ public class AliyunOssService {
      * @param originalFilename 文件名(包含后缀)
      * @return 文件完整url
      */
-
     public String upload(InputStream inputStream, String originalFilename) {
         //从IOC容器中读取阿里云oss配置参数
         String bucketName = ossProperties.getBucketName();
         //创建OSSClient实例。
 
-        if (!isBucketExist(ossClient) || Objects.isNull(inputStream) || StringUtils.isBlank(originalFilename)) {
+        if (!isBucketExist(bucketName) || Objects.isNull(inputStream) || StringUtils.isBlank(originalFilename)) {
             return null;
         }
         //组装文件名-uri路径
@@ -134,7 +153,6 @@ public class AliyunOssService {
         //objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
         PutObjectResult result = ossClient.putObject(bucketName, myObjectName, inputStream);
         log.info("结果：{}", result.toString());
-        ;
         return ossProperties.getHostPrefix().concat(myObjectName);
     }
 
@@ -145,8 +163,7 @@ public class AliyunOssService {
      *                   删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
      *                   如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
      */
-
-    public void deleteSingle(String objectName) {
+    public void deleteOne(String objectName) {
         String bucketName = ossProperties.getBucketName();
         ossClient.deleteObject(bucketName, objectName);
     }
@@ -159,22 +176,19 @@ public class AliyunOssService {
      *                    如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
      * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。
      */
-
     public List<String> deleteMany(List<String> objectNames) {
         String bucketName = ossProperties.getBucketName();
         DeleteObjectsResult deleteObjectsResult = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(objectNames));
-        List<String> deletedObjects = deleteObjectsResult.getDeletedObjects();
-        return deletedObjects;
+        return deleteObjectsResult.getDeletedObjects();
     }
 
     /**
      * OSS下载文件
-     * 文档帮助链接 https://help.aliyun.com/document_detail/84823.html?spm=a2c4g.11186623.2.7.37836e84ZIuZaC#concept-84823-z
+     * <p><a href="https://help.aliyun.com/document_detail/84823.html?spm=a2c4g.11186623.2.7.37836e84ZIuZaC#concept-84823-z">文档帮助链接</a></p>
      *
      * @param os         输出流
      * @param objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
      */
-
     public void exportOssFile(OutputStream os, String objectName) {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(ossProperties.getBucketName(), objectName);
@@ -187,7 +201,7 @@ public class AliyunOssService {
                 out.write(buffer, 0, length);
             }
         } catch (IOException e) {
-            log.error("\nIO异常: {}", e.getLocalizedMessage(), e);
+            log.error("IO异常: {}", e.getLocalizedMessage(), e);
         }
     }
 
@@ -197,7 +211,6 @@ public class AliyunOssService {
      * @param objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
      * @return 是否存在
      */
-
     public boolean isFileExist(String objectName) {
         // 判断文件是否存在。doesObjectExist还有一个参数isOnlyInOSS，如果为true则忽略302重定向或镜像；
         // 如果为false，则考虑302重定向或镜像。
@@ -207,11 +220,9 @@ public class AliyunOssService {
     /**
      * 判断OSS的全局命名空间(存储空间)是否存在
      *
-     * @param ossClient OSS对象
-     * @return 存在，则返回true，否则返回false
+     * @return 存在返回true，否则返回false
      */
-    public boolean isBucketExist(OSS ossClient) {
-        String bucketName = ossProperties.getBucketName();
+    public boolean isBucketExist(String bucketName) {
         return ossClient.doesBucketExist(bucketName);
     }
 
@@ -254,6 +265,15 @@ public class AliyunOssService {
      * @param ossClient OSS实例
      */
     public void shutdown(OSS ossClient) {
+        if (Objects.nonNull(ossClient)) {
+            ossClient.shutdown();
+        }
+    }
+
+    /**
+     * 关闭OSS实例（释放所有资源） 调用其shutdown()后，OSS实例不可用
+     */
+    public void shutdown() {
         if (Objects.nonNull(ossClient)) {
             ossClient.shutdown();
         }
