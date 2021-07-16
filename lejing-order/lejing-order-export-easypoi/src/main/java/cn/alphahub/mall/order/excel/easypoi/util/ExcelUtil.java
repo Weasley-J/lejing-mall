@@ -4,6 +4,8 @@ import cn.afterturn.easypoi.csv.entity.CsvImportParams;
 import cn.afterturn.easypoi.csv.imports.CsvImportService;
 import cn.afterturn.easypoi.entity.vo.BigExcelConstants;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelXorHtmlUtil;
+import cn.afterturn.easypoi.excel.entity.ExcelToHtmlParams;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
@@ -43,7 +45,7 @@ import java.util.Map;
  */
 @Slf4j
 @SuppressWarnings({"unchecked"})
-public class ExcelUtil<T> {
+public class ExcelUtil {
 
     private ExcelUtil() {
     }
@@ -277,5 +279,24 @@ public class ExcelUtil<T> {
             filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         }
         return filename.trim();
+    }
+
+    /**
+     * excel预览
+     * <p>07版<b>.xlsx</b>后缀名的文件</p>
+     *
+     * @param response  http servlet response
+     * @param entity    Excel 导出参数
+     * @param pojoClass excel实例类class
+     * @param list      excel实体类集合
+     * @throws IOException IO异常
+     */
+    public static <T> void toHtmlPreview(HttpServletResponse response, ExportParams entity, Class<T> pojoClass, List<T> list) throws IOException {
+        Workbook workbook = ExcelExportUtil.exportExcel(entity, pojoClass, list);
+        ExcelToHtmlParams params = new ExcelToHtmlParams(workbook);
+        workbook.close();
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
+        response.getOutputStream().write(ExcelXorHtmlUtil.excelToHtml(params).getBytes());
     }
 }
