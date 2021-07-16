@@ -1,6 +1,8 @@
 package cn.alphahub.mall.thirdparty.oss.service;
 
 import cn.alphahub.common.constant.AppConstant;
+import cn.alphahub.mall.thirdparty.config.OssProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
+@Slf4j
 @SpringBootTest
 class OssServiceTest {
     @Resource
     private OssService ossService;
+    @Resource
+    private OssProperties ossProperties;
 
     @BeforeEach
     void setUp() {
@@ -78,6 +83,12 @@ class OssServiceTest {
 
     @Test
     void isFileExist() {
+        String objectUrl = ossProperties.getUrlPrefix() + "2019-11-27/ffc5a377-b037-4f26-84a0-df5b1c7cf42d_f205d9c99a2b4b01.jpg";
+        log.info("文件的完整url:{}", objectUrl);
+        // 判断文件是否存在。doesObjectExist还有一个参数isOnlyInOSS，如果为true则忽略302重定向或镜像；
+        String objectName = objectUrl.replace(ossProperties.getUrlPrefix(), "");
+        System.out.println(objectName);
+
     }
 
     @Test

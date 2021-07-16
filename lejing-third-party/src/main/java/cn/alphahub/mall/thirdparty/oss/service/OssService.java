@@ -7,7 +7,6 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import com.aliyun.oss.model.DeleteObjectsResult;
 import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,8 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -105,54 +102,23 @@ public class OssService {
     }
 
     /**
-     * 上传本地文件
-     * <p>以下代码用于上传文件至OSS</p>
-     *
-     * @param file 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
-     * @return 文件完整url
-     */
-    public String upload(File file) {
-        log.info("上传本地文件.");
-        //从IOC容器中读取阿里云oss配置参数
-        String bucketName = ossProperties.getBucketName();
-        // 创建OSSClient实例。
-
-        if (!isBucketExist(bucketName)) {
-            return null;
-        }
-        //组装文件名-uri路径
-        //如: jpg/20201014/abc_144845.jpg
-        //1. 获取后缀
-        String fileName = file.getName();
-        String myObjectName = makeFileUri(fileName);
-        PutObjectRequest request = new PutObjectRequest(bucketName, myObjectName, file);
-        PutObjectResult result = ossClient.putObject(request);
-        return ObjectUtils.isNotEmpty(result) ? ossProperties.getUrlPrefix().concat(myObjectName) : null;
-    }
-
-    /**
      * 上传文件流
      * <p>以下代码用于上传文件流</p>
      *
-     * @param inputStream      上传文件流
-     * @param originalFilename 文件名(包含后缀)
+     * @param inputStream 上传文件流
+     * @param filename    文件名(包含后缀)
      * @return 文件完整url
      */
-    public String upload(InputStream inputStream, String originalFilename) {
-        //从IOC容器中读取阿里云oss配置参数
+    public String upload(InputStream inputStream, String filename) {
         String bucketName = ossProperties.getBucketName();
-        //创建OSSClient实例。
-
-        if (!isBucketExist(bucketName) || Objects.isNull(inputStream) || StringUtils.isBlank(originalFilename)) {
+        if (!isBucketExist(bucketName) || Objects.isNull(inputStream) || StringUtils.isBlank(filename)) {
             return null;
         }
-        //组装文件名-uri路径
-        //如: jpg/20201014/abc_144845.jpg
-        //1. 获取后缀
-        String myObjectName = makeFileUri(originalFilename);
-        //objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+        //组装文件名-uri路径，如: jpg/20201014/abc_144845.jpg
+        String myObjectName = makeOssPath(filename);
         PutObjectResult result = ossClient.putObject(bucketName, myObjectName, inputStream);
         log.info("结果：{}", result.toString());
+        shutdown();
         return ossProperties.getHostPrefix().concat(myObjectName);
     }
 
@@ -166,6 +132,7 @@ public class OssService {
     public void deleteOne(String objectName) {
         String bucketName = ossProperties.getBucketName();
         ossClient.deleteObject(bucketName, objectName);
+        shutdown();
     }
 
     /**
@@ -179,6 +146,7 @@ public class OssService {
     public List<String> deleteMany(List<String> objectNames) {
         String bucketName = ossProperties.getBucketName();
         DeleteObjectsResult deleteObjectsResult = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(objectNames));
+        shutdown();
         return deleteObjectsResult.getDeletedObjects();
     }
 
@@ -195,7 +163,7 @@ public class OssService {
         // 读取文件内容
         try (BufferedInputStream in = new BufferedInputStream(ossObject.getObjectContent());
              BufferedOutputStream out = new BufferedOutputStream(os)) {
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int length;
             while ((length = in.read(buffer)) != -1) {
                 out.write(buffer, 0, length);
@@ -203,17 +171,19 @@ public class OssService {
         } catch (IOException e) {
             log.error("IO异常: {}", e.getLocalizedMessage(), e);
         }
+        shutdown();
     }
 
     /**
      * 判断文件是否存在
      *
-     * @param objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+     * @param objectUrl 文件的完整url
      * @return 是否存在
      */
-    public boolean isFileExist(String objectName) {
+    public boolean isFileExist(String objectUrl) {
+        log.info("文件的完整url:{}", objectUrl);
         // 判断文件是否存在。doesObjectExist还有一个参数isOnlyInOSS，如果为true则忽略302重定向或镜像；
-        // 如果为false，则考虑302重定向或镜像。
+        String objectName = objectUrl.replace(ossProperties.getUrlPrefix(), "");
         return ossClient.doesObjectExist(ossProperties.getBucketName(), objectName);
     }
 
@@ -227,36 +197,18 @@ public class OssService {
     }
 
     /**
-     * 组装文件名-uri路径
-     * /*如: 20201014/jpg/abc.jpg
+     * 组装Oss文件uri路径，格式: jpg/abc.jpg
      *
      * @param filename 文件名
      * @return 文件uri
      */
-    private String makeFileUri(String filename) {
-        LocalDateTime now = LocalDateTime.now();
+    public String makeOssPath(String filename) {
         String fileType = StringUtils.substringAfterLast(filename, ".");
-        String dateDir = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         filename = StringUtils.substringBeforeLast(filename, ".");
         filename = filename.replace(" ", "_");
-        //格式: 20201014/jpg/abc.jpg
         StringJoiner myObjectJoiner = new StringJoiner("/", "", "");
-        myObjectJoiner.add(dateDir).add(fileType).add(filename.concat(".").concat(fileType));
+        myObjectJoiner.add(fileType).add(filename.concat(".").concat(fileType));
         return myObjectJoiner.toString();
-    }
-
-    /**
-     * 从oos url中获取bucket中的文件名
-     *
-     * @param url oss文件的url链接
-     *            例如:
-     *            传入: https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/pdf/20201014/阿里巴巴Java开发手册-2020最新嵩山版_155529.pdf
-     *            返回: pdf/20201014/阿里巴巴Java开发手册-2020最新嵩山版_180902.pdf
-     * @return bucket中的文件名
-     */
-    public String getOssObjectName(String url) {
-        String urlPrefix = ossProperties.getHostPrefix() + "/";
-        return url.replace(urlPrefix, "");
     }
 
     /**
