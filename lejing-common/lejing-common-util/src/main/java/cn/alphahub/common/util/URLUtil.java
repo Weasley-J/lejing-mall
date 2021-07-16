@@ -26,7 +26,7 @@ public class URLUtil {
         try {
             uri = new URI(urlString);
         } catch (URISyntaxException e) {
-            log.warn("URL链接不合法:{}", e.getLocalizedMessage());
+            log.warn("URL不合法:{}", e.getLocalizedMessage());
             return false;
         }
 
