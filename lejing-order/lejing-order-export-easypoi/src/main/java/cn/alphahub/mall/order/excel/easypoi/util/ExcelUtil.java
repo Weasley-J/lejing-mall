@@ -283,7 +283,7 @@ public class ExcelUtil {
 
     /**
      * excel预览
-     * <p>07版<b>.xlsx</b>后缀名的文件</p>
+     * <p>07版<b style="color:red">.xlsx</b>后缀名的文件</p>
      *
      * @param response  http servlet response
      * @param entity    Excel 导出参数
@@ -291,12 +291,16 @@ public class ExcelUtil {
      * @param list      excel实体类集合
      * @throws IOException IO异常
      */
-    public static <T> void toHtmlPreview(HttpServletResponse response, ExportParams entity, Class<T> pojoClass, List<T> list) throws IOException {
-        Workbook workbook = ExcelExportUtil.exportExcel(entity, pojoClass, list);
-        ExcelToHtmlParams params = new ExcelToHtmlParams(workbook);
-        workbook.close();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html");
-        response.getOutputStream().write(ExcelXorHtmlUtil.excelToHtml(params).getBytes());
+    public static <T> void previewHtml(HttpServletResponse response, ExportParams entity, Class<T> pojoClass, List<T> list) {
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(entity, pojoClass, list);
+            ExcelToHtmlParams params = new ExcelToHtmlParams(workbook);
+            workbook.close();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html");
+            response.getOutputStream().write(ExcelXorHtmlUtil.excelToHtml(params).getBytes());
+        } catch (IOException e) {
+            log.error("excel预览IO异常：{}", e.getMessage(), e);
+        }
     }
 }
