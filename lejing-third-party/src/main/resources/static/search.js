@@ -13,8 +13,8 @@ api[0].list.push({
 api.push({
     alias: 'OssRpcController',
     order: '2',
-    link: 'oss远程文件上传controller&lt;p&gt;服务间远程rpc调用,客户端上传请走&lt;em&gt;oss_policy&lt;/em&gt;&lt;/p&gt;',
-    desc: 'Oss远程文件上传Controller&lt;p&gt;服务间远程RPC调用,客户端上传请走&lt;em&gt;oss policy&lt;/em&gt;&lt;/p&gt;',
+    link: 'oss远程rpc文件上传controller',
+    desc: 'Oss远程RPC文件上传Controller',
     list: []
 })
 api[1].list.push({
@@ -27,11 +27,11 @@ api[1].list.push({
 });
 api[1].list.push({
     order: '3',
-    desc: '上传文件至OSS&lt;p&gt;可以上传的文件类型：    &lt;ul&gt;        &lt;li&gt;上传本地文件到OSS时需要指定包含文件后缀在内的完整路径，例如: E:\IdeaProjects\lejing-mall\lejing-third-party\src\main\resources\application-dev.yml&lt;/li&gt;        &lt;li&gt;上传网络文件，如：https://lejing.com/1.jpg&lt;/li&gt;    &lt;/ul&gt;&lt;/p&gt;',
+    desc: '上传文件至OSS&lt;p&gt;1. 转存网络文件2. 上传本地文件到时需要指定文件完整路径&lt;/p&gt;',
 });
 api[1].list.push({
     order: '4',
-    desc: '上传文件至OSS',
+    desc: '上传文件至OSS（普通上传）',
 });
 api[1].list.push({
     order: '5',

@@ -4,7 +4,8 @@ import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.member.domain.Member;
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * <b>购物车拦截器</b>
@@ -57,7 +57,7 @@ public class CartInterceptor implements HandlerInterceptor {
         }
         // cookie
         Cookie[] cookies = request.getCookies();
-        if (CollectionUtil.isNotEmpty(Arrays.asList(cookies))) {
+        if (CollectionUtils.isNotEmpty(Arrays.asList(cookies))) {
             for (Cookie cookie : cookies) {
                 String cookieName = cookie.getName();
                 String cookieValue = cookie.getValue();
@@ -73,8 +73,7 @@ public class CartInterceptor implements HandlerInterceptor {
             }
         }
         if (ObjectUtils.isNull(userInfo.getUserKey())) {
-            String userKey = UUID.randomUUID().toString().replaceAll("-", "");
-            userInfo.setUserKey(userKey);
+            userInfo.setUserKey(IdUtil.fastSimpleUUID());
         }
         userInfoThreadLocal.set(userInfo);
         return true;
@@ -90,6 +89,8 @@ public class CartInterceptor implements HandlerInterceptor {
         // 目标方法之后给浏览器设置Cookie
         if (userInfo.getTempUser()) {
             Cookie cookie = new Cookie(CartConstant.TEMP_USER_COOKIE_NAME, userKey);
+            // this sensitive cookie is protected against theft
+            cookie.setHttpOnly(true);
             cookie.setDomain("lejing.com");
             cookie.setMaxAge(CartConstant.TEMP_USER_COOKIE_TIMEOUT);
             response.addCookie(cookie);

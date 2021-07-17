@@ -30,6 +30,8 @@
         <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.3</oracle.version>
         <mongo.version>3.12.8</mongo.version>
+        <!-- 跳过sona扫描 -->
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <dependencies>

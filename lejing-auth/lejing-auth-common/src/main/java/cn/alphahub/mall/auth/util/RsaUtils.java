@@ -3,6 +3,7 @@ package cn.alphahub.mall.auth.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -89,7 +90,7 @@ public class RsaUtils {
         writeFile(privateKeyFilename, privateKeyBytes);
     }
 
-    private static byte[] readFile(String fileName) throws Exception {
+    private static byte[] readFile(String fileName) throws IOException {
         return Files.readAllBytes(new File(fileName).toPath());
     }
 
@@ -103,7 +104,12 @@ public class RsaUtils {
     private static void writeFile(String destPath, byte[] bytes) throws IOException {
         File dest = new File(destPath);
         if (!dest.exists()) {
-            dest.createNewFile();
+            if (dest.isDirectory()) {
+                Files.createDirectories(Path.of(destPath));
+            }
+            if (dest.isFile()) {
+                Files.createFile(Path.of(destPath));
+            }
         }
         Files.write(dest.toPath(), bytes);
     }

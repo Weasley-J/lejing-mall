@@ -29,15 +29,16 @@ public class LoginInterceptor implements HandlerInterceptor {
     /**
      * 允许URI放行的白名单，不需要登录，ant match pattern
      */
-    public static final Set<String> URI_WHITELIST_ANT_MATCH_PATTERN = new LinkedHashSet<>(20) {{
-        add("/member/**");
-    }};
-
+    public static final Set<String> URI_WHITELIST_ANT_MATCH_PATTERN = new LinkedHashSet<>(20);
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
     /**
      * 保存用户信息的threadLocal变量
      */
     public static ThreadLocal<Member> USER_INFO_THREAD_LOCAL = new ThreadLocal<>();
+
+    static {
+        URI_WHITELIST_ANT_MATCH_PATTERN.add("/member/**");
+    }
 
     /**
      * 从线程的局部变量中获取用户信息

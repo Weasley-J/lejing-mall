@@ -185,13 +185,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
             itemVO.setImages(skuImages);
         }, executor);
 
-        /*
-           使用多线程异步任务编排 - 等待所有任务执行完才返回数据
-         */
+        /* 使用多线程异步任务编排 - 等待所有任务执行完才返回数据 */
         try {
             CompletableFuture.allOf(saleAttrFuture, spuDescFuture, attrGroupFuture, skuImagesFuture).get();
         } catch (InterruptedException | ExecutionException e) {
-            log.error("所有多线程异步任务执行任务出错，异常原因：{}\n", e.getLocalizedMessage(), e);
+            log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+            Thread.currentThread().interrupt();
         }
 
         // 数据返回

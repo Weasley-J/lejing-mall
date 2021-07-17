@@ -43,6 +43,18 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- sonar start -->
+        <sonar.host.url>http://192.168.40.132:9001</sonar.host.url>
+        <sonar.login>admin</sonar.login>
+        <sonar.password>123456</sonar.password>
+        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+        <sonar.projectVersion>${project.version}</sonar.projectVersion>
+        <sonar.projectDescription>${project.description}</sonar.projectDescription>
+        <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
+        <sonar.exclusions>io/renren/**/*,*.js,*.bat,*.cmd,*.md,*.NET,*.cpp,*.css,*.html,*.vue,src/test/java/**
+        </sonar.exclusions>
+        <sonar.inclusions>src/main/java/**,src/main/resources/mapper/**</sonar.inclusions>
+        <!-- sonar end -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <lejing.latest.version>${project.version}</lejing.latest.version>
@@ -86,7 +98,7 @@
         <kryo-serializers.version>0.45</kryo-serializers.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
-        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
         <easyexcel.version>2.2.10</easyexcel.version>
     </properties>
 
@@ -444,7 +456,6 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
-                <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc-maven-plugin -->
                 <plugin>
                     <groupId>com.github.shalousun</groupId>
                     <artifactId>smart-doc-maven-plugin</artifactId>
@@ -454,6 +465,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -466,11 +482,10 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <!-- sonar -->
+            <!-- sonar qube -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <!-- source源代码，用于smart-doc解析项目API文档 -->
             <plugin>
@@ -490,7 +505,6 @@
             <plugin>
                 <groupId>com.github.shalousun</groupId>
                 <artifactId>smart-doc-maven-plugin</artifactId>
-                <version>${smart-doc.version}</version>
                 <configuration>
                     <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
                     <configFile>./src/main/resources/smart-doc.json</configFile>

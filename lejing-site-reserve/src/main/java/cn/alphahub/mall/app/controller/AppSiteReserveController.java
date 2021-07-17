@@ -5,7 +5,6 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.util.DateUtils;
 import cn.alphahub.mall.app.pojo.bo.SiteCouponBO;
 import cn.alphahub.mall.app.pojo.bo.SiteSessionBO;
 import cn.alphahub.mall.app.pojo.bo.SiteSessionOrderBO;
@@ -16,6 +15,7 @@ import cn.alphahub.mall.app.pojo.vo.SiteReserveDetailVO;
 import cn.alphahub.mall.app.pojo.vo.SiteReserveVO;
 import cn.alphahub.mall.app.pojo.vo.SiteSessionVO;
 import cn.alphahub.mall.app.service.AppSiteReserveService;
+import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.logstash.logback.encoder.org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,8 +97,8 @@ public class AppSiteReserveController extends BaseController {
             @RequestParam("effectDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date effectDate
     ) {
         log.info("场地id:{},查询日期:{}", siteId, effectDate);
-        String dateTimeNow = DateUtils.dateTimeNow("yyyy-MM-dd");
-        effectDate = Objects.isNull(effectDate) ? DateUtils.parseDate(dateTimeNow) : effectDate;
+        String dateTimeNow = DateUtil.format(new Date(), "yyyy-MM-dd");
+        effectDate = Objects.isNull(effectDate) ? DateUtil.parseDate(dateTimeNow) : effectDate;
 
         List<SiteSessionVO> siteSessions = siteReserveService.siteSessions(siteId, effectDate);
 

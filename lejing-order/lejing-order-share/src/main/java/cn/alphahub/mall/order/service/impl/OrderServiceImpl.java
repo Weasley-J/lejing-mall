@@ -67,6 +67,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -197,6 +198,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             CompletableFuture.allOf(addressListFuture, cartItemFuture).get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("订单结算确认多线程异步任务执行任务出错,异常原因:{}", e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
 
         confirmVoThreadLocal.remove();
@@ -258,7 +260,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
                     log.info("锁库存成功, 订单信息:{}", JSONUtil.toJsonStr(to.getOrder()));
                     // 库存锁定，订单回滚
-                    // int i = 1 / 0;
                     responseVo.setOrder(to.getOrder());
 
                     MqMessage mqMessage = new MqMessage();
@@ -321,7 +322,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             this.updateById(order);
             // 关闭订单成功再给MQ发个消息
             log.info("关闭订单成功,发消息MQ:{}", JSONUtil.toJsonStr(orderExists));
-            String correlationId = IdUtil.fastSimpleUUID();
+            correlationId = IdUtil.fastSimpleUUID();
             CorrelationData correlationData = new CorrelationData();
             correlationData.setId(correlationId);
             rabbitTemplate.convertAndSend(MqConstant.ORDER_EVENT_EXCHANGE, MqConstant.ORDER_ROUTING_KEY_RELEASE_OTHER, orderExists, message -> {
@@ -663,6 +664,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             CompletableFuture.allOf(queryLatestPriceFuture).get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+            Thread.currentThread().interrupt();
         }
         return items;
     }
@@ -678,7 +680,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         BoundHashOperations<String, Object, Object> operations = stringRedisTemplate.boundHashOps(cartKey);
         List<Object> tempCartValues = operations.values();
         if (CollectionUtils.isNotEmpty(tempCartValues)) {
-            return tempCartValues.stream().map(obj -> JSONUtil.toBean(String.valueOf(obj), CartItemVo.class)).collect(Collectors.toList());
+            List<CartItemVo> list = new ArrayList<>();
+            for (Object obj : tempCartValues) {
+                CartItemVo cartItemVo = JSONUtil.toBean(String.valueOf(obj), CartItemVo.class);
+                list.add(cartItemVo);
+            }
+            return list;
         }
         return Lists.newArrayList();
     }
@@ -737,16 +744,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      */
     @Transactional(rollbackFor = {Exception.class}, timeout = 30 * 1000)
     public void abc() {
+        System.err.println("ABC方法");
         OrderServiceImpl currentProxy = (OrderServiceImpl) AopContext.currentProxy();
         currentProxy.a();
         currentProxy.b();
         currentProxy.c();
-        System.err.println("ABC方法\n");
-        a();
-        b();
-        // 新事务
-        c();
-        int i = 3 / 0;
     }
 
 }

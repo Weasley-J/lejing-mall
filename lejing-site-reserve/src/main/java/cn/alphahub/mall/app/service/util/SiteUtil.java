@@ -1,6 +1,5 @@
 package cn.alphahub.mall.app.service.util;
 
-import cn.alphahub.common.util.DateUtils;
 import cn.alphahub.mall.app.pojo.bo.SiteBookBO;
 import cn.alphahub.mall.app.pojo.bo.SiteDetailBO;
 import cn.alphahub.mall.app.pojo.vo.SiteBookVO;
@@ -84,7 +83,7 @@ public class SiteUtil {
         return sessionDataInDays.stream().map(siteBookVO -> {
             SiteBookBO siteBookBO = new SiteBookBO();
             siteBookBO.setSiteSessionId(siteBookVO.getSiteSessionId());
-            siteBookBO.setBookDate(DateUtils.parseDate(siteBookVO.getEffectDate()));
+            siteBookBO.setBookDate(siteBookVO.getEffectDate());
             siteBookBO.setLatestTime(siteBookVO.getSessionStartTime());
             return siteBookBO;
         }).collect(Collectors.toList());

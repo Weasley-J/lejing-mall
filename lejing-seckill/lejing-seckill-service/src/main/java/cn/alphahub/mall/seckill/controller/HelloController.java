@@ -24,7 +24,6 @@ public class HelloController {
      */
     @GetMapping("/test")
     public String hello() {
-        int i = 1 / 0;
         return "hello";
     }
 

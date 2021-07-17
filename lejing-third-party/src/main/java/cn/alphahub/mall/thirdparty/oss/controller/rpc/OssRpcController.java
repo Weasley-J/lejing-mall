@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Oss远程文件上传Controller
- * <p>服务间远程RPC调用,客户端上传请走<em>oss policy</em></p>
+ * Oss远程RPC文件上传Controller
  *
  * @author liuwenjing
  * @version 1.0
@@ -51,11 +50,8 @@ public class OssRpcController {
     /**
      * 上传文件至OSS
      * <p>
-     * 可以上传的文件类型：
-     *     <ul>
-     *         <li>上传本地文件到OSS时需要指定包含文件后缀在内的完整路径，例如: E:\IdeaProjects\lejing-mall\lejing-third-party\src\main\resources\application-dev.yml</li>
-     *         <li>上传网络文件，如：https://lejing.com/1.jpg</li>
-     *     </ul>
+     * 1. 转存网络文件
+     * 2. 上传本地文件到时需要指定文件完整路径
      * </p>
      *
      * @param objectName   对象名，可以是本地文件，可以是网络文件
@@ -69,7 +65,7 @@ public class OssRpcController {
     }
 
     /**
-     * 上传文件至OSS
+     * 上传文件至OSS（普通上传）
      *
      * @param file     multipart file
      * @param filename 文件名(包含后缀)
@@ -84,9 +80,7 @@ public class OssRpcController {
     /**
      * 删除单个文件
      *
-     * @param objectName 文件URL, 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
-     *                   删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
-     *                   如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
+     * @param objectName 文件URL
      */
     @DeleteMapping("/delete/single")
     public BaseResult<Void> deleteSingle(@RequestParam(name = "objectName") String objectName) {
@@ -97,9 +91,7 @@ public class OssRpcController {
     /**
      * 批量删除文件
      *
-     * @param objectNames 文件URL集合, 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
-     *                    删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
-     *                    如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
+     * @param objectNames 文件URL集合
      * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。
      */
     @DeleteMapping("/delete/many")

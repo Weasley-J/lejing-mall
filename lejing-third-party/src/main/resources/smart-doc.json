@@ -11,7 +11,7 @@
   "projectName": "第三方服务后端接口文档",
   "appKey": "20210711863837521337909248",
   "secret": "7BnU4yz6UGR26<ykCTiJ0Sr$BU@24=1g",
-  "appToken": "89c3f221b3384fff986f60399eda1b32",
+  "appToken": "7b75c9b6a85f4a479fcf39bb68eb754e",
   "openUrl": "http://192.168.40.132:7700/api",
   "debugEnvName": "第三方服务测试环境",
   "debugEnvUrl": "http://192.168.31.113:88/api/thirdparty",

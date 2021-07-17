@@ -2,8 +2,8 @@ package cn.alphahub.mall.ware.feign;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.util.DateUtils;
 import cn.alphahub.mall.product.domain.SkuInfo;
+import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +73,7 @@ class SkuInfoClientTest {
         System.out.println("message = " + result.getMessage());
         SkuInfo skuInfo = result.getData();
         System.out.println("更新前: " + skuInfo);
-        skuInfo.setSkuDesc(DateUtils.getDate());
+        skuInfo.setSkuDesc(DateUtil.now());
         System.out.println("----------------------------------------");
         BaseResult<Boolean> baseResult = skuInfoClient.update(skuInfo);
         System.out.println("BaseResult<Boolean>  " + baseResult.getCode());

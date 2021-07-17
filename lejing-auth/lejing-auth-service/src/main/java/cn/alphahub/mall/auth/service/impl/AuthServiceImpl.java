@@ -4,7 +4,6 @@ import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enums.CheckCodeOrigin;
 import cn.alphahub.common.enums.CheckCodeStatus;
-import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.feign.MemberClient;
@@ -12,6 +11,7 @@ import cn.alphahub.mall.auth.service.AuthService;
 import cn.alphahub.mall.auth.util.CodecUtils;
 import cn.alphahub.mall.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -77,7 +77,9 @@ public class AuthServiceImpl implements AuthService {
         // 短信防刷逻辑
         if (StringUtils.isNotBlank(redisExistsCode)) {
             String[] split = redisExistsCode.split(splitString);
-            long parsedRetrySeconds = Long.parseLong(split[1]), retrySeconds = 120L, retryMillis = retrySeconds * 1000L;
+            long parsedRetrySeconds = Long.parseLong(split[1]);
+            long retrySeconds = 120L;
+            long retryMillis = retrySeconds * 1000L;
             // 120秒内不能重发
             CheckCodeStatus send = CheckCodeStatus.SEND;
             if (System.currentTimeMillis() - parsedRetrySeconds < retryMillis) {
@@ -89,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
         //获取验证码长度:移动端4位,浏览器6位, origin:1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源, origin为空验证码长度6位
         int checkCodeLength = Objects.nonNull(origin) ? Objects.equals(CheckCodeOrigin.MOBILE.getValue(), origin) ? 4 : 6 : 6;
         //生成验证码
-        String code = NumberUtils.generateCode(checkCodeLength);
+        String code = RandomStringUtils.randomNumeric(checkCodeLength);
         Map<String, Object> msgMap = new HashMap<>(2);
         msgMap.put("code", code);
         msgMap.put("phone", phone);
@@ -98,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
             // routingKey要和消息对列中的保持一致
             // 提示: 我们已经在配置文件指定用于发送操的默认routing key了,这里就不指定routing key了, 如果指定routingKey: mqpTemplate.convertAndSend("sms.verify.code", msgMap)
             amqpTemplate.convertAndSend(msgMap);
-            //給验证码拼上当前系统的时间戳, 保存验证码到redis缓存中, 15min 内有效;
+            // 給验证码拼上当前系统的时间戳, 保存验证码到redis缓存中, 15min 内有效;
             code = code + splitString + System.currentTimeMillis();
             ops.set(cacheKey, code, 15, TimeUnit.MINUTES);
             return CheckCodeStatus.SUCCESS;
@@ -199,7 +201,7 @@ public class AuthServiceImpl implements AuthService {
             String encodedPassword = member.getPassword();
             // 验证前端提交的密码是否正确
             Boolean matched = CodecUtils.matchesPassword(passwordRaw, encodedPassword);
-            if (matched) {
+            if (matched.equals(true)) {
                 msg = "[" + user.getLoginacct() + "]的密码正确";
                 log.info(msg);
                 errMap.put("code", code);

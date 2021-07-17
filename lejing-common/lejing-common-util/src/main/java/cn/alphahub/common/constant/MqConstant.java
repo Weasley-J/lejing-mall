@@ -60,18 +60,12 @@ public class MqConstant {
     /**
      * The key for the arguments to apply when declaring this queue
      */
-    public static final Map<String, Object> X_DEAD_LETTER_ARGS = new LinkedHashMap<>(3) {{
-        put("x-dead-letter-exchange", ORDER_EVENT_EXCHANGE);
-        put("x-dead-letter-routing-key", ORDER_ROUTING_KEY_RELEASE_ORDER);
-        put("x-message-ttl", ORDER_EVENT_X_MESSAGE_TTL);
-    }};
-
-    // --------------------------------------------------------------------
-
+    public static final Map<String, Object> X_DEAD_LETTER_ARGS = new LinkedHashMap<>(3);
     /**
      * 库存事件交换机
      */
     public static final String STOCK_EVENT_EXCHANGE = "STOCK.EVENT.EXCHANGE";
+    // --------------------------------------------------------------------
     /**
      * 库存事件延时队列
      */
@@ -99,4 +93,10 @@ public class MqConstant {
      * </ul>
      */
     public static final Integer STOCK_EVENT_X_MESSAGE_TTL = 2 * 60 * 1000;
+
+    static {
+        X_DEAD_LETTER_ARGS.put("x-dead-letter-exchange", ORDER_EVENT_EXCHANGE);
+        X_DEAD_LETTER_ARGS.put("x-dead-letter-routing-key", ORDER_ROUTING_KEY_RELEASE_ORDER);
+        X_DEAD_LETTER_ARGS.put("x-message-ttl", ORDER_EVENT_X_MESSAGE_TTL);
+    }
 }

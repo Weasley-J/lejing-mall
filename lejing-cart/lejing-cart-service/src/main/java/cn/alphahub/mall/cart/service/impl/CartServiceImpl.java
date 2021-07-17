@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -94,7 +95,7 @@ public class CartServiceImpl implements CartService {
             log.info("远程查询结果:\n{}", JSONUtil.toJsonStr(result));
             if (result.getSuccess()) {
                 List<String> skuAttrValues = result.getData();
-                log.info("远程查询商品sku属性列表成功: \n{}", JSONUtil.toJsonPrettyStr(skuAttrValues));
+                log.info("远程查询商品sku属性列表成功: {}", JSONUtil.toJsonPrettyStr(skuAttrValues));
                 cartItem.setSkuAttrValues(skuAttrValues);
             }
         }, executor);
@@ -169,7 +170,7 @@ public class CartServiceImpl implements CartService {
     public CartItemVo getCartItem(Long skuId) {
         BoundHashOperations<String, Object, Object> cartOps = this.getCartOps();
         Object skuString = cartOps.get(String.valueOf(skuId));
-        log.info("从redis中获取购物车中 {} 购物项信息:\n {}", skuId, JSONUtil.toJsonPrettyStr(skuString));
+        log.info("从redis中获取购物车中 {} 购物项信息:{}", skuId, JSONUtil.toJsonPrettyStr(skuString));
         return JSONUtil.toBean(JSONUtil.toJsonStr(skuString), CartItemVo.class);
     }
 
@@ -210,7 +211,11 @@ public class CartServiceImpl implements CartService {
             ops = stringRedisTemplate.boundHashOps(cartKey);
             List<Object> values = ops.values();
             if (CollectionUtils.isNotEmpty(values)) {
-                List<CartItemVo> itemVos = values.stream().map(o -> JSONUtil.toBean(o.toString(), CartItemVo.class)).collect(Collectors.toList());
+                List<CartItemVo> itemVos = new ArrayList<>();
+                for (Object o : values) {
+                    CartItemVo cartItemVo = JSONUtil.toBean(o.toString(), CartItemVo.class);
+                    itemVos.add(cartItemVo);
+                }
                 cart.setItems(itemVos);
             }
         }
@@ -243,8 +248,7 @@ public class CartServiceImpl implements CartService {
         // 修改redis中的购物项
         BoundHashOperations<String, Object, Object> ops = getCartOps();
         ops.put(skuId.toString(), jsonStrAfter);
-        log.info("\n修改前：" + jsonStrBefore + "\n" +
-                "修改后：" + jsonStrAfter + "\n");
+        log.info("修改前：{}, 修改后: {}", jsonStrBefore, jsonStrAfter);
     }
 
     /**
@@ -314,6 +318,7 @@ public class CartServiceImpl implements CartService {
             CompletableFuture.allOf(queryLatestPriceFuture).get();
         } catch (InterruptedException | ExecutionException e) {
             log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+            Thread.currentThread().interrupt();
         }
 
         return items;
@@ -330,7 +335,12 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> operations = stringRedisTemplate.boundHashOps(cartKey);
         List<Object> tempCartValues = operations.values();
         if (CollectionUtils.isNotEmpty(tempCartValues)) {
-            return tempCartValues.stream().map(obj -> JSONUtil.toBean(String.valueOf(obj), CartItemVo.class)).collect(Collectors.toList());
+            List<CartItemVo> list = new ArrayList<>();
+            for (Object obj : tempCartValues) {
+                CartItemVo cartItemVo = JSONUtil.toBean(String.valueOf(obj), CartItemVo.class);
+                list.add(cartItemVo);
+            }
+            return list;
         }
         return Lists.newArrayList();
     }

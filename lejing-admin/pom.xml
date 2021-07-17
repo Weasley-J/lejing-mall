@@ -43,6 +43,8 @@
         <remote-addr>192.168.1.10:22</remote-addr>
         <remote-username>root</remote-username>
         <remote-passwd>123456</remote-passwd>
+        <!-- 跳过sona扫描 -->
+        <sonar.skip>true</sonar.skip>
     </properties>
 
     <dependencies>

@@ -2,10 +2,10 @@ package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.core.domain.SmsParam;
 import cn.alphahub.common.util.JSONUtil;
-import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.thirdparty.sms.util.AliyunSmsUtil;
 import com.aliyuncs.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,7 +86,7 @@ class SmsServiceImplTest {
             return Boolean.TRUE;
         }
         //生成验证码
-        String code = NumberUtils.generateCode(6);
+        String code = RandomStringUtils.randomNumeric(6);
         Map<String, Object> msgMap = new HashMap<>();
         msgMap.put("code", code);
         msgMap.put("phone", phone);
@@ -100,7 +100,7 @@ class SmsServiceImplTest {
             ops.set(KEY_PREFIX.concat(phone), code, 5, TimeUnit.MINUTES);
             return Boolean.TRUE;
         } catch (Exception e) {
-            log.error("发送短信失败! phone：{}， code：{}, 异常信息:{}\n", phone, code, e.getMessage(), e);
+            log.error("发送短信失败! phone：{}， code：{}, 异常信息:{}", phone, code, e.getMessage(), e);
             return Boolean.FALSE;
         }
     }

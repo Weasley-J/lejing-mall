@@ -2,13 +2,13 @@ package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.enums.CheckCodeOrigin;
-import cn.alphahub.common.util.DateUtils;
-import cn.alphahub.common.util.NumberUtils;
 import cn.alphahub.mall.thirdparty.config.SmsProperties;
+import cn.hutool.core.date.DateUtil;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -65,7 +65,8 @@ public final class SmsServiceImpl extends AbstractSmsService {
         // 必填-号码
         request.setPhoneNumber(telephone);
         // 必填-短信发送的日期 支持30天内记录查询（可查其中一天的发送数据），格式yyyyMMdd
-        request.setSendDate(DateUtils.parseDateToStr("yyyyMMdd", sendDate));
+
+        request.setSendDate(DateUtil.format(sendDate, "yyyyMMdd"));
         // 必填-页大小
         request.setPageSize(10L);
         // 必填-当前页码从1开始计数
@@ -101,7 +102,7 @@ public final class SmsServiceImpl extends AbstractSmsService {
         //获取验证码长度:移动端4位,浏览器6位, origin:1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源, origin为空验证码长度6位
         int checkCodeLength = Objects.nonNull(origin) ? Objects.equals(CheckCodeOrigin.MOBILE.getValue(), origin) ? 4 : 6 : 6;
         //生成验证码
-        String code = NumberUtils.generateCode(checkCodeLength);
+        String code = RandomStringUtils.randomNumeric(checkCodeLength);
         Map<String, Object> msgMap = new HashMap<>(2);
         msgMap.put("code", code);
         msgMap.put("phone", phone);

@@ -6,6 +6,12 @@
 
 ![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210222191025177.png)
 
+> `SonarQube`代码扫描结果（不含前端代码）
+
+![image-20210718023454451](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210718023454451.png)
+
+
+
 # 1 技术架构选型
 
 第二代微服务架构，`kubernetes`高可用集群，全自动`DevOps`，
@@ -90,7 +96,7 @@ JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 # 4 待完成清单
 
-- [x] 整合人人框架，提供：`domain`--> `dao` --> `service` --> `controller` --> 全自动`api`文档在线输出, 支持在线调试
+- [ ] 整合人人框架，提供：`domain`--> `dao` --> `service` --> `controller` --> 全自动`api`文档在线输出, 支持在线调试
 
   目的：让今后因业务变动影响数据库的变动只需要码农修改数据库对应的领域模型即可，节省更多的时间
 
@@ -100,7 +106,9 @@ JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 
 
-- [x] 移除`spring-cloud-alibaba 2.2.5.RELEASE` 版本中微服务中通过`feign`远程调用时使用`ribbon`负载均衡的支持, 采用`spring-cloud 2020.0.1`的`spring cloud loadbalancer`代替
+- [ ] 移除`spring-cloud-alibaba 2.2.5.RELEASE` 版本中微服务中通过`feign`远程调用时使用`ribbon`负载均衡的支持, 采用`spring-cloud 2020.0.1`的`spring cloud loadbalancer`代替
+
+- [ ] ......
 
 
 
@@ -512,3 +520,34 @@ http {
 详见：`lejing-order/doc/关于Excel导出示例说明.md`
 
 ![image-20210710221552613](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210710221552613.png)
+
+## 9.1 大数据量excel文件导出，`5W~100W`数据量
+
+
+
+## 9.2 excel文件预览
+
+
+
+# 10 接入`Torna` `API`文档管理工具，完美融合`smart-doc`
+
+> 全程无需手写文档，执行maven插件即可
+>
+> ![image-20210717232437120](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210717232437120.png)
+
+
+
+文档效果：
+
+![image-20210717230458352](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210717230458352.png)
+
+![image-20210717230515865](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210717230515865.png)
+
+## 10.1 `SQL`文件: `sql/torna.sql`
+
+
+
+## 10.2 安装shell脚本: `shell/run_torna_install.sh`
+
+
+
