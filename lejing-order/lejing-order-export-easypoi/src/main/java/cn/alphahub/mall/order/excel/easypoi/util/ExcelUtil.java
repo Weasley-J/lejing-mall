@@ -80,7 +80,7 @@ public class ExcelUtil {
             String sheetName
     ) {
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("content-Type", "application/vnd.ms-excel");
+        response.setContentType("application/vnd.ms-excel");
         ExportParams params = new ExportParams(excelTitle, sheetName, ExcelType.XSSF);
         params.setFreezeCol(2);
         modelMap.put(BigExcelConstants.FILE_NAME, filename);
