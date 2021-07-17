@@ -1,0 +1,133 @@
+package cn.alphahub.mall.thirdparty.oss.controller.rpc;
+
+import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.mall.thirdparty.oss.service.OssService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Oss远程文件上传Controller
+ * <p>服务间远程RPC调用,客户端上传请走<em>oss policy</em></p>
+ *
+ * @author liuwenjing
+ * @version 1.0
+ * @date 2021/07/17
+ */
+@Slf4j
+@RestController
+@RequestMapping("/oss/rpc")
+public class OssRpcController {
+    @Resource
+    private OssService ossService;
+
+    /**
+     * 创建存储空间
+     *
+     * @param bucketName 存储空间名称
+     * @return 创建成功，返回存储空间名称
+     */
+    @PostMapping("/bucket/create")
+    public BaseResult<String> createBucket(@RequestParam(name = "bucketName") String bucketName) {
+        String bucket = ossService.createBucket(bucketName);
+        return BaseResult.ok(bucket);
+    }
+
+    /**
+     * 删除存储空间
+     *
+     * @param bucketName 存储空间名称
+     */
+    @DeleteMapping("/bucket/delete")
+    public BaseResult<Void> deleteBucket(@RequestParam(name = "bucketName") String bucketName) {
+        ossService.deleteBucket(bucketName);
+        return BaseResult.ok();
+    }
+
+    /**
+     * 上传文件至OSS
+     * <p>
+     * 可以上传的文件类型：
+     *     <ul>
+     *         <li>上传本地文件到OSS时需要指定包含文件后缀在内的完整路径，例如: E:\IdeaProjects\lejing-mall\lejing-third-party\src\main\resources\application-dev.yml</li>
+     *         <li>上传网络文件，如：https://lejing.com/1.jpg</li>
+     *     </ul>
+     * </p>
+     *
+     * @param objectName   对象名，可以是本地文件，可以是网络文件
+     * @param fileDirOfOss 文件在oss bucket中的文件夹
+     * @return 文件的url
+     */
+    @PostMapping("/upload")
+    public BaseResult<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss) {
+        String upload = ossService.upload(objectName, fileDirOfOss);
+        return BaseResult.ok(upload);
+    }
+
+    /**
+     * 上传文件至OSS
+     *
+     * @param file     multipart file
+     * @param filename 文件名(包含后缀)
+     * @return 文件完整url
+     */
+    @PostMapping("/upload/multipart/file")
+    public BaseResult<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename) throws IOException {
+        String upload = ossService.upload(file, filename);
+        return BaseResult.ok(upload);
+    }
+
+    /**
+     * 删除单个文件
+     *
+     * @param objectName 文件URL, 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+     *                   删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
+     *                   如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
+     */
+    @DeleteMapping("/delete/single")
+    public BaseResult<Void> deleteSingle(@RequestParam(name = "objectName") String objectName) {
+        ossService.deleteOne(objectName);
+        return BaseResult.ok();
+    }
+
+    /**
+     * 批量删除文件
+     *
+     * @param objectNames 文件URL集合, 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+     *                    删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
+     *                    如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
+     * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。
+     */
+    @DeleteMapping("/delete/many")
+    public BaseResult<List<String>> deleteMany(@RequestBody List<String> objectNames) {
+        List<String> many = ossService.deleteMany(objectNames);
+        return BaseResult.ok(many);
+    }
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param objectUrl 文件的完整url
+     * @return 是否存在
+     */
+    @GetMapping("/file/exist/{objectUrl}")
+    public BaseResult<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl) {
+        boolean fileExist = ossService.isFileExist(objectUrl);
+        return BaseResult.ok(fileExist);
+    }
+
+    /**
+     * 判断OSS的全局命名空间(存储空间)是否存在
+     *
+     * @return 存在返回true，否则返回false
+     */
+    @GetMapping("/bucket/exist/{bucketName}")
+    public BaseResult<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName) {
+        boolean bucketExist = ossService.isBucketExist(bucketName);
+        return BaseResult.ok(bucketExist);
+    }
+}

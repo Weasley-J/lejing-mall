@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.BufferedInputStream;
@@ -71,7 +72,8 @@ public class OssService {
      *     </ul>
      * </p>
      *
-     * @param objectName 对象名，可以是本地文件，可以是网络文件
+     * @param objectName   对象名，可以是本地文件，可以是网络文件
+     * @param fileDirOfOss 文件在oss bucket中的文件夹
      * @return 文件的url
      */
     public String upload(String objectName, String fileDirOfOss) {
@@ -114,7 +116,7 @@ public class OssService {
         if (!isBucketExist(bucketName) || Objects.isNull(inputStream) || StringUtils.isBlank(filename)) {
             return null;
         }
-        //组装文件名-uri路径，如: jpg/20201014/abc_144845.jpg
+        //组装文件名-uri路径，如: jpg/abc.jpg
         String myObjectName = makeOssPath(filename);
         PutObjectResult result = ossClient.putObject(bucketName, myObjectName, inputStream);
         log.info("结果：{}", result.toString());
@@ -123,9 +125,20 @@ public class OssService {
     }
 
     /**
+     * 上传文件流
+     *
+     * @param file     multipart file
+     * @param filename 文件名(包含后缀)
+     * @return 文件完整url
+     */
+    public String upload(MultipartFile file, String filename) throws IOException {
+        return upload(file.getInputStream(), filename);
+    }
+
+    /**
      * 删除单个文件
      *
-     * @param objectName 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+     * @param objectName 文件URL,上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
      *                   删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
      *                   如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
      */
@@ -138,7 +151,7 @@ public class OssService {
     /**
      * 批量删除文件
      *
-     * @param objectNames 上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+     * @param objectNames 文件URL集合,上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
      *                    删除文件。如需删除文件夹，请将ObjectName设置为对应的文件夹名称。
      *                    如果文件夹非空，则需要将文件夹下的所有object删除后才能删除该文件夹。
      * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。

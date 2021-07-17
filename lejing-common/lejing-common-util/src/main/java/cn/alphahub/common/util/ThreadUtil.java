@@ -17,8 +17,8 @@ public class ThreadUtil {
      */
     private static final ExecutorService POOL = new ThreadPoolExecutor(
             15,
-            200,
-            0L,
+            100,
+            10L,
             TimeUnit.SECONDS,
             new LinkedBlockingDeque<>(1024),
             new ThreadPoolExecutor.AbortPolicy()

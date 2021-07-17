@@ -19,13 +19,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * OSS文件存储Controller
+ * OSS Policy文件上传Controller
  *
  * @author liuwenjing
  */
 @Slf4j
 @RestController
-public class OssController {
+public class OssPolicyController {
 
     @Resource
     private OSS ossClient;

@@ -1,9 +1,9 @@
 let api = [];
 api.push({
-    alias: 'OssController',
+    alias: 'OssPolicyController',
     order: '1',
-    link: 'oss文件存储controller',
-    desc: 'OSS文件存储Controller',
+    link: 'oss_policy文件上传controller',
+    desc: 'OSS Policy文件上传Controller',
     list: []
 })
 api[0].list.push({
@@ -11,43 +11,82 @@ api[0].list.push({
     desc: '获取OSS文件上传服务端签名',
 });
 api.push({
-    alias: 'SmsController',
+    alias: 'OssRpcController',
     order: '2',
-    link: '短信controller',
-    desc: '短信Controller',
+    link: 'oss远程文件上传controller&lt;p&gt;服务间远程rpc调用,客户端上传请走&lt;em&gt;oss_policy&lt;/em&gt;&lt;/p&gt;',
+    desc: 'Oss远程文件上传Controller&lt;p&gt;服务间远程RPC调用,客户端上传请走&lt;em&gt;oss policy&lt;/em&gt;&lt;/p&gt;',
     list: []
 })
 api[1].list.push({
     order: '1',
-    desc: '发送验证码给用户手机',
+    desc: '创建存储空间',
 });
 api[1].list.push({
+    order: '2',
+    desc: '删除存储空间',
+});
+api[1].list.push({
+    order: '3',
+    desc: '上传文件至OSS&lt;p&gt;可以上传的文件类型：    &lt;ul&gt;        &lt;li&gt;上传本地文件到OSS时需要指定包含文件后缀在内的完整路径，例如: E:\IdeaProjects\lejing-mall\lejing-third-party\src\main\resources\application-dev.yml&lt;/li&gt;        &lt;li&gt;上传网络文件，如：https://lejing.com/1.jpg&lt;/li&gt;    &lt;/ul&gt;&lt;/p&gt;',
+});
+api[1].list.push({
+    order: '4',
+    desc: '上传文件至OSS',
+});
+api[1].list.push({
+    order: '5',
+    desc: '删除单个文件',
+});
+api[1].list.push({
+    order: '6',
+    desc: '批量删除文件',
+});
+api[1].list.push({
+    order: '7',
+    desc: '判断文件是否存在',
+});
+api[1].list.push({
+    order: '8',
+    desc: '判断OSS的全局命名空间(存储空间)是否存在',
+});
+api.push({
+    alias: 'SmsController',
+    order: '3',
+    link: '短信controller',
+    desc: '短信Controller',
+    list: []
+})
+api[2].list.push({
+    order: '1',
+    desc: '发送验证码给用户手机',
+});
+api[2].list.push({
     order: '2',
     desc: '查询短信发送详情',
 });
 api.push({
     alias: 'error',
-    order: '3',
+    order: '4',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '4',
+    order: '5',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[3].list.push({
+api[4].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '2',
     desc: '验证码请求来源字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '3',
     desc: '电子入场券状态字典',
 });
