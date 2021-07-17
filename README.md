@@ -6,7 +6,7 @@
 
 ![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210222191025177.png)
 
-> `SonarQube`代码扫描结果（不含前端代码）
+> `SonarQube`代码审查结果（不含前端代码）
 
 ![image-20210718023454451](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210718023454451.png)
 
