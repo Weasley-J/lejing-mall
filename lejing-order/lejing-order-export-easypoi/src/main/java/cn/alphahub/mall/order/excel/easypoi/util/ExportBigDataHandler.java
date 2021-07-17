@@ -21,8 +21,8 @@ import java.util.Map;
  */
 @Data
 @Slf4j
-@Accessors(chain = true)
 @Component
+@Accessors(chain = true)
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ExportBigDataHandler<T> implements IExcelExportServer {
     /**
