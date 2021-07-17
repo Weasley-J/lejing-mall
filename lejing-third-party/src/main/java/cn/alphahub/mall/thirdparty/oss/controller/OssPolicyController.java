@@ -103,6 +103,4 @@ public class OssPolicyController {
         }
         return BaseResult.ok(ossServerSignature);
     }
-
-
 }
