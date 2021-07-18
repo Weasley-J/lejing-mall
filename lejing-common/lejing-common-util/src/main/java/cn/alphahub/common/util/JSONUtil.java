@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.System.err;
+
 /**
  * Jackson序列化工具类
  * <p>Jackson是一款十分优秀的json序列化工具，但是使用其序列化、反序列化java对象时是动不动就抛异常，于是封装这几个常用的静态方法</p>
@@ -23,11 +25,14 @@ public class JSONUtil {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final String ERROR_MSG = "json序列化出错";
 
+    private JSONUtil() {
+    }
+
     /**
      * 对象转json字符串
      *
-     * @param data
-     * @return
+     * @param data 要转换成的JSON的java对象
+     * @return JSON字符串
      */
     @Nullable
     public static String toJsonStr(Object data) {
@@ -125,6 +130,6 @@ public class JSONUtil {
      * @param data 数据对象
      */
     public static void printJsonStr(Object data) {
-        System.out.println(toJsonStr(data));
+        err.println(toJsonStr(data));
     }
 }

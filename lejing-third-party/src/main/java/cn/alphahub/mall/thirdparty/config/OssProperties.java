@@ -64,5 +64,4 @@ public class OssProperties implements Serializable {
      */
     @Value("${alibaba.cloud.oss.endpoint}")
     private String endpoint;
-
 }

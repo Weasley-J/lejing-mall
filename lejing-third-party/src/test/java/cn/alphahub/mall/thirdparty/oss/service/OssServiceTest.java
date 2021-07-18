@@ -26,7 +26,6 @@ class OssServiceTest {
     @AfterEach
     void tearDown() {
         System.err.println("---------------------------");
-        ossService.shutdown();
     }
 
     @Test
@@ -62,26 +61,6 @@ class OssServiceTest {
     }
 
     @Test
-    void testUpload() {
-    }
-
-    @Test
-    void testUpload1() {
-    }
-
-    @Test
-    void deleteOne() {
-    }
-
-    @Test
-    void deleteMany() {
-    }
-
-    @Test
-    void exportOssFile() {
-    }
-
-    @Test
     void isFileExist() {
         String objectUrl = ossProperties.getUrlPrefix() + "2019-11-27/ffc5a377-b037-4f26-84a0-df5b1c7cf42d_f205d9c99a2b4b01.jpg";
         log.info("文件的完整url:{}", objectUrl);
@@ -89,13 +68,5 @@ class OssServiceTest {
         String objectName = objectUrl.replace(ossProperties.getUrlPrefix(), "");
         System.out.println(objectName);
 
-    }
-
-    @Test
-    void isBucketExist() {
-    }
-
-    @Test
-    void getOssObjectName() {
     }
 }

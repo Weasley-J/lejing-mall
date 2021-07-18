@@ -99,7 +99,6 @@ public class OssService {
             filename = FileUtil.getName(objectName);
             result = ossClient.putObject(bucketName, fileDirOfOss + filename, new File(objectName));
         }
-        shutdown();
         return ObjectUtils.isNotEmpty(result) ? ossProperties.getUrlPrefix() + fileDirOfOss + filename : null;
     }
 
@@ -120,7 +119,6 @@ public class OssService {
         String myObjectName = makeOssPath(filename);
         PutObjectResult result = ossClient.putObject(bucketName, myObjectName, inputStream);
         log.info("结果：{}", result.toString());
-        shutdown();
         return ossProperties.getHostPrefix().concat(myObjectName);
     }
 
@@ -145,7 +143,6 @@ public class OssService {
     public void deleteOne(String objectName) {
         String bucketName = ossProperties.getBucketName();
         ossClient.deleteObject(bucketName, objectName);
-        shutdown();
     }
 
     /**
@@ -159,7 +156,6 @@ public class OssService {
     public List<String> deleteMany(List<String> objectNames) {
         String bucketName = ossProperties.getBucketName();
         DeleteObjectsResult deleteObjectsResult = ossClient.deleteObjects(new DeleteObjectsRequest(bucketName).withKeys(objectNames));
-        shutdown();
         return deleteObjectsResult.getDeletedObjects();
     }
 
@@ -184,7 +180,6 @@ public class OssService {
         } catch (IOException e) {
             log.error("IO异常: {}", e.getLocalizedMessage(), e);
         }
-        shutdown();
     }
 
     /**
@@ -222,26 +217,6 @@ public class OssService {
         StringJoiner myObjectJoiner = new StringJoiner("/", "", "");
         myObjectJoiner.add(fileType).add(filename.concat(".").concat(fileType));
         return myObjectJoiner.toString();
-    }
-
-    /**
-     * 关闭OSS实例（释放所有资源） 调用其shutdown()后，OSS实例不可用
-     *
-     * @param ossClient OSS实例
-     */
-    public void shutdown(OSS ossClient) {
-        if (Objects.nonNull(ossClient)) {
-            ossClient.shutdown();
-        }
-    }
-
-    /**
-     * 关闭OSS实例（释放所有资源） 调用其shutdown()后，OSS实例不可用
-     */
-    public void shutdown() {
-        if (Objects.nonNull(ossClient)) {
-            ossClient.shutdown();
-        }
     }
 }
 

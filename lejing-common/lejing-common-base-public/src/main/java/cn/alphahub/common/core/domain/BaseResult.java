@@ -129,7 +129,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @return 成功消息
      */
     public static <T> BaseResult<T> ok() {
-        return ok("操作成功");
+        return ok(200, "操作成功");
     }
 
     /**
@@ -165,17 +165,6 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      */
     public static <T> BaseResult<T> ok(String msg, T data) {
         return preCreate(200, msg, true, data);
-    }
-
-    /**
-     * 返回成功消息
-     *
-     * @param <T> 数据对象
-     * @param msg 返回消息
-     * @return 数据对象
-     */
-    public static <T> BaseResult<T> ok(String msg) {
-        return preCreate(200, msg, true, null);
     }
 
     /**
@@ -243,7 +232,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @return 成功消息
      */
     public static <T> BaseResult<T> success() {
-        return BaseResult.success("操作成功");
+        return BaseResult.success(200, "操作成功");
     }
 
     /**
@@ -255,17 +244,6 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      */
     public static <T> BaseResult<T> success(T data) {
         return BaseResult.success("操作成功", data);
-    }
-
-    /**
-     * 返回成功消息
-     *
-     * @param <T> 数据对象
-     * @param msg 返回内容
-     * @return 成功消息
-     */
-    public static <T> BaseResult<T> success(String msg) {
-        return BaseResult.success(msg, null);
     }
 
     /**
