@@ -69,7 +69,7 @@ public class SearchController extends BaseController {
         } catch (Exception e) {
             log.error("上架商品保存至Elasticsearch中失败：{}\n", e.getClass(), e);
         }
-        return save ? BaseResult.ok("保存成功") : BaseResult.fail(
+        return save ? BaseResult.ok() : BaseResult.fail(
                 BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),
                 BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getMessage());
     }

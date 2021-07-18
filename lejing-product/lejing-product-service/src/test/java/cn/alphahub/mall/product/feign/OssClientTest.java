@@ -42,6 +42,8 @@ class OssClientTest {
     SkuInfoService skuInfoService;
     @Resource
     SpuImagesService spuImagesService;
+    @Resource
+    SearchClient searchClient;
 
     @BeforeEach
     void setUp() {
@@ -169,4 +171,6 @@ class OssClientTest {
 
         spuImagesService.updateBatchById(news);
     }
+
+
 }
