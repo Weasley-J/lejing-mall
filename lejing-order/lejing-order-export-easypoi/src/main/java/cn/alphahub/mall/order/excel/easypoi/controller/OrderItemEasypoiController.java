@@ -101,7 +101,7 @@ public class OrderItemEasypoiController {
      * @return true
      */
     @PostMapping("/upload/order/item")
-    public BaseResult<Void> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
+    public BaseResult<String> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
         Date start = new Date();
         try {
             var params = new ImportParams();
@@ -154,6 +154,6 @@ public class OrderItemEasypoiController {
             log.error("{}", e.getLocalizedMessage(), e);
         }
         Date end = new Date();
-        return BaseResult.ok("解析耗时：" + DateUtil.format(start,"yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end,"yyyy-MM-dd HH:mm:ss"));
+        return BaseResult.ok("解析耗时：" + DateUtil.format(start, "yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end, "yyyy-MM-dd HH:mm:ss"));
     }
 }
