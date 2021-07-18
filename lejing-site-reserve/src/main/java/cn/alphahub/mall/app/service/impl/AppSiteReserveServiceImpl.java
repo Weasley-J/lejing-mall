@@ -16,6 +16,7 @@ import cn.alphahub.mall.app.service.AppSiteReserveService;
 import cn.alphahub.mall.app.service.util.SiteUtil;
 import cn.alphahub.mall.site.domain.SiteReserve;
 import cn.alphahub.mall.site.service.SiteReserveService;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -153,8 +154,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
 
         // TODO 3. 调用支付接口，判断支付回调结果
 
-        Random random = new Random();
-        int nextInt = random.nextInt();
+        int nextInt = RandomUtil.randomInt();
 
         boolean paid = nextInt % 2 == 0;
 
@@ -188,7 +188,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
     ) {
 
         // TODO 业务
-        List<SiteOrderVO> orderVOS = new ArrayList<>();
+        List<SiteOrderVO> orderVos = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             SiteOrderVO orderVO = SiteOrderVO.builder().build();
             orderVO.setUserId("89479128343" + i);
@@ -198,15 +198,15 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
             orderVO.setSessionStartTime("12:00");
             orderVO.setSessionFinishTime("18:00");
             orderVO.setTotalPrice(10010);
-            orderVOS.add(orderVO);
+            orderVos.add(orderVO);
         }
 
-        PageResult<SiteOrderVO> orderVOPageResult = new PageResult<>();
-        orderVOPageResult.setTotalCount(3L);
-        orderVOPageResult.setTotalPage(1);
-        orderVOPageResult.setItems(orderVOS);
+        PageResult<SiteOrderVO> pageResult = new PageResult<>();
+        pageResult.setTotalCount(3L);
+        pageResult.setTotalPage(1);
+        pageResult.setItems(orderVos);
 
-        return orderVOPageResult;
+        return pageResult;
     }
 
     /**
@@ -343,17 +343,5 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
         reimburseVO.setRefundSuccessfulDate(new Date());
 
         return reimburseVO;
-    }
-
-
-    /**
-     * 排序
-     *
-     * @return 排序
-     */
-    protected String getOrderBy() {
-        boolean isAsc = false;
-        String orderBy = "sort";
-        return isAsc ? orderBy + " ASC" : orderBy + " DESC";
     }
 }

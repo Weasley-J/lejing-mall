@@ -8,9 +8,7 @@
 
 > `SonarQube`代码审查结果（不含前端代码）
 
-![image-20210718023454451](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210718023454451.png)
-
-
+![image-20210718135853776](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210718135853776.png)
 
 # 1 技术架构选型
 
@@ -378,7 +376,19 @@ sysctl -p
 
 ```
 
+- 看看国内的开源和国外的开源代码审查结果
 
+> 阿里的[fastjson](https://github.com/alibaba/fastjson.git)
+
+![img](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/EX1`QE]8AV96S$_E90DHHW0-1626597142096.png)
+
+国外的[Jackson](https://github.com/FasterXML/jackson-core.git)
+
+![img](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/RLAOVF@WRCQ_]512J_EK5.png)
+
+从审查数据可以看到:
+
+`fastjson`的bug级别为E, 共122个, `Jackson`为C级,共15个,  `fastjson`的bug约为`jackson`的8倍还要多, 数据上看, `jackson`比`fastjson`可靠.
 
 # 7 Q&A
 

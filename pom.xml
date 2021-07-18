@@ -50,10 +50,10 @@
         <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
         <sonar.projectDescription>${project.description}</sonar.projectDescription>
+        <sonar.links.homepage>${project.url}</sonar.links.homepage>
+        <sonar.sources>src/main/java</sonar.sources>
         <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
-        <sonar.exclusions>io/renren/**/*,*.js,*.bat,*.cmd,*.md,*.NET,*.cpp,*.css,*.html,*.vue,src/test/java/**
-        </sonar.exclusions>
-        <sonar.inclusions>src/main/java/**,src/main/resources/mapper/**</sonar.inclusions>
+        <sonar.exclusions>src/test/**/*,*.js,*.css,*.html,*.vue,*.bat,*.cmd,*.md,*.NET,*.cpp</sonar.exclusions>
         <!-- sonar end -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>

@@ -1,17 +1,813 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="smart-doc"><title>order-service-easypoi后端接口文档</title><link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"><link rel="stylesheet" href="AllInOne.css?v=1626547410366"/><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/styles/xt256.min.css"><style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {        background: #000    }    .hljs {        padding: 0em    }</style><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script><script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script></head><body class="book toc2 toc-left"><div id="header"><h1>order-service-easypoi后端接口文档</h1><div id="toc" class="toc2"><div id="book-search-input"><input id="search" type="text" placeholder="Type to search"></div><div id="toctitle"><span>API Reference</span></div><ul id="accordion" class="sectlevel1"><li class="open"><a class="dd" href="#_主订单数据excel导入导出Controller">1.&nbsp;主订单数据excel导入导出Controller</a><ul class="sectlevel2" style="display: block"><li><a href="#_1_1_导出订单数据">1.1.&nbsp;导出订单数据</a></li><li><a href="#_1_2_导入订单数据">1.2.&nbsp;导入订单数据</a></li></ul></li><li><a class="dd" href="#_子订单订单导入导出Controller">2.&nbsp;子订单订单导入导出Controller</a><ul class="sectlevel2"><li><a href="#_2_1_下载订单的excel文件">2.1.&nbsp;下载订单的excel文件</a></li><li><a href="#_2_2_上传订单的excel文件">2.2.&nbsp;上传订单的excel文件</a></li></ul></li><li><a href="#_error_code_list">3.&nbsp;错误码列表</a></li><li><a class="dd" href="#_dict_list">4.&nbsp;数据字典</a><ul class="sectlevel2"><li><a href="#_4_1_响应http状态码字典">4.1.&nbsp;响应http状态码字典</a></li><li><a href="#_4_2_订单状态字典">4.2.&nbsp;订单状态字典</a></li><li><a href="#_4_3_支付方式字典">4.3.&nbsp;支付方式字典</a></li><li><a href="#_4_4_验证码请求来源字典">4.4.&nbsp;验证码请求来源字典</a></li><li><a href="#_4_5_电子入场券状态字典">4.5.&nbsp;电子入场券状态字典</a></li></ul></li></ul></div></div><div id="content"><div id="preamble"><div class="sectionbody"><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"><col style="width: 20%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Version</th><th class="tableblock halign-left valign-top">Update Time</th><th class="tableblock halign-left valign-top">Status</th><th class="tableblock halign-left valign-top">Author</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">2020-12-31 10:30</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">创建</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">创建api文档</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1.1</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">2021-02-03 14:02</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">更新</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">版本升级</p></td></tr></tbody></table></div></div><div class="sect1"><h2 id="_主订单数据excel导入导出Controller"><a class="anchor" href="#_主订单数据excel导入导出Controller"></a><a class="link" href="#_主订单数据excel导入导出Controller">1.&nbsp;主订单数据excel导入导出Controller</a></h2><div class="sectionbody"><div class="sect2" id="3cd6a69f5844b2c82ad0bc0bdda208e1"><h3 id="_1_1_导出订单数据"><a class="anchor" href="#_1_1_导出订单数据"></a><a class="link" href="#_1_1_导出订单数据">1.1.&nbsp;导出订单数据</a></h3><div class="paragraph" id="3cd6a69f5844b2c82ad0bc0bdda208e1-url" data-url="http://localhost:88/api/order/public/easypoi/download/order" data-download="false"                     data-page=""><p><strong>URL:</strong><a href="http://localhost:88/api/order/public/easypoi/download/order" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/download/order</a></p></div><div class="paragraph" id="3cd6a69f5844b2c82ad0bc0bdda208e1-method" data-method="GET"><p><strong>Type:</strong>&nbsp;GET</p></div><div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div><div class="paragraph" id="3cd6a69f5844b2c82ad0bc0bdda208e1-content-type" data-content-type="application/x-www-form-urlencoded;charset=utf-8"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8</p></div><div class="paragraph"><p><strong>Description:</strong>&nbsp;导出订单数据</p></div><div class="paragraph"><p><strong><button class="send-button" data-id="3cd6a69f5844b2c82ad0bc0bdda208e1">Send Request</button></strong><span id="3cd6a69f5844b2c82ad0bc0bdda208e1-resp-status"></span></p></div><div class="paragraph"><p><strong>Response-example:</strong></p></div><div class="listingblock"><div class="content" id="3cd6a69f5844b2c82ad0bc0bdda208e1-response"><pre><code class="json">File download.</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content" id="3cd6a69f5844b2c82ad0bc0bdda208e1-curl"><pre><code class="bash">curl -X GET -i http://localhost:88/api/order/public/easypoi/download/order</code></pre></div></div></div><div class="sect2" id="9dcab26b39b927acaa22a5f3a53ec308"><h3 id="_1_2_导入订单数据"><a class="anchor" href="#_1_2_导入订单数据"></a><a class="link" href="#_1_2_导入订单数据">1.2.&nbsp;导入订单数据</a></h3><div class="paragraph" id="9dcab26b39b927acaa22a5f3a53ec308-url" data-url="http://localhost:88/api/order/public/easypoi/upload/order" data-download="false"                     data-page=""><p><strong>URL:</strong><a href="http://localhost:88/api/order/public/easypoi/upload/order" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/upload/order</a></p></div><div class="paragraph" id="9dcab26b39b927acaa22a5f3a53ec308-method" data-method="POST"><p><strong>Type:</strong>&nbsp;POST</p></div><div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div><div class="paragraph" id="9dcab26b39b927acaa22a5f3a53ec308-content-type" data-content-type="multipart/form-data"><p><strong>Content-Type:</strong>&nbsp;multipart/form-data</p></div><div class="paragraph"><p><strong>Description:</strong>&nbsp;导入订单数据</p></div><div class="paragraph"><p><strong>Query-parameters:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 5%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" class="check-all"  id="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox" checked="checked" name="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"><label for="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"></label></div></th><th class="tableblock halign-left valign-top">Parameter</th><th class="tableblock halign-left valign-top">Value</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Required</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody id="9dcab26b39b927acaa22a5f3a53ec308-query-params"><tr><td class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" id="9dcab26b39b927acaa22a5f3a53ec308-query-file" checked="checked" name="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"><label for="9dcab26b39b927acaa22a5f3a53ec308-query-file"></label></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td><td class="tableblock halign-left valign-top"><p class="tableblock"><input name="file" type="file" value=""/></p></td><td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">    前端提交的表单文件</p></td></tr></tbody></table><div class="paragraph"><p><strong>Response-fields:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Field</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th><th class="tableblock halign-left valign-top">Since</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr></tbody></table><div class="paragraph"><p><strong><button class="send-button" data-id="9dcab26b39b927acaa22a5f3a53ec308">Send Request</button></strong><span id="9dcab26b39b927acaa22a5f3a53ec308-resp-status"></span></p></div><div class="paragraph"><p><strong>Response-example:</strong></p></div><div class="listingblock"><div class="content" id="9dcab26b39b927acaa22a5f3a53ec308-response"><pre><code class="json">{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="smart-doc" name="generator">
+    <title>order-service-easypoi后端接口文档</title>
+    <link href="https://fonts.googleapis.cnpmjs.org/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"
+          rel="stylesheet">
+    <link href="AllInOne.css?v=1626604030167" rel="stylesheet"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/styles/xt256.min.css" rel="stylesheet">
+    <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
+        background: #000
+    }
+
+    .hljs {
+        padding: 0em
+    }</style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.3.2/highlight.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body class="book toc2 toc-left">
+<div id="header"><h1>order-service-easypoi后端接口文档</h1>
+    <div class="toc2" id="toc">
+        <div id="book-search-input"><input id="search" placeholder="Type to search" type="text"></div>
+        <div id="toctitle"><span>API Reference</span></div>
+        <ul class="sectlevel1" id="accordion">
+            <li class="open"><a class="dd" href="#_主订单数据excel导入导出Controller">1.&nbsp;主订单数据excel导入导出Controller</a>
+                <ul class="sectlevel2" style="display: block">
+                    <li><a href="#_1_1_导出订单数据">1.1.&nbsp;导出订单数据</a></li>
+                    <li><a href="#_1_2_导入订单数据">1.2.&nbsp;导入订单数据</a></li>
+                </ul>
+            </li>
+            <li><a class="dd" href="#_子订单订单导入导出Controller">2.&nbsp;子订单订单导入导出Controller</a>
+                <ul class="sectlevel2">
+                    <li><a href="#_2_1_下载订单的excel文件">2.1.&nbsp;下载订单的excel文件</a></li>
+                    <li><a href="#_2_2_上传订单的excel文件">2.2.&nbsp;上传订单的excel文件</a></li>
+                </ul>
+            </li>
+            <li><a href="#_error_code_list">3.&nbsp;错误码列表</a></li>
+            <li><a class="dd" href="#_dict_list">4.&nbsp;数据字典</a>
+                <ul class="sectlevel2">
+                    <li><a href="#_4_1_响应http状态码字典">4.1.&nbsp;响应http状态码字典</a></li>
+                    <li><a href="#_4_2_订单状态字典">4.2.&nbsp;订单状态字典</a></li>
+                    <li><a href="#_4_3_支付方式字典">4.3.&nbsp;支付方式字典</a></li>
+                    <li><a href="#_4_4_验证码请求来源字典">4.4.&nbsp;验证码请求来源字典</a></li>
+                    <li><a href="#_4_5_电子入场券状态字典">4.5.&nbsp;电子入场券状态字典</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="content">
+    <div id="preamble">
+        <div class="sectionbody">
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Version</th>
+                    <th class="tableblock halign-left valign-top">Update Time</th>
+                    <th class="tableblock halign-left valign-top">Status</th>
+                    <th class="tableblock halign-left valign-top">Author</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">2020-12-31 10:30</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">创建api文档</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">1.1</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">2021-02-03 14:02</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">更新</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Weasley J</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">版本升级</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_主订单数据excel导入导出Controller"><a class="anchor" href="#_主订单数据excel导入导出Controller"></a><a
+            class="link" href="#_主订单数据excel导入导出Controller">1.&nbsp;主订单数据excel导入导出Controller</a></h2>
+        <div class="sectionbody">
+            <div class="sect2" id="3cd6a69f5844b2c82ad0bc0bdda208e1"><h3 id="_1_1_导出订单数据"><a class="anchor"
+                                                                                             href="#_1_1_导出订单数据"></a><a
+                    class="link" href="#_1_1_导出订单数据">1.1.&nbsp;导出订单数据</a></h3>
+                <div class="paragraph" data-download="false" data-page=""
+                     data-url="http://localhost:88/api/order/public/easypoi/download/order"
+                     id="3cd6a69f5844b2c82ad0bc0bdda208e1-url"><p><strong>URL:</strong><a class="bare"
+                                                                                          href="http://localhost:88/api/order/public/easypoi/download/order">&nbsp;http://localhost:88/api/order/public/easypoi/download/order</a>
+                </p></div>
+                <div class="paragraph" data-method="GET" id="3cd6a69f5844b2c82ad0bc0bdda208e1-method"><p>
+                    <strong>Type:</strong>&nbsp;GET</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
+                <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=utf-8"
+                     id="3cd6a69f5844b2c82ad0bc0bdda208e1-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8
+                </p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;导出订单数据</p></div>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="3cd6a69f5844b2c82ad0bc0bdda208e1">Send Request</button>
+                    </strong><span id="3cd6a69f5844b2c82ad0bc0bdda208e1-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="3cd6a69f5844b2c82ad0bc0bdda208e1-response">
+                        <pre><code class="json">File download.</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="3cd6a69f5844b2c82ad0bc0bdda208e1-curl">
+                        <pre><code class="bash">curl -X GET -i http://localhost:88/api/order/public/easypoi/download/order</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="sect2" id="9dcab26b39b927acaa22a5f3a53ec308"><h3 id="_1_2_导入订单数据"><a class="anchor"
+                                                                                             href="#_1_2_导入订单数据"></a><a
+                    class="link" href="#_1_2_导入订单数据">1.2.&nbsp;导入订单数据</a></h3>
+                <div class="paragraph" data-download="false" data-page=""
+                     data-url="http://localhost:88/api/order/public/easypoi/upload/order"
+                     id="9dcab26b39b927acaa22a5f3a53ec308-url"><p><strong>URL:</strong><a class="bare"
+                                                                                          href="http://localhost:88/api/order/public/easypoi/upload/order">&nbsp;http://localhost:88/api/order/public/easypoi/upload/order</a>
+                </p></div>
+                <div class="paragraph" data-method="POST" id="9dcab26b39b927acaa22a5f3a53ec308-method"><p>
+                    <strong>Type:</strong>&nbsp;POST</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
+                <div class="paragraph" data-content-type="multipart/form-data"
+                     id="9dcab26b39b927acaa22a5f3a53ec308-content-type"><p><strong>Content-Type:</strong>&nbsp;multipart/form-data
+                </p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;导入订单数据</p></div>
+                <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 5%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input checked="checked" class="check-all"
+                                                         id="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"
+                                                         name="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"
+                                                         type="checkbox"><label
+                                    for="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"></label></div>
+                        </th>
+                        <th class="tableblock halign-left valign-top">Parameter</th>
+                        <th class="tableblock halign-left valign-top">Value</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Required</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="9dcab26b39b927acaa22a5f3a53ec308-query-params">
+                    <tr>
+                        <td class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input checked="checked"
+                                                         id="9dcab26b39b927acaa22a5f3a53ec308-query-file"
+                                                         name="9dcab26b39b927acaa22a5f3a53ec308-query-checkbox"
+                                                         type="checkbox"><label
+                                    for="9dcab26b39b927acaa22a5f3a53ec308-query-file"></label></div>
+                        </td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="file"
+                                                                                                   type="file"
+                                                                                                   value=""/></p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"> 前端提交的表单文件</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Field</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                        <th class="tableblock halign-left valign-top">Since</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="9dcab26b39b927acaa22a5f3a53ec308">Send Request</button>
+                    </strong><span id="9dcab26b39b927acaa22a5f3a53ec308-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="9dcab26b39b927acaa22a5f3a53ec308-response"><pre><code class="json">{
   "message": "success",
   "success": true,
-  "timestamp": "2021-07-18 02:43:34",
-  "code": 559,
+  "timestamp": "2021-07-18 18:27:13",
+  "code": 490,
   "data": ""
-}</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content" id="9dcab26b39b927acaa22a5f3a53ec308-curl"><pre><code class="bash">curl -X POST -H 'Content-Type: multipart/form-data' -i http://localhost:88/api/order/public/easypoi/upload/order</code></pre></div></div></div></div></div><div class="sect1"><h2 id="_子订单订单导入导出Controller"><a class="anchor" href="#_子订单订单导入导出Controller"></a><a class="link" href="#_子订单订单导入导出Controller">2.&nbsp;子订单订单导入导出Controller</a></h2><div class="sectionbody"><div class="sect2" id="2be046723d69ef700195a07e46d2b7ed"><h3 id="_2_1_下载订单的excel文件"><a class="anchor" href="#_2_1_下载订单的excel文件"></a><a class="link" href="#_2_1_下载订单的excel文件">2.1.&nbsp;下载订单的excel文件</a></h3><div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-url" data-url="http://localhost:88/api/order/public/easypoi/download/order/item" data-download="false"                     data-page=""><p><strong>URL:</strong><a href="http://localhost:88/api/order/public/easypoi/download/order/item" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/download/order/item</a></p></div><div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-method" data-method="GET"><p><strong>Type:</strong>&nbsp;GET</p></div><div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div><div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-content-type" data-content-type="application/x-www-form-urlencoded;charset=utf-8"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8</p></div><div class="paragraph"><p><strong>Description:</strong>&nbsp;下载订单的excel文件</p></div><div class="paragraph"><p><strong><button class="send-button" data-id="2be046723d69ef700195a07e46d2b7ed">Send Request</button></strong><span id="2be046723d69ef700195a07e46d2b7ed-resp-status"></span></p></div><div class="paragraph"><p><strong>Response-example:</strong></p></div><div class="listingblock"><div class="content" id="2be046723d69ef700195a07e46d2b7ed-response"><pre><code class="json">File download.</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content" id="2be046723d69ef700195a07e46d2b7ed-curl"><pre><code class="bash">curl -X GET -i http://localhost:88/api/order/public/easypoi/download/order/item</code></pre></div></div></div><div class="sect2" id="1148bdf3d4da31152d224016822a4561"><h3 id="_2_2_上传订单的excel文件"><a class="anchor" href="#_2_2_上传订单的excel文件"></a><a class="link" href="#_2_2_上传订单的excel文件">2.2.&nbsp;上传订单的excel文件</a></h3><div class="paragraph" id="1148bdf3d4da31152d224016822a4561-url" data-url="http://localhost:88/api/order/public/easypoi/upload/order/item" data-download="false"                     data-page=""><p><strong>URL:</strong><a href="http://localhost:88/api/order/public/easypoi/upload/order/item" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/upload/order/item</a></p></div><div class="paragraph" id="1148bdf3d4da31152d224016822a4561-method" data-method="POST"><p><strong>Type:</strong>&nbsp;POST</p></div><div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div><div class="paragraph" id="1148bdf3d4da31152d224016822a4561-content-type" data-content-type="multipart/form-data"><p><strong>Content-Type:</strong>&nbsp;multipart/form-data</p></div><div class="paragraph"><p><strong>Description:</strong>&nbsp;上传订单的excel文件</p></div><div class="paragraph"><p><strong>Query-parameters:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 5%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"><col style="width: 19%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" class="check-all"  id="1148bdf3d4da31152d224016822a4561-query-checkbox" checked="checked" name="1148bdf3d4da31152d224016822a4561-query-checkbox"><label for="1148bdf3d4da31152d224016822a4561-query-checkbox"></label></div></th><th class="tableblock halign-left valign-top">Parameter</th><th class="tableblock halign-left valign-top">Value</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Required</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody id="1148bdf3d4da31152d224016822a4561-query-params"><tr><td class="tableblock halign-left valign-top"><div class='checkbox'><input type="checkbox" id="1148bdf3d4da31152d224016822a4561-query-file" checked="checked" name="1148bdf3d4da31152d224016822a4561-query-checkbox"><label for="1148bdf3d4da31152d224016822a4561-query-file"></label></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td><td class="tableblock halign-left valign-top"><p class="tableblock"><input name="file" type="file" value=""/></p></td><td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">multipart file</p></td></tr></tbody></table><div class="paragraph"><p><strong>Response-fields:</strong></p></div><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"><col style="width: 25%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Field</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th><th class="tableblock halign-left valign-top">Since</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td></tr></tbody></table><div class="paragraph"><p><strong><button class="send-button" data-id="1148bdf3d4da31152d224016822a4561">Send Request</button></strong><span id="1148bdf3d4da31152d224016822a4561-resp-status"></span></p></div><div class="paragraph"><p><strong>Response-example:</strong></p></div><div class="listingblock"><div class="content" id="1148bdf3d4da31152d224016822a4561-response"><pre><code class="json">{
+}</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="9dcab26b39b927acaa22a5f3a53ec308-curl">
+                        <pre><code class="bash">curl -X POST -H 'Content-Type: multipart/form-data' -i http://localhost:88/api/order/public/easypoi/upload/order</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_子订单订单导入导出Controller"><a class="anchor" href="#_子订单订单导入导出Controller"></a><a class="link"
+                                                                                                           href="#_子订单订单导入导出Controller">2.&nbsp;子订单订单导入导出Controller</a>
+    </h2>
+        <div class="sectionbody">
+            <div class="sect2" id="2be046723d69ef700195a07e46d2b7ed"><h3 id="_2_1_下载订单的excel文件"><a class="anchor"
+                                                                                                   href="#_2_1_下载订单的excel文件"></a><a
+                    class="link" href="#_2_1_下载订单的excel文件">2.1.&nbsp;下载订单的excel文件</a></h3>
+                <div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-url"
+                     data-url="http://localhost:88/api/order/public/easypoi/download/order/item" data-download="false"
+                     data-page=""><p><strong>URL:</strong><a
+                        href="http://localhost:88/api/order/public/easypoi/download/order/item" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/download/order/item</a>
+                </p></div>
+                <div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-method" data-method="GET"><p>
+                    <strong>Type:</strong>&nbsp;GET</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
+                <div class="paragraph" id="2be046723d69ef700195a07e46d2b7ed-content-type"
+                     data-content-type="application/x-www-form-urlencoded;charset=utf-8"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=utf-8</p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;下载订单的excel文件</p></div>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="2be046723d69ef700195a07e46d2b7ed">Send Request</button>
+                    </strong><span id="2be046723d69ef700195a07e46d2b7ed-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="2be046723d69ef700195a07e46d2b7ed-response">
+                        <pre><code class="json">File download.</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="2be046723d69ef700195a07e46d2b7ed-curl">
+                        <pre><code class="bash">curl -X GET -i http://localhost:88/api/order/public/easypoi/download/order/item</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="sect2" id="1148bdf3d4da31152d224016822a4561"><h3 id="_2_2_上传订单的excel文件"><a class="anchor"
+                                                                                                   href="#_2_2_上传订单的excel文件"></a><a
+                    class="link" href="#_2_2_上传订单的excel文件">2.2.&nbsp;上传订单的excel文件</a></h3>
+                <div class="paragraph" id="1148bdf3d4da31152d224016822a4561-url"
+                     data-url="http://localhost:88/api/order/public/easypoi/upload/order/item" data-download="false"
+                     data-page=""><p><strong>URL:</strong><a
+                        href="http://localhost:88/api/order/public/easypoi/upload/order/item" class="bare">&nbsp;http://localhost:88/api/order/public/easypoi/upload/order/item</a>
+                </p></div>
+                <div class="paragraph" id="1148bdf3d4da31152d224016822a4561-method" data-method="POST"><p>
+                    <strong>Type:</strong>&nbsp;POST</p></div>
+                <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
+                <div class="paragraph" id="1148bdf3d4da31152d224016822a4561-content-type"
+                     data-content-type="multipart/form-data"><p><strong>Content-Type:</strong>&nbsp;multipart/form-data
+                </p></div>
+                <div class="paragraph"><p><strong>Description:</strong>&nbsp;上传订单的excel文件</p></div>
+                <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 5%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                        <col style="width: 19%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input type="checkbox" class="check-all"
+                                                         id="1148bdf3d4da31152d224016822a4561-query-checkbox"
+                                                         checked="checked"
+                                                         name="1148bdf3d4da31152d224016822a4561-query-checkbox"><label
+                                    for="1148bdf3d4da31152d224016822a4561-query-checkbox"></label></div>
+                        </th>
+                        <th class="tableblock halign-left valign-top">Parameter</th>
+                        <th class="tableblock halign-left valign-top">Value</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Required</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="1148bdf3d4da31152d224016822a4561-query-params">
+                    <tr>
+                        <td class="tableblock halign-left valign-top">
+                            <div class='checkbox'><input type="checkbox"
+                                                         id="1148bdf3d4da31152d224016822a4561-query-file"
+                                                         checked="checked"
+                                                         name="1148bdf3d4da31152d224016822a4561-query-checkbox"><label
+                                    for="1148bdf3d4da31152d224016822a4561-query-file"></label></div>
+                        </td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="file"
+                                                                                                   type="file"
+                                                                                                   value=""/></p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">file</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">multipart file</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                        <col style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Field</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                        <th class="tableblock halign-left valign-top">Since</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="paragraph">
+                    <p><strong>
+                        <button class="send-button" data-id="1148bdf3d4da31152d224016822a4561">Send Request</button>
+                    </strong><span id="1148bdf3d4da31152d224016822a4561-resp-status"></span></p>
+                </div>
+                <div class="paragraph"><p><strong>Response-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="1148bdf3d4da31152d224016822a4561-response"><pre><code class="json">{
   "message": "success",
   "success": true,
-  "timestamp": "2021-07-18 02:43:34",
-  "code": 555,
+  "timestamp": "2021-07-18 18:27:13",
+  "code": 563,
   "data": ""
-}</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content" id="1148bdf3d4da31152d224016822a4561-curl"><pre><code class="bash">curl -X POST -H 'Content-Type: multipart/form-data' -i http://localhost:88/api/order/public/easypoi/upload/order/item</code></pre></div></div></div></div></div><div class="sect1"><h2 id="_error_code_list"><a class="anchor" href="#_error_code_list"></a><a class="link" href="#_error_code_list">3.&nbsp;错误码列表</a></h2><div class="sectionbody"><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 50%;"><col style="width: 50%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Error code</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10000</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">系统未知异常</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10001</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">参数格式校验异常</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10002</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">请求流量过大，请稍后再试</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10003</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">验证码获取频率太高，请稍后再试</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">11000</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">商品上架异常</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15001</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">存在相同的用户</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15002</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">存在相同的手机号</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">21000</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">商品库存不足</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15003</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">账号或密码错误</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10001</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">手机号不能为空</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10002</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">请稍后再试</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10003</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">发送成功</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">10004</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">发送错误</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15016</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">该用户名已注册过</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15017</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">该邮箱已注册过</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15018</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">该手机号已注册过</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15019</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">该用户可以注册,用户不存在</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">15020</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">用户信息为空</p></td></tr></tbody></table></div></div><div class="sect1"><h2 id="_dict_list"><a class="anchor" href="#_dict_list"></a><a class="link" href="#_dict_list">4.&nbsp;数据字典</a></h2><div class="sectionbody"><div class="sect2"><h3 id="_4_1_响应http状态码字典"><a class="anchor" href="#_4_1_响应http状态码字典"></a><a class="link" href="#_4_1_响应http状态码字典">4.1.&nbsp;响应http状态码字典</a></h3><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 33%;"><col style="width: 33%;"><col style="width: 33%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Code</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">200</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">操作成功</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">201</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">对象创建成功</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">202</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">请求已经被接受</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">204</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">操作已经执行成功，但是没有返回数据</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">301</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">资源已被移除</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">303</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">重定向</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">304</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">资源没有被修改</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">参数列表错误（缺少，格式不匹配）</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">未授权</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">访问受限，授权过期</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">资源，服务未找到</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">405</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">不允许的http方法</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">资源冲突，或者资源被锁</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">415</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">不支持的数据，媒体类型</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">系统内部错误</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">501</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">接口未实现</p></td></tr></tbody></table></div><div class="sect2"><h3 id="_4_2_订单状态字典"><a class="anchor" href="#_4_2_订单状态字典"></a><a class="link" href="#_4_2_订单状态字典">4.2.&nbsp;订单状态字典</a></h3><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 33%;"><col style="width: 33%;"><col style="width: 33%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Code</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">待付款</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已付款</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已发货</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已完成</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已取消</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">售后中</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">售后完成</p></td></tr></tbody></table></div><div class="sect2"><h3 id="_4_3_支付方式字典"><a class="anchor" href="#_4_3_支付方式字典"></a><a class="link" href="#_4_3_支付方式字典">4.3.&nbsp;支付方式字典</a></h3><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 33%;"><col style="width: 33%;"><col style="width: 33%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Code</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">支付宝支付</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">微信支付</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">银联支付</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">货到付款</p></td></tr></tbody></table></div><div class="sect2"><h3 id="_4_4_验证码请求来源字典"><a class="anchor" href="#_4_4_验证码请求来源字典"></a><a class="link" href="#_4_4_验证码请求来源字典">4.4.&nbsp;验证码请求来源字典</a></h3><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 33%;"><col style="width: 33%;"><col style="width: 33%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Code</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">移动端请求验证码</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">浏览器请求验证码</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">未知来源</p></td></tr></tbody></table></div><div class="sect2"><h3 id="_4_5_电子入场券状态字典"><a class="anchor" href="#_4_5_电子入场券状态字典"></a><a class="link" href="#_4_5_电子入场券状态字典">4.5.&nbsp;电子入场券状态字典</a></h3><table class="tableblock frame-all grid-all spread"><colgroup><col style="width: 33%;"><col style="width: 33%;"><col style="width: 33%;"></colgroup><thead><tr><th class="tableblock halign-left valign-top">Code</th><th class="tableblock halign-left valign-top">Type</th><th class="tableblock halign-left valign-top">Description</th></tr></thead><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">未使用</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已使用</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已过期</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已关闭</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td><td class="tableblock halign-left valign-top"><p class="tableblock">已退款</p></td></tr></tbody></table></div></div></div><footer class="page-footer"><span class="copyright">Generated by smart-doc at 2021-07-18 02:43:30</span><span class="footer-modification">Suggestions,contact,support and error reporting on<a href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer></div>
-<script src="debug.js?v=1626547410366"></script>
-<script src="search.js?v=1626547410366"></script>
+}</code></pre>
+                    </div>
+                </div>
+                <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
+                <div class="listingblock">
+                    <div class="content" id="1148bdf3d4da31152d224016822a4561-curl">
+                        <pre><code class="bash">curl -X POST -H 'Content-Type: multipart/form-data' -i http://localhost:88/api/order/public/easypoi/upload/order/item</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_error_code_list"><a class="anchor" href="#_error_code_list"></a><a class="link"
+                                                                                                   href="#_error_code_list">3.&nbsp;错误码列表</a>
+    </h2>
+        <div class="sectionbody">
+            <table class="tableblock frame-all grid-all spread">
+                <colgroup>
+                    <col style="width: 50%;">
+                    <col style="width: 50%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Error code</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10000</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">系统未知异常</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10001</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">参数格式校验异常</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10002</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">请求流量过大，请稍后再试</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10003</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">验证码获取频率太高，请稍后再试</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">11000</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">商品上架异常</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15001</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">存在相同的用户</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15002</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">存在相同的手机号</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">21000</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">商品库存不足</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15003</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">账号或密码错误</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10001</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">手机号不能为空</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10002</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">请稍后再试</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10003</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">发送成功</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">10004</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">发送错误</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15016</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">该用户名已注册过</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15017</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">该邮箱已注册过</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15018</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">该手机号已注册过</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15019</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">该用户可以注册,用户不存在</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">15020</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">用户信息为空</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="sect1"><h2 id="_dict_list"><a class="anchor" href="#_dict_list"></a><a class="link" href="#_dict_list">4.&nbsp;数据字典</a>
+    </h2>
+        <div class="sectionbody">
+            <div class="sect2"><h3 id="_4_1_响应http状态码字典"><a class="anchor" href="#_4_1_响应http状态码字典"></a><a class="link"
+                                                                                                           href="#_4_1_响应http状态码字典">4.1.&nbsp;响应http状态码字典</a>
+            </h3>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Code</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">200</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">操作成功</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">201</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">对象创建成功</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">202</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">请求已经被接受</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">204</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">操作已经执行成功，但是没有返回数据</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">301</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">资源已被移除</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">303</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">重定向</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">304</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">资源没有被修改</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">参数列表错误（缺少，格式不匹配）</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">未授权</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">访问受限，授权过期</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">404</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">资源，服务未找到</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">405</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">不允许的http方法</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">409</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">资源冲突，或者资源被锁</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">415</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">不支持的数据，媒体类型</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">系统内部错误</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">501</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">接口未实现</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sect2"><h3 id="_4_2_订单状态字典"><a class="anchor" href="#_4_2_订单状态字典"></a><a class="link"
+                                                                                                 href="#_4_2_订单状态字典">4.2.&nbsp;订单状态字典</a>
+            </h3>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Code</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">待付款</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已付款</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已发货</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已完成</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已取消</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">售后中</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">售后完成</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sect2"><h3 id="_4_3_支付方式字典"><a class="anchor" href="#_4_3_支付方式字典"></a><a class="link"
+                                                                                                 href="#_4_3_支付方式字典">4.3.&nbsp;支付方式字典</a>
+            </h3>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Code</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">支付宝支付</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">微信支付</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">银联支付</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">货到付款</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sect2"><h3 id="_4_4_验证码请求来源字典"><a class="anchor" href="#_4_4_验证码请求来源字典"></a><a class="link"
+                                                                                                       href="#_4_4_验证码请求来源字典">4.4.&nbsp;验证码请求来源字典</a>
+            </h3>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Code</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">移动端请求验证码</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">浏览器请求验证码</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">未知来源</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sect2"><h3 id="_4_5_电子入场券状态字典"><a class="anchor" href="#_4_5_电子入场券状态字典"></a><a class="link"
+                                                                                                       href="#_4_5_电子入场券状态字典">4.5.&nbsp;电子入场券状态字典</a>
+            </h3>
+                <table class="tableblock frame-all grid-all spread">
+                    <colgroup>
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                        <col style="width: 33%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Code</th>
+                        <th class="tableblock halign-left valign-top">Type</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">未使用</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已使用</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已过期</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已关闭</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">已退款</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2021-07-18 18:27:10</span><span
+            class="footer-modification">Suggestions,contact,support and error reporting on<a
+            href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
+            href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
+</div>
+<script src="debug.js?v=1626604030167"></script>
+<script src="search.js?v=1626604030167"></script>
 </body>
 </html>
