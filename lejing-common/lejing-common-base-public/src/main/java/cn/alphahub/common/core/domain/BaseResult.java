@@ -328,13 +328,14 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
         return preCreate(code, msg, false, null);
     }
 
+    /**
+     * 封装数据并返回一个BaseResult实例
+     *
+     * @param data 数据
+     * @return BaseResult实例
+     */
     public BaseResult<T> setResult(T data) {
         this.setData(data);
         return this;
-    }
-
-    @Override
-    public T getData() {
-        return super.getData();
     }
 }

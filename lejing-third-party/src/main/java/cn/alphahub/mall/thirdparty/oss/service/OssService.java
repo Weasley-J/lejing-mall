@@ -77,7 +77,7 @@ public class OssService {
      * @return 文件的url
      */
     public String upload(String objectName, String fileDirOfOss) {
-        log.info("上传本地文件：{}", objectName);
+        log.info("上传文件：{}", objectName);
         if (StringUtils.isBlank(objectName)) {
             return null;
         }
