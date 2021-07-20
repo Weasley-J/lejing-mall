@@ -563,3 +563,18 @@ http {
 
 
 
+# 11 `github`敏感配置文件提交解决办法
+
+[参考链接](https://surest.cn/archives/169/)
+
+`cd`到项目更路径执行`shell`脚本：
+
+```shell
+clear \
+&& git filter-branch --force --index-filter "git rm -rf --cached --ignore-unmatch filename" --prune-empty --tag-name-filter cat -- --all \
+&& rm -rf .git/refs/original \
+&& git reflog expire --expire=now --all \
+&& git gc --prune=now \
+&& git push --force
+```
+
