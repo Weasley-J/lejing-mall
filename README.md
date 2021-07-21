@@ -428,7 +428,7 @@ taskkill /f /t /im "yundetectservice.exe"
 
 笔者亲身经历，土鳖公司当查询参数过多的时候就用POST，实在是很不习惯。所有就这个全局配置，当然不止这2种方式，有兴趣自行探索。
 
-## 7.5 如何使用在`IDEA`中使用`smart-doc`辅助生成`api`文档的`java doc tag`
+## 7.5 在`IDEA`中使用`smart-doc`辅助生成`api`文档的`java doc tag`
 
 > 粘贴文本: download,ignore,required,mock,order,page,ignoreParams,response
 

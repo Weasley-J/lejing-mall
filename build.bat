@@ -4,6 +4,7 @@ REM 只打包某个service
 REM mvn clean package -pl "lejing-auth/lejing-auth-service" -am ^
 
 REM 安装基础依赖到本地仓库, 方便后续service打包
+
 mvn clean ^
 && mvn install -pl "lejing-common/lejing-common-util" -am ^
 && mvn install -pl "lejing-common/lejing-common-base-domain" -am ^
