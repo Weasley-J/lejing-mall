@@ -567,7 +567,7 @@ http {
 
 [参考链接](https://surest.cn/archives/169/)
 
-`cd`到项目更路径执行`shell`脚本：
+`cd`到项目根路径执行`shell`脚本：
 
 ```shell
 clear \
