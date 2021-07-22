@@ -40,7 +40,7 @@ public @interface ListValue {
     /**
      * 提示信息，不设置，默认返回classpath下面的默认提示
      */
-    String message() default "{cn.alphahub.common.valid.annotation.ListValue.message}";
+    String message() default "必须提交指定范围中的值";
 
     /**
      * 所属Class分组

@@ -52,7 +52,7 @@ public @interface DecimalRange {
      *
      * @return 提示信息
      */
-    String message() default "{cn.alphahub.common.valid.annotation.DecimalRange.message}";
+    String message() default "必须提交指定区间内的值: min <= input <= max";
 
     Class<?>[] groups() default {};
 

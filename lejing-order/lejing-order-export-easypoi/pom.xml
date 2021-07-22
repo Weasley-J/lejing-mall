@@ -17,9 +17,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <xerces.version>2.12.1</xerces.version>
-        <poi.version>5.0.0</poi.version>
+        <poi.version>4.1.1</poi.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
-        <poi-ooxml-schemas.version>4.1.2</poi-ooxml-schemas.version>
     </properties>
 
     <dependencies>
@@ -34,74 +33,24 @@
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <version>${xerces.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
             <version>${poi.version}</version>
-            <optional>true</optional>
         </dependency>
         <!-- sax 读取时候用end -->
-
-        <!-- poi start -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>${poi.version}</version>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.xmlbeans</groupId>
-                    <artifactId>xmlbeans</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>${poi.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml-schemas</artifactId>
-            <version>${poi-ooxml-schemas.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>${poi.version}</version>
-        </dependency>
-        <!-- poi end -->
-
         <!-- Word 需要使用 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>ooxml-schemas</artifactId>
             <version>${ooxml-schemas.version}</version>
-            <optional>true</optional>
         </dependency>
 
         <!-- order-share -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-order-share</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.mapstruct</groupId>
-                    <artifactId>mapstruct-processor</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- 引入Logstash日志系统 -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
         <!--  start  mapstruct -->
         <dependency>
@@ -111,6 +60,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+        <!--  end  mapstruct -->
+        <!-- 引入Logstash日志系统 -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
         <!--  loadbalancer -->
         <dependency>

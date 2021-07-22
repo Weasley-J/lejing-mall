@@ -23,7 +23,6 @@ import java.util.List;
  * @date 2021年7月21日
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)

@@ -1,65 +1,80 @@
 let api = [];
 api.push({
-    alias: 'OrderEasypoiController',
+    alias: 'BillDetailController',
     order: '1',
-    link: '主订单数据excel导入导出controller',
-    desc: '主订单数据excel导入导出Controller',
+    link: '账单明细controller&lt;p&gt;这个controller主要展示&lt;/p&gt;',
+    desc: '账单明细Controller&lt;p&gt;这个controller主要展示&lt;/p&gt;',
     list: []
 })
 api[0].list.push({
     order: '1',
-    desc: '导出订单数据',
+    desc: '账单明细 - 下载',
 });
 api[0].list.push({
+    order: '2',
+    desc: '账单明细excel预览',
+});
+api.push({
+    alias: 'OrderEasypoiController',
+    order: '2',
+    link: '主订单数据excel导入导出controller',
+    desc: '主订单数据excel导入导出Controller',
+    list: []
+})
+api[1].list.push({
+    order: '1',
+    desc: '导出订单数据',
+});
+api[1].list.push({
     order: '2',
     desc: '导入订单数据',
 });
 api.push({
     alias: 'OrderItemEasypoiController',
-    order: '2',
+    order: '3',
     link: '子订单订单导入导出controller',
     desc: '子订单订单导入导出Controller',
     list: []
 })
-api[1].list.push({
+api[2].list.push({
     order: '1',
     desc: '下载订单的excel文件',
 });
-api[1].list.push({
+api[2].list.push({
     order: '2',
     desc: '上传订单的excel文件',
 });
 api.push({
     alias: 'error',
-    order: '3',
+    order: '4',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '4',
+    order: '5',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[3].list.push({
+api[4].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '2',
     desc: '订单状态字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '3',
     desc: '支付方式字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '4',
     desc: '验证码请求来源字典',
 });
-api[3].list.push({
+api[4].list.push({
     order: '5',
     desc: '电子入场券状态字典',
 });

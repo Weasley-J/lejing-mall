@@ -1,20 +1,17 @@
 package cn.alphahub.mall.order.service;
 
 import cn.afterturn.easypoi.excel.entity.ExportParams;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.order.excel.easypoi.dto.request.BillingDetailQueryRequest;
 import cn.alphahub.mall.order.excel.easypoi.dto.response.BillingDetailQueryResponse;
 import cn.alphahub.mall.order.excel.easypoi.util.ExcelUtil;
-import cn.alphahub.mall.order.excel.easypoi.util.ImportBigExcelHandler;
 import cn.alphahub.mall.order.excel.easypoi.util.style.ExcelExportStylerBorderImpl;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,28 +87,5 @@ public class BillDetailService {
         }
 
         return responses;
-    }
-
-    /**
-     * 账单明细 - 上传
-     *
-     * @param request  http servlet request
-     * @param response http servlet response
-     * @param file     上传
-     */
-    public BaseResult<Void> uploadBillingDetails(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-        try {
-
-            ImportParams params = new ImportParams();
-            //标题有一行
-            params.setTitleRows(1);
-            params.setSheetNum(10);
-
-            ExcelUtil.importExcelBySax(file.getInputStream(), BillingDetailQueryResponse.class, params, (ImportBigExcelHandler<BillingDetailQueryResponse>) list -> list.forEach(JSONUtil::printJsonStr));
-        } catch (IOException e) {
-            log.error("io exception: {}", e.getLocalizedMessage(), e);
-            return BaseResult.error(e.getLocalizedMessage());
-        }
-        return BaseResult.ok();
     }
 }

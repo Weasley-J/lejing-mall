@@ -12,7 +12,6 @@ import cn.alphahub.mall.order.service.OrderService;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.Lists;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,7 +86,7 @@ public class OrderEasypoiController {
                 /**
                  * 缓存集合，防止读取数据时OOM
                  */
-                private List<OrderExcelDTO> cacheList = Lists.newArrayList();
+                private List<OrderExcelDTO> cacheList = new ArrayList<>();
                 /**
                  * 批处理数据大小, 线上调大一点
                  */

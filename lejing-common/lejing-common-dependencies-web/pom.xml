@@ -47,24 +47,5 @@
             <artifactId>mapstruct-processor</artifactId>
         </dependency>
         <!--  end  mapstruct -->
-        <!-- common util -->
-        <dependency>
-            <groupId>cn.alphahub.mall.common</groupId>
-            <artifactId>lejing-common-util</artifactId>
-        </dependency>
     </dependencies>
-
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
-
 </project>
