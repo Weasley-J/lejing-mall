@@ -119,7 +119,7 @@ public class OssService {
         String myObjectName = makeOssPath(filename);
         PutObjectResult result = ossClient.putObject(bucketName, myObjectName, inputStream);
         log.info("结果：{}", result.toString());
-        return ossProperties.getHostPrefix().concat(myObjectName);
+        return ossProperties.getUrlPrefix().concat(myObjectName);
     }
 
     /**
