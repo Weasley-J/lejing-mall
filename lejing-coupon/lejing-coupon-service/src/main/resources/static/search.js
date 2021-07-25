@@ -251,22 +251,26 @@ api.push({
 })
 api[9].list.push({
     order: '1',
-    desc: '查询秒杀活动场次列表',
+    desc: '获取最近3天的秒杀场次列表',
 });
 api[9].list.push({
     order: '2',
-    desc: '获取秒杀活动场次详情',
+    desc: '查询秒杀活动场次列表',
 });
 api[9].list.push({
     order: '3',
-    desc: '新增秒杀活动场次',
+    desc: '获取秒杀活动场次详情',
 });
 api[9].list.push({
     order: '4',
-    desc: '修改秒杀活动场次',
+    desc: '新增秒杀活动场次',
 });
 api[9].list.push({
     order: '5',
+    desc: '修改秒杀活动场次',
+});
+api[9].list.push({
+    order: '6',
     desc: '批量删除秒杀活动场次',
 });
 api.push({
