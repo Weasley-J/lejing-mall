@@ -53,9 +53,9 @@ public class SeckillServiceImpl implements SeckillService {
         log.info("上架最近三天的秒杀商品:{}", JSONUtil.toJsonPrettyStr(result));
         if (result.getSuccess().equals(true)) {
             List<SeckillSession> sessions = result.getData();
-            // 缓存场次信息到redis
+            // 缓存秒杀场次信息到redis
             saveSessionToRedis(sessions);
-            // 缓存场次sku到redis
+            // 缓存秒杀商品到redis
             saveSkuToRedis(sessions);
         }
     }
