@@ -572,7 +572,7 @@ http {
 ```shell
 clear \
 && git filter-branch --force --index-filter "git rm -rf --cached --ignore-unmatch filename" --prune-empty --tag-name-filter cat -- --all \
-&& rm -rf .git/refs/original \
+&& rm -rfv .git/refs/original \
 && git reflog expire --expire=now --all \
 && git gc --prune=now \
 && git push --force

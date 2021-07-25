@@ -64,11 +64,6 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 开发环境直接放行
-        String activeProfile = environment.getActiveProfiles()[0];
-        if (AppEnvironmentEnum.DEV.getEnv().equals(activeProfile)) {
-            return true;
-        }
         // 白名单放行
         String requestUri = request.getRequestURI();
         for (String uriPattern : URI_WHITELIST_ANT_MATCH_PATTERN) {
