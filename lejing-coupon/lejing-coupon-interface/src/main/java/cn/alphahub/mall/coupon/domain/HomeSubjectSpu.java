@@ -24,35 +24,35 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("sms_home_subject_spu")
 public class HomeSubjectSpu implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 专题名字
-	 */
+    /**
+     * 专题名字
+     */
     private String name;
 
-	/**
-	 * 专题id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long subjectId;
+    /**
+     * 专题id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long subjectId;
 
-	/**
-	 * spu_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long spuId;
+    /**
+     * spu_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long spuId;
 
-	/**
-	 * 排序
-	 */
+    /**
+     * 排序
+     */
     private Integer sort;
 
 }

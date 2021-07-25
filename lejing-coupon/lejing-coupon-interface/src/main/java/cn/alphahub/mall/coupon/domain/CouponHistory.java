@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 优惠券领取历史记录
@@ -25,62 +25,62 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sms_coupon_history")
 public class CouponHistory implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 优惠券id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long couponId;
+    /**
+     * 优惠券id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long couponId;
 
-	/**
-	 * 会员id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long memberId;
+    /**
+     * 会员id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long memberId;
 
-	/**
-	 * 会员名字
-	 */
+    /**
+     * 会员名字
+     */
     private String memberNickName;
 
-	/**
-	 * 获取方式[0->后台赠送；1->主动领取]
-	 */
+    /**
+     * 获取方式[0->后台赠送；1->主动领取]
+     */
     private Integer getType;
 
-	/**
-	 * 创建时间
-	 */
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-	/**
-	 * 使用状态[0->未使用；1->已使用；2->已过期]
-	 */
+    /**
+     * 使用状态[0->未使用；1->已使用；2->已过期]
+     */
     private Integer useType;
 
-	/**
-	 * 使用时间
-	 */
-    private Date useTime;
+    /**
+     * 使用时间
+     */
+    private LocalDateTime useTime;
 
-	/**
-	 * 订单id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long orderId;
+    /**
+     * 订单id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long orderId;
 
-	/**
-	 * 订单号
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long orderSn;
+    /**
+     * 订单号
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long orderSn;
 
 }

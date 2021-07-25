@@ -1,0 +1,67 @@
+logging:
+  level:
+    cn.alphahub.mall.seckill: debug
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  #开启Redis缓存
+  cache:
+    type: redis
+    redis:
+      #缓存的过期时间，1天
+      time-to-live: 10d
+  #使用spring session redis存储session信息
+  session:
+    store-type: redis
+    timeout: 30m
+  #开发环境禁用thymeleaf的缓存
+  thymeleaf:
+    cache: off
+  #redis配置
+  redis:
+    host: 192.168.40.132
+    port: 6379
+    password: 123456
+    client-name: LEJING_REDIS
+    # Redisson settings
+    # Tips:
+    #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
+    # path to config - redisson.yml
+    redisson:
+      file: classpath:redisson-single.yml
+  #nacos server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  rabbitmq:
+    host: 192.168.40.132
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #只要消息抵达Queue，就会异步发送优先回调return-confirm
+      mandatory: on
+      #显式指定没有接收消息的默认队列的名称
+      default-receive-queue: LEJING.SECKILL.QUEUE
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.SECKILL.EXCHANGE
+      #用于发送操作的默认路由键的名称
+      routing-key: lejing.seckill.item
+    #开启发送端消息抵达Broker确认
+    publisher-confirm-type: correlated
+    #开启发送端消息抵达Queue确认
+    publisher-returns: on
+    listener:
+      simple:
+        #手动ack确认消息，不使用默认的消费端确认
+        acknowledge-mode: manual
+  # spring task线程池配置
+  task:
+    execution:
+      pool:
+        core-size: 20
+        max-size: 50

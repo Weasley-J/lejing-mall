@@ -25,39 +25,39 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("sms_sku_ladder")
 public class SkuLadder implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * spu_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * spu_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * 满几件
-	 */
+    /**
+     * 满几件
+     */
     private Integer fullCount;
 
-	/**
-	 * 打几折
-	 */
+    /**
+     * 打几折
+     */
     private BigDecimal discount;
 
-	/**
-	 * 折后价
-	 */
+    /**
+     * 折后价
+     */
     private BigDecimal price;
 
-	/**
-	 * 是否叠加其他优惠[0-不可叠加，1-可叠加]
-	 */
+    /**
+     * 是否叠加其他优惠[0-不可叠加，1-可叠加]
+     */
     private Integer addOther;
 
 }

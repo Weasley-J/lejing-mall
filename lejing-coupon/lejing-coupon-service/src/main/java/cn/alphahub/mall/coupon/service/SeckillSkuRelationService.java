@@ -22,5 +22,4 @@ public interface SeckillSkuRelationService extends IService<SeckillSkuRelation> 
      * @return 秒杀活动商品关联分页数据
      */
     PageResult<SeckillSkuRelation> queryPage(PageDomain pageDomain, SeckillSkuRelation seckillSkuRelation);
-
 }

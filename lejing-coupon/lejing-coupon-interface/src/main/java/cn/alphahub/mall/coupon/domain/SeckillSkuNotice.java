@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 秒杀商品通知订阅
@@ -25,46 +25,46 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sms_seckill_sku_notice")
 public class SeckillSkuNotice implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * member_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long memberId;
+    /**
+     * member_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long memberId;
 
-	/**
-	 * sku_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * 活动场次id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long sessionId;
+    /**
+     * 活动场次id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long sessionId;
 
-	/**
-	 * 订阅时间
-	 */
-    private Date subcribeTime;
+    /**
+     * 订阅时间
+     */
+    private LocalDateTime subcribeTime;
 
-	/**
-	 * 发送时间
-	 */
-    private Date sendTime;
+    /**
+     * 发送时间
+     */
+    private LocalDateTime sendTime;
 
-	/**
-	 * 通知方式[0-短信，1-邮件]
-	 */
+    /**
+     * 通知方式[0-短信，1-邮件]
+     */
     private Integer noticeType;
 
 }

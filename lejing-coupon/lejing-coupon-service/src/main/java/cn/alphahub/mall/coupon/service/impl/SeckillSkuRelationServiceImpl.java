@@ -16,7 +16,6 @@ import java.util.List;
  * 秒杀活动商品关联Service业务层处理
  *
  * @author Weasley J
- * @email 1432689025@qq.com
  * @date 2021-02-24 16:31:15
  */
 @Service
@@ -31,16 +30,10 @@ public class SeckillSkuRelationServiceImpl extends ServiceImpl<SeckillSkuRelatio
      */
     @Override
     public PageResult<SeckillSkuRelation> queryPage(PageDomain pageDomain, SeckillSkuRelation seckillSkuRelation) {
-        // 1. 构造mybatis-plus查询wrapper
         QueryWrapper<SeckillSkuRelation> wrapper = new QueryWrapper<>(seckillSkuRelation);
-        // 2. 创建一个分页对象
         PageResult<SeckillSkuRelation> pageResult = new PageResult<>();
-        // 3. 开始分页
         pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
         List<SeckillSkuRelation> seckillSkuRelationList = this.list(wrapper);
-        // 5. 分装并返回数据
         return pageResult.getPage(seckillSkuRelationList);
     }
-
 }

@@ -25,40 +25,40 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("sms_member_price")
 public class MemberPrice implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * sku_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * sku_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * 会员等级id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long memberLevelId;
+    /**
+     * 会员等级id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long memberLevelId;
 
-	/**
-	 * 会员等级名
-	 */
+    /**
+     * 会员等级名
+     */
     private String memberLevelName;
 
-	/**
-	 * 会员对应价格
-	 */
+    /**
+     * 会员对应价格
+     */
     private BigDecimal memberPrice;
 
-	/**
-	 * 可否叠加其他优惠[0-不可叠加优惠，1-可叠加]
-	 */
+    /**
+     * 可否叠加其他优惠[0-不可叠加优惠，1-可叠加]
+     */
     private Integer addOther;
 
 }

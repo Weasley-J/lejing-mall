@@ -1,6 +1,7 @@
 package cn.alphahub.mall.coupon.domain;
 
 import cn.alphahub.common.util.IdSerializer;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -10,7 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 秒杀活动场次
@@ -25,38 +27,43 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sms_seckill_session")
 public class SeckillSession implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 场次名称
-	 */
+    /**
+     * 场次名称
+     */
     private String name;
 
-	/**
-	 * 每日开始时间
-	 */
-    private Date startTime;
+    /**
+     * 每日开始时间
+     */
+    private LocalDateTime startTime;
 
-	/**
-	 * 每日结束时间
-	 */
-    private Date endTime;
+    /**
+     * 每日结束时间
+     */
+    private LocalDateTime endTime;
 
-	/**
-	 * 启用状态
-	 */
+    /**
+     * 启用状态
+     */
     private Integer status;
 
-	/**
-	 * 创建时间
-	 */
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
+    /**
+     * 秒杀活动商品关联列表
+     */
+    @TableField(exist = false)
+    private List<SeckillSkuRelation> skuRelations;
 }

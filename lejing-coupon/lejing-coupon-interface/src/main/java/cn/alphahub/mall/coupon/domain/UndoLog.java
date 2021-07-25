@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * AT transaction mode undo table对象 undo_log
@@ -64,12 +64,12 @@ public class UndoLog implements Serializable {
      * create datetime
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date logCreated;
+    private LocalDateTime logCreated;
 
     /**
      * modify datetime
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date logModified;
+    private LocalDateTime logModified;
 
 }

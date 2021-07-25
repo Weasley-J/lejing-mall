@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.System.err;
-
 /**
  * Jackson序列化工具类
  * <p>Jackson是一款十分优秀的json序列化工具，但是使用其序列化、反序列化java对象时是动不动就抛异常，于是封装这几个常用的静态方法</p>
@@ -130,6 +128,6 @@ public class JSONUtil {
      * @param data 数据对象
      */
     public static void printJsonStr(Object data) {
-        err.println(toJsonStr(data));
+        System.err.println(JSONUtil.toJsonStr(data));
     }
 }

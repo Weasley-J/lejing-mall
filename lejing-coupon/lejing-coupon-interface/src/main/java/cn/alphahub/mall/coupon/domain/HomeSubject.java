@@ -24,48 +24,48 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("sms_home_subject")
 public class HomeSubject implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 专题名字
-	 */
+    /**
+     * 专题名字
+     */
     private String name;
 
-	/**
-	 * 专题标题
-	 */
+    /**
+     * 专题标题
+     */
     private String title;
 
-	/**
-	 * 专题副标题
-	 */
+    /**
+     * 专题副标题
+     */
     private String subTitle;
 
-	/**
-	 * 显示状态
-	 */
+    /**
+     * 显示状态
+     */
     private Integer status;
 
-	/**
-	 * 详情连接
-	 */
+    /**
+     * 详情连接
+     */
     private String url;
 
-	/**
-	 * 排序
-	 */
+    /**
+     * 排序
+     */
     private Integer sort;
 
-	/**
-	 * 专题图片地址
-	 */
+    /**
+     * 专题图片地址
+     */
     private String img;
 
 }

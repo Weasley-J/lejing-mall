@@ -25,34 +25,34 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @TableName("sms_sku_full_reduction")
 public class SkuFullReduction implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * spu_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long skuId;
+    /**
+     * spu_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long skuId;
 
-	/**
-	 * 满多少
-	 */
+    /**
+     * 满多少
+     */
     private BigDecimal fullPrice;
 
-	/**
-	 * 减多少
-	 */
+    /**
+     * 减多少
+     */
     private BigDecimal reducePrice;
 
-	/**
-	 * 是否参与其他优惠
-	 */
+    /**
+     * 是否参与其他优惠
+     */
     private Integer addOther;
 
 }

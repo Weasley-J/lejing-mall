@@ -1,0 +1,33 @@
+# 单节点配置
+singleServerConfig:
+  #连接空闲超时(毫秒)，默认10000
+  idleConnectionTimeout: 10000
+  #连接空闲超时(毫秒)，默认10000
+  connectTimeout: 10000
+  #命令等待超时(毫秒)，默认3000
+  timeout: 3000
+  #命令失败重试次数
+  retryAttempts: 3
+  #命令重试发送时间间隔(毫秒)，默认1500
+  retryInterval: 1500
+  #单个连接最大订阅数量，默认5
+  subscriptionsPerConnection: 5
+  #客户端名称
+  clientName: LEJING_REDIS
+  address: redis://192.168.40.132:6379
+  password: 123456
+  database: 0
+  #发布和订阅连接的最小空闲连接数，默认1
+  subscriptionConnectionMinimumIdleSize: 1
+  #发布和订阅连接池大小，默认50
+  subscriptionConnectionPoolSize: 50
+  #最小空闲连接数，默认32
+  connectionMinimumIdleSize: 24
+  #连接池大小，默认64
+  connectionPoolSize: 64
+  #DNS监测时间间隔(毫秒)，默认5000
+  dnsMonitoringInterval: 5000
+threads: 16
+nettyThreads: 32
+codec: !<org.redisson.codec.JsonJacksonCodec> { }
+transportMode: "NIO"

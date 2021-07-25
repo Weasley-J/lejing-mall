@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 秒杀活动
@@ -25,44 +25,44 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sms_seckill_promotion")
 public class SeckillPromotion implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 活动标题
-	 */
+    /**
+     * 活动标题
+     */
     private String title;
 
-	/**
-	 * 开始日期
-	 */
-    private Date startTime;
+    /**
+     * 开始日期
+     */
+    private LocalDateTime startTime;
 
-	/**
-	 * 结束日期
-	 */
-    private Date endTime;
+    /**
+     * 结束日期
+     */
+    private LocalDateTime endTime;
 
-	/**
-	 * 上下线状态
-	 */
+    /**
+     * 上下线状态
+     */
     private Integer status;
 
-	/**
-	 * 创建时间
-	 */
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-	/**
-	 * 创建人
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long userId;
+    /**
+     * 创建人
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long userId;
 
 }

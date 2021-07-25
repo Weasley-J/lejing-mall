@@ -27,6 +27,11 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>
+        <!-- 促销系统rpc -->
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-coupon-interface</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

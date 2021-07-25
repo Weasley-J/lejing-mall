@@ -7,11 +7,15 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.service.SeckillSessionService;
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 秒杀活动场次Controller
@@ -20,11 +24,24 @@ import java.util.Arrays;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:31:15
  */
+@Slf4j
 @RestController
 @RequestMapping("coupon/seckillsession")
 public class SeckillSessionController extends BaseController {
     @Resource
     private SeckillSessionService seckillSessionService;
+
+    /**
+     * 获取最近3天的秒杀场次列表
+     *
+     * @return 最近3天的秒杀场次列表
+     */
+    @GetMapping("latest/3days/seckill/session")
+    public BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession() {
+        List<SeckillSession> seckillSessions = seckillSessionService.getLatest3DaysSeckillSession();
+        log.info("最近3天的秒杀场次列表:{}", JSONUtil.toJsonPrettyStr(seckillSessions));
+        return BaseResult.ok(seckillSessions);
+    }
 
     /**
      * 查询秒杀活动场次列表
@@ -72,6 +89,8 @@ public class SeckillSessionController extends BaseController {
      */
     @PostMapping("/save")
     public BaseResult<Boolean> save(@RequestBody SeckillSession seckillSession) {
+        seckillSession.setCreateTime(LocalDateTime.now());
+        log.info("新增秒杀活动场次:{}", JSONUtil.toJsonStr(seckillSession));
         boolean save = seckillSessionService.save(seckillSession);
         return toOperationResult(save);
     }

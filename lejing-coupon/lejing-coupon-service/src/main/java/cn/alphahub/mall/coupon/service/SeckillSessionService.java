@@ -5,6 +5,8 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * 秒杀活动场次Service接口
  *
@@ -22,5 +24,12 @@ public interface SeckillSessionService extends IService<SeckillSession> {
      * @return 秒杀活动场次分页数据
      */
     PageResult<SeckillSession> queryPage(PageDomain pageDomain, SeckillSession seckillSession);
+
+    /**
+     * 获取最近3天的秒杀场次列表
+     *
+     * @return 最近3天的秒杀场次列表
+     */
+    List<SeckillSession> getLatest3DaysSeckillSession();
 
 }

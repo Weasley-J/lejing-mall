@@ -24,30 +24,30 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("sms_coupon_spu_relation")
 public class CouponSpuRelation implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId
-	@JsonSerialize(using = IdSerializer.class)
-	private Long id;
+    /**
+     * id
+     */
+    @TableId
+    @JsonSerialize(using = IdSerializer.class)
+    private Long id;
 
-	/**
-	 * 优惠券id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long couponId;
+    /**
+     * 优惠券id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long couponId;
 
-	/**
-	 * spu_id
-	 */
-	@JsonSerialize(using = IdSerializer.class)
-	private Long spuId;
+    /**
+     * spu_id
+     */
+    @JsonSerialize(using = IdSerializer.class)
+    private Long spuId;
 
-	/**
-	 * spu_name
-	 */
+    /**
+     * spu_name
+     */
     private String spuName;
 
 }

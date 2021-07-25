@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.math.BigDecimal;
 #end
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,7 +49,7 @@ public class ${className} implements Serializable {
 #end
 #if(${column.attrType} == 'Long')
     @JsonSerialize(using = ToStringSerializer.class)
-#elseif(${column.attrType} == 'Date')
+#elseif(${column.attrType} == 'LocalDateTime')
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 #elseif($column.attrname.toLowerCase().contains("name") || $column.attrname.toLowerCase().contains("title"))
     @TableField(condition = SqlCondition.LIKE)
