@@ -75,7 +75,7 @@ public class SeckillServiceImpl implements SeckillService {
                 String cacheKey = SeckillConstant.CACHE_PREFIX_SESSION + startTime + "_" + endTime;
                 List<String> skuIds = session.getSkuRelations().stream()
                         .filter(skuRelation -> Objects.nonNull(skuRelation.getSkuId()))
-                        .map(skuRelation -> skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId().toString())
+                        .map(skuRelation -> skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId())
                         .collect(Collectors.toList());
                 log.info("秒杀场次信息：{}；skuIds: {}", JSONUtil.toJsonStr(session), JSONUtil.toJsonStr(skuIds));
                 //判断Redis中是否有该信息，如果没有才进行添加
@@ -98,6 +98,7 @@ public class SeckillServiceImpl implements SeckillService {
             BoundHashOperations<String, Object, Object> ops = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
 
             sessions.forEach(seckillSession -> seckillSession.getSkuRelations().forEach(skuRelation -> {
+                // 判断Redis中是否有该数据，如果没有才进行添加
                 String hashKey = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId().toString();
                 if (Objects.equals(ops.hasKey(hashKey), false)) {
                     // 1. 缓存秒杀商品
@@ -108,7 +109,7 @@ public class SeckillServiceImpl implements SeckillService {
                     // 2. sku的秒杀数据
                     skuRelation.setStartTime(LocalDateTimeUtil.toEpochMilli(seckillSession.getStartTime()));
                     skuRelation.setEndTime(LocalDateTimeUtil.toEpochMilli(seckillSession.getEndTime()));
-                    // 3. 设置商品的秒杀随机码; seckill?skuId=1&&key=RandomCode
+                    // 3. 设置商品的秒杀随机码; seckill?skuId=1&key=RandomCode
                     String randomToken = IdUtil.fastSimpleUUID();
                     skuRelation.setRandomCode(randomToken);
                     // redis分布式信号量: 将商品可以秒杀的数量（秒杀总量，库存）作为信号量；作用：限流
