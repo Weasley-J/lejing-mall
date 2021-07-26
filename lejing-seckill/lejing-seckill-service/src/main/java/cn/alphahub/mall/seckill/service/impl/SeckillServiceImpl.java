@@ -53,12 +53,6 @@ public class SeckillServiceImpl implements SeckillService {
     @Resource
     private RedissonClient redissonClient;
 
-    public static void main(String[] args) {
-        Date date = new Date(1627430400000L);
-        String format = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
-        System.out.println("format = " + format);
-    }
-
     @Override
     public void onShelveSeckillSkuLatest3Days() {
         BaseResult<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
