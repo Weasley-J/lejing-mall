@@ -99,7 +99,7 @@ public class SeckillServiceImpl implements SeckillService {
 
             sessions.forEach(seckillSession -> seckillSession.getSkuRelations().forEach(skuRelation -> {
                 // 判断Redis中是否有该数据，如果没有才进行添加
-                String hashKey = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId().toString();
+                String hashKey = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId();
                 if (Objects.equals(ops.hasKey(hashKey), false)) {
                     // 1. 缓存秒杀商品
                     BaseResult<SkuInfo> result = skuInfoClient.info(skuRelation.getSkuId());
