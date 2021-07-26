@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @SpringBootTest
@@ -18,15 +20,25 @@ class SeckillSessionClientTest {
 
     @BeforeEach
     void setUp() {
+        System.out.println("---------------------");
     }
 
     @AfterEach
     void tearDown() {
+        System.out.println("---------------------");
     }
 
     @Test
     void getLatest3DaysSeckillSession() {
-        BaseResult<List<SeckillSession>> seckillSession = seckillSessionClient.getLatest3DaysSeckillSession();
-        System.out.println(JSONUtil.toJsonPrettyStr(seckillSession));
+        BaseResult<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
+        System.err.println(JSONUtil.toJsonPrettyStr(result));
+        System.err.println("---------------------");
+        result.getData().forEach(session -> {
+            LocalDateTime startTime = session.getStartTime();
+            LocalDateTime endTime = session.getEndTime();
+            System.out.println("startTime = " + startTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.out.println("endTime = " + endTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.err.println("---------------------");
+        });
     }
 }

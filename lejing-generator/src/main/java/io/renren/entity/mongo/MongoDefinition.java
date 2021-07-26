@@ -4,7 +4,11 @@ import io.renren.adaptor.MongoTableInfoAdaptor;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -59,12 +63,6 @@ public class MongoDefinition implements Serializable {
         return type == null;
     }
 
-
-    public MongoDefinition setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
     public String getPropertyName() {
         return propertyName;
     }
@@ -76,6 +74,11 @@ public class MongoDefinition implements Serializable {
 
     public Integer getType() {
         return type;
+    }
+
+    public MongoDefinition setType(Integer type) {
+        this.type = type;
+        return this;
     }
 
     public boolean isArray() {

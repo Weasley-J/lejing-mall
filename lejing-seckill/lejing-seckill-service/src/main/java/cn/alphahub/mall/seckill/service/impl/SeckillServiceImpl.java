@@ -2,12 +2,14 @@ package cn.alphahub.mall.seckill.service.impl;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
+import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.seckill.constant.SeckillConstant;
 import cn.alphahub.mall.seckill.convertor.BeanUtil;
 import cn.alphahub.mall.seckill.feign.SeckillSessionClient;
 import cn.alphahub.mall.seckill.feign.SkuInfoClient;
 import cn.alphahub.mall.seckill.service.SeckillService;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
@@ -20,8 +22,12 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static cn.alphahub.mall.seckill.constant.SeckillConstant.CACHE_PREFIX_SKU_STOCK_SEMAPHORE;
@@ -47,6 +53,12 @@ public class SeckillServiceImpl implements SeckillService {
     @Resource
     private RedissonClient redissonClient;
 
+    public static void main(String[] args) {
+        Date date = new Date(1627430400000L);
+        String format = DateUtil.format(date, "yyyy-MM-dd HH:mm:ss");
+        System.out.println("format = " + format);
+    }
+
     @Override
     public void onShelveSeckillSkuLatest3Days() {
         BaseResult<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
@@ -58,6 +70,36 @@ public class SeckillServiceImpl implements SeckillService {
             // 缓存秒杀商品到redis
             saveSkuToRedis(sessions);
         }
+    }
+
+    @Override
+    public List<SeckillSkuRelation> getCurrentSeckillSkus() {
+        List<SeckillSkuRelation> skuRelations = new ArrayList<>();
+        // 当前时间戳，1970:01:01 00:00:00开始算起
+        long currentTime = LocalDateTimeUtil.toEpochMilli(LocalDateTimeUtil.now());
+        Set<String> keys = stringRedisTemplate.keys(SeckillConstant.CACHE_PREFIX_SESSION + "*");
+        if (CollectionUtils.isNotEmpty(keys)) {
+            for (String key : keys) {
+                String content = key.replace(SeckillConstant.CACHE_PREFIX_SESSION, "");
+                String[] sessionInterval = content.split("_");
+                long start = Long.parseLong(sessionInterval[0]);
+                long end = Long.parseLong(sessionInterval[1]);
+                LocalDateTime ldt1 = LocalDateTimeUtil.of(start);
+                LocalDateTime ldt2 = LocalDateTimeUtil.of(currentTime);
+                LocalDateTime ldt3 = LocalDateTimeUtil.of(end);
+                String format = "yyyy-MM-dd HH:mm:ss";
+                System.err.println("秒杀开始时间：" + LocalDateTimeUtil.format(ldt1, format) + "； 当前时间：" + LocalDateTimeUtil.format(ldt2, format) + "；秒杀结束时间：" + LocalDateTimeUtil.format(ldt3, format));
+                if (start <= currentTime && currentTime <= end) {
+                    // 获取这个秒杀场次的所有商品
+                    List<String> ranges = stringRedisTemplate.opsForList().range(key, -100, 100);
+                    BoundHashOperations<String, Object, Object> hashOps = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
+                    List<Object> objects = hashOps.multiGet(new ArrayList<>(Objects.requireNonNull(ranges)));
+                    skuRelations = Objects.requireNonNull(objects).stream().map(obj -> JSONUtil.toBean(obj.toString(), SeckillSkuRelation.class)).collect(Collectors.toList());
+                    break;
+                }
+            }
+        }
+        return skuRelations;
     }
 
     /**

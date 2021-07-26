@@ -39,7 +39,7 @@ public class GenUtils {
     private static String currentTableName;
 
     public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("template/Domain.java.vm");
         templates.add("template/Mapper.xml.vm");
 
@@ -75,8 +75,14 @@ public class GenUtils {
                                      List<Map<String, String>> columns, ZipOutputStream zip) {
         //配置信息
         Configuration config = getConfig();
-        boolean hasBigDecimal = false, hasList = false, hasLong = false,
-                javaTypeHasDate = false, javaFieldContainsNameOrTitle = false;
+        boolean hasBigDecimal = false;
+        boolean hasList = false;
+        boolean hasLong = false;
+        boolean javaTypeHasDate = false;
+        boolean javaFieldContainsNameOrTitle = false;
+        boolean hasLocalDateTime = false;
+        boolean hasLocalDate = false;
+        boolean hasLocalTime = false;
         //表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
@@ -87,7 +93,7 @@ public class GenUtils {
         tableEntity.setClassname(StringUtils.uncapitalize(className));
 
         //列信息
-        List<ColumnEntity> columsList = new ArrayList<>();
+        List<ColumnEntity> columnList = new ArrayList<>();
         for (Map<String, String> column : columns) {
             ColumnEntity columnEntity = new ColumnEntity();
             columnEntity.setColumnName(column.get("columnName"));
@@ -115,6 +121,15 @@ public class GenUtils {
             if (!javaTypeHasDate && "Date".equals(attrType)) {
                 javaTypeHasDate = true;
             }
+            if (!hasLocalDateTime && "LocalDateTime".equals(attrType)){
+                hasLocalDateTime = true;
+            }
+            if (!hasLocalDate && "LocalDate".equals(attrType)){
+                hasLocalDate = true;
+            }
+            if (!hasLocalTime && "LocalTime".equals(attrType)){
+                hasLocalTime = true;
+            }
             boolean containsName = StringUtils.containsIgnoreCase(attrName, "name");
             boolean containsTitle = StringUtils.containsIgnoreCase(attrName, "title");
             if (containsName || containsTitle) {
@@ -125,9 +140,9 @@ public class GenUtils {
                 tableEntity.setPk(columnEntity);
             }
 
-            columsList.add(columnEntity);
+            columnList.add(columnEntity);
         }
-        tableEntity.setColumns(columsList);
+        tableEntity.setColumns(columnList);
 
         //没主键，则第一个字段为主键
         if (tableEntity.getPk() == null) {
@@ -136,30 +151,33 @@ public class GenUtils {
 
         //设置velocity资源加载器
         Properties prop = new Properties();
-        prop.put("file.resource.loader.class" , "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         String mainPath = config.getString("mainPath");
         mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
-        map.put("tableName" , tableEntity.getTableName());
-        map.put("comments" , tableEntity.getComments());
-        map.put("pk" , tableEntity.getPk());
-        map.put("className" , tableEntity.getClassName());
-        map.put("classname" , tableEntity.getClassname());
-        map.put("pathName" , tableEntity.getClassname().toLowerCase());
-        map.put("columns" , tableEntity.getColumns());
-        map.put("hasBigDecimal" , hasBigDecimal);
-        map.put("hasLong" , hasLong);
-        map.put("hasList" , hasList);
-        map.put("javaTypeHasDate" , javaTypeHasDate);
-        map.put("javaFieldContainsNameOrTitle" , javaFieldContainsNameOrTitle);
-        map.put("mainPath" , mainPath);
-        map.put("package" , config.getString("package"));
-        map.put("moduleName" , config.getString("moduleName"));
-        map.put("author" , config.getString("author"));
-        map.put("email" , config.getString("email"));
-        map.put("datetime" , DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+        map.put("tableName", tableEntity.getTableName());
+        map.put("comments", tableEntity.getComments());
+        map.put("pk", tableEntity.getPk());
+        map.put("className", tableEntity.getClassName());
+        map.put("classname", tableEntity.getClassname());
+        map.put("pathName", tableEntity.getClassname().toLowerCase());
+        map.put("columns", tableEntity.getColumns());
+        map.put("hasBigDecimal", hasBigDecimal);
+        map.put("hasLong", hasLong);
+        map.put("hasList", hasList);
+        map.put("javaTypeHasDate", javaTypeHasDate);
+        map.put("javaFieldContainsNameOrTitle", javaFieldContainsNameOrTitle);
+        map.put("hasLocalDateTime", hasLocalDateTime);
+        map.put("hasLocalDate", hasLocalDate);
+        map.put("hasLocalTime", hasLocalTime);
+        map.put("mainPath", mainPath);
+        map.put("package", config.getString("package"));
+        map.put("moduleName", config.getString("moduleName"));
+        map.put("author", config.getString("author"));
+        map.put("email", config.getString("email"));
+        map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         VelocityContext context = new VelocityContext(map);
 
         //获取模板列表
@@ -237,26 +255,26 @@ public class GenUtils {
 
         //设置velocity资源加载器
         Properties prop = new Properties();
-        prop.put("file.resource.loader.class" , "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         String mainPath = config.getString("mainPath");
         mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
         //封装模板数据
         Map<String, Object> map = new HashMap<>();
-        map.put("tableName" , tableEntity.getTableName());
-        map.put("comments" , tableEntity.getComments());
-        map.put("pk" , tableEntity.getPk());
-        map.put("className" , tableEntity.getClassName());
-        map.put("classname" , tableEntity.getClassname());
-        map.put("pathName" , tableEntity.getClassname().toLowerCase());
-        map.put("columns" , tableEntity.getColumns());
-        map.put("hasList" , hasList);
-        map.put("mainPath" , mainPath);
-        map.put("package" , config.getString("package"));
-        map.put("moduleName" , config.getString("moduleName"));
-        map.put("author" , config.getString("author"));
-        map.put("email" , config.getString("email"));
-        map.put("datetime" , DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+        map.put("tableName", tableEntity.getTableName());
+        map.put("comments", tableEntity.getComments());
+        map.put("pk", tableEntity.getPk());
+        map.put("className", tableEntity.getClassName());
+        map.put("classname", tableEntity.getClassname());
+        map.put("pathName", tableEntity.getClassname().toLowerCase());
+        map.put("columns", tableEntity.getColumns());
+        map.put("hasList", hasList);
+        map.put("mainPath", mainPath);
+        map.put("package", config.getString("package"));
+        map.put("moduleName", config.getString("moduleName"));
+        map.put("author", config.getString("author"));
+        map.put("email", config.getString("email"));
+        map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         VelocityContext context = new VelocityContext(map);
 
         //获取模板列表
@@ -283,7 +301,7 @@ public class GenUtils {
      * 列名转换成Java属性名
      */
     public static String columnToJava(String columnName) {
-        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_" , "");
+        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
     }
 
     /**
@@ -307,7 +325,7 @@ public class GenUtils {
         try {
             return new PropertiesConfiguration("generator.properties");
         } catch (ConfigurationException e) {
-            throw new RRException("获取配置文件失败，" , e);
+            throw new RRException("获取配置文件失败，", e);
         }
     }
 
@@ -317,7 +335,7 @@ public class GenUtils {
     public static String getFileName(String template, String className, String packageName, String moduleName) {
         String packagePath = "main" + File.separator + "java" + File.separator;
         if (StringUtils.isNotBlank(packageName)) {
-            packagePath += packageName.replace("." , File.separator) + File.separator + moduleName + File.separator;
+            packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
         }
         if (template.contains("MongoChildrenDomain.java.vm")) {
             return packagePath + "domain" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerDomain.java";
@@ -364,7 +382,7 @@ public class GenUtils {
     }
 
     private static String splitInnerName(String name) {
-        name = name.replaceAll("\\." , "_");
+        name = name.replaceAll("\\.", "_");
         return name;
     }
 }

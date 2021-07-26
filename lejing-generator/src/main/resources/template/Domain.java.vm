@@ -13,17 +13,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 #end
-
-#if(${hasBigDecimal})
-import java.math.BigDecimal;
-#end
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasLocalDate})
+import java.time.LocalDate;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasLocalTime})
+import java.time.LocalTime;
+#end
 
 /**
  * ${comments}对象 ${tableName}
@@ -36,6 +44,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @TableName("${tableName}")
 public class ${className} implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -51,6 +60,10 @@ public class ${className} implements Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
 #elseif(${column.attrType} == 'LocalDateTime')
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#elseif(${column.attrType} == 'LocalDate')
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+#elseif(${column.attrType} == 'LocalTime')
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
 #elseif($column.attrname.toLowerCase().contains("name") || $column.attrname.toLowerCase().contains("title"))
     @TableField(condition = SqlCondition.LIKE)
 #end

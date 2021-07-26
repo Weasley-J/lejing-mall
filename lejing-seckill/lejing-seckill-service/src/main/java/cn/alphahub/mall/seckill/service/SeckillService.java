@@ -1,5 +1,9 @@
 package cn.alphahub.mall.seckill.service;
 
+import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
+
+import java.util.List;
+
 /**
  * 秒杀接口
  *
@@ -13,4 +17,11 @@ public interface SeckillService {
      * <p>不处理重复上架</p>
      */
     void onShelveSeckillSkuLatest3Days();
+
+    /**
+     * 获取当前时间参与秒杀的商品
+     *
+     * @return 当前参与秒杀的商品
+     */
+    List<SeckillSkuRelation> getCurrentSeckillSkus();
 }
