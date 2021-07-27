@@ -72,7 +72,7 @@ public class BaseController {
      * @return 操作提示
      */
     protected BaseResult<Boolean> toOperationResult(Boolean flag) {
-        return flag ? BaseResult.ok() : BaseResult.fail();
+        return flag.equals(true) ? BaseResult.ok() : BaseResult.fail();
     }
 
     /**
