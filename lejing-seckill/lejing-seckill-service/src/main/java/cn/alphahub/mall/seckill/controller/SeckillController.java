@@ -6,6 +6,7 @@ import cn.alphahub.mall.seckill.service.SeckillService;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
+@RequestMapping(value = "/seckill")
 public class SeckillController {
     @Resource
     private SeckillService seckillService;
@@ -29,7 +31,7 @@ public class SeckillController {
      *
      * @return 当前参与秒杀的商品
      */
-    @GetMapping("/current/seckill/skus")
+    @GetMapping("/current/can/seckill/skus")
     public BaseResult<List<SeckillSkuRelation>> getCurrentSeckillSkus() {
         log.info("获取当前时间参与秒杀的商品");
         List<SeckillSkuRelation> skuRelations = seckillService.getCurrentSeckillSkus();

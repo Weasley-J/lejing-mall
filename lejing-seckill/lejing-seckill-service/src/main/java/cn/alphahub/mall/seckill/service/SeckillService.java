@@ -20,6 +20,12 @@ public interface SeckillService {
 
     /**
      * 获取当前时间参与秒杀的商品
+     * <p>
+     * <b style='color: red'>秒杀预览：</b>
+     *     <ul>
+     *         <li><img style='width: 130px; height: 100px' src='https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210728223854713.png'/></li>
+     *     </ul>
+     * </p>
      *
      * @return 当前参与秒杀的商品
      */

@@ -594,13 +594,13 @@
         window.location.href = "http://search.lejing.com/list.html?keyword=" + keyword;
     }
 
-    $.get("http://seckill.lejing.com/getCurrentSeckillSkus", function (res) {
-        if (res.data.length > 0) {
-            res.data.forEach(function (item) {
+    $.get("http://seckill.lejing.com/seckill/current/can/seckill/skus", function (resp) {
+        if (resp.data.length > 0) {
+            resp.data.forEach(function (item) {
                 $("<li onclick='toDetail(" + item.skuId + ")'></li>").append($("<img style='width: 130px; height: 130px' src='" + item.skuInfo.skuDefaultImg + "' />"))
                     .append($("<p>" + item.skuInfo.skuTitle + "</p>"))
-                    .append($("<span>" + item.seckillPrice + "</span>"))
-                    .append($("<s>" + item.skuInfo.price + "</s>"))
+                    .append($("<span>" + "秒杀价: ￥" + item.seckillPrice + "</span>"))
+                    .append($("<s>" + "原价: ￥" + item.skuInfo.price + "</s>"))
                     .appendTo("#seckillSkuContent");
             })
         }
