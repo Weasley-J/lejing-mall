@@ -29,6 +29,12 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>
+        <!-- 库存服务 interface -->
+        <dependency>
+            <groupId>cn.alphahub.mall.seckill</groupId>
+            <artifactId>lejing-seckill-interface</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

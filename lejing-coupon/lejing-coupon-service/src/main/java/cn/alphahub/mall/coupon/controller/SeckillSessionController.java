@@ -46,6 +46,29 @@ public class SeckillSessionController extends BaseController {
     /**
      * 查询秒杀活动场次列表
      *
+     * @return 秒杀活动场次列表
+     */
+    @GetMapping("/list/no/args")
+    public BaseResult<PageResult<SeckillSession>> list() {
+        return list(1, 50, null, null, null);
+    }
+
+    /**
+     * 批量更新
+     *
+     * @param sessionList 列表
+     * @return 提示
+     */
+    @PutMapping("/batch/update")
+    public BaseResult<Boolean> batchUpdate(@RequestBody List<SeckillSession> sessionList) {
+        log.info("批量更新秒杀活动场次: {}", JSONUtil.toJsonPrettyStr(sessionList));
+        boolean b = seckillSessionService.saveOrUpdateBatch(sessionList);
+        return BaseResult.ok(b);
+    }
+
+    /**
+     * 查询秒杀活动场次列表
+     *
      * @param page           当前页码,默认第1页
      * @param rows           显示行数,默认10条
      * @param orderColumn    排序排序字段,默认不排序

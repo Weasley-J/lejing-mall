@@ -133,7 +133,7 @@ public class SeckillServiceImpl implements SeckillService {
             return skuRelation;
         }
         // 正则表达式进行匹配: 4_25
-        String regExp = "\\d-" + skuId;
+        String regExp = "\\d_" + skuId;
         for (Object key : keys) {
             if (Pattern.matches(regExp, String.valueOf(key))) {
                 Object redisObj = hashOps.get(key);

@@ -47,7 +47,7 @@ public class SeckillController {
     /**
      * 查询商品是否参加秒杀活动
      *
-     * @param skuId 商品
+     * @param skuId 商品skuId
      * @return 商品是否参加秒杀信息
      */
     @ResponseBody
@@ -60,6 +60,11 @@ public class SeckillController {
     /**
      * 商品进行秒杀(秒杀开始)
      * <p>查看表: oms_order_item</p>
+     *
+     * @param killId 秒杀id
+     * @param key    关键字
+     * @param num    数量
+     * @return 视图html
      */
     @GetMapping(value = "/kill")
     public String seckill(@RequestParam("killId") String killId,

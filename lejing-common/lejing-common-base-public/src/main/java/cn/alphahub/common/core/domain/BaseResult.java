@@ -4,7 +4,6 @@ import cn.alphahub.common.core.abstraction.AbstractResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,8 +15,9 @@ import java.time.format.DateTimeFormatter;
  *
  * @param <T> 返回数据对象
  * @author liuwenjing
- * @version 1.0.1
- * @date 2021年3月26日
+ * @version 1.1.2
+ * @date 2021年7月29日
+ * @see cn.alphahub.common.core.abstraction.AbstractResult
  */
 @Data
 @ToString(callSuper = true)
@@ -38,7 +38,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg     返回内容
      * @param success 成功状态
      */
-    public BaseResult(int code, String msg, boolean success) {
+    public BaseResult(Integer code, String msg, Boolean success) {
         this.setCode(code);
         this.setMessage(msg);
         this.setSuccess(success);
@@ -95,12 +95,10 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @param data 数据对象
      */
-    public BaseResult(int code, String msg, T data) {
+    public BaseResult(Integer code, String msg, T data) {
         this.setCode(code);
         this.setMessage(msg);
-        if (ObjectUtils.isNotEmpty(data)) {
-            this.setData(data);
-        }
+        this.setData(data);
     }
 
     /**
@@ -312,7 +310,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param code 状态码
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(int code, String msg, T data) {
+    public static <T> BaseResult<T> error(Integer code, String msg, T data) {
         return preCreate(code, msg, false, data);
     }
 
@@ -324,7 +322,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(int code, String msg) {
+    public static <T> BaseResult<T> error(Integer code, String msg) {
         return preCreate(code, msg, false, null);
     }
 

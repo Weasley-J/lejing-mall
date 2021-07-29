@@ -46,13 +46,6 @@
             </exclusions>
         </dependency>
 
-        <!-- 优惠券服务 interface -->
-        <dependency>
-            <groupId>cn.alphahub.mall</groupId>
-            <artifactId>lejing-coupon-interface</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- 库存服务 interface -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>

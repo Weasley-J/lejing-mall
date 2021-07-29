@@ -1,5 +1,6 @@
 package cn.alphahub.mall.product.vo;
 
+import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.product.domain.SkuImages;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.domain.SpuInfoDesc;
@@ -38,7 +39,7 @@ public class SkuItemVO implements Serializable {
     /**
      * 秒杀商品的优惠信息
      */
-    private SeckillSkuVO seckillSkuVo;
+    private SeckillSkuRelation seckillSkuRelation;
 
     /**
      * 获取spu的介绍

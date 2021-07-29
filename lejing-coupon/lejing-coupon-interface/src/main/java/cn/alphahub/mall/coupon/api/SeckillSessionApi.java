@@ -45,6 +45,23 @@ public interface SeckillSessionApi {
     );
 
     /**
+     * 查询秒杀活动场次列表
+     *
+     * @return 秒杀活动场次列表
+     */
+    @GetMapping("/list/no/args")
+    BaseResult<PageResult<SeckillSession>> list();
+
+    /**
+     * 批量更新
+     *
+     * @param sessionList 列表
+     * @return 提示
+     */
+    @PutMapping("/batch/update")
+    BaseResult<Boolean> batchUpdate(@RequestBody  List<SeckillSession> sessionList);
+
+    /**
      * 获取秒杀活动场次详情
      *
      * @param id 秒杀活动场次主键id

@@ -475,13 +475,8 @@
                 <div class="boxx-one">
                     <ul>
                         <li>
-									<span>
-										<img alt="" src="/static/item/img/b769782fe4ecca40913ad375a71cb92d.png"/>关注
-									</span>
-                            <span>
-										<img alt="" src="/static/item/img/9224fcea62bfff479a6712ba3a6b47cc.png"/>
-										对比
-									</span>
+                            <span><img alt="" src="/static/item/img/b769782fe4ecca40913ad375a71cb92d.png"/>关注</span>
+                            <span><img alt="" src="/static/item/img/9224fcea62bfff479a6712ba3a6b47cc.png"/>对比</span>
                         </li>
                         <li>
 
@@ -523,14 +518,14 @@
                             <span>￥</span>
                             <span th:text="${#numbers.formatDecimal(item.info.price,3,2)}">4499.00</span>
                         </li>
-                        <li style="color: red" th:if="${item.seckillSkuVo != null}">
+                        <li style="color: red" th:if="${item.getSeckillSkuRelation != null}">
 
-                            <span th:if="${#dates.createNow().getTime() < item.seckillSkuVo.startTime}">
-                                商品将会在[[${#dates.format(new java.util.Date(item.seckillSkuVo.startTime),"yyyy-MM-dd HH:mm:ss")}]]进行秒杀
+                            <span th:if="${#dates.createNow().getTime() < item.getSeckillSkuRelation.startTime}">
+                                商品将会在[[${#dates.format(new java.util.Date(item.seckillSkuRelation.startTime),"yyyy-MM-dd HH:mm:ss")}]]进行秒杀
                             </span>
 
-                            <span th:if="${#dates.createNow().getTime() >= item.seckillSkuVo.startTime && #dates.createNow().getTime() <= item.seckillSkuVo.endTime}">
-                                秒杀价  [[${#numbers.formatDecimal(item.seckillSkuVo.seckillPrice,1,2)}]]
+                            <span th:if="${#dates.createNow().getTime() >= item.getSeckillSkuRelation.startTime && #dates.createNow().getTime() <= item.getSeckillSkuRelation.endTime}">
+                                秒杀价￥  [[${#numbers.formatDecimal(item.seckillSkuRelation.seckillPrice,1,2)}]]
                             </span>
 
                         </li>
@@ -679,16 +674,16 @@
                     </div>
 
                     <div class="box-btns-two"
-                         th:if="${item.seckillSkuVo != null }">
+                         th:if="${item.getSeckillSkuRelation != null }">
                         <a class="addToCart" href="#" th:attr="skuId=${item.info.skuId}">
                             加入购物车
                         </a>
                     </div>
 
                     <div class="box-btns-two"
-                         th:if="${item.seckillSkuVo != null && (#dates.createNow().getTime() >= item.seckillSkuVo.startTime && #dates.createNow().getTime() <= item.seckillSkuVo.endTime)}">
+                         th:if="${item.getSeckillSkuRelation != null && (#dates.createNow().getTime() >= item.getSeckillSkuRelation.startTime && #dates.createNow().getTime() <= item.getSeckillSkuRelation.endTime)}">
                         <a class="seckill" href="#"
-                           th:attr="skuId=${item.info.skuId},sessionId=${item.seckillSkuVo.promotionSessionId},code=${item.seckillSkuVo.randomCode}">
+                           th:attr="skuId=${item.info.skuId},sessionId=${item.getSeckillSkuRelation.promotionSessionId},code=${item.getSeckillSkuRelation.randomCode}">
                             立即抢购
                         </a>
                     </div>

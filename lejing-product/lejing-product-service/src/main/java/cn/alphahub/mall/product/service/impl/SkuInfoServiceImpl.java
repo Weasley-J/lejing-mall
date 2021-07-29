@@ -1,20 +1,23 @@
 package cn.alphahub.mall.product.service.impl;
 
+import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.product.domain.SkuImages;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.domain.SpuInfoDesc;
+import cn.alphahub.mall.product.feign.SeckillClient;
 import cn.alphahub.mall.product.mapper.SkuInfoMapper;
 import cn.alphahub.mall.product.service.AttrGroupService;
 import cn.alphahub.mall.product.service.SkuImagesService;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
 import cn.alphahub.mall.product.service.SpuInfoDescService;
-import cn.alphahub.mall.product.vo.SeckillSkuVO;
 import cn.alphahub.mall.product.vo.SkuItemSaleAttrVO;
 import cn.alphahub.mall.product.vo.SkuItemVO;
 import cn.alphahub.mall.product.vo.SpuItemAttrGroupVO;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +56,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
      */
     @Resource
     private ThreadPoolExecutor executor;
+    /**
+     * 查询秒杀信息
+     */
+    @Resource
+    private SeckillClient seckillClient;
 
     /**
      * 查询sku信息分页列表
@@ -185,17 +193,26 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
             itemVO.setImages(skuImages);
         }, executor);
 
+        // 6. 查看当前商品是否参与秒杀优惠
+        CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
+            BaseResult<SeckillSkuRelation> result = seckillClient.getSkuSeckillInfoBySkuId(skuId);
+            log.info("查看当前商品是否参与秒杀优惠: {}", JSONUtil.toJsonStr(result));
+            if (Objects.equals(true, result.getSuccess())) {
+                var seckillSkuInfo = result.getData();
+                itemVO.setSeckillSkuRelation(seckillSkuInfo);
+            }
+        }, executor);
+
         /* 使用多线程异步任务编排 - 等待所有任务执行完才返回数据 */
         try {
-            CompletableFuture.allOf(saleAttrFuture, spuDescFuture, attrGroupFuture, skuImagesFuture).get();
+            CompletableFuture.allOf(saleAttrFuture, spuDescFuture, attrGroupFuture, skuImagesFuture, seckillFuture).get();
         } catch (InterruptedException | ExecutionException e) {
-            log.error("所有多线程异步任务执行任务出错，异常原因：{}", e.getLocalizedMessage(), e);
+            log.error("所有多线程异步任务执行任务出错，Interrupted! 异常原因：{}", e.getLocalizedMessage(), e);
             Thread.currentThread().interrupt();
         }
 
         // 数据返回
         itemVO.setHasStock(true);
-        itemVO.setSeckillSkuVo(new SeckillSkuVO());
         return itemVO;
     }
 
