@@ -22,11 +22,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static cn.alphahub.mall.seckill.constant.SeckillConstant.CACHE_PREFIX_SKU_STOCK_SEMAPHORE;
@@ -41,6 +43,7 @@ import static cn.alphahub.mall.seckill.constant.SeckillConstant.CACHE_PREFIX_SKU
 @Slf4j
 @Service
 public class SeckillServiceImpl implements SeckillService {
+    private static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
@@ -86,8 +89,8 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public List<SeckillSkuRelation> getCurrentSeckillSkus() {
         List<SeckillSkuRelation> skuRelations = new ArrayList<>();
-        // 当前时间戳，1970:01:01 00:00:00开始算起
-        long currentTime = LocalDateTimeUtil.toEpochMilli(LocalDateTimeUtil.now());
+        // 当前时间戳，1970:01:01 00:00:00 开始算起
+        long currentTime = System.currentTimeMillis();
         Set<String> keys = stringRedisTemplate.keys(SeckillConstant.CACHE_PREFIX_SESSION + "*");
         if (CollectionUtils.isEmpty(keys)) {
             log.warn("当前时间参与秒杀的商品为空");
@@ -101,8 +104,8 @@ public class SeckillServiceImpl implements SeckillService {
             LocalDateTime ldt1 = LocalDateTimeUtil.of(start);
             LocalDateTime ldt2 = LocalDateTimeUtil.of(currentTime);
             LocalDateTime ldt3 = LocalDateTimeUtil.of(end);
-            String format = "yyyy-MM-dd HH:mm:ss";
-            System.err.println("秒杀开始时间：" + LocalDateTimeUtil.format(ldt1, format) + "； 当前时间：" + LocalDateTimeUtil.format(ldt2, format) + "；秒杀结束时间：" + LocalDateTimeUtil.format(ldt3, format));
+
+            System.err.println("秒杀开始时间：" + LocalDateTimeUtil.format(ldt1, YYYY_MM_DD_HH_MM_SS) + "；当前时间：" + LocalDateTimeUtil.format(ldt2, YYYY_MM_DD_HH_MM_SS) + "；秒杀结束时间：" + LocalDateTimeUtil.format(ldt3, YYYY_MM_DD_HH_MM_SS));
             if (start <= currentTime && currentTime <= end) {
                 // 获取这个秒杀场次的所有商品
                 List<String> ranges = stringRedisTemplate.opsForList().range(key, -100, 100);
@@ -113,6 +116,45 @@ public class SeckillServiceImpl implements SeckillService {
             }
         }
         return skuRelations;
+    }
+
+    @Override
+    public SeckillSkuRelation getSkuSeckillInfoBySkuId(Long skuId) {
+        log.info("查询商品是否参加秒杀活动:{}", skuId);
+        if (Objects.isNull(skuId)) {
+            log.warn("商品skuId为null");
+            return null;
+        }
+        SeckillSkuRelation skuRelation = new SeckillSkuRelation();
+        BoundHashOperations<String, Object, Object> hashOps = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
+        Set<Object> keys = hashOps.keys();
+        if (CollectionUtils.isEmpty(keys)) {
+            log.warn("redis中sku缓存信息为空");
+            return skuRelation;
+        }
+        // 正则表达式进行匹配: 4_25
+        String regExp = "\\d-" + skuId;
+        for (Object key : keys) {
+            if (Pattern.matches(regExp, String.valueOf(key))) {
+                Object redisObj = hashOps.get(key);
+                skuRelation = JSONUtil.toBean(String.valueOf(redisObj), SeckillSkuRelation.class);
+                long currentTime = System.currentTimeMillis();
+                Long startTime = skuRelation.getStartTime();
+                Long endTime = skuRelation.getEndTime();
+                System.err.println(MessageFormat.format("秒杀开始时间：{0}；当前时间：{1}；秒杀结束时间：{2}",
+                        LocalDateTimeUtil.format(LocalDateTimeUtil.of(startTime), YYYY_MM_DD_HH_MM_SS),
+                        LocalDateTimeUtil.format(LocalDateTimeUtil.of(currentTime), YYYY_MM_DD_HH_MM_SS),
+                        LocalDateTimeUtil.format(LocalDateTimeUtil.of(endTime), YYYY_MM_DD_HH_MM_SS)));
+
+                boolean isCurrentTimeInSeckillSession = startTime <= currentTime && currentTime <= endTime;
+                if (!isCurrentTimeInSeckillSession) {
+                    skuRelation.setRandomCode(null);
+                }
+
+                return skuRelation;
+            }
+        }
+        return skuRelation;
     }
 
     /**

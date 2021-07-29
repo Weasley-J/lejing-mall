@@ -13,8 +13,14 @@ import java.util.List;
  */
 public interface SeckillService {
     /**
+     *
      * 上架最近三天的秒杀商品
-     * <p>不处理重复上架</p>
+     * <p>
+     *     不处理重复上架
+     *     <ul>
+     *         <li><img src='https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/QQ20210728224701.gif'/></li>
+     *     </ul>
+     * </p>
      */
     void onShelveSeckillSkuLatest3Days();
 
@@ -30,4 +36,12 @@ public interface SeckillService {
      * @return 当前参与秒杀的商品
      */
     List<SeckillSkuRelation> getCurrentSeckillSkus();
+
+    /**
+     * 查询商品是否参加秒杀活动
+     *
+     * @param skuId 商品
+     * @return 商品是否参加秒杀信息
+     */
+    SeckillSkuRelation getSkuSeckillInfoBySkuId(Long skuId);
 }
