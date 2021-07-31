@@ -44,4 +44,15 @@ public interface SeckillService {
      * @return 商品是否参加秒杀信息
      */
     SeckillSkuRelation getSkuSeckillInfoBySkuId(Long skuId);
+
+    /**
+     * 商品进行秒杀(秒杀开始)
+     * <p>查看表: oms_order_item</p>
+     *
+     * @param killId 秒杀id
+     * @param key    关键字
+     * @param num    数量
+     * @return 视图html
+     */
+    String kill(String killId, String key, Integer num);
 }

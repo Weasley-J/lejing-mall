@@ -69,10 +69,9 @@ public class CartController {
      * @return redirect url
      */
     @GetMapping(value = "/addCartItem")
-    public String addCartItem(
-            @RequestParam("skuId") Long skuId,
-            @RequestParam("num") Integer num,
-            RedirectAttributes attributes
+    public String addCartItem(@RequestParam("skuId") Long skuId,
+                              @RequestParam("num") Integer num,
+                              RedirectAttributes attributes
     ) throws ExecutionException, InterruptedException {
         cartService.addCart(skuId, num);
         attributes.addAttribute("skuId", skuId);

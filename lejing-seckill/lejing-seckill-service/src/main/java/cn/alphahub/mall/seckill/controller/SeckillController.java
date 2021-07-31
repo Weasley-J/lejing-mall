@@ -75,7 +75,7 @@ public class SeckillController {
         String orderSn = null;
         try {
             //1、判断是否登录
-            //orderSn = seckillService.kill(killId, key, num);
+            orderSn = seckillService.kill(killId, key, num);
             model.addAttribute("orderSn", orderSn);
         } catch (Exception e) {
             log.error("exception:{}", e.getMessage(), e);

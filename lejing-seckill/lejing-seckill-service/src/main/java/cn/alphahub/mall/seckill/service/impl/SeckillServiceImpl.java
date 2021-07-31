@@ -157,6 +157,12 @@ public class SeckillServiceImpl implements SeckillService {
         return skuRelation;
     }
 
+    @Override
+    public String kill(String killId, String key, Integer num) {
+        log.info("商品进行秒杀(秒杀开始):{},{},{}", killId, key, num);
+        return null;
+    }
+
     /**
      * 缓存场次信息到redis
      *
