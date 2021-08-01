@@ -65,6 +65,7 @@ public class SeckillController {
      * @param killId 秒杀id
      * @param key    秒杀随机码
      * @param num    数量
+     * @page
      * @return 视图html
      */
     @GetMapping(value = "/kill")
