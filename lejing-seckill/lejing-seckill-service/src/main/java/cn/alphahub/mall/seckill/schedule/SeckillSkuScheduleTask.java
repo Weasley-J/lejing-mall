@@ -39,7 +39,7 @@ public class SeckillSkuScheduleTask {
      * 上架最近三天的秒杀商品
      * corn表达式: @Scheduled(cron = "0 0 3 ? * *")
      */
-    @Scheduled(cron = "0 0/45 * ? * *")
+    @Scheduled(cron = "0 0/1 * ? * *")
     public void onShelveSeckillSkuLatest3Days() {
         log.warn("上架最近三天的秒杀商品.");
         RLock rLock = redissonClient.getLock(SeckillConstant.CACHE_PREFIX_SKU_ON_SHELF_LOCK + this.getClass().getTypeName());

@@ -27,6 +27,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -259,6 +260,7 @@ public class SeckillServiceImpl implements SeckillService {
             return;
         }
         // 缓存活动信息
+        long currentTime = System.currentTimeMillis();
         sessions.forEach(session -> {
             long startTime = LocalDateTimeUtil.toEpochMilli(session.getStartTime());
             long endTime = LocalDateTimeUtil.toEpochMilli(session.getEndTime());
@@ -270,7 +272,9 @@ public class SeckillServiceImpl implements SeckillService {
             log.info("秒杀场次信息：{}；skuIds: {}", JSONUtil.toJsonStr(session), JSONUtil.toJsonStr(skuIds));
             //判断Redis中是否有该信息，如果没有才进行添加
             if (CollectionUtils.isNotEmpty(skuIds) && Objects.equals(stringRedisTemplate.hasKey(cacheKey), false)) {
-                stringRedisTemplate.opsForList().leftPushAll(cacheKey, skuIds);
+                BoundListOperations<String, String> listOps = stringRedisTemplate.boundListOps(cacheKey);
+                listOps.leftPushAll(skuIds.toArray(new String[skuIds.size()]));
+                listOps.expire((endTime - currentTime), TimeUnit.MILLISECONDS);
             }
         });
     }
@@ -286,11 +290,11 @@ public class SeckillServiceImpl implements SeckillService {
             log.warn("场次商品为空");
             return;
         }
-        BoundHashOperations<String, Object, Object> ops = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
+        BoundHashOperations<String, Object, Object> hashOps = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
         sessions.forEach(seckillSession -> seckillSession.getSkuRelations().forEach(skuRelation -> {
             // 判断Redis中是否有该数据，如果没有才进行添加
             String hashKey = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId();
-            if (Objects.equals(ops.hasKey(hashKey), false)) {
+            if (Objects.equals(hashOps.hasKey(hashKey), false)) {
                 // 1. 缓存秒杀商品
                 BaseResult<SkuInfo> result = skuInfoClient.info(skuRelation.getSkuId());
                 if (result.getSuccess().equals(true)) {
@@ -306,7 +310,7 @@ public class SeckillServiceImpl implements SeckillService {
                 RSemaphore semaphore = redissonClient.getSemaphore(CACHE_PREFIX_SKU_STOCK_SEMAPHORE + randomToken);
                 semaphore.trySetPermits(skuRelation.getSeckillCount().intValue());
                 // 缓存数据到redis
-                ops.put(hashKey, JSONUtil.toJsonStr(skuRelation));
+                hashOps.put(hashKey, JSONUtil.toJsonStr(skuRelation));
             }
         }));
     }
