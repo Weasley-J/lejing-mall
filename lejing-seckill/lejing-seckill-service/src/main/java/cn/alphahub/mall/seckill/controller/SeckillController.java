@@ -5,6 +5,7 @@ import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.seckill.service.SeckillService;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,7 +63,7 @@ public class SeckillController {
      * <p>查看表: oms_order_item</p>
      *
      * @param killId 秒杀id
-     * @param key    关键字
+     * @param key    秒杀随机码
      * @param num    数量
      * @return 视图html
      */
@@ -72,13 +73,14 @@ public class SeckillController {
                           @RequestParam("num") Integer num,
                           Model model
     ) {
-        String orderSn = null;
         try {
             //1、判断是否登录
-            orderSn = seckillService.kill(killId, key, num);
-            model.addAttribute("orderSn", orderSn);
+            String orderSn = seckillService.kill(killId, key, num);
+            if (StringUtils.isNotBlank(orderSn)) {
+                model.addAttribute("orderSn", orderSn);
+            }
         } catch (Exception e) {
-            log.error("exception:{}", e.getMessage(), e);
+            log.error("异常:{}", e.getMessage(), e);
         }
         return "success";
     }

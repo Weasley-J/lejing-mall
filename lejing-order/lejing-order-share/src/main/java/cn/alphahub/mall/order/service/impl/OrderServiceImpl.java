@@ -7,6 +7,7 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.exception.NoStockException;
+import cn.alphahub.common.mq.SeckillOrderTo;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.member.domain.Member;
@@ -20,13 +21,7 @@ import cn.alphahub.mall.order.domain.PaymentInfo;
 import cn.alphahub.mall.order.dto.to.OrderCreateTo;
 import cn.alphahub.mall.order.dto.vo.*;
 import cn.alphahub.mall.order.enums.TradeStatusEnum;
-import cn.alphahub.mall.order.feign.BrandClient;
-import cn.alphahub.mall.order.feign.CartClient;
-import cn.alphahub.mall.order.feign.MemberReceiveAddressClient;
-import cn.alphahub.mall.order.feign.SkuInfoClient;
-import cn.alphahub.mall.order.feign.SpuInfoClient;
-import cn.alphahub.mall.order.feign.WareInfoClient;
-import cn.alphahub.mall.order.feign.WareSkuClient;
+import cn.alphahub.mall.order.feign.*;
 import cn.alphahub.mall.order.interceptor.LoginInterceptor;
 import cn.alphahub.mall.order.mapper.OrderMapper;
 import cn.alphahub.mall.order.service.MqMessageService;
@@ -123,6 +118,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private MqMessageService mqMessageService;
     @Resource
     private PaymentInfoService paymentInfoService;
+    @Resource
+    private MemberClient memberClient;
 
     /**
      * 查询订单分页列表
@@ -160,7 +157,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             List<MemberAddressVo> addressVos;
             BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
-            if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
+            if (result.getSuccess().equals(true) && CollectionUtils.isNotEmpty(result.getData())) {
                 addressVos = result.getData().stream().map(memberReceiveAddress -> {
                     MemberAddressVo addressVo = new MemberAddressVo();
                     BeanUtils.copyProperties(memberReceiveAddress, addressVo);
@@ -183,7 +180,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             List<Long> skuIds = confirmVo.getItems().stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
             BaseResult<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
             log.info("远程查询用户[{}]购物中商品的库存信息,响应:{}", member.getId(), JSONUtil.toJsonStr(result));
-            if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
+            if (result.getSuccess().equals(true) && CollectionUtils.isNotEmpty(result.getData())) {
                 Map<Long, Boolean> skuHasStockMap = result.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
                 confirmVo.setStocks(skuHasStockMap);
             }
@@ -309,7 +306,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void closeOrder(Order order) {
+    public void createSeckillOrder(Order order) {
         log.info("订单服务关闭订单:{}", JSONUtil.toJsonStr(order));
         Order orderExists = this.getById(order.getId());
         if (null == orderExists) {
@@ -431,6 +428,67 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return "success";
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void createSeckillOrder(SeckillOrderTo seckillOrder) {
+        log.info("创建秒杀订单: {}", JSONUtil.toJsonStr(seckillOrder));
+        if (Objects.isNull(seckillOrder)) {
+            log.warn("秒杀订单数据为null");
+            return;
+        }
+
+        SkuInfo skuInfo = new SkuInfo();
+        BaseResult<SkuInfo> skuInfoResult = skuInfoClient.info(seckillOrder.getSkuId());
+        if (skuInfoResult.getSuccess().equals(true) && Objects.nonNull(skuInfoResult.getData())) {
+            skuInfo = skuInfoResult.getData();
+        }
+        if (Objects.isNull(skuInfo)) {
+            log.warn("商品数据数据为null");
+            return;
+        }
+        Member member = new Member();
+        BaseResult<Member> memberResult = memberClient.info(seckillOrder.getMemberId());
+        if (memberResult.getSuccess().equals(true) && Objects.nonNull(memberResult.getData())) {
+            member = memberResult.getData();
+        }
+        Date currentTime = new Date();
+        // 保存订单信息
+        BigDecimal payAmount = seckillOrder.getSeckillPrice().multiply(BigDecimal.valueOf(seckillOrder.getNum()));
+        Order order = Order.builder()
+                .orderSn(seckillOrder.getOrderSn())
+                .createTime(currentTime)
+                .totalAmount(seckillOrder.getSeckillPrice()).payAmount(payAmount)
+                .freightAmount(new BigDecimal("6.00"))
+                .promotionAmount(BigDecimal.ZERO)
+                .integrationAmount(BigDecimal.ZERO)
+                .couponAmount(BigDecimal.ZERO)
+                .discountAmount(BigDecimal.ZERO).payType(1).sourceType(0)
+                .status(OrderStatusEnum.CREATE_NEW.getValue())
+                .integration(seckillOrder.getSeckillPrice().intValue()).growth(seckillOrder.getSeckillPrice().intValue()).billType(0)
+                .billHeader(null).billContent(null).billReceiverPhone(null)
+                .modifyTime(currentTime)
+                .build();
+        if (null != member) {
+            order.setMemberUsername(member.getUsername());
+            order.setMemberId(member.getId());
+            order.setBillReceiverEmail(member.getEmail());
+            order.setReceiverName(member.getUsername());
+            order.setReceiverPhone(member.getMobile());
+        }
+        this.save(order);
+
+        OrderItem orderItem = OrderItem.builder()
+                .orderId(order.getId()).orderSn(seckillOrder.getOrderSn()).spuId(skuInfo.getSpuId()).spuName(skuInfo.getSkuName()).spuPic(skuInfo.getSkuDefaultImg())
+                .spuBrand(skuInfo.getBrandId().toString()).categoryId(skuInfo.getCatalogId()).skuId(skuInfo.getSkuId())
+                .skuName(skuInfo.getSkuName()).skuPic(skuInfo.getSkuDefaultImg()).skuPrice(seckillOrder.getSeckillPrice())
+                .skuQuantity(seckillOrder.getNum())
+                .realAmount(payAmount)
+                .giftIntegration(seckillOrder.getSeckillPrice().intValue())
+                .giftGrowth(seckillOrder.getSeckillPrice().intValue())
+                .build();
+        this.orderItemService.save(orderItem);
+    }
+
     /**
      * 保存订单数据
      *
@@ -521,7 +579,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         OrderSubmitVo submitVo = confirmVoThreadLocal.get();
         BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(submitVo.getAddrId());
         FareVo data = postageInfo.getData();
-        if (postageInfo.getSuccess() && Objects.nonNull(data)) {
+        if (postageInfo.getSuccess().equals(true) && Objects.nonNull(data)) {
             MemberAddressVo address = data.getAddress();
             order.setReceiverName(address.getName());
             order.setReceiverPhone(address.getPhone());
@@ -544,7 +602,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         log.info("构建订单项数据列表...");
         List<CartItemVo> userCartItems = getUserCartItems();
         if (CollectionUtils.isEmpty(userCartItems)) {
-            return null;
+            return Lists.newArrayList();
         }
         return userCartItems.stream().map(cartItemVo -> {
             OrderItem orderItem = buildOrderItem(cartItemVo);
@@ -575,22 +633,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         OrderItem orderItem = new OrderItem();
 
-        // TODO 使用多线程查询
         Long skuId = cartItemVo.getSkuId();
         BaseResult<SkuInfo> skuInfoBaseResult = skuInfoClient.info(skuId);
         SkuInfo skuInfo = skuInfoBaseResult.getData();
-        if (skuInfoBaseResult.getSuccess() && Objects.nonNull(skuInfo)) {
+        if (skuInfoBaseResult.getSuccess().equals(true) && Objects.nonNull(skuInfo)) {
             orderItem.setSpuId(skuInfo.getSpuId());
             orderItem.setSpuPic(skuInfo.getSkuDefaultImg());
             // 查SPU信息
             BaseResult<SpuInfo> spuInfoBaseResult = spuInfoClient.info(skuInfo.getSpuId());
             SpuInfo spuInfo = spuInfoBaseResult.getData();
-            if (spuInfoBaseResult.getSuccess() && Objects.nonNull(spuInfo)) {
+            if (spuInfoBaseResult.getSuccess().equals(true) && Objects.nonNull(spuInfo)) {
                 orderItem.setSpuName(spuInfo.getSpuName());
                 orderItem.setCategoryId(spuInfo.getCatalogId());
                 //  查品牌
                 BaseResult<Brand> brandBaseResult = brandClient.info(skuInfo.getBrandId());
-                if (brandBaseResult.getSuccess() && Objects.nonNull(brandBaseResult.getData())) {
+                if (brandBaseResult.getSuccess().equals(true) && Objects.nonNull(brandBaseResult.getData())) {
                     orderItem.setSpuBrand(brandBaseResult.getData().getName());
                 }
             }
@@ -650,7 +707,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         // 远程查询商品的最新价格
                         BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
                         log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonStr(result));
-                        if (result.getSuccess()) {
+                        if (result.getSuccess().equals(true)) {
                             SkuInfo skuInfo = result.getData();
                             item.setPrice(skuInfo.getPrice());
                         }

@@ -1,22 +1,31 @@
 package cn.alphahub.mall.seckill.service.impl;
 
+import cn.alphahub.common.constant.MqConstant;
 import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.mq.SeckillOrderTo;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
+import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.seckill.constant.SeckillConstant;
 import cn.alphahub.mall.seckill.convertor.BeanUtil;
 import cn.alphahub.mall.seckill.feign.SeckillSessionClient;
 import cn.alphahub.mall.seckill.feign.SkuInfoClient;
+import cn.alphahub.mall.seckill.interceptor.LoginInterceptor;
 import cn.alphahub.mall.seckill.service.SeckillService;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -54,9 +64,12 @@ public class SeckillServiceImpl implements SeckillService {
     private BeanUtil beanUtil;
     @Resource
     private RedissonClient redissonClient;
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * <p>
+     * <b>上架最近三天的秒杀商品</b>
      *     <ul>
      *         <li><img src='https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/QQ20210728224701.gif'/></li>
      *     </ul>
@@ -158,8 +171,79 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    public String kill(String killId, String key, Integer num) {
+    public String kill(String killId, String key, Integer num) throws InterruptedException {
         log.info("商品进行秒杀(秒杀开始):{},{},{}", killId, key, num);
+        long seckillStart = System.currentTimeMillis();
+
+        // 1. 获取商品信息
+        BoundHashOperations<String, Object, Object> hashOps = stringRedisTemplate.boundHashOps(SeckillConstant.CACHE_PREFIX_SKU);
+
+        SeckillSkuRelation skuRelation = new SeckillSkuRelation();
+        Boolean hasKey = hashOps.hasKey(killId);
+        if (Objects.equals(hasKey, true)) {
+            skuRelation = JSONUtil.toBean(String.valueOf(hashOps.get(killId)), SeckillSkuRelation.class);
+        }
+
+        if (Objects.isNull(skuRelation)) {
+            log.warn("秒杀商品信息【{}】不存在", killId);
+            return null;
+        }
+
+        Long startTime = skuRelation.getStartTime();
+        Long endTime = skuRelation.getEndTime();
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // 2. 校验合法性: 秒杀时间区间是否包含当前时间
+        if (!(startTime <= currentTimeMillis && currentTimeMillis <= endTime)) {
+            log.warn("当前时间不属于商品【{}】的秒杀时间", skuRelation.getSkuId());
+            return null;
+        }
+
+        // 3. 校验随机码是否正确: 前端传过来随机码和redis中的是否一致
+        String sessionSkuId = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId();
+        String randomCode = skuRelation.getRandomCode();
+        if (ObjectUtils.notEqual(randomCode, key) && (ObjectUtils.notEqual(sessionSkuId, killId))) {
+            log.error("前端传过来随机码和redis中的是不一致");
+            return null;
+        }
+
+        // 4. 购买数量 <= 限购数量
+        if (num > skuRelation.getSeckillLimit().intValue()) {
+            log.error("购买数量【{}】 > 限购数量【{}】", num, skuRelation.getSeckillLimit().intValue());
+            return null;
+        }
+        // [set if not exists]: userId_sessionId_skuId
+        Member member = LoginInterceptor.getUserInfo();
+        String atomKey = member.getId() + "_" + sessionSkuId;
+        Boolean ifAbsent = stringRedisTemplate.opsForValue().setIfAbsent(atomKey, num.toString(), (endTime - currentTimeMillis), TimeUnit.MILLISECONDS);
+        if (Objects.equals(ifAbsent, Boolean.TRUE)) {
+            // 未购买（从来没买过）
+            RSemaphore semaphore = redissonClient.getSemaphore(CACHE_PREFIX_SKU_STOCK_SEMAPHORE + randomCode);
+            boolean tryAcquire = semaphore.tryAcquire(num, 100, TimeUnit.MILLISECONDS);
+            if (tryAcquire) {
+                log.info("秒杀成功:{}", JSONUtil.toJsonStr(skuRelation));
+                String timeId = IdWorker.getTimeId();
+                SeckillOrderTo seckillOrderTo = new SeckillOrderTo()
+                        .setOrderSn(timeId)
+                        .setPromotionSessionId(skuRelation.getPromotionSessionId())
+                        .setSkuId(skuRelation.getSkuId())
+                        .setSeckillPrice(skuRelation.getSeckillPrice())
+                        .setNum(num)
+                        .setMemberId(member.getId());
+
+                String correlationId = IdUtil.fastSimpleUUID();
+                CorrelationData correlationData = new CorrelationData();
+                correlationData.setId(correlationId);
+                rabbitTemplate.convertAndSend(MqConstant.ORDER_EVENT_EXCHANGE, MqConstant.SECKILL_ORDER_ROUTING_KEY, seckillOrderTo, message -> {
+                    message.getMessageProperties().setCorrelationId(correlationId);
+                    return message;
+                }, correlationData);
+
+                Console.error("秒杀耗时：" + (System.currentTimeMillis() - seckillStart) + "（毫秒）");
+
+                return timeId;
+            }
+        }
         return null;
     }
 

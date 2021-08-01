@@ -2,6 +2,7 @@ package cn.alphahub.mall.order.service;
 
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.mq.SeckillOrderTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderConfirmVo;
@@ -59,7 +60,7 @@ public interface OrderService extends IService<Order> {
      *
      * @param order 订单数据
      */
-    void closeOrder(Order order);
+    void createSeckillOrder(Order order);
 
     /**
      * 获取当前订单的支付信息（构建支付数据）
@@ -87,4 +88,11 @@ public interface OrderService extends IService<Order> {
      * @return success
      */
     String handlePaidResult(PayAsyncVo asyncVo);
+
+    /**
+     * 创建秒杀订单
+     *
+     * @param seckillOrder 秒杀订单数据
+     */
+    void createSeckillOrder(SeckillOrderTo seckillOrder);
 }

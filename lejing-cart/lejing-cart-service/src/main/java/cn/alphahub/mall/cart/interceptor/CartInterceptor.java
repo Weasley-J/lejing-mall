@@ -87,7 +87,7 @@ public class CartInterceptor implements HandlerInterceptor {
         UserInfoTo userInfo = userInfoThreadLocal.get();
         String userKey = userInfo.getUserKey();
         // 目标方法之后给浏览器设置Cookie
-        if (userInfo.getTempUser()) {
+        if (userInfo.getTempUser().equals(Boolean.TRUE)) {
             Cookie cookie = new Cookie(CartConstant.TEMP_USER_COOKIE_NAME, userKey);
             // this sensitive cookie is protected against theft
             cookie.setHttpOnly(true);

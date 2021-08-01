@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>商品已成功加入购物车</title>
+    <title>商品秒杀</title>
     <script type="text/javascript" src="http://cart.lejing.com/static/cart/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="http://cart.lejing.com/static/cart/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="http://cart.lejing.com/static/cart/js/swiper.min.js"></script>
@@ -26,13 +26,11 @@
 
         <ul class="hd_wrap_right">
             <li>
-                <a th:if="${session.loginUser == null}"
-                   href="http://cart.lejing.comhttp://auth.lejing.com/login.html" class="li_2">请登录</a>
+                <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/login.html" class="li_2">请登录</a>
                 <a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
             </li>
             <li>
-                <a th:if="${session.loginUser == null}" href="http://cart.lejing.comhttp://auth.lejing.com/reg.html"
-                   style="color: red;">免费注册</a>
+                <a th:if="${session.loginUser == null}" href="http://auth.lejing.com/reg.html" style="color: red;">免费注册</a>
             </li>
 
             <li>
@@ -50,8 +48,7 @@
 
         <div class="nav_top">
             <div class="nav_top_one">
-                <a href="http://cart.lejing.comhttp://lejing.com/"><img
-                        src="http://cart.lejing.com/static/cart/img/logo1.jpg" style="height: 60px;width:180px;"/></a>
+                <a href="http://lejing.com/"><img src="http://cart.lejing.com/static/cart/img/logo1.jpg" style="height: 60px;width:180px;"/></a>
             </div>
             <div class="nav_top_two"><input type="text"/>
                 <button>搜索</button>

@@ -13,10 +13,9 @@ import java.util.List;
  */
 public interface SeckillService {
     /**
-     *
      * 上架最近三天的秒杀商品
      * <p>
-     *     不处理重复上架
+     * 不处理重复上架
      *     <ul>
      *         <li><img src='https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/QQ20210728224701.gif'/></li>
      *     </ul>
@@ -50,9 +49,10 @@ public interface SeckillService {
      * <p>查看表: oms_order_item</p>
      *
      * @param killId 秒杀id
-     * @param key    关键字
+     * @param key    秒杀随机码
      * @param num    数量
      * @return 视图html
+     * @throws InterruptedException 中断异常
      */
-    String kill(String killId, String key, Integer num);
+    String kill(String killId, String key, Integer num) throws InterruptedException;
 }

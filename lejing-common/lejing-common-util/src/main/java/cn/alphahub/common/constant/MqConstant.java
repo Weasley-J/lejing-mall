@@ -94,6 +94,17 @@ public class MqConstant {
      */
     public static final Integer STOCK_EVENT_X_MESSAGE_TTL = 2 * 60 * 1000;
 
+    // ------------------------------------------------------------------------------
+    /**
+     * 商品秒杀路由键
+     */
+    public static final String SECKILL_ORDER_ROUTING_KEY = "order.seckill.order";
+    /**
+     * 商品秒杀队列
+     */
+    public static final String SECKILL_ORDER_QUEUE = "ORDER.SECKILL.QUEUE";
+
+
     static {
         X_DEAD_LETTER_ARGS.put("x-dead-letter-exchange", ORDER_EVENT_EXCHANGE);
         X_DEAD_LETTER_ARGS.put("x-dead-letter-routing-key", ORDER_ROUTING_KEY_RELEASE_ORDER);

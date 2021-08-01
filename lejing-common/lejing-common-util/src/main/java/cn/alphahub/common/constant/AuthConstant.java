@@ -17,4 +17,8 @@ public class AuthConstant {
      * 登录用户
      */
     public static final String LOGIN_USER = "loginUser";
+    /**
+     * 用户登录URL链接
+     */
+    public static final String LOGIN_PAGE_URL = "http://auth.lejing.com/login.html";
 }

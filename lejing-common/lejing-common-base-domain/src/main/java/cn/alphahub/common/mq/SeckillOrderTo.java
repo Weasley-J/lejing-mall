@@ -3,18 +3,20 @@ package cn.alphahub.common.mq;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 秒杀
+ * 秒杀订单数据
  *
  * @author liuwenjing
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class SeckillOrderTo implements Serializable {
     /**
      * 订单号

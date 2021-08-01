@@ -673,18 +673,15 @@
                         </div>
                     </div>
 
-                    <div class="box-btns-two"
-                         th:if="${item.getSeckillSkuRelation != null }">
-                        <a class="addToCart" href="#" th:attr="skuId=${item.info.skuId}">
-                            加入购物车
+                    <div class="box-btns-two" th:if="${item.getSeckillSkuRelation != null && (item.getSeckillSkuRelation.startTime <= #dates.createNow().getTime()  && #dates.createNow().getTime() <= item.getSeckillSkuRelation.endTime)}">
+                        <a class="seckill" href="#" th:attr="skuId=${item.info.skuId},sessionId=${item.getSeckillSkuRelation.promotionSessionId},code=${item.getSeckillSkuRelation.randomCode}">
+                            立即抢购
                         </a>
                     </div>
 
-                    <div class="box-btns-two"
-                         th:if="${item.getSeckillSkuRelation != null && (#dates.createNow().getTime() >= item.getSeckillSkuRelation.startTime && #dates.createNow().getTime() <= item.getSeckillSkuRelation.endTime)}">
-                        <a class="seckill" href="#"
-                           th:attr="skuId=${item.info.skuId},sessionId=${item.getSeckillSkuRelation.promotionSessionId},code=${item.getSeckillSkuRelation.randomCode}">
-                            立即抢购
+                    <div class="box-btns-two" th:if="${item.getInfo() != null && (item.getSeckillSkuRelation == null || !(item.getSeckillSkuRelation.startTime <= #dates.createNow().getTime()  && #dates.createNow().getTime() <= item.getSeckillSkuRelation.endTime))}">
+                        <a class="addToCart" href="#" th:attr="skuId=${item.info.skuId}">
+                            加入购物车
                         </a>
                     </div>
 
@@ -1396,10 +1393,10 @@
     $(".seckill").click(function () {
         var isLogin = [[${session.loginUser != null}]];     //true
         if (isLogin) {
-            var killId = $(this).attr("sessionid") + "-" + $(this).attr("skuid");
+            var killId = $(this).attr("sessionid") + "_" + $(this).attr("skuid");
             var code = $(this).attr("code");
             var num = $("#productNum").val();
-            location.href = "http://seckill.lejing.com/kill?killId=" + killId + "&key=" + code + "&num=" + num;
+            location.href = "http://seckill.lejing.com/seckill/kill?killId=" + killId + "&key=" + code + "&num=" + num;
         } else {
             alert("秒杀请先登录");
         }
