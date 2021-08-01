@@ -521,7 +521,6 @@
                         <include>com.alibaba:fastjson</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-public</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
-                        <include>cn.alphahub.mall:lejing-coupon-interface</include>
                     </includes>
                 </configuration>
                 <executions>
