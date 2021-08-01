@@ -8,7 +8,7 @@
 
 > `SonarQube`代码审查结果（不含前端代码）
 
-![image-20210725235243287](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210725235243287.png)
+![image-20210801193000702](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210801193000702.png)
 
 # 1 技术架构选型
 

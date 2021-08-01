@@ -79,8 +79,9 @@ public class SeckillController {
             if (StringUtils.isNotBlank(orderSn)) {
                 model.addAttribute("orderSn", orderSn);
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             log.error("异常:{}", e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
         return "success";
     }
