@@ -57,6 +57,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- alibaba sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
         <!-- thymeleaf模板 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

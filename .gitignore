@@ -36,11 +36,12 @@ build/
 /README.assets
 /webapp/*.jar
 /springboot-webapp/*.jar
-/nacos-server/nacos/**/logs/
-/nacos-config/**/nacos/**/logs/
-/nacos-server/nacos/data
+/resources/nacos-server/nacos/**/logs/
+/resources/nacos-config/**/nacos/**/logs/
+/resources/nacos-server/nacos/data
 
 ### 自定义配置文件，防止账号泄露 ###
 !**/src/main/resources/*-lwj.yml
 !**/src/main/resources/product_mapping.json
 /resources/seata/seata-server-1.4.2/logs
+/resources/sentinel/sentinel-dashboard-1.8.2.jar
