@@ -27,7 +27,7 @@ public @interface IncludeString {
     /**
      * @return 默认元素字符数组
      */
-    String[] values() default {};
+    String[] value() default {};
 
     /**
      * @return 提示信息，校验错误后给出的提示信息

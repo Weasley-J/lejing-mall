@@ -57,5 +57,5 @@ public @interface ListValue {
     /**
      * 默认值列表
      */
-    int[] values() default {};
+    int[] value() default {};
 }

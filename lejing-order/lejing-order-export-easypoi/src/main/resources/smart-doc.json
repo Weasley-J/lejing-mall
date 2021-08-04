@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.order.excel.*.*Controller",
+  "packageFilters": "cn.alphahub.mall.order.excel.*.*Controller,cn.alphahub.mall.valid.*.*Controller",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "order-service-easypoi后端接口文档",

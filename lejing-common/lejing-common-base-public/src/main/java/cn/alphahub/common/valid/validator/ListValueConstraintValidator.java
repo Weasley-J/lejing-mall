@@ -30,7 +30,7 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
      */
     @Override
     public void initialize(ListValue constraintAnnotation) {
-        int[] values = constraintAnnotation.values();
+        int[] values = constraintAnnotation.value();
         if (values.length > 0) {
             for (int value : values) {
                 valueSet.add(value);

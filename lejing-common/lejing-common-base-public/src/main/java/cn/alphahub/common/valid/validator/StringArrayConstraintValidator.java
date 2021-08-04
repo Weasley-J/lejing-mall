@@ -25,8 +25,8 @@ public class StringArrayConstraintValidator implements ConstraintValidator<Inclu
     @Override
     public void initialize(IncludeString includeString) {
         ConstraintValidator.super.initialize(includeString);
-        if (includeString.values().length > 0) {
-            stringSet = Arrays.stream(includeString.values()).collect(Collectors.toSet());
+        if (includeString.value().length > 0) {
+            stringSet = Arrays.stream(includeString.value()).collect(Collectors.toSet());
         }
     }
 

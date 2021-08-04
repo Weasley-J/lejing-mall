@@ -45,36 +45,67 @@ api[2].list.push({
     desc: '上传订单的excel文件',
 });
 api.push({
-    alias: 'error',
+    alias: 'LejingCustomValidationController',
     order: '4',
+    link: '自定义注解校验示例controller',
+    desc: '自定义注解校验示例Controller',
+    list: []
+})
+api[3].list.push({
+    order: '1',
+    desc: '保存用户的虚拟币',
+});
+api[3].list.push({
+    order: '2',
+    desc: '获取会员的虚拟货币列表',
+});
+api[3].list.push({
+    order: '3',
+    desc: '获取会员的虚拟货币明细',
+});
+api[3].list.push({
+    order: '4',
+    desc: '修改用户的虚拟币信息',
+});
+api[3].list.push({
+    order: '5',
+    desc: '修改用户的虚拟币扎状态',
+});
+api[3].list.push({
+    order: '6',
+    desc: '批量删除用户虚拟币',
+});
+api.push({
+    alias: 'error',
+    order: '5',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '5',
+    order: '6',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[4].list.push({
+api[5].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[4].list.push({
+api[5].list.push({
     order: '2',
     desc: '订单状态字典',
 });
-api[4].list.push({
+api[5].list.push({
     order: '3',
     desc: '支付方式字典',
 });
-api[4].list.push({
+api[5].list.push({
     order: '4',
     desc: '验证码请求来源字典',
 });
-api[4].list.push({
+api[5].list.push({
     order: '5',
     desc: '电子入场券状态字典',
 });

@@ -70,7 +70,7 @@ public class Brand implements Serializable {
      * 显示状态[0-不显示；1-显示]
      */
     @NotNull(groups = {InsertGroup.class, EditStatusGroup.class})
-    @ListValue(values = {0, 1}, groups = {InsertGroup.class, EditStatusGroup.class})
+    @ListValue(value = {0, 1}, groups = {InsertGroup.class, EditStatusGroup.class})
     private Integer showStatus;
 
     /**
