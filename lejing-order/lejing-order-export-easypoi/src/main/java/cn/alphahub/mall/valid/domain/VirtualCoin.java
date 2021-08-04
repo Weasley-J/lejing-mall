@@ -38,7 +38,7 @@ public class VirtualCoin implements Serializable {
     /**
      * 虚拟币收支类型:  INCOME 收入, EXPENDITURE 支出
      */
-    @IncludeString(value = {"INCOME", "EXPENDITURE"}, message = "只能提交'{\"INCOME\",\"EXPENDITURE\"}'内的字典值", groups = {InsertGroup.class, EditGroup.class})
+    @IncludeString(value = {"INCOME", "EXPENDITURE"}, message = "只能提交{INCOME,EXPENDITURE}内的字典值", groups = {InsertGroup.class, EditGroup.class})
     private String incomeExpenditureType;
     /**
      * 虚拟币状态: -1 失效, 0 冻结, 1 正常

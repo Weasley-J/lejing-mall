@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/order/public/easypoi/valid")
+@RequestMapping("/order/public/valid")
 public class LejingCustomValidationController {
 
     private static final Map<Long, VirtualCoin> COIN_MAP = new LinkedHashMap<>();
@@ -61,6 +61,7 @@ public class LejingCustomValidationController {
      */
     @GetMapping("/list")
     public BaseResult<List<VirtualCoin>> list() {
+        log.info("获取会员的虚拟货币列表");
         List<VirtualCoin> virtualCoins = Lists.newArrayList();
         COIN_MAP.forEach((memberId, virtualCoin) -> virtualCoins.add(virtualCoin));
         return BaseResult.ok(virtualCoins);
@@ -74,6 +75,7 @@ public class LejingCustomValidationController {
      */
     @GetMapping("/info/{memberId}")
     public BaseResult<VirtualCoin> info(@Validated({QueryGroup.class}) @PathVariable("memberId") Long memberId) {
+        log.info("获取会员的虚拟货币明细:{}", memberId);
         return BaseResult.ok(COIN_MAP.get(memberId));
     }
 
@@ -85,6 +87,7 @@ public class LejingCustomValidationController {
      */
     @PutMapping("/edit")
     public BaseResult<VirtualCoin> edit(@Validated({EditGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+        log.info("修改用户的虚拟币信息:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
         return BaseResult.ok(virtualCoin);
     }
 
@@ -96,6 +99,7 @@ public class LejingCustomValidationController {
      */
     @PutMapping("/edit/status")
     public BaseResult<VirtualCoin> editStatus(@Validated({EditStatusGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+        log.info("修改用户的虚拟币扎状态:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
         return BaseResult.ok(virtualCoin);
     }
 
@@ -107,6 +111,7 @@ public class LejingCustomValidationController {
      */
     @DeleteMapping("/delete/{memberIds}")
     public BaseResult<Void> delete(@PathVariable("memberIds") Long[] memberIds) {
+        log.info("批量删除用户虚拟币:{}", JSONUtil.toJsonPrettyStr(memberIds));
         Map<Long, VirtualCoin> hashMap = Maps.newLinkedHashMap(COIN_MAP);
         List<Long> list = Lists.newArrayList(memberIds);
         for (Long memberId : list) {

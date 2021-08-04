@@ -17,10 +17,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *
  * @author liuwenjing
  */
-@SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.**.order.feign"})
 @MapperScans(value = {@MapperScan(value = {"cn.**.order.dao", "cn.**.order.mapper"})})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.order","cn.alphahub.mall.valid"})
 public class LejingOrderEasypoiApplication {
 
     public static void main(String[] args) {

@@ -44,7 +44,7 @@ spring:
         - id: order_easypoi_route
           uri: lb://lejing-order-easypoi
           predicates:
-            - Path=/api/order/public/easypoi/**
+            - Path=/api/order/public/easypoi/**,/api/order/public/valid/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
         #lejing-order
