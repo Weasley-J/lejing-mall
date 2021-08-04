@@ -3,8 +3,8 @@ package cn.alphahub.mall.product.api;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.UpdateGroup;
-import cn.alphahub.common.valid.group.UpdateStatusGroup;
+import cn.alphahub.common.valid.group.EditGroup;
+import cn.alphahub.common.valid.group.EditStatusGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +75,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    BaseResult<Boolean> update(@Validated({UpdateGroup.class}) @RequestBody Brand brand);
+    BaseResult<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand);
 
     /**
      * 修改品牌状态
@@ -84,7 +84,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update/status")
-    BaseResult<Boolean> updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody Brand brand);
+    BaseResult<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand);
 
     /**
      * 批量删除品牌

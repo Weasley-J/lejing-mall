@@ -6,8 +6,8 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.UpdateGroup;
-import cn.alphahub.common.valid.group.UpdateStatusGroup;
+import cn.alphahub.common.valid.group.EditGroup;
+import cn.alphahub.common.valid.group.EditStatusGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.service.BrandService;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -108,7 +108,7 @@ public class BrandController extends BaseController {
      */
     @PutMapping("/update")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public BaseResult<Boolean> update(@Validated({UpdateGroup.class}) @RequestBody Brand brand) {
+    public BaseResult<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
         return toOperationResult(update);
     }
@@ -121,7 +121,7 @@ public class BrandController extends BaseController {
      */
     @PutMapping("/update/status")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public BaseResult<Boolean> updateStatus(@Validated({UpdateStatusGroup.class}) @RequestBody Brand brand) {
+    public BaseResult<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
         return toOperationResult(update);
     }

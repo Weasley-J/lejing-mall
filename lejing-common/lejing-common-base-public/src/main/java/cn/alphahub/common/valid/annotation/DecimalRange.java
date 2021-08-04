@@ -21,11 +21,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * </ul>
  *  注意：最小值与最大值的入参以{@code String}类型传入
  * <p>
- * <b>示例：</b>
+ * <b>用法示例：</b>
  * <pre>
  *
  * <code>@Data</code>
- * public class VirtualMoneyReq implements Serializable {
+ * public class VirtualMoneyRequest implements Serializable {
  *     private static final long serialVersionUID = 1L;
  *
  *     //大会员id
@@ -42,9 +42,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @date 2021年4月21日13:52:18
  */
 @Documented
+@Retention(RUNTIME)
 @Constraint(validatedBy = {BigDecimalRangeConstraintValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
-@Retention(RUNTIME)
 public @interface DecimalRange {
 
     /**
@@ -66,9 +66,9 @@ public @interface DecimalRange {
     String min() default "0";
 
     /**
-     * 默认最大值{@code Integer.MAX_VALUE}
+     * 默认最大值{@code Long.MAX_VALUE}
      *
      * @return 元素的值必须小于或等于
      */
-    String max() default "" + Integer.MAX_VALUE;
+    String max() default "" + Long.MAX_VALUE;
 }
