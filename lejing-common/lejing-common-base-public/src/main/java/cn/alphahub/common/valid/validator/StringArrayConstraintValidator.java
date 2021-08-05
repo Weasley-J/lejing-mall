@@ -1,6 +1,6 @@
 package cn.alphahub.common.valid.validator;
 
-import cn.alphahub.common.valid.annotation.IncludeString;
+import cn.alphahub.common.valid.annotation.IncludeValue;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021/08/04
  */
-public class StringArrayConstraintValidator implements ConstraintValidator<IncludeString, String> {
+public class StringArrayConstraintValidator implements ConstraintValidator<IncludeValue, String> {
     /**
      * 前置Set
      */
     private Set<String> stringSet = new LinkedHashSet<>();
 
     @Override
-    public void initialize(IncludeString includeString) {
-        ConstraintValidator.super.initialize(includeString);
-        if (includeString.value().length > 0) {
-            stringSet = Arrays.stream(includeString.value()).collect(Collectors.toSet());
+    public void initialize(IncludeValue includeValue) {
+        ConstraintValidator.super.initialize(includeValue);
+        if (includeValue.value().length > 0) {
+            stringSet = Arrays.stream(includeValue.value()).collect(Collectors.toSet());
         }
     }
 

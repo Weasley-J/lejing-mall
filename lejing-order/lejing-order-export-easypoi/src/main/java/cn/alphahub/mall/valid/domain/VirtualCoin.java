@@ -1,7 +1,7 @@
 package cn.alphahub.mall.valid.domain;
 
 import cn.alphahub.common.valid.annotation.DecimalRange;
-import cn.alphahub.common.valid.annotation.IncludeString;
+import cn.alphahub.common.valid.annotation.IncludeValue;
 import cn.alphahub.common.valid.annotation.ListValue;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
@@ -38,7 +38,7 @@ public class VirtualCoin implements Serializable {
     /**
      * 虚拟币收支类型:  INCOME 收入, EXPENDITURE 支出
      */
-    @IncludeString(value = {"INCOME", "EXPENDITURE"}, message = "只能提交{INCOME,EXPENDITURE}内的字典值", groups = {InsertGroup.class, EditGroup.class})
+    @IncludeValue(value = {"INCOME", "EXPENDITURE"}, message = "只能提交{INCOME,EXPENDITURE}内的字典值", groups = {InsertGroup.class, EditGroup.class})
     private String incomeExpenditureType;
     /**
      * 虚拟币状态: -1 失效, 0 冻结, 1 正常

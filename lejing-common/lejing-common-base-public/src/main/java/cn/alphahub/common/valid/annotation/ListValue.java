@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <b>范围值校验注解<br></b>
- * <b>校验指定范围中的值,用于支持Spring MVC的JSR303入参校验</b>
+ * <b>校验指定范围中的int值,用于支持Spring MVC的JSR303入参校验</b>
  * <p>
  * <b>使用示例:</b>
  * <pre>

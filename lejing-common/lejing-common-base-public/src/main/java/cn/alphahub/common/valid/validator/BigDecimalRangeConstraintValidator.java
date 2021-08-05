@@ -17,11 +17,11 @@ import java.util.Map;
  */
 public class BigDecimalRangeConstraintValidator implements ConstraintValidator<DecimalRange, BigDecimal> {
     /**
-     * 最小值 = key
+     * 最小值：key
      */
     private static final String MIN = "min";
     /**
-     * 最大值 - key
+     * 最大值：key
      */
     private static final String MAX = "max";
 
