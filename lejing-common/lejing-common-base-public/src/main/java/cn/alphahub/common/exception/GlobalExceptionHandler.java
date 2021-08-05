@@ -15,7 +15,7 @@ import org.yaml.snakeyaml.constructor.DuplicateKeyException;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    private final static Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 处理自定义异常
