@@ -1,6 +1,7 @@
 logging:
   level:
     cn.alphahub.mall.order.excel.easypoi: trace
+    cn.alphahub.mall.valid.controller.LejingCustomValidationController: trace
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver

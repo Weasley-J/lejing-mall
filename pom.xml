@@ -481,7 +481,7 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            <!-- sonar qube -->
+            <!-- sonar qube代码审查 -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>

@@ -1,5 +1,5 @@
 {
-  "serverUrl": "http://localhost:11000",
+  "serverUrl": "http://localhost:25000",
   "isStrict": false,
   "allInOne": true,
   "outPath": "src/main/resources/static",
