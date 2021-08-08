@@ -24,10 +24,6 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
   redis:
     open: false  # 是否开启redis缓存  true开启   false关闭
     database: 0
@@ -78,3 +74,8 @@ renren:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

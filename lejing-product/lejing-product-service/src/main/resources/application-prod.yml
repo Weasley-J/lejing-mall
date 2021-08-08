@@ -41,7 +41,7 @@ spring:
     #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
     # path to config - redisson.yml
     redisson:
-      file: classpath:redisson-single.yml
+      file: classpath:redisson/redisson-single.yml
 logging:
   level:
     cn.alphahub.mall.product: info
