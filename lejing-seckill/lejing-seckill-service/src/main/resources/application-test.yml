@@ -32,12 +32,16 @@ spring:
     #     Use Redisson through spring bean with RedissonClient interface or RedisTemplate/ReactiveRedisTemplate objects
     # path to config - redisson.yml
     redisson:
-      file: classpath:redisson-single.yml
+      file: classpath:redisson/redisson-single.yml
   #nacos server
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 127.0.0.1:8087
   rabbitmq:
     host: 192.168.40.132
     port: 5672

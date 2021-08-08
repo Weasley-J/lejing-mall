@@ -13,6 +13,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 127.0.0.1:8087
   #使用spring session redis存储session信息
   session:
     store-type: redis

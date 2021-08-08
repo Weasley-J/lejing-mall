@@ -5,7 +5,7 @@ import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.enums.BusinessCodeEnum;
+import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
@@ -45,7 +45,7 @@ public class WareSkuController extends BaseController {
             LockStockResultTo lockStockResults = wareSkuService.orderLockStock(skuLockVo);
             return BaseResult.ok(lockStockResults);
         } catch (NoStockException e) {
-            return BaseResult.error(BusinessCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
+            return BaseResult.error(BizCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
         }
     }
 

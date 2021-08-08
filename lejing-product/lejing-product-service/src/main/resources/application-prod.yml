@@ -15,6 +15,10 @@ spring:
       server-addr: 127.0.0.1:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 127.0.0.1:8087
     alibaba:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
@@ -64,6 +68,7 @@ seata:
       namespace: 'f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d'
       username: nacos
       password: nacos
+
 #乐璟商城-线程池配置
 lejing:
   thread:

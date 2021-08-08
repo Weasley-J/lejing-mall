@@ -2,7 +2,7 @@ package cn.alphahub.mall.search.controller;
 
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.enums.BusinessCodeEnum;
+import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.valid.group.QueryGroup;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.pojo.SearchParam;
@@ -70,8 +70,8 @@ public class SearchController extends BaseController {
             log.error("上架商品保存至Elasticsearch中失败：{}\n", e.getClass(), e);
         }
         return save ? BaseResult.ok() : BaseResult.fail(
-                BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),
-                BusinessCodeEnum.PRODUCT_UP_EXCEPTION.getMessage());
+                BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),
+                BizCodeEnum.PRODUCT_UP_EXCEPTION.getMessage());
     }
 
     /**

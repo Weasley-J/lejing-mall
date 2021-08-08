@@ -4,6 +4,14 @@ spring:
     url: jdbc:mysql://192.168.40.132:3306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 127.0.0.1:8087
   web:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档

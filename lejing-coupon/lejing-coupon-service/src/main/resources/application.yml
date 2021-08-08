@@ -38,3 +38,8 @@ cors:
       - http://www.alphahub.cn
       - http://www.leyou.com
       - http://www.leyou.com:7000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

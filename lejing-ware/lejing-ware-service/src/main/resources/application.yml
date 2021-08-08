@@ -28,3 +28,8 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

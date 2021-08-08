@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.exception;
 
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.common.enums.BusinessCodeEnum;
+import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.exception.NoStockException;
 import cn.hutool.json.JSONUtil;
@@ -40,8 +40,8 @@ public class OrderControllerAdvice {
         });
         log.error("数据校验异常：{}，异常类型：{}", e.getMessage(), e.getClass());
         return BaseResult.error(
-                BusinessCodeEnum.VALID_EXCEPTION.getCode(),
-                BusinessCodeEnum.VALID_EXCEPTION.getMessage(),
+                BizCodeEnum.VALID_EXCEPTION.getCode(),
+                BizCodeEnum.VALID_EXCEPTION.getMessage(),
                 errorMap
         );
     }
@@ -56,8 +56,8 @@ public class OrderControllerAdvice {
     public BaseResult<Object> handleException(Throwable throwable) {
         log.error("错误信息: ", throwable);
         return BaseResult.error(
-                BusinessCodeEnum.UNKNOWN_EXCEPTION.getCode(),
-                BusinessCodeEnum.UNKNOWN_EXCEPTION.getMessage(),
+                BizCodeEnum.UNKNOWN_EXCEPTION.getCode(),
+                BizCodeEnum.UNKNOWN_EXCEPTION.getMessage(),
                 "Caused by:" + throwable.getLocalizedMessage()
         );
     }

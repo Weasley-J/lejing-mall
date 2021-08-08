@@ -28,6 +28,10 @@ spring:
           - data-id: common.yml
             group: DEFAULT_GROUP
             refresh: true
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: 127.0.0.1:8087
   #使用spring session redis存储session信息
   session:
     store-type: redis

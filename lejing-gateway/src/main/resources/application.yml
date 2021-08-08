@@ -161,3 +161,8 @@ cors:
       - http://127.0.0.1:7000
       - http://www.alphahub.cn
       - http://www.leyou.com
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
