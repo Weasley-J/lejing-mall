@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CartException.class)
     public BaseResult<Object> handleUserCustomizeException(CartException ce) {
-        log.error("异常信息：{}", ce.getMessage(), ce);
+        log.error(ce.getMessage(), ce);
         return BaseResult.error("购物车无此商品");
     }
 
