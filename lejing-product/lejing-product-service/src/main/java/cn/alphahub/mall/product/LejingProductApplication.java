@@ -19,9 +19,9 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableAutoDataSourceProxy
 @EnableRedisHttpSession
 @EnableDiscoveryClient
-@SpringBootApplication
 @EnableFeignClients(basePackages = {"cn.**.product.feign"})
 @MapperScans(value = {@MapperScan(value = {"cn.**.product.dao", "cn.**.product.mapper"})})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.product", "cn.alphahub.mall.base"})
 public class LejingProductApplication {
     public static void main(String[] args) {
         SpringApplication.run(LejingProductApplication.class, args);

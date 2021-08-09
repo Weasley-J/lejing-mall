@@ -12,8 +12,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author liuwenjing
  */
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.reserve"})
 @MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.reserve", "cn.alphahub.mall.base"})
 public class LejingSiteReserveApplication {
 
     public static void main(String[] args) {

@@ -1,12 +1,12 @@
-package cn.alphahub.mall.seckill.config;
+package cn.alphahub.mall.base.config;
 
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.enums.BizCodeEnum;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0
  * @date 2021/08/08
  */
-@Configuration
+@Component
 public class SentinelUrlBlockHandler implements BlockExceptionHandler {
 
     @Resource

@@ -1,7 +1,7 @@
-package cn.alphahub.mall.cart.exception;
+package cn.alphahub.common.exception;
 
 /**
- * <b>购物车异常类</b>
+ * 购物车异常类
  *
  * @author liuwenjing
  * @version 1.0
