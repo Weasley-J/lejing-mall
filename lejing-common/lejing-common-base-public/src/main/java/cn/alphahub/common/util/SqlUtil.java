@@ -1,5 +1,6 @@
 package cn.alphahub.common.util;
 
+import cn.alphahub.common.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,7 +19,7 @@ public class SqlUtil {
      */
     public static String escapeOrderBySql(String value) {
         if (StringUtils.isNotEmpty(value) && !isValidOrderBySql(value)) {
-            throw new RuntimeException("参数不符合规范，不能进行查询");
+            throw new BizException("参数不符合规范，不能进行查询");
         }
         return value;
     }
