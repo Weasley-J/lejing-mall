@@ -49,4 +49,7 @@
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
 
+    <select id="selectOrderDetail" resultType="cn.alphahub.mall.order.dto.response.OrderDetailResp">
+
+    </select>
 </mapper>

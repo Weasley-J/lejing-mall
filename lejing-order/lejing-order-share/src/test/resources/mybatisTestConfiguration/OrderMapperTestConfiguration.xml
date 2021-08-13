@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Mybatis config sample -->
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+        <typeAliases>
+        <package name="cn.**.order.entity"/>
+        <package name="cn.**.product.domain"/>
+        <package name="com.**.order.domain"/>
+        <package name="com.**.order.entity"/>
+        <package name="com.**.product.entity"/>
+        <package name="com.**.product.domain"/>
+        <package name="cn.**.product.entity"/>
+        <package name="cn.**.order.domain"/>
+    </typeAliases>
+
+
+    <environments default = "default">
+        <environment id="default">
+            <transactionManager type="JDBC"/>
+            <dataSource type="UNPOOLED">
+                <property name = "driver" value = "com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.40.132:3306/lejing_oms?serverTimezone=Asia/Shanghai&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+
+    <mappers>
+        <mapper resource="mapper/order/OrderMapper.xml"/>
+    </mappers>
+</configuration>
