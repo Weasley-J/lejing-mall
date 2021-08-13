@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date 2021年3月21日17:38:31
  */
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.thirdparty", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingThirdPartyApplication {
 
     public static void main(String[] args) {

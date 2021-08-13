@@ -17,7 +17,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.**.member.feign"})
 @MapperScans(value = {@MapperScan(value = {"cn.**.member.dao", "cn.**.member.mapper"})})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.member", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingMemberApplication {
 
     public static void main(String[] args) {

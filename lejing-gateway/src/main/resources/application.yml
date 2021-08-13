@@ -1,11 +1,17 @@
 server:
   port: 88
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: lejing-gateway
   profiles:
     #运行环境: dev|test|prod
     active: dev
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 200MB
   cloud:
     gateway:
       routes:
@@ -152,15 +158,6 @@ spring:
             allowedHeaders: '*'
             exposedHeaders: '*'
             max-age: 3600
-#全局跨域设置
-cors:
-  config:
-    is-allows-all-domain: true
-    allowed-origins:
-      - http://127.0.0.1
-      - http://127.0.0.1:7000
-      - http://www.alphahub.cn
-      - http://www.leyou.com
 management:
   endpoints:
     web:

@@ -19,16 +19,6 @@
     </properties>
 
     <dependencies>
-        <!-- common工程 -->
-        <dependency>
-            <groupId>cn.alphahub.mall.common</groupId>
-            <artifactId>lejing-common-util</artifactId>
-        </dependency>
-        <!-- 引入Logstash日志系统 -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
         <!--网关-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -38,12 +28,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-        <!-- configuration processor -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
         <!-- nacos discovery -->
         <dependency>

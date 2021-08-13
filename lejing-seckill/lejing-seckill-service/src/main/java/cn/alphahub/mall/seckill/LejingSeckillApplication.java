@@ -18,7 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableRedisHttpSession
 @EnableFeignClients(basePackages = {"cn.alphahub.mall.seckill.**.feign"})
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.seckill", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingSeckillApplication {
 
     public static void main(String[] args) {

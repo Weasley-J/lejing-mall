@@ -19,7 +19,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.**.order.feign"})
 @MapperScans(value = {@MapperScan(value = {"cn.**.order.dao", "cn.**.order.mapper"})})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.order", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingOrderEasyexcelApplication {
 
     public static void main(String[] args) {

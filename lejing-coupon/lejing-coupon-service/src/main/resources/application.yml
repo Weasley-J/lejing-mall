@@ -28,16 +28,6 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-#全局跨域设置
-cors:
-  config:
-    is-allows-all-domain: true
-    allowed-origins:
-      - http://127.0.0.1
-      - http://127.0.0.1:7000
-      - http://www.alphahub.cn
-      - http://www.leyou.com
-      - http://www.leyou.com:7000
 management:
   endpoints:
     web:

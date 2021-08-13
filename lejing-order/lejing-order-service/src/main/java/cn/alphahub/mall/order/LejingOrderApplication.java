@@ -24,7 +24,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableAutoDataSourceProxy
 @EnableAspectJAutoProxy(exposeProxy = true)
 @MapperScans(value = {@MapperScan(value = {"cn.**.order.dao", "cn.**.order.mapper"})})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.order", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingOrderApplication {
 
     public static void main(String[] args) {

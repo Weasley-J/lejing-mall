@@ -15,7 +15,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableFeignClients(basePackages = {"cn.**.cart.feign"})
 @EnableRedisHttpSession
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.cart", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingCartApplication {
 
     public static void main(String[] args) {

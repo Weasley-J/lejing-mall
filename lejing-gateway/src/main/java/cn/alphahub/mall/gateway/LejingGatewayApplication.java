@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author liuwenjing
  */
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingGatewayApplication {
 
     public static void main(String[] args) {

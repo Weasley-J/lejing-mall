@@ -15,7 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableAutoDataSourceProxy
 @MapperScans(value = {@MapperScan(value = {"cn.**.coupon.dao", "cn.**.coupon.mapper"})})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.coupon", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingCouponApplication {
 
     public static void main(String[] args) {

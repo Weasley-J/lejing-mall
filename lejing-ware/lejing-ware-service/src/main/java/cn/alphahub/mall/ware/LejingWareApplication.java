@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoDataSourceProxy
 @EnableTransactionManagement
 @MapperScans(value = {@MapperScan(value = {"cn.**.ware.dao", "cn.**.ware.mapper"})})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.ware", "cn.alphahub.mall.base"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingWareApplication {
 
     public static void main(String[] args) {
