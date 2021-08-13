@@ -404,7 +404,12 @@ sysctl -p
 
 ```bash
 env GIT_SSL_NO_VERIFY=true
+
+#提交代码指定个人token, 格式: git push https://token@repository.git
+#如: git push https://lwj_J0kQJdji3541ejrfTejlbC3owlWCZ@github.com/Weasley-J/lejing-mall.git
 ```
+
+
 
 ## 7.3 项目启动报错`Web server failed to start. Port 8000 was already in use.`
 
