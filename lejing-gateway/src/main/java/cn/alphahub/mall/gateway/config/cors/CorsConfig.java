@@ -14,7 +14,8 @@ import java.util.Collections;
  * <p>Spring WebFlux Java config CORS 配置的替代方案
  *
  * @author liuwenjing
- * @date 2021年2月12日
+ * @version 1.1.3
+ * @date 2021年8月14日
  */
 //@Configuration
 public class CorsConfig {
@@ -26,12 +27,11 @@ public class CorsConfig {
     public CorsWebFilter corsWebFilter() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedHeader("*");
-        config.addAllowedOrigin("*");
         config.setAllowCredentials(true);
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setExposedHeaders(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
+        config.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
+        config.setAllowedOriginPatterns(Collections.singletonList(CorsConfiguration.ALL));
+        config.setExposedHeaders(Collections.singletonList(CorsConfiguration.ALL));
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
