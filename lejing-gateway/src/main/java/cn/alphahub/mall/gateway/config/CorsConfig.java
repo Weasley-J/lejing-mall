@@ -2,10 +2,12 @@ package cn.alphahub.mall.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -31,7 +33,7 @@ public class CorsConfig {
         config.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
         config.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
         config.setAllowedOriginPatterns(Collections.singletonList(CorsConfiguration.ALL));
-        config.setExposedHeaders(Collections.singletonList(CorsConfiguration.ALL));
+        config.setExposedHeaders(Arrays.asList(HttpHeaders.SET_COOKIE));
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
