@@ -1,4 +1,4 @@
-package cn.alphahub.mall.gateway.config.cors;
+package cn.alphahub.mall.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
