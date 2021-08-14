@@ -148,11 +148,11 @@ spring:
         add-to-simple-url-handler-mapping: on
         cors-configurations:
           '[/**]':
-            allowedOriginPatterns: '*'
-            allowCredentials: true
-            allowedMethods: '*'
-            allowedHeaders: '*'
-            exposedHeaders: '*'
+            allowed-origin-patterns: '*'
+            allowed-methods: '*'
+            allowed-headers: '*'
+            exposed-headers: '*'
+            allow-credentials: true
             max-age: 3600
 management:
   endpoints:
