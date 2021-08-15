@@ -64,7 +64,7 @@
   "errorCodeDictionaries": [
     {
       "title": "错误码和错误信息",
-      "enumClassName": "cn.alphahub.common.enums.BusinessCodeEnum",
+      "enumClassName": "cn.alphahub.common.enums.BizCodeEnum",
       "codeField": "code",
       "descField": "message"
     },

@@ -513,6 +513,16 @@
                         <!--格式为：groupId:artifactId;参考如下-->
                         <include>cn.alphahub.mall.common:lejing-common-base-public</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
+                        <include>cn.alphahub.mall:lejing-auth-interface</include>
+                        <include>com.lejing.mall.cart:lejing-cart-interface</include>
+                        <include>cn.alphahub.mall:lejing-coupon-interface</include>
+                        <include>cn.alphahub.mall:lejing-member-interface</include>
+                        <include>cn.alphahub.mall:lejing-order-share</include>
+                        <include>cn.alphahub.mall:lejing-order-interface</include>
+                        <include>cn.alphahub.mall:lejing-product-interface</include>
+                        <include>cn.alphahub.mall.search:lejing-search-interface</include>
+                        <include>cn.alphahub.mall.seckill:lejing-seckill-interface</include>
+                        <include>cn.alphahub.mall:lejing-ware-interface</include>
                     </includes>
                 </configuration>
                 <executions>

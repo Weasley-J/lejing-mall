@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-site-reserve</artifactId>
     <version>1.1.2-SNAPSHOT</version>
     <description>乐璟商城-场地预约服务</description>

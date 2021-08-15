@@ -9,8 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
+    <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-member-interface</artifactId>
+    <packaging>jar</packaging>
     <version>1.1.2-SNAPSHOT</version>
     <description>会员服务接口,供其他微服务跨服务调用</description>
 

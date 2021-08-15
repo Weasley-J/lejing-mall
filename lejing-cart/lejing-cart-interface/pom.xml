@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.lejing.mall.cart</groupId>
     <artifactId>lejing-cart-interface</artifactId>
     <version>1.1.2-SNAPSHOT</version>
     <description>购物车模块 - feign远程调用接口</description>

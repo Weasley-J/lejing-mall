@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-order-share</artifactId>
     <name>lejing-order-share</name>
     <description>订单服务持久层（Mapper）、基础业务层（Service），供web服务调用</description>
