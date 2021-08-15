@@ -8,23 +8,19 @@ api.push({
 })
 api[0].list.push({
     order: '1',
-    desc: '',
+    desc: '发送单个验证码',
 });
 api[0].list.push({
     order: '2',
-    desc: '',
+    desc: 'query send details response',
 });
 api[0].list.push({
     order: '3',
-    desc: '',
+    desc: 'get sms report message set',
 });
 api[0].list.push({
     order: '4',
-    desc: '',
-});
-api[0].list.push({
-    order: '5',
-    desc: '',
+    desc: 'get sms report message set',
 });
 api.push({
     alias: 'error',

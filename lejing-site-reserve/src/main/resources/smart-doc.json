@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.app.controller.*,cn.alphahub.mall.site.controller.*,cn.alphahub.mall.order.controller.*,cn.alphahub.mall.sys.controller.*",
+  "packageFilters": "cn.alphahub.mall.reserve.*.controller.*",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "场地预约-后端接口文档",
