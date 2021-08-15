@@ -511,7 +511,6 @@
                     <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
                     <includes>
                         <!--格式为：groupId:artifactId;参考如下-->
-                        <include>com.alibaba:fastjson</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-public</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
                     </includes>
