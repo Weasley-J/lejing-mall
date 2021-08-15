@@ -66,7 +66,6 @@
         <mybatis.plus.version>3.4.3.1</mybatis.plus.version>
         <pageHelper.starter.version>1.3.1</pageHelper.starter.version>
         <pagehelper.version>5.2.1</pagehelper.version>
-        <druid.starter.version>1.2.6</druid.starter.version>
         <shiro.starter.version>1.7.1</shiro.starter.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
@@ -254,12 +253,6 @@
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring-boot-starter</artifactId>
                 <version>${shiro.starter.version}</version>
-            </dependency>
-            <!--druid连接池-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.starter.version}</version>
             </dependency>
             <!-- 阿里巴巴-fastjson -->
             <dependency>

@@ -23,7 +23,6 @@
         <mysql.version>8.0.25</mysql.version>
         <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.3</oracle.version>
-        <druid.version>1.2.6</druid.version>
         <quartz.version>2.3.2</quartz.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
@@ -43,6 +42,7 @@
         <remote-addr>192.168.1.10:22</remote-addr>
         <remote-username>root</remote-username>
         <remote-passwd>123456</remote-passwd>
+        <druid.starter.version>1.2.6</druid.starter.version>
         <!-- 跳过sona扫描 -->
         <sonar.skip>true</sonar.skip>
     </properties>
@@ -119,6 +119,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.starter.version}</version>
         </dependency>
 
         <!-- 引入Logstash日志系统 -->

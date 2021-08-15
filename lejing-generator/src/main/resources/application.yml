@@ -4,7 +4,6 @@ server:
 # mysql
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
     #url: jdbc:mysql://192.168.40.132:3306/lejing_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
