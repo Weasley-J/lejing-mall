@@ -42,7 +42,6 @@
         <remote-addr>192.168.1.10:22</remote-addr>
         <remote-username>root</remote-username>
         <remote-passwd>123456</remote-passwd>
-        <druid.starter.version>1.2.6</druid.starter.version>
         <!-- 跳过sona扫描 -->
         <sonar.skip>true</sonar.skip>
     </properties>
@@ -113,13 +112,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.starter.version}</version>
         </dependency>
 
         <!-- 引入Logstash日志系统 -->
