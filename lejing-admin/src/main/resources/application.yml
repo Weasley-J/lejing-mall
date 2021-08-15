@@ -48,6 +48,7 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
+
 renren:
   redis:
     open: false
@@ -60,6 +61,8 @@ renren:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+
+#endpoints
 management:
   endpoints:
     web:
