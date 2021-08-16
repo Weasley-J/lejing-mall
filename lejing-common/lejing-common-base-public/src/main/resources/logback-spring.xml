@@ -54,9 +54,31 @@
     <!-- 在application.yml中指定spring.profiles.active属性值，配置线上与线下环境日志的输出 -->
     <!-- 开发环境 -->
     <springProfile name="dev,lwj">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <!-- 日志输出编码 -->
+            <encoder charset="UTF-8">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name="cn.alphahub.mall" level="debug"/>
+        <logger name="cn.alphahub.common" level="debug"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="org.springframework.security.core.userdetails" level="debug"/>
+        <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="debug"/>
+        <logger name="jdbc.sqltiming" level="debug"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
         <!-- 日志输出级别 -->
         <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
 

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+
+    <property name="CONSOLE_LOG_PATTERN_COLOR"
+              value="%clr(${APP_NAME:-}){magenta} %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]) %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} [%L]%clr(:){faint} %m%n%wEx"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${APP_NAME:-} %d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] [%15.15t] %-40.40logger{39} [%L]:%m%n%wEx"/>
+    <property name="FILE_LOG_PATTERN"
+              value="${APP_NAME:-} %d{yyyy-MM-dd HH:mm:ss.SSS} %X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-} %5p %15.15t %-40.40logger{39} [%L]:%m%n"/>
+
+    <!-- 本地开发环境 -->
+    <springProfile name="local,lwj">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN_COLOR}</pattern>
+            </encoder>
+        </appender>
+        <logger name="com.wbcloudhealth" level="debug"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="org.springframework.security.core.userdetails" level="debug"/>
+        <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="debug"/>
+        <logger name="jdbc.sqltiming" level="debug"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <!-- 本地开发环境 -->
+    <springProfile name="dev,test">
+
+        <appender name="ROLLING_FILE"
+                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/opt/nas/log/${APP_NAME}-service.log</file>
+            <rollingPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>/opt/nas/log/${APP_NAME}-service-%d{yyyyMMdd}.log.%i.gz
+                </fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <maxHistory>2</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+            <encoder
+                    class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>Asia/Shanghai</timeZone>
+                    </timestamp>
+                    <mdc/>
+                    <context/>
+                    <logLevel/>
+                    <loggerName/>
+                    <threadName/>
+                    <message/>
+                    <logstashMarkers/>
+                    <arguments/>
+                    <stackTrace>
+                        <fieldName>stack_trace</fieldName>
+                        <throwableConverter
+                                class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                            <exclude>net\.sf\.cglib\..*</exclude>
+                            <maxDepthPerThrowable>100</maxDepthPerThrowable>
+                            <rootCauseFirst>true</rootCauseFirst>
+                        </throwableConverter>
+                    </stackTrace>
+                </providers>
+            </encoder>
+        </appender>
+
+
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name="com.wbcloudhealth" level="debug"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="org.springframework.security.core.userdetails" level="debug"/>
+        <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="debug"/>
+        <logger name="jdbc.sqltiming" level="debug"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="ROLLING_FILE"/>
+        </root>
+    </springProfile>
+
+
+    <!-- K8s集群环境 -->
+    <springProfile name="uat,prod">
+        <appender name="ROLLING_FILE"
+                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/opt/nas/log/${APP_NAME}-service.log</file>
+            <rollingPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>/opt/nas/log/${APP_NAME}-service-%d{yyyyMMdd}.log.%i.gz
+                </fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <maxHistory>2</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+            <encoder
+                    class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>Asia/Shanghai</timeZone>
+                    </timestamp>
+                    <mdc/>
+                    <context/>
+                    <logLevel/>
+                    <loggerName/>
+                    <threadName/>
+                    <message/>
+                    <logstashMarkers/>
+                    <arguments/>
+                    <stackTrace>
+                        <fieldName>stack_trace</fieldName>
+                        <throwableConverter
+                                class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                            <exclude>net\.sf\.cglib\..*</exclude>
+                            <maxDepthPerThrowable>100</maxDepthPerThrowable>
+                            <rootCauseFirst>true</rootCauseFirst>
+                        </throwableConverter>
+                    </stackTrace>
+                </providers>
+            </encoder>
+        </appender>
+
+        <!--
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>127.0.0.1:5044</destination>
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp/>
+                    <version/>
+                    <message/>
+                    <loggerName/>
+                    <threadName/>
+                    <logLevel/>
+                    <callerData/>
+                </providers>
+            </encoder>
+        </appender>
+        -->
+
+        <!-- Application Loggers -->
+        <logger name="com.wbcloudhealth" level="info"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="error"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
+        <root level="warn">
+            <appender-ref ref="ROLLING_FILE"/>
+        </root>
+    </springProfile>
+</configuration>
