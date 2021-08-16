@@ -39,7 +39,6 @@
 
     <!-- 本地开发环境 -->
     <springProfile name="dev,test">
-
         <appender name="ROLLING_FILE"
                   class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>/opt/nas/log/${APP_NAME}-service.log</file>
@@ -77,7 +76,6 @@
                 </providers>
             </encoder>
         </appender>
-
 
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
@@ -148,20 +146,20 @@
 
         <!--
         <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-            <destination>127.0.0.1:5044</destination>
-            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-                <providers>
-                    <timestamp/>
-                    <version/>
-                    <message/>
-                    <loggerName/>
-                    <threadName/>
-                    <logLevel/>
-                    <callerData/>
-                </providers>
-            </encoder>
-        </appender>
-        -->
+             <destination>127.0.0.1:5044</destination>
+             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                 <providers>
+                     <timestamp/>
+                     <version/>
+                     <message/>
+                     <loggerName/>
+                     <threadName/>
+                     <logLevel/>
+                     <callerData/>
+                 </providers>
+             </encoder>
+         </appender>
+         -->
 
         <!-- Application Loggers -->
         <logger name="com.wbcloudhealth" level="info"/>
@@ -180,4 +178,5 @@
             <appender-ref ref="ROLLING_FILE"/>
         </root>
     </springProfile>
+
 </configuration>
