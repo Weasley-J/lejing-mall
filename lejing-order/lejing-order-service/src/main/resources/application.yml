@@ -28,6 +28,10 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+#feign sentinel
+feign:
+  sentinel:
+    enabled: on
 management:
   endpoints:
     web:

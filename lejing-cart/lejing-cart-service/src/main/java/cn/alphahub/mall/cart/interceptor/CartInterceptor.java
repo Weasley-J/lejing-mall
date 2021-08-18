@@ -2,20 +2,27 @@ package cn.alphahub.mall.cart.interceptor;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.constant.CartConstant;
+import cn.alphahub.common.enums.AppEnvironmentEnum;
 import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * <b>购物车拦截器</b>
@@ -32,6 +39,9 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     public static ThreadLocal<UserInfoTo> userInfoThreadLocal = new ThreadLocal<>();
 
+    @Resource
+    private Environment environment;
+
     /**
      * 从线程的局部变量中获取用户信息
      *
@@ -46,6 +56,25 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (CollectionUtils.isNotEmpty(Arrays.asList(environment.getActiveProfiles()))
+                && AppEnvironmentEnum.getApiDocCanVisitEnv().contains(environment.getActiveProfiles()[0])) {
+            if (Objects.equals(request.getRequestURI(), "/")) {
+                return Boolean.TRUE;
+            }
+            AntPathMatcher antPathMatcher = new AntPathMatcher();
+            Set<String> uriWhitelist = new LinkedHashSet<>();
+            uriWhitelist.add("/index");
+            uriWhitelist.add("/index.html");
+            uriWhitelist.add("/AllInOne.css");
+            uriWhitelist.add("/search.js");
+            uriWhitelist.add("/debug.js");
+            uriWhitelist.add("/static/**");
+            for (String uriPattern : uriWhitelist) {
+                if (antPathMatcher.match(uriPattern, request.getRequestURI())) {
+                    return Boolean.TRUE;
+                }
+            }
+        }
         UserInfoTo userInfo = new UserInfoTo();
         // session
         HttpSession session = request.getSession();

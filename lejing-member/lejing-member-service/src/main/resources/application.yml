@@ -33,3 +33,7 @@ management:
     web:
       exposure:
         include: '*'
+#feign sentinel
+feign:
+  sentinel:
+    enabled: on

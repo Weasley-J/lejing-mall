@@ -1,15 +1,20 @@
 package cn.alphahub.mall.seckill.interceptor;
 
 import cn.alphahub.common.constant.AuthConstant;
+import cn.alphahub.common.enums.AppEnvironmentEnum;
 import cn.alphahub.mall.member.domain.Member;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -40,6 +45,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         URI_WHITELIST_ANT_MATCH_PATTERN.add("/seckill/sku/info/**");
     }
 
+    @Resource
+    private Environment environment;
+
     /**
      * 从线程的局部变量中获取用户信息
      *
@@ -54,6 +62,25 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (CollectionUtils.isNotEmpty(Arrays.asList(environment.getActiveProfiles()))
+                && AppEnvironmentEnum.getApiDocCanVisitEnv().contains(environment.getActiveProfiles()[0])) {
+            if (Objects.equals(request.getRequestURI(), "/")) {
+                return Boolean.TRUE;
+            }
+            AntPathMatcher antPathMatcher = new AntPathMatcher();
+            Set<String> uriWhitelist = new LinkedHashSet<>();
+            uriWhitelist.add("/index");
+            uriWhitelist.add("/index.html");
+            uriWhitelist.add("/AllInOne.css");
+            uriWhitelist.add("/search.js");
+            uriWhitelist.add("/debug.js");
+            uriWhitelist.add("/static/**");
+            for (String uriPattern : uriWhitelist) {
+                if (antPathMatcher.match(uriPattern, request.getRequestURI())) {
+                    return Boolean.TRUE;
+                }
+            }
+        }
         // 白名单放行
         String requestUri = request.getRequestURI();
         for (String uriPattern : URI_WHITELIST_ANT_MATCH_PATTERN) {
