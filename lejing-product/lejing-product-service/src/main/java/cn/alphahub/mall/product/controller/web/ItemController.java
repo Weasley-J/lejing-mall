@@ -1,6 +1,5 @@
 package cn.alphahub.mall.product.controller.web;
 
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.product.vo.SkuItemVO;
@@ -15,14 +14,14 @@ import javax.annotation.Resource;
 import java.util.Objects;
 
 /**
- * <b>商品sku详情页Controller</b>
+ * 商品sku详情页Controller
  *
  * @author Weasley J
  * @version 1.0
  * @date 2021/03/09
  */
 @Controller
-public class ItemController extends BaseController {
+public class ItemController {
 
     @Resource
     SkuInfoService skuInfoService;

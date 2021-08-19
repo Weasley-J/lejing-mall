@@ -39,7 +39,7 @@ api[1].list.push({
 });
 api[1].list.push({
     order: '2',
-    desc: '查询属性base/sale list',
+    desc: '查询属性base/salelist',
 });
 api[1].list.push({
     order: '3',
@@ -199,7 +199,7 @@ api[5].list.push({
 });
 api[5].list.push({
     order: '2',
-    desc: '查出所有分类及其子分类， 树形结构组装',
+    desc: '查出所有分类及其子分类，树形结构组装',
 });
 api[5].list.push({
     order: '3',
@@ -502,8 +502,8 @@ api[15].list.push({
 api.push({
     alias: 'IndexController',
     order: '17',
-    link: '&lt;b&gt;首页controller&lt;/b&gt;',
-    desc: '&lt;b&gt;首页Controller&lt;/b&gt;',
+    link: '首页controller',
+    desc: '首页Controller',
     list: []
 })
 api[16].list.push({
@@ -512,17 +512,21 @@ api[16].list.push({
 });
 api[16].list.push({
     order: '2',
-    desc: '&lt;b&gt;查出三级分类&lt;/b&gt;key-1级分类,value-2级分类List',
+    desc: 'api视图',
 });
 api[16].list.push({
     order: '3',
-    desc: '你好，Weasley J！',
+    desc: '&lt;b&gt;查出三级分类&lt;/b&gt;key-1级分类,value-2级分类List',
+});
+api[16].list.push({
+    order: '4',
+    desc: '你好，WeasleyJ！',
 });
 api.push({
     alias: 'ItemController',
     order: '18',
-    link: '&lt;b&gt;商品sku详情页controller&lt;/b&gt;',
-    desc: '&lt;b&gt;商品sku详情页Controller&lt;/b&gt;',
+    link: '商品sku详情页controller',
+    desc: '商品sku详情页Controller',
     list: []
 })
 api[17].list.push({

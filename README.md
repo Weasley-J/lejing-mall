@@ -1,6 +1,6 @@
 ![shanghao-idea](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/shanghao-idea.jpg)
 
-#                                                   乐璟商城
+# 乐璟商城
 
 > **微服务架构图**
 
@@ -37,8 +37,6 @@
 
 **架构图**
 
-
-
 # 2 IDEA环境JVM参数配置
 
 > tips: 主要目的减少web服务的的内存占用
@@ -49,25 +47,21 @@ JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 ![image-20210207215556800](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210207215556800.png)
 
-
-
 # 3 已完成清单
 
-- [x] 已封装`BaseController`，用于Controller数据返回
+- [X] 已封装`BaseController`，用于Controller数据返回
 
 ![image-20210204005654609](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204005654609.png)
 
-- [x] 已封装`BaseResult`，返回结果封装 ，让接口的输入和输出更加明确
+- [X] 已封装`BaseResult`，返回结果封装 ，让接口的输入和输出更加明确
 
 ![image-20210204010657082](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010657082.png)
 
 ![image-20210204010822582](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010822582.png)
 
-
-
 ![image-20210204010952249](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210204010952249.png)
 
-- [x] 重新改造代码生成, 所有接口都可以生成测试文档, 支持在线调试接口, 执行`mvn package`自动出api文档,访问地址改成自己的端口号:http://127.0.0.1:10000/index.html,
+- [X] 重新改造代码生成, 所有接口都可以生成测试文档, 支持在线调试接口, 执行`mvn package`自动出api文档,访问地址改成自己的端口号:http://127.0.0.1:10000/index.html,
 
   ![image-20210205025359610](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205025359610.png)
 
@@ -81,34 +75,24 @@ JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 **![image-20210205024941585](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205024941585.png)**
 
-- [x] 项目改造完成, 集成: 业务代码自动生成 -> 执行: `mvn package`, 自动输出可调式的高可读性`api`文档 -> 分层架构 -> 以最小的代价迎合业务的重大变更
-
-- [x] 已接入`ELK`全家桶
-
+- [X] 项目改造完成, 集成: 业务代码自动生成 -> 执行: `mvn package`, 自动输出可调式的高可读性`api`文档 -> 分层架构 -> 以最小的代价迎合业务的重大变更
+- [X] 已接入`ELK`全家桶
 
 ![image-20210307003402307](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210307003402307.png)
 
 ![image-20210307003417433](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210307003417433.png)
-
-
 
 # 4 待完成清单
 
 - [ ] 整合人人框架，提供：`domain`--> `dao` --> `service` --> `controller` --> 全自动`api`文档在线输出, 支持在线调试
 
   目的：让今后因业务变动影响数据库的变动只需要码农修改数据库对应的领域模型即可，节省更多的时间
-
 - [ ] 微服务计划
 
 进行中......
 
-
-
 - [ ] 移除`spring-cloud-alibaba 2.2.5.RELEASE` 版本中微服务中通过`feign`远程调用时使用`ribbon`负载均衡的支持, 采用`spring-cloud 2020.0.1`的`spring cloud loadbalancer`代替
-
 - [ ] ......
-
-
 
 # 5 `Ubuntu`环境`Docker`基础软件安装指南
 
@@ -179,8 +163,6 @@ db.password.0=123456
 - 启动网关服务 `lejing-gateway`
 - 再启动其他相关服务
 
-
-
 ## 6.3 `Elasticsearch`索引库清理
 
 使用`curl`命令模糊匹配删除，在`shell`终端上执行:
@@ -209,8 +191,6 @@ curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/*run_env*
 curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.kibana_*
 ```
 
-
-
 ## 6.4  前端项目启动
 
 ### 6.4.1 前端后台管理
@@ -218,8 +198,6 @@ curl -XDELETE -u ${USER}:${PWD} http://${IP}:${PORT}/.kibana_*
 ```shell
 #克隆项目，见lejing-web-frontend/lejing-manage/README.md文件
 ```
-
-
 
 ### 6.4.2 前端门户网站
 
@@ -231,8 +209,6 @@ cd lejing-web-frontend/lejing-portal
 # npm下载live-server启动门户网站, 指定门户网站的端口8002
 npm install -g live-server --registry=https://registry.npm.taobao.org && live-server --port=8002
 ```
-
-
 
 ## 6.5  集成`SonarQube`
 
@@ -259,7 +235,7 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
       <pluginGroups>
           <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
       </pluginGroups>
-      
+
       <mirrors>
           <mirror>
               <id>aliyunmaven</id>
@@ -268,7 +244,7 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
               <url>https://maven.aliyun.com/repository/public</url>
           </mirror>
       </mirrors>
-  
+
       <profiles>
           <profile>
               <id>sonar</id>
@@ -295,14 +271,13 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
               </properties>
           </profile>
       </profiles>
-  
+
       <activeProfiles>
           <activeProfile>sonar</activeProfile>
       </activeProfiles>
-  
+
   </settings>
   ```
-
 - docker安装`SonarQube`
 
 ```shell
@@ -409,8 +384,6 @@ env GIT_SSL_NO_VERIFY=true
 #如: git push https://lwj_J0kQJdji3541ejrfTejlbC3owlWCZ@github.com/Weasley-J/lejing-mall.git
 ```
 
-
-
 ## 7.3 项目启动报错`Web server failed to start. Port 8000 was already in use.`
 
 > windows
@@ -497,7 +470,7 @@ http {
 	#乐璟商城
     server {
         listen       80;
-        
+      
         server_name  lejing.fgifast1.vipnps.vip;#内网穿透域名地址
 
         proxy_ssl_verify off;
@@ -510,13 +483,13 @@ http {
         proxy_set_header Proxy-Connection "";
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        
+      
 		# 接受支付宝支付成功异步回调
         location /payed/ {
 		   proxy_set_header Host order.lejing.com;#把内网穿透过来的请求改为order.lejing.com;
            proxy_pass http://order.lejing.com/payed/;#接受支付宝异步通知的POST接口
         }
-		
+	
         location / {
            proxy_pass http://localhost:88/api;
         }
@@ -524,7 +497,7 @@ http {
         error_page  404              /404.html;
 
         error_page   500 502 503 504  /50x.html;
-        
+      
         location = /50x.html {
             root   html;
         }
@@ -540,19 +513,13 @@ http {
 
 ## 9.1 大数据量excel文件导出，`5W~100W`数据量
 
-
-
 ## 9.2 excel文件预览
-
-
 
 # 10 接入`Torna` `API`文档管理工具，完美融合`smart-doc`
 
 > 全程无需手写文档，执行maven插件即可
 >
 > ![image-20210717232437120](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210717232437120.png)
-
-
 
 文档效果：
 
@@ -562,11 +529,7 @@ http {
 
 ## 10.1 `SQL`文件: `sql/torna.sql`
 
-
-
 ## 10.2 安装shell脚本: `shell/run_torna_install.sh`
-
-
 
 # 11 `github`敏感配置文件提交解决办法
 
@@ -582,4 +545,3 @@ clear \
 && git gc --prune=now \
 && git push --force
 ```
-

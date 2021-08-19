@@ -1,5 +1,6 @@
 package cn.alphahub.mall.member.controller;
 
+import cn.alphahub.common.annotations.Syslog;
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
@@ -170,16 +171,15 @@ public class MemberController extends BaseController {
      * @param member 用户信息
      * @return 用户信息
      */
+    @Syslog(name = "用户登录")
     @PostMapping("login")
     public BaseResult<Member> login(@RequestBody Member member) {
         QueryWrapper<Member> wrapper = new QueryWrapper<>();
         Member one;
         try {
-            one = memberService.getOne(
-                    wrapper.lambda().eq(Member::getUsername, member.getUsername())
-                            .or().eq(Member::getMobile, member.getMobile())
-                            .or().eq(Member::getEmail, member.getEmail())
-            );
+            one = memberService.getOne(wrapper.lambda().eq(Member::getUsername, member.getUsername())
+                    .or().eq(Member::getMobile, member.getMobile())
+                    .or().eq(Member::getEmail, member.getEmail()));
         } catch (Exception e) {
             log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
             return BaseResult.error("查询用户失败, 异常原因: " + e.getLocalizedMessage());
@@ -196,8 +196,9 @@ public class MemberController extends BaseController {
      * @param socialUser 微博社交用户实体
      * @return 用户信息
      */
+    @Syslog(name = "用户微博社交登录")
     @PostMapping("/oauth2/login")
-    BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
+    public BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
         Member member = memberService.loginByWeibo(socialUser);
         return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail();
     }
@@ -209,7 +210,7 @@ public class MemberController extends BaseController {
      * @return 用户信息
      */
     @PostMapping(value = "/weixin/login")
-    BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
+    public BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
         Member member = memberService.loginWithWeChat(accessTokenInfo);
         return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail(
                 CheckUserExistsStatus.USER_IS_EMPTY.getValue(),

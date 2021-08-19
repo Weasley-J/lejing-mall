@@ -9,6 +9,10 @@ spring:
       transport:
         port: 8719
         dashboard: 127.0.0.1:8087
+      scg:
+        fallback:
+          response-status: 400
+          content-type: 'application/json;charset=UTF-8'
   servlet:
     multipart:
       max-file-size: 300MB

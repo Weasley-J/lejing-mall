@@ -1,6 +1,5 @@
 package cn.alphahub.mall.product.controller.web;
 
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.product.domain.Category;
 import cn.alphahub.mall.product.service.CategoryService;
@@ -17,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <b>首页Controller</b>
+ * 首页Controller
  *
  * @author Weasley J
  * @version 1.0
  * @date 2021/03/09
  */
 @Controller
-public class IndexController extends BaseController {
+public class IndexController {
 
     @Resource
     private RedissonClient redissonClient;
@@ -37,12 +36,24 @@ public class IndexController extends BaseController {
      *
      * @param model 模型
      * @return 首页视图
+     * @page
      */
     @GetMapping({"/", "index", "index.html"})
     public String indexPageWithFirstLevelCategories(Model model) {
         List<Category> categories = categoryService.getFirstLevelCategories();
         model.addAttribute("categories", categories);
         return "index";
+    }
+
+    /**
+     * api视图
+     *
+     * @return api视图
+     * @page
+     */
+    @GetMapping({"/api", "api.html"})
+    public String apiDoc() {
+        return "../static/index.html";
     }
 
     /**
