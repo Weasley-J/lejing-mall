@@ -30,7 +30,7 @@ api.push({
     alias: 'WeChatController',
     order: '2',
     link: '微信登录_-_登录_&_授权回调',
-    desc: '微信登录 - 登录 & 授权回调',
+    desc: '微信登录-登录&授权回调',
     list: []
 })
 api[1].list.push({

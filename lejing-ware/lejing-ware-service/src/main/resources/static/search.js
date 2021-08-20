@@ -3,7 +3,7 @@ api.push({
     alias: 'HelloRabbitController',
     order: '1',
     link: '测试rabbit_-_controller',
-    desc: '测试Rabbit - Controller',
+    desc: '测试Rabbit-Controller',
     list: []
 })
 api[0].list.push({

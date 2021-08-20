@@ -8,7 +8,7 @@ api.push({
 })
 api[0].list.push({
     order: '1',
-    desc: '账单明细 - 下载',
+    desc: '账单明细-下载',
 });
 api[0].list.push({
     order: '2',

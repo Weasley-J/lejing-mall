@@ -3,7 +3,7 @@ api.push({
     alias: 'OrderItemEasyexcelController',
     order: '1',
     link: '订单导入导出_controller&lt;ul&gt;____&lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;&lt;/ul&gt;',
-    desc: '订单导入导出 Controller&lt;ul&gt;    &lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;&lt;/ul&gt;',
+    desc: '订单导入导出Controller&lt;ul&gt;&lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;&lt;/ul&gt;',
     list: []
 })
 api[0].list.push({

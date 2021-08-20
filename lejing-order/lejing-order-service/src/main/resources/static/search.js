@@ -3,7 +3,7 @@ api.push({
     alias: 'HelloRabbitController',
     order: '1',
     link: '测试rabbit_-_controller',
-    desc: '测试Rabbit - Controller',
+    desc: '测试Rabbit-Controller',
     list: []
 })
 api[0].list.push({
@@ -16,7 +16,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '3',
-    desc: '测试创建订单发送消息给 ORDER_EVENT_RELEASE_ORDER_QUEUE 队列',
+    desc: '测试创建订单发送消息给ORDER_EVENT_RELEASE_ORDER_QUEUE队列',
 });
 api[0].list.push({
     order: '4',
@@ -26,7 +26,7 @@ api.push({
     alias: 'OrderAppController',
     order: '2',
     link: '订单业务_controller',
-    desc: '订单业务 Controller',
+    desc: '订单业务Controller',
     list: []
 })
 api[1].list.push({
@@ -92,7 +92,7 @@ api[4].list.push({
 });
 api[4].list.push({
     order: '2',
-    desc: '获取当前登录用的订单数据&lt;ul&gt;    &lt;li&gt;用户信息从拦截器里面取&lt;/li&gt;&lt;/ul&gt;',
+    desc: '获取当前登录用的订单数据&lt;ul&gt;&lt;li&gt;用户信息从拦截器里面取&lt;/li&gt;&lt;/ul&gt;',
 });
 api[4].list.push({
     order: '3',
@@ -253,12 +253,12 @@ api.push({
     alias: 'PayWebController',
     order: '11',
     link: '阿里支付_-_controller',
-    desc: '阿里支付 - Controller',
+    desc: '阿里支付-Controller',
     list: []
 })
 api[10].list.push({
     order: '1',
-    desc: '用户下单: 支付宝支付&lt;ul&gt;    &lt;li&gt;让支付页让浏览器展示&lt;/li&gt;    &lt;li&gt;支付成功以后，跳转到用户的订单列表页&lt;/li&gt;&lt;/ul&gt;',
+    desc: '用户下单:支付宝支付&lt;ul&gt;&lt;li&gt;让支付页让浏览器展示&lt;/li&gt;&lt;li&gt;支付成功以后，跳转到用户的订单列表页&lt;/li&gt;&lt;/ul&gt;',
 });
 api.push({
     alias: 'PaymentInfoController',

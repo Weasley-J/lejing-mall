@@ -10,8 +10,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * <b>Java反射工具类</b>
- * <p>通过Java实体类的get方法名获取对应的属性名</p>
+ * Java反射工具类
+ * <p>通过Java实体类的get方法名获取对应的属性名
  *
  * @author liuwenjing
  * @version 1.2
@@ -23,6 +23,9 @@ public class ReflectUtil {
     private final static String IS = "is";
     private final static String GET = "get";
     private final static String SET = "set";
+
+    private ReflectUtil() {
+    }
 
     /**
      * <p>通过Java实体类某个属性的getter方法获取该属性的属性名称</p>
@@ -63,12 +66,13 @@ public class ReflectUtil {
             String lambdaImplClass = serializedLambda.getImplClass();
             return methodToProperty(Objects.requireNonNull(implMethodName));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            log.error("Failed to get Java Bean property name");
             throw new RuntimeException("Failed to get Java Bean property name");
         }
     }
 
     /**
-     * <b>将实体类里指定字段属性由"驼峰"命名风格转为"下划线"命名风格</b>
+     * 将实体类里指定字段属性由"驼峰"命名风格转为"下划线"命名风格
      * <p>该方法比写死在 @JsonProperty 里面的灵活</p>
      * <b>Java实体:</b>
      * <pre>
@@ -100,7 +104,7 @@ public class ReflectUtil {
     }
 
     /**
-     * <p>属性名转下划线</p>
+     * 属性名转下划线
      * <ul>
      *     <li>
      *       If the Java property name starts with an underscore, then that underscore is not included in the translated name,
@@ -171,6 +175,7 @@ public class ReflectUtil {
             if (methodName.startsWith(GET) || methodName.startsWith(SET)) {
                 methodName = methodName.substring(3);
             } else {
+                log.error("Error parsing property name '{}'.  Didn't start with 'is', 'get' or 'set'.", methodName);
                 throw new RuntimeException("Error parsing property name '" + methodName + "'.  Didn't start with 'is', 'get' or 'set'.");
             }
         }

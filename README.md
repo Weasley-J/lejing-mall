@@ -6,9 +6,11 @@
 
 ![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210222191025177.png)
 
-> `SonarQube`代码审查结果（不含前端代码）
+> 😄 😄 😄 😄😄 😄 😄 😄 😄 😄  `SonarQube`代码审查结果（不含前端代码）
 
-![image-20210801193000702](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210801193000702.png)
+![image.png](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/1629467913426-image.png)
+
+![image-20210820220250304](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210820220250304.png)
 
 # 1 技术架构选型
 
@@ -235,7 +237,7 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
       <pluginGroups>
           <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
       </pluginGroups>
-
+  
       <mirrors>
           <mirror>
               <id>aliyunmaven</id>
@@ -244,7 +246,7 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
               <url>https://maven.aliyun.com/repository/public</url>
           </mirror>
       </mirrors>
-
+  
       <profiles>
           <profile>
               <id>sonar</id>
@@ -271,11 +273,11 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
               </properties>
           </profile>
       </profiles>
-
+  
       <activeProfiles>
           <activeProfile>sonar</activeProfile>
       </activeProfiles>
-
+  
   </settings>
   ```
 - docker安装`SonarQube`

@@ -12,15 +12,15 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '2',
-    desc: 'query send details response',
+    desc: 'querysenddetailsresponse',
 });
 api[0].list.push({
     order: '3',
-    desc: 'get sms report message set',
+    desc: 'getsmsreportmessageset',
 });
 api[0].list.push({
     order: '4',
-    desc: 'get sms report message set',
+    desc: 'getsmsreportmessageset',
 });
 api.push({
     alias: 'error',

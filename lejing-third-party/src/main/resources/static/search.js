@@ -3,7 +3,7 @@ api.push({
     alias: 'OssPolicyController',
     order: '1',
     link: 'oss_policy文件上传controller',
-    desc: 'OSS Policy文件上传Controller',
+    desc: 'OSSPolicy文件上传Controller',
     list: []
 })
 api[0].list.push({
@@ -27,7 +27,7 @@ api[1].list.push({
 });
 api[1].list.push({
     order: '3',
-    desc: '上传文件至OSS&lt;p&gt;1. 转存网络文件2. 上传本地文件到时需要指定文件完整路径&lt;/p&gt;',
+    desc: '上传文件至OSS&lt;p&gt;1.转存网络文件2.上传本地文件到时需要指定文件完整路径&lt;/p&gt;',
 });
 api[1].list.push({
     order: '4',

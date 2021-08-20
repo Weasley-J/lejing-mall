@@ -16,7 +16,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '3',
-    desc: '商品进行秒杀(秒杀开始)&lt;p&gt;查看表: oms_order_item&lt;/p&gt;',
+    desc: '商品进行秒杀(秒杀开始)&lt;p&gt;查看表:oms_order_item&lt;/p&gt;',
 });
 api.push({
     alias: 'error',

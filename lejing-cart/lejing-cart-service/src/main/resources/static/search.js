@@ -12,7 +12,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '2',
-    desc: '去购物车页面的请求浏览器有一个cookie:user-key 标识用户的身份，一个月过期如果第一次使用jd的购物车功能，都会给一个临时的用户身份:浏览器以后保存，每次访问都会带上这个cookie；&lt;p&gt;登录：session有没登录：按照cookie里面带来user-key来做第一次，如果没有临时用户，自动创建一个临时用户',
+    desc: '去购物车页面的请求浏览器有一个cookie:user-key标识用户的身份，一个月过期如果第一次使用jd的购物车功能，都会给一个临时的用户身份:浏览器以后保存，每次访问都会带上这个cookie；&lt;p&gt;登录：session有没登录：按照cookie里面带来user-key来做第一次，如果没有临时用户，自动创建一个临时用户',
 });
 api[0].list.push({
     order: '3',
