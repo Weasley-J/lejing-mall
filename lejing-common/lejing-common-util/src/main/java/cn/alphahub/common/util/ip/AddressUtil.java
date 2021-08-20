@@ -1,11 +1,15 @@
 package cn.alphahub.common.util.ip;
 
-import cn.alphahub.common.util.HttpUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 获取地址类
@@ -23,29 +27,39 @@ public class AddressUtil {
     public static final String UNKNOWN = "XX XX";
     private static final Logger log = LoggerFactory.getLogger(AddressUtil.class);
 
-    public AddressUtil() {
+    private AddressUtil() {
     }
 
-    public static String getRealAddressByIP(String ip) {
-        String address = UNKNOWN;
+    /**
+     * 更具ip地址获取地理位置信息
+     *
+     * @param ip ip地址
+     * @return 位置信息
+     */
+    public static String getRealAddressByIp(String ip) {
+        String address = "";
         // 内网不查询
         if (IpUtil.internalIp(ip)) {
             return "内网IP";
         }
         try {
-            String rspStr = HttpUtil.sendGet(IP_URL, "ip=" + ip + "&json=true", "GBK");
-            if (StringUtils.isEmpty(rspStr)) {
+            Map<String, Object> formMap = new LinkedHashMap<>(2);
+            formMap.put("ip", ip);
+            formMap.put("json", true);
+            HttpResponse response = HttpUtil.createGet(IP_URL).form(formMap).execute();
+            String body = response.body();
+            if (StringUtils.isEmpty(body)) {
                 log.error("获取地理位置异常 {}", ip);
                 return UNKNOWN;
             }
-            JSONObject obj = JSONObject.parseObject(rspStr);
-            String region = obj.getString("pro");
-            String city = obj.getString("city");
-            return String.format("%s %s", region, city);
+            JSONObject jsonObject = JSONUtil.parseObj(body);
+            String region = jsonObject.get("pro", String.class);
+            String city = jsonObject.get("city", String.class);
+            address = String.format("%s %s", region, city);
         } catch (Exception e) {
             log.error("获取地理位置异常 {}", ip);
         }
 
-        return address;
+        return StringUtils.isBlank(address) ? UNKNOWN : address;
     }
 }

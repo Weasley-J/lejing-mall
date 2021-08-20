@@ -121,8 +121,8 @@ public class MemberLoginAspect {
         MemberLoginLog entity = MemberLoginLog.builder()
                 .memberId(result.getData().getId())
                 .createTime(new Date())
-                .ip(IpUtil.getCleintIp(request))
-                .city(AddressUtil.getRealAddressByIP(IpUtil.getCleintIp(request)))
+                .ip(IpUtil.getClientIp(request))
+                .city(AddressUtil.getRealAddressByIp(IpUtil.getClientIp(request)))
                 .loginType(1).build();
         //保存会员登录日志
         loginLogService.save(entity);
