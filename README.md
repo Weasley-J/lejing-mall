@@ -14,26 +14,26 @@
 
 第二代微服务架构，`kubernetes`高可用集群，全自动`DevOps`，
 
-[springcloud与springboot对应版本](https://start.spring.io/actuator/info)
+🎉️  [springcloud与springboot对应版本](https://start.spring.io/actuator/info)
 
 ![image-20210126234300478](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210126234300478.png)
 
-[spring boot的历史版本](https://docs.spring.io/spring-boot/docs/)
+🎉️  [spring boot的历史版本](https://docs.spring.io/spring-boot/docs/)
 
 ![image-20210126234531221](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210126234531221.png)
 
-[spring cloud的历史版本](https://docs.spring.io/spring-cloud/docs/)
+🎉️  [spring cloud的历史版本](https://docs.spring.io/spring-cloud/docs/)
 
 ![image-20210224205205376](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210224205205376.png)
 
 技术架构：
 
-- `JDK11`
-- `MySQL-8.0.25`
-- `apache-maven-3.8.1`
-- `spring-boot 2.5.2`
-- `spring-cloud-2020.0.3`
-- `spring-cloud-alibaba 2021.1`
+- 🚀️  `JDK11`
+- 🚀️  `MySQL-8.0.25`
+- 🚀️  `apache-maven-3.8.2`
+- 🚀️  `spring-boot 2.5.3`
+- 🚀️  `spring-cloud-2020.0.3`
+- 🚀️  `spring-cloud-alibaba 2021.1`
 
 **架构图**
 
@@ -470,7 +470,7 @@ http {
 	#乐璟商城
     server {
         listen       80;
-      
+    
         server_name  lejing.fgifast1.vipnps.vip;#内网穿透域名地址
 
         proxy_ssl_verify off;
@@ -483,13 +483,13 @@ http {
         proxy_set_header Proxy-Connection "";
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-      
+    
 		# 接受支付宝支付成功异步回调
         location /payed/ {
 		   proxy_set_header Host order.lejing.com;#把内网穿透过来的请求改为order.lejing.com;
            proxy_pass http://order.lejing.com/payed/;#接受支付宝异步通知的POST接口
         }
-	
+
         location / {
            proxy_pass http://localhost:88/api;
         }
@@ -497,7 +497,7 @@ http {
         error_page  404              /404.html;
 
         error_page   500 502 503 504  /50x.html;
-      
+    
         location = /50x.html {
             root   html;
         }
