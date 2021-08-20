@@ -84,15 +84,15 @@ JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 # 4 待完成清单
 
-- [ ] 整合人人框架，提供：`domain`--> `dao` --> `service` --> `controller` --> 全自动`api`文档在线输出, 支持在线调试
+- [X] 整合人人框架，提供：`domain`--> `dao` --> `service` --> `controller` --> 全自动`api`文档在线输出, 支持在线调试
 
   目的：让今后因业务变动影响数据库的变动只需要码农修改数据库对应的领域模型即可，节省更多的时间
-- [ ] 微服务计划
+- [X] 微服务计划
 
 进行中......
 
-- [ ] 移除`spring-cloud-alibaba 2.2.5.RELEASE` 版本中微服务中通过`feign`远程调用时使用`ribbon`负载均衡的支持, 采用`spring-cloud 2020.0.1`的`spring cloud loadbalancer`代替
-- [ ] ......
+- [X] 移除`spring-cloud-alibaba 2.2.5.RELEASE` 版本中微服务中通过`feign`远程调用时使用`ribbon`负载均衡的支持, 采用`spring-cloud 2020.0.1`的`spring cloud loadbalancer`代替
+- [X] ......
 
 # 5 `Ubuntu`环境`Docker`基础软件安装指南
 
@@ -470,7 +470,7 @@ http {
 	#乐璟商城
     server {
         listen       80;
-    
+  
         server_name  lejing.fgifast1.vipnps.vip;#内网穿透域名地址
 
         proxy_ssl_verify off;
@@ -483,7 +483,7 @@ http {
         proxy_set_header Proxy-Connection "";
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-    
+  
 		# 接受支付宝支付成功异步回调
         location /payed/ {
 		   proxy_set_header Host order.lejing.com;#把内网穿透过来的请求改为order.lejing.com;
@@ -497,7 +497,7 @@ http {
         error_page  404              /404.html;
 
         error_page   500 502 503 504  /50x.html;
-    
+  
         location = /50x.html {
             root   html;
         }
