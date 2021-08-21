@@ -29,6 +29,15 @@ spring:
       transport:
         port: 8719
         dashboard: 127.0.0.1:8087
+  zipkin:
+    base-url: http://192.168.40.132:9411
+    discovery-client-enabled: off
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
+      probability: 0.1
   #使用spring session redis存储session信息
   session:
     store-type: redis

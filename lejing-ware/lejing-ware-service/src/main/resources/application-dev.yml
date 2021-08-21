@@ -37,6 +37,15 @@ spring:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
         tx-service-group: lejing_tx_group
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    discovery-client-enabled: off
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
+      probability: 1
 #seata 配置
 seata:
   enabled: on

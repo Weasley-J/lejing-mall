@@ -5,6 +5,10 @@ REM mvn clean package -pl :lejing-auth-service -am ^
 
 REM 安装基础依赖到本地仓库, 方便后续service打包
 
+set "cache=%MAVEN_HOME%\repository\cn\alphahub"
+
+rd /s /q %cache%
+
 mvn clean ^
 && mvn clean install -pl :lejing-common-util -am ^
 && mvn clean install -pl :lejing-common-base-domain -am ^

@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mysql
+      - MYSQL_HOST=192.168.40.132
+      - MYSQL_DB=zipkin
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASS=123456
+      - JAVA_OPTS=-Dlogging.level.zipkin2=DEBUG
+    ports:
+      - "9411:9411"
+    network_mode: mynet

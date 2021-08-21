@@ -5,13 +5,13 @@
     <parent>
         <artifactId>lejing-common</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.1.2-SNAPSHOT</version>
+        <version>1.1.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.alphahub.mall.common</groupId>
     <artifactId>lejing-common-util</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>基础公共模块（ 纯工具类，面向对象共享）</description>
 

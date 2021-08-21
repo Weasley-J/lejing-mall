@@ -69,6 +69,7 @@
         <logger name="org.springframework.context" level="warn"/>
         <logger name="org.springframework.web" level="warn"/>
         <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.cloud.openfeign" level="debug"/>
         <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
         <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
         <logger name="org.springframework.security.core.userdetails" level="debug"/>

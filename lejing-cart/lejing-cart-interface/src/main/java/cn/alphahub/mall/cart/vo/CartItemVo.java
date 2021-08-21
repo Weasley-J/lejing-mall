@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 购物项内容
@@ -69,6 +70,10 @@ public class CartItemVo implements Serializable {
      * @return 当前购物项总价
      */
     public BigDecimal getTotalPrice() {
-        return this.price.multiply(new BigDecimal("" + this.count));
+        if (Objects.nonNull(price) && Objects.nonNull(count)) {
+            return price.multiply(BigDecimal.valueOf(count));
+        } else {
+            return BigDecimal.ZERO;
+        }
     }
 }
