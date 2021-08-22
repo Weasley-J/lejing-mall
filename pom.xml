@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <version>2.5.4</version>
         <relativePath/>
     </parent>
 
@@ -32,6 +32,7 @@
         <module>lejing-third-party</module>
         <module>lejing-cart</module>
         <module>lejing-seckill</module>
+        <module>lejing-job</module>
         <module>lejing-admin</module>
         <module>lejing-generator</module>
         <module>lejing-web-frontend</module>
@@ -43,40 +44,41 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- sonar start -->
         <sonar.host.url>http://192.168.40.132:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
-        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+        <sonar.projectKey>${project.parent.groupId}:${project.parent.artifactId}</sonar.projectKey>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
         <sonar.projectDescription>${project.description}</sonar.projectDescription>
         <sonar.links.homepage>${project.url}</sonar.links.homepage>
         <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
         <sonar.exclusions>src/test/**/*,*.js,*.css,*.html,*.vue,*.bat,*.cmd,*.md,*.NET,*.cpp</sonar.exclusions>
-        <!-- sonar end -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <lejing.latest.version>${project.version}</lejing.latest.version>
-        <spring-boot.version>2.5.3</spring-boot.version>
+        <spring-boot.version>${project.parent.version}</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <lombok.version>1.18.20</lombok.version>
-        <mysql.version>8.0.25</mysql.version>
+        <mysql.version>8.0.26</mysql.version>
+        <jsqlparser.version>4.1</jsqlparser.version>
         <mybatis.starter.version>2.2.0</mybatis.starter.version>
-        <mybatis.plus.version>3.4.3.1</mybatis.plus.version>
+        <mybatis.plus.version>3.4.3.2</mybatis.plus.version>
+        <dynamic.datasource.version>3.4.1</dynamic.datasource.version>
         <pageHelper.starter.version>1.3.1</pageHelper.starter.version>
-        <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
+        <druid.stater.version>1.2.5</druid.stater.version>
         <pagehelper.version>5.2.1</pagehelper.version>
+        <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
         <shiro.starter.version>1.7.1</shiro.starter.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <commons-io.version>2.8.0</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <javase.version>3.4.1</javase.version>
         <netty-all.version>4.1.65.Final</netty-all.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
         <smart-doc.version>2.2.4.1</smart-doc.version>
-        <hutool-all.version>5.7.5</hutool-all.version>
+        <hutool-all.version>5.7.9</hutool-all.version>
         <activation.version>1.1.1</activation.version>
         <guava.version>30.1.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.13.0</aliyun-sdk-oss.version>
@@ -84,7 +86,6 @@
         <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
-        <alicloud.version>2.2.0.RELEASE</alicloud.version>
         <redisson.version>3.15.6</redisson.version>
         <elasticsearch.version>7.13.2</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
@@ -99,6 +100,8 @@
         <alipay-sdk-java.version>4.15.0.ALL</alipay-sdk-java.version>
         <sonar-maven-plugin.version>3.9.0.2155</sonar-maven-plugin.version>
         <easyexcel.version>2.2.10</easyexcel.version>
+        <nacos.version>2.0.3</nacos.version>
+        <sentinel.version>1.8.0</sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -140,7 +143,7 @@
                 <version>${lejing.latest.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.lejing.mall.cart</groupId>
+                <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-cart-interface</artifactId>
                 <version>${lejing.latest.version}</version>
             </dependency>
@@ -218,6 +221,11 @@
                 <artifactId>mybatis-plus-core</artifactId>
                 <version>${mybatis.plus.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.datasource.version}</version>
+            </dependency>
             <!-- 分页助手启动器 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -228,6 +236,18 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.version}</version>
+            </dependency>
+            <!-- jsqlparser -->
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparser.version}</version>
+            </dependency>
+            <!-- druid stater -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.stater.version}</version>
             </dependency>
             <!-- zipkin链路追踪 -->
             <dependency>
@@ -439,6 +459,23 @@
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
+            <!-- nacos start -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-api</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-common</artifactId>
+                <version>${nacos.version}</version>
+            </dependency>
+            <!-- nacos end -->
         </dependencies>
     </dependencyManagement>
 
@@ -521,15 +558,15 @@
                         <include>cn.alphahub.mall.common:lejing-common-base-public</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
                         <include>cn.alphahub.mall:lejing-auth-interface</include>
-                        <include>com.lejing.mall.cart:lejing-cart-interface</include>
+                        <include>cn.alphahub.mall:lejing-cart-interface</include>
                         <include>cn.alphahub.mall:lejing-coupon-interface</include>
                         <include>cn.alphahub.mall:lejing-member-interface</include>
                         <include>cn.alphahub.mall:lejing-order-share</include>
                         <include>cn.alphahub.mall:lejing-order-interface</include>
                         <include>cn.alphahub.mall:lejing-product-interface</include>
+                        <include>cn.alphahub.mall:lejing-ware-interface</include>
                         <include>cn.alphahub.mall.search:lejing-search-interface</include>
                         <include>cn.alphahub.mall.seckill:lejing-seckill-interface</include>
-                        <include>cn.alphahub.mall:lejing-ware-interface</include>
                     </includes>
                 </configuration>
                 <executions>

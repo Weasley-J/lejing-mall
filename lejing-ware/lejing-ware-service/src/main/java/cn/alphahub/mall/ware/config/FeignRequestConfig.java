@@ -38,7 +38,7 @@ public class FeignRequestConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
         return requestTemplate -> {
-            log.info("线程RequestInterceptor,当前线程Id:{},当前线程Name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
+            log.info("线程request-interceptor,当前线程id:{},当前线程name:{}", Thread.currentThread().getId(), Thread.currentThread().getName());
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (Objects.nonNull(requestAttributes)) {
                 HttpServletRequest request = requestAttributes.getRequest();

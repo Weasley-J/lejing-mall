@@ -14,7 +14,7 @@ mybatis-plus:
   type-aliases-package: com.**.domain,cn.**.domain,com.**.entity,cn.**.entity
   global-config:
     db-config:
-      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ASSIGN_ID:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"
       id-type: assign_id
       # 逻辑已删除值(默认为 1)
       logic-delete-value: 1

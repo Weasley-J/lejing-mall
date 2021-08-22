@@ -28,6 +28,10 @@
 
 ![image-20210224205205376](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210224205205376.png)
 
+[spring-cloud-alibaba-dependencies版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+
+
+
 技术架构：
 
 - 🚀️  `JDK11`
@@ -37,7 +41,7 @@
 - 🚀️  `spring-cloud-2020.0.3`
 - 🚀️  `spring-cloud-alibaba 2021.1`
 
-**架构图**
+
 
 # 2 IDEA环境JVM参数配置
 

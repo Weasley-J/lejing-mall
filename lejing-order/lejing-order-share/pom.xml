@@ -46,7 +46,7 @@
         </dependency>
         <!-- 购物车feign远程接口 -->
         <dependency>
-            <groupId>com.lejing.mall.cart</groupId>
+            <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-cart-interface</artifactId>
             <scope>compile</scope>
         </dependency>

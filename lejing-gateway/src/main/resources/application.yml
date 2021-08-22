@@ -21,6 +21,7 @@ spring:
           uri: https://im.qq.com
           predicates:
             - Query=url,qq
+
         #优惠券服务路由
         - id: coupon_route
           uri: lb://lejing-coupon
@@ -98,6 +99,13 @@ spring:
             - Path=/api/thirdparty/**,/api/sms/**
           filters:
             - RewritePath=/api/thirdparty/(?<segment>.*),/$\{segment}
+        #任务调度服务路由
+        - id: job_route
+          uri: lb://lejing-job
+          predicates:
+            - Path=/api/job/**
+          filters:
+            - RewritePath=/api/job/(?<segment>.*),/$\{segment}
         #后台管理路由
         - id: admin_route
           uri: lb://renren-fast
@@ -108,6 +116,7 @@ spring:
             #配置路由过滤器,将当前请求http://127.0.0.1:8080/api/product/1 --> http://127.0.0.1:8080/renren-fast/1
           filters:
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
         #主机路由规则,根据域名路由
         - id: lejing_host_route
           uri: lb://lejing-product
@@ -143,6 +152,12 @@ spring:
           uri: lb://lejing-seckill
           predicates:
             - Host=seckill.lejing.com
+        # job.lejing.com
+        - id: lejing_job_route
+          uri: lb://lejing-job
+          predicates:
+            - Host=job.lejing.com
+
       #spring cloud gateway全局跨域配置
       globalcors:
         add-to-simple-url-handler-mapping: on
@@ -154,11 +169,13 @@ spring:
             exposed-headers: '*'
             allow-credentials: true
             max-age: 3600
+
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+
 #feign sentinel
 feign:
   sentinel:

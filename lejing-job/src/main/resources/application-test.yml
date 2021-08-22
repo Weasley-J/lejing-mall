@@ -1,0 +1,24 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.40.132:3306/lejing_job?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+  zipkin:
+    base-url: http://192.168.40.132:9411
+    discovery-client-enabled: off
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
+      probability: 0.1

@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: lejing-generator
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        group: DEFAULT_GROUP
+        namespace: b3bf69ba-f696-4479-aae1-94807a56eb90
+        refresh-enabled: true
+        file-extension: yml
+        shared-configs:
+          - application.yml
+        extension-configs:
+          - data-id: datasource.yml
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: generator.properties
+            group: DEFAULT_GROUP
+            refresh: true

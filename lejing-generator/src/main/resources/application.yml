@@ -1,34 +1,40 @@
-server:
-  port: 80
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: debug
 
-# mysql
+server:
+  port: 8080
+
 spring:
+  application:
+    name: lejing-generator
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
   datasource:
-    #MySQL配置
-    driverClassName: com.mysql.cj.jdbc.Driver
-    #url: jdbc:mysql://192.168.40.132:3306/lejing_sms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://192.168.40.132:3306/lejing_ums?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://192.168.40.132:3306/lejing_oms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    url: jdbc:mysql://192.168.40.132:3306/lejing_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://192.168.40.132:3306/lejing_wms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://127.0.0.1:3306/spring_shiro?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.40.132:3306/lejing_job?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+
     #oracle配置
-    #    driverClassName: oracle.jdbc.OracleDriver
+    #    driver-class-name: oracle.jdbc.OracleDriver
     #    url: jdbc:oracle:thin:@47.100.206.162:1521:xe
     #    username: renren
     #    password: 123456
     #SQLServer配置
-    #    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=renren_fast
     #    username: sa
     #    password: 123456
     #PostgreSQL配置
-  #    driverClassName: org.postgresql.Driver
-  #    url: jdbc:postgresql://192.168.10.10:5432/renren_fast
-  #    username: postgres
-  #    password: 123456
+    #    driver-class-name: org.postgresql.Driver
+    #    url: jdbc:postgresql://192.168.10.10:5432/renren_fast
+    #    username: postgres
+    #    password: 123456
 
   jackson:
     time-zone: GMT+8
@@ -47,8 +53,10 @@ spring:
 #  database: test
 
 mybatis-plus:
-  mapperLocations: classpath:mapper/**/*Dao.xml
+  mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
+  type-aliases-package: com.**.generator.domain,cn.**.generator.domain,com.**.generator.entity,cn.**.generator.entity
   configuration:
+    map-underscore-to-camel-case: on
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
@@ -56,7 +64,7 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
-#指定数据库，可选值有【mysql、oracle、sqlserver、postgresql、mongodb】
-renren:
-  database: mysql
-
+#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL, MONGODB
+code:
+  generator:
+    db-type: MYSQL

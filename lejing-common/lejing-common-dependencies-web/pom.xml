@@ -21,6 +21,11 @@
     </properties>
 
     <dependencies>
+        <!-- 优先加载bootstrap.yml -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
         <!-- spring web启动器 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

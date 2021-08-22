@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 库存锁定结果
  *
- * @author liuwe
+ * @author liuwenjing
  * @version 1.0
  * @date 2021/06/06
  */

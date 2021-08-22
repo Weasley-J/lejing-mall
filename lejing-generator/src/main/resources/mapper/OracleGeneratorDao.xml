@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.dao.OracleGeneratorDao">
-    <resultMap id="tableMap" type="map">
+<mapper namespace="cn.alphahub.mall.generator.dao.OracleGeneratorDao">
+    <resultMap id="tableMap" type="java.util.LinkedHashMap">
         <result column="TABLENAME" property="tableName"/>
         <result column="TABLECOMMENT" property="tableComment"/>
         <result column="COLUMNNAME" property="columnName"/>
@@ -30,7 +30,9 @@
     </select>
 
     <select id="queryTable" resultMap="tableMap">
-        select dt.table_name tableName, dtc.comments tableComment, dt.last_analyzed createTime
+        select dt.table_name    tableName,
+               dtc.comments     tableComment,
+               dt.last_analyzed createTime
         from user_tables dt,
              user_tab_comments dtc
         where dt.table_name = dtc.table_name

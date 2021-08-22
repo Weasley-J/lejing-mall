@@ -68,4 +68,8 @@ public class AppConstant {
      * 支付服务
      */
     public static final String PAY_SERVICE = "lejing-pay";
+    /**
+     * 乐璟商城 - 任务调度服务
+     */
+    public static final String LEJING_JOB = "lejing-job";
 }

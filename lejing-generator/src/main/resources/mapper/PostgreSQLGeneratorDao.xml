@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.renren.dao.PostgreSQLGeneratorDao">
-    <resultMap id="tableMap" type="map">
+<mapper namespace="cn.alphahub.mall.generator.dao.PostgreSQLGeneratorDao">
+    <resultMap id="tableMap" type="java.util.LinkedHashMap">
         <result column="tablename" property="tableName"/>
         <result column="tablecomment" property="tableComment"/>
         <result column="columnname" property="columnName"/>
@@ -14,7 +14,9 @@
     </resultMap>
 
     <select id="queryList" resultMap="tableMap">
-        select t1.tablename as tableName, obj_description(relfilenode, 'pg_class') as tableComment, now() as createTime
+        select t1.tablename                             as tableName,
+               obj_description(relfilenode, 'pg_class') as tableComment,
+               now()                                    as createTime
         from pg_tables t1,
              pg_class t2
                 where t1.tablename not like 'pg%'
@@ -27,7 +29,9 @@
     </select>
 
     <select id="queryTable" resultMap="tableMap">
-        select t1.tablename as tableName, obj_description(relfilenode, 'pg_class') as tableComment, now() as createTime
+        select t1.tablename                             as tableName,
+               obj_description(relfilenode, 'pg_class') as tableComment,
+               now()                                    as createTime
         from pg_tables t1,
              pg_class t2
         where t1.tablename = #{tableName}
@@ -37,8 +41,7 @@
     <select id="queryColumns" resultMap="tableMap">
         select t2.attname                                        as columnName,
                pg_type.typname                                   as dataType,
-               col_description(t2.attrelid, t2.attnum)           as
-                                                                    columnComment,
+               col_description(t2.attrelid, t2.attnum)           as columnComment,
                ''                                                as extra,
                (CASE t3.contype WHEN 'p' THEN 'PRI' ELSE '' END) as columnKey
         from pg_class as t1,

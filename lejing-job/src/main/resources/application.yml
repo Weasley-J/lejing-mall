@@ -1,0 +1,35 @@
+server:
+  port: 8008
+spring:
+  application:
+    name: lejing-job
+  profiles:
+    #运行环境: dev|test|prod
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
+  type-aliases-package: com.**.job.domain,cn.**.job.domain,com.**.job.entity,cn.**.job.entity
+  global-config:
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ASSIGN_ID:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"
+      id-type: assign_id
+  configuration:
+    map-underscore-to-camel-case: on
+# PageHelper分页插件
+pagehelper:
+  reasonable: on
+  support-methods-arguments: on
+  params: count=countSql
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

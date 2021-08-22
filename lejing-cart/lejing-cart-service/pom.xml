@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-cart</artifactId>
-        <groupId>com.lejing.mall.cart</groupId>
         <version>1.1.3-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-cart-service</artifactId>
     <version>1.1.3-SNAPSHOT</version>
     <description>购物车模块 - 业务模块</description>
@@ -26,7 +26,7 @@
         </dependency>
         <!-- 购物车 - interface -->
         <dependency>
-            <groupId>com.lejing.mall.cart</groupId>
+            <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-cart-interface</artifactId>
         </dependency>
         <!--会员 feign远程调用模块-->
