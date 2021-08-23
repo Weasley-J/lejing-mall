@@ -13,6 +13,12 @@ spring:
       server-addr: 127.0.0.1:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/views/
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,25 +29,18 @@ spring:
     #oracle配置
     #    driver-class-name: oracle.jdbc.OracleDriver
     #    url: jdbc:oracle:thin:@47.100.206.162:1521:xe
-    #    username: renren
+    #    username: oracle
     #    password: 123456
     #SQLServer配置
     #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=renren_fast
-    #    username: sa
+    #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=lejing_job
+    #    username: sqlserver
     #    password: 123456
     #PostgreSQL配置
     #    driver-class-name: org.postgresql.Driver
-    #    url: jdbc:postgresql://192.168.10.10:5432/renren_fast
+    #    url: jdbc:postgresql://192.168.10.10:5432/lejing_job
     #    username: postgres
     #    password: 123456
-
-  jackson:
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
-  web:
-    resources:
-      static-locations: classpath:/static/,classpath:/views/
 
 #mongodb:
 #  host: localhost

@@ -70,7 +70,7 @@
         <pagehelper.version>5.2.1</pagehelper.version>
         <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
         <shiro.starter.version>1.7.1</shiro.starter.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.78</fastjson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.11.0</commons-io.version>
         <javase.version>3.4.1</javase.version>
@@ -493,14 +493,14 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>com.github.shalousun</groupId>
-                    <artifactId>smart-doc-maven-plugin</artifactId>
-                    <version>${smart-doc.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${maven-source-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.shalousun</groupId>
+                    <artifactId>smart-doc-maven-plugin</artifactId>
+                    <version>${smart-doc.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
