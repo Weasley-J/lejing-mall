@@ -1,26 +1,42 @@
 package cn.alphahub.mall.generator.entity;
 
+import java.io.Serializable;
+
 /**
  * 列的属性
  *
  * @author chenshun
  * @date 2016年12月20日 上午12:01:45
  */
-public class ColumnEntity {
-    //列名
+public class ColumnEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+    /**
+     * 列名
+     */
     private String columnName;
-    //列名类型
+    /**
+     * 列名类型
+     */
     private String dataType;
-    //列名备注
+    /**
+     * 列名备注
+     */
     private String comments;
-
-    //属性名称(第一个字母大写)，如：user_name => UserName
+    /**
+     * 属性名称(第一个字母大写)，如：user_name => UserName
+     */
     private String attrName;
-    //属性名称(第一个字母小写)，如：user_name => userName
+    /**
+     * 属性名称(第一个字母小写)，如：user_name => userName
+     */
     private String attrname;
-    //属性类型
+    /**
+     * 属性类型
+     */
     private String attrType;
-    //auto_increment
+    /**
+     * auto_increment
+     */
     private String extra;
 
     public String getColumnName() {

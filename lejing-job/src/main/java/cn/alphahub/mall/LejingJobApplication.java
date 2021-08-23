@@ -1,4 +1,4 @@
-package cn.alphahub.mall.job;
+package cn.alphahub.mall;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.**.job.feign"})
-@MapperScan(value = {"cn.**.member.dao", "cn.**.member.mapper"})
+@MapperScan(value = {"cn.**.job.mapper", "cn.**.sys.mapper"})
 @SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingJobApplication {
 

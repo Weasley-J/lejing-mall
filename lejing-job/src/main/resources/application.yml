@@ -16,7 +16,7 @@ spring:
       time: HH:mm:ss
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
-  type-aliases-package: com.**.job.domain,cn.**.job.domain,com.**.job.entity,cn.**.job.entity
+  type-aliases-package: cn.**.job.domain,cn.**.sys.domain
   global-config:
     db-config:
       #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ASSIGN_ID:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"

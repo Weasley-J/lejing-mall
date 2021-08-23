@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,7 @@ import java.util.zip.ZipOutputStream;
 @Data
 @Slf4j
 @Service
+@RefreshScope
 public class SysGeneratorService {
 
     @Value("${spring.cloud.nacos.server-addr:127.0.0.1:8848}")

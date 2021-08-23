@@ -19,13 +19,22 @@ import java.util.Objects;
  */
 
 public class MongoDefinition implements Serializable {
-    /***属性名**/
+    private static final long serialVersionUID = 1L;
+    /**
+     * 属性名
+     */
     private String propertyName;
-    /***属性类型 对应mongodb api $type   如果没有类型 表示这是一个顶层实体  而不是内嵌属性**/
+    /**
+     * 属性类型 对应mongodb api $type   如果没有类型 表示这是一个顶层实体  而不是内嵌属性
+     **/
     private Integer type;
-    /***此属性是否是数组**/
+    /**
+     * 此属性是否是数组
+     */
     private boolean array = false;
-    /***如果此属性是对象  那么他仍然有此类型的子类**/
+    /**
+     * 如果此属性是对象  那么他仍然有此类型的子类
+     */
     private List<MongoDefinition> child;
 
 

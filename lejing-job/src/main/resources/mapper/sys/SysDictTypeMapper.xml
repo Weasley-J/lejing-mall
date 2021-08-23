@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.alphahub.mall.sys.mapper.SysDictTypeMapper">
+
+	<!-- 可根据自己的需求，按需使用 -->
+    <resultMap type="cn.alphahub.mall.sys.domain.SysDictType" id="sysDictTypeResult">
+        <result property="id" column="id"/>
+        <result property="dictName" column="dict_name"/>
+        <result property="dictType" column="dict_type"/>
+        <result property="remark" column="remark"/>
+        <result property="sort" column="sort"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updater" column="updater"/>
+        <result property="deleteTime" column="delete_time"/>
+        <result property="deleter" column="deleter"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+</mapper>

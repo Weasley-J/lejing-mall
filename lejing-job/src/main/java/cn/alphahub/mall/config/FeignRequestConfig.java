@@ -1,4 +1,4 @@
-package cn.alphahub.mall.job.config;
+package cn.alphahub.mall.config;
 
 import com.google.common.net.HttpHeaders;
 import feign.Logger;

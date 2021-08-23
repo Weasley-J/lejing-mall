@@ -1,8 +1,8 @@
 package cn.alphahub.mall.generator.entity.mongo;
 
-
 import cn.alphahub.mall.generator.entity.TableEntity;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +13,15 @@ import java.util.Map;
  * @author gxz
  * @date 2020/5/10 0:14
  */
-public class MongoGeneratorEntity {
-    /***表信息**/
+public class MongoGeneratorEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+    /**
+     * 表信息
+     */
     private Map<String, String> tableInfo;
-    /***主类的列名信息**/
+    /**
+     * 主类的列名信息
+     */
     private List<Map<String, String>> columns;
 
 

@@ -35,6 +35,11 @@ import javax.annotation.Resource;
 public class DatabaseConfig {
     private static boolean mongo = false;
 
+    /**
+     * 数据库类型
+     *
+     * @see DbType
+     */
     @Value("${code.generator.db-type: MYSQL}")
     private DbType dbType;
 
