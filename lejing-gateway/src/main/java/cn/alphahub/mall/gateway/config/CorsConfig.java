@@ -9,6 +9,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -33,7 +34,7 @@ public class CorsConfig {
         config.setAllowedHeaders(Collections.singletonList(CorsConfiguration.ALL));
         config.setAllowedMethods(Collections.singletonList(CorsConfiguration.ALL));
         config.setAllowedOriginPatterns(Collections.singletonList(CorsConfiguration.ALL));
-        config.setExposedHeaders(Arrays.asList(HttpHeaders.SET_COOKIE));
+        config.setExposedHeaders(List.of(HttpHeaders.SET_COOKIE));
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
