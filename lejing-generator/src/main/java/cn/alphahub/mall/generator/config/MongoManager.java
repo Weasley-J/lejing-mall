@@ -12,19 +12,21 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MongoManager {
 
-    /***mongo扫描很消耗性能 尤其是子类的封装  使用缓存**/
-    private static final Map<String, MongoDefinition> mongoCache = new ConcurrentHashMap<>();
+    /**
+     * mongo扫描很消耗性能 尤其是子类的封装  使用缓存
+     */
+    private static final Map<String, MongoDefinition> MONGO_CACHE = new ConcurrentHashMap<>();
 
     public static Map<String, MongoDefinition> getCache() {
-        return mongoCache;
+        return MONGO_CACHE;
     }
 
     public static MongoDefinition getInfo(String tableName) {
-        return mongoCache.getOrDefault(tableName, null);
+        return MONGO_CACHE.getOrDefault(tableName, null);
     }
 
     public static MongoDefinition putInfo(String tableName, MongoDefinition mongoDefinition) {
-        return mongoCache.put(tableName, mongoDefinition);
+        return MONGO_CACHE.put(tableName, mongoDefinition);
     }
 
     /**
@@ -33,6 +35,5 @@ public class MongoManager {
     public static boolean isMongo() {
         return DatabaseConfig.isMongo();
     }
-
 
 }

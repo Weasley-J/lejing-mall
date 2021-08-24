@@ -26,12 +26,6 @@
     </properties>
 
     <dependencies>
-        <!-- spring boot yml文件元数据映射配置 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!-- 优先加载bootstrap.yml -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -47,6 +41,13 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+        <!-- spring boot yml文件元数据映射配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -67,7 +68,7 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.stater.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <!-- hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>

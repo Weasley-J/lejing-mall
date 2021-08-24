@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
-
 package cn.alphahub.mall.generator.config;
 
 import cn.alphahub.mall.generator.dao.GeneratorDao;
@@ -16,6 +8,7 @@ import cn.alphahub.mall.generator.dao.PostgreSQLGeneratorDao;
 import cn.alphahub.mall.generator.dao.SQLServerGeneratorDao;
 import cn.alphahub.mall.generator.enums.DbType;
 import cn.alphahub.mall.generator.utils.BizException;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +23,13 @@ import javax.annotation.Resource;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@Data
 @RefreshScope
 @Configuration
 public class DatabaseConfig {
+    /**
+     * mongo
+     */
     private static boolean mongo = false;
 
     /**
