@@ -17,10 +17,10 @@ public interface SysJobService extends IService<SysJob> {
     /**
      * 查询定时任务调度表分页列表
      *
-     * @param pageDomain 分页数据
-     * @param sysJob     分页对象
+     * @param page   分页参数
+     * @param sysJob 分页对象
      * @return 定时任务调度表分页数据
      */
-    PageResult<SysJob> queryPage(PageDomain pageDomain, SysJob sysJob);
+    PageResult<SysJob> queryPage(PageDomain page, SysJob sysJob);
 
 }

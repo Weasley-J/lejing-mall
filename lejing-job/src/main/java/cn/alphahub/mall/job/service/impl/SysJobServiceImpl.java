@@ -5,7 +5,7 @@ import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.job.domain.SysJob;
 import cn.alphahub.mall.job.mapper.SysJobMapper;
 import cn.alphahub.mall.job.service.SysJobService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +24,15 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
     /**
      * 查询定时任务调度表分页列表
      *
-     * @param pageDomain 分页数据
-     * @param sysJob     分页对象
+     * @param page   分页参数
+     * @param sysJob 分页对象
      * @return 定时任务调度表分页数据
      */
     @Override
-    public PageResult<SysJob> queryPage(PageDomain pageDomain, SysJob sysJob) {
-        // 1. 构造mybatis-plus查询wrapper
-        QueryWrapper<SysJob> wrapper = new QueryWrapper<>(sysJob);
-        // 2. 创建一个分页对象
+    public PageResult<SysJob> queryPage(PageDomain page, SysJob sysJob) {
         PageResult<SysJob> pageResult = new PageResult<>();
-        // 3. 开始分页
-        pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
-        List<SysJob> sysJobList = this.list(wrapper);
-        // 5. 分装并返回数据
+        pageResult.startPage(page);
+        List<SysJob> sysJobList = list(Wrappers.lambdaQuery(sysJob));
         return pageResult.getPage(sysJobList);
     }
 

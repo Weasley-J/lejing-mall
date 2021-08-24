@@ -10,6 +10,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import static com.baomidou.mybatisplus.core.toolkit.StringUtils.camelToUnderline;
 
@@ -73,6 +74,7 @@ public class PageDomain implements Serializable {
         if (StringUtils.isAllBlank(orderColumn)) {
             return "";
         }
-        return camelToUnderline(orderColumn) + " " + isAsc;
+        Set<String> set = Set.of("asc", "desc");
+        return set.contains(orderColumn.toLowerCase()) ? camelToUnderline(orderColumn) + " " + isAsc : "";
     }
 }
