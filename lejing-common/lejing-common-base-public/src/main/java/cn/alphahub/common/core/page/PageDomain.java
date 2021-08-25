@@ -65,16 +65,16 @@ public class PageDomain implements Serializable {
         int pageNum = ObjectUtils.isEmpty(page) || this.getPage() <= 0 ? 1 : this.getPage();
         int pageSize = ObjectUtils.isEmpty(rows) || this.getRows() <= 0 ? 10 : this.getRows();
         if (ObjectUtils.allNotNull(pageNum, pageSize)) {
-            String orderBy = SqlUtil.escapeOrderBySql(this.getOrderBy());
+            String orderBy = SqlUtil.escapeOrderBySql(getOrderBy());
             PageHelper.startPage(pageNum, pageSize, orderBy);
         }
     }
 
     public String getOrderBy() {
-        if (StringUtils.isAllBlank(orderColumn)) {
+        if (StringUtils.isBlank(orderColumn)) {
             return "";
         }
         Set<String> set = Set.of("asc", "desc");
-        return set.contains(orderColumn.toLowerCase()) ? camelToUnderline(orderColumn) + " " + isAsc : "";
+        return set.contains(isAsc.toLowerCase()) ? camelToUnderline(orderColumn) + " " + isAsc : "";
     }
 }

@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-24 00:18:33
+ * @date 2021-08-25 23:15:04
  */
 public interface SysJobService extends IService<SysJob> {
 

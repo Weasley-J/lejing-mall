@@ -3,7 +3,6 @@
 
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-	<!-- 可根据自己的需求，按需使用 -->
     <resultMap type="${package}.${moduleName}.domain.${className}" id="${classname}Result">
 #foreach($column in $columns)
         <result property="${column.attrname}" column="${column.columnName}"/>

@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-24 00:18:33
+ * @date 2021-08-25 23:15:04
  */
 @Service
 public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> implements SysJobService {
@@ -32,7 +32,7 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
     public PageResult<SysJob> queryPage(PageDomain page, SysJob sysJob) {
         PageResult<SysJob> pageResult = new PageResult<>();
         pageResult.startPage(page);
-        List<SysJob> sysJobList = list(Wrappers.lambdaQuery(sysJob));
+        List<SysJob> sysJobList = this.list(Wrappers.lambdaQuery(sysJob));
         return pageResult.getPage(sysJobList);
     }
 

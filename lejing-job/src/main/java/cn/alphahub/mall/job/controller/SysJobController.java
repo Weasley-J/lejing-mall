@@ -15,12 +15,11 @@ import java.util.Arrays;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-24 00:18:33
+ * @date 2021-08-25 23:15:04
  */
 @RestController
 @RequestMapping("/job/sysjob")
 public class SysJobController {
-
     @Resource
     private SysJobService sysJobService;
 
@@ -82,7 +81,7 @@ public class SysJobController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{jobIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] jobIds) {
+    public BaseResult<Boolean> delete(@PathVariable(name = "jobIds") Long[] jobIds) {
         boolean delete = sysJobService.removeByIds(Arrays.asList(jobIds));
         return BaseResult.ok(delete);
     }

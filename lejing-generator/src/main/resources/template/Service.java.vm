@@ -17,10 +17,10 @@ public interface ${className}Service extends IService<${className}> {
     /**
      * 查询${comments}分页列表
      *
-     * @param pageDomain 分页数据
+     * @param page   分页参数
      * @param ${classname} 分页对象
      * @return ${comments}分页数据
      */
-    PageResult<${className}> queryPage(PageDomain pageDomain, ${className} ${classname});
+    PageResult<${className}> queryPage(PageDomain page, ${className} ${classname});
 
 }

@@ -3,7 +3,6 @@
 
 <mapper namespace="cn.alphahub.mall.sys.mapper.SysDictTypeMapper">
 
-	<!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.sys.domain.SysDictType" id="sysDictTypeResult">
         <result property="id" column="id"/>
         <result property="dictName" column="dict_name"/>

@@ -3,7 +3,6 @@
 
 <mapper namespace="cn.alphahub.mall.job.mapper.SysJobMapper">
 
-	<!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.job.domain.SysJob" id="sysJobResult">
         <result property="jobId" column="job_id"/>
         <result property="jobName" column="job_name"/>

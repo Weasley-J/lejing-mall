@@ -7,7 +7,7 @@ import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.domain.${className};
 import ${package}.${moduleName}.service.${className}Service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +26,15 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     /**
      * 查询${comments}分页列表
      *
-     * @param pageDomain   分页数据
+     * @param page   分页参数
      * @param ${classname} 分页对象
      * @return ${comments}分页数据
      */
     @Override
-    public PageResult<${className}> queryPage(PageDomain pageDomain, ${className} ${classname}) {
-        // 1. 构造mybatis-plus查询wrapper
-        QueryWrapper<${className}> wrapper = new QueryWrapper<>(${classname});
-        // 2. 创建一个分页对象
+    public PageResult<${className}> queryPage(PageDomain page, ${className} ${classname}) {
         PageResult<${className}> pageResult = new PageResult<>();
-        // 3. 开始分页
-        pageResult.startPage(pageDomain);
-        // 4. 执行Dao|Mapper SQL查询
-        List<${className}> ${classname}List = this.list(wrapper);
-        // 5. 分装并返回数据
+        pageResult.startPage(page);
+        List<${className}> ${classname}List = this.list(Wrappers.lambdaQuery(${classname}));
         return pageResult.getPage(${classname}List);
     }
 

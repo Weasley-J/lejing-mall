@@ -3,7 +3,6 @@
 
 <mapper namespace="cn.alphahub.mall.sys.mapper.SysParamsMapper">
 
-	<!-- 可根据自己的需求，按需使用 -->
     <resultMap type="cn.alphahub.mall.sys.domain.SysParams" id="sysParamsResult">
         <result property="id" column="id"/>
         <result property="paramCode" column="param_code"/>
