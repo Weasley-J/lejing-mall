@@ -9,7 +9,9 @@ import cn.alphahub.mall.generator.dao.SQLServerGeneratorDao;
 import cn.alphahub.mall.generator.enums.DbType;
 import cn.alphahub.mall.generator.utils.BizException;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -21,24 +23,19 @@ import javax.annotation.Resource;
 /**
  * 数据库配置
  *
- * @author Mark sunlightcs@gmail.com
+ * @author Mark sunlightcs@gmail.com, lwj
  */
 @Data
-@RefreshScope
 @Configuration
+@EnableConfigurationProperties({GeneratorDatabaseProperties.class})
 public class DatabaseConfig {
     /**
      * mongo
      */
     private static boolean mongo = false;
 
-    /**
-     * 数据库类型
-     *
-     * @see DbType
-     */
-    @Value("${code.generator.db-type: MYSQL}")
-    private DbType dbType;
+    @Resource
+    private GeneratorDatabaseProperties generatorDatabaseProperties;
 
     @Resource
     private MySQLGeneratorDao mysqlgeneratordao;
@@ -58,8 +55,10 @@ public class DatabaseConfig {
 
     @Bean
     @Primary
+    @RefreshScope
     @Conditional(MongoNullCondition.class)
     public GeneratorDao getGeneratorDao() {
+        DbType dbType = generatorDatabaseProperties.getDbType();
         if (DbType.MYSQL == dbType) {
             return mysqlgeneratordao;
         } else if (DbType.ORACLE == dbType) {
@@ -74,7 +73,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    @Primary
+    @RefreshScope
     @Conditional(MongoCondition.class)
     public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
         mongo = true;
