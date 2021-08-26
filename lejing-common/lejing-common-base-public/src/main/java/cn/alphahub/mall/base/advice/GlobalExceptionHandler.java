@@ -140,9 +140,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Throwable.class)
     public BaseResult<Object> handleException(Throwable throwable) {
         log.error("错误信息: ", throwable);
-        return BaseResult.error(
-                BizCodeEnum.UNKNOWN_EXCEPTION.getCode(),
-                BizCodeEnum.UNKNOWN_EXCEPTION.getMessage(),
-                "Caused by:" + throwable.getLocalizedMessage());
+        return BaseResult.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMessage(), "Caused by:" + throwable.getLocalizedMessage());
     }
 }
