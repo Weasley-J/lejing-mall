@@ -69,12 +69,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public BaseResult<Object> handleValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
-        Map<String, Object> errorMap = new LinkedHashMap<>();
-        result.getFieldErrors().forEach(fieldError -> {
-            String errorField = fieldError.getField();
-            String errorMessage = fieldError.getDefaultMessage();
-            errorMap.putIfAbsent(errorField, errorMessage);
+        Map<String, Map<String, Object>> errorMap = new LinkedHashMap<>();
+        Map<String, Object> globalErrorMap = new LinkedHashMap<>();
+        Map<String, Object> fieldErrorMap = new LinkedHashMap<>();
+        result.getGlobalErrors().forEach(objectError -> {
+            globalErrorMap.putIfAbsent(objectError.getObjectName(), e.getTarget());
+            globalErrorMap.putIfAbsent("errorMsg", objectError.getDefaultMessage());
         });
+        result.getFieldErrors().forEach(fieldError -> {
+            fieldErrorMap.putIfAbsent(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+        errorMap.putIfAbsent("globalError", globalErrorMap);
+        errorMap.putIfAbsent("fieldError", fieldErrorMap);
         log.error("数据校验异常：{}，异常类型：{}", e.getMessage(), e.getClass());
         return BaseResult.error(
                 BizCodeEnum.VALID_EXCEPTION.getCode(),
