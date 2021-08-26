@@ -9,14 +9,11 @@ import cn.alphahub.mall.generator.dao.SQLServerGeneratorDao;
 import cn.alphahub.mall.generator.enums.DbType;
 import cn.alphahub.mall.generator.utils.BizException;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
 
@@ -54,7 +51,6 @@ public class DatabaseConfig {
     }
 
     @Bean
-    @Primary
     @RefreshScope
     @Conditional(MongoNullCondition.class)
     public GeneratorDao getGeneratorDao() {
