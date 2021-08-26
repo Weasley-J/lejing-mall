@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.sys.mapper.SysParamsMapper">
+<mapper namespace="cn.alphahub.mall.schedule.sys.mapper.SysParamsMapper">
 
-    <resultMap type="cn.alphahub.mall.sys.domain.SysParams" id="sysParamsResult">
+    <resultMap type="cn.alphahub.mall.schedule.sys.domain.SysParams" id="sysParamsResult">
         <result property="id" column="id"/>
         <result property="paramCode" column="param_code"/>
         <result property="paramValue" column="param_value"/>

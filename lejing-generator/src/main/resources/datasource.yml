@@ -5,7 +5,16 @@ spring:
     url: jdbc:mysql://192.168.40.132:3306/lejing_job?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
-#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL, MONGODB
+#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL
 code:
   generator:
     db-type: MYSQL
+
+#mongodb:
+#  host: localhost
+#  port: 27017
+#  auth: false #是否使用密码验证
+#  username: admin
+#  password: 123456
+#  source: 123456
+#  database: mongodb_test

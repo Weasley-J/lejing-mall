@@ -1,19 +1,25 @@
 server:
   port: 8008
+  shutdown: graceful
 spring:
+
   application:
     name: lejing-job
+
   profiles:
     #运行环境: dev|test|prod
     active: dev
+
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: cn.**.job.domain,cn.**.sys.domain
@@ -23,11 +29,13 @@ mybatis-plus:
       id-type: assign_id
   configuration:
     map-underscore-to-camel-case: on
+
 # PageHelper分页插件
 pagehelper:
   reasonable: on
   support-methods-arguments: on
   params: count=countSql
+
 management:
   endpoints:
     web:

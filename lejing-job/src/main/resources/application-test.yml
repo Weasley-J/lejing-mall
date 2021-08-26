@@ -3,22 +3,70 @@ spring:
     resources:
       #控制api文档访问, smart-doc生成的html静态api文档
       add-mappings: on
+
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/lejing_job?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
+
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
+
   zipkin:
     base-url: http://192.168.40.132:9411
     discovery-client-enabled: off
     sender:
       type: web
+
   sleuth:
     sampler:
       #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
       probability: 0.1
+
+  #quartz任务调度配置
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      #初始化Quartz表结构,项目第一次启动配置程always,然后改成never 否则已生成的job会被初始化掉
+      initialize-schema: never
+      comment-prefix: QRTZ_
+    scheduler-name: "${spring.application.name:Lejing}-Quartz-Scheduler"
+    startup-delay: 0s
+    auto-startup: true
+    wait-for-jobs-to-complete-on-shutdown: true
+    overwrite-existing-jobs: true
+    # 额外的Quartz调度器属性
+    properties:
+      org:
+        quartz:
+          scheduler:
+            #调度器的实例名
+            instanceName: clusteredScheduler
+            #调度器编号自动生成
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            #数据库表名前缀
+            tablePrefix: QRTZ_
+            #开启分布式部署
+            isClustered: true
+            #分布式节点有效性检查时间间隔,单位:秒
+            clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            #自带的线程池实现类
+            class: org.quartz.simpl.SimpleThreadPool
+            #开启10个线程
+            threadCount: 10
+            #工作者线程的优先级
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

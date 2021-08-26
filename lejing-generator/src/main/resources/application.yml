@@ -28,17 +28,17 @@ spring:
 
     #oracle配置
     #    driver-class-name: oracle.jdbc.OracleDriver
-    #    url: jdbc:oracle:thin:@47.100.206.162:1521:xe
+    #    url: jdbc:oracle:thin:@192.168.40.132:1521:xe
     #    username: oracle
     #    password: 123456
     #SQLServer配置
     #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    #    url: jdbc:sqlserver://192.168.10.10:1433;DatabaseName=lejing_job
+    #    url: jdbc:sqlserver://192.168.40.132:1433;DatabaseName=lejing_job
     #    username: sqlserver
     #    password: 123456
     #PostgreSQL配置
     #    driver-class-name: org.postgresql.Driver
-    #    url: jdbc:postgresql://192.168.10.10:5432/lejing_job
+    #    url: jdbc:postgresql://192.168.40.132:5432/sonarqube
     #    username: postgres
     #    password: 123456
 
@@ -46,10 +46,10 @@ spring:
 #  host: localhost
 #  port: 27017
 #  auth: false #是否使用密码验证
-#  username: tincery
-#  password: renren
+#  username: admin
+#  password: 123456
 #  source: 123456
-#  database: test
+#  database: mongodb_test
 
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
@@ -63,7 +63,7 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
-#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL, MONGODB
+#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL
 code:
   generator:
     db-type: MYSQL

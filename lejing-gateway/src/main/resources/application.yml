@@ -103,7 +103,7 @@ spring:
         - id: job_route
           uri: lb://lejing-job
           predicates:
-            - Path=/api/job/**
+            - Path=/api/schedule/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
         #后台管理路由

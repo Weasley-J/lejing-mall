@@ -53,7 +53,7 @@ public class SysGeneratorService {
     private String group = "DEFAULT_GROUP";
 
     @Autowired
-    @Qualifier("getGeneratorDao")
+    @Qualifier("initGeneratorDao")
     private GeneratorDao generatorDao;
 
     public PageUtils queryList(Query query) {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.sys.mapper.SysDictTypeMapper">
+<mapper namespace="cn.alphahub.mall.schedule.sys.mapper.SysDictTypeMapper">
 
-    <resultMap type="cn.alphahub.mall.sys.domain.SysDictType" id="sysDictTypeResult">
+    <resultMap type="cn.alphahub.mall.schedule.sys.domain.SysDictType" id="sysDictTypeResult">
         <result property="id" column="id"/>
         <result property="dictName" column="dict_name"/>
         <result property="dictType" column="dict_type"/>

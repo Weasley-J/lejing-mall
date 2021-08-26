@@ -53,18 +53,19 @@ public class DatabaseConfig {
     @Bean
     @RefreshScope
     @Conditional(MongoNullCondition.class)
-    public GeneratorDao getGeneratorDao() {
+    public GeneratorDao initGeneratorDao() {
         DbType dbType = generatorDatabaseProperties.getDbType();
-        if (DbType.MYSQL == dbType) {
-            return mysqlgeneratordao;
-        } else if (DbType.ORACLE == dbType) {
-            return oracleGeneratorDao;
-        } else if (DbType.SQLSERVER == dbType) {
-            return sqlServerGeneratorDao;
-        } else if (DbType.POSTGRESQL == dbType) {
-            return postgresqlGeneratorDao;
-        } else {
-            throw new BizException("不支持当前数据库：" + dbType.getName());
+        switch (dbType) {
+            case MYSQL:
+                return mysqlgeneratordao;
+            case ORACLE:
+                return oracleGeneratorDao;
+            case SQLSERVER:
+                return sqlServerGeneratorDao;
+            case POSTGRESQL:
+                return postgresqlGeneratorDao;
+            default:
+                throw new BizException("不支持当前数据库：" + dbType.getName());
         }
     }
 

@@ -54,28 +54,82 @@ api[1].list.push({
     desc: '批量删除定时任务调度日志表',
 });
 api.push({
-    alias: 'error',
+    alias: 'SysDictTypeController',
     order: '3',
+    link: '字典类型controller',
+    desc: '字典类型Controller',
+    list: []
+})
+api[2].list.push({
+    order: '1',
+    desc: '查询字典类型列表',
+});
+api[2].list.push({
+    order: '2',
+    desc: '获取字典类型详情',
+});
+api[2].list.push({
+    order: '3',
+    desc: '新增字典类型',
+});
+api[2].list.push({
+    order: '4',
+    desc: '修改字典类型',
+});
+api[2].list.push({
+    order: '5',
+    desc: '批量删除字典类型',
+});
+api.push({
+    alias: 'SysParamsController',
+    order: '4',
+    link: '参数管理controller',
+    desc: '参数管理Controller',
+    list: []
+})
+api[3].list.push({
+    order: '1',
+    desc: '查询参数管理列表',
+});
+api[3].list.push({
+    order: '2',
+    desc: '获取参数管理详情',
+});
+api[3].list.push({
+    order: '3',
+    desc: '新增参数管理',
+});
+api[3].list.push({
+    order: '4',
+    desc: '修改参数管理',
+});
+api[3].list.push({
+    order: '5',
+    desc: '批量删除参数管理',
+});
+api.push({
+    alias: 'error',
+    order: '5',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '4',
+    order: '6',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[3].list.push({
+api[5].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[3].list.push({
+api[5].list.push({
     order: '2',
     desc: '验证码请求来源字典',
 });
-api[3].list.push({
+api[5].list.push({
     order: '3',
     desc: '电子入场券状态字典',
 });

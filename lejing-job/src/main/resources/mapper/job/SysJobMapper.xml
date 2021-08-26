@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.job.mapper.SysJobMapper">
+<mapper namespace="cn.alphahub.mall.schedule.job.mapper.SysJobMapper">
 
-    <resultMap type="cn.alphahub.mall.job.domain.SysJob" id="sysJobResult">
+    <resultMap type="cn.alphahub.mall.schedule.job.domain.SysJob" id="sysJobResult">
         <result property="jobId" column="job_id"/>
         <result property="jobName" column="job_name"/>
         <result property="jobGroup" column="job_group"/>
