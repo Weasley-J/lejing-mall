@@ -68,7 +68,7 @@ public class DatabaseConfig {
         } else if (DbType.POSTGRESQL == dbType) {
             return postgresqlGeneratorDao;
         } else {
-            throw new BizException("不支持当前数据库：" + dbType);
+            throw new BizException("不支持当前数据库：" + dbType.getName());
         }
     }
 
