@@ -1,5 +1,7 @@
 package cn.alphahub.mall.generator.config;
 
+import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
+import cn.alphahub.mall.generator.config.condition.MongoNullCondition;
 import cn.alphahub.mall.generator.dao.GeneratorDao;
 import cn.alphahub.mall.generator.dao.MongoDBGeneratorDao;
 import cn.alphahub.mall.generator.dao.MySQLGeneratorDao;
@@ -24,7 +26,7 @@ import javax.annotation.Resource;
  */
 @Data
 @Configuration
-@EnableConfigurationProperties({GeneratorDatabaseProperties.class})
+@EnableConfigurationProperties({DbTypeProperties.class})
 public class DatabaseConfig {
     /**
      * mongo
@@ -32,7 +34,7 @@ public class DatabaseConfig {
     private static boolean mongo = false;
 
     @Resource
-    private GeneratorDatabaseProperties generatorDatabaseProperties;
+    private DbTypeProperties dbTypeProperties;
 
     @Resource
     private MySQLGeneratorDao mysqlgeneratordao;
@@ -54,7 +56,7 @@ public class DatabaseConfig {
     @RefreshScope
     @Conditional(MongoNullCondition.class)
     public GeneratorDao initGeneratorDao() {
-        DbType dbType = generatorDatabaseProperties.getDbType();
+        DbType dbType = dbTypeProperties.getDbType();
         switch (dbType) {
             case MYSQL:
                 return mysqlgeneratordao;
@@ -71,7 +73,7 @@ public class DatabaseConfig {
 
     @Bean
     @RefreshScope
-    @Conditional(MongoCondition.class)
+    @Conditional(MongoNonNullCondition.class)
     public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
         mongo = true;
         return mongoDBGeneratorDao;

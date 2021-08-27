@@ -63,7 +63,7 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
-#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL
+#指定要生成代码的数据库类型, 可选值: MYSQL, ORACLE, SQLSERVER, POSTGRESQL, MONGODB
 code:
   generator:
     db-type: MYSQL

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.generator.dao;
 
 import cn.alphahub.mall.generator.adaptor.MongoTableInfoAdaptor;
-import cn.alphahub.mall.generator.config.MongoCondition;
+import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
 import cn.alphahub.mall.generator.config.MongoManager;
 import cn.alphahub.mall.generator.entity.mongo.MongoDefinition;
 import cn.alphahub.mall.generator.factory.MongoDBCollectionFactory;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @author gxz gongxuanzhang@foxmail.com
  **/
 @Repository
-@Conditional(MongoCondition.class)
+@Conditional(MongoNonNullCondition.class)
 public class MongoDBGeneratorDao implements GeneratorDao {
 
     @Autowired

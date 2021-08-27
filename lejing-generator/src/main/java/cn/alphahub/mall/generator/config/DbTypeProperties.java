@@ -4,7 +4,6 @@ import cn.alphahub.mall.generator.enums.DbType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import java.io.Serializable;
 
@@ -18,7 +17,7 @@ import java.io.Serializable;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "code.generator")
-public class GeneratorDatabaseProperties implements Serializable {
+public class DbTypeProperties implements Serializable {
     /**
      * 数据库类型
      *

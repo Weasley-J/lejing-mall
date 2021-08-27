@@ -1,6 +1,5 @@
 package cn.alphahub.mall.generator.config;
 
-
 import cn.alphahub.mall.generator.entity.mongo.MongoDefinition;
 
 import java.util.Map;

@@ -1,5 +1,6 @@
 package cn.alphahub.mall.generator.config;
 
+import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
@@ -15,7 +16,7 @@ import java.util.List;
 
 /**
  * @author gxz gongxuanzhang@foxmail.com
- **/
+ */
 @Component
 @ConfigurationProperties(prefix = "mongodb")
 public class MongoConfig {
@@ -27,24 +28,22 @@ public class MongoConfig {
     private boolean auth;
     private String source;
 
-
     @Bean
-    @Conditional(MongoCondition.class)
+    @Conditional(MongoNonNullCondition.class)
     private MongoClient getMongoClient() {
         List<ServerAddress> adds = new ArrayList<>();
         ServerAddress serverAddress = new ServerAddress(this.host, this.port);
         adds.add(serverAddress);
         if (this.auth) {
-            MongoCredential mongoCredential = MongoCredential.
-                    createScramSha1Credential(this.username, this.source, this.password.toCharArray());
+            MongoCredential credential = MongoCredential.createScramSha1Credential(this.username, this.source, this.password.toCharArray());
             MongoClientOptions mongoClientOptions = MongoClientOptions.builder().build();
-            return new MongoClient(adds, mongoCredential, mongoClientOptions);
+            return new MongoClient(adds, credential, mongoClientOptions);
         }
         return new MongoClient(adds);
     }
 
     @Bean
-    @Conditional(MongoCondition.class)
+    @Conditional(MongoNonNullCondition.class)
     public MongoDatabase getDataBase() {
         return getMongoClient().getDatabase(dataBase);
     }

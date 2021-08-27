@@ -19,6 +19,7 @@ public enum DbType {
     ORACLE("oracle", "oracle数据库"),
     SQLSERVER("sqlserver", "sqlserver数据库"),
     POSTGRESQL("postgresql", "postgresql数据库"),
+    MONGODB("mongodb", "mongodb数据库"),
     ;
 
     private final String code;

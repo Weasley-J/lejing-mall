@@ -1,6 +1,6 @@
 package cn.alphahub.mall.generator.factory;
 
-import cn.alphahub.mall.generator.config.MongoCondition;
+import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
 
 /**
  * @author gxz gongxuanzhang@foxmail.com
- **/
-
+ */
 @Component
-@Conditional(MongoCondition.class)
+@Conditional(MongoNonNullCondition.class)
 public class MongoDBCollectionFactory {
 
     private static final String TABLE_NAME_KEY = "tableName";
