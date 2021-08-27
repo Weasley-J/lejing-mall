@@ -49,7 +49,7 @@ public class SysGeneratorController {
     public void code(String tables, HttpServletResponse response) throws IOException {
         Configuration config = GenUtils.getCodeGeneratorConfig();
         String zipFileName = config.getString("codeZipFileName");
-        zipFileName = StringUtils.isNotEmpty(zipFileName) ? zipFileName : "renren";
+        zipFileName = StringUtils.isNotEmpty(zipFileName) ? zipFileName : "code-generate";
         byte[] data = sysGeneratorService.generatorCode(tables.split(","));
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"" + zipFileName + ".zip\"");

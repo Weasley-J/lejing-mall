@@ -62,4 +62,14 @@ public enum TriggerStateEnum {
                 .filter(anEnum -> anEnum.getCode().equals(code))
                 .map(TriggerStateEnum::getName).findFirst().orElse(null);
     }
+
+    /**
+     * 获取quartz任务调度状态枚举
+     *
+     * @param code 枚举值
+     * @return TriggerStateEnum枚举
+     */
+    public static TriggerStateEnum getEnum(String code) {
+        return TriggerStateEnum.valueOf(code);
+    }
 }
