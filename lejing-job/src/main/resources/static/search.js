@@ -8,11 +8,11 @@ api.push({
 })
 api[0].list.push({
     order: '1',
-    desc: '分页查询定时任务',
+    desc: '获取时任务列表',
 });
 api[0].list.push({
     order: '2',
-    desc: '新增定时任务&lt;p&gt;cron定时任务&lt;/p&gt;',
+    desc: '新增cron定时任务',
 });
 api[0].list.push({
     order: '3',
@@ -28,11 +28,11 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '6',
-    desc: '定时任务状态修改',
+    desc: '修改定时任务状态',
 });
 api[0].list.push({
     order: '7',
-    desc: '立即执行一次定时任务',
+    desc: '立即执行一次任务',
 });
 api[0].list.push({
     order: '8',
@@ -44,7 +44,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '10',
-    desc: '判断定时任务是否存在',
+    desc: '定时任务是否存在',
 });
 api[0].list.push({
     order: '11',
@@ -52,11 +52,11 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '12',
-    desc: '创建简单定时任务&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+    desc: '创建简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
 api[0].list.push({
     order: '13',
-    desc: '更新简单定时任务&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+    desc: '更新简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
 api.push({
     alias: 'error',

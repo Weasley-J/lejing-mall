@@ -32,6 +32,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean createSimpleScheduleJob(QuartzParam param) {
+        log.info("创建Simple定时任务:{}", JSONUtil.toJsonStr(param));
         // 获取到定时任务的执行类  必须是全限定类名, 定时任务类需要是job类的具体实现QuartzJobBean是job的抽象类
         Class<? extends Job> jobClass = getJobClass(param.getJobClass());
         if (Objects.isNull(jobClass)) {
@@ -91,6 +92,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean createCronScheduleJob(QuartzParam param) {
+        log.info("创建Cron定时任务:{}", JSONUtil.toJsonStr(param));
         // 获取到定时任务的执行类  必须是类的绝对路径名称, 定时任务类需要是job类的具体实现 QuartzJobBean是job的抽象类
         Class<? extends Job> jobClass = getJobClass(param.getJobClass());
         if (Objects.isNull(jobClass)) {
@@ -128,6 +130,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean pauseScheduleJob(String jobName, String jobGroup) {
+        log.info("暂停定时任务:{},{}", jobGroup, jobGroup);
         try {
             JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
             scheduler.pauseJob(jobKey);
@@ -140,6 +143,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean resumeScheduleJob(String jobName, String jobGroup) {
+        log.info("恢复定时任务:{},{}", jobGroup, jobGroup);
         try {
             JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
             scheduler.resumeJob(jobKey);
@@ -152,6 +156,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public void updateSimpleScheduleJob(QuartzParam param) {
+        log.info("更新Simple定时任务:{}", JSONUtil.toJsonStr(param));
         //获取到对应任务的触发器
         TriggerKey triggerKey = getTriggerKey(param);
         // 设置定时任务执行方式
@@ -193,6 +198,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean updateCronScheduleJob(QuartzParam param) {
+        log.info("更新Cron定时任务:{}", JSONUtil.toJsonStr(param));
         try {
             //获取到对应任务的触发器
             TriggerKey triggerKey = getTriggerKey(param);
@@ -220,6 +226,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean deleteScheduleJob(String jobName, String jobGroup) {
+        log.info("从调度器当中删除定时任务:{},{}", jobGroup, jobGroup);
         try {
             JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
             scheduler.deleteJob(jobKey);
@@ -232,6 +239,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public String getScheduleJobStatus(String jobName, String jobGroup) {
+        log.info("获取任务状态:{},{}", jobGroup, jobGroup);
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
             Trigger.TriggerState state = scheduler.getTriggerState(triggerKey);
@@ -246,6 +254,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean checkExistsScheduleJob(String jobName, String jobGroup) {
+        log.info("判断任务是否存在:{},{}", jobGroup, jobGroup);
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
         try {
             return scheduler.checkExists(jobKey);
@@ -257,6 +266,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean deleteGroupJob(String jobGroup) {
+        log.info("组删除定时任务:{},{}", jobGroup, jobGroup);
         GroupMatcher<JobKey> matcher = GroupMatcher.groupEquals(jobGroup);
         try {
             Set<JobKey> jobKeySet = scheduler.getJobKeys(matcher);
@@ -270,6 +280,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean batchDeleteGroupJob(List<JobKey> jobKeyList) {
+        log.warn("batch delete group job:{}", JSONUtil.toJsonStr(jobKeyList));
         try {
             return scheduler.deleteJobs(jobKeyList);
         } catch (SchedulerException e) {
@@ -280,6 +291,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public void batchQueryGroupJob(List<JobKey> jobKeyList, String jobGroup) {
+        log.info("batch query group job:{}", JSONUtil.toJsonStr(jobKeyList));
         GroupMatcher<JobKey> matcher = GroupMatcher.groupEquals(jobGroup);
         try {
             Set<JobKey> jobKeySet = scheduler.getJobKeys(matcher);
@@ -291,6 +303,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
     @Override
     public boolean executeAtNow(String jobName, String jobGroup) {
+        log.info("立即运行一次定时任务:{},{}", jobGroup, jobGroup);
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
         try {
             scheduler.triggerJob(jobKey);

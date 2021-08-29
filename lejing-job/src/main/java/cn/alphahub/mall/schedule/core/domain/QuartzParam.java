@@ -98,7 +98,13 @@ public class QuartzParam implements Serializable {
     private Date startTime;
     /**
      * 任务循环间隔-单位：分钟
-     * <p>用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束</p>
+     * <p>
+     * 用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束
+     *     <ul>
+     *         <li>{@code interval}为null，单次触发</li>
+     *         <li>{@code interval}不为null，循环触发，从什么时间开始，循环间隔多少分钟，什么时间结束</li>
+     *     </ul>
+     * </p>
      */
     private Integer interval;
     /**

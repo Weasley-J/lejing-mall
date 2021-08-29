@@ -55,7 +55,6 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     public BaseResult<Boolean> createSimpleScheduleJob(QuartzParam param) {
         log.info("create-simple-schedule-job:{}", JSONUtil.toJsonStr(param));
         boolean scheduleJob = quartzCoreService.createSimpleScheduleJob(param);
-        save(scheduleConvertor.toQuartzJob(param));
         return BaseResult.success(scheduleJob);
     }
 
@@ -64,8 +63,6 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     public BaseResult<Boolean> updateSimpleScheduleJob(QuartzParam param) {
         log.info("update-simple-schedule-job:{}", JSONUtil.toJsonStr(param));
         quartzCoreService.updateSimpleScheduleJob(param);
-        QuartzJob job = scheduleConvertor.toQuartzJob(param);
-        updateById(job);
         return BaseResult.success();
     }
 

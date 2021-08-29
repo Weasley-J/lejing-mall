@@ -3,6 +3,7 @@ package cn.alphahub.mall.schedule.convertor;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.job.domain.QuartzJob;
 import cn.alphahub.mall.schedule.job.dto.QuartzJobDTO;
+import cn.alphahub.mall.schedule.job.dto.request.SimpleScheduleJobRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -68,4 +69,17 @@ public interface ScheduleConvertor {
      * @apiNote db -> mvc
      */
     QuartzJob toQuartzJob(QuartzJobDTO dto);
+
+    /**
+     * SimpleScheduleJobRequest -> QuartzParam
+     *
+     * @param request 简单的调度任务 - 请求参数
+     * @return quartz调度任务参数对象
+     */
+    @Mapping(target = "statusName", ignore = true)
+    @Mapping(target = "misfirePolicy", ignore = true)
+    @Mapping(target = "jobDataMap", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "cronExpression", ignore = true)
+    QuartzParam toQuartzParam(SimpleScheduleJobRequest request);
 }

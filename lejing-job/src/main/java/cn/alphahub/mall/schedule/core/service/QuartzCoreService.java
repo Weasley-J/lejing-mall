@@ -56,7 +56,6 @@ public interface QuartzCoreService {
     boolean pauseScheduleJob(String jobName, String jobGroup);
 
     /**
-     * 恢复定时任务
      * 恢复定时任务/继续定时任务
      *
      * @param jobName  定时任务名

@@ -24,6 +24,6 @@ public class SpringQuartzTaskDemo extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobKey jobKey = context.getJobDetail().getKey();
         JobDataMap map = context.getJobDetail().getJobDataMap();
-        System.err.println("\nHello, I am quartz schedule job, 定时任务: " + jobKey + ", job-data: " + JSONUtil.toJsonStr(map) + ", executing at: " + DateUtil.formatDateTime(new Date()));
+        System.err.println("\tI am quartz schedule job, 定时任务: " + jobKey + ", job-data: " + JSONUtil.toJsonStr(map) + ", executing at: " + DateUtil.formatDateTime(new Date()));
     }
 }

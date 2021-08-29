@@ -1,47 +1,42 @@
 package cn.alphahub.mall.schedule.config;
 
-import cn.alphahub.mall.schedule.convertor.ScheduleConvertor;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.core.service.QuartzCoreService;
-import cn.alphahub.mall.schedule.job.domain.QuartzJob;
-import cn.alphahub.mall.schedule.job.service.QuartzJobService;
-import lombok.extern.slf4j.Slf4j;
+import cn.alphahub.mall.schedule.job.module.internal.InitializeAllScheduledTask;
+import cn.hutool.core.date.DateUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Date;
 
 /**
  * SpringBoot启动后加载并执行持久层定时任务
  *
  * @author lwj
  */
-@Slf4j
 @Component
 public class ScheduleJobInitConfig implements ApplicationRunner {
 
     @Resource
-    private QuartzJobService quartzJobService;
-
-    @Resource
     private QuartzCoreService quartzCoreService;
-
-    @Resource
-    private ScheduleConvertor scheduleConvertor;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<QuartzJob> jobs = quartzJobService.list();
-        if (CollectionUtils.isEmpty(jobs)) {
-            return;
-        }
-        jobs.forEach(job -> {
-            QuartzParam quartzParam = scheduleConvertor.toQuartzParam(job);
-            quartzCoreService.createCronScheduleJob(quartzParam);
-            System.err.println("调度任务参数:'" + quartzParam + "'");
-        });
+
+        Date startDate = DateUtil.offsetMinute(new Date(), 3).toJdkDate();
+        String startDateStr = DateUtil.formatDateTime(startDate);
+        System.err.println("\tPersistence tasks will start initialization at '" + startDateStr + "'");
+
+        QuartzParam param = new QuartzParam();
+        param.setJobName("InitializeAllJdbcScheduledTask");
+        param.setJobGroup("InitializeGroup");
+        param.setJobClass(InitializeAllScheduledTask.class.getName());
+        param.setJobDescription("初始化所有持久层定时任务");
+        param.setStatus(1);
+        param.setStartTime(startDate);
+
+        quartzCoreService.createSimpleScheduleJob(param);
     }
 }
