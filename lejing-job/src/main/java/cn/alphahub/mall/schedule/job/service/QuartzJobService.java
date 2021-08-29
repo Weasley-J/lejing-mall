@@ -85,10 +85,11 @@ public interface QuartzJobService extends IService<QuartzJob> {
     /**
      * 立即执行一次定时任务
      *
-     * @param job 定时任务元数据
+     * @param jobName  任务名
+     * @param jobGroup 任务组
      * @return success/error
      */
-    BaseResult<Void> runAtNow(QuartzJobDTO job);
+    BaseResult<Void> runAtNow(String jobName, String jobGroup);
 
     /**
      * 暂停定时任务

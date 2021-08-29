@@ -5,12 +5,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 乐璟商城 - 任务调度服务
  *
  * @author liuwenjing
  */
+@EnableScheduling
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.alphahub.mall.schedule.job.feign"})
 @MapperScan(value = {"cn.**.job.mapper", "cn.**.sys.mapper"})

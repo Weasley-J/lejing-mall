@@ -98,12 +98,14 @@ public class ScheduleJobController {
     /**
      * 立即执行一次定时任务
      *
-     * @param job 定时任务元数据
+     * @param jobName  任务名
+     * @param jobGroup 任务组
      * @return success/error
      */
-    @PutMapping("/run/at/now")
-    public BaseResult<Void> runAtNow(@RequestBody @Validated QuartzJobDTO job) {
-        return quartzJobService.runAtNow(job);
+    @PutMapping("/run/at/now/{jobName}/{jobGroup}")
+    public BaseResult<Void> runAtNow(@PathVariable("jobName") String jobName,
+                                     @PathVariable(name = "jobGroup", required = false) String jobGroup) {
+        return quartzJobService.runAtNow(jobName, jobGroup);
     }
 
     /**
@@ -113,9 +115,9 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    @PutMapping(value = {"/pause/{jobName}", "/pause/{jobName}/{jobGroup}"})
+    @PutMapping("/pause/{jobName}/{jobGroup}")
     public BaseResult<Void> pause(@PathVariable("jobName") String jobName,
-                                  @PathVariable(required = false) String jobGroup
+                                  @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.pause(jobName, jobGroup);
     }
@@ -127,9 +129,9 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    @PutMapping(value = {"/resume/{jobName}", "/resume/{jobName}/{jobGroup}"})
+    @PutMapping("/resume/{jobName}/{jobGroup}")
     public BaseResult<Void> resume(@PathVariable("jobName") String jobName,
-                                   @PathVariable(required = false) String jobGroup
+                                   @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.resume(jobName, jobGroup);
     }
@@ -141,9 +143,9 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    @GetMapping(value = {"/check/{jobName}", "/check/{jobName}/{jobGroup}"})
+    @GetMapping("/check/{jobName}/{jobGroup}")
     public BaseResult<Boolean> check(@PathVariable("jobName") String jobName,
-                                     @PathVariable(required = false) String jobGroup
+                                     @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.check(jobName, jobGroup);
     }
@@ -155,9 +157,9 @@ public class ScheduleJobController {
      * @param jobGroup 任务组（没有分组传值null）
      * @return 状态名称
      */
-    @GetMapping(value = {"/status/{jobName}", "/status/{jobName}/{jobGroup}"})
+    @GetMapping("/status/{jobName}/{jobGroup}")
     public BaseResult<String> status(@PathVariable("jobName") String jobName,
-                                     @PathVariable(required = false) String jobGroup
+                                     @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.status(jobName, jobGroup);
     }

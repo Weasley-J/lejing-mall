@@ -47,7 +47,7 @@
         <sonar.host.url>http://192.168.40.132:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
-        <sonar.projectKey>${project.parent.groupId}:${project.parent.artifactId}</sonar.projectKey>
+        <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
         <sonar.projectDescription>${project.description}</sonar.projectDescription>
         <sonar.links.homepage>${project.url}</sonar.links.homepage>
@@ -613,4 +613,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

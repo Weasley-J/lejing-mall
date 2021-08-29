@@ -183,15 +183,10 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements At
             relation.setAttrGroupId(attrVo.getAttrGroupId());
 
             if (ObjectUtils.isNotEmpty(relation)) {
-                QueryWrapper<AttrAttrgroupRelation> queryWrapper = new QueryWrapper<>();
-                Integer count = attrAttrgroupRelationMapper.selectCount(
-                        queryWrapper.lambda().eq(AttrAttrgroupRelation::getAttrId, attr.getAttrId())
-                );
-                UpdateWrapper<AttrAttrgroupRelation> wrapper = new UpdateWrapper<>();
-                int insetIfNotExist = count > 0 ?
-                        attrAttrgroupRelationMapper.update(
-                                relation, wrapper.lambda().eq(AttrAttrgroupRelation::getAttrId, attr.getAttrId())
-                        ) : attrAttrgroupRelationMapper.insert(relation);
+                Long count = attrAttrgroupRelationMapper.selectCount(new QueryWrapper<AttrAttrgroupRelation>().lambda()
+                        .eq(AttrAttrgroupRelation::getAttrId, attr.getAttrId()));
+                int insetIfNotExist = count > 0 ? attrAttrgroupRelationMapper.update(relation, new UpdateWrapper<AttrAttrgroupRelation>().lambda()
+                        .eq(AttrAttrgroupRelation::getAttrId, attr.getAttrId())) : attrAttrgroupRelationMapper.insert(relation);
                 return insetIfNotExist >= 1;
             }
         }

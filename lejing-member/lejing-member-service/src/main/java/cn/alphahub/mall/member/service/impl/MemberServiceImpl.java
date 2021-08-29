@@ -70,7 +70,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         }
         // 2 校验username是否存在
         QueryWrapper<Member> wrapper1 = new QueryWrapper<>();
-        int userAmount = this.count(wrapper1.lambda().eq(Member::getUsername, member.getUsername()));
+        long userAmount = this.count(wrapper1.lambda().eq(Member::getUsername, member.getUsername()));
         if (userAmount > 0) {
             return CheckUserExistsStatus.USERNAME_EXISTS;
         }

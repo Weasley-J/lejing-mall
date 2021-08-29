@@ -103,7 +103,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
             return quartzCoreService.getJobKey(param);
         }).collect(Collectors.toList());
         quartzCoreService.batchDeleteGroupJob(jobKeys);
-        removeById(ids);
+        this.removeByIds(Arrays.asList(ids));
         return BaseResult.success();
     }
 
@@ -134,9 +134,9 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     }
 
     @Override
-    public BaseResult<Void> runAtNow(QuartzJobDTO job) {
-        log.info("run-at-now:{}", JSONUtil.toJsonStr(job));
-        quartzCoreService.executeAtNow(job.getJobName(), job.getJobGroup());
+    public BaseResult<Void> runAtNow(String jobName, String jobGroup) {
+        log.info("run-at-now:{},{}", jobName, jobGroup);
+        quartzCoreService.executeAtNow(jobName, jobGroup);
         return BaseResult.success();
     }
 
