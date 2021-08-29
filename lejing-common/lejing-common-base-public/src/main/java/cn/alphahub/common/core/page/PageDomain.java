@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,6 +24,7 @@ import static com.baomidou.mybatisplus.core.toolkit.StringUtils.camelToUnderline
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class PageDomain implements Serializable {
     private static final long serialVersionUID = 1L;
     /**

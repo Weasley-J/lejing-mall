@@ -28,6 +28,10 @@ public interface ScheduleConvertor {
      * @return QuartzParam
      * @apiNote db -> service
      */
+    @Mapping(target = "statusName", ignore = true)
+    @Mapping(target = "startTime", ignore = true)
+    @Mapping(target = "interval", ignore = true)
+    @Mapping(target = "endTime", ignore = true)
     @Mapping(target = "jobDataMap", expression = "java(QuartzParam.getJobDataMap(job.getJobParams()))")
     QuartzParam toQuartzParam(QuartzJob job);
 
@@ -37,6 +41,13 @@ public interface ScheduleConvertor {
      * @param param quartz调度任务参数
      * @return QuartzJob
      */
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "updateBy", ignore = true)
+    @Mapping(target = "remark", ignore = true)
+    @Mapping(target = "jobParams", ignore = true)
+    @Mapping(target = "isConcurrent", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
+    @Mapping(target = "createBy", ignore = true)
     QuartzJob toQuartzJob(QuartzParam param);
 
     /**
@@ -46,6 +57,7 @@ public interface ScheduleConvertor {
      * @return QuartzJobDTO
      * @apiNote db -> mvc
      */
+    @Mapping(target = "statusName", ignore = true)
     QuartzJobDTO toQuartzJobDto(QuartzJob quartzJob);
 
     /**
