@@ -9,11 +9,11 @@
         <result property="paramValue" column="param_value"/>
         <result property="paramType" column="param_type"/>
         <result property="remark" column="remark"/>
+        <result property="deleteFlag" column="delete_flag"/>
         <result property="createDate" column="create_date"/>
         <result property="creator" column="creator"/>
         <result property="updateDate" column="update_date"/>
         <result property="updater" column="updater"/>
-        <result property="delFlag" column="del_flag"/>
         <result property="deleter" column="deleter"/>
         <result property="deleteDate" column="delete_date"/>
     </resultMap>

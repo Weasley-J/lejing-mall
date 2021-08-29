@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-25 23:21:20
+ * @date 2021-08-28 22:03:32
  */
 @Data
 @Builder
@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("sys_params")
 public class SysParams implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * 参数id
@@ -48,7 +48,7 @@ public class SysParams implements Serializable {
     private String paramValue;
 
     /**
-     * 类型，是否系统参数；1：系统参数；0：非系统参数。
+     * 是否系统参数；1 系统参数；0 非系统参数;
      */
     private Integer paramType;
 
@@ -56,6 +56,11 @@ public class SysParams implements Serializable {
      * 备注
      */
     private String remark;
+
+    /**
+     * 删除状态: 0 正常，1 删除
+     */
+    private Integer deleteFlag;
 
     /**
      * 创建时间
@@ -80,11 +85,6 @@ public class SysParams implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long updater;
-
-    /**
-     * 删除状态 ；0：正常，1：删除
-     */
-    private Integer delFlag;
 
     /**
      * 删除者

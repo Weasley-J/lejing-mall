@@ -45,7 +45,7 @@ spring:
         quartz:
           scheduler:
             #调度器的实例名
-            instanceName: clusteredScheduler
+            instanceName: MyClusteredScheduler
             #调度器编号自动生成
             instanceId: AUTO
           jobStore:
@@ -61,8 +61,8 @@ spring:
           threadPool:
             #自带的线程池实现类
             class: org.quartz.simpl.SimpleThreadPool
-            #开启10个线程
-            threadCount: 10
+            #开启15个线程
+            threadCount: 15
             #工作者线程的优先级
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true

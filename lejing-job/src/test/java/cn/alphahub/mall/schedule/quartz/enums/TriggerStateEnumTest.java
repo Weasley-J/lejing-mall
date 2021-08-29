@@ -1,11 +1,12 @@
 package cn.alphahub.mall.schedule.quartz.enums;
 
+import cn.alphahub.mall.schedule.core.enums.TriggerStateEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@Slf4j
 class TriggerStateEnumTest {
 
     @BeforeEach

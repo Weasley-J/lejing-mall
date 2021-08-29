@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-25 23:21:20
+ * @date 2021-08-28 22:03:32
  */
 @Data
 @Builder
@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("sys_dict_type")
 public class SysDictType implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * id
@@ -58,6 +58,11 @@ public class SysDictType implements Serializable {
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 删除状态: 0 正常，1 删除
+     */
+    private Integer deleteFlag;
 
     /**
      * 创建时间
@@ -94,10 +99,5 @@ public class SysDictType implements Serializable {
      */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long deleter;
-
-    /**
-     * 删除状态   0：正常，1：删除
-     */
-    private Integer delFlag;
 
 }

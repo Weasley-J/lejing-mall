@@ -26,7 +26,7 @@ mybatis-plus:
   global-config:
     db-config:
       #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ASSIGN_ID:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID"
-      id-type: assign_id
+      id-type: auto
   configuration:
     map-underscore-to-camel-case: on
 

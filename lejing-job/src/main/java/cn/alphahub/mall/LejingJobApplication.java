@@ -12,9 +12,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author liuwenjing
  */
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"cn.**.job.feign"})
+@EnableFeignClients(basePackages = {"cn.alphahub.mall.schedule.job.feign"})
 @MapperScan(value = {"cn.**.job.mapper", "cn.**.sys.mapper"})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.schedule"})
 public class LejingJobApplication {
 
     public static void main(String[] args) {

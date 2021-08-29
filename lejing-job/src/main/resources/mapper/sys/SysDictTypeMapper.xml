@@ -9,13 +9,13 @@
         <result property="dictType" column="dict_type"/>
         <result property="remark" column="remark"/>
         <result property="sort" column="sort"/>
+        <result property="deleteFlag" column="delete_flag"/>
         <result property="createTime" column="create_time"/>
         <result property="creator" column="creator"/>
         <result property="updateTime" column="update_time"/>
         <result property="updater" column="updater"/>
         <result property="deleteTime" column="delete_time"/>
         <result property="deleter" column="deleter"/>
-        <result property="delFlag" column="del_flag"/>
     </resultMap>
 
 </mapper>

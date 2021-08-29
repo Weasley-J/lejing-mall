@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-25 23:21:20
+ * @date 2021-08-28 22:03:32
  */
 @Mapper
 public interface SysDictTypeMapper extends BaseMapper<SysDictType> {

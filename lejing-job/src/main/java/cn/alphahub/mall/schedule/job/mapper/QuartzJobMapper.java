@@ -1,17 +1,17 @@
 package cn.alphahub.mall.schedule.job.mapper;
 
-import cn.alphahub.mall.schedule.job.domain.SysJobLog;
+import cn.alphahub.mall.schedule.job.domain.QuartzJob;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 定时任务调度日志表Mapper接口
+ * quartz定时任务调度Mapper接口
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-25 23:15:04
+ * @date 2021-08-29 16:29:58
  */
 @Mapper
-public interface SysJobLogMapper extends BaseMapper<SysJobLog> {
+public interface QuartzJobMapper extends BaseMapper<QuartzJob> {
 
 }

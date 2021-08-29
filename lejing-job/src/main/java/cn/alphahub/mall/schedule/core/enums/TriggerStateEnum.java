@@ -1,4 +1,4 @@
-package cn.alphahub.mall.schedule.quartz.enums;
+package cn.alphahub.mall.schedule.core.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 #end
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-#if(${javaTypeHasDate})
+#if(${hasLocalDateTime} || ${hasLocalDate} || ${hasLocalTime} || ${javaTypeHasDate})
 import com.fasterxml.jackson.annotation.JsonFormat;
 #end
 #if(${hasLong})

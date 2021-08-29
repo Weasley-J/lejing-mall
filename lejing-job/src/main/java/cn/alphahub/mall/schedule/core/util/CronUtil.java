@@ -1,4 +1,4 @@
-package cn.alphahub.mall.schedule.quartz.util;
+package cn.alphahub.mall.schedule.core.util;
 
 import org.quartz.CronExpression;
 

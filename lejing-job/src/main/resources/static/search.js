@@ -1,135 +1,86 @@
 let api = [];
 api.push({
-    alias: 'SysJobController',
+    alias: 'ScheduleJobController',
     order: '1',
-    link: '定时任务调度表controller',
-    desc: '定时任务调度表Controller',
+    link: 'quartz定时任务调度controller',
+    desc: 'quartz定时任务调度Controller',
     list: []
 })
 api[0].list.push({
     order: '1',
-    desc: '查询定时任务调度表列表',
+    desc: '分页查询定时任务',
 });
 api[0].list.push({
     order: '2',
-    desc: '获取定时任务调度表详情',
+    desc: '新增定时任务&lt;p&gt;cron定时任务&lt;/p&gt;',
 });
 api[0].list.push({
     order: '3',
-    desc: '新增定时任务调度表',
+    desc: '获取定时任务详情',
 });
 api[0].list.push({
     order: '4',
-    desc: '修改定时任务调度表',
+    desc: '修改定时任务',
 });
 api[0].list.push({
     order: '5',
-    desc: '批量删除定时任务调度表',
+    desc: '删除定时任务',
 });
-api.push({
-    alias: 'SysJobLogController',
-    order: '2',
-    link: '定时任务调度日志表controller',
-    desc: '定时任务调度日志表Controller',
-    list: []
-})
-api[1].list.push({
-    order: '1',
-    desc: '查询定时任务调度日志表列表',
+api[0].list.push({
+    order: '6',
+    desc: '定时任务状态修改',
 });
-api[1].list.push({
-    order: '2',
-    desc: '获取定时任务调度日志表详情',
+api[0].list.push({
+    order: '7',
+    desc: '立即执行一次定时任务',
 });
-api[1].list.push({
-    order: '3',
-    desc: '新增定时任务调度日志表',
+api[0].list.push({
+    order: '8',
+    desc: '暂停定时任务',
 });
-api[1].list.push({
-    order: '4',
-    desc: '修改定时任务调度日志表',
+api[0].list.push({
+    order: '9',
+    desc: '恢复定时任务',
 });
-api[1].list.push({
-    order: '5',
-    desc: '批量删除定时任务调度日志表',
+api[0].list.push({
+    order: '10',
+    desc: '判断定时任务是否存在',
 });
-api.push({
-    alias: 'SysDictTypeController',
-    order: '3',
-    link: '字典类型controller',
-    desc: '字典类型Controller',
-    list: []
-})
-api[2].list.push({
-    order: '1',
-    desc: '查询字典类型列表',
+api[0].list.push({
+    order: '11',
+    desc: '获取任务状态',
 });
-api[2].list.push({
-    order: '2',
-    desc: '获取字典类型详情',
+api[0].list.push({
+    order: '12',
+    desc: '创建简单定时任务&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
-api[2].list.push({
-    order: '3',
-    desc: '新增字典类型',
-});
-api[2].list.push({
-    order: '4',
-    desc: '修改字典类型',
-});
-api[2].list.push({
-    order: '5',
-    desc: '批量删除字典类型',
-});
-api.push({
-    alias: 'SysParamsController',
-    order: '4',
-    link: '参数管理controller',
-    desc: '参数管理Controller',
-    list: []
-})
-api[3].list.push({
-    order: '1',
-    desc: '查询参数管理列表',
-});
-api[3].list.push({
-    order: '2',
-    desc: '获取参数管理详情',
-});
-api[3].list.push({
-    order: '3',
-    desc: '新增参数管理',
-});
-api[3].list.push({
-    order: '4',
-    desc: '修改参数管理',
-});
-api[3].list.push({
-    order: '5',
-    desc: '批量删除参数管理',
+api[0].list.push({
+    order: '13',
+    desc: '更新简单定时任务&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
 api.push({
     alias: 'error',
-    order: '5',
+    order: '2',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '6',
+    order: '3',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[5].list.push({
+api[2].list.push({
     order: '1',
     desc: '响应http状态码字典',
 });
-api[5].list.push({
+api[2].list.push({
     order: '2',
     desc: '验证码请求来源字典',
 });
-api[5].list.push({
+api[2].list.push({
     order: '3',
     desc: '电子入场券状态字典',
 });

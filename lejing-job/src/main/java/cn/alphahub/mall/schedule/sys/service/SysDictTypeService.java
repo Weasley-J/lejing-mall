@@ -10,14 +10,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *
  * @author Weasley J
  * @email 1432689025@qq.com
- * @date 2021-08-25 23:21:20
+ * @date 2021-08-28 22:03:32
  */
 public interface SysDictTypeService extends IService<SysDictType> {
 
     /**
      * 查询字典类型分页列表
      *
-     * @param page        分页参数
+     * @param page   分页参数
      * @param sysDictType 分页对象
      * @return 字典类型分页数据
      */

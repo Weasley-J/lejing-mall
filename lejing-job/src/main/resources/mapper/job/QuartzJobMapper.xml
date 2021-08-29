@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.schedule.job.mapper.SysJobMapper">
+<mapper namespace="cn.alphahub.mall.schedule.job.mapper.QuartzJobMapper">
 
-    <resultMap type="cn.alphahub.mall.schedule.job.domain.SysJob" id="sysJobResult">
-        <result property="jobId" column="job_id"/>
+    <resultMap type="cn.alphahub.mall.schedule.job.domain.QuartzJob" id="quartzJobResult">
+        <result property="id" column="id"/>
         <result property="jobName" column="job_name"/>
         <result property="jobGroup" column="job_group"/>
-        <result property="invokeTarget" column="invoke_target"/>
+        <result property="jobClass" column="job_class"/>
+        <result property="jobParams" column="job_params"/>
+        <result property="jobDescription" column="job_description"/>
         <result property="cronExpression" column="cron_expression"/>
         <result property="misfirePolicy" column="misfire_policy"/>
         <result property="isConcurrent" column="is_concurrent"/>
