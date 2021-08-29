@@ -44,7 +44,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '10',
-    desc: '定时任务是否存在',
+    desc: '任务是否存在',
 });
 api[0].list.push({
     order: '11',
@@ -52,10 +52,14 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '12',
-    desc: '创建简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+    desc: '从调度器中删除任务',
 });
 api[0].list.push({
     order: '13',
+    desc: '创建简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+});
+api[0].list.push({
+    order: '14',
     desc: '更新简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
 api.push({

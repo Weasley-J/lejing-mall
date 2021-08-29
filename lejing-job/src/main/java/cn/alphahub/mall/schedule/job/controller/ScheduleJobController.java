@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * @date 2021-08-29 16:29:58
  */
 @RestController
-@RequestMapping("/schedule/job")
+@RequestMapping("/schedule/task")
 public class ScheduleJobController {
 
     @Resource
@@ -55,7 +55,7 @@ public class ScheduleJobController {
      * @param job 定时任务元数据
      * @return success/error
      */
-    @PostMapping
+    @PostMapping("/save")
     public BaseResult<Boolean> save(@RequestBody @Validated QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
@@ -77,7 +77,7 @@ public class ScheduleJobController {
      * @param job 定时任务元数据
      * @return success/error
      */
-    @PutMapping
+    @PutMapping("/edit")
     public BaseResult<Void> edit(@RequestBody @Validated QuartzJobDTO job) {
         return quartzJobService.edit(job);
     }
@@ -151,7 +151,7 @@ public class ScheduleJobController {
     }
 
     /**
-     * 定时任务是否存在
+     * 任务是否存在
      *
      * @param jobName  任务名
      * @param jobGroup 任务组
@@ -179,7 +179,7 @@ public class ScheduleJobController {
     }
 
     /**
-     * 从调度器中删除定时任务
+     * 从调度器中删除任务
      *
      * @param jobName  任务名(自定义)
      * @param jobGroup 任务组（没有分组传值null）
