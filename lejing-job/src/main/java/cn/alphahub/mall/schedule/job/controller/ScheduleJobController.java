@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * @date 2021-08-29 16:29:58
  */
 @RestController
-@RequestMapping("/schedule/task")
+@RequestMapping("/schedule/job")
 public class ScheduleJobController {
 
     @Resource

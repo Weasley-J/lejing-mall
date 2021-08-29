@@ -19,7 +19,7 @@ import java.util.Arrays;
  * @date 2021-08-28 22:03:32
  */
 @RestController
-@RequestMapping("/sys/sysparams")
+@RequestMapping("/schedule/sys/sysparams")
 public class SysParamsController {
     @Resource
     private SysParamsService sysParamsService;

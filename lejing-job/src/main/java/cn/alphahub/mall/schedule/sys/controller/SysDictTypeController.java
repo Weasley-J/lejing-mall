@@ -19,7 +19,7 @@ import java.util.Arrays;
  * @date 2021-08-28 22:03:32
  */
 @RestController
-@RequestMapping("/sys/sysdicttype")
+@RequestMapping("/schedule/sys/sysdicttype")
 public class SysDictTypeController {
     @Resource
     private SysDictTypeService sysDictTypeService;
