@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +31,18 @@ import java.util.List;
 public class SeckillController {
     @Resource
     private SeckillService seckillService;
+
+    /**
+     * 上架最近三天的秒杀商品
+     *
+     * @return ok
+     */
+    @ResponseBody
+    @PostMapping("/on/shelve/seckill/sku/latest/3days")
+    public BaseResult<Void> onShelveSeckillSkuLatest3Days() {
+        seckillService.onShelveSeckillSkuLatest3Days();
+        return BaseResult.ok();
+    }
 
     /**
      * 获取当前时间参与秒杀的商品

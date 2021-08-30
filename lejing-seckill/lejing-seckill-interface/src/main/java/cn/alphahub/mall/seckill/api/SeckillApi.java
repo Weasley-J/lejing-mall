@@ -4,6 +4,7 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +19,15 @@ import java.util.List;
  */
 @RequestMapping(value = "/seckill")
 public interface SeckillApi {
+
+    /**
+     * 上架最近三天的秒杀商品
+     *
+     * @return ok
+     */
+    @ResponseBody
+    @PostMapping("/on/shelve/seckill/sku/latest/3days")
+    BaseResult<Void> onShelveSeckillSkuLatest3Days();
 
     /**
      * 获取当前时间参与秒杀的商品
