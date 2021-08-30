@@ -90,7 +90,7 @@ public class ScheduleJobController {
      * @param ids 定时任务id集合
      */
     @DeleteMapping("/remove/{ids}")
-    public BaseResult<Void> remove(@PathVariable("ids") @Validated({EditGroup.class}) Long[] ids) {
+    public BaseResult<Void> remove(@PathVariable("ids") Long[] ids) {
         return quartzJobService.remove(ids);
     }
 
