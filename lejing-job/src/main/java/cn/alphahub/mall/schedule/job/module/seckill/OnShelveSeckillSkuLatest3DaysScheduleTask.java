@@ -24,7 +24,7 @@ import javax.annotation.Resource;
  * @date 2021-08-30 19:47
  */
 @Component
-public class ScheduleOnShelveSeckillSkuLatest3Days extends QuartzJobBean {
+public class OnShelveSeckillSkuLatest3DaysScheduleTask extends QuartzJobBean {
 
     @Resource
     private SeckillClient seckillClient;
