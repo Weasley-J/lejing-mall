@@ -1,5 +1,8 @@
 package cn.alphahub.mall.schedule.job.dto;
 
+import cn.alphahub.common.valid.group.EditGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.QueryGroup;
 import cn.alphahub.mall.schedule.constant.ScheduleConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,8 +12,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,6 +37,7 @@ public class QuartzJobDTO implements Serializable {
      * 任务ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
+    @NotNull(message = "任务ID不能为空", groups = {EditGroup.class})
     private Long id;
 
     /**
@@ -39,7 +45,7 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务名称不能为空")
+    @NotBlank(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
     private String jobName;
 
     /**
@@ -52,7 +58,7 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务执行类的全限定类名不能为空")
+    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class, EditGroup.class})
     private String jobClass;
 
     /**
@@ -70,7 +76,7 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "cron执行表达式不能为空")
+    @NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
     private String cronExpression;
 
     /**
@@ -114,7 +120,7 @@ public class QuartzJobDTO implements Serializable {
     private String remark;
 
     public String getStatusName() {
-        return ScheduleConstant.JobStatusEnum.getName(status);
+        return StringUtils.isBlank(statusName) ? ScheduleConstant.JobStatusEnum.getName(status) : statusName;
     }
 
 }

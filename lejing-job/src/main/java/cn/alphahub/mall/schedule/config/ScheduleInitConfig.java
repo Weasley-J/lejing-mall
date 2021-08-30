@@ -2,7 +2,7 @@ package cn.alphahub.mall.schedule.config;
 
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.core.service.QuartzCoreService;
-import cn.alphahub.mall.schedule.job.module.internal.InitializeAllScheduledTask;
+import cn.alphahub.mall.schedule.job.module.internal.InitializeAllScheduleTask;
 import cn.hutool.core.date.DateUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,7 +17,7 @@ import java.util.Date;
  * @author lwj
  */
 @Component
-public class ScheduleJobInitConfig implements ApplicationRunner {
+public class ScheduleInitConfig implements ApplicationRunner {
 
     @Resource
     private QuartzCoreService quartzCoreService;
@@ -32,7 +32,7 @@ public class ScheduleJobInitConfig implements ApplicationRunner {
         QuartzParam param = new QuartzParam();
         param.setJobName("InitializeAllJdbcScheduledTask");
         param.setJobGroup("InitializeGroup");
-        param.setJobClass(InitializeAllScheduledTask.class.getName());
+        param.setJobClass(InitializeAllScheduleTask.class.getName());
         param.setJobDescription("初始化所有持久层定时任务");
         param.setStatus(1);
         param.setStartTime(startDate);

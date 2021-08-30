@@ -21,7 +21,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/08/29
  */
-public class InitializeAllScheduledTask extends QuartzJobBean {
+public class InitializeAllScheduleTask extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {

@@ -3,6 +3,8 @@ package cn.alphahub.mall.schedule.job.controller;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.valid.group.EditGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.mall.schedule.convertor.ScheduleConvertor;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.core.service.QuartzCoreService;
@@ -56,7 +58,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody @Validated QuartzJobDTO job) {
+    public BaseResult<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
 
@@ -78,7 +80,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PutMapping("/edit")
-    public BaseResult<Void> edit(@RequestBody @Validated QuartzJobDTO job) {
+    public BaseResult<Void> edit(@RequestBody @Validated({EditGroup.class}) QuartzJobDTO job) {
         return quartzJobService.edit(job);
     }
 
@@ -88,7 +90,7 @@ public class ScheduleJobController {
      * @param ids 定时任务id集合
      */
     @DeleteMapping("/remove/{ids}")
-    public BaseResult<Void> remove(@PathVariable("ids") Long[] ids) {
+    public BaseResult<Void> remove(@PathVariable("ids") @Validated({EditGroup.class}) Long[] ids) {
         return quartzJobService.remove(ids);
     }
 
@@ -203,7 +205,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PostMapping("/create/simple/job")
-    public BaseResult<Boolean> createSimpleJob(@RequestBody @Validated SimpleScheduleJobRequest request) {
+    public BaseResult<Boolean> createSimpleJob(@RequestBody @Validated({InsertGroup.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.createSimpleScheduleJob(param);
     }
@@ -218,7 +220,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PutMapping("/update/simple/job")
-    public BaseResult<Boolean> updateSimpleJob(@RequestBody @Validated SimpleScheduleJobRequest request) {
+    public BaseResult<Boolean> updateSimpleJob(@RequestBody @Validated({EditGroup.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.updateSimpleScheduleJob(param);
     }

@@ -16,19 +16,7 @@ public class ScheduleConstant {
     /**
      * 用来获取JobDataMap参数值的KEY
      */
-    public static final String JOB_DATA_PARAM_KEY = "JOB_PARAM";
-    /**
-     * 失火策略 - 立即执行
-     */
-    public static final int MISFIRE_HANDLING_IGNORE_MISFIRES = 1;
-    /**
-     * 失火策略 - 执行一次
-     */
-    public static final int MISFIRE_HANDLING_FIRE_AND_PROCEED = 2;
-    /**
-     * 失火策略 - 放弃执行
-     */
-    public static final int MISFIRE_HANDLING_DO_NOTHING = 3;
+    public static final String JOB_DATA_PARAM_KEY = "JOB_DATA_PARAM";
 
     private ScheduleConstant() {
     }
@@ -66,11 +54,56 @@ public class ScheduleConstant {
         /**
          * 获取枚举类型
          *
-         * @param name JobStatusEnum.XX.toString()
+         * @param code 枚举值
          * @return JobStatusEnum
          */
-        public static JobStatusEnum getEnum(String name) {
-            return JobStatusEnum.valueOf(name);
+        public static JobStatusEnum getEnum(int code) {
+            return Stream.of(JobStatusEnum.values())
+                    .filter(anEnum -> anEnum.getCode() == code)
+                    .findFirst().orElse(null);
+        }
+    }
+
+    /**
+     * 失火策略枚举
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum MisfireHandling {
+        /**
+         * 1 立即执行
+         */
+        IGNORE_MISFIRES(1, "立即执行"),
+        /**
+         * 2 执行一次
+         */
+        FIRE_AND_PROCEED(2, "执行一次"),
+        /**
+         * 3 放弃执行
+         */
+        DO_NOTHING(3, "放弃执行"),
+        ;
+
+        /**
+         * 枚举值
+         */
+        private final int code;
+
+        /**
+         * 枚举名称
+         */
+        private final String name;
+
+        /**
+         * 获取失火处理枚举
+         *
+         * @param code 枚举值
+         * @return MisfireHandling
+         */
+        public static MisfireHandling getEnum(int code) {
+            return Stream.of(MisfireHandling.values())
+                    .filter(anEnum -> anEnum.getCode() == code)
+                    .findFirst().orElse(null);
         }
     }
 }

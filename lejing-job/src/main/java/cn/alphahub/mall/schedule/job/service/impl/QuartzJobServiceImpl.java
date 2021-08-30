@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -83,7 +84,12 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     public BaseResult<QuartzJobDTO> info(Long id) {
         log.info("info,id:{}", id);
         QuartzJob quartzJob = getById(id);
+        if (Objects.isNull(quartzJob)) {
+            return BaseResult.fail("任务不存在");
+        }
         QuartzJobDTO dto = scheduleConvertor.toQuartzJobDto(quartzJob);
+        String jobStatus = quartzCoreService.getScheduleJobStatus(dto.getJobName(), dto.getJobGroup());
+        dto.setStatusName(jobStatus);
         return BaseResult.ok(dto);
     }
 
@@ -100,7 +106,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
             return quartzCoreService.getJobKey(param);
         }).collect(Collectors.toList());
         quartzCoreService.batchDeleteGroupJob(jobKeys);
-        this.removeByIds(Arrays.asList(ids));
+        removeByIds(Arrays.asList(ids));
         return BaseResult.success();
     }
 

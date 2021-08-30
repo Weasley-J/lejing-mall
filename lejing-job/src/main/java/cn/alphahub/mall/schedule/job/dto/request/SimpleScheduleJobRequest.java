@@ -1,5 +1,9 @@
 package cn.alphahub.mall.schedule.job.dto.request;
 
+import cn.alphahub.common.valid.group.EditGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.QueryGroup;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +33,7 @@ public class SimpleScheduleJobRequest implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务名称不能为空")
+    @NotBlank(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
     private String jobName;
     /**
      * 定时任务所在组名（没有分组传值null）
@@ -42,7 +46,7 @@ public class SimpleScheduleJobRequest implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务执行类的全限定类名不能为空")
+    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class})
     private String jobClass;
     /**
      * 任务描述
@@ -53,9 +57,10 @@ public class SimpleScheduleJobRequest implements Serializable {
      */
     private Integer status = 1;
     /**
-     * 任务开始时间
+     * 任务开始时间(yyyy-MM-dd HH:mm:ss)
      * <p>用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束</p>
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
     /**
      * 任务循环间隔-单位：分钟
@@ -69,8 +74,9 @@ public class SimpleScheduleJobRequest implements Serializable {
      */
     private Integer interval;
     /**
-     * 任务结束时间
+     * 任务结束时间(yyyy-MM-dd HH:mm:ss)
      * <p>用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束</p>
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 }

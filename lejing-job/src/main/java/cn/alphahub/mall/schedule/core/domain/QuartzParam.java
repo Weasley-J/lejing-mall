@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -41,7 +39,6 @@ public class QuartzParam implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务名称不能为空")
     private String jobName;
     /**
      * 定时任务所在组名（没有分组传值null）
@@ -54,7 +51,6 @@ public class QuartzParam implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务执行类的全限定类名不能为空")
     private String jobClass;
     /**
      * 自定义参数
@@ -76,7 +72,6 @@ public class QuartzParam implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "cron执行表达式不能为空")
     private String cronExpression;
     /**
      * 计划执行错误策略（失火策略: 1  立即执行;  2 执行一次; 3 放弃执行，默认：2）
@@ -91,10 +86,9 @@ public class QuartzParam implements Serializable {
      */
     private String statusName;
     /**
-     * 任务开始时间
+     * 任务开始时间(yyyy-MM-dd HH:mm:ss)
      * <p>用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束</p>
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
     /**
      * 任务循环间隔-单位：分钟
@@ -108,10 +102,9 @@ public class QuartzParam implements Serializable {
      */
     private Integer interval;
     /**
-     * 任务结束时间
+     * 任务结束时间(yyyy-MM-dd HH:mm:ss)
      * <p>用于创建简单的调度任务（simpleScheduleBuilder）：从什么时间开始，循环间隔多少分钟，什么时间结束</p>
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     /**

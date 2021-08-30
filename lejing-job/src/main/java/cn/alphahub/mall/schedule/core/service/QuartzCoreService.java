@@ -12,9 +12,7 @@ import org.quartz.TriggerKey;
 import java.util.List;
 import java.util.Objects;
 
-import static cn.alphahub.mall.schedule.constant.ScheduleConstant.MISFIRE_HANDLING_DO_NOTHING;
-import static cn.alphahub.mall.schedule.constant.ScheduleConstant.MISFIRE_HANDLING_FIRE_AND_PROCEED;
-import static cn.alphahub.mall.schedule.constant.ScheduleConstant.MISFIRE_HANDLING_IGNORE_MISFIRES;
+import static cn.alphahub.mall.schedule.constant.ScheduleConstant.MisfireHandling;
 
 /**
  * quartz任务调度上层接口
@@ -163,12 +161,13 @@ public interface QuartzCoreService {
         if (Objects.isNull(misfirePolicy)) {
             return cronScheduleBuilder;
         }
-        switch (misfirePolicy) {
-            case MISFIRE_HANDLING_IGNORE_MISFIRES:
+        MisfireHandling handling = MisfireHandling.getEnum(misfirePolicy);
+        switch (handling) {
+            case IGNORE_MISFIRES:
                 return cronScheduleBuilder.withMisfireHandlingInstructionIgnoreMisfires();
-            case MISFIRE_HANDLING_FIRE_AND_PROCEED:
+            case FIRE_AND_PROCEED:
                 return cronScheduleBuilder.withMisfireHandlingInstructionFireAndProceed();
-            case MISFIRE_HANDLING_DO_NOTHING:
+            case DO_NOTHING:
                 return cronScheduleBuilder.withMisfireHandlingInstructionDoNothing();
             default:
                 return cronScheduleBuilder;
