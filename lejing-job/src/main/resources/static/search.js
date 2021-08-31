@@ -20,7 +20,7 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '4',
-    desc: '修改定时任务',
+    desc: '更新定时任务',
 });
 api[0].list.push({
     order: '5',

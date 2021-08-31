@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static cn.alphahub.mall.schedule.constant.ScheduleConstant.JobStatusEnum;
+
 /**
  * quartz定时任务调度Service业务层处理
  *
@@ -117,7 +119,11 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
         if (!CronUtil.isValid(job.getCronExpression())) {
             return BaseResult.error("cron表达式不正确");
         }
-        QuartzJob quartzJob = scheduleConvertor.toQuartzJob(job);
+        QuartzJob quartzJob = this.getById(job.getId());
+        if (Objects.isNull(quartzJob)) {
+            return BaseResult.error("job'" + job.getId() + "'不存在");
+        }
+        quartzJob = scheduleConvertor.toQuartzJob(job);
         quartzCoreService.updateCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
         updateById(quartzJob);
         return BaseResult.success();
@@ -127,8 +133,17 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     @Transactional(rollbackFor = Exception.class)
     public BaseResult<Void> updateStatus(QuartzJobDTO job) {
         log.info("update-status:{}", JSONUtil.toJsonStr(job));
-        QuartzJob quartzJob = scheduleConvertor.toQuartzJob(job);
-        quartzCoreService.updateCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
+        QuartzJob quartzJob = this.getById(job.getId());
+        if (Objects.isNull(quartzJob)) {
+            return BaseResult.error("job'" + job.getId() + "'不存在");
+        }
+        QuartzParam quartzParam = scheduleConvertor.toQuartzParam(quartzJob);
+        if (JobStatusEnum.PAUSED.getCode() == quartzParam.getStatus()) {
+            quartzCoreService.pauseScheduleJob(quartzParam.getJobName(), quartzParam.getJobGroup());
+        }
+        if (JobStatusEnum.NORMAL.getCode() == quartzParam.getStatus()) {
+            quartzCoreService.resumeScheduleJob(quartzParam.getJobName(), quartzParam.getJobGroup());
+        }
         updateById(new QuartzJob()
                 .setId(job.getId())
                 .setStatus(job.getStatus())

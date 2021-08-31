@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 30/08/2021 00:34:03
+ Date: 01/09/2021 00:24:03
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,11 @@ CREATE TABLE `QRTZ_BLOB_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_BLOB_TRIGGERS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_CALENDARS
@@ -48,7 +52,11 @@ CREATE TABLE `QRTZ_CALENDARS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_CALENDARS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_CRON_TRIGGERS
@@ -66,7 +74,14 @@ CREATE TABLE `QRTZ_CRON_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_CRON_TRIGGERS
+-- ----------------------------
+INSERT INTO `QRTZ_CRON_TRIGGERS`
+VALUES ('lejing-job-Quartz-Scheduler', 'OnShelveSeckillSkuLatest3Days', 'lejing-seckill', '0 0/1 * ? * *',
+        'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for QRTZ_FIRED_TRIGGERS
@@ -97,7 +112,11 @@ CREATE TABLE `QRTZ_FIRED_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_FIRED_TRIGGERS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_JOB_DETAILS
@@ -121,7 +140,15 @@ CREATE TABLE `QRTZ_JOB_DETAILS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_JOB_DETAILS
+-- ----------------------------
+INSERT INTO `QRTZ_JOB_DETAILS`
+VALUES ('lejing-job-Quartz-Scheduler', 'OnShelveSeckillSkuLatest3Days', 'lejing-seckill', '上架最近三天的秒杀商品',
+        'cn.alphahub.mall.schedule.job.module.seckill.OnShelveSeckillSkuLatest3DaysScheduleTask', '0', '0', '0', '0',
+        0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787000737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F40000000000010770800000010000000007800);
 
 -- ----------------------------
 -- Table structure for QRTZ_LOCKS
@@ -135,7 +162,15 @@ CREATE TABLE `QRTZ_LOCKS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_LOCKS
+-- ----------------------------
+INSERT INTO `QRTZ_LOCKS`
+VALUES ('lejing-job-Quartz-Scheduler', 'STATE_ACCESS');
+INSERT INTO `QRTZ_LOCKS`
+VALUES ('lejing-job-Quartz-Scheduler', 'TRIGGER_ACCESS');
 
 -- ----------------------------
 -- Table structure for QRTZ_PAUSED_TRIGGER_GRPS
@@ -149,7 +184,11 @@ CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_PAUSED_TRIGGER_GRPS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_SCHEDULER_STATE
@@ -165,7 +204,13 @@ CREATE TABLE `QRTZ_SCHEDULER_STATE`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_SCHEDULER_STATE
+-- ----------------------------
+INSERT INTO `QRTZ_SCHEDULER_STATE`
+VALUES ('lejing-job-Quartz-Scheduler', 'Inspiron-75911630426780789', 1630427000922, 10000);
 
 -- ----------------------------
 -- Table structure for QRTZ_SIMPLE_TRIGGERS
@@ -184,7 +229,11 @@ CREATE TABLE `QRTZ_SIMPLE_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_SIMPLE_TRIGGERS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_SIMPROP_TRIGGERS
@@ -211,7 +260,11 @@ CREATE TABLE `QRTZ_SIMPROP_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_SIMPROP_TRIGGERS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for QRTZ_TRIGGERS
@@ -253,7 +306,15 @@ CREATE TABLE `QRTZ_TRIGGERS`
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of QRTZ_TRIGGERS
+-- ----------------------------
+INSERT INTO `QRTZ_TRIGGERS`
+VALUES ('lejing-job-Quartz-Scheduler', 'OnShelveSeckillSkuLatest3Days', 'lejing-seckill',
+        'OnShelveSeckillSkuLatest3Days', 'lejing-seckill', NULL, 1630427040000, 1630426980000, 5, 'WAITING', 'CRON',
+        1630426970000, 0, NULL, 2, '');
 
 -- ----------------------------
 -- Table structure for quartz_job
@@ -278,9 +339,18 @@ CREATE TABLE `quartz_job`
     `remark`          varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL     DEFAULT '' COMMENT '备注信息',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT = 'quartz定时任务调度'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quartz_job
+-- ----------------------------
+INSERT INTO `quartz_job`
+VALUES (1, 'OnShelveSeckillSkuLatest3Days', 'lejing-seckill',
+        'cn.alphahub.mall.schedule.job.module.seckill.OnShelveSeckillSkuLatest3DaysScheduleTask', '', '上架最近三天的秒杀商品',
+        '0 0/1 * ? * *', 3, 1, 1, '2021-08-31 23:03:38', 'admin', '2021-09-01 00:22:48', 'admin', '上架最近三天的秒杀商品');
 
 -- ----------------------------
 -- Table structure for quartz_job_log
@@ -303,6 +373,10 @@ CREATE TABLE `quartz_job_log`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT = 'quartz定时任务调度日志'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quartz_job_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -330,6 +404,10 @@ CREATE TABLE `sys_dict_type`
   ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Records of sys_dict_type
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_params
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_params`;
@@ -354,5 +432,9 @@ CREATE TABLE `sys_params`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '参数管理'
   ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_params
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

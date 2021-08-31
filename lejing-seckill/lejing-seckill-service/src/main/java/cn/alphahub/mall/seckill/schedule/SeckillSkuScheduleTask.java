@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/07/25
  */
 @Slf4j
-@Component
+//@Component
 public class SeckillSkuScheduleTask {
 
     @Resource

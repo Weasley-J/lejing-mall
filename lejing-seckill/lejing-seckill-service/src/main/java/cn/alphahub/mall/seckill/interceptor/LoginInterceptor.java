@@ -75,6 +75,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             uriWhitelist.add("/search.js");
             uriWhitelist.add("/debug.js");
             uriWhitelist.add("/static/**");
+            uriWhitelist.add("/seckill/on/shelve/seckill/sku/latest/3days");
             for (String uriPattern : uriWhitelist) {
                 if (antPathMatcher.match(uriPattern, request.getRequestURI())) {
                     return Boolean.TRUE;
