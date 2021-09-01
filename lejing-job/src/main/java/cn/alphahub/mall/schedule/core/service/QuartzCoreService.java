@@ -16,7 +16,7 @@ import java.util.Objects;
 import static cn.alphahub.mall.schedule.constant.ScheduleConstant.MisfireHandling;
 
 /**
- * quartz任务调度上层接口
+ * quartz任务调度核心方法上层接口
  *
  * @author lwj
  * @version 1.0.1

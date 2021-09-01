@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * quartz任务调度核心实现
+ * quartz任务调度核心方法实现
  *
  * @author lwj
  * @version 1.0.1

@@ -31,12 +31,21 @@ import javax.annotation.Resource;
 @RequestMapping("/schedule/job")
 public class ScheduleJobController {
 
+    /**
+     * quartz任务调度核心方法
+     */
     @Resource
     private QuartzCoreService quartzCoreService;
 
+    /**
+     * quartz定时任务调度业务Service
+     */
     @Resource
     private QuartzJobService quartzJobService;
 
+    /**
+     * Java Bean转换
+     */
     @Resource
     private ScheduleConvertor scheduleConvertor;
 
