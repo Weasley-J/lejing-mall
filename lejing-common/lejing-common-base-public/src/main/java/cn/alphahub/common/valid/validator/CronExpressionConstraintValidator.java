@@ -203,7 +203,7 @@ public class CronExpressionConstraintValidator implements ConstraintValidator<Cr
  * @author Refactoring from CronTrigger to CronExpression by Aaron Craven
  * @see {@code org.quartz.CronExpression}
  */
-final class CronExpression implements Serializable, Cloneable {
+class CronExpression implements Serializable, Cloneable {
 
     public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
     protected static final int SECOND = 0;

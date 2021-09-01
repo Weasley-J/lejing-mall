@@ -6,13 +6,17 @@ import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.exception.CartException;
 import cn.alphahub.common.exception.NoStockException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -58,6 +62,36 @@ public class GlobalExceptionHandler {
     public BaseResult<Object> duplicateKeyExceptionHandler(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
         return BaseResult.fail("数据库中已存在该记录: " + e.getMessage());
+    }
+
+    /**
+     * 数据绑定异常
+     *
+     * @param e 异常
+     * @return 错误信息
+     */
+    @ExceptionHandler(BindException.class)
+    public BaseResult<Object> handleBindException(BindException e) {
+        log.error(e.getMessage(), e);
+        Map<String, Object> errorMap = new LinkedHashMap<>();
+        for (ObjectError error : e.getAllErrors()) {
+            errorMap.putIfAbsent(error.getObjectName(), error.getDefaultMessage());
+        }
+        return BaseResult.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMessage(), errorMap);
+    }
+
+    /**
+     * 请求方式不支持
+     *
+     * @param e       http request method not supported exception
+     * @param request http servlet request
+     * @return 错误信息
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public BaseResult<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        log.error("请求地址'{}',不支持'{}'请求", uri, e.getMethod());
+        return BaseResult.error("请求地址'" + uri + "',不支持'" + e.getMethod() + "'请求");
     }
 
     /**

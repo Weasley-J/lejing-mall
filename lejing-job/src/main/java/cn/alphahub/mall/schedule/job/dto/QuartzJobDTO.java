@@ -78,7 +78,7 @@ public class QuartzJobDTO implements Serializable {
      * @required
      */
     @NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
-    @Cron(message = "cron表达式不正确", groups = {InsertGroup.class, EditGroup.class})
+    @Cron(message = "cron表达式不正确,请填写正确的cron表达式", groups = {InsertGroup.class, EditGroup.class})
     private String cronExpression;
 
     /**
