@@ -19,27 +19,27 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <b>被校验的元素为<span style="color :red">{@code String}</span>类型<br/></b>
  * <span style="color :red">注解校验示例：</span>
  * <pre>
- *  // 虚拟币 - 数据对象
+ *  // Job任务 - 数据对象
  *  &#64;Data
  *  &#64;Accessors(chain = true)
- * public class VirtualCoin implements Serializable {
+ * public static class JobDomain implements Serializable {
  *     private static final long serialVersionUID = 1L;
  *
- *     &#64;NotNull(message = "会员id不能为空")
- *     private Long memberId;
+ *     &#64;NotNull(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
+ *     private String jobName;
  *
- *    &#64;DecimalRange(min = "-12000", max = "11000", message = "虚拟币金额必须在区间[-12000,11000]内")
- *     private BigDecimal virtualValue;
+ *     private String jobGroup;
  *
- *     &#64;IncludeValue(value = {"INCOME", "EXPENDITURE"}, message = "收支类型只能提交{INCOME,EXPENDITURE}内的字典值")
- *     private String incomeExpenditureType;
+ *     &#64;NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class, EditGroup.class})
+ *     private String jobClass;
  *
- *     &#64;ListValue(value = {-1, 0, 1}, message = "虚拟币状态只能提交{-1, 0, 1}内的值")
- *     private Integer status;
+ *     &#64;NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
+ *     &#64;Cron(message = "cron表达式不合法", groups = {InsertGroup.class, EditGroup.class})
+ *     private String cronExpression;
  * }
  * </pre>
- * Spring MVC会在参数绑定之前校验被{@code @IncludeValue}注解校验的元素，如果前端提交的字符串不是我们限定范围内的值，MVC会抛异常（参数校验失败）；
- * 我们可以在{@code @RestControllerAdvice}标注的全局异常处理中给到前端提示，避免代码中写大量的{@code if}判断，保持了代码的简洁
+ * Spring MVC会在参数绑定之前校验被{@code @Cron}注解的元素，如果前端提交的cron表达式不合法，MVC会抛异常（参数校验失败）；
+ * 我们可以在{@code @RestControllerAdvice}标注的全局异常处理中给到前端正确的提示
  * </p>
  *
  * @author liuwenjing
@@ -60,7 +60,7 @@ public @interface Cron {
     /**
      * @return 提示信息，校验错误后给出的提示信息
      */
-    String message() default "Your cron expression is an invalid expression.";
+    String message() default "your cron expression is an invalid expression. please check you annotated element.";
 
     /**
      * 所属校验分组

@@ -125,4 +125,20 @@ public class QuartzJobDTO implements Serializable {
         return StringUtils.isBlank(statusName) ? ScheduleConstant.JobStatusEnum.getName(status) : statusName;
     }
 
+    @Data
+    public static class JobDomain implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        @NotBlank(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
+        private String jobName;
+
+        private String jobGroup;
+
+        @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class, EditGroup.class})
+        private String jobClass;
+
+        @NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
+        @Cron(message = "cron表达式不合法", groups = {InsertGroup.class, EditGroup.class})
+        private String cronExpression;
+    }
 }
