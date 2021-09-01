@@ -1,5 +1,6 @@
 package cn.alphahub.mall.schedule.job.dto;
 
+import cn.alphahub.common.valid.annotation.Cron;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.common.valid.group.QueryGroup;
@@ -77,6 +78,7 @@ public class QuartzJobDTO implements Serializable {
      * @required
      */
     @NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
+    @Cron(message = "cron表达式不合法", groups = {InsertGroup.class, EditGroup.class})
     private String cronExpression;
 
     /**
