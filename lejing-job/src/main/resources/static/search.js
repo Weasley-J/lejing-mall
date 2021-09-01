@@ -3,7 +3,7 @@ api.push({
     alias: 'ScheduleJobController',
     order: '1',
     link: 'quartz定时任务调度controller',
-    desc: 'quartz定时任务调度Controller',
+    desc: 'Quartz定时任务调度Controller',
     list: []
 })
 api[0].list.push({
@@ -36,31 +36,39 @@ api[0].list.push({
 });
 api[0].list.push({
     order: '8',
-    desc: '暂停定时任务',
+    desc: '暂停全部任务',
 });
 api[0].list.push({
     order: '9',
-    desc: '恢复定时任务',
+    desc: '恢复全部任务',
 });
 api[0].list.push({
     order: '10',
-    desc: '任务是否存在',
+    desc: '暂停单个定时任务',
 });
 api[0].list.push({
     order: '11',
-    desc: '获取任务状态',
+    desc: '恢复单个定时任务',
 });
 api[0].list.push({
     order: '12',
-    desc: '从调度器中删除任务',
+    desc: '检查任务是否存在',
 });
 api[0].list.push({
     order: '13',
-    desc: '创建简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+    desc: '获取任务状态信息',
 });
 api[0].list.push({
     order: '14',
-    desc: '更新简单定时任务（不持久化到db）&lt;ul&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+    desc: '从调度器中删除任务',
+});
+api[0].list.push({
+    order: '15',
+    desc: '创建简单定时任务&lt;ul&gt;&lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
+});
+api[0].list.push({
+    order: '16',
+    desc: '更新简单定时任务&lt;ul&gt;&lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;&lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;&lt;/ul&gt;',
 });
 api.push({
     alias: 'error',

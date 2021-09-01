@@ -7,6 +7,7 @@ import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.TriggerKey;
 
 import java.util.List;
@@ -141,6 +142,16 @@ public interface QuartzCoreService {
      * @return true：成功，false：失败
      */
     boolean executeAtNow(String jobName, String jobGroup);
+
+    /**
+     * 暂停全部任务
+     */
+    void pauseAll() throws SchedulerException;
+
+    /**
+     * 恢复全部任务
+     */
+    void resumeAll() throws SchedulerException;
 
     /**
      * 获取任务执行类Class

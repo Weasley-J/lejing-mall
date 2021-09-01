@@ -119,7 +119,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
     BaseResult<Boolean> check(String jobName, String jobGroup);
 
     /**
-     * 获取任务状态
+     * 获取任务状态信息
      *
      * @param jobName  任务名(自定义)
      * @param jobGroup 任务组（没有分组传值null）

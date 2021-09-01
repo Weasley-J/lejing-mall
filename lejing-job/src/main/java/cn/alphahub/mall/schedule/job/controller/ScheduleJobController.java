@@ -12,17 +12,21 @@ import cn.alphahub.mall.schedule.job.domain.QuartzJob;
 import cn.alphahub.mall.schedule.job.dto.QuartzJobDTO;
 import cn.alphahub.mall.schedule.job.dto.request.SimpleScheduleJobRequest;
 import cn.alphahub.mall.schedule.job.service.QuartzJobService;
+import lombok.extern.slf4j.Slf4j;
+import org.quartz.SchedulerException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
 /**
- * quartz定时任务调度Controller
+ * Quartz定时任务调度Controller
  *
  * @author Weasley J
+ * @version 1.0.1
  * @date 2021-08-29 16:29:58
  */
+@Slf4j
 @RestController
 @RequestMapping("/schedule/job")
 public class ScheduleJobController {
@@ -98,7 +102,7 @@ public class ScheduleJobController {
      * 修改定时任务状态
      *
      * @param jobId  任务ID
-     * @param status 任务状态: 1 正常, 0 暂停
+     * @param status 任务状态: 1 正常(恢复任务), 0 暂停(暂停任务)
      * @return success/error
      */
     @PutMapping("/update/status")
@@ -125,13 +129,45 @@ public class ScheduleJobController {
     }
 
     /**
-     * 暂停定时任务
+     * 暂停全部任务
+     *
+     * @return result
+     */
+    @PutMapping("/pause/all")
+    public BaseResult<String> pauseAll() {
+        try {
+            quartzCoreService.pauseAll();
+            return BaseResult.ok("暂停全部任务成功");
+        } catch (SchedulerException e) {
+            log.error("scheduler-exception:{}", e.getMessage(), e);
+            return BaseResult.fail("暂停全部任务失败:" + e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * 恢复全部任务
+     *
+     * @return result
+     */
+    @PutMapping("/resume/all")
+    public BaseResult<String> resumeAll() {
+        try {
+            quartzCoreService.resumeAll();
+            return BaseResult.ok("恢复全部任务成功");
+        } catch (SchedulerException e) {
+            log.error("scheduler-exception:{}", e.getMessage(), e);
+            return BaseResult.fail("恢复全部任务失败:" + e.getLocalizedMessage());
+        }
+    }
+
+    /**
+     * 暂停单个定时任务
      *
      * @param jobName  任务名
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    @PutMapping("/pause/{jobName}/{jobGroup}")
+    @PutMapping("/pause/one/{jobName}/{jobGroup}")
     public BaseResult<Void> pause(@PathVariable(name = "jobName") String jobName,
                                   @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
@@ -139,13 +175,13 @@ public class ScheduleJobController {
     }
 
     /**
-     * 恢复定时任务
+     * 恢复单个定时任务
      *
      * @param jobName  任务名
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    @PutMapping("/resume/{jobName}/{jobGroup}")
+    @PutMapping("/resume/one/{jobName}/{jobGroup}")
     public BaseResult<Void> resume(@PathVariable(name = "jobName") String jobName,
                                    @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
@@ -153,7 +189,7 @@ public class ScheduleJobController {
     }
 
     /**
-     * 任务是否存在
+     * 检查任务是否存在
      *
      * @param jobName  任务名
      * @param jobGroup 任务组
@@ -167,7 +203,7 @@ public class ScheduleJobController {
     }
 
     /**
-     * 获取任务状态
+     * 获取任务状态信息
      *
      * @param jobName  任务名(自定义)
      * @param jobGroup 任务组（没有分组传值null）
@@ -196,8 +232,9 @@ public class ScheduleJobController {
     }
 
     /**
-     * 创建简单定时任务（不持久化到db）
+     * 创建简单定时任务
      * <ul>
+     *     <li>不持久化到[业务数据库]</li>
      *     <li>创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束</li>
      * </ul>
      *
@@ -211,8 +248,9 @@ public class ScheduleJobController {
     }
 
     /**
-     * 更新简单定时任务（不持久化到db）
+     * 更新简单定时任务
      * <ul>
+     *     <li>不持久化到[业务数据库]</li>
      *     <li>创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束</li>
      * </ul>
      *

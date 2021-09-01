@@ -123,7 +123,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
 
             return true;
         } catch (SchedulerException e) {
-            log.error("{}, {}", JSONUtil.toJsonStr(param), e.getLocalizedMessage(), e);
+            log.error("param:{}, scheduler-exception:{}", JSONUtil.toJsonStr(param), e.getLocalizedMessage(), e);
             return false;
         }
     }
@@ -136,7 +136,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
             scheduler.pauseJob(jobKey);
             return true;
         } catch (SchedulerException e) {
-            log.error("{}, {}, {}", jobName, jobGroup, e.getLocalizedMessage(), e);
+            log.error("jobName:{}, jobGroup:{}, SchedulerException:{}", jobName, jobGroup, e.getLocalizedMessage(), e);
             return false;
         }
     }
@@ -315,15 +315,31 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
     }
 
     @Override
-    @SuppressWarnings({"unchecked"})
+    public void pauseAll() throws SchedulerException {
+        scheduler.pauseAll();
+    }
+
+    @Override
+    public void resumeAll() throws SchedulerException {
+        scheduler.resumeAll();
+    }
+
+    @Override
     public Class<? extends Job> getJobClass(String targetClass) {
+        if (StringUtils.isBlank(targetClass)) {
+            log.error("任务执行类全限定类名不能为空，你必须定义一个类作为Quartz定时任务的业务类: {}", targetClass);
+            return null;
+        }
         try {
-            if (StringUtils.isBlank(targetClass)) {
-                log.error("任务执行类全限定类名不能为空，你必须定义一个类作为Quartz定时任务的业务类: {}", targetClass);
+            Class<?> jobClass = Class.forName(targetClass);
+            Object newInstance = jobClass.getDeclaredConstructor().newInstance();
+            if (newInstance instanceof Job) {
+                Job instance = (Job) newInstance;
+                return instance.getClass();
+            } else {
+                log.error("你任务类'{}'没有实现'org.quartz.Job'接口, 不支持此类型", targetClass);
                 return null;
             }
-            Class<?> jobClass = Class.forName(targetClass);
-            return (Class<? extends Job>) jobClass;
         } catch (Exception e) {
             log.error("Exception: {}; target class: {}", e.getLocalizedMessage(), targetClass, e);
             return null;

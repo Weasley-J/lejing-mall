@@ -74,7 +74,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     public BaseResult<Boolean> save(QuartzJobDTO job) {
         log.info("save:{}", JSONUtil.toJsonStr(job));
         QuartzJob quartzJob = scheduleConvertor.toQuartzJob(job);
-        if (!CronUtil.isValid(quartzJob.getCronExpression())) {
+        if (CronUtil.isInvalid(quartzJob.getCronExpression())) {
             return BaseResult.error("cron表达式不正确");
         }
         quartzCoreService.createCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
@@ -116,7 +116,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     @Transactional(rollbackFor = Exception.class)
     public BaseResult<Void> edit(QuartzJobDTO job) {
         log.info("edit-job:{}", JSONUtil.toJsonStr(job));
-        if (!CronUtil.isValid(job.getCronExpression())) {
+        if (CronUtil.isInvalid(job.getCronExpression())) {
             return BaseResult.error("cron表达式不正确");
         }
         QuartzJob quartzJob = this.getById(job.getId());

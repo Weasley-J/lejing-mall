@@ -16,13 +16,23 @@ public class CronUtil {
     }
 
     /**
-     * 返回一个布尔值代表一个给定的Cron表达式的有效性
+     * 给定的Cron表达式是否有效
      *
      * @param cronExpression Cron表达式
-     * @return boolean 表达式是否有效
+     * @return true合法，false不合法
      */
     public static boolean isValid(String cronExpression) {
         return CronExpression.isValidExpression(cronExpression);
+    }
+
+    /**
+     * 给定的Cron表达式是否无效
+     *
+     * @param cronExpression Cron表达式
+     * @return true不合法，false合法
+     */
+    public static boolean isInvalid(String cronExpression) {
+        return !isValid(cronExpression);
     }
 
     /**

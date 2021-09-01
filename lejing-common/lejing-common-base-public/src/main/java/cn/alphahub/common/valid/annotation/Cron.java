@@ -1,7 +1,7 @@
 package cn.alphahub.common.valid.annotation;
 
 
-import cn.alphahub.common.valid.validator.CronExpression;
+import cn.alphahub.common.valid.validator.CronExpressionConstraintValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -48,19 +48,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Constraint(validatedBy = {CronExpression.class})
+@Constraint(validatedBy = {CronExpressionConstraintValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 public @interface Cron {
 
     /**
-     * @return 默认cron表达式字符串
-     */
-    String value() default "";
-
-    /**
      * @return 提示信息，校验错误后给出的提示信息
      */
-    String message() default "your cron expression is an invalid expression. please check you annotated element.";
+    String message() default "your cron expression is an invalid expression. please check the element you annotated.";
 
     /**
      * 所属校验分组

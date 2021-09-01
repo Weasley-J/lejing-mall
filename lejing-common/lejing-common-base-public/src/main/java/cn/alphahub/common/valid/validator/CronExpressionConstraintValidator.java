@@ -1,20 +1,3 @@
-/*
- * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy
- * of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- *
- */
-
 package cn.alphahub.common.valid.validator;
 
 import cn.alphahub.common.valid.annotation.Cron;
@@ -24,6 +7,33 @@ import javax.validation.ConstraintValidatorContext;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
+
+/**
+ * Cron表达式校验器
+ * <p>校验被{@code @Cron}标注的字符串元素是不是合法的Cron表达式</p>
+ *
+ * @author lwj
+ * @version 1.0
+ * @date 2021-09-01
+ * @see javax.validation.ConstraintValidator
+ * @see {@code org.quartz.CronExpression}
+ */
+public class CronExpressionConstraintValidator implements ConstraintValidator<Cron, String> {
+
+    @Override
+    public void initialize(Cron constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value.isBlank() || value.length() == 0) {
+            return false;
+        } else {
+            return CronExpression.isValidExpression(value);
+        }
+    }
+}
 
 /**
  * Cron expression validation for java annotation
@@ -193,7 +203,7 @@ import java.util.*;
  * @author Refactoring from CronTrigger to CronExpression by Aaron Craven
  * @see {@code org.quartz.CronExpression}
  */
-public final class CronExpression implements Serializable, Cloneable, ConstraintValidator<Cron, String> {
+final class CronExpression implements Serializable, Cloneable {
 
     public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
     protected static final int SECOND = 0;
@@ -1681,43 +1691,6 @@ public final class CronExpression implements Serializable, Cloneable, Constraint
         return new CronExpression(this);
     }
 
-    /**
-     * Initializes the validator in preparation for
-     * {@link #isValid(Object, ConstraintValidatorContext)} calls.
-     * The constraint annotation for a given constraint declaration
-     * is passed.
-     * <p>
-     * This method is guaranteed to be called before any use of this instance for
-     * validation.
-     * <p>
-     * The default implementation is a no-op.
-     *
-     * @param constraintAnnotation annotation instance for a given constraint declaration
-     */
-    @Override
-    public void initialize(Cron constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
-    }
-
-    /**
-     * Implements the validation logic.
-     * The state of {@code value} must not be altered.
-     * <p>
-     * This method can be accessed concurrently, thread-safety must be ensured
-     * by the implementation.
-     *
-     * @param value   object to validate
-     * @param context context in which the constraint is evaluated
-     * @return {@code false} if {@code value} does not pass the constraint
-     */
-    @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value.isBlank() || value.length() == 0) {
-            return false;
-        } else {
-            return CronExpression.isValidExpression(value);
-        }
-    }
 }
 
 class ValueSet {
@@ -1725,5 +1698,3 @@ class ValueSet {
 
     public int pos;
 }
-
-
