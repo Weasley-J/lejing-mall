@@ -1,5 +1,7 @@
 server:
   port: 8000
+  shutdown: graceful
+
 spring:
   application:
     name: lejing-member

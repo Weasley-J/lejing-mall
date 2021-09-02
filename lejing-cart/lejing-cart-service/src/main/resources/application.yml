@@ -1,5 +1,7 @@
 server:
   port: 40000
+  shutdown: graceful
+
 spring:
   application:
     name: lejing-cart

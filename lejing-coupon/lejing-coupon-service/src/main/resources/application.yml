@@ -1,5 +1,6 @@
 server:
   port: 7000
+  shutdown: graceful
 spring:
   application:
     name: lejing-coupon

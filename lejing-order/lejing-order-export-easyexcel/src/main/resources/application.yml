@@ -1,5 +1,7 @@
 server:
   port: 9009
+  shutdown: graceful
+
 spring:
   application:
     name: lejing-order-easyexcel

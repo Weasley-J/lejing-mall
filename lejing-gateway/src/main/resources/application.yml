@@ -1,5 +1,6 @@
 server:
   port: 88
+  shutdown: graceful
 spring:
   main:
     web-application-type: reactive
