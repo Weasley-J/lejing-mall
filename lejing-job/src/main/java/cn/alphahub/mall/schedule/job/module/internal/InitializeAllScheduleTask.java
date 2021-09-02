@@ -9,6 +9,7 @@ import cn.alphahub.mall.schedule.job.service.QuartzJobService;
 import cn.hutool.extra.spring.SpringUtil;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.Trigger;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.util.CollectionUtils;
 
@@ -45,8 +46,8 @@ public class InitializeAllScheduleTask extends QuartzJobBean {
 
             boolean exists = quartzCoreService.isScheduleJobExists(quartzParam.getJobName(), quartzParam.getJobGroup());
             if (exists) {
-                String jobStatus = quartzCoreService.getScheduleJobStatus(quartzParam.getJobName(), quartzParam.getJobGroup());
-                TriggerStateEnum stateEnum = TriggerStateEnum.getEnum(jobStatus);
+                Trigger.TriggerState status = quartzCoreService.getScheduleJobStatus(quartzParam);
+                TriggerStateEnum stateEnum = TriggerStateEnum.getEnum(status.name());
                 if (Objects.equals(stateEnum.getCode(), TriggerStateEnum.PAUSED.getCode())) {
                     quartzCoreService.resumeScheduleJob(quartzParam.getJobName(), quartzParam.getJobGroup());
                 }

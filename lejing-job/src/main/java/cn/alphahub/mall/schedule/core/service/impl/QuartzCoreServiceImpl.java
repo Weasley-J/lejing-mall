@@ -254,6 +254,17 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
     }
 
     @Override
+    public Trigger.TriggerState getScheduleJobStatus(QuartzParam param) {
+        TriggerKey triggerKey = getTriggerKey(param);
+        try {
+            return scheduler.getTriggerState(triggerKey);
+        } catch (SchedulerException e) {
+            log.error("get-schedule-job-status:{}", e.getLocalizedMessage(), e);
+            return Trigger.TriggerState.NONE;
+        }
+    }
+
+    @Override
     public boolean isScheduleJobExists(String jobName, String jobGroup) {
         log.info("判断任务是否存在:{},{}", jobGroup, jobGroup);
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);

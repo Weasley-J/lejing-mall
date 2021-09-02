@@ -7,6 +7,8 @@ import cn.alphahub.mall.schedule.job.dto.request.SimpleScheduleJobRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.LocalDateTime;
+
 /**
  * 任务调度Java Bean转换器
  *
@@ -14,7 +16,7 @@ import org.mapstruct.Mapping;
  * @version 1.0
  * @date 2021/08/28
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {LocalDateTime.class})
 public interface ScheduleConvertor {
 
     /**
@@ -68,6 +70,7 @@ public interface ScheduleConvertor {
      * @return QuartzJobDTO
      * @apiNote db -> mvc
      */
+    @Mapping(target = "createTime", expression = "java(LocalDateTime.now())")
     QuartzJob toQuartzJob(QuartzJobDTO dto);
 
     /**

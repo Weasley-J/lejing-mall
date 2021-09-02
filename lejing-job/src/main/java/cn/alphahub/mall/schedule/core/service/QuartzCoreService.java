@@ -105,15 +105,11 @@ public interface QuartzCoreService {
     /**
      * 获取任务状态(quartz原生状态)
      *
-     * @param scheduler Quartz Scheduler
-     * @param param     quartz参数实体类
+     * @param param 定时任务元数据类
      * @return Trigger.TriggerState
      * @throws SchedulerException scheduler exception
      */
-    default Trigger.TriggerState getScheduleJobStatus(Scheduler scheduler, QuartzParam param) throws SchedulerException {
-        TriggerKey triggerKey = getTriggerKey(param);
-        return scheduler.getTriggerState(triggerKey);
-    }
+    Trigger.TriggerState getScheduleJobStatus(QuartzParam param);
 
     /**
      * 判断任务是否存在
