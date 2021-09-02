@@ -16,7 +16,7 @@ import java.util.Set;
  * @author liuwenjing
  * @date 2021年4月21日10:11:06
  */
-public class ListValueConstraintValidator implements ConstraintValidator<ListValue, Integer> {
+public class ListValueValidator implements ConstraintValidator<ListValue, Integer> {
 
     /**
      * 前置Set

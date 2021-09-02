@@ -1,7 +1,7 @@
 package cn.alphahub.common.valid.annotation;
 
 
-import cn.alphahub.common.valid.validator.CronExpressionConstraintValidator;
+import cn.alphahub.common.valid.validator.CronExpressionValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -48,7 +48,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Constraint(validatedBy = {CronExpressionConstraintValidator.class})
+@Constraint(validatedBy = {CronExpressionValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 public @interface Cron {
 

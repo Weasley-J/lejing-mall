@@ -15,7 +15,7 @@ import java.util.Map;
  * @author liuwenjing
  * @date 2021年4月21日14:00:34
  */
-public class BigDecimalRangeConstraintValidator implements ConstraintValidator<DecimalRange, BigDecimal> {
+public class BigDecimalRangeValidator implements ConstraintValidator<DecimalRange, BigDecimal> {
     /**
      * 最小值：key
      */

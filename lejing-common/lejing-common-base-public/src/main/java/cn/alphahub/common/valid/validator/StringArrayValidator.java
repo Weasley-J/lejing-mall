@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021/08/04
  */
-public class StringArrayConstraintValidator implements ConstraintValidator<IncludeValue, String> {
+public class StringArrayValidator implements ConstraintValidator<IncludeValue, String> {
     /**
      * 前置Set
      */

@@ -1,6 +1,6 @@
 package cn.alphahub.common.valid.annotation;
 
-import cn.alphahub.common.valid.validator.StringArrayConstraintValidator;
+import cn.alphahub.common.valid.validator.StringArrayValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -49,7 +49,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Constraint(validatedBy = {StringArrayConstraintValidator.class})
+@Constraint(validatedBy = {StringArrayValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 public @interface IncludeValue {
 

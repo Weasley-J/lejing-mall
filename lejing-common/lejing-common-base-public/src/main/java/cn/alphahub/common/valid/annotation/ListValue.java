@@ -1,11 +1,9 @@
 package cn.alphahub.common.valid.annotation;
 
-import cn.alphahub.common.valid.validator.ListValueConstraintValidator;
-import org.hibernate.validator.constraints.ConstraintComposition;
+import cn.alphahub.common.valid.validator.ListValueValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Digits;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -34,7 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @date 2021年4月21日10:11:06
  */
 @Documented
-@Constraint(validatedBy = {ListValueConstraintValidator.class})
+@Constraint(validatedBy = {ListValueValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 public @interface ListValue {

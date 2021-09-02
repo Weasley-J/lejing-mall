@@ -18,7 +18,7 @@ import java.util.*;
  * @see javax.validation.ConstraintValidator
  * @see {@code org.quartz.CronExpression}
  */
-public class CronExpressionConstraintValidator implements ConstraintValidator<Cron, String> {
+public class CronExpressionValidator implements ConstraintValidator<Cron, String> {
 
     @Override
     public void initialize(Cron constraintAnnotation) {
@@ -203,7 +203,7 @@ public class CronExpressionConstraintValidator implements ConstraintValidator<Cr
  * @author Refactoring from CronTrigger to CronExpression by Aaron Craven
  * @see {@code org.quartz.CronExpression}
  */
-class CronExpression implements Serializable, Cloneable {
+final class CronExpression implements Serializable, Cloneable {
 
     public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
     protected static final int SECOND = 0;

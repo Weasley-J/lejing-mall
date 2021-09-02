@@ -1,7 +1,7 @@
 package cn.alphahub.common.valid.annotation;
 
 
-import cn.alphahub.common.valid.validator.BigDecimalRangeConstraintValidator;
+import cn.alphahub.common.valid.validator.BigDecimalRangeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -43,7 +43,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Retention(RUNTIME)
-@Constraint(validatedBy = {BigDecimalRangeConstraintValidator.class})
+@Constraint(validatedBy = {BigDecimalRangeValidator.class})
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 public @interface DecimalRange {
 

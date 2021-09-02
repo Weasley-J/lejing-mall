@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"cn.**.schedule.feign"})
 @MapperScan(value = {"cn.**.job.mapper", "cn.**.sys.mapper"})
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall.schedule"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingJobApplication {
 
     public static void main(String[] args) {
