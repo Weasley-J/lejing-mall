@@ -1,6 +1,7 @@
 server:
   port: 8008
   shutdown: graceful
+
 spring:
 
   application:

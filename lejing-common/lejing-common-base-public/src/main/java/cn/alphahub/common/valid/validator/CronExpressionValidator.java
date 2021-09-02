@@ -1147,7 +1147,7 @@ final class CronExpression implements Serializable, Cloneable {
             case YEAR:
                 return years;
             default:
-                return null;
+                return new TreeSet<>();
         }
     }
 

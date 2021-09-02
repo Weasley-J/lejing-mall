@@ -8,14 +8,18 @@ api.push({
 })
 api[0].list.push({
     order: '1',
-    desc: '获取当前时间参与秒杀的商品',
+    desc: '上架最近三天的秒杀商品',
 });
 api[0].list.push({
     order: '2',
-    desc: '查询商品是否参加秒杀活动',
+    desc: '获取当前时间参与秒杀的商品',
 });
 api[0].list.push({
     order: '3',
+    desc: '查询商品是否参加秒杀活动',
+});
+api[0].list.push({
+    order: '4',
     desc: '商品进行秒杀(秒杀开始)&lt;p&gt;查看表:oms_order_item&lt;/p&gt;',
 });
 api.push({
