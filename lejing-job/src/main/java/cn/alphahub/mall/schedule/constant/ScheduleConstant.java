@@ -16,7 +16,7 @@ public class ScheduleConstant {
     /**
      * 用来获取JobDataMap参数值的KEY
      */
-    public static final String JOB_DATA_PARAM_KEY = "JOB_DATA_PARAM";
+    public static final String JOB_PARAM_KEY = "JOB_PARAM";
 
     private ScheduleConstant() {
     }
@@ -104,6 +104,75 @@ public class ScheduleConstant {
             return Stream.of(MisfireHandling.values())
                     .filter(anEnum -> anEnum.getCode() == code)
                     .findFirst().orElse(null);
+        }
+    }
+
+    /**
+     * quartz任务调度状态
+     *
+     * @author lwj
+     * @version 1.0
+     * @date 2021/08/27
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum TriggerStateEnum {
+        /**
+         * NONE 不存在
+         */
+        NONE("NONE", "不存在"),
+        /**
+         * NORMAL 正常
+         */
+        NORMAL("NORMAL", "正常"),
+        /**
+         * PAUSED 暂停
+         */
+        PAUSED("PAUSED", "暂停"),
+        /**
+         * COMPLETE 完成
+         */
+        COMPLETE("COMPLETE", "完成"),
+        /**
+         * ERROR 出错
+         */
+        ERROR("ERROR", "出错"),
+        /**
+         * BLOCKED 阻塞
+         */
+        BLOCKED("BLOCKED", "阻塞"),
+        ;
+
+
+        /**
+         * 枚举值
+         */
+        private final String code;
+        /**
+         * 枚举名
+         */
+        private final String name;
+
+        /**
+         * 获取quartz任务调度状态名
+         *
+         * @param code 枚举值
+         * @return 枚举名
+         */
+        public static String getName(String code) {
+            return Stream.of(TriggerStateEnum.values())
+                    .filter(anEnum -> anEnum.getCode().equals(code))
+                    .map(TriggerStateEnum::getName).findFirst().orElse(null);
+        }
+
+        /**
+         * 获取quartz任务调度状态枚举
+         *
+         * @param code 枚举值
+         * @return TriggerStateEnum枚举
+         */
+        public static TriggerStateEnum getEnum(String code) {
+            return TriggerStateEnum.valueOf(code);
         }
     }
 }

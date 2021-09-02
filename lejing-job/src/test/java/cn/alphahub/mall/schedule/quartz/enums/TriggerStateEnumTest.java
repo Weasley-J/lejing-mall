@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.quartz.enums;
 
-import cn.alphahub.mall.schedule.core.enums.TriggerStateEnum;
+import cn.alphahub.mall.schedule.constant.ScheduleConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ class TriggerStateEnumTest {
 
     @Test
     void getEnum() {
-        TriggerStateEnum triggerStateEnum = TriggerStateEnum.getEnum("BLOCKED");
+        ScheduleConstant.TriggerStateEnum triggerStateEnum = ScheduleConstant.TriggerStateEnum.getEnum("BLOCKED");
         String name = triggerStateEnum.getName();
         System.out.println("name = " + name);
     }

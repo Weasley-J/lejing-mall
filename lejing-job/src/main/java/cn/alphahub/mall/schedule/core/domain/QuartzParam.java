@@ -116,7 +116,7 @@ public class QuartzParam implements Serializable {
     public static JobDataMap getJobDataMap(String jobParams) {
         JobDataMap dataMap = new JobDataMap();
         if (StringUtils.isNotBlank(jobParams)) {
-            dataMap.put(ScheduleConstant.JOB_DATA_PARAM_KEY, jobParams);
+            dataMap.put(ScheduleConstant.JOB_PARAM_KEY, jobParams);
         }
         return dataMap;
     }

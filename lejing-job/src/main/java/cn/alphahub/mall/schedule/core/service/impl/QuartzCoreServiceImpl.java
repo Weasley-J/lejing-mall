@@ -1,7 +1,6 @@
 package cn.alphahub.mall.schedule.core.service.impl;
 
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
-import cn.alphahub.mall.schedule.core.enums.TriggerStateEnum;
 import cn.alphahub.mall.schedule.core.service.QuartzCoreService;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+import static cn.alphahub.mall.schedule.constant.ScheduleConstant.TriggerStateEnum;
 
 /**
  * quartz任务调度核心方法实现
@@ -253,7 +254,7 @@ public class QuartzCoreServiceImpl implements QuartzCoreService {
     }
 
     @Override
-    public boolean checkExistsScheduleJob(String jobName, String jobGroup) {
+    public boolean isScheduleJobExists(String jobName, String jobGroup) {
         log.info("判断任务是否存在:{},{}", jobGroup, jobGroup);
         JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
         try {

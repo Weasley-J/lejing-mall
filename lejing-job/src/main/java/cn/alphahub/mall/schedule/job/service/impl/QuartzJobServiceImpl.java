@@ -175,7 +175,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
     @Override
     public BaseResult<Boolean> check(String jobName, String jobGroup) {
         log.info("check:{},{}", jobName, jobGroup);
-        Boolean flag = quartzCoreService.checkExistsScheduleJob(jobName, jobGroup);
+        Boolean flag = quartzCoreService.isScheduleJobExists(jobName, jobGroup);
         return BaseResult.success(flag);
     }
 

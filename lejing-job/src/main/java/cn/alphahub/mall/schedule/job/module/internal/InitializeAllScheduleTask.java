@@ -13,6 +13,9 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
+
+import static cn.alphahub.mall.schedule.constant.ScheduleConstant.TriggerStateEnum;
 
 /**
  * 项目启动后完成,3min后初始化所有持久层定时任务
@@ -36,9 +39,21 @@ public class InitializeAllScheduleTask extends QuartzJobBean {
         }
 
         jobs.forEach(job -> {
+
             QuartzParam quartzParam = scheduleConvertor.toQuartzParam(job);
-            quartzCoreService.createCronScheduleJob(quartzParam);
             System.err.println("\tScheduling task parameters '" + JSONUtil.toJsonStr(quartzParam) + "'");
+
+            boolean exists = quartzCoreService.isScheduleJobExists(quartzParam.getJobName(), quartzParam.getJobGroup());
+            if (exists) {
+                String jobStatus = quartzCoreService.getScheduleJobStatus(quartzParam.getJobName(), quartzParam.getJobGroup());
+                TriggerStateEnum stateEnum = TriggerStateEnum.getEnum(jobStatus);
+                if (Objects.equals(stateEnum.getCode(), TriggerStateEnum.PAUSED.getCode())) {
+                    quartzCoreService.resumeScheduleJob(quartzParam.getJobName(), quartzParam.getJobGroup());
+                }
+            } else {
+                quartzCoreService.createCronScheduleJob(quartzParam);
+            }
+
         });
     }
 }

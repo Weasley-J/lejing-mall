@@ -8,6 +8,7 @@ import org.quartz.Job;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
 import java.util.List;
@@ -102,13 +103,26 @@ public interface QuartzCoreService {
     String getScheduleJobStatus(String jobName, String jobGroup);
 
     /**
+     * 获取任务状态(quartz原生状态)
+     *
+     * @param scheduler Quartz Scheduler
+     * @param param     quartz参数实体类
+     * @return Trigger.TriggerState
+     * @throws SchedulerException scheduler exception
+     */
+    default Trigger.TriggerState getScheduleJobStatus(Scheduler scheduler, QuartzParam param) throws SchedulerException {
+        TriggerKey triggerKey = getTriggerKey(param);
+        return scheduler.getTriggerState(triggerKey);
+    }
+
+    /**
      * 判断任务是否存在
      *
      * @param jobName  定时任务名称
      * @param jobGroup 任务组（没有分组传值null）
      * @return true：成功，false：失败
      */
-    boolean checkExistsScheduleJob(String jobName, String jobGroup);
+    boolean isScheduleJobExists(String jobName, String jobGroup);
 
     /**
      * 根据任务組刪除定時任务
