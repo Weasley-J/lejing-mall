@@ -145,6 +145,11 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
             log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
             return null;
         }
+
+        //注入一段代码
+        //这一段代码去栈中去所有的、出栈
+        //map
+                //
         return member;
     }
 
