@@ -149,7 +149,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         //注入一段代码
         //这一段代码去栈中去所有的、出栈
         //map
-                //
         return member;
     }
 
