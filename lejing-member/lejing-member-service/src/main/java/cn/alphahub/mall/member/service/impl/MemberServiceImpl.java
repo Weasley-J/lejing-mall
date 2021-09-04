@@ -168,7 +168,6 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         String openid = jsonObject.getStr("openid");
 
         //3、拿到access_token 和 oppenid，再去请求微信提供固定的API，获取到扫码人的信息
-        //TODO 查询数据库当前用用户是否曾经使用过微信登录
         Member member = this.getOne(new QueryWrapper<Member>().lambda().eq(Member::getSocialUid, openid));
 
         if (Objects.isNull(member)) {

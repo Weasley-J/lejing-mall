@@ -1,5 +1,6 @@
 package cn.alphahub.mall.schedule.job.controller;
 
+import cn.alphahub.common.annotations.Syslog;
 import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
@@ -131,6 +132,7 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return success/error
      */
+    @Syslog(name = "立即执行一次")
     @PutMapping("/run/at/now/{jobName}/{jobGroup}")
     public BaseResult<Void> runAtNow(@PathVariable(name = "jobName") String jobName,
                                      @PathVariable(name = "jobGroup", required = false) String jobGroup) {
@@ -176,6 +178,7 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
+    @Syslog(name = "暂停单个定时任务")
     @PutMapping("/pause/one/{jobName}/{jobGroup}")
     public BaseResult<Void> pause(@PathVariable(name = "jobName") String jobName,
                                   @PathVariable(name = "jobGroup", required = false) String jobGroup
@@ -190,6 +193,7 @@ public class ScheduleJobController {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
+    @Syslog(name = "恢复单个定时任务")
     @PutMapping("/resume/one/{jobName}/{jobGroup}")
     public BaseResult<Void> resume(@PathVariable(name = "jobName") String jobName,
                                    @PathVariable(name = "jobGroup", required = false) String jobGroup
