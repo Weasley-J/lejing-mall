@@ -23,6 +23,7 @@
         <module>lejing-common-base-domain</module>
         <module>lejing-common-base-public</module>
         <module>lejing-common-util</module>
+        <module>lejing-common-email-support</module>
     </modules>
 
 </project>

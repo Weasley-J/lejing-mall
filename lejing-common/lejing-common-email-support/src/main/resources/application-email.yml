@@ -1,0 +1,38 @@
+spring:
+  mail:
+    host: "host"
+    port: 80
+    username: "username"
+    password: "password"
+    protocol: "smtp"
+    # 开启安全连接
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+
+    # 多邮件模板配置列表
+    email-templates:
+      - template-name: EmailQQ
+        host: "smtp.qq.com"
+        port: 80
+        username: "username"
+        password: "password"
+        protocol: "smtp"
+        properties:
+          mail:
+            smtp:
+              ssl:
+                enable: true
+      - template-name: Email163
+        host: "smtp.163.com"
+        port: 80
+        username: "username"
+        password: "password"
+        protocol: "smtp"
+        properties:
+          mail:
+            smtp:
+              ssl:
+                enable: true

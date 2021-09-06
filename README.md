@@ -37,7 +37,7 @@
 技术架构：
 
 - 🚀️  `JDK11`
-- 🚀️  `MySQL-8.0.25`
+- 🚀️  `MySQL-8.0.26`
 - 🚀️  `apache-maven-3.8.2`
 - 🚀️  `spring-boot 2.5.4`
 - 🚀️  `spring-cloud-2020.0.3`
@@ -45,11 +45,11 @@
 
 
 
-# 2 IDEA环境JVM参数配置
+# 2 IDEA环境`JVM`参数配置
 
 > tips: 主要目的减少web服务的的内存占用
 
-JVM参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
+`JVM`参数: `-Xms256m -Xmx256m -Xmn100m -Xlog:gc*`
 
 ![image-20210207215344410](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210207215344410.png)
 
@@ -265,17 +265,7 @@ npm install -g live-server --registry=https://registry.npm.taobao.org && live-se
                   <sonar.host.url>http://192.168.40.132:9001</sonar.host.url>
                   <sonar.login>d65fc87408fd94ef8328b03a52d06bfec0fe388f</sonar.login>
                   <!-- 排除的文件 -->
-                  <sonar.exclusions>*.js</sonar.exclusions>
-                  <sonar.exclusions>*.bat</sonar.exclusions>
-                  <sonar.exclusions>*.cmd</sonar.exclusions>
-                  <sonar.exclusions>*.xml</sonar.exclusions>
-                  <sonar.exclusions>*.md</sonar.exclusions>
-                  <sonar.exclusions>*.NET</sonar.exclusions>
-                  <sonar.exclusions>*.cpp</sonar.exclusions>
-                  <sonar.exclusions>*.css</sonar.exclusions>
-                  <sonar.exclusions>*.html</sonar.exclusions>
-                  <sonar.exclusions>*.vue</sonar.exclusions>
-                  <sonar.exclusions>src/test/**</sonar.exclusions>
+                  <sonar.exclusions>src/test/**/*,*.js,*.css,*.html,*.vue,*.bat,*.cmd,*.md,*.NET,*.cpp</sonar.exclusions>
               </properties>
           </profile>
       </profiles>

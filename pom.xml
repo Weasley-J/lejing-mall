@@ -134,6 +134,11 @@
                 <version>${lejing.latest.version}</version>
             </dependency>
             <dependency>
+                <groupId>cn.alphahub.mall.common</groupId>
+                <artifactId>lejing-common-email-support</artifactId>
+                <version>${lejing.latest.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>cn.alphahub.mall</groupId>
                 <artifactId>lejing-auth-interface</artifactId>
                 <version>${lejing.latest.version}</version>
