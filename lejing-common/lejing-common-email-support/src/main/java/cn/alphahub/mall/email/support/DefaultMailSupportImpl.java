@@ -1,11 +1,12 @@
 package cn.alphahub.mall.email.support;
-import java.util.Date;
 
+import cn.alphahub.mall.email.annotation.Email;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 默认动态邮件参数支持实现
@@ -18,10 +19,11 @@ import javax.annotation.Resource;
 public class DefaultMailSupportImpl implements MailSupport {
 
     @Resource
-    private JavaMailSender javaMailSender;
+    private JavaMailSender mailSender;
 
 
     @Override
+    @Email(templateName = "EmailQQ")
     public void send() {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setFrom("");
@@ -32,6 +34,6 @@ public class DefaultMailSupportImpl implements MailSupport {
         simpleMessage.setSentDate(new Date());
         simpleMessage.setSubject("");
         simpleMessage.setText("");
-        javaMailSender.send(simpleMessage);
+        mailSender.send(simpleMessage);
     }
 }

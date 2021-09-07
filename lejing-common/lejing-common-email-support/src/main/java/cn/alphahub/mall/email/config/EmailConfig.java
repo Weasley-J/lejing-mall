@@ -4,19 +4,15 @@ import cn.alphahub.mall.email.annotation.Email;
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.Maps;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.cloud.context.refresh.ContextRefresher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -32,16 +28,10 @@ import static cn.alphahub.mall.email.config.EmailConfig.EmailTemplateProperties;
  * @version 1.0
  * @date 2021-09-06
  */
+@EnableAspectJAutoProxy
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({MailProperties.class, EmailProperties.class, EmailTemplateProperties.class})
 public class EmailConfig {
-
-    @Resource
-    private ContextRefresher contextRefresher;
-
-    @Resource
-    private Map<String, MailProperties> emailPropertiesMap;
-
     /**
      * 填充邮件模板配置列表元数据Map
      *
@@ -67,15 +57,13 @@ public class EmailConfig {
     /**
      * 装载Bean
      *
-     * @param properties 电子邮件支持的配置属性
+     * @param templateName       电子邮件支持的配置属性
+     * @param emailPropertiesMap 邮件模板配置列表元数据Map
      * @return JavaMailSender
      */
-    @Bean
-    @Primary
-    @RefreshScope
-    @ConditionalOnMissingBean(JavaMailSender.class)
-    public JavaMailSenderImpl mailSender(MailProperties properties) {
+    public JavaMailSender mailSender(Map<String, MailProperties> emailPropertiesMap, String templateName) {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
+        MailProperties properties = emailPropertiesMap.get(templateName);
         sender.setHost(properties.getHost());
         if (properties.getPort() != null) {
             sender.setPort(properties.getPort());
@@ -92,13 +80,6 @@ public class EmailConfig {
             sender.setJavaMailProperties(asProperties);
         }
         return sender;
-    }
-
-    public void refresh(String templateName) {
-        MailProperties properties = emailPropertiesMap.get(templateName);
-        if (null != properties){
-            contextRefresher.refresh();
-        }
     }
 
     /**

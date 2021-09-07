@@ -28,5 +28,5 @@ public @interface Email {
      *
      * @return 邮件模板名称
      */
-    String name() default DEFAULT_TEMPLATE;
+    String templateName() default DEFAULT_TEMPLATE;
 }

@@ -1,7 +1,7 @@
 spring:
   mail:
     host: "smtp.163.com"
-    port: 456
+    port: 443
     username: "username"
     password: "password"
     protocol: "smtp"

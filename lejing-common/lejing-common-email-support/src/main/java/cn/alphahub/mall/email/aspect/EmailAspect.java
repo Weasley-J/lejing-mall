@@ -1,6 +1,7 @@
 package cn.alphahub.mall.email.aspect;
 
 import cn.alphahub.mall.email.annotation.Email;
+import cn.alphahub.mall.email.config.EmailConfig;
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -13,12 +14,17 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,7 +36,23 @@ import java.util.Objects;
  */
 @Slf4j
 @Aspect
+@Component
 public class EmailAspect {
+    /**
+     * 线程隔离
+     */
+    private final ThreadLocal<JavaMailSender> mailSenderThreadLocal = new ThreadLocal<>();
+    /**
+     * email config
+     */
+    @Resource
+    private EmailConfig emailConfig;
+    /**
+     * 邮件模板配置列表元数据Map
+     */
+    @Resource
+    private Map<String, MailProperties> emailPropertiesMap;
+
     /**
      * 定义切入点方法
      */
@@ -41,16 +63,15 @@ public class EmailAspect {
     /**
      * 目标方法执行之前执行
      */
-    @Before("pointcut()")
-    public void before(JoinPoint point) {
-        System.err.println("切入点所织入目标方法执行之前执行: before()");
+    @Before("pointcut() && @annotation(email)")
+    public void before(JoinPoint point, Email email) {
+        System.out.println("before()");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
-        log.info("ip:{}", request.getRemoteAddr());
-        log.info("url:{}", request.getRequestURL().toString());
-        log.info("http-method:{}", request.getMethod());
-        log.info("class-method:{}", point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
-        log.info("parameters:{}", point.getArgs());
+        String templateName = email.templateName();
+        MailProperties mailProperties = emailPropertiesMap.get(templateName);
+        JavaMailSender mailSender = emailConfig.mailSender(emailPropertiesMap, email.templateName());
+        mailSenderThreadLocal.set(mailSender);
     }
 
     /**
@@ -58,11 +79,11 @@ public class EmailAspect {
      */
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        System.err.println("环绕通知开始：around()");
+        System.out.println("around()");
         long beginTime = System.currentTimeMillis();
         Object proceed = point.proceed();
         long endTime = System.currentTimeMillis() - beginTime;
-        System.err.println("\n环绕通知结束：around()，耗时：" + endTime + "（ms），" +
+        System.out.println("\naround()耗时：" + endTime + "（ms），" +
                 "开始时间：" + DateUtil.formatDateTime(new Date(beginTime)) + "，" +
                 "结束时间：" + DateUtil.formatDateTime(new Date(endTime)));
         return proceed;
@@ -73,10 +94,10 @@ public class EmailAspect {
      * <p>
      * 目标方法同时需要{@code @Email}注解的修饰，并且这里（通知）的形参名要与上面注解中的一致
      */
-    @After("pointcut() && @annotation(Email)")
-    public void after(Email Email) {
-        System.err.println("目标方法执行之后必定执行：after()");
-        log.debug("注解值:{}", Email.name());
+    @After("pointcut() && @annotation(email)")
+    public void after(Email email) {
+        System.out.println("after(),注解值:" + email.templateName());
+        mailSenderThreadLocal.remove();
     }
 
     /**
@@ -86,13 +107,8 @@ public class EmailAspect {
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
-        System.err.println("目标方法有返回值且正常返回后执行：afterReturning()");
-        log.info("目标方法有返回值且正常返回后执行，响应数据：{}", responseData);
-
+        System.out.println("afterReturning(),响应数据:" + responseData.toString());
         Object[] args = point.getArgs();
-        String jobName = args[0].toString();
-        String jobGroup = args[1].toString();
-
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -105,8 +121,8 @@ public class EmailAspect {
      * <p>
      * 目标方法同时需要{@code @Email}注解的修饰，并且这里（通知）的形参名要与上面注解中的一致,可以声明来获取目标方法抛出的异常
      */
-    @AfterThrowing(pointcut = "pointcut() && @annotation(Email)", throwing = "throwable")
-    public void afterThrowing(Email Email, Throwable throwable) {
-        System.err.println("目标方法抛出异常后执行'afterThrowing()',注解值'" + Email.name() + "',异常信息'" + throwable.getMessage() + "'");
+    @AfterThrowing(pointcut = "pointcut() && @annotation(email)", throwing = "throwable")
+    public void afterThrowing(Email email, Throwable throwable) {
+        System.out.println("afterThrowing(),注解值:" + email.templateName() + ",异常信息:" + throwable.getMessage());
     }
 }
