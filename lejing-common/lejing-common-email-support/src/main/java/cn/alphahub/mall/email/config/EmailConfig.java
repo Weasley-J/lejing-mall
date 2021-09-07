@@ -39,6 +39,9 @@ public class EmailConfig {
     @Resource
     private ContextRefresher contextRefresher;
 
+    @Resource
+    private Map<String, MailProperties> emailPropertiesMap;
+
     /**
      * 填充邮件模板配置列表元数据Map
      *
@@ -91,8 +94,11 @@ public class EmailConfig {
         return sender;
     }
 
-    public void refresh(String templateName, MailProperties mailProperties) {
-
+    public void refresh(String templateName) {
+        MailProperties properties = emailPropertiesMap.get(templateName);
+        if (null != properties){
+            contextRefresher.refresh();
+        }
     }
 
     /**
