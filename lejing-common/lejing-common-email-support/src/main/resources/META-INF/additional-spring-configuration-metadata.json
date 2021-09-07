@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "spring.mail.email-templates",
+      "type": "cn.alphahub.mall.email.config.EmailConfig$EmailTemplateProperties",
+      "description": "Based on 'spring.mail.email-templates' properties, You can configure a list of email-templates."
+    }
+  ]
+}

@@ -46,6 +46,10 @@
             <groupId>cn.alphahub.mall.seckill</groupId>
             <artifactId>lejing-seckill-interface</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-email-support</artifactId>
+        </dependency>
         <!-- lejing内部结束 -->
         <!-- quartz -->
         <dependency>
