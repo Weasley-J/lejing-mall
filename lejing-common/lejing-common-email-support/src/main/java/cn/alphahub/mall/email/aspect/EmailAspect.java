@@ -47,11 +47,17 @@ public class EmailAspect {
      */
     @Resource
     private EmailConfig emailConfig;
-    /**
-     * 邮件模板配置列表元数据Map
-     */
     @Resource
     private Map<String, MailProperties> emailPropertiesMap;
+
+    /**
+     * 获取邮件是发送实例（ThreadLocal中获取，目标方法后移除线程变量）
+     *
+     * @return JavaMailSender
+     */
+    public JavaMailSender getJavaMailSender() {
+        return mailSenderThreadLocal.get();
+    }
 
     /**
      * 定义切入点方法
@@ -68,9 +74,8 @@ public class EmailAspect {
         System.out.println("before()");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
-        String templateName = email.templateName();
-        MailProperties mailProperties = emailPropertiesMap.get(templateName);
-        JavaMailSender mailSender = emailConfig.mailSender(emailPropertiesMap, email.templateName());
+        String templateName = email.name();
+        JavaMailSender mailSender = emailConfig.getMailSender(emailPropertiesMap, email.name());
         mailSenderThreadLocal.set(mailSender);
     }
 
@@ -83,7 +88,7 @@ public class EmailAspect {
         long beginTime = System.currentTimeMillis();
         Object proceed = point.proceed();
         long endTime = System.currentTimeMillis() - beginTime;
-        System.out.println("\naround()耗时：" + endTime + "（ms），" +
+        System.out.println("around()耗时：" + endTime + "（ms），" +
                 "开始时间：" + DateUtil.formatDateTime(new Date(beginTime)) + "，" +
                 "结束时间：" + DateUtil.formatDateTime(new Date(endTime)));
         return proceed;
@@ -96,14 +101,14 @@ public class EmailAspect {
      */
     @After("pointcut() && @annotation(email)")
     public void after(Email email) {
-        System.out.println("after(),注解值:" + email.templateName());
+        System.out.println("after(),注解值:" + email.name());
         mailSenderThreadLocal.remove();
     }
 
     /**
      * 目标方法有返回值且正常返回后执行
      * <p>
-     * 这里切入点方法的形参名{@code logPointcut()}要与上面注解中的一致
+     * 这里切入点方法的形参名{@code pointcut()}要与上面注解中的一致
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
@@ -123,6 +128,6 @@ public class EmailAspect {
      */
     @AfterThrowing(pointcut = "pointcut() && @annotation(email)", throwing = "throwable")
     public void afterThrowing(Email email, Throwable throwable) {
-        System.out.println("afterThrowing(),注解值:" + email.templateName() + ",异常信息:" + throwable.getMessage());
+        System.out.println("afterThrowing(),注解值:" + email.name() + ",异常信息:" + throwable.getMessage());
     }
 }

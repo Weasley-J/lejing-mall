@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -28,10 +29,11 @@ import static cn.alphahub.mall.email.config.EmailConfig.EmailTemplateProperties;
  * @version 1.0
  * @date 2021-09-06
  */
+@Configuration
 @EnableAspectJAutoProxy
-@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({MailProperties.class, EmailProperties.class, EmailTemplateProperties.class})
 public class EmailConfig {
+
     /**
      * 填充邮件模板配置列表元数据Map
      *
@@ -43,15 +45,15 @@ public class EmailConfig {
     public Map<String, MailProperties> emailPropertiesMap(MailProperties mailProperties,
                                                           EmailTemplateProperties emailTemplateProperties
     ) {
-        Map<String, MailProperties> map = Maps.newLinkedHashMap();
-        map.put(Email.DEFAULT_TEMPLATE, mailProperties);
+        Map<String, MailProperties> mailPropertiesMap = Maps.newConcurrentMap();
+        mailPropertiesMap.put(Email.DEFAULT_TEMPLATE, mailProperties);
         List<EmailProperties> templates = emailTemplateProperties.getEmailTemplates();
         if (CollUtil.isEmpty(templates)) {
-            return map;
+            return mailPropertiesMap;
         }
         Map<String, MailProperties> propertiesMap = templates.stream().collect(Collectors.toMap(EmailProperties::getTemplateName, EmailProperties::getMailProperties));
-        map.putAll(propertiesMap);
-        return propertiesMap;
+        mailPropertiesMap.putAll(propertiesMap);
+        return mailPropertiesMap;
     }
 
     /**
@@ -61,7 +63,7 @@ public class EmailConfig {
      * @param emailPropertiesMap 邮件模板配置列表元数据Map
      * @return JavaMailSender
      */
-    public JavaMailSender mailSender(Map<String, MailProperties> emailPropertiesMap, String templateName) {
+    public JavaMailSender getMailSender(Map<String, MailProperties> emailPropertiesMap, String templateName) {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         MailProperties properties = emailPropertiesMap.get(templateName);
         sender.setHost(properties.getHost());
@@ -107,6 +109,7 @@ public class EmailConfig {
         /**
          * 邮件模板配置信息
          */
+        @NestedConfigurationProperty
         private MailProperties mailProperties;
     }
 }
