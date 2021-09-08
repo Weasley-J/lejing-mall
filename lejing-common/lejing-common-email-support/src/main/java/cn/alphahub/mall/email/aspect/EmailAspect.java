@@ -62,6 +62,7 @@ public class EmailAspect {
      */
     @Pointcut(value = "@annotation(cn.alphahub.mall.email.annotation.Email)")
     public void pointcut() {
+        // a void method for aspect pointcut.
     }
 
     /**

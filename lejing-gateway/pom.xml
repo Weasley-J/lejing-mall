@@ -5,11 +5,11 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.1.3-SNAPSHOT</version>
+        <version>1.1.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>lejing-gateway</artifactId>
-    <version>1.1.3-SNAPSHOT</version>
+    <version>1.1.5-SNAPSHOT</version>
     <name>lejing-gateway</name>
 
     <description>乐璟商城API 网关</description>
