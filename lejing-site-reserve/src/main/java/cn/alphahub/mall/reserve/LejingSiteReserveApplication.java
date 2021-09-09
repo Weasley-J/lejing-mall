@@ -1,7 +1,6 @@
 package cn.alphahub.mall.reserve;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author liuwenjing
  */
 @EnableDiscoveryClient
-@MapperScans(value = {@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})})
+@MapperScan(value = {"cn.**.dao", "cn.**.mapper"})
 @SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
 public class LejingSiteReserveApplication {
 

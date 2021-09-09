@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.site.mapper.SiteReserveMapper">
+<mapper namespace="cn.alphahub.mall.reserve.site.mapper.SiteReserveMapper">
 
 	<!-- 可根据自己的需求，按需使用 -->
-    <resultMap type="cn.alphahub.mall.site.domain.SiteReserve" id="siteReserveResult">
+    <resultMap type="cn.alphahub.mall.reserve.site.domain.SiteReserve" id="siteReserveResult">
         <result property="siteId" column="site_id"/>
         <result property="siteCode" column="site_code"/>
         <result property="projectCode" column="project_code"/>

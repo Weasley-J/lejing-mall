@@ -2,7 +2,6 @@ package cn.alphahub.mall.email;
 
 import cn.alphahub.mall.email.annotation.Email;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,8 +20,8 @@ public class MailSupportDemo {
     @Resource
     private EmailTemplate emailTemplate;
 
-    private SimpleMailMessage getSimpleMessage() {
-        SimpleMailMessage simpleMessage = new SimpleMailMessage();
+    private EmailTemplate.SimpleMailMessageDomain getSimpleMessage() {
+        EmailTemplate.SimpleMailMessageDomain simpleMessage = new EmailTemplate.SimpleMailMessageDomain();
         simpleMessage.setTo("1432689025@qq.com");
         simpleMessage.setSentDate(new Date());
         simpleMessage.setSubject("测试模板发送邮件");

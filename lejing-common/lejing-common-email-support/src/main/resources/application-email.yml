@@ -10,6 +10,7 @@ spring:
         smtp:
           ssl:
             enable: true
+        debug: true
     # 多邮件模板配置列表
     email-templates:
       - template-name: EmailQQ
@@ -24,18 +25,7 @@ spring:
               smtp:
                 ssl:
                   enable: true
-      - template-name: Email163
-        mail-properties:
-          host: "smtp.163.com"
-          port: 587
-          username: "xxx@163.com"
-          password: "your_password"
-          protocol: "smtp"
-          properties:
-            mail:
-              smtp:
-                ssl:
-                  enable: true
+              debug: true
       - template-name: EmailOffice365
         mail-properties:
           host: "smtp.office365.com"
@@ -48,3 +38,17 @@ spring:
               smtp:
                 starttls:
                   enable: true
+              debug: true
+      - template-name: Email163
+          mail-properties:
+            host: "smtp.163.com"
+            port: 587
+            username: "xxx@163.com"
+            password: "your_password"
+            protocol: "smtp"
+            properties:
+              mail:
+                smtp:
+                  ssl:
+                    enable: true
+                debug: true

@@ -70,7 +70,7 @@ public class EmailAspect {
      */
     @Before("pointcut() && @annotation(email)")
     public void before(JoinPoint point, Email email) {
-        log.info("before --------------------------");
+        log.info("1. before");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
@@ -86,7 +86,7 @@ public class EmailAspect {
      */
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        log.info("around --------------------------");
+        log.info("2. around");
         long beginTime = System.currentTimeMillis();
         Object proceed = point.proceed();
         long endTime = System.currentTimeMillis() - beginTime;
@@ -103,7 +103,7 @@ public class EmailAspect {
      */
     @After("pointcut() && @annotation(email)")
     public void after(Email email) {
-        log.info("after --------------------------");
+        log.info("3. after");
         mailSenderThreadLocal.remove();
         mailPropertiesThreadLocal.remove();
     }
@@ -115,7 +115,7 @@ public class EmailAspect {
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
-        log.info("afterReturning, responseData: {}", responseData.toString());
+        log.info("4. afterReturning, responseData: {}", responseData.toString());
         System.out.println("afterReturning(),响应数据:" + responseData.toString());
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
@@ -132,7 +132,7 @@ public class EmailAspect {
      */
     @AfterThrowing(pointcut = "pointcut() && @annotation(email)", throwing = "throwable")
     public void afterThrowing(Email email, Throwable throwable) {
-        log.error("afterThrowing, throwable: {}", throwable.getLocalizedMessage());
+        log.error("5. afterThrowing, throwable: {}", throwable.getLocalizedMessage());
     }
 
     /**

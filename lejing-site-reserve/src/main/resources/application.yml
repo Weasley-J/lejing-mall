@@ -1,11 +1,14 @@
 server:
   port: 8090
+  shutdown: graceful
+
 spring:
   application:
     name: lejing-site-reserve
   profiles:
     #运行环境: dev|test|prod
     active: dev
+    include: lwjemail
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

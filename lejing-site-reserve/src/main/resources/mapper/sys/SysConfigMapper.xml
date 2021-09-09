@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.sys.mapper.SysConfigMapper">
+<mapper namespace="cn.alphahub.mall.reserve.sys.mapper.SysConfigMapper">
 
 	<!-- 可根据自己的需求，按需使用 -->
-    <resultMap type="cn.alphahub.mall.sys.domain.SysConfig" id="sysConfigResult">
+    <resultMap type="cn.alphahub.mall.reserve.sys.domain.SysConfig" id="sysConfigResult">
         <result property="configId" column="config_id"/>
         <result property="configName" column="config_name"/>
         <result property="configKey" column="config_key"/>

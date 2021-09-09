@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.order.mapper.OrderSiteCouponMapper">
+<mapper namespace="cn.alphahub.mall.reserve.order.mapper.OrderSiteCouponMapper">
 
 	<!-- 可根据自己的需求，按需使用 -->
-    <resultMap type="cn.alphahub.mall.order.domain.OrderSiteCoupon" id="orderSiteCouponResult">
+    <resultMap type="cn.alphahub.mall.reserve.order.domain.OrderSiteCoupon" id="orderSiteCouponResult">
         <result property="orderMasterId" column="order_master_id"/>
         <result property="siteId" column="site_id"/>
         <result property="siteSessionId" column="site_session_id"/>

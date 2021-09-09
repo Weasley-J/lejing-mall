@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.alphahub.mall.site.mapper.SiteReserveStatusMapper">
+<mapper namespace="cn.alphahub.mall.reserve.site.mapper.SiteReserveStatusMapper">
     <!-- 可根据自己的需求，按需使用 -->
-    <resultMap type="cn.alphahub.mall.site.domain.SiteReserveStatus" id="siteReserveStatusResult">
+    <resultMap type="cn.alphahub.mall.reserve.site.domain.SiteReserveStatus" id="siteReserveStatusResult">
         <result property="siteStatusId" column="site_status_id"/>
         <result property="siteSessionId" column="site_session_id"/>
         <result property="siteId" column="site_id"/>
@@ -21,7 +21,7 @@
         <result property="remark" column="remark"/>
     </resultMap>
 
-    <resultMap id="siteDetailBOResult" type="cn.alphahub.mall.app.pojo.vo.SiteBookVO">
+    <resultMap id="siteDetailBOResult" type="cn.alphahub.mall.reserve.app.pojo.vo.SiteBookVO">
         <result property="siteSessionId" column="site_session_id"/>
         <result property="effectDate" column="effect_date"/>
         <result property="sessionStartTime" column="session_start_time"/>

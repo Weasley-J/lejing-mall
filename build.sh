@@ -10,6 +10,7 @@ mvn clean &&
   mvn clean install -pl :lejing-common-base-public -am &&
   mvn clean install -pl :lejing-common-dependencies-db -am &&
   mvn clean install -pl :lejing-common-dependencies-web -am &&
+  mvn clean install -pl :lejing-common-email-support -am &&
   mvn clean install -pl :lejing-auth-common -am &&
   mvn clean install -pl :lejing-auth-interface -am &&
   mvn clean install -pl :lejing-cart-interface -am &&

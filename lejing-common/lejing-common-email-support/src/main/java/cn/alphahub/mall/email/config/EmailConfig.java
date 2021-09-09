@@ -42,9 +42,7 @@ public class EmailConfig {
      * @return 填充邮件模板配置列表元数据Map
      */
     @Bean(name = {"emailPropertiesMap"})
-    public Map<String, MailProperties> emailPropertiesMap(MailProperties mailProperties,
-                                                          EmailTemplateProperties emailTemplateProperties
-    ) {
+    public Map<String, MailProperties> emailPropertiesMap(MailProperties mailProperties, EmailTemplateProperties emailTemplateProperties) {
         Map<String, MailProperties> mailPropertiesMap = Maps.newConcurrentMap();
         mailPropertiesMap.put(Email.DEFAULT_TEMPLATE, mailProperties);
         List<EmailProperties> templates = emailTemplateProperties.getEmailTemplates();

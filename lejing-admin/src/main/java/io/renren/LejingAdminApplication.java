@@ -17,7 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * 乐璟商城-后台服务
  */
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"io.renren", "cn.alphahub.mall"})
 @MapperScan(value = {"io.renren.**.dao"})
 public class LejingAdminApplication {
 
