@@ -1,6 +1,5 @@
-package cn.alphahub.mall.email.demo;
+package cn.alphahub.mall.email;
 
-import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,6 +20,15 @@ public class MailSupportDemo {
 
     @Resource
     private EmailTemplate emailTemplate;
+
+    private SimpleMailMessage getSimpleMessage() {
+        SimpleMailMessage simpleMessage = new SimpleMailMessage();
+        simpleMessage.setTo("1432689025@qq.com");
+        simpleMessage.setSentDate(new Date());
+        simpleMessage.setSubject("测试模板发送邮件");
+        simpleMessage.setText("这是一个测试模板发送邮件的案例");
+        return simpleMessage;
+    }
 
     /**
      * 默认配置邮箱发送
@@ -57,16 +65,15 @@ public class MailSupportDemo {
         }
     }
 
-    private SimpleMailMessage getSimpleMessage() {
-        SimpleMailMessage simpleMessage = new SimpleMailMessage();
-        simpleMessage.setFrom("66666666@qq.com");
-        simpleMessage.setReplyTo("");
-        simpleMessage.setTo("88888888@qq.com");
-        simpleMessage.setCc("");
-        simpleMessage.setBcc("");
-        simpleMessage.setSentDate(new Date());
-        simpleMessage.setSubject("subject");
-        simpleMessage.setText("text");
-        return simpleMessage;
+    /**
+     * 使用微软Office365S邮箱发送
+     */
+    @Email(name = "EmailOffice365")
+    public void emailOffice365Send() {
+        try {
+            emailTemplate.send(getSimpleMessage());
+        } catch (MailException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

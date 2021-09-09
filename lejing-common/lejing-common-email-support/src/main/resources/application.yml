@@ -1,6 +1,0 @@
-server:
-  port: 8089
-spring:
-  profiles:
-    # 加载 'application-email.yml' 配置里面的配置元数据
-    include: email

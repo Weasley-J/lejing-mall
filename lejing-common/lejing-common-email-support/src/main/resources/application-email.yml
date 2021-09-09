@@ -1,8 +1,9 @@
 spring:
   mail:
-    host: "default"
-    username: "username"
-    password: "password"
+    host: "smtp.189.cn"
+    port: 465
+    username: "xxx@189.cn"
+    password: "your_password"
     protocol: "smtp"
     properties:
       mail:
@@ -14,8 +15,9 @@ spring:
       - template-name: EmailQQ
         mail-properties:
           host: "smtp.qq.com"
-          username: "username"
-          password: "password"
+          port: 587
+          username: "xxx@qq.com"
+          password: "your_password"
           protocol: "smtp"
           properties:
             mail:
@@ -25,11 +27,24 @@ spring:
       - template-name: Email163
         mail-properties:
           host: "smtp.163.com"
-          username: "username"
-          password: "password"
+          port: 587
+          username: "xxx@163.com"
+          password: "your_password"
           protocol: "smtp"
           properties:
             mail:
               smtp:
                 ssl:
+                  enable: true
+      - template-name: EmailOffice365
+        mail-properties:
+          host: "smtp.office365.com"
+          port: 587
+          username: "xxx@outlook.com"
+          password: "your_password"
+          protocol: "smtp"
+          properties:
+            mail:
+              smtp:
+                starttls:
                   enable: true

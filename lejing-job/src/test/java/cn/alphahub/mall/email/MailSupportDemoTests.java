@@ -1,4 +1,4 @@
-package cn.alphahub.mall.email.demo;
+package cn.alphahub.mall.email;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,4 +37,10 @@ class MailSupportDemoTests {
     void email163Send() {
         mailSupportDemo.email163Send();
     }
+
+    @Test
+    void emailOffice365Send() {
+        mailSupportDemo.emailOffice365Send();
+    }
+
 }

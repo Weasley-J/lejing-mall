@@ -39,25 +39,23 @@ import java.util.Objects;
 @Component
 public class EmailAspect {
     /**
-     * 线程隔离
+     * mail sender thread local
      */
     private final ThreadLocal<JavaMailSender> mailSenderThreadLocal = new ThreadLocal<>();
+    /**
+     * mail properties thread local
+     */
+    private final ThreadLocal<MailProperties> mailPropertiesThreadLocal = new ThreadLocal<>();
     /**
      * email config
      */
     @Resource
     private EmailConfig emailConfig;
+    /**
+     * 填充邮件模板配置列表元数据Map
+     */
     @Resource
     private Map<String, MailProperties> emailPropertiesMap;
-
-    /**
-     * 获取邮件是发送实例（ThreadLocal中获取，目标方法后移除线程变量）
-     *
-     * @return JavaMailSender
-     */
-    public JavaMailSender getJavaMailSender() {
-        return mailSenderThreadLocal.get();
-    }
 
     /**
      * 定义切入点方法
@@ -71,12 +69,15 @@ public class EmailAspect {
      */
     @Before("pointcut() && @annotation(email)")
     public void before(JoinPoint point, Email email) {
-        System.out.println("before()");
+        log.info("before --------------------------");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
-        String templateName = email.name();
+
+        MailProperties properties = emailPropertiesMap.get(email.name());
         JavaMailSender mailSender = emailConfig.getMailSender(emailPropertiesMap, email.name());
+
         mailSenderThreadLocal.set(mailSender);
+        mailPropertiesThreadLocal.set(properties);
     }
 
     /**
@@ -84,11 +85,11 @@ public class EmailAspect {
      */
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        System.out.println("around()");
+        log.info("around --------------------------");
         long beginTime = System.currentTimeMillis();
         Object proceed = point.proceed();
         long endTime = System.currentTimeMillis() - beginTime;
-        System.out.println("around()耗时：" + endTime + "（ms），" +
+        System.err.println("around耗时：" + endTime + "（ms），" +
                 "开始时间：" + DateUtil.formatDateTime(new Date(beginTime)) + "，" +
                 "结束时间：" + DateUtil.formatDateTime(new Date(endTime)));
         return proceed;
@@ -101,8 +102,9 @@ public class EmailAspect {
      */
     @After("pointcut() && @annotation(email)")
     public void after(Email email) {
-        System.out.println("after(),注解值:" + email.name());
+        log.info("after --------------------------");
         mailSenderThreadLocal.remove();
+        mailPropertiesThreadLocal.remove();
     }
 
     /**
@@ -112,6 +114,7 @@ public class EmailAspect {
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
+        log.info("afterReturning, responseData: {}", responseData.toString());
         System.out.println("afterReturning(),响应数据:" + responseData.toString());
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
@@ -128,6 +131,22 @@ public class EmailAspect {
      */
     @AfterThrowing(pointcut = "pointcut() && @annotation(email)", throwing = "throwable")
     public void afterThrowing(Email email, Throwable throwable) {
-        System.out.println("afterThrowing(),注解值:" + email.name() + ",异常信息:" + throwable.getMessage());
+        log.error("afterThrowing, throwable: {}", throwable.getLocalizedMessage());
+    }
+
+    /**
+     * 获取邮件是发送实例（ThreadLocal中获取，目标方法后移除线程变量）
+     *
+     * @return JavaMailSender
+     */
+    public JavaMailSender javaMailSender() {
+        return mailSenderThreadLocal.get();
+    }
+
+    /**
+     * @return 电子邮件支持的配置属性
+     */
+    public MailProperties mailProperties() {
+        return mailPropertiesThreadLocal.get();
     }
 }
