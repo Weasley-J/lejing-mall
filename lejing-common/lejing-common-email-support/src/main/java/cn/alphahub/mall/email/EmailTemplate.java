@@ -1,6 +1,7 @@
 package cn.alphahub.mall.email;
 
 import cn.alphahub.mall.email.aspect.EmailAspect;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -78,16 +80,16 @@ public class EmailTemplate {
     /**
      * 发送给定的简单邮件消息
      *
-     * @param messageDomain the message to send
+     * @param domain the message to send
      * @throws MailException Base class for all mail exceptions
      */
-    public void send(@Valid SimpleMailMessageDomain messageDomain) throws MailException {
+    public void send(@Valid SimpleMailMessageDomain domain) throws MailException {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setFrom(this.getMailProperties().getUsername());
-        simpleMessage.setTo(messageDomain.getTo());
-        simpleMessage.setSentDate(Objects.nonNull(messageDomain.getSentDate()) ? messageDomain.getSentDate() : new Date());
-        simpleMessage.setSubject(messageDomain.getSubject());
-        simpleMessage.setText(messageDomain.getText());
+        simpleMessage.setTo(domain.getTo());
+        simpleMessage.setSentDate(Objects.nonNull(domain.getSentDate()) ? new Date(LocalDateTimeUtil.toEpochMilli(domain.getSentDate())) : new Date());
+        simpleMessage.setSubject(domain.getSubject());
+        simpleMessage.setText(domain.getText());
         JavaMailSender mailSender = this.getMailSender();
         mailSender.send(simpleMessage);
     }
@@ -105,11 +107,11 @@ public class EmailTemplate {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setFrom(this.getMailProperties().getUsername());
         helper.setTo(domain.getTo());
-        helper.setSentDate(domain.getSentDate());
+        helper.setSentDate(Objects.nonNull(domain.getSentDate()) ? new Date(LocalDateTimeUtil.toEpochMilli(domain.getSentDate())) : new Date());
         helper.setSubject(domain.getSubject());
         helper.setText(domain.getText(), true);
         if (Objects.nonNull(file) && !file.isEmpty()) {
-            helper.addAttachment(file.getName(), file);
+            helper.addAttachment(Objects.requireNonNull(file.getOriginalFilename(), "The attachment file name (including file suffix) cannot be empty"), file);
         }
         if (StringUtils.isNoneBlank(domain.getFilepath())) {
             File newFile = new File(domain.getFilepath());
@@ -128,15 +130,15 @@ public class EmailTemplate {
     public static class SimpleMailMessageDomain implements Serializable {
         private static final long serialVersionUID = 1L;
         /**
-         * 收件人的邮箱,可以是一个或多个
+         * 收件人的邮箱
          */
         @NotBlank
         private String to;
         /**
-         * 邮件发送日期, 默认当前时刻: new Date()
+         * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
          */
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private Date sentDate;
+        private LocalDateTime sentDate;
         /**
          * 邮件主题、邮件标题
          */
@@ -159,15 +161,15 @@ public class EmailTemplate {
     public static class MimeMessageDomain implements Serializable {
         private static final long serialVersionUID = 1L;
         /**
-         * 收件人的邮箱,可以是一个或多个
+         * 收件人的邮箱
          */
         @NotBlank
         private String to;
         /**
-         * 邮件发送日期, 默认当前时刻: new Date()
+         * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
          */
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private Date sentDate;
+        private LocalDateTime sentDate;
         /**
          * 邮件主题、邮件标题
          */
@@ -179,7 +181,7 @@ public class EmailTemplate {
         @NotBlank
         private String text;
         /**
-         * 附件文件的路径 （有附件文件必传，没有附件不用还传）
+         * 附件文件的路径 （没有附件文件不用还传）
          */
         private String filepath;
     }

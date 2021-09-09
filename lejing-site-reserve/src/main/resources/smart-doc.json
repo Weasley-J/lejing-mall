@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.reserve.*.controller.*",
+  "packageFilters": "cn.*.reserve.*.AppSiteReserveController,cn.*.reserve.*.EmailController",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "场地预约-后端接口文档",

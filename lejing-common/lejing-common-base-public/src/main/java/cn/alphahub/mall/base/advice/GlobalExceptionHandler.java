@@ -13,6 +13,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
@@ -92,6 +93,18 @@ public class GlobalExceptionHandler {
         String uri = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", uri, e.getMethod());
         return BaseResult.error("请求地址'" + uri + "',不支持'" + e.getMethod() + "'请求");
+    }
+
+    /**
+     * 超出最大上传大小异常
+     *
+     * @param e 超出最大上传大小异常
+     * @return 错误信息
+     */
+    @ExceptionHandler(value = {MaxUploadSizeExceededException.class})
+    public BaseResult<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        log.error("超出最大上传大小异常: {}", e.getMessage(), e);
+        return BaseResult.error("上传文件超过允许的最大上传大小:" + e.getLocalizedMessage(), "最大文件大小：" + e.getMaxUploadSize() + "(bytes)");
     }
 
     /**

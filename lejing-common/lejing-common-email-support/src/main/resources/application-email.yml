@@ -16,7 +16,7 @@ spring:
       - template-name: EmailQQ
         mail-properties:
           host: "smtp.qq.com"
-          port: 587
+          port: 465
           username: "xxx@qq.com"
           password: "your_password"
           protocol: "smtp"
@@ -49,6 +49,6 @@ spring:
           properties:
             mail:
               smtp:
-                starttls:
+                ssl:
                   enable: true
               debug: false

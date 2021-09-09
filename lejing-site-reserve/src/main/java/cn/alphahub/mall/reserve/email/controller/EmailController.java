@@ -5,8 +5,8 @@ import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import java.util.Date;
-import java.util.Objects;
 
 import static cn.alphahub.mall.email.EmailTemplate.MimeMessageDomain;
 import static cn.alphahub.mall.email.EmailTemplate.SimpleMailMessageDomain;
@@ -38,50 +36,32 @@ public class EmailController {
     /**
      * 发送给定的简单邮件消息
      *
+     * @param message 简单邮件消息对象
      * @return ok
      */
-    @Email(name = "Email163")
+    @Email(name = "EmailQQ")
     @PostMapping("/simple/send")
-    public BaseResult<Void> sendSimpleEmail(@RequestBody @Validated SimpleMailMessageDomain message) {
+    public BaseResult<Void> sendSimpleEmail(@ModelAttribute(name = "message") @Validated SimpleMailMessageDomain message) {
         log.info("send simple email:{}", message);
-        SimpleMailMessageDomain simpleMessage = new SimpleMailMessageDomain();
-        simpleMessage.setTo("1432689025@qq.com");
-        simpleMessage.setSentDate(new Date());
-        simpleMessage.setSubject("咏鹅");
-        simpleMessage.setText(" 鹅鹅鹅，曲项向天歌。\n" +
-                "\n" +
-                "白毛浮绿水，红掌拨清波。 ");
-        if (Objects.nonNull(message)) {
-            emailTemplate.send(message);
-        } else {
-            emailTemplate.send(simpleMessage);
-        }
+        emailTemplate.send(message);
         return BaseResult.ok();
     }
 
     /**
-     * 发送给定的 JavaMail MIME 消息
+     * 发送带附件的邮件消息
      *
-     * @return ok
+     * @param message Mime邮件消息对象
+     * @param file    文件
+     * @return tips
      */
     @Email(name = "EmailOffice365")
     @PostMapping("/mime/send")
-    public BaseResult<Void> sendMimeEmail(@RequestBody @Validated MimeMessageDomain message, @RequestPart(name = "file") MultipartFile file) {
+    public BaseResult<Void> sendMimeEmail(@ModelAttribute(name = "message") @Validated MimeMessageDomain message,
+                                          @RequestPart(name = "file", required = false) MultipartFile file
+    ) {
         log.info("send mime email:{}", message);
-        MimeMessageDomain messageDomain = new MimeMessageDomain();
-        messageDomain.setTo("1432689025@qq.com");
-        messageDomain.setSentDate(new Date());
-        messageDomain.setSubject("咏鹅");
-        messageDomain.setText(" 鹅鹅鹅，曲项向天歌。\n" +
-                "\n" +
-                "白毛浮绿水，红掌拨清波。 ");
-        messageDomain.setFilepath("C:\\Users\\liuwe\\Desktop\\QQ图片20210909202504.jpg");
         try {
-            if (Objects.nonNull(message)) {
-                emailTemplate.send(message, file);
-            } else {
-                emailTemplate.send(messageDomain, null);
-            }
+            emailTemplate.send(message, file);
         } catch (MessagingException e) {
             log.error("domain:{},{}", message, e.getLocalizedMessage(), e);
         }
