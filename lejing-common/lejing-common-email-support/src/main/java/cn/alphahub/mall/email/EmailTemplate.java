@@ -1,6 +1,7 @@
 package cn.alphahub.mall.email;
 
 import cn.alphahub.mall.email.aspect.EmailAspect;
+import cn.hutool.core.io.FileUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
@@ -74,41 +76,30 @@ public class EmailTemplate {
     }
 
     /**
-     * SimpleMailMessageDomain -> SimpleMailMessage
+     * 发送给定的简单邮件消息
      *
-     * @param domain 简单邮件消息对象
-     * @return SimpleMailMessage
-     */
-    private SimpleMailMessage copyTo(@NotNull SimpleMailMessageDomain domain) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(domain.getTo());
-        message.setSentDate(Objects.nonNull(domain.getSentDate()) ? domain.getSentDate() : new Date());
-        message.setSubject(domain.getSubject());
-        message.setText(domain.getText());
-        return message;
-    }
-
-    /**
-     * Send the given simple mail message.
-     *
-     * @param message the message to send
+     * @param messageDomain the message to send
      * @throws MailException Base class for all mail exceptions
      */
-    public void send(SimpleMailMessageDomain message) throws MailException {
-        SimpleMailMessage simpleMessage = copyTo(message);
+    public void send(@Valid SimpleMailMessageDomain messageDomain) throws MailException {
+        SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setFrom(this.getMailProperties().getUsername());
+        simpleMessage.setTo(messageDomain.getTo());
+        simpleMessage.setSentDate(Objects.nonNull(messageDomain.getSentDate()) ? messageDomain.getSentDate() : new Date());
+        simpleMessage.setSubject(messageDomain.getSubject());
+        simpleMessage.setText(messageDomain.getText());
         JavaMailSender mailSender = this.getMailSender();
         mailSender.send(simpleMessage);
     }
 
     /**
-     * Send the given JavaMail MIME message.
+     * 发送带附件的邮件
      *
      * @param domain metadata of message to send
      * @param file   Nullable, support for spring MVC upload file received in the request, can be null.
      * @throws MailException Base class for all mail exceptions
      */
-    public void send(MimeMessageDomain domain, @Nullable MultipartFile file) throws MessagingException {
+    public void send(@Valid MimeMessageDomain domain, @Nullable MultipartFile file) throws MessagingException {
         JavaMailSender mailSender = this.getMailSender();
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -118,10 +109,11 @@ public class EmailTemplate {
         helper.setSubject(domain.getSubject());
         helper.setText(domain.getText(), true);
         if (Objects.nonNull(file) && !file.isEmpty()) {
-            helper.addAttachment(domain.getAttachmentFilename(), file);
+            helper.addAttachment(file.getName(), file);
         }
-        if (StringUtils.isNoneBlank(domain.getAttachmentFilename(), domain.getFilepath())) {
-            helper.addAttachment(domain.getAttachmentFilename(), new File(domain.getFilepath()));
+        if (StringUtils.isNoneBlank(domain.getFilepath())) {
+            File newFile = new File(domain.getFilepath());
+            helper.addAttachment(FileUtil.getName(domain.getFilepath()), newFile);
         }
         mailSender.send(mimeMessage);
     }
@@ -138,6 +130,7 @@ public class EmailTemplate {
         /**
          * 收件人的邮箱,可以是一个或多个
          */
+        @NotBlank
         private String to;
         /**
          * 邮件发送日期, 默认当前时刻: new Date()
@@ -147,10 +140,12 @@ public class EmailTemplate {
         /**
          * 邮件主题、邮件标题
          */
+        @NotBlank
         private String subject;
         /**
          * 邮件正文、邮件内容
          */
+        @NotBlank
         private String text;
     }
 
@@ -166,6 +161,7 @@ public class EmailTemplate {
         /**
          * 收件人的邮箱,可以是一个或多个
          */
+        @NotBlank
         private String to;
         /**
          * 邮件发送日期, 默认当前时刻: new Date()
@@ -175,17 +171,15 @@ public class EmailTemplate {
         /**
          * 邮件主题、邮件标题
          */
+        @NotBlank
         private String subject;
         /**
          * 邮件正文、邮件内容 （可以是html字符串）
          */
+        @NotBlank
         private String text;
         /**
-         * 将出现在邮件中的附件文件名称 （有附件时才传过来）
-         */
-        private String attachmentFilename;
-        /**
-         * 附件文件的路径 （有附件时才传过来）
+         * 附件文件的路径 （有附件文件必传，没有附件不用还传）
          */
         private String filepath;
     }

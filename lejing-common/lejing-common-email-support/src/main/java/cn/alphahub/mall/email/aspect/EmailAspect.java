@@ -90,9 +90,7 @@ public class EmailAspect {
         long beginTime = System.currentTimeMillis();
         Object proceed = point.proceed();
         long endTime = System.currentTimeMillis() - beginTime;
-        System.err.println("around耗时：" + endTime + "（ms），" +
-                "开始时间：" + DateUtil.formatDateTime(new Date(beginTime)) + "，" +
-                "结束时间：" + DateUtil.formatDateTime(new Date(endTime)));
+        log.warn("2. around耗时：{}（ms），开始时间：{}，结束时间：{}", endTime, DateUtil.formatDateTime(new Date(beginTime)), DateUtil.formatDateTime(new Date(endTime)));
         return proceed;
     }
 
@@ -116,7 +114,6 @@ public class EmailAspect {
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
         log.info("4. afterReturning, responseData: {}", responseData.toString());
-        System.out.println("afterReturning(),响应数据:" + responseData.toString());
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

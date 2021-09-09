@@ -55,11 +55,11 @@ api.push({
 })
 api[1].list.push({
     order: '1',
-    desc: 'sendsimpleemail',
+    desc: '发送给定的简单邮件消息',
 });
 api[1].list.push({
     order: '2',
-    desc: 'sendmimeemail',
+    desc: '发送给定的JavaMailMIME消息',
 });
 api.push({
     alias: 'OrderMasterController',

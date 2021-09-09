@@ -4,13 +4,20 @@ import cn.alphahub.common.core.domain.BaseResult;
 import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.util.Date;
+import java.util.Objects;
 
+import static cn.alphahub.mall.email.EmailTemplate.MimeMessageDomain;
 import static cn.alphahub.mall.email.EmailTemplate.SimpleMailMessageDomain;
 
 /**
@@ -33,9 +40,10 @@ public class EmailController {
      *
      * @return ok
      */
+    @Email(name = "Email163")
     @PostMapping("/simple/send")
-    public BaseResult<Void> sendSimpleEmail() {
-        log.info("send simple email.");
+    public BaseResult<Void> sendSimpleEmail(@RequestBody @Validated SimpleMailMessageDomain message) {
+        log.info("send simple email:{}", message);
         SimpleMailMessageDomain simpleMessage = new SimpleMailMessageDomain();
         simpleMessage.setTo("1432689025@qq.com");
         simpleMessage.setSentDate(new Date());
@@ -43,27 +51,40 @@ public class EmailController {
         simpleMessage.setText(" 鹅鹅鹅，曲项向天歌。\n" +
                 "\n" +
                 "白毛浮绿水，红掌拨清波。 ");
-        emailTemplate.send(simpleMessage);
+        if (Objects.nonNull(message)) {
+            emailTemplate.send(message);
+        } else {
+            emailTemplate.send(simpleMessage);
+        }
         return BaseResult.ok();
     }
 
     /**
-     * send mime email
+     * 发送给定的 JavaMail MIME 消息
      *
      * @return ok
      */
     @Email(name = "EmailOffice365")
     @PostMapping("/mime/send")
-    public BaseResult<Void> sendMimeEmail() {
-        log.info("send mime email.");
-        SimpleMailMessageDomain simpleMessage = new SimpleMailMessageDomain();
-        simpleMessage.setTo("1432689025@qq.com");
-        simpleMessage.setSentDate(new Date());
-        simpleMessage.setSubject("咏鹅");
-        simpleMessage.setText(" 鹅鹅鹅，曲项向天歌。\n" +
+    public BaseResult<Void> sendMimeEmail(@RequestBody @Validated MimeMessageDomain message, @RequestPart(name = "file") MultipartFile file) {
+        log.info("send mime email:{}", message);
+        MimeMessageDomain messageDomain = new MimeMessageDomain();
+        messageDomain.setTo("1432689025@qq.com");
+        messageDomain.setSentDate(new Date());
+        messageDomain.setSubject("咏鹅");
+        messageDomain.setText(" 鹅鹅鹅，曲项向天歌。\n" +
                 "\n" +
                 "白毛浮绿水，红掌拨清波。 ");
-        emailTemplate.send(simpleMessage);
+        messageDomain.setFilepath("C:\\Users\\liuwe\\Desktop\\QQ图片20210909202504.jpg");
+        try {
+            if (Objects.nonNull(message)) {
+                emailTemplate.send(message, file);
+            } else {
+                emailTemplate.send(messageDomain, null);
+            }
+        } catch (MessagingException e) {
+            log.error("domain:{},{}", message, e.getLocalizedMessage(), e);
+        }
         return BaseResult.ok();
     }
 }

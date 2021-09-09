@@ -2,7 +2,6 @@ package cn.alphahub.mall.email.config;
 
 import cn.alphahub.mall.email.annotation.Email;
 import cn.hutool.core.collection.CollUtil;
-import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static cn.alphahub.mall.email.config.EmailConfig.EmailProperties;
@@ -43,7 +43,7 @@ public class EmailConfig {
      */
     @Bean(name = {"emailPropertiesMap"})
     public Map<String, MailProperties> emailPropertiesMap(MailProperties mailProperties, EmailTemplateProperties emailTemplateProperties) {
-        Map<String, MailProperties> mailPropertiesMap = Maps.newConcurrentMap();
+        Map<String, MailProperties> mailPropertiesMap = new ConcurrentHashMap<>();
         mailPropertiesMap.put(Email.DEFAULT_TEMPLATE, mailProperties);
         List<EmailProperties> templates = emailTemplateProperties.getEmailTemplates();
         if (CollUtil.isEmpty(templates)) {
