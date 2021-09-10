@@ -38,8 +38,8 @@ public class EmailController {
      *
      * @param message 简单邮件消息对象
      * @return ok
+     * @apiNote 次方便没有标注注解@Email，则会采用默认方法邮件模板[spring.mail.xxx]发送邮件
      */
-    @Email(name = "EmailQQ")
     @PostMapping("/simple/send")
     public BaseResult<Void> sendSimpleEmail(@ModelAttribute(name = "message") @Validated SimpleMailMessageDomain message) {
         log.info("send simple email:{}", message);
@@ -51,8 +51,9 @@ public class EmailController {
      * 发送带附件的邮件消息
      *
      * @param message Mime邮件消息对象
-     * @param file    文件
+     * @param file    选择文件上传，和参数filepath二选一即可
      * @return tips
+     * @apiNote 此方法标注注解@Email，则会采用注解值里面name的属性值的参数发送邮件
      */
     @Email(name = "EmailOffice365")
     @PostMapping("/mime/send")
