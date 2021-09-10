@@ -205,7 +205,11 @@ public @interface Email {
 
 ### 1.5 使用EmailTemplate发送邮件
 
-EmailTemplate提供了两个核心方法如下：
+- 核心模型
+
+![image-20210910235419528](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210910235419528.png)
+
+- `EmailTemplate`提供了两个核心方法如下：
 
 ```java
     /**
