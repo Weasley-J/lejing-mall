@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: lejing-site-reserve
   cloud:
     nacos:
       #配置中心
@@ -7,5 +9,10 @@ spring:
         namespace: 9e311fdf-002b-431b-a22a-fa72848a7ee4
         server-addr: 127.0.0.1:8848
         refresh-enabled: true
-        #垃圾nacos特么居然严格区分yaml和yml
         file-extension: yml
+        shared-configs:
+          - common-email.yml
+        extension-configs:
+          - dataId: common-email.yml
+            group: DEFAULT_GROUP
+            refresh: true
