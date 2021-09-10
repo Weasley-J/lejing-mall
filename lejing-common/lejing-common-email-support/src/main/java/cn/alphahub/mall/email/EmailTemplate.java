@@ -1,7 +1,6 @@
 package cn.alphahub.mall.email;
 
 import cn.alphahub.mall.email.aspect.EmailAspect;
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.io.FileUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +26,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
@@ -44,10 +44,8 @@ public class EmailTemplate {
 
     @Resource
     private EmailAspect emailAspect;
-
     @Resource
     private JavaMailSender defaultJavaMailSender;
-
     @Resource
     private MailProperties defaultMailProperties;
 
@@ -87,7 +85,7 @@ public class EmailTemplate {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setFrom(this.getMailProperties().getUsername());
         simpleMessage.setTo(domain.getTo());
-        simpleMessage.setSentDate(Objects.nonNull(domain.getSentDate()) ? new Date(LocalDateTimeUtil.toEpochMilli(domain.getSentDate())) : new Date());
+        simpleMessage.setSentDate(Objects.nonNull(domain.getSentDate()) ? Date.from(domain.getSentDate().atZone(ZoneId.systemDefault()).toInstant()) : new Date());
         simpleMessage.setSubject(domain.getSubject());
         simpleMessage.setText(domain.getText());
         JavaMailSender mailSender = this.getMailSender();
@@ -107,7 +105,7 @@ public class EmailTemplate {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setFrom(this.getMailProperties().getUsername());
         helper.setTo(domain.getTo());
-        helper.setSentDate(Objects.nonNull(domain.getSentDate()) ? new Date(LocalDateTimeUtil.toEpochMilli(domain.getSentDate())) : new Date());
+        helper.setSentDate(Objects.nonNull(domain.getSentDate()) ? Date.from(domain.getSentDate().atZone(ZoneId.systemDefault()).toInstant()) : new Date());
         helper.setSubject(domain.getSubject());
         helper.setText(domain.getText(), true);
         if (Objects.nonNull(file) && !file.isEmpty()) {
@@ -132,7 +130,7 @@ public class EmailTemplate {
         /**
          * 收件人的邮箱
          */
-        @NotBlank
+        @NotBlank(message = "收件人邮箱不能为空")
         private String to;
         /**
          * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
@@ -142,12 +140,12 @@ public class EmailTemplate {
         /**
          * 邮件主题、邮件标题
          */
-        @NotBlank
+        @NotBlank(message = "邮件主题不能为空")
         private String subject;
         /**
          * 邮件正文、邮件内容
          */
-        @NotBlank
+        @NotBlank(message = "邮件正文不能为空")
         private String text;
     }
 
@@ -163,7 +161,7 @@ public class EmailTemplate {
         /**
          * 收件人的邮箱
          */
-        @NotBlank
+        @NotBlank(message = "收件人邮箱不能为空")
         private String to;
         /**
          * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
@@ -173,12 +171,12 @@ public class EmailTemplate {
         /**
          * 邮件主题、邮件标题
          */
-        @NotBlank
+        @NotBlank(message = "邮件主题不能为空")
         private String subject;
         /**
          * 邮件正文、邮件内容 （可以是html字符串）
          */
-        @NotBlank
+        @NotBlank(message = "邮件正文不能为空")
         private String text;
         /**
          * 附件文件的路径 （没有附件文件不用还传）

@@ -1,7 +1,6 @@
 package cn.alphahub.mall.email.aspect;
 
 import cn.alphahub.mall.email.annotation.Email;
-import cn.alphahub.mall.email.config.EmailConfig;
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -47,15 +46,15 @@ public class EmailAspect {
      */
     private final ThreadLocal<MailProperties> mailPropertiesThreadLocal = new ThreadLocal<>();
     /**
-     * email config
-     */
-    @Resource
-    private EmailConfig emailConfig;
-    /**
      * 填充邮件模板配置列表元数据Map
      */
     @Resource
     private Map<String, MailProperties> emailPropertiesMap;
+    /**
+     * 邮件发送对象Map
+     */
+    @Resource
+    private Map<String, JavaMailSender> javaMailSenderMap;
 
     /**
      * 定义切入点方法
@@ -75,9 +74,8 @@ public class EmailAspect {
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
         MailProperties properties = emailPropertiesMap.get(email.name());
-        JavaMailSender mailSender = emailConfig.getMailSender(emailPropertiesMap, email.name());
-
-        mailSenderThreadLocal.set(mailSender);
+        JavaMailSender javaMailSender = javaMailSenderMap.get(email.name());
+        mailSenderThreadLocal.set(javaMailSender);
         mailPropertiesThreadLocal.set(properties);
     }
 
