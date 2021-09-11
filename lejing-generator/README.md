@@ -1,23 +1,16 @@
 # 代码生成服务
 
-
-
 > 基于人人开源项目二次开发，做了大量提升优化：
 >
 > 1. 集成`nacos`配置中心
-> 2. 支持**不重启代码生成服务**动态刷新`com.zaxxer.hikari.HikariDataSource`数据连接池更换所需生成代码的数据库，意味着你可以**不重启服务**动态切换任意数据库:`MySQL` -> `MySQL`, `MySQL` -> `Oracle`, `Oracle`-> `PostgreSQL`, `PostgreSQL` -> `MySQL`, ...
->
+> 2. 支持**不重启代码生成服务**动态刷新`com.zaxxer.hikari.HikariDataSource`数据连接池更换所需生成基础业务代码的数据库，意味着你可以**不重启服务**动态切换任意数据库:`MySQL` -> `MySQL`, `MySQL` -> `Oracle`, `Oracle`-> `PostgreSQL`, `PostgreSQL` -> `MySQL`, ...
 > 3. 支持**不重启代码生成服务**动态刷新数据库字段和`java`基础包装类型的映射关系，见配置文件：`generator.properties`
-
-
 
 ## 核心配置
 
 资源结构：
 
 ![image-20210911233940569](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210911233940569.png)
-
-
 
 - `bootstrap.yml`
 
@@ -61,8 +54,6 @@ spring:
 >
 > 完成以上操作，你的`nacos`已经配置好了, 接下来你只需要动态变更`datasource.yml`和`generator.properties`里面的配置数据即可
 
-
-
 - `datasource.yml`
 
 1. 做为`nacos`配置文件的`dataId`动态切换数据库
@@ -90,8 +81,6 @@ code:
 #  database: mongodb_test
 
 ```
-
-
 
 - `generator.properties`
 
@@ -167,26 +156,18 @@ nvarchar=String
 
 这个配置文件注释很细，相信你一看就懂，不做过多说明
 
+## **项目说明**
 
-
-## **项目说明** 
-
-- 在线生成`domain`、`xml`、`mapper`、`service`、`controller`、前端`vue`文件、`js`、`sql`代码，减少70%以上的开发任务, 通常情况下删除生成的`controller`文件, 然后根据自己的业务场景编写对应的业务接口，持久层基于基于`mybatis-plus`。
+- 在线生成`domain`、`xml`、`mapper`、`service`、`controller`、前端`vue`文件、`js`、`sql`代码，减少70%以上的开发任务, 通常情况下删除生成的`controller`文件, 然后根据自己的业务场景编写对应的业务接口，持久层基于`mybatis-plus`。
 - 整合`smart-doc`，执行项目的 `mvn package` 可直接输出`Restful api`，支持调试，你可能需要在你的项目中引入`lejing-common/lejing-common-base-public`模块和配置`smart-doc.json`文件，`smart-doc`学习地址：https://gitee.com/smart-doc-team/smart-doc，这是一个不错的`api`文档生成工具。
 
 ![image-20210912002146693](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210912002146693.png)
-
-
 
 - 生成的接口：获取`xx`分页列表、获取`xx`详情、保存`xx`、修改`xx`、批量删除`xx`
 
 ![image-20210228214229671](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210228214229671.png)
 
-
-
 ![image-20210228214348571](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210228214348571.png)
-
-
 
 ## **本地部署**
 
@@ -258,7 +239,80 @@ codeZipFileName=lejing-coupon
 - Eclipse、IDEA运行`CodeGeneratorApplication.java`，则可启动项目
 - 项目访问路径：http://localhost:8080
 
-
-
 **演示效果图：**
 ![image-20210912001738403](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210912001738403.png)
+
+
+
+## 知识点分享
+
+1. `nacos`里面的`dataId`为`xxx.properties`的配置文件如何转为项目中`java`代码里面的`Properties`对象
+
+```java
+import cn.alphahub.mall.generator.utils.BizException;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.PropertyKeyConst;
+import com.alibaba.nacos.api.config.ConfigService;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.stereotype.Service;
+
+import java.io.StringReader;
+import java.util.Properties;
+
+/**
+ * 代码生成核心类
+ *
+ * @author Mark sunlightcs@gmail.com, lwj
+ */
+@Data
+@Slf4j
+@Service
+@RefreshScope
+public class SysGeneratorService {
+
+    @Value("${spring.cloud.nacos.server-addr:127.0.0.1:8848}")
+    private String serverAddr;
+
+    @Value("${spring.cloud.nacos.config.namespace:}")
+    private String namespace;
+
+    private String dataId = "generator.properties";
+
+    private String group = "DEFAULT_GROUP";
+
+    /**
+     * 将nacos中存储的Properties配置文件取出来
+     * <p>代码生成配置信息
+     *
+     * @return nacos中存储的Properties配置文件
+     */
+    public Properties getGeneratorProperties() {
+        Properties queryProperties = new Properties();
+        queryProperties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+        queryProperties.put(PropertyKeyConst.NAMESPACE, namespace);
+        try {
+            ConfigService configService = NacosFactory.createConfigService(queryProperties);
+            String config = configService.getConfig(dataId, group, 3000L);
+            if (StringUtils.isNotBlank(config)) {
+                Properties properties = new Properties();
+                properties.load(new StringReader(config));
+                return properties;
+            } else {
+                return PropertiesLoaderUtils.loadAllProperties("generator.properties");
+            }
+        } catch (Exception e) {
+            throw new BizException("获取配置文件失败，", e);
+        }
+    }
+}
+
+```
+
+
+
+上面的`getGeneratorProperties()`方法用来将动态监听`generator.properties`配置信息的改变，并且将其转换为`java.util.Properties`对象供其他业务类调用，读取方式使用`NacosFactory`直接实时读取最新的配置数据，其中的`PropertiesLoaderUtils`类为spring提供的工具类，直接读取`classpath`下的`xxx.properties`文件然后返回`java.util.Properties`对象。
