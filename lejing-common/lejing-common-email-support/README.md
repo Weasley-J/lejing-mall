@@ -144,7 +144,7 @@ spring:
 
 
 
-### 1.3 需要发邮件的服务配置加载`lejing-common-email-support` 模块邮件模板元数据
+### 1.3 需要发邮件的服务加载`lejing-common-email-support` 模块邮件的配置元数据
 
 路径: `lejing-common/lejing-common-email-support/src/main/resources/application-email.yml`
 
