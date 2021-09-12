@@ -4,7 +4,7 @@
 >
 > 1. 集成`nacos`配置中心
 > 2. 支持**不重启代码生成服务**动态刷新`com.zaxxer.hikari.HikariDataSource`数据连接池更换所需生成基础业务代码的数据库，意味着你可以**不重启服务**动态切换任意数据库:`MySQL` -> `MySQL`, `MySQL` -> `Oracle`, `Oracle`-> `PostgreSQL`, `PostgreSQL` -> `MySQL`, ...
-> 3. 支持**不重启代码生成服务**动态刷新数据库字段和`java`基础包装类型的映射关系，见配置文件：`generator.properties`
+> 3. 支持**不重启代码生成服务**动态刷新数据库基础数据类型和`java`基础包装类型的映射关系，见配置文件：`generator.properties`
 
 ## 核心配置
 
