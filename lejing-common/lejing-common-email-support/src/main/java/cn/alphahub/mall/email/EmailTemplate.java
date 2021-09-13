@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * 邮件模板方法接口
+ * 邮件模板方法默认实现
  *
  * @author lwj
  * @version 1.0
@@ -150,7 +150,7 @@ public class EmailTemplate {
     }
 
     /**
-     * Mime邮件消息对象
+     * 带附件邮件消息对象
      * <p>支持附件：图片、文件等资源
      */
     @Data

@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static",
   "coverOld": true,
   "createDebugPage": true,
-  "packageFilters": "cn.alphahub.mall.schedule.job.controller.ScheduleJobController",
+  "packageFilters": "cn.*.job.controller.ScheduleJobController,cn.*.job.controller.EmailJobController",
   "md5EncryptedHtmlName": false,
   "style": "xt256",
   "projectName": "lejing-job后端接口文档",

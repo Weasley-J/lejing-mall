@@ -5,6 +5,7 @@ import org.springframework.mail.MailException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -23,7 +24,7 @@ public class MailSupportDemo {
     private EmailTemplate.SimpleMailMessageDomain getSimpleMessage() {
         EmailTemplate.SimpleMailMessageDomain simpleMessage = new EmailTemplate.SimpleMailMessageDomain();
         simpleMessage.setTo("1432689025@qq.com");
-        simpleMessage.setSentDate(new Date());
+        simpleMessage.setSentDate(LocalDateTime.now());
         simpleMessage.setSubject("测试模板发送邮件");
         simpleMessage.setText("这是一个测试模板发送邮件的案例");
         return simpleMessage;
