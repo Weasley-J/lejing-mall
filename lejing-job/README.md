@@ -2,8 +2,6 @@
 
 > 此模块和`lejing`其他模块一样均采用`spring-boot-starter-xxx`或者`xxx-spring-boot-starter`直接集成一些优秀的开源组件，严禁手动造车，如果你造的车比`spring-boot-starter-xxx`还好，这种情况除外。
 >
-> 
->
 > 此模块的核心依赖为:
 >
 > ```xml
@@ -14,15 +12,10 @@
 > </dependency>
 > ```
 
-
-
 ## 1 学习指南
 
 1. [spring-boot-starter-quartz链接](https://docs.spring.io/spring-boot/docs/2.5.4/reference/htmlsingle/#features.quartz)
-
 2. [quartz官方指南](http://www.quartz-scheduler.org/)
-
-
 
 ## 2 前置准备
 
@@ -32,14 +25,10 @@
 
 见资源文件：`sql/lejing_job.sql`
 
-
-
 > 初始化数据库是应注意：
 >
 > - Linux环境严格区分大小写
 > - Windows环境大小写不明感
-
-
 
 2. 配置`spring.quartz`前缀的元配置数据
 
@@ -96,8 +85,6 @@ spring:
             threadsInheritContextClassLoaderOfInitializingThread: true
 ```
 
-
-
 ## 3 Key Point
 
 - `quartz`的3大核心对象
@@ -106,9 +93,7 @@ spring:
 2. `org.quartz.JobDetail`
 3. `org.quartz.Trigger`
 
-如果你还没了解这3个独享请参阅学习指南。
-
-
+如果你还没了解这3个对象请参阅学习指南。
 
 - `cn.alphahub.mall.schedule.core.service.QuartzCoreService`接口介绍
 
@@ -491,9 +476,9 @@ public class ScheduleJobController {
     public BaseResult<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
-    
+  
     // ...
-}    
+}  
 ```
 
 - 自定义`JSR303` `cron`表达式校验注解`@Cron`介绍
@@ -632,32 +617,21 @@ public class QuartzJobDTO implements Serializable {
 
 以上任务类`DTO`对象字段`private String cronExpression`被`@Cron`标注，这样此字段在便会和其他字段一样前端提交数据时（分组校验：保存、编辑情况）`Spring MVC`会通过`JSR303`校验规则检测提交数据的合法性。
 
-
-
 ## 4 创建定时任务示例
-
-
 
 > **需求场景：**
 >
 > 我们需要创建一个订单发送邮件的任务.
->
-> 
 >
 > **需求分析：**
 >
 > 要完成以上需求我们需要：
 >
 > 1. 我们需要一个任务类触发任务执行.
->
 > 2. 发送邮件我们可能需要邮件参数：收件人邮箱、邮件标题、邮件内容、附件等等.
 > 3. 我们需要发件人的邮件配置，这里不做过多赘述，邮件支持模块我已经在`lejing-common/lejing-common-email-support`做好了，见此模块`readme.md`文件，直接将maven坐标引入`lejing-job`即可.
 
-
-
 经过以上需求分析后，下面我们可以开工了！
-
-
 
 ### 4.1 创建任务类
 
@@ -710,8 +684,6 @@ public class SendEmailJob extends QuartzJobBean {
 
 ![image-20210914163841934](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210914163841934.png)
 
-
-
 ### 4.2 创建任务
 
 - 准备job参数（发送邮件所需参数）
@@ -740,8 +712,6 @@ public class SendEmailJob extends QuartzJobBean {
 }
 ```
 
-
-
 - 访问接口提交创建job的数据
 
 创建job接口：`/schedule/job/save`
@@ -765,8 +735,6 @@ public class SendEmailJob extends QuartzJobBean {
 }
 ```
 
-
-
 发送请求：
 
 **Curl-example:**
@@ -783,4 +751,3 @@ curl -X POST -H 'Content-Type: application/json; charset=utf-8' -i http://localh
     "status": 1
 }'
 ```
-
