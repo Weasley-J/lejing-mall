@@ -26,7 +26,7 @@ import static cn.alphahub.mall.schedule.constant.ScheduleConstant.TriggerStateEn
  */
 @Slf4j
 @Service
-public class QuartzCoreServiceImpl implements QuartzCoreService {
+public class DefaultQuartzCoreServiceImpl implements QuartzCoreService {
 
     @Resource
     private Scheduler scheduler;
