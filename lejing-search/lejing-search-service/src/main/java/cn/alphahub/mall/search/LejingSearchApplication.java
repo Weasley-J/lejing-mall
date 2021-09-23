@@ -12,10 +12,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @author liuwenjing
  * @date 2021年3月6日
  */
-@EnableFeignClients(basePackages = {"cn.**.search.feign"})
 @EnableDiscoveryClient
 @EnableRedisHttpSession
 @SpringBootApplication
+@EnableFeignClients(basePackages = {"cn.**.search.feign"})
 public class LejingSearchApplication {
 
     public static void main(String[] args) {
