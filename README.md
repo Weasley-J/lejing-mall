@@ -42,6 +42,8 @@
 - 🚀️  `spring-boot 2.5.5`
 - 🚀️  `spring-cloud-2020.0.4`
 - 🚀️  `spring-cloud-alibaba 2021.1`
+- 🚀️  `NACOS2.0.3`
+- 🚀️  `Elasticsearch+Logstash+Kibana(v7.13.2)`
 
 
 
