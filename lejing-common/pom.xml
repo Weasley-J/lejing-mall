@@ -24,6 +24,7 @@
         <module>lejing-common-base-public</module>
         <module>lejing-common-util</module>
         <module>lejing-common-email-support</module>
+        <module>lejing-common-sms-support</module>
     </modules>
 
 </project>
