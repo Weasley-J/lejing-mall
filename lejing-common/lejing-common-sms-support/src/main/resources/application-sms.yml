@@ -7,7 +7,7 @@ spring:
     template-code: template_code
     multi-sms-template:
       template-properties:
-        - template-name: "阿里云1"
+        - template-name: "促销短信模板"
           sms-supplier: ALI
           sms-properties:
             access-key: accessKey1
@@ -15,7 +15,7 @@ spring:
             region-id: regionId1
             sign-name: signName1
             template-code: templateCode1
-        - template-name: "阿里云2"
+        - template-name: "秒杀短信模板"
           sms-supplier: ALI
           sms-properties:
             access-key: accessKey1
@@ -23,7 +23,7 @@ spring:
             region-id: regionId1
             sign-name: signName1
             template-code: templateCode1
-        - template-name: "华为云"
+        - template-name: "验证码短信模板"
           sms-supplier: HUAWEI
           sms-properties:
             access-key: accessKey2
@@ -31,7 +31,7 @@ spring:
             region-id: regionId2
             sign-name: signName2
             template-code: templateCode2
-        - template-name: "京东云"
+        - template-name: "验证码短信模板"
           sms-supplier: JINGDONG
           sms-properties:
             access-key: accessKey3
@@ -39,7 +39,7 @@ spring:
             region-id: regionId3
             sign-name: signName3
             template-code: templateCode3
-        - template-name: "七牛云"
+        - template-name: "验证码短信模板"
           sms-supplier: QINIU
           sms-properties:
             access-key: accessKey4

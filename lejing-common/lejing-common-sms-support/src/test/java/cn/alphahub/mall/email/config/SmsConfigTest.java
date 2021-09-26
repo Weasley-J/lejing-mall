@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 class SmsConfigTest {
@@ -21,6 +22,9 @@ class SmsConfigTest {
 
     @Resource
     private SmsConfig.MultipleSmsTemplateProperties multipleSmsTemplateProperties;
+
+    @Resource
+    private Map<String, SmsSupport> smsSupportMap;
 
     @BeforeEach
     void setUp() {
@@ -57,5 +61,13 @@ class SmsConfigTest {
 
         System.out.println("DefaultAliCloudSmsSupportClass是SmsSupport的实例吗：" + (defaultAliCloudSmsSupport instanceof SmsSupport));
         System.out.println("SmsTemplate是SmsSupport的实例吗：" + (smsTemplate instanceof SmsSupport));
+    }
+
+    @Test
+    void smsSupportMapTest() {
+        Map<String, SmsSupport> smsSupportMap = this.smsSupportMap;
+        smsSupportMap.forEach((k, v) -> {
+            System.out.println(k + ":" + v);
+        });
     }
 }
