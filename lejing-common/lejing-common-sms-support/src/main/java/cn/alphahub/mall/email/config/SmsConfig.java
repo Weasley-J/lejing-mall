@@ -7,7 +7,6 @@ import cn.alphahub.mall.email.impl.DefaultAliCloudSmsSupportImpl;
 import cn.alphahub.mall.email.impl.DefaultHuaweiCloudSmsSupportImpl;
 import cn.alphahub.mall.email.impl.DefaultJingdongCloudSmsSupportImpl;
 import cn.alphahub.mall.email.impl.DefaultQiniuCloudSmsSupportImpl;
-import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,12 +74,10 @@ public class SmsConfig {
             smsSupportMap.put(decorateTemplateName, properties);
             log.info("Loaded default sms template '{}'", decorateTemplateName);
         }
-        if (CollUtil.isNotEmpty(multiSmsTemplateProperties.getTemplateProperties())) {
-            for (SmsTemplateProperties templateProperty : multiSmsTemplateProperties.getTemplateProperties()) {
-                String decorateTemplateName = decorateTemplateName(templateProperty.getSmsSupplier(), templateProperty.getTemplateName());
-                smsSupportMap.put(decorateTemplateName, templateProperty);
-                log.info("Loaded multiple sms template '{}'", decorateTemplateName);
-            }
+        for (SmsTemplateProperties templateProperty : multiSmsTemplateProperties.getTemplateProperties()) {
+            String decorateTemplateName = decorateTemplateName(templateProperty.getSmsSupplier(), templateProperty.getTemplateName());
+            smsSupportMap.putIfAbsent(decorateTemplateName, templateProperty);
+            log.info("Loaded multiple sms template '{}'", decorateTemplateName);
         }
         return smsSupportMap;
     }
