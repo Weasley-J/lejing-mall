@@ -23,7 +23,7 @@ public @interface SMS {
      * @apiNote 如果需要拓展其他短信供应商，见枚举{@code cn.alphahub.mall.email.enums.SmsSupplier}
      * @see cn.alphahub.mall.email.enums.SmsSupplier
      */
-    SmsSupplier supplier = SmsSupplier.ALI;
+    SmsSupplier supplier() default SmsSupplier.ALI;
 
     /**
      * 短信模板名称，默认：DEFAULT
