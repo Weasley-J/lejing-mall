@@ -63,7 +63,7 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
         }
 
         Map<String, Object> contentMap = new HashMap<>(1);
-        contentMap.put("content", content);
+        contentMap.put("code", content);
 
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);

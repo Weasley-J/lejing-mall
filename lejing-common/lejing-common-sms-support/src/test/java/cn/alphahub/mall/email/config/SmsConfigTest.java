@@ -68,6 +68,10 @@ class SmsConfigTest {
         Map<String, SmsSupport> smsSupportMap = this.smsSupportMap;
         smsSupportMap.forEach((k, v) -> {
             System.out.println(k + ":" + v);
+            if ("ALI_CLOUD:DEFAULT".equals(k)) {
+                Object send = v.send("123456", "18114882681");
+                System.err.println(send.toString());
+            }
         });
     }
 }

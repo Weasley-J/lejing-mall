@@ -1,4 +1,4 @@
 spring:
   profiles:
     #active: sms
-    include: sms
+    include: sms,smslwj

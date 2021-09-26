@@ -42,6 +42,8 @@ build/
 
 ### 自定义配置文件，防止账号泄露 ###
 !**/src/main/resources/*-lwj.yml
+!**/src/main/resources/*-*lwj.yml
+!**/src/main/resources/*-lwj*.yml
 !**/src/main/resources/product_mapping.json
 /resources/seata/seata-server-1.4.2/logs
 /resources/sentinel/sentinel-dashboard-1.8.2.jar
