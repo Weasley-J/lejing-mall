@@ -1,6 +1,7 @@
 package cn.alphahub.mall.email.impl;
 
 import cn.alphahub.mall.email.SmsSupport;
+import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
@@ -12,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static cn.alphahub.mall.email.config.SmsConfig.SmsProperties;
 
@@ -57,6 +61,10 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
             log.error("手机号不能为空!");
             return null;
         }
+
+        Map<String, Object> contentMap = new HashMap<>(1);
+        contentMap.put("content", content);
+
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
         request.setSysDomain(DOMAIN);
@@ -68,14 +76,14 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
         request.putQueryParameter("SignName", smsProperties.getSignName());
         request.putQueryParameter("TemplateCode", smsProperties.getTemplateCode());
         request.putQueryParameter("PhoneNumbers", StringUtils.join(phones, ","));
-        request.putQueryParameter("TemplateParam", "{\"content\":\"" + content + "\"}");
+        request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(contentMap));
 
         try {
             response = this.getAcsClient().getCommonResponse(request);
         } catch (ClientException e) {
-            log.error("发送短信异常：{}", e.getMessage(), e);
+            log.error("发送短信异常:{}", e.getMessage(), e);
         }
-        log.info("发送短信状态: {}", response.getData());
+        log.info("发送短信状态:{}", response.getData());
 
         return response;
     }
