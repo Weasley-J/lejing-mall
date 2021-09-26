@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum SmsSupplierEnum {
+public enum SmsSupplier {
     /**
      * 阿里云
      */

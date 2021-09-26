@@ -1,0 +1,49 @@
+spring:
+  sms:
+    access-key: access_key
+    secret-key: secret_key
+    region-id: region_id
+    sign-name: sign_name
+    template-code: template_code
+    multi-sms-template:
+      template-properties:
+        - template-name: "阿里云1"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "阿里云2"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "华为云"
+          sms-supplier: HUAWEI
+          sms-properties:
+            access-key: accessKey2
+            secret-key: secretKey2
+            region-id: regionId2
+            sign-name: signName2
+            template-code: templateCode2
+        - template-name: "京东云"
+          sms-supplier: JINGDONG
+          sms-properties:
+            access-key: accessKey3
+            secret-key: secretKey3
+            region-id: regionId3
+            sign-name: signName3
+            template-code: templateCode3
+        - template-name: "七牛云"
+          sms-supplier: QINIU
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: regionId4
+            sign-name: signName4
+            template-code: templateCode4
