@@ -1,8 +1,8 @@
 package cn.alphahub.mall.email.config;
 
-import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsClient;
 import cn.alphahub.mall.email.SmsTemplate;
-import cn.alphahub.mall.email.impl.DefaultAliCloudSmsSupportImpl;
+import cn.alphahub.mall.email.impl.DefaultAliCloudSmsClientImpl;
 import cn.hutool.json.JSONUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
@@ -24,7 +24,7 @@ class SmsConfigTest {
     private SmsConfig.MultipleSmsTemplateProperties multipleSmsTemplateProperties;
 
     @Resource
-    private Map<String, SmsSupport> smsSupportMap;
+    private Map<String, SmsClient> smsClientMap;
 
     @BeforeEach
     void setUp() {
@@ -53,20 +53,20 @@ class SmsConfigTest {
     @Test
     @SneakyThrows
     void testInstance() {
-        Class<DefaultAliCloudSmsSupportImpl> DefaultAliCloudSmsSupportClass = DefaultAliCloudSmsSupportImpl.class;
+        Class<DefaultAliCloudSmsClientImpl> DefaultAliCloudSmsSupportClass = DefaultAliCloudSmsClientImpl.class;
         Class<SmsTemplate> smsTemplateClass = SmsTemplate.class;
 
-        DefaultAliCloudSmsSupportImpl defaultAliCloudSmsSupport = DefaultAliCloudSmsSupportClass.getDeclaredConstructor().newInstance();
+        DefaultAliCloudSmsClientImpl defaultAliCloudSmsSupport = DefaultAliCloudSmsSupportClass.getDeclaredConstructor().newInstance();
         SmsTemplate smsTemplate = smsTemplateClass.getDeclaredConstructor().newInstance();
 
-        System.out.println("DefaultAliCloudSmsSupportClass是SmsSupport的实例吗：" + (defaultAliCloudSmsSupport instanceof SmsSupport));
-        System.out.println("SmsTemplate是SmsSupport的实例吗：" + (smsTemplate instanceof SmsSupport));
+        System.out.println("DefaultAliCloudSmsSupportClass是SmsSupport的实例吗：" + (defaultAliCloudSmsSupport instanceof SmsClient));
+        System.out.println("SmsTemplate是SmsSupport的实例吗：" + (smsTemplate instanceof SmsClient));
     }
 
     @Test
     void smsSupportMapTest() {
-        Map<String, SmsSupport> smsSupportMap = this.smsSupportMap;
-        smsSupportMap.forEach((k, v) -> {
+        Map<String, SmsClient> smsClientMap = this.smsClientMap;
+        smsClientMap.forEach((k, v) -> {
             System.out.println(k + ":" + v);
             if ("ALI_CLOUD:DEFAULT".equals(k)) {
                 Object send = v.send("123456", "18114882681");

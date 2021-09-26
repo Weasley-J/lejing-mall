@@ -1,6 +1,6 @@
 package cn.alphahub.mall.email.impl;
 
-import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsClient;
 import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -28,7 +28,7 @@ import static cn.alphahub.mall.email.config.SmsConfig.SmsProperties;
  */
 @Slf4j
 @Component
-public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
+public class DefaultAliCloudSmsClientImpl implements SmsClient {
     /**
      * 短信API产品名称(短信产品名固定, 无需修改)
      */
@@ -46,7 +46,7 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
      */
     private final SmsProperties smsProperties;
 
-    public DefaultAliCloudSmsSupportImpl(SmsProperties smsProperties) {
+    public DefaultAliCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 
@@ -62,8 +62,8 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
             return null;
         }
 
-        Map<String, Object> contentMap = new HashMap<>(1);
-        contentMap.put("code", content);
+        Map<String, Object> templateParamMap = new HashMap<>(1);
+        templateParamMap.put("code", content);
 
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
@@ -76,7 +76,7 @@ public class DefaultAliCloudSmsSupportImpl implements SmsSupport {
         request.putQueryParameter("SignName", smsProperties.getSignName());
         request.putQueryParameter("TemplateCode", smsProperties.getTemplateCode());
         request.putQueryParameter("PhoneNumbers", StringUtils.join(phones, ","));
-        request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(contentMap));
+        request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(templateParamMap));
 
         try {
             response = this.getAcsClient().getCommonResponse(request);

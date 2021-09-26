@@ -1,6 +1,6 @@
 package cn.alphahub.mall.email.impl;
 
-import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,13 @@ import static cn.alphahub.mall.email.config.SmsConfig.SmsProperties;
  */
 @Slf4j
 @Component
-public class DefaultHuaweiCloudSmsSupportImpl implements SmsSupport {
+public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
     private final SmsProperties smsProperties;
 
-    public DefaultHuaweiCloudSmsSupportImpl(SmsProperties smsProperties) {
+    public DefaultHuaweiCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 

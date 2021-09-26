@@ -11,5 +11,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SmsTemplate {
-    private SmsSupport smsSupport;
+    private SmsClient smsClient;
 }

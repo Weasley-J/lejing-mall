@@ -8,7 +8,7 @@ package cn.alphahub.mall.email;
  * @date 2021-09-24
  */
 @FunctionalInterface
-public interface SmsSupport {
+public interface SmsClient {
 
     /**
      * 发送短信

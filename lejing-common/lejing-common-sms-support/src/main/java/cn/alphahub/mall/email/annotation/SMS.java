@@ -1,6 +1,6 @@
 package cn.alphahub.mall.email.annotation;
 
-import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsClient;
 import cn.alphahub.mall.email.enums.SmsSupplier;
 
 /**
@@ -34,10 +34,10 @@ public @interface SMS {
     SmsSupplier supplier() default SmsSupplier.ALI;
 
     /**
-     * 自定义实现发送发送短信的实现类，必须显现或继承{@code cn.alphahub.mall.email.SmsSupport}接口
+     * 自定义实现发送发送短信的实现类，必须显现或继承{@code cn.alphahub.mall.email.SmsClient}接口
      *
      * @return 发送短信的实现类class
      * @apiNote 当指定自定义短信发送类时将优先采用自定义短信发送实现完成发送短信的逻辑
      */
-    Class<? extends SmsSupport> invokeClass();
+    Class<? extends SmsClient> invokeClass();
 }

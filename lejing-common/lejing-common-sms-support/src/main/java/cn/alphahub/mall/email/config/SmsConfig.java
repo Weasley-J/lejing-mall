@@ -1,12 +1,12 @@
 package cn.alphahub.mall.email.config;
 
-import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsClient;
 import cn.alphahub.mall.email.annotation.SMS;
 import cn.alphahub.mall.email.enums.SmsSupplier;
-import cn.alphahub.mall.email.impl.DefaultAliCloudSmsSupportImpl;
-import cn.alphahub.mall.email.impl.DefaultHuaweiCloudSmsSupportImpl;
-import cn.alphahub.mall.email.impl.DefaultJingdongCloudSmsSupportImpl;
-import cn.alphahub.mall.email.impl.DefaultQiniuCloudSmsSupportImpl;
+import cn.alphahub.mall.email.impl.DefaultAliCloudSmsClientImpl;
+import cn.alphahub.mall.email.impl.DefaultHuaweiCloudSmsClientImpl;
+import cn.alphahub.mall.email.impl.DefaultJingdongCloudSmsClientImpl;
+import cn.alphahub.mall.email.impl.DefaultQiniuCloudSmsClientImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -88,28 +88,28 @@ public class SmsConfig {
      * @param smsPropertiesMap 短信模板配置集合
      * @return 多模板、多供应商短信发送实例对象集合
      */
-    @Bean({"smsSupportMap"})
-    public Map<String, SmsSupport> smsSupportMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
-        Map<String, SmsSupport> smsSupportMap = new LinkedHashMap<>(50);
+    @Bean({"smsClientMap"})
+    public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
+        Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {
             switch (template.getSmsSupplier()) {
                 case ALI:
-                    smsSupportMap.putIfAbsent(name, new DefaultAliCloudSmsSupportImpl(template.getSmsProperties()));
+                    smsClientMap.putIfAbsent(name, new DefaultAliCloudSmsClientImpl(template.getSmsProperties()));
                     break;
                 case HUAWEI:
-                    smsSupportMap.putIfAbsent(name, new DefaultHuaweiCloudSmsSupportImpl(template.getSmsProperties()));
+                    smsClientMap.putIfAbsent(name, new DefaultHuaweiCloudSmsClientImpl(template.getSmsProperties()));
                     break;
                 case JINGDONG:
-                    smsSupportMap.putIfAbsent(name, new DefaultJingdongCloudSmsSupportImpl(template.getSmsProperties()));
+                    smsClientMap.putIfAbsent(name, new DefaultJingdongCloudSmsClientImpl(template.getSmsProperties()));
                     break;
                 case QINIU:
-                    smsSupportMap.putIfAbsent(name, new DefaultQiniuCloudSmsSupportImpl(template.getSmsProperties()));
+                    smsClientMap.putIfAbsent(name, new DefaultQiniuCloudSmsClientImpl(template.getSmsProperties()));
                     break;
                 default:
                     break;
             }
         });
-        return smsSupportMap;
+        return smsClientMap;
     }
 
     /**
