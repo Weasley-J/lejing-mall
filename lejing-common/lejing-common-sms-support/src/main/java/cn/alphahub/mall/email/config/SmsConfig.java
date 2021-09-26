@@ -149,7 +149,7 @@ public class SmsConfig {
     @ConfigurationProperties(prefix = "spring.sms.multi-sms-template.template-properties")
     public static class SmsTemplateProperties {
         /**
-         * 短信模板名称
+         * 短信模板名称（同一短信供应商的如果有多个短信模板,模板名称不能重复，重复情况仅配置文件最后一个模板名称有效）
          */
         @NotEmpty(message = "短信模板名称不能为空")
         private String templateName;
