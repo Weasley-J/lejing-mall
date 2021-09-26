@@ -1,6 +1,10 @@
 package cn.alphahub.mall.email.config;
 
+import cn.alphahub.mall.email.SmsSupport;
+import cn.alphahub.mall.email.SmsTemplate;
+import cn.alphahub.mall.email.impl.DefaultAliCloudSmsSupportImpl;
 import cn.hutool.json.JSONUtil;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,5 +44,18 @@ class SmsConfigTest {
         for (SmsConfig.SmsTemplateProperties templateProperty : templateProperties) {
             System.out.println(JSONUtil.toJsonPrettyStr(templateProperty));
         }
+    }
+
+    @Test
+    @SneakyThrows
+    void testInstance() {
+        Class<DefaultAliCloudSmsSupportImpl> DefaultAliCloudSmsSupportClass = DefaultAliCloudSmsSupportImpl.class;
+        Class<SmsTemplate> smsTemplateClass = SmsTemplate.class;
+
+        DefaultAliCloudSmsSupportImpl defaultAliCloudSmsSupport = DefaultAliCloudSmsSupportClass.getDeclaredConstructor().newInstance();
+        SmsTemplate smsTemplate = smsTemplateClass.getDeclaredConstructor().newInstance();
+
+        System.out.println("DefaultAliCloudSmsSupportClass是SmsSupport的实例吗：" + (defaultAliCloudSmsSupport instanceof SmsSupport));
+        System.out.println("SmsTemplate是SmsSupport的实例吗：" + (smsTemplate instanceof SmsSupport));
     }
 }
