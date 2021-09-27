@@ -1,12 +1,12 @@
-package cn.alphahub.mall.email.config;
+package cn.alphahub.mall.sms.config;
 
-import cn.alphahub.mall.email.SmsClient;
-import cn.alphahub.mall.email.annotation.SMS;
-import cn.alphahub.mall.email.enums.SmsSupplier;
-import cn.alphahub.mall.email.impl.DefaultAliCloudSmsClientImpl;
-import cn.alphahub.mall.email.impl.DefaultHuaweiCloudSmsClientImpl;
-import cn.alphahub.mall.email.impl.DefaultJingdongCloudSmsClientImpl;
-import cn.alphahub.mall.email.impl.DefaultQiniuCloudSmsClientImpl;
+import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.SMS;
+import cn.alphahub.mall.sms.enums.SmsSupplier;
+import cn.alphahub.mall.sms.impl.DefaultAliCloudSmsClientImpl;
+import cn.alphahub.mall.sms.impl.DefaultHuaweiCloudSmsClientImpl;
+import cn.alphahub.mall.sms.impl.DefaultJingdongCloudSmsClientImpl;
+import cn.alphahub.mall.sms.impl.DefaultQiniuCloudSmsClientImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static cn.alphahub.mall.email.config.SmsConfig.MultipleSmsTemplateProperties;
-import static cn.alphahub.mall.email.config.SmsConfig.SmsProperties;
-import static cn.alphahub.mall.email.config.SmsConfig.SmsTemplateProperties;
+import static cn.alphahub.mall.sms.config.SmsConfig.MultipleSmsTemplateProperties;
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsTemplateProperties;
 
 /**
  * 多模板短信配置

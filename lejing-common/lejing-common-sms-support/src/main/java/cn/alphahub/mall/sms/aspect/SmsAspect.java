@@ -1,4 +1,4 @@
-package cn.alphahub.mall.email.aspect;
+package cn.alphahub.mall.sms.aspect;
 
 /**
  * 多模板短信配置类

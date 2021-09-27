@@ -1,4 +1,4 @@
-package cn.alphahub.mall.email;
+package cn.alphahub.mall.sms;
 
 /**
  * 多模板、多供应商短信发送上层函数接口

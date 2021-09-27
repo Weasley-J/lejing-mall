@@ -1,6 +1,7 @@
-package cn.alphahub.mall.email.impl;
+package cn.alphahub.mall.sms.impl;
 
-import cn.alphahub.mall.email.SmsClient;
+import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -16,8 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static cn.alphahub.mall.email.config.SmsConfig.SmsProperties;
 
 /**
  * 阿里云短信实现
@@ -44,9 +43,9 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
-    private final SmsProperties smsProperties;
+    private final SmsConfig.SmsProperties smsProperties;
 
-    public DefaultAliCloudSmsClientImpl(SmsProperties smsProperties) {
+    public DefaultAliCloudSmsClientImpl(SmsConfig.SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 

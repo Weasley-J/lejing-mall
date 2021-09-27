@@ -1,4 +1,4 @@
-package cn.alphahub.mall.email;
+package cn.alphahub.mall.sms;
 
 import org.springframework.stereotype.Component;
 

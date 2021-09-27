@@ -1,8 +1,8 @@
-package cn.alphahub.mall.email.config;
+package cn.alphahub.mall.sms.config;
 
-import cn.alphahub.mall.email.SmsClient;
-import cn.alphahub.mall.email.SmsTemplate;
-import cn.alphahub.mall.email.impl.DefaultAliCloudSmsClientImpl;
+import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.SmsTemplate;
+import cn.alphahub.mall.sms.impl.DefaultAliCloudSmsClientImpl;
 import cn.hutool.json.JSONUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;

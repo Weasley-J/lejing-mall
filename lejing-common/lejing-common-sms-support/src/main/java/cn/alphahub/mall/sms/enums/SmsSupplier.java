@@ -1,4 +1,4 @@
-package cn.alphahub.mall.email.enums;
+package cn.alphahub.mall.sms.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
