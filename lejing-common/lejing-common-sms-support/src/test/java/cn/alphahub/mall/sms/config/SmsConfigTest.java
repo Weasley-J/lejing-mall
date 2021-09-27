@@ -60,7 +60,7 @@ class SmsConfigTest {
         SmsTemplate smsTemplate = smsTemplateClass.getDeclaredConstructor().newInstance();
 
         System.out.println("DefaultAliCloudSmsSupportClass是SmsSupport的实例吗：" + (defaultAliCloudSmsSupport instanceof SmsClient));
-        System.out.println("SmsTemplate是SmsSupport的实例吗：" + (smsTemplate instanceof SmsClient));
+        System.out.println("SmsTemplate是SmsClient的实例吗：" + (smsTemplate instanceof SmsClient));
     }
 
     @Test
