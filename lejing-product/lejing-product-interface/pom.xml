@@ -6,13 +6,13 @@
     <parent>
         <artifactId>lejing-product</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-product-interface</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
     <description>商品服务接口，供其他微服务跨服务调用</description>
 
     <properties>

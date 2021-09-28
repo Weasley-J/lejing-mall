@@ -5,12 +5,12 @@
     <parent>
         <groupId>cn.alphahub.mall.seckill</groupId>
         <artifactId>lejing-seckill</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
 
     <name>lejing-seckill-service</name>
     <artifactId>lejing-seckill-service</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
     <description>乐璟商城 - 秒杀服务</description>
 
     <properties>

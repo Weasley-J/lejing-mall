@@ -1,11 +1,26 @@
 spring:
+  #默认短信模板配置
   sms:
-    access-key: access_key
-    secret-key: secret_key
-    region-id: region_id
-    sign-name: sign_name
-    template-code: template_code
-    multi-sms-template:
+    #短信模板名称, 默认: DEFAULT
+    template-name: DEFAULT
+    #短信供应商
+    sms-supplier: ALI
+    #短信配置
+    sms-properties:
+      #短信access-key
+      access-key: accessKey1
+      #短信secret-key
+      secret-key: secretKey1
+      #区域
+      region-id: regionId1
+      #短信签名
+      sign-name: signName1
+      #短信模板code、短信模板id
+      template-code: templateCode1
+      #短信sdk的appId，有就填，没有留空，如：腾讯云需要、阿里云不需要
+      app-id: null
+    #多供应商、多短信模块配置
+    multi-sms-templates:
       template-properties:
         - template-name: "促销短信模板"
           sms-supplier: ALI

@@ -8,9 +8,12 @@ import cn.alphahub.mall.sms.impl.DefaultHuaweiCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultJingdongCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultQiniuCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultTencentCloudSmsClientImpl;
+import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -59,27 +62,26 @@ public class SmsConfig {
     /**
      * 短信模板配置集合
      *
-     * @param smsProperties              短信配置元数据
+     * @param templateProperties         短信配置元数据
      * @param multiSmsTemplateProperties 多短信模板、多供应商配置元数据
      * @return 短信模板配置集合
      * @apiNote 初始化短信模板配置集合为50个（包含默认短信模板）
      */
     @Bean({"smsPropertiesMap"})
-    public Map<String, SmsTemplateProperties> smsPropertiesMap(SmsProperties smsProperties, MultipleSmsTemplateProperties multiSmsTemplateProperties) {
+    public Map<String, SmsTemplateProperties> smsPropertiesMap(SmsTemplateProperties templateProperties, MultipleSmsTemplateProperties multiSmsTemplateProperties) {
         Map<String, SmsTemplateProperties> smsSupportMap = new LinkedHashMap<>(50);
-        if (Objects.nonNull(smsProperties)) {
-            SmsTemplateProperties properties = new SmsTemplateProperties();
-            properties.setTemplateName(SMS.DEFAULT_TEMPLATE);
-            properties.setSmsSupplier(SmsSupplier.ALI);
-            properties.setSmsProperties(smsProperties);
-            String decorateTemplateName = decorateTemplateName(properties.getSmsSupplier(), properties.getTemplateName());
-            smsSupportMap.put(decorateTemplateName, properties);
-            log.info("Loaded default sms template '{}'", decorateTemplateName);
+        if (Objects.nonNull(templateProperties)) {
+            templateProperties.setTemplateName(SMS.DEFAULT_TEMPLATE);
+            String decorateTemplateName = decorateTemplateName(templateProperties.getSmsSupplier(), templateProperties.getTemplateName());
+            smsSupportMap.put(decorateTemplateName, templateProperties);
+            log.info("Has loaded default sms template '{}'", decorateTemplateName);
         }
-        for (SmsTemplateProperties templateProperty : multiSmsTemplateProperties.getTemplateProperties()) {
-            String decorateTemplateName = decorateTemplateName(templateProperty.getSmsSupplier(), templateProperty.getTemplateName());
-            smsSupportMap.putIfAbsent(decorateTemplateName, templateProperty);
-            log.info("Loaded multiple sms template '{}'", decorateTemplateName);
+        if (CollUtil.isNotEmpty(multiSmsTemplateProperties.getTemplateProperties())) {
+            for (SmsTemplateProperties templateProperty : multiSmsTemplateProperties.getTemplateProperties()) {
+                String decorateTemplateName = decorateTemplateName(templateProperty.getSmsSupplier(), templateProperty.getTemplateName());
+                smsSupportMap.putIfAbsent(decorateTemplateName, templateProperty);
+                log.info("Has loaded multiple sms template '{}'", decorateTemplateName);
+            }
         }
         return smsSupportMap;
     }
@@ -91,6 +93,7 @@ public class SmsConfig {
      * @return 多模板、多供应商短信发送实例对象集合
      */
     @Bean({"smsClientMap"})
+    @ConditionalOnBean(name = {"smsClientMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
         Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {
@@ -121,7 +124,7 @@ public class SmsConfig {
      * 短信配置元数据
      */
     @Data
-    @ConfigurationProperties(prefix = "spring.sms")
+    @ConfigurationProperties(prefix = "spring.sms.sms-properties")
     public static class SmsProperties {
         /**
          * 短信access-key
@@ -155,7 +158,7 @@ public class SmsConfig {
      * 短信模板配置元数据
      */
     @Data
-    @ConfigurationProperties(prefix = "spring.sms.multi-sms-template.template-properties")
+    @ConfigurationProperties(prefix = "spring.sms")
     public static class SmsTemplateProperties {
         /**
          * 短信模板名称（同一短信供应商的如果有多个短信模板,模板名称不能重复，重复情况仅配置文件最后一个模板名称有效）
@@ -179,7 +182,7 @@ public class SmsConfig {
      * 多短信模板、多供应商配置元数据
      */
     @Data
-    @ConfigurationProperties(prefix = "spring.sms.multi-sms-template")
+    @ConfigurationProperties(prefix = "spring.sms.multi-sms-templates")
     public static class MultipleSmsTemplateProperties {
         /**
          * 短信模板配置列表

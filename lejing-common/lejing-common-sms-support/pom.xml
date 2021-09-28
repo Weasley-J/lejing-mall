@@ -5,12 +5,12 @@
     <parent>
         <artifactId>lejing-common</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
 
     <groupId>cn.alphahub.mall.email</groupId>
     <artifactId>lejing-common-sms-support</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
     <name>lejing-common-sms-support</name>
     <description>公共模块：多短信模板、多短信供应商支持模块</description>
 

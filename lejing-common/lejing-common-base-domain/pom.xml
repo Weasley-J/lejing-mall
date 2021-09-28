@@ -5,14 +5,14 @@
     <parent>
         <artifactId>lejing-common</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.alphahub.mall.common</groupId>
     <artifactId>lejing-common-base-domain</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -5,12 +5,12 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>1.1.6-SNAPSHOT</version>
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-job</artifactId>
-    <version>1.1.5-SNAPSHOT</version>
+    <version>1.1.6-SNAPSHOT</version>
     <name>lejing-job</name>
     <description>乐璟商城 - 任务调度服务</description>
 

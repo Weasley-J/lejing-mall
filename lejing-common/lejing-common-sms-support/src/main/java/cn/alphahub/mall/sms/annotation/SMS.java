@@ -4,6 +4,7 @@ import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -23,7 +24,7 @@ import static java.lang.annotation.ElementType.TYPE_USE;
  * @date 2021-09-24
  */
 @Documented
-@Target({TYPE, TYPE_USE, TYPE_PARAMETER, METHOD, CONSTRUCTOR})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SMS {
 
