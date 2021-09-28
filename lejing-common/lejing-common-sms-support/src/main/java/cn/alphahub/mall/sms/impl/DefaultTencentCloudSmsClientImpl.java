@@ -66,7 +66,7 @@ public class DefaultTencentCloudSmsClientImpl implements SmsClient {
             ClientProfile clientProfile = new ClientProfile();
             clientProfile.setHttpProfile(httpProfile);
             // 实例化要请求产品的client对象,clientProfile是可选的
-            com.tencentcloudapi.sms.v20210111.SmsClient client = new com.tencentcloudapi.sms.v20210111.SmsClient(cred, "ap-nanjing", clientProfile);
+            com.tencentcloudapi.sms.v20210111.SmsClient client = new com.tencentcloudapi.sms.v20210111.SmsClient(cred, ObjectUtils.defaultIfNull(smsProperties.getRegionId(), "ap-nanjing"), clientProfile);
             // 实例化一个请求对象,每个接口都会对应一个request对象
             SendSmsRequest req = new SendSmsRequest();
             req.setPhoneNumberSet(phones);
