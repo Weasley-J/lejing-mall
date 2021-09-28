@@ -74,4 +74,16 @@ class SmsConfigTest {
             }
         });
     }
+
+    @Test
+    void smsSupportMapTencentTest() {
+        Map<String, SmsClient> smsClientMap = this.smsClientMap;
+        smsClientMap.forEach((k, v) -> {
+            System.out.println(k + ":" + v);
+            if ("TENCENT_CLOUD:内容短信模板".equals(k)) {
+                Object send = v.send("123456,30", "18114882681");
+                System.err.println(send.toString());
+            }
+        });
+    }
 }

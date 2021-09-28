@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@Validated
 public class DefaultAliCloudSmsClientImpl implements SmsClient {
     /**
      * 短信API产品名称(短信产品名固定, 无需修改)
@@ -51,7 +53,6 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
 
     @Override
     public Object send(String content, String... phones) {
-        CommonResponse response = new CommonResponse();
         if (StringUtils.isBlank(content)) {
             log.error("短信内容不能为空!");
             return null;
@@ -60,6 +61,8 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
             log.error("手机号不能为空!");
             return null;
         }
+
+        CommonResponse response = new CommonResponse();
 
         Map<String, Object> templateParamMap = new HashMap<>(1);
         templateParamMap.put("code", content);

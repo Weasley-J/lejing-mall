@@ -47,3 +47,11 @@ spring:
             region-id: regionId4
             sign-name: signName4
             template-code: templateCode4
+        - template-name: "内容短信模板"
+          sms-supplier: TENCENT
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: "ap-nanjing"
+            sign-name: "xxx的个人主页"
+            app-id: "YOUR_SMS_SDK_APP_ID"

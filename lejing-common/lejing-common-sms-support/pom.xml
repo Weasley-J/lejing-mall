@@ -67,6 +67,13 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
         </dependency>
 
+        <!-- 腾讯云短信SDK -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>3.1.365</version>
+        </dependency>
+
         <!-- 华为云短信SDK -->
 
 

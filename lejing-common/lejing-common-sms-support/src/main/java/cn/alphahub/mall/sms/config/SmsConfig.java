@@ -7,6 +7,7 @@ import cn.alphahub.mall.sms.impl.DefaultAliCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultHuaweiCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultJingdongCloudSmsClientImpl;
 import cn.alphahub.mall.sms.impl.DefaultQiniuCloudSmsClientImpl;
+import cn.alphahub.mall.sms.impl.DefaultTencentCloudSmsClientImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -106,6 +107,8 @@ public class SmsConfig {
                 case QINIU:
                     smsClientMap.putIfAbsent(name, new DefaultQiniuCloudSmsClientImpl(template.getSmsProperties()));
                     break;
+                case TENCENT:
+                    smsClientMap.putIfAbsent(name, new DefaultTencentCloudSmsClientImpl(template.getSmsProperties()));
                 default:
                     break;
             }
@@ -138,9 +141,13 @@ public class SmsConfig {
          */
         private String signName;
         /**
-         * 短信模板
+         * 短信模板code、短信模板id
          */
         private String templateCode;
+        /**
+         * 短信sdk的appId，有就填，没有留空，如：腾讯云需要、阿里云不需要
+         */
+        private String appId;
     }
 
     /**

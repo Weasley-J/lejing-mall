@@ -31,6 +31,10 @@ public enum SmsSupplier {
      * 七牛云
      */
     QINIU("QINIU_CLOUD", "七牛云"),
+    /**
+     * 腾讯云
+     */
+    TENCENT("TENCENT_CLOUD", "腾讯云"),
     ;
 
     /**
