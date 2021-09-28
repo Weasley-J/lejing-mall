@@ -2,6 +2,7 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.config.SmsConfig;
+import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -53,13 +54,8 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
 
     @Override
     public Object send(String content, String... phones) {
-        if (StringUtils.isBlank(content)) {
-            log.error("短信内容不能为空!");
-            return null;
-        }
-        if (StringUtils.isAllBlank(phones)) {
-            log.error("手机号不能为空!");
-            return null;
+        if (parameterIsEmpty(content, phones)) {
+            throw new SmsParamEmptyException("content or phones is empty.");
         }
 
         CommonResponse response = new CommonResponse();

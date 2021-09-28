@@ -2,6 +2,7 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.config.SmsConfig;
+import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
@@ -50,13 +51,8 @@ public class DefaultTencentCloudSmsClientImpl implements SmsClient {
 
     @Override
     public Object send(@NotBlank String content, @NotEmpty String... phones) {
-        if (StringUtils.isBlank(content)) {
-            log.error("短信内容不能为空!");
-            return null;
-        }
-        if (StringUtils.isAllBlank(phones)) {
-            log.error("手机号不能为空!");
-            return null;
+        if (parameterIsEmpty(content, phones)) {
+            throw new SmsParamEmptyException("content or phones is empty.");
         }
         SendSmsResponse resp = new SendSmsResponse();
         try {

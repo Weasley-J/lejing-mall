@@ -2,8 +2,8 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.config.SmsConfig;
+import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -32,13 +32,8 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
 
     @Override
     public Object send(@NotBlank String content, @NotEmpty String... phones) {
-        if (StringUtils.isBlank(content)) {
-            log.error("短信内容不能为空!");
-            return null;
-        }
-        if (StringUtils.isAllBlank(phones)) {
-            log.error("手机号不能为空!");
-            return null;
+        if (parameterIsEmpty(content, phones)) {
+            throw new SmsParamEmptyException("content or phones is empty.");
         }
         return null;
     }
