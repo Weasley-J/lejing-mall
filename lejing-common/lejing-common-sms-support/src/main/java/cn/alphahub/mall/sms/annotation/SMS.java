@@ -3,6 +3,17 @@ package cn.alphahub.mall.sms.annotation;
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.TYPE_PARAMETER;
+import static java.lang.annotation.ElementType.TYPE_USE;
+
 /**
  * 多模板短信注解
  *
@@ -11,6 +22,9 @@ import cn.alphahub.mall.sms.enums.SmsSupplier;
  * @apiNote 基于此注解解析不同的短信模板, 使用注解{@code @SMS}指定以：短信供应商、短信模板发送短信
  * @date 2021-09-24
  */
+@Documented
+@Target({TYPE, TYPE_USE, TYPE_PARAMETER, METHOD, CONSTRUCTOR})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface SMS {
 
     /**
