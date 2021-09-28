@@ -109,6 +109,7 @@ public class SmsConfig {
                     break;
                 case TENCENT:
                     smsClientMap.putIfAbsent(name, new DefaultTencentCloudSmsClientImpl(template.getSmsProperties()));
+                    break;
                 default:
                     break;
             }

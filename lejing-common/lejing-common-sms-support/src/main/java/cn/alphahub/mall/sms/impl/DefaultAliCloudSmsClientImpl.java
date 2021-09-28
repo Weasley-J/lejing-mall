@@ -54,7 +54,8 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
 
     @Override
     public Object send(String content, String... phones) {
-        if (parameterIsEmpty(content, phones)) {
+        log.info("content:{}, phones:{}", content, JSONUtil.toJsonStr(phones));
+        if (paramsIsEmpty(content, phones)) {
             throw new SmsParamEmptyException("content or phones is empty.");
         }
 

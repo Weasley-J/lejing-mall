@@ -54,4 +54,5 @@ spring:
             secret-key: secretKey4
             region-id: "ap-nanjing"
             sign-name: "xxx的个人主页"
-            app-id: "YOUR_SMS_SDK_APP_ID"
+            template-code: templateCode4
+            app-id: "your_sms_sdk_app_id"

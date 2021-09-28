@@ -30,7 +30,7 @@ public interface SmsClient {
      * @param phones  接收短信的手机号，可变参，可以是多个
      * @return parameter is empty
      */
-    default boolean parameterIsEmpty(String content, String... phones) {
+    default boolean paramsIsEmpty(String content, String... phones) {
         final Log log = LogFactory.getLog(SmsClient.class);
         if (StringUtils.isBlank(content)) {
             log.error("短信内容不能为空.");
