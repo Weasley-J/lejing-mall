@@ -17,6 +17,7 @@ import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
  *
  * @author lwj
  * @version 1.0
+ * @implNote 个人账号暂时申请不了京东云短信
  * @date 2021-09-24
  */
 @Slf4j
@@ -39,6 +40,7 @@ public class DefaultJingdongCloudSmsClientImpl implements SmsClient {
         if (paramsIsEmpty(content, phones)) {
             throw new SmsParamEmptyException("content or phones is empty.");
         }
+
         return null;
     }
 }
