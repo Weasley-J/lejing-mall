@@ -1,5 +1,7 @@
 package cn.alphahub.mall.sms.annotation;
 
+import cn.alphahub.mall.sms.SmsTemplate;
+import cn.alphahub.mall.sms.aspect.SmsAspect;
 import cn.alphahub.mall.sms.config.SmsConfig;
 import org.springframework.context.annotation.Import;
 
@@ -8,9 +10,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * enable sms support
+ *
+ * @author lwj
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(SmsConfig.class)
-public @interface EnableSmsAutoConfiguration {
+@Import({SmsConfig.class, SmsAspect.class, SmsTemplate.class})
+public @interface EnableSmsSupport {
 
 }
