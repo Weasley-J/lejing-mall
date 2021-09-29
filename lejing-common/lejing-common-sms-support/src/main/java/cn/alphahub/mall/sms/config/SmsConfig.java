@@ -12,8 +12,6 @@ import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -93,7 +91,6 @@ public class SmsConfig {
      * @return 多模板、多供应商短信发送实例对象集合
      */
     @Bean({"smsClientMap"})
-    @ConditionalOnBean(name = {"smsClientMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
         Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {
@@ -141,7 +138,7 @@ public class SmsConfig {
          */
         private String regionId;
         /**
-         * 短信签名
+         * 短信签名、短信签名id
          */
         private String signName;
         /**

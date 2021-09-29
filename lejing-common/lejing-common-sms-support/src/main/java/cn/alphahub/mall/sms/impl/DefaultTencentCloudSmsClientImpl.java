@@ -14,10 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * 腾讯云短信实现
@@ -28,7 +24,6 @@ import javax.validation.constraints.NotEmpty;
  */
 @Slf4j
 @Component
-@Validated
 public class DefaultTencentCloudSmsClientImpl implements SmsClient {
     /**
      * 短信SdkAppId，在<a href='https://console.cloud.tencent.com/smsv2'>短信控制台</a>添加应用后生成的实际 SdkAppId，示例如1400006666
@@ -50,10 +45,10 @@ public class DefaultTencentCloudSmsClientImpl implements SmsClient {
     }
 
     @Override
-    public Object send(@NotBlank String content, @NotEmpty String... phones) {
+    public Object send(String content, String... phones) {
         log.info("content:{}, phones:{}", content, JSONUtil.toJsonStr(phones));
         if (paramsIsEmpty(content, phones)) {
-            throw new SmsParamEmptyException("content or phones is empty.");
+            throw new SmsParamEmptyException("sms content or phones is empty.");
         }
         SendSmsResponse resp = new SendSmsResponse();
         try {
@@ -83,7 +78,7 @@ public class DefaultTencentCloudSmsClientImpl implements SmsClient {
             // 返回的resp是一个SendSmsResponse的实例，与请求对象对应
             resp = client.SendSms(req);
             // 输出json格式的字符串回包
-            log.info("{}", JSONUtil.toJsonPrettyStr(resp));
+            log.info("response:{}", JSONUtil.toJsonStr(resp));
         } catch (TencentCloudSDKException e) {
             log.error("{}", e, e);
         }

@@ -87,4 +87,18 @@ class SmsConfigTest {
             }
         });
     }
+
+    @Test
+    void smsSupportMapJdTest() {
+        Map<String, SmsClient> smsClientMap = this.smsClientMap;
+        smsClientMap.forEach((k, v) -> {
+            System.out.println(k + ":" + v);
+            if ("JINGDONG_CLOUD:京东云短信验证码模板".equals(k)) {
+                Object send = v.send("123456,30", "18114882681");
+                //Object send = v.send("", "18114882681");
+                //Object send = v.send("123456,30", "");
+                System.err.println(send.toString());
+            }
+        });
+    }
 }

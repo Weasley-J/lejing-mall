@@ -6,10 +6,6 @@ import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 /**
  * 华为云短信实现
@@ -20,7 +16,6 @@ import javax.validation.constraints.NotEmpty;
  */
 @Slf4j
 @Component
-@Validated
 public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
@@ -32,10 +27,10 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
     }
 
     @Override
-    public Object send(@NotBlank String content, @NotEmpty String... phones) {
+    public Object send(String content, String... phones) {
         log.info("content:{}, phones:{}", content, JSONUtil.toJsonStr(phones));
         if (paramsIsEmpty(content, phones)) {
-            throw new SmsParamEmptyException("content or phones is empty.");
+            throw new SmsParamEmptyException("sms content or phones is empty.");
         }
         return null;
     }

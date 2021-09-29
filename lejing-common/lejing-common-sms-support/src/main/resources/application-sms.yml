@@ -1,9 +1,9 @@
 spring:
   #默认短信模板配置
   sms:
-    #短信模板名称, 默认: DEFAULT
+    #短信模板名称, 默认: DEFAULT, 无需修改
     template-name: DEFAULT
-    #短信供应商
+    #默认短信供应商，大小写不敏感，可选值: ali, huawei, jingdong, qiniu, tencent
     sms-supplier: ALI
     #短信配置
     sms-properties:
@@ -46,14 +46,14 @@ spring:
             region-id: regionId2
             sign-name: signName2
             template-code: templateCode2
-        - template-name: "验证码短信模板"
+        - template-name: "京东云短信验证码模板"
           sms-supplier: JINGDONG
           sms-properties:
-            access-key: accessKey3
-            secret-key: secretKey3
-            region-id: regionId3
-            sign-name: signName3
-            template-code: templateCode3
+            access-key: your-ak
+            secret-key: your-sk
+            region-id: cn-north-1
+            sign-name: your-sign-name
+            template-code: your-template-id
         - template-name: "验证码短信模板"
           sms-supplier: QINIU
           sms-properties:
