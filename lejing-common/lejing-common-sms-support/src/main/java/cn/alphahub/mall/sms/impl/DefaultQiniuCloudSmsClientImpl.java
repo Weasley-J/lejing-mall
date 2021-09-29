@@ -1,6 +1,7 @@
 package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
@@ -10,6 +11,7 @@ import com.qiniu.sms.SmsManager;
 import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -25,6 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@ConditionalOnBean(annotation = {EnableSmsSupport.class})
 public class DefaultQiniuCloudSmsClientImpl implements SmsClient {
 
     /**

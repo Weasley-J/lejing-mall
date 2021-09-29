@@ -1,6 +1,7 @@
 package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.core.date.DateUtil;
@@ -8,6 +9,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HostnameVerifier;
@@ -42,6 +44,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@ConditionalOnBean(annotation = {EnableSmsSupport.class})
 public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
     /**
      * 无需修改,用于格式化鉴权头域,给"X-WSSE"参数赋值
@@ -196,7 +199,7 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
      * @param templateParas  templateParas
      * @param statusCallBack statusCallBack
      * @param signature      | 签名名称,使用国内短信通用模板时填写
-     * @return
+     * @return RequestBody
      */
     private String buildRequestBody(String sender, String receiver, String templateId, String templateParas, String statusCallBack, String signature) {
         if (null == sender || null == receiver || null == templateId

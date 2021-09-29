@@ -1,6 +1,7 @@
 package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.jdcloud.sdk.auth.CredentialsProvider;
@@ -12,6 +13,7 @@ import com.jdcloud.sdk.service.sms.model.BatchSendResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -28,6 +30,7 @@ import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
  */
 @Slf4j
 @Component
+@ConditionalOnBean(annotation = {EnableSmsSupport.class})
 public class DefaultJingdongCloudSmsClientImpl implements SmsClient {
     /**
      * 地域信息不用修改

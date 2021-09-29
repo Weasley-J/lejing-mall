@@ -1,6 +1,7 @@
 package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
@@ -13,6 +14,7 @@ import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@ConditionalOnBean(annotation = {EnableSmsSupport.class})
 public class DefaultTencentCloudSmsClientImpl implements SmsClient {
     /**
      * 短信SdkAppId，在<a href='https://console.cloud.tencent.com/smsv2'>短信控制台</a>添加应用后生成的实际 SdkAppId，示例如1400006666

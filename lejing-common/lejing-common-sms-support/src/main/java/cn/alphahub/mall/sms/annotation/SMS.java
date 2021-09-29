@@ -1,5 +1,6 @@
 package cn.alphahub.mall.sms.annotation;
 
+
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
 
@@ -8,6 +9,9 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import static cn.alphahub.mall.sms.SmsClient.DefaultSmsClientPlaceholder;
+
 
 /**
  * 多模板短信注解
@@ -48,5 +52,5 @@ public @interface SMS {
      * @return 发送短信的实现类class
      * @apiNote 当指定自定义短信发送类时将优先采用自定义短信发送实现完成发送短信的逻辑
      */
-    Class<? extends SmsClient> invokeClass();
+    Class<? extends SmsClient> invokeClass() default DefaultSmsClientPlaceholder.class;
 }

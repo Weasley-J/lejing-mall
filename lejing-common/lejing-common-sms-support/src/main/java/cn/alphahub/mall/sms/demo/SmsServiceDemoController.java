@@ -1,40 +1,5 @@
-# 多短信模板&多短信供应商支持模块
+package cn.alphahub.mall.sms.demo;
 
-
-
-> `lejing-common-sms-support`模块要解决的事：
->
-> 如何使用一个注解`@SMS`和一个模板类`SmsTemplate`在多个**短信供应商**和**多个短信模板**之间**优雅**的切换
-
-
-
-## 1 故事背景
-
-
-
-我们先来看一张笔者一朋友所在的公司的短信模板图：
-
-![image-20210929173756644](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210929173756644.png)
-
-
-
-他的苦恼是每新开一个业务模块他都要把之前发送短信的业务代码**CV**一遍，有没有优雅的一种方式呢？接下来，我们一同交流下这种问题。
-
-通常规模稍大点的公司的业务板块比较多，对应的则是每一种业务的短信消息通知，通常情况下，短信通知分为三类:
-
-1. 验证码通知
-2. 营销通知
-3. 内容通知
-
-
-
-从以上图片中笔者朋友所在的公司短信消息的模板已达到`9`个，传统的`XxxUtils`的`CV`编码方式会大大增加代码的重复率，基于`SpringBoot`极高的可拓展性，我们可以有更优雅的编码方式。
-
-
-
-## 2 废话少说看`controller`使用效果
-
-```java
 import cn.alphahub.mall.sms.SmsTemplate;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.annotation.SMS;
@@ -164,49 +129,3 @@ public class SmsServiceDemoController {
         return smsTemplate.send(smsParam);
     }
 }
-
-```
-
-
-
-说明：
-
-- 上面上`8`个发送短信消息的方法都是调用`SmsTemplate`类的`send(SmsParam smsParam)`方法
-- 通过注解` @SMS`动态切换短信模板
-- 第`8`个方法支持自定义短信实现，通过注解`@SMS(invokeClass = MyCustomSmsClientDemoImpl.class)`指定自定义短信实现类
-- 通过注解`@SMS`在**同一短信提供商的多个短信模板**、**不同短信提供上商多个短信模板**之间自由切换短信模板
-- 发送短信的方法只有一个`send()`方法
-- 支持的短信提供上有`5`家：阿里云、腾讯云、华为云、京东云、七牛云
-
-
-
-## 3 细节分享
-
-### 3.1 配置文件
-
-`todo`
-
-
-
-### 3.2 注解说明
-
-`todo`
-
-
-
-### 3.3 短信提供商
-
-`todo`
-
-
-
-### 3.4 自定义短信发送实现
-
-`todo`
-
-
-
-### 3.5 自动装配使用说明
-
-`todo`
-

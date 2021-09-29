@@ -1,6 +1,7 @@
 package cn.alphahub.mall.sms.config;
 
 import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.annotation.SMS;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
 import cn.alphahub.mall.sms.impl.DefaultAliCloudSmsClientImpl;
@@ -12,11 +13,13 @@ import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.validation.annotation.Validated;
 
@@ -43,6 +46,7 @@ import static cn.alphahub.mall.sms.config.SmsConfig.SmsTemplateProperties;
 @Validated
 @Configuration
 @EnableAspectJAutoProxy
+@ConditionalOnBean(annotation = {EnableSmsSupport.class})
 @EnableConfigurationProperties({SmsProperties.class, SmsTemplateProperties.class, MultipleSmsTemplateProperties.class})
 public class SmsConfig {
 
@@ -58,7 +62,7 @@ public class SmsConfig {
     }
 
     /**
-     * 短信模板配置集合
+     * 短信模板配置map集合
      *
      * @param templateProperties         短信配置元数据
      * @param multiSmsTemplateProperties 多短信模板、多供应商配置元数据
@@ -85,12 +89,13 @@ public class SmsConfig {
     }
 
     /**
-     * 多模板、多供应商短信发送实例对象集合
+     * 多模板、多供应商短信发送实例对象map集合
      *
      * @param smsPropertiesMap 短信模板配置集合
      * @return 多模板、多供应商短信发送实例对象集合
      */
     @Bean({"smsClientMap"})
+    @DependsOn({"smsPropertiesMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
         Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {

@@ -42,4 +42,15 @@ public interface SmsClient {
         }
         return false;
     }
+
+    /**
+     * 默认短信客户端class占位符，{@code @SMS}注解invokeClass默认class的占位符
+     *
+     * @author lwj
+     * @version 1.0
+     * @date 2021-09-29 14:27
+     */
+    interface DefaultSmsClientPlaceholder extends SmsClient {
+
+    }
 }

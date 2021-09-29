@@ -1,4 +1,0 @@
-spring:
-  profiles:
-    #active: sms
-    include: sms,smslwj
