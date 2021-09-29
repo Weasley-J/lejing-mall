@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -24,6 +23,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
@@ -32,8 +32,10 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
+import static javax.servlet.RequestDispatcher.ERROR_MESSAGE;
 
 /**
  * 华为云短信实现
@@ -96,13 +98,11 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
         //选填,短信状态报告接收地址,推荐使用域名,为空或者不填表示不接收状态报告
         String statusCallBack = "";
 
-        /**
-         * 选填,使用无变量模板时请赋空值 String templateParas = "";
-         * 单变量模板示例:模板内容为"您的验证码是${1}"时,templateParas可填写为"[\"369751\"]"
-         * 双变量模板示例:模板内容为"您有${1}件快递请到${2}领取"时,templateParas可填写为"[\"3\",\"人民公园正门\"]"
-         * 模板中的每个变量都必须赋值，且取值不能为空
-         * 查看更多模板和变量规范:产品介绍>模板和变量规范
-         */
+        // 选填,使用无变量模板时请赋空值
+        // 单变量模板示例:模板内容为"您的验证码是${1}"时,templateParas可填写为"[\"369751\"]"
+        // 双变量模板示例:模板内容为"您有${1}件快递请到${2}领取"时,templateParas可填写为"[\"3\",\"人民公园正门\"]"
+        // 模板中的每个变量都必须赋值，且取值不能为空
+        // 查看更多模板和变量规范:产品介绍>模板和变量规范
         //模板变量，此处以单变量验证码短信为例，请客户自行生成6位验证码，并定义为字符串类型，以杜绝首位0丢失的问题（例如：002569变成了2569）。
         String templateParas = "[" + content + "]";
 
@@ -122,11 +122,10 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
 
         Writer out = null;
         BufferedReader in = null;
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         HttpsURLConnection connection;
         InputStream is = null;
 
-        HostnameVerifier hv = (hostname, session) -> true;
 
         try {
             trustAllHttpsCertificates();
@@ -138,7 +137,7 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
             URL realUrl = new URL(url);
             connection = (HttpsURLConnection) realUrl.openConnection();
 
-            connection.setHostnameVerifier(hv);
+            connection.setHostnameVerifier((hostname, sslSession) -> Boolean.TRUE);
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setUseCaches(true);
@@ -164,7 +163,7 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
                 is = connection.getErrorStream();
             }
             in = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-            String line = "";
+            String line;
             while ((line = in.readLine()) != null) {
                 result.append(line);
             }
@@ -263,43 +262,36 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-        //如果JDK版本是1.8,请加载原生Base64类,并使用如下代码
-        //PasswordDigest
         String passwordDigestBase64Str = Base64.getEncoder().encodeToString(passwordDigest);
-        //如果JDK版本低于1.8,请加载三方库提供Base64类,并使用如下代码
-        // PasswordDigest
-        //String passwordDigestBase64Str = Base64.encodeBase64String(passwordDigest);
-        //若passwordDigestBase64Str中包含换行符,请执行如下代码进行修正
-        //passwordDigestBase64Str = passwordDigestBase64Str.replaceAll("[\\s*\t\n\r]", "");
         return String.format(WSSE_HEADER_FORMAT, appKey, passwordDigestBase64Str, nonce, time);
     }
 
     /**
      * trust all https certificates
      *
-     * @throws Exception
+     * @throws NoSuchAlgorithmException no such algorithm exception
+     * @throws KeyManagementException   key management exception
      */
-    private void trustAllHttpsCertificates() throws Exception {
+    private void trustAllHttpsCertificates() throws NoSuchAlgorithmException, KeyManagementException {
         TrustManager[] trustAllCerts = new TrustManager[]{
                 new X509TrustManager() {
                     @Override
                     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                        return;
+                        log.info("{},{}", Level.SEVERE, ERROR_MESSAGE);
                     }
 
                     @Override
                     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                        return;
+                        log.info("{},{}", Level.SEVERE, ERROR_MESSAGE);
                     }
 
                     @Override
                     public X509Certificate[] getAcceptedIssuers() {
-                        return null;
+                        return new X509Certificate[0];
                     }
                 }
         };
-        SSLContext sc = SSLContext.getInstance("SSL");
+        SSLContext sc = SSLContext.getInstance("TLSv1.2");
         sc.init(null, trustAllCerts, null);
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
     }

@@ -581,6 +581,7 @@
                         <include>cn.alphahub.mall.common:lejing-common-base-public</include>
                         <include>cn.alphahub.mall.common:lejing-common-base-domain</include>
                         <include>cn.alphahub.mall.common:lejing-common-email-support</include>
+                        <include>cn.alphahub.mall.common:lejing-common-sms-support</include>
                         <include>cn.alphahub.mall:lejing-auth-interface</include>
                         <include>cn.alphahub.mall:lejing-cart-interface</include>
                         <include>cn.alphahub.mall:lejing-coupon-interface</include>

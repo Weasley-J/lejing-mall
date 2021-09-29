@@ -8,9 +8,9 @@
 
 > 😄 😄 😄 😄😄 😄 😄 😄 😄 😄  `SonarQube`代码审查结果（不含前端代码）
 
-![image-20210903000443062](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210903000443062.png)
+![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210929225124691.png)
 
-![image-20210903000328582](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210903000328582.png)
+![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210929225220904.png)
 
 
 

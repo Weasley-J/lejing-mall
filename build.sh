@@ -1,8 +1,13 @@
 #!/bin/bash
+
 # 只打包某个service
 # mvn clean package -pl "lejing-auth/lejing-auth-service" -am
 
 # 安装基础依赖到本地仓库, 方便后续service打包
+
+cache="${MAVEN_HOME}/repository/cn/alphahub"
+
+rm -rfv "${cache}"
 
 mvn clean &&
   mvn clean install -pl :lejing-common-util -am &&
