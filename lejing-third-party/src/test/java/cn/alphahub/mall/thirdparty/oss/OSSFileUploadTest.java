@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss;
 
-import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.alphahub.mall.thirdparty.oss.service.OssService;
 import cn.hutool.core.io.FileUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class OSSFileUploadTest {
     @Resource
     private OssService ossService;
     @Resource
-    private OssProperties ossProperties;
+    private AliyunConfig.OssProperties ossProperties;
 
     @BeforeEach
     void setUp() {

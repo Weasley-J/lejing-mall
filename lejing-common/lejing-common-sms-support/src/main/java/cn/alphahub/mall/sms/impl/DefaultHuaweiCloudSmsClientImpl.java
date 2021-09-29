@@ -2,7 +2,6 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
-import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -34,6 +33,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
+
 /**
  * 华为云短信实现
  *
@@ -61,9 +62,9 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
-    private final SmsConfig.SmsProperties smsProperties;
+    private final SmsProperties smsProperties;
 
-    public DefaultHuaweiCloudSmsClientImpl(SmsConfig.SmsProperties smsProperties) {
+    public DefaultHuaweiCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 
@@ -243,7 +244,7 @@ public class DefaultHuaweiCloudSmsClientImpl implements SmsClient {
      * @return X-WSSE参数值
      */
     private String buildWsseHeader(String appKey, String appSecret) {
-        if (null == appKey || null == appSecret || appKey.isEmpty() || appSecret.isEmpty()) {
+        if (StringUtils.isBlank(appKey) || StringUtils.isBlank(appSecret)) {
             log.warn("{}", "buildWsseHeader(): appKey or appSecret is null.");
             return null;
         }

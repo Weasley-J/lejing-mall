@@ -8,6 +8,7 @@ spring:
   #运行环境: dev|test|prod
   profiles:
     active: lwj
+    include: sms,smslwj
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

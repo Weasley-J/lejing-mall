@@ -1,5 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   cn.alphahub.mall.sms.config.SmsConfig,\
   cn.alphahub.mall.sms.aspect.SmsAspect,\
-  cn.alphahub.mall.sms.SmsTemplate,\
-  cn.alphahub.mall.sms.demo.SmsServiceDemoController
+  cn.alphahub.mall.sms.SmsTemplate

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.oss.controller;
 
 import cn.alphahub.common.core.domain.BaseResult;
-import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.alphahub.mall.thirdparty.oss.domain.OssServerSignature;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.BinaryUtil;
@@ -30,7 +30,7 @@ public class OssPolicyController {
     @Resource
     private OSS ossClient;
     @Resource
-    private OssProperties ossProperties;
+    private AliyunConfig.OssProperties ossProperties;
 
     /**
      * 获取OSS文件上传服务端签名

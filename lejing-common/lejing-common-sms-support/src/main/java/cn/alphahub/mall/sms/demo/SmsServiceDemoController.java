@@ -4,7 +4,6 @@ import cn.alphahub.mall.sms.SmsTemplate;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.annotation.SMS;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
-import cn.alphahub.mall.sms.impl.MyCustomSmsClientDemoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -111,7 +110,7 @@ public class SmsServiceDemoController {
      * @param smsParam 短信参数
      * @return 发送结果
      */
-    @SMS(name = "内容短信模板", supplier = SmsSupplier.TENCENT)
+    @SMS(name = "腾讯云内容短信模板", supplier = SmsSupplier.TENCENT)
     @PostMapping("/sendWithTencentCloud")
     public Object sendWithTencentCloud(@RequestBody SmsParam smsParam) {
         return smsTemplate.send(smsParam);

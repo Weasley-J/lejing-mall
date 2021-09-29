@@ -39,7 +39,7 @@ import cn.alphahub.mall.sms.SmsTemplate;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.annotation.SMS;
 import cn.alphahub.mall.sms.enums.SmsSupplier;
-import cn.alphahub.mall.sms.impl.MyCustomSmsClientDemoImpl;
+import cn.alphahub.mall.sms.demo.MyCustomSmsClientDemoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.bind.annotation.PostMapping;

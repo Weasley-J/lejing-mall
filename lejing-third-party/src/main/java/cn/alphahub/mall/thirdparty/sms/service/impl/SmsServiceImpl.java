@@ -2,7 +2,7 @@ package cn.alphahub.mall.thirdparty.sms.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
 import cn.alphahub.common.enums.CheckCodeOrigin;
-import cn.alphahub.mall.thirdparty.config.SmsProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.hutool.core.date.DateUtil;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public final class SmsServiceImpl extends AbstractSmsService {
 
     @Resource
-    private SmsProperties smsProperties;
+    private AliyunConfig.SmsProperties smsProperties;
     @Resource
     private AmqpTemplate amqpTemplate;
     @Resource
@@ -100,7 +100,13 @@ public final class SmsServiceImpl extends AbstractSmsService {
             return Boolean.TRUE;
         }
         //获取验证码长度:移动端4位,浏览器6位, origin:1-使用移动端请求验证码,2-使用浏览器请求验证码,0-未知来源, origin为空验证码长度6位
-        int checkCodeLength = Objects.nonNull(origin) ? Objects.equals(CheckCodeOrigin.MOBILE.getValue(), origin) ? 4 : 6 : 6;
+        int checkCodeLength;
+        if (Objects.nonNull(origin)) {
+            if (Objects.equals(CheckCodeOrigin.MOBILE.getValue(), origin)) checkCodeLength = 4;
+            else checkCodeLength = 6;
+        } else {
+            checkCodeLength = 6;
+        }
         //生成验证码
         String code = RandomStringUtils.randomNumeric(checkCodeLength);
         Map<String, Object> msgMap = new HashMap<>(2);

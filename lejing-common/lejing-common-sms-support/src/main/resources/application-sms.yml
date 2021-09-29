@@ -46,6 +46,7 @@ spring:
             region-id: regionId2
             sign-name: signName2
             template-code: templateCode2
+            app-id: your-app-id
         - template-name: "京东云短信验证码模板"
           sms-supplier: JINGDONG
           sms-properties:
@@ -69,5 +70,5 @@ spring:
             secret-key: secretKey4
             region-id: "ap-nanjing"
             sign-name: "xxx的个人主页"
-            template-code: templateCode4
+            template-code: 1141766
             app-id: "your_sms_sdk_app_id"

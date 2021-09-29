@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.sms.util;
 
 import cn.alphahub.common.core.domain.SmsParam;
-import cn.alphahub.mall.thirdparty.config.SmsProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.IAcsClient;
@@ -45,7 +45,7 @@ public class AliyunSmsUtil {
     @Resource
     private IAcsClient acsClient;
     @Resource
-    private SmsProperties smsProperties;
+    private AliyunConfig.SmsProperties smsProperties;
 
     /**
      * 发送验证码给用户手机

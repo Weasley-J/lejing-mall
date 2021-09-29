@@ -95,7 +95,7 @@ public class SmsConfig {
      * @return 多模板、多供应商短信发送实例对象集合
      */
     @Bean({"smsClientMap"})
-    @DependsOn({"smsPropertiesMap"})
+    @DependsOn(value = {"smsPropertiesMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
         Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {

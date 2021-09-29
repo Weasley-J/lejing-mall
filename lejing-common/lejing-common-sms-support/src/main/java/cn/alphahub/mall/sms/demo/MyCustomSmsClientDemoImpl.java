@@ -1,8 +1,7 @@
-package cn.alphahub.mall.sms.impl;
+package cn.alphahub.mall.sms.demo;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
-import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
 
 /**
  * 自定义短信发送实现类实例
@@ -31,7 +32,7 @@ public class MyCustomSmsClientDemoImpl implements SmsClient {
      * <p>如果你有默认短信配置，你也可以在当前模块的{@code src/main/resources/application-sms.yml}里面配置默认元数数据</p>
      */
     @Resource
-    private SmsConfig.SmsProperties smsProperties;
+    private SmsProperties smsProperties;
 
     /**
      * 发送短信

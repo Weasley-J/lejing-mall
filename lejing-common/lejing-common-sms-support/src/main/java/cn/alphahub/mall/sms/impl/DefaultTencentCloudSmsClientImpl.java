@@ -2,7 +2,6 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
-import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.tencentcloudapi.common.Credential;
@@ -16,6 +15,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
+
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
 
 /**
  * 腾讯云短信实现
@@ -41,9 +42,9 @@ public class DefaultTencentCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
-    private final SmsConfig.SmsProperties smsProperties;
+    private final SmsProperties smsProperties;
 
-    public DefaultTencentCloudSmsClientImpl(SmsConfig.SmsProperties smsProperties) {
+    public DefaultTencentCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 

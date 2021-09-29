@@ -32,6 +32,10 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall.common</groupId>
+            <artifactId>lejing-common-sms-support</artifactId>
+        </dependency>
         <!-- 引入Logstash日志系统 -->
         <dependency>
             <groupId>net.logstash.logback</groupId>

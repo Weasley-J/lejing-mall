@@ -2,7 +2,6 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
-import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.qiniu.common.QiniuException;
@@ -16,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
 
 /**
  * 七牛云短信实现
@@ -33,9 +34,9 @@ public class DefaultQiniuCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
-    private final SmsConfig.SmsProperties smsProperties;
+    private final SmsProperties smsProperties;
 
-    public DefaultQiniuCloudSmsClientImpl(SmsConfig.SmsProperties smsProperties) {
+    public DefaultQiniuCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 

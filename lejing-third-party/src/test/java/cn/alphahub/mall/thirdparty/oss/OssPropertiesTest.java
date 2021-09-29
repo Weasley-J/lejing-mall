@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss;
 
-import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 @SpringBootTest
 class OssPropertiesTest {
     @Resource
-    private OssProperties ossProperties;
+    private AliyunConfig.OssProperties ossProperties;
 
     @BeforeEach
     void setUp() {

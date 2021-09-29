@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.oss.service;
 
 import cn.alphahub.common.util.URLUtil;
-import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.hutool.core.io.FileUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.DeleteObjectsRequest;
@@ -37,7 +37,7 @@ public class OssService {
     @Resource
     private OSS ossClient;
     @Resource
-    private OssProperties ossProperties;
+    private AliyunConfig.OssProperties ossProperties;
 
     /**
      * 创建存储空间

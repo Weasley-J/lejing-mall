@@ -2,7 +2,6 @@ package cn.alphahub.mall.sms.impl;
 
 import cn.alphahub.mall.sms.SmsClient;
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
-import cn.alphahub.mall.sms.config.SmsConfig;
 import cn.alphahub.mall.sms.exception.SmsParamEmptyException;
 import cn.hutool.json.JSONUtil;
 import com.aliyuncs.CommonRequest;
@@ -20,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
 
 /**
  * 阿里云短信实现
@@ -47,9 +48,9 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
     /**
      * 短信配置元数据
      */
-    private final SmsConfig.SmsProperties smsProperties;
+    private final SmsProperties smsProperties;
 
-    public DefaultAliCloudSmsClientImpl(SmsConfig.SmsProperties smsProperties) {
+    public DefaultAliCloudSmsClientImpl(SmsProperties smsProperties) {
         this.smsProperties = smsProperties;
     }
 
@@ -62,7 +63,8 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
 
         CommonResponse response = new CommonResponse();
 
-        Map<String, Object> templateParamMap = new HashMap<>(1);
+        // 可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+        Map<String, Object> templateParamMap = new HashMap<>(5);
         templateParamMap.put("code", content);
 
         CommonRequest request = new CommonRequest();
@@ -83,7 +85,7 @@ public class DefaultAliCloudSmsClientImpl implements SmsClient {
         } catch (ClientException e) {
             log.error("发送短信异常:{}", e.getMessage(), e);
         }
-        log.info("发送短信状态:{}", JSONUtil.toJsonStr(response));
+        log.info("发送短信状态:{}", JSONUtil.toJsonStr(response.getData()));
 
         return response;
     }

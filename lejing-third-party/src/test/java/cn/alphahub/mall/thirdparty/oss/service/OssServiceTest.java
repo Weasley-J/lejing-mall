@@ -1,7 +1,7 @@
 package cn.alphahub.mall.thirdparty.oss.service;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.mall.thirdparty.config.OssProperties;
+import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ class OssServiceTest {
     @Resource
     private OssService ossService;
     @Resource
-    private OssProperties ossProperties;
+    private AliyunConfig.OssProperties ossProperties;
 
     @BeforeEach
     void setUp() {
