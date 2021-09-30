@@ -19,6 +19,9 @@
         <hutool-all.version>5.7.13</hutool-all.version>
         <aliyun.sdk.version>4.5.22</aliyun.sdk.version>
         <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
+        <tencentcloud.sms.version>3.1.367</tencentcloud.sms.version>
+        <jdcloud.sms.version>1.3.3</jdcloud.sms.version>
+        <qiniu.sms.version>[7.8.0, 7.8.99]</qiniu.sms.version>
     </properties>
 
     <dependencies>
@@ -67,6 +70,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
             <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- hutool -->
         <dependency>
@@ -99,7 +103,7 @@
         <dependency>
             <groupId>com.tencentcloudapi</groupId>
             <artifactId>tencentcloud-sdk-java</artifactId>
-            <version>3.1.367</version>
+            <version>${tencentcloud.sms.version}</version>
         </dependency>
         <!-- 华为云短信SDK -->
         <!-- no dump -->
@@ -107,13 +111,13 @@
         <dependency>
             <groupId>com.jdcloud.sdk</groupId>
             <artifactId>sms</artifactId>
-            <version>1.3.3</version>
+            <version>${jdcloud.sms.version}</version>
         </dependency>
         <!-- 七牛云SDK -->
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
-            <version>[7.8.0, 7.8.99]</version>
+            <version>${qiniu.sms.version}</version>
         </dependency>
     </dependencies>
 

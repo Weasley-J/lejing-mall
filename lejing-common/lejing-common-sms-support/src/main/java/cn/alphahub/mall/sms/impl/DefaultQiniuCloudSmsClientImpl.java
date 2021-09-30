@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static cn.alphahub.mall.sms.config.SmsConfig.SmsProperties;
@@ -83,7 +84,10 @@ public class DefaultQiniuCloudSmsClientImpl implements SmsClient {
             */
 
         } catch (QiniuException e) {
-            log.error("error:{}", e.getLocalizedMessage(), e);
+            log.error("{}", e.getLocalizedMessage(), e);
+            Map<String, Object> responseMap = new LinkedHashMap<>(1);
+            responseMap.put("error", e.getLocalizedMessage());
+            return JSONUtil.toJsonStr(responseMap);
         }
         return resp;
     }
