@@ -7,11 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 短信模板方法
@@ -29,9 +33,14 @@ public class SmsTemplate {
      * 多模板短信配置切面
      */
     private final SmsAspect smsAspect;
+    /**
+     * 默认线程池
+     */
+    private final ThreadPoolExecutor executor;
 
-    public SmsTemplate(SmsAspect smsAspect) {
+    public SmsTemplate(SmsAspect smsAspect, ThreadPoolExecutor executor) {
         this.smsAspect = smsAspect;
+        this.executor = executor;
     }
 
     /**
@@ -41,8 +50,13 @@ public class SmsTemplate {
      * @return 短信供应商的发送短信后的返回结果
      */
     public Object send(@Valid SmsParam smsParam) {
-        SmsClient smsClient = smsAspect.getSmsClient();
-        return smsClient.send(smsParam.getContent(), smsParam.getPhones());
+        RequestAttributes mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
+        CompletableFuture<Object> sendResponseFuture = CompletableFuture.supplyAsync(() -> {
+            RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
+            SmsClient smsClient = smsAspect.getSmsClient();
+            return smsClient.send(smsParam.getContent(), smsParam.getPhones());
+        }, executor);
+        return sendResponseFuture.getNow(null);
     }
 
     /**

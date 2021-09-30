@@ -1,7 +1,13 @@
 spring:
-  #默认短信模板配置
   sms:
-    #短信模板名称, 默认: DEFAULT, 无需修改
+    #默认线程池配置，一下参数是默认值，可根据自己的业务调整大小
+    thread:
+      core-pool-size: 50
+      maximum-pool-size: 200
+      keep-alive-time: 10
+      time-unit: seconds
+      capacity: 2000
+    #默认短信模板配置，短信模板名称, 默认: DEFAULT, 无需修改
     template-name: DEFAULT
     #默认短信供应商，大小写不敏感，可选值: ali, huawei, jingdong, qiniu, tencent
     sms-supplier: ALI
@@ -71,4 +77,4 @@ spring:
             region-id: "ap-nanjing"
             sign-name: "xxx的个人主页"
             template-code: 1141766
-            app-id: "your_sms_sdk_app_id"
+            app-id: "your-sms-sdk-app-id"
