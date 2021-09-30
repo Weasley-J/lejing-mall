@@ -20,7 +20,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.validation.annotation.Validated;
 
@@ -105,7 +104,7 @@ public class SmsConfig {
      * @return 多模板、多供应商短信发送实例对象集合
      */
     @Bean({"smsClientMap"})
-    @DependsOn(value = {"smsPropertiesMap"})
+    @ConditionalOnBean(name = {"smsPropertiesMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
         Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
         smsPropertiesMap.forEach((name, template) -> {

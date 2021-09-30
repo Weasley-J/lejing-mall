@@ -32,7 +32,7 @@ public @interface SMS {
     String DEFAULT_TEMPLATE = "DEFAULT";
 
     /**
-     * 短信模板名称，默认：DEFAULT
+     * 短信模板名称，必须和{@code yml}配置文件里面的{@code template-name}一致，默认：DEFAULT
      *
      * @return 短信模板名称
      */

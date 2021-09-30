@@ -17,6 +17,7 @@
     <properties>
         <lombok.version>1.18.20</lombok.version>
         <hutool-all.version>[5.7.13,)</hutool-all.version>
+        <okio.version>2.10.0</okio.version>
         <aliyun.sdk.version>4.5.22</aliyun.sdk.version>
         <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
         <tencentcloud-sdk.version>3.1.365</tencentcloud-sdk.version>
@@ -88,6 +89,23 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <!-- okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>okio</artifactId>
+                    <groupId>com.squareup.okio</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- okio -->
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>${okio.version}</version>
+        </dependency>
         <!-- 阿里云短信短信SDK -->
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -104,6 +122,16 @@
             <groupId>com.tencentcloudapi</groupId>
             <artifactId>tencentcloud-sdk-java</artifactId>
             <version>${tencentcloud-sdk.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>okhttp</artifactId>
+                    <groupId>com.squareup.okhttp</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>okio</artifactId>
+                    <groupId>com.squareup.okio</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 华为云短信SDK -->
@@ -120,6 +148,12 @@
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
             <version>${qiniu-java-sdk.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>okhttp</artifactId>
+                    <groupId>com.squareup.okhttp</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

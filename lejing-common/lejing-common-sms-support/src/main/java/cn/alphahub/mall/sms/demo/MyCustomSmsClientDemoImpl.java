@@ -50,7 +50,6 @@ public class MyCustomSmsClientDemoImpl implements SmsClient {
         Map<String, Object> respMap = new LinkedHashMap<>(3);
         respMap.put("content", content);
         respMap.put("phones", phones);
-        String sendSmsResponse = "自定义短信实现:"+JSONUtil.toJsonStr(respMap);
-        return sendSmsResponse;
+        return JSONUtil.toJsonStr(respMap);
     }
 }

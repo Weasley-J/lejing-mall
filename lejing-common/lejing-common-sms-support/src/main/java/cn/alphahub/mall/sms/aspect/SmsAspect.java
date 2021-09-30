@@ -122,7 +122,7 @@ public class SmsAspect {
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
-        log.info("4. afterReturning, responseData: {}", responseData.toString());
+        log.info("4. afterReturning, responseData: {}", responseData);
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

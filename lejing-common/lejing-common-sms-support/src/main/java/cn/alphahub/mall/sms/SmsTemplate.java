@@ -2,6 +2,7 @@ package cn.alphahub.mall.sms;
 
 import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import cn.alphahub.mall.sms.aspect.SmsAspect;
+import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,8 +15,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 短信模板方法
@@ -50,13 +54,24 @@ public class SmsTemplate {
      * @return 短信供应商的发送短信后的返回结果
      */
     public Object send(@Valid SmsParam smsParam) {
+        SmsClient smsClient = smsAspect.getSmsClient();
+        AtomicReference<Object> sendResult = new AtomicReference<>();
         RequestAttributes mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
         CompletableFuture<Object> sendResponseFuture = CompletableFuture.supplyAsync(() -> {
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
-            SmsClient smsClient = smsAspect.getSmsClient();
             return smsClient.send(smsParam.getContent(), smsParam.getPhones());
-        }, executor);
-        return sendResponseFuture.getNow(null);
+        }, executor).whenComplete((result, throwable) -> {
+            if (Objects.nonNull(result)) {
+                sendResult.set(result);
+            }
+        });
+        try {
+            CompletableFuture.allOf(sendResponseFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("sms-param:{},{}", JSONUtil.toJsonStr(smsParam), e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+        return sendResult.get();
     }
 
     /**

@@ -69,7 +69,7 @@ spring:
             region-id: regionId4
             sign-name: signName4
             template-code: templateCode4
-        - template-name: "内容短信模板"
+        - template-name: "腾讯云内容短信模板"
           sms-supplier: TENCENT
           sms-properties:
             access-key: accessKey4
