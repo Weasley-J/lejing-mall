@@ -56,7 +56,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <lejing.latest.version>${project.version}</lejing.latest.version>
-        <spring-boot.version>${project.parent.version}</spring-boot.version>
+        <spring-boot.version>2.5.5</spring-boot.version>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <lombok.version>1.18.20</lombok.version>
@@ -136,11 +136,6 @@
             <dependency>
                 <groupId>cn.alphahub.mall.common</groupId>
                 <artifactId>lejing-common-email-support</artifactId>
-                <version>${lejing.latest.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.alphahub.mall.common</groupId>
-                <artifactId>lejing-common-sms-support</artifactId>
                 <version>${lejing.latest.version}</version>
             </dependency>
             <dependency>
@@ -610,6 +605,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <annotationProcessorPaths>
+                        <!-- @Mapper annotation generate the mapstruct impl class -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
@@ -624,6 +620,12 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>${lombok-mapstruct-binding.version}</version>
+                        </path>
+                        <!-- @ConfigurationProperties annotation processing (metadata for IDEs) -->
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
