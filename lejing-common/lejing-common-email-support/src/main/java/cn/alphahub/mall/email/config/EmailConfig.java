@@ -33,8 +33,8 @@ import static cn.alphahub.mall.email.config.EmailConfig.EmailTemplateProperties;
  * @date 2021-09-06
  */
 @Configuration
-@EnableAspectJAutoProxy
 @DependsOn({"emailPropertiesMap", "javaMailSenderMap"})
+@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @EnableConfigurationProperties({MailProperties.class, EmailProperties.class, EmailTemplateProperties.class})
 public class EmailConfig {
 

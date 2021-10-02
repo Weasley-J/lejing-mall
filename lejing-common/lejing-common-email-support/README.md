@@ -369,11 +369,25 @@ public class EmailController {
 
 ## 2 总结&提示
 
-**1.3**配置完后，意味着**lejing-site-reserve**这个服务已经整合了多模板邮件发送功能。
+**1.3**配置完后，意味着**`lejing-site-reserve`**这个服务已经整合了多模板邮件发送功能。
 
-关于**spring.profiles.active=dev**和**spring.profiles.include=email**的加载顺序：
+关于**`spring.profiles.active=dev`**和**`spring.profiles.include=email`**的加载顺序：
 
-- 后者在**spring**启动的时候会优先加载**spring.profiles.include=email**里面的邮件配置元数据
-- 然后再加载**spring.profiles.active=dev**的元数据
-- **spring.profiles.include**引入元数据会覆盖当前服务的同名属性
+- 后者在**spring**启动的时候会优先加载**`spring.profiles.include=email`**里面的邮件配置元数据
+- 然后再加载**`spring.profiles.active=dev`**的元数据
+- **`spring.profiles.include`**引入元数据会覆盖当前服务的同名属性
+
+
+
+## 3 关于注解`@Email`作用在类和方法的优先级问题
+
+- 当注解`@Email`同时作用类，和方法上时，方法上注解`@Email`的优先级高于类上`@Email`注解的优先级
+- 当注解`@Email`作用方法上时，该方法短信客户端的为注解`@Email`指定的短信客户端
+- 当注解`@Email`作用类上时，该类所有短信模板方法发送短信的客户端都以注解`@Email`指定为准客户端
+
+
+
+## 4 关于`Spring IOC`容器中的同一个`Bean`实例里面被`@Email`注解标注的方法间嵌套调用的问题
+
+请参考模块`lejing-common/lejing-common-sms-support`的`README.md`文档第**5**小节，性质一模一样，注解不一样而已.
 

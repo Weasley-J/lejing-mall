@@ -28,6 +28,14 @@ import java.util.Objects;
 
 /**
  * 邮件模板切面
+ * <p>
+ * 关于注解{@code @Email}作用在类和方法的优先级问题
+ *     <ul>
+ *         <li>1. 当注解{@code @Email}作用类上时，该类所有短信模板方法发送短信的客户端都以注解{@code @Email}指定为准客户端</li>
+ *         <li>2. 当注解{@code @Email}作用方法上时，该方法短信客户端的为注解{@code @Email}指定的短信客户端</li>
+ *         <li>3. 当注解{@code @Email}同时作用类，和方法上时，方法上注解{@code @Email}的优先级高于类上{@code @Email}注解的优先级</li>
+ *     </ul>
+ * </p>
  *
  * @author lwj
  * @version 1.0
@@ -56,12 +64,85 @@ public class EmailAspect {
     @Resource
     private Map<String, JavaMailSender> javaMailSenderMap;
 
+    /////////////////////////////////////////////////////////////
+    //                  AOP Proxy On Class
+    /////////////////////////////////////////////////////////////
+
+    /**
+     * 定义切入点方法
+     */
+    @Pointcut(value = "@within(cn.alphahub.mall.email.annotation.Email)")
+    public void pointcutProxyOnClass() {
+        // a void method for proxy on class aspect pointcut.
+    }
+
+    /**
+     * 目标方法执行之前执行
+     */
+    @Before("pointcutProxyOnClass() && @within(email)")
+    public void beforeProxyOnClass(JoinPoint point, Email email) {
+        log.info("before");
+        MailProperties properties = emailPropertiesMap.get(email.name());
+        JavaMailSender javaMailSender = javaMailSenderMap.get(email.name());
+        mailSenderThreadLocal.set(javaMailSender);
+        mailPropertiesThreadLocal.set(properties);
+    }
+
+    /**
+     * 环绕通知
+     */
+    @Around("pointcutProxyOnClass()")
+    public Object aroundProxyOnClass(ProceedingJoinPoint point) throws Throwable {
+        log.warn("around");
+        long beginTime = System.currentTimeMillis();
+        Object proceed = point.proceed();
+        long endTime = System.currentTimeMillis() - beginTime;
+        log.warn("around耗时：{}（ms），开始时间：{}，结束时间：{}", endTime, DateUtil.formatDateTime(new Date(beginTime)), DateUtil.formatDateTime(new Date(endTime)));
+        return proceed;
+    }
+
+    /**
+     * 目标方法执行之后必定执行(无论是否报错)
+     * <p>
+     * 目标方法同时需要{@code @Email}注解的修饰，并且这里（通知）的形参名要与上面注解中的一致
+     */
+    @After("pointcutProxyOnClass() && @within(email)")
+    public void afterProxyOnClass(Email email) {
+        log.info("after");
+        mailSenderThreadLocal.remove();
+        mailPropertiesThreadLocal.remove();
+    }
+
+    /**
+     * 目标方法有返回值且正常返回后执行
+     * <p>
+     * 这里切入点方法的形参名{@code pointcut()}要与上面注解中的一致
+     */
+    @AfterReturning(pointcut = "pointcutProxyOnClass()", returning = "responseData")
+    public void afterReturningProxyOnClass(JoinPoint point, Object responseData) {
+        log.info("afterReturning, responseData: {}", responseData.toString());
+    }
+
+    /**
+     * 目标方法抛出异常后执行
+     * <p>
+     * 目标方法同时需要{@code @Email}注解的修饰，并且这里（通知）的形参名要与上面注解中的一致,可以声明来获取目标方法抛出的异常
+     */
+    @AfterThrowing(pointcut = "pointcutProxyOnClass() && @within(email)", throwing = "throwable")
+    public void afterThrowingProxyOnClass(Email email, Throwable throwable) {
+        log.error("afterThrowing, throwable: {}", throwable.getLocalizedMessage());
+    }
+
+    /////////////////////////////////////////////////////////////
+    //                  AOP Proxy On Method
+    /////////////////////////////////////////////////////////////
+
     /**
      * 定义切入点方法
      */
     @Pointcut(value = "@annotation(cn.alphahub.mall.email.annotation.Email)")
     public void pointcut() {
-        // a void method for aspect pointcut.
+        // a void method for proxy on method aspect pointcut.
     }
 
     /**
@@ -129,6 +210,10 @@ public class EmailAspect {
     public void afterThrowing(Email email, Throwable throwable) {
         log.error("5. afterThrowing, throwable: {}", throwable.getLocalizedMessage());
     }
+
+    /////////////////////////////////////////////////////////////
+    //                  END AOP CONSTRUCTION
+    /////////////////////////////////////////////////////////////
 
     /**
      * 获取邮件是发送实例（ThreadLocal中获取，目标方法后移除线程变量）

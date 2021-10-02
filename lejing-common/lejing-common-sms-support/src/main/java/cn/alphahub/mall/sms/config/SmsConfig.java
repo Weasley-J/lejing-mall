@@ -52,7 +52,7 @@ import static cn.alphahub.mall.sms.config.SmsConfig.ThreadPoolProperties;
 @Slf4j
 @Validated
 @Configuration
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @ConditionalOnBean(annotation = {EnableSmsSupport.class})
 @EnableConfigurationProperties({
         SmsProperties.class, SmsTemplateProperties.class,
