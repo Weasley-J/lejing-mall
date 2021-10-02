@@ -4,6 +4,7 @@ import cn.alphahub.mall.email.annotation.Email;
 import cn.hutool.core.collection.CollUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,10 +21,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static cn.alphahub.mall.email.config.EmailConfig.EmailProperties;
 import static cn.alphahub.mall.email.config.EmailConfig.EmailTemplateProperties;
+import static cn.alphahub.mall.email.config.EmailConfig.ThreadPoolProperties;
 
 /**
  * 邮件配置类
@@ -33,9 +39,12 @@ import static cn.alphahub.mall.email.config.EmailConfig.EmailTemplateProperties;
  * @date 2021-09-06
  */
 @Configuration
-@DependsOn({"emailPropertiesMap", "javaMailSenderMap"})
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
-@EnableConfigurationProperties({MailProperties.class, EmailProperties.class, EmailTemplateProperties.class})
+@DependsOn({"emailPropertiesMap", "javaMailSenderMap"})
+@EnableConfigurationProperties({
+        MailProperties.class, EmailProperties.class,
+        EmailTemplateProperties.class, ThreadPoolProperties.class
+})
 public class EmailConfig {
 
     /**
@@ -94,6 +103,25 @@ public class EmailConfig {
     }
 
     /**
+     * 线程池
+     *
+     * @return thread pool executor
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = {"threadPoolExecutor"})
+    public ThreadPoolExecutor threadPoolExecutor(ThreadPoolProperties threadPoolProperties) {
+        return new ThreadPoolExecutor(
+                threadPoolProperties.getCorePoolSize(),
+                threadPoolProperties.getMaximumPoolSize(),
+                threadPoolProperties.getKeepAliveTime(),
+                threadPoolProperties.getTimeUnit(),
+                new LinkedBlockingQueue<>(threadPoolProperties.getCapacity()),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy()
+        );
+    }
+
+    /**
      * 多邮件模板配置列表元数据属性
      */
     @Data
@@ -120,6 +148,36 @@ public class EmailConfig {
          */
         @NestedConfigurationProperty
         private MailProperties mailProperties;
+    }
+
+    /**
+     * 线程池配置参数
+     */
+    @Data
+    @ConfigurationProperties(prefix = "spring.mail.thread")
+    public static class ThreadPoolProperties {
+        /**
+         * 核心线程池数量，默认：50
+         */
+        private Integer corePoolSize = 50;
+        /**
+         * 最大线程数，默认：200
+         */
+        private Integer maximumPoolSize = 200;
+        /**
+         * 存活时间，默认：10
+         */
+        private Long keepAliveTime = 10L;
+        /**
+         * 存活时间单位，默认：{@code TimeUnit.SECONDS}
+         *
+         * @see TimeUnit
+         */
+        private TimeUnit timeUnit = TimeUnit.SECONDS;
+        /**
+         * 最大任务数量，默认：2000
+         */
+        private Integer capacity = 2000;
     }
 }
 

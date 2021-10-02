@@ -11,6 +11,13 @@ spring:
           ssl:
             enable: true
         debug: false
+    #邮件线程池配置
+    thread:
+      core-pool-size: 50
+      maximum-pool-size: 200
+      keep-alive-time: 10
+      time-unit: seconds
+      capacity: 2000
     # 多邮件模板配置列表
     email-templates:
       - template-name: EmailQQ

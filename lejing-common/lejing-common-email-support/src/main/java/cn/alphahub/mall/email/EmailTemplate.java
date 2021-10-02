@@ -2,6 +2,7 @@ package cn.alphahub.mall.email;
 
 import cn.alphahub.mall.email.aspect.EmailAspect;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.json.JSONUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
@@ -29,6 +31,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 邮件模板方法默认实现
@@ -41,13 +46,29 @@ import java.util.Objects;
 @Component
 @Validated
 public class EmailTemplate {
+    /**
+     * thread pool executor
+     */
+    private final ThreadPoolExecutor executor;
+    /**
+     * email aspect
+     */
+    private final EmailAspect emailAspect;
+    /**
+     * default mail properties
+     */
+    private final MailProperties defaultMailProperties;
+    /**
+     * default java mail sender
+     */
+    private final JavaMailSender defaultJavaMailSender;
 
-    @Resource
-    private EmailAspect emailAspect;
-    @Resource
-    private JavaMailSender defaultJavaMailSender;
-    @Resource
-    private MailProperties defaultMailProperties;
+    public EmailTemplate(ThreadPoolExecutor executor, EmailAspect emailAspect, MailProperties defaultMailProperties, JavaMailSender defaultJavaMailSender) {
+        this.executor = executor;
+        this.emailAspect = emailAspect;
+        this.defaultMailProperties = defaultMailProperties;
+        this.defaultJavaMailSender = defaultJavaMailSender;
+    }
 
     /**
      * 获取邮件是发送实例
@@ -89,7 +110,20 @@ public class EmailTemplate {
         simpleMessage.setSubject(domain.getSubject());
         simpleMessage.setText(domain.getText());
         JavaMailSender mailSender = this.getMailSender();
-        mailSender.send(simpleMessage);
+
+        RequestAttributes mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
+        CompletableFuture<Void> sendResponseFuture = CompletableFuture.runAsync(() -> {
+            log.info("Current send mail thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
+            RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
+            mailSender.send(simpleMessage);
+        }, executor);
+
+        try {
+            CompletableFuture.allOf(sendResponseFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("{},{}", JSONUtil.toJsonStr(domain), e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -115,7 +149,19 @@ public class EmailTemplate {
             File newFile = new File(domain.getFilepath());
             helper.addAttachment(FileUtil.getName(domain.getFilepath()), newFile);
         }
-        mailSender.send(mimeMessage);
+        var mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
+        var sendResponseFuture = CompletableFuture.runAsync(() -> {
+            log.info("Current send mail thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
+            RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
+            mailSender.send(mimeMessage);
+        }, executor);
+
+        try {
+            CompletableFuture.allOf(sendResponseFuture).get();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("{},{}", JSONUtil.toJsonStr(domain), e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**

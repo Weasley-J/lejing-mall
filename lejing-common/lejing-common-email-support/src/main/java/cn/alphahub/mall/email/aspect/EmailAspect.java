@@ -33,7 +33,7 @@ import java.util.Objects;
  *     <ul>
  *         <li>1. 当注解{@code @Email}作用类上时，该类所有邮件模板方法发送邮件的客户端都以注解{@code @Email}指定为准客户端</li>
  *         <li>2. 当注解{@code @Email}作用方法上时，该方法邮件客户端的为注解{@code @Email}指定的邮件客户端</li>
- *         <li>3. 当注解{@code @Email}同时作用类，和方法上时，方法上注解{@code @Email}的优先级高于类上{@code @Email}注解的优先级</li>
+ *         <li>3. 当注解{@code @Email}同时作用类，和方法上时，类上{@code @Email}注解的优先级高于方法上注解{@code @Email}的优先级</li>
  *     </ul>
  * </p>
  *
@@ -81,24 +81,10 @@ public class EmailAspect {
      */
     @Before("pointcutProxyOnClass() && @within(email)")
     public void beforeProxyOnClass(JoinPoint point, Email email) {
-        log.info("before");
         MailProperties properties = emailPropertiesMap.get(email.name());
         JavaMailSender javaMailSender = javaMailSenderMap.get(email.name());
         mailSenderThreadLocal.set(javaMailSender);
         mailPropertiesThreadLocal.set(properties);
-    }
-
-    /**
-     * 环绕通知
-     */
-    @Around("pointcutProxyOnClass()")
-    public Object aroundProxyOnClass(ProceedingJoinPoint point) throws Throwable {
-        log.warn("around");
-        long beginTime = System.currentTimeMillis();
-        Object proceed = point.proceed();
-        long endTime = System.currentTimeMillis() - beginTime;
-        log.warn("around耗时：{}（ms），开始时间：{}，结束时间：{}", endTime, DateUtil.formatDateTime(new Date(beginTime)), DateUtil.formatDateTime(new Date(endTime)));
-        return proceed;
     }
 
     /**
@@ -108,19 +94,8 @@ public class EmailAspect {
      */
     @After("pointcutProxyOnClass() && @within(email)")
     public void afterProxyOnClass(Email email) {
-        log.info("after");
         mailSenderThreadLocal.remove();
         mailPropertiesThreadLocal.remove();
-    }
-
-    /**
-     * 目标方法有返回值且正常返回后执行
-     * <p>
-     * 这里切入点方法的形参名{@code pointcut()}要与上面注解中的一致
-     */
-    @AfterReturning(pointcut = "pointcutProxyOnClass()", returning = "responseData")
-    public void afterReturningProxyOnClass(JoinPoint point, Object responseData) {
-        log.info("afterReturning, responseData: {}", responseData.toString());
     }
 
     /**
@@ -130,7 +105,7 @@ public class EmailAspect {
      */
     @AfterThrowing(pointcut = "pointcutProxyOnClass() && @within(email)", throwing = "throwable")
     public void afterThrowingProxyOnClass(Email email, Throwable throwable) {
-        log.error("afterThrowing, throwable: {}", throwable.getLocalizedMessage());
+        log.error("{}", throwable.getLocalizedMessage());
     }
 
     /////////////////////////////////////////////////////////////
@@ -192,7 +167,7 @@ public class EmailAspect {
      */
     @AfterReturning(pointcut = "pointcut()", returning = "responseData")
     public void afterReturning(JoinPoint point, Object responseData) {
-        log.info("4. afterReturning, responseData: {}", responseData.toString());
+        log.info("4. afterReturning, responseData: {}", Objects.isNull(responseData) ? "response data is null." : responseData.toString());
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

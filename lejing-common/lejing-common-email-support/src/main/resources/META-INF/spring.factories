@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.alphahub.mall.email.config.EmailConfig,\
+  cn.alphahub.mall.email.aspect.EmailAspect,\
+  cn.alphahub.mall.email.EmailTemplate

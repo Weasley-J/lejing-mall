@@ -75,7 +75,7 @@ public class SmsAspect {
 
 
     /////////////////////////////////////////////////////////////
-    //                 注解@SMS标注在类上是AOP切入点
+    //                 注解@SMS作用在类上是AOP切入点
     /////////////////////////////////////////////////////////////
 
     /**
@@ -121,7 +121,7 @@ public class SmsAspect {
     }
 
     /////////////////////////////////////////////////////////////
-    //              注解@SMS标注在方法上时AOP切入点
+    //              注解@SMS作用在方法上时AOP切入点
     /////////////////////////////////////////////////////////////
 
     /**
@@ -182,7 +182,7 @@ public class SmsAspect {
      */
     @AfterReturning(pointcut = "pointcutOnProxyMethod()", returning = "responseData")
     public void afterReturningOnProxyMethod(JoinPoint point, Object responseData) {
-        log.info("afterReturning, response data: {}", responseData);
+        log.info("afterReturning, response data: {}", Objects.isNull(responseData) ? "response data is null." : responseData.toString());
         Object[] args = point.getArgs();
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
