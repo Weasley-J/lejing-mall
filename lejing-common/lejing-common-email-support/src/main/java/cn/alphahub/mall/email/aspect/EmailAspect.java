@@ -31,8 +31,8 @@ import java.util.Objects;
  * <p>
  * 关于注解{@code @Email}作用在类和方法的优先级问题
  *     <ul>
- *         <li>1. 当注解{@code @Email}作用类上时，该类所有短信模板方法发送短信的客户端都以注解{@code @Email}指定为准客户端</li>
- *         <li>2. 当注解{@code @Email}作用方法上时，该方法短信客户端的为注解{@code @Email}指定的短信客户端</li>
+ *         <li>1. 当注解{@code @Email}作用类上时，该类所有邮件模板方法发送邮件的客户端都以注解{@code @Email}指定为准客户端</li>
+ *         <li>2. 当注解{@code @Email}作用方法上时，该方法邮件客户端的为注解{@code @Email}指定的邮件客户端</li>
  *         <li>3. 当注解{@code @Email}同时作用类，和方法上时，方法上注解{@code @Email}的优先级高于类上{@code @Email}注解的优先级</li>
  *     </ul>
  * </p>
