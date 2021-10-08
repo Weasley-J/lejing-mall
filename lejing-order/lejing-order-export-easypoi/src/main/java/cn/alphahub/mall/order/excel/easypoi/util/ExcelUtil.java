@@ -36,6 +36,7 @@ import java.util.Map;
  * <ul>
  *     <li>excel导入</li>
  *     <li>excel导出</li>
+ *     <li>excel预览</li>
  *     <li><a href="http://doc.wupaas.com/docs/easypoi/easypoi-1c0u8l21lfgh8">帮助文档</a></li>
  * </ul>
  *
