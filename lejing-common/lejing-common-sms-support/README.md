@@ -184,31 +184,291 @@ public class SmsServiceDemoController {
 
 ### 3.1 配置文件
 
-`todo`
+> 提示：同一短信供应商下面的多个模板的模板名称（`template-name`）不能重复。
+
+以下是**阿里云**、**腾讯云**、**华为云**、**京东云**、**七牛云**等短信模板的配置示例，包含模板情景：同一短信供应商多个短信模板、多个短信供应商多个模板
+
+```yaml
+spring:
+  sms:
+    #默认线程池配置，一下参数是默认值，可根据自己的业务调整大小
+    thread:
+      core-pool-size: 50
+      maximum-pool-size: 200
+      keep-alive-time: 10
+      time-unit: seconds
+      capacity: 2000
+    #默认短信模板配置，短信模板名称, 默认: DEFAULT, 无需修改
+    template-name: DEFAULT
+    #默认短信供应商，大小写不敏感，可选值: ali, huawei, jingdong, qiniu, tencent
+    sms-supplier: ALI
+    #短信配置
+    sms-properties:
+      #短信access-key
+      access-key: accessKey1
+      #短信secret-key
+      secret-key: secretKey1
+      #区域
+      region-id: regionId1
+      #短信签名
+      sign-name: signName1
+      #短信模板code、短信模板id
+      template-code: templateCode1
+      #短信sdk的appId，有就填，没有留空，如：腾讯云需要、阿里云不需要
+      app-id: null
+    #多供应商、多短信模块配置
+    multi-sms-templates:
+      template-properties:
+        - template-name: "促销短信模板"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "秒杀短信模板"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "验证码短信模板"
+          sms-supplier: HUAWEI
+          sms-properties:
+            access-key: accessKey2
+            secret-key: secretKey2
+            region-id: regionId2
+            sign-name: signName2
+            template-code: templateCode2
+            app-id: your-app-id
+        - template-name: "京东云短信验证码模板"
+          sms-supplier: JINGDONG
+          sms-properties:
+            access-key: your-ak
+            secret-key: your-sk
+            region-id: cn-north-1
+            sign-name: your-sign-name
+            template-code: your-template-id
+        - template-name: "验证码短信模板"
+          sms-supplier: QINIU
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: regionId4
+            sign-name: signName4
+            template-code: templateCode4
+        - template-name: "腾讯云内容短信模板"
+          sms-supplier: TENCENT
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: "ap-nanjing"
+            sign-name: "xxx的个人主页"
+            template-code: 1141766
+            app-id: "your-sms-sdk-app-id"
+```
 
 
 
 ### 3.2 注解说明
 
-`todo`
+#### 3.2.1 业务注解`@SMS`
+
+```java
+import cn.alphahub.mall.sms.SmsClient;
+import cn.alphahub.mall.sms.enums.SmsSupplier;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import static cn.alphahub.mall.sms.SmsClient.DefaultSmsClientPlaceholder;
+
+/**
+ * 多模板短信注解
+ *
+ * @author lwj
+ * @version 1.0
+ * @apiNote 基于此注解解析不同的短信模板, 使用注解{@code @SMS}指定以：短信供应商、短信模板发送短信
+ * @date 2021-09-24
+ */
+@Documented
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SMS {
+
+    /**
+     * 默认模板名称
+     */
+    String DEFAULT_TEMPLATE = "DEFAULT";
+
+    /**
+     * 短信模板名称，必须和{@code yml}配置文件里面的{@code template-name}一致，默认：DEFAULT
+     *
+     * @return 短信模板名称
+     */
+    String name() default DEFAULT_TEMPLATE;
+
+    /**
+     * 短信供应商，默认短信供应商: 阿里云
+     *
+     * @apiNote 如果需要拓展其他短信供应商，见枚举{@code SmsSupplier}
+     * @see SmsSupplier
+     */
+    SmsSupplier supplier() default SmsSupplier.ALI;
+
+    /**
+     * 自定义实现发送发送短信的实现类，必须显现或继承{@code SmsClient}接口
+     *
+     * @return 发送短信的实现类class
+     * @apiNote 当指定自定义短信发送类时将优先采用自定义短信发送实现完成发送短信的逻辑
+     */
+    Class<? extends SmsClient> invokeClass() default DefaultSmsClientPlaceholder.class;
+}
+```
+
+`@SMS`可作用于**类**、**方法**上, 支持**自定义发送短信逻辑**实现，通过`invokeClass`指定自定义实现类。
+
+
+
+#### 3.2.2  自动配置注解`@EnableSmsSupport`
+
+```java
+import cn.alphahub.mall.sms.SmsTemplate;
+import cn.alphahub.mall.sms.aspect.SmsAspect;
+import cn.alphahub.mall.sms.config.SmsConfig;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Enable SMS Support
+ *
+ * @author lwj
+ */
+@Inherited
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Import({SmsConfig.class, SmsAspect.class, SmsTemplate.class})
+public @interface EnableSmsSupport {
+
+}
+```
+
+注解`@EnableSmsSupport`作用于**类**上，用于需要发送短信的**web应用**启用短信支持，并自动装配配置文件，只需要在发送短信的服务的`yml`配置文件中配置`3.1`的短信`AK`、`SK`等数据即可，
 
 
 
 ### 3.3 短信提供商
 
-`todo`
+目前只整合一下**5**种短信供应商的短信实现，读者可以自行增加其他短信产商的发送短信的实现
+
+```java
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.stream.Stream;
+
+/**
+ * 短信供应商类型枚举枚举
+ *
+ * @author lwj
+ * @version 1.0
+ * @date 2021-09-24
+ */
+@Getter
+@AllArgsConstructor
+public enum SmsSupplier {
+    /**
+     * 阿里云
+     */
+    ALI("ALI_CLOUD", "阿里云"),
+    /**
+     * 华为云
+     */
+    HUAWEI("HUAWEI_CLOUD", "华为云"),
+    /**
+     * 京东云
+     */
+    JINGDONG("JINGDONG_CLOUD", "京东云"),
+    /**
+     * 七牛云
+     */
+    QINIU("QINIU_CLOUD", "七牛云"),
+    /**
+     * 腾讯云
+     */
+    TENCENT("TENCENT_CLOUD", "腾讯云"),
+    ;
+
+    /**
+     * 供应商名称编码
+     */
+    private final String code;
+    /**
+     * 供应商名称
+     */
+    private final String name;
+
+    /**
+     * 获取短信供应商枚举
+     *
+     * @param code 供应商名称编码
+     * @return 短信供应商枚举
+     */
+    public static SmsSupplier getEnum(String code) {
+        return Stream.of(SmsSupplier.values())
+                .filter(smsSupplier -> smsSupplier.getCode().equals(code))
+                .findFirst().orElse(null);
+    }
+}
+```
 
 
 
 ### 3.4 自定义短信发送实现
 
-`todo`
+自定义短信发送实现需实现`cn.alphahub.mall.sms.SmsClient`接口并覆写`send`方法。
+
+![image-20211008174003086](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20211008174003086.png)
 
 
 
 ### 3.5 自动装配使用说明
 
-`todo`
+**步骤：**
+
+1. 新建一个`springboot`的`web`项目, `pom.xml`中引入`lejing-common-sms-support`的`maven`坐标：
+
+```xml
+<!-- lejing-common-sms-support -->
+<dependency>
+    <groupId>cn.alphahub.mall.common</groupId>
+    <artifactId>lejing-common-sms-support</artifactId>
+     <version>1.1.6-SNAPSHOT</version>
+</dependency>
+```
+
+2. 在该服务的启动类上标注注解`@EnableSmsSupport`启用短信支持
+
+![](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20211008174758732.png)
+
+3. 在`Service`或`Controller`层注入`SmsTemplate`，并在业务方法或业务类上标注注解`@SMS`发送短信，详见源码`cn.alphahub.mall.sms.demo.SmsServiceDemoController`
+
+> 推荐注解`@SMS`作用于方法，方法级别使用。
+
+![image-20211008175303335](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20211008175303335.png)
 
 
 
