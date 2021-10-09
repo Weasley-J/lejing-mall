@@ -1,22 +1,14 @@
 # 多短信模板&多短信供应商支持模块
 
-
-
 > `lejing-common-sms-support`模块要解决的事：
 >
 > 如何使用一个注解`@SMS`和一个模板类`SmsTemplate`在多个**短信供应商**和**多个短信模板**之间**优雅**的切换
 
-
-
 ## 1 故事背景
-
-
 
 我们先来看一张笔者一朋友张三（化名）所在的公司的短信模板图：
 
 ![image-20210929173756644](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210929173756644.png)
-
-
 
 张三的苦恼是每新开一个业务模块他都要把之前发送短信的业务代码**CV**一遍，有没有优雅的一种方式呢？接下来，我们一同交流下这种问题。
 
@@ -26,11 +18,7 @@
 2. 营销通知
 3. 内容通知
 
-
-
 从以上图片中张三所在的公司短信消息的模板已达到`9`个，传统的`XxxUtils`的`CV`编码方式会大大增加代码的重复率，基于`SpringBoot`极高的可拓展性，我们可以有更优雅的编码方式。
-
-
 
 ## 2 `controller`使用效果
 
@@ -167,8 +155,6 @@ public class SmsServiceDemoController {
 
 ```
 
-
-
 说明：
 
 - 上面上`8`个发送短信消息的方法都是调用`SmsTemplate`类的`send(SmsParam smsParam)`方法
@@ -176,9 +162,7 @@ public class SmsServiceDemoController {
 - 第`8`个方法支持自定义短信实现，通过注解`@SMS(invokeClass = MyCustomSmsClientDemoImpl.class)`指定自定义短信实现类
 - 通过注解`@SMS`在**同一短信提供商的多个短信模板**、**不同短信提供上商多个短信模板**之间自由切换短信模板
 - 发送短信的方法只有一个`send()`方法
-- 支持的短信提供上有`5`家：阿里云、腾讯云、华为云、京东云、七牛云
-
-
+- 支持的短信提供商有`5`家：阿里云、腾讯云、华为云、京东云、七牛云
 
 ## 3 细节分享
 
@@ -271,8 +255,6 @@ spring:
             app-id: "your-sms-sdk-app-id"
 ```
 
-
-
 ### 3.2 注解说明
 
 #### 3.2.1 业务注解`@SMS`
@@ -334,8 +316,6 @@ public @interface SMS {
 
 `@SMS`可作用于**类**、**方法**上, 支持**自定义发送短信逻辑**实现，通过`invokeClass`指定自定义实现类。
 
-
-
 #### 3.2.2  自动配置注解`@EnableSmsSupport`
 
 ```java
@@ -367,8 +347,6 @@ public @interface EnableSmsSupport {
 ```
 
 注解`@EnableSmsSupport`作用于**类**上，用于需要发送短信的**web应用**启用短信支持，并自动装配配置文件，只需要在发送短信的服务的`yml`配置文件中配置`3.1`的短信`AK`、`SK`等数据即可，
-
-
 
 ### 3.3 短信提供商
 
@@ -435,15 +413,11 @@ public enum SmsSupplier {
 }
 ```
 
-
-
 ### 3.4 自定义短信发送实现
 
 自定义短信发送实现需实现`cn.alphahub.mall.sms.SmsClient`接口并覆写`send`方法。
 
 ![image-20211008174003086](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20211008174003086.png)
-
-
 
 ### 3.5 自动装配使用说明
 
@@ -470,15 +444,11 @@ public enum SmsSupplier {
 
 ![image-20211008175303335](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20211008175303335.png)
 
-
-
 ## 4 关于注解`@SMS`作用在类和方法的优先级问题
 
 - 当注解`@SMS`同时作用类，和方法上时，方法上注解`@SMS`的优先级高于类上`@SMS`注解的优先级
 - 当注解`@SMS`作用方法上时，该方法短信客户端的为注解`@SMS`指定的短信客户端
 - 当注解`@SMS`作用类上时，该类所有短信模板方法发送短信的客户端都以注解`@SMS`指定为准客户端
-
-
 
 ## 5 关于`Spring IOC`容器中的同一个`Bean`实例里面被`@SMS`注解标注的方法间嵌套调用的问题
 
@@ -545,19 +515,13 @@ public class SMSAnnotateWithClassAndMethod {
 }
 ```
 
-
-
 > **以上多模板短信实例代码的应用场景：**
 >
 > 当用户在乐璟商城下单成功后，平台方应当发送消息通知给**用户**和**商家**，告知用户物流情况，告知商家本单交易情况。
 >
 > 假设`sendWithTencentCloud()`是告诉用户的短信模板消息，`sendWithCustomSmsClient()`是告诉商家的短信模板消息，为了完成以上业务场景，我们写了`nested()`方法来完成这个业务场景。
 
-
-
 ### 5.2 结论分享
 
 - `nested()`方法一共调用两个本类里面被注解`@SMS`标注的方法完成我们的业务需求：“当用户在乐璟商城下单成功后，平台方应当发送消息通知给**用户**和**商家**，告知用户物流情况，告知商家本单交易情况”，
-
 - 基于`CGLib`的动态代理调用本类方法完成业务时，使用的是增强代理类去执行业务方法，并不是本类`this`自身，因此我们需要从线程变量中获取当前`AOP`的真实代理对象，让真实代理对象调用本类（`this`）的方法执行业务，执行前后`AOP`能根据我们设定好的代理规则解析正确的业务参数完成业务需求。
-
