@@ -1,0 +1,80 @@
+spring:
+  sms:
+    #默认线程池配置，一下参数是默认值，可根据自己的业务调整大小
+    thread:
+      core-pool-size: 50
+      maximum-pool-size: 200
+      keep-alive-time: 10
+      time-unit: seconds
+      capacity: 2000
+    #默认短信模板配置，短信模板名称, 默认: DEFAULT, 无需修改
+    template-name: DEFAULT
+    #默认短信供应商，大小写不敏感，可选值: ali, huawei, jingdong, qiniu, tencent
+    sms-supplier: ALI
+    #短信配置
+    sms-properties:
+      #短信access-key
+      access-key: accessKey1
+      #短信secret-key
+      secret-key: secretKey1
+      #区域
+      region-id: regionId1
+      #短信签名
+      sign-name: signName1
+      #短信模板code、短信模板id
+      template-code: templateCode1
+      #短信sdk的appId，有就填，没有留空，如：腾讯云需要、阿里云不需要
+      app-id: null
+    #多供应商、多短信模块配置
+    multi-sms-templates:
+      template-properties:
+        - template-name: "促销短信模板"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "秒杀短信模板"
+          sms-supplier: ALI
+          sms-properties:
+            access-key: accessKey1
+            secret-key: secretKey1
+            region-id: regionId1
+            sign-name: signName1
+            template-code: templateCode1
+        - template-name: "验证码短信模板"
+          sms-supplier: HUAWEI
+          sms-properties:
+            access-key: accessKey2
+            secret-key: secretKey2
+            region-id: regionId2
+            sign-name: signName2
+            template-code: templateCode2
+            app-id: your-app-id
+        - template-name: "京东云短信验证码模板"
+          sms-supplier: JINGDONG
+          sms-properties:
+            access-key: your-ak
+            secret-key: your-sk
+            region-id: cn-north-1
+            sign-name: your-sign-name
+            template-code: your-template-id
+        - template-name: "验证码短信模板"
+          sms-supplier: QINIU
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: regionId4
+            sign-name: signName4
+            template-code: templateCode4
+        - template-name: "腾讯云内容短信模板"
+          sms-supplier: TENCENT
+          sms-properties:
+            access-key: accessKey4
+            secret-key: secretKey4
+            region-id: "ap-nanjing"
+            sign-name: "xxx的个人主页"
+            template-code: 1141766
+            app-id: "your-sms-sdk-app-id"
