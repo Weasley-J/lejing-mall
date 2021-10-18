@@ -339,7 +339,6 @@ CREATE TABLE `quartz_job`
     `remark`          varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL     DEFAULT '' COMMENT '备注信息',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT = 'quartz定时任务调度'
   ROW_FORMAT = DYNAMIC;
