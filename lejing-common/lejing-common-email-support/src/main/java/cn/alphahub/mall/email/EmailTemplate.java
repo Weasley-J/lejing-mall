@@ -118,7 +118,7 @@ public class EmailTemplate {
 
         RequestAttributes mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
         CompletableFuture<Void> sendResponseFuture = CompletableFuture.runAsync(() -> {
-            log.info("Current send mail thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
+            log.info("Current send simple message thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             mailSender.send(simpleMessage);
         }, executor);
@@ -157,7 +157,7 @@ public class EmailTemplate {
         }
         var mainThreadRequestAttributes = RequestContextHolder.getRequestAttributes();
         var sendResponseFuture = CompletableFuture.runAsync(() -> {
-            log.info("Current send mail thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
+            log.info("Current send mime mime message thread info: '{}' '{}' '{}'", Thread.currentThread().getId(), Thread.currentThread().getThreadGroup().getName(), Thread.currentThread().getName());
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             mailSender.send(mimeMessage);
         }, executor);
