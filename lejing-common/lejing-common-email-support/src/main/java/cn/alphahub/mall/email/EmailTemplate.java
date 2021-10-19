@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
 import java.io.Serializable;
@@ -106,6 +108,9 @@ public class EmailTemplate {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
         simpleMessage.setFrom(this.getMailProperties().getUsername());
         simpleMessage.setTo(domain.getTo());
+        if (ObjectUtils.isNotEmpty(domain.getCc())) {
+            simpleMessage.setCc(domain.getCc());
+        }
         simpleMessage.setSentDate(Objects.nonNull(domain.getSentDate()) ? Date.from(domain.getSentDate().atZone(ZoneId.systemDefault()).toInstant()) : new Date());
         simpleMessage.setSubject(domain.getSubject());
         simpleMessage.setText(domain.getText());
@@ -139,6 +144,7 @@ public class EmailTemplate {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setFrom(this.getMailProperties().getUsername());
         helper.setTo(domain.getTo());
+        helper.setCc(domain.getCc());
         helper.setSentDate(Objects.nonNull(domain.getSentDate()) ? Date.from(domain.getSentDate().atZone(ZoneId.systemDefault()).toInstant()) : new Date());
         helper.setSubject(domain.getSubject());
         helper.setText(domain.getText(), true);
@@ -176,8 +182,13 @@ public class EmailTemplate {
         /**
          * 收件人的邮箱
          */
+        @Email(regexp = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$", message = "收件人邮箱格式不正确")
         @NotBlank(message = "收件人邮箱不能为空")
         private String to;
+        /**
+         * 抄送邮箱（非必填）
+         */
+        private String[] cc;
         /**
          * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
          */
@@ -208,7 +219,12 @@ public class EmailTemplate {
          * 收件人的邮箱
          */
         @NotBlank(message = "收件人邮箱不能为空")
+        @Email(regexp = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$", message = "收件人邮箱格式不正确")
         private String to;
+        /**
+         * 抄送邮箱（非必填）
+         */
+        private String[] cc;
         /**
          * 邮件发送日期, 默认当前时刻: {@code new Date()} 提交格式: yyyy-MM-dd HH:mm:ss
          */
