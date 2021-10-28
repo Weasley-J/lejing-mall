@@ -4,7 +4,6 @@ import cn.afterturn.easypoi.csv.entity.CsvImportParams;
 import cn.afterturn.easypoi.csv.imports.CsvImportService;
 import cn.afterturn.easypoi.entity.vo.BigExcelConstants;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.ExcelXorHtmlUtil;
 import cn.afterturn.easypoi.excel.annotation.ExcelIgnore;
 import cn.afterturn.easypoi.excel.entity.ExcelToHtmlParams;
@@ -239,7 +238,7 @@ public class ExcelUtil {
      * @apiNote 可用于基于JSR303的excel元数据校验，读取成功列表做业务操作，读取失败的返回给前端提示
      */
     public static <T> ExcelImportResult<T> importExcelMore(InputStream inputStream, Class<? extends ExcelValidBaseEntity> pojoClass, ImportParams params) throws Exception {
-        return ExcelImportUtil.importExcelMore(inputStream, pojoClass, params);
+        return new ExcelImportService().importExcelByIs(inputStream, pojoClass, params, true);
     }
 
     /**
