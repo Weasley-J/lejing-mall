@@ -23,7 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  *     //虚拟金币核销方式（1 下单发放， 2 下单抵扣，3 退款归还 4 取消订单归还，... ，默认：1 )
  *     <code>@NotNull(message = "核销方式不能为空")</code>
- *     <code>@ListValue(values = {0,1,2,3,4,5,6,7,8}, message = "只能提交指定范围中的值: {0,1,2,3,4,5,6,7,8}")</code>
+ *     <code>@ListValue(value = {0,1,2,3,4,5,6,7,8}, message = "只能提交指定范围中的值: {0,1,2,3,4,5,6,7,8}")</code>
  *     private Integer creditType;
  * }
  * </pre>

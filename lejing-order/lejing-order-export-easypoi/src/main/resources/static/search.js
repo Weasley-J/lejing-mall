@@ -25,19 +25,44 @@ api[0].list[0].list.push({
     desc: '账单明细excel预览',
 });
 api[0].list.push({
-    alias: 'OrderEasypoiController',
+    alias: 'EasypoiValidSheetController',
     order: '2',
-    link: '主订单数据excel导入导出controller',
-    desc: '主订单数据excel导入导出Controller',
+    link: 'easypoi基于jsr303注解校验excel表格内容',
+    desc: 'Easypoi基于JSR303注解校验Excel表格内容',
     list: []
 })
 api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/download',
+    desc: '下载excel文件',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/upload',
+    desc: '文件上传（校验excel的元数据）',
+});
+api[0].list[1].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/preview/html',
+    desc: '预览excel内容',
+});
+api[0].list.push({
+    alias: 'OrderEasypoiController',
+    order: '3',
+    link: '主订单数据excel导入导出controller',
+    desc: '主订单数据excel导入导出Controller',
+    list: []
+})
+api[0].list[2].list.push({
+    order: '1',
+    deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/download/order',
     desc: '导出订单数据',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/upload/order',
@@ -45,18 +70,18 @@ api[0].list[1].list.push({
 });
 api[0].list.push({
     alias: 'OrderItemEasypoiController',
-    order: '3',
+    order: '4',
     link: '子订单订单导入导出controller',
     desc: '子订单订单导入导出Controller',
     list: []
 })
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/download/order/item',
     desc: '下载订单的excel文件',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/upload/order/item',
@@ -64,42 +89,42 @@ api[0].list[2].list.push({
 });
 api[0].list.push({
     alias: 'LejingCustomValidationController',
-    order: '4',
+    order: '5',
     link: '自定义注解校验示例controller',
     desc: '自定义注解校验示例Controller',
     list: []
 })
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/save',
     desc: '保存用户的虚拟币',
 });
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/list',
     desc: '获取会员的虚拟货币列表',
 });
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/info/{memberId}',
     desc: '获取会员的虚拟货币明细',
 });
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/edit',
     desc: '修改用户的虚拟币信息',
 });
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '5',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/edit/status',
     desc: '修改用户的虚拟币扎状态',
 });
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '6',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/valid/delete/{memberIds}',
@@ -107,43 +132,43 @@ api[0].list[3].list.push({
 });
 api[0].list.push({
     alias: 'error',
-    order: '5',
+    order: '6',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api[0].list.push({
     alias: 'dict',
-    order: '6',
+    order: '7',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[0].list[5].list.push({
+api[0].list[6].list.push({
     order: '1',
     deprecated: 'false',
     url: '',
     desc: '响应http状态码字典',
 });
-api[0].list[5].list.push({
+api[0].list[6].list.push({
     order: '2',
     deprecated: 'false',
     url: '',
     desc: '订单状态字典',
 });
-api[0].list[5].list.push({
+api[0].list[6].list.push({
     order: '3',
     deprecated: 'false',
     url: '',
     desc: '支付方式字典',
 });
-api[0].list[5].list.push({
+api[0].list[6].list.push({
     order: '4',
     deprecated: 'false',
     url: '',
     desc: '验证码请求来源字典',
 });
-api[0].list[5].list.push({
+api[0].list[6].list.push({
     order: '5',
     deprecated: 'false',
     url: '',

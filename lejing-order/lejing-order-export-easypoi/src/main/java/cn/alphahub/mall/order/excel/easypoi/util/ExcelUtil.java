@@ -4,15 +4,20 @@ import cn.afterturn.easypoi.csv.entity.CsvImportParams;
 import cn.afterturn.easypoi.csv.imports.CsvImportService;
 import cn.afterturn.easypoi.entity.vo.BigExcelConstants;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.ExcelXorHtmlUtil;
+import cn.afterturn.easypoi.excel.annotation.ExcelIgnore;
 import cn.afterturn.easypoi.excel.entity.ExcelToHtmlParams;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import cn.afterturn.easypoi.excel.imports.ExcelImportService;
 import cn.afterturn.easypoi.excel.imports.sax.SaxReadExcel;
 import cn.afterturn.easypoi.exception.excel.ExcelImportException;
+import cn.afterturn.easypoi.handler.inter.IExcelDataModel;
 import cn.afterturn.easypoi.handler.inter.IExcelExportServer;
+import cn.afterturn.easypoi.handler.inter.IExcelModel;
 import cn.afterturn.easypoi.handler.inter.IReadHandler;
 import cn.afterturn.easypoi.view.PoiBaseView;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -49,6 +55,7 @@ import java.util.Map;
 public class ExcelUtil {
 
     private ExcelUtil() {
+        // no dump
     }
 
     /**
@@ -69,16 +76,15 @@ public class ExcelUtil {
      * @param sheetName         sheet name
      * @param <T>               type
      */
-    public static <T> void exportBigExcel(
-            ModelMap modelMap,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Map<String, String> dataParams,
-            IExcelExportServer excelExportServer,
-            Class<T> pojoClass,
-            String filename,
-            String excelTitle,
-            String sheetName
+    public static <T> void exportBigExcel(ModelMap modelMap,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          Map<String, String> dataParams,
+                                          IExcelExportServer excelExportServer,
+                                          Class<T> pojoClass,
+                                          String filename,
+                                          String excelTitle,
+                                          String sheetName
     ) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/vnd.ms-excel");
@@ -217,6 +223,25 @@ public class ExcelUtil {
         return new ExcelImportService().importExcelByIs(inputStream, pojoClass, params, false).getList();
     }
 
+
+    /**
+     * Excel导入数据源IO流，返回校验结果，导入字段类型: Integer,Long,Double,Date,String,Boolean
+     * <ul>
+     *     <li>数据量10W以内</li>
+     * </ul>
+     *
+     * @param inputStream 文件输入流
+     * @param pojoClass   excel实体类class文件,需要继承{@link ExcelValidBaseEntity}
+     * @param params      导入参数
+     * @param <T>         excel实体类
+     * @return 导入返回结果（成功列表、失败列表、......）
+     * @throws Exception exception
+     * @apiNote 可用于基于JSR303的excel元数据校验，读取成功列表做业务操作，读取失败的返回给前端提示
+     */
+    public static <T> ExcelImportResult<T> importExcelMore(InputStream inputStream, Class<? extends ExcelValidBaseEntity> pojoClass, ImportParams params) throws Exception {
+        return ExcelImportUtil.importExcelMore(inputStream, pojoClass, params);
+    }
+
     /**
      * Excel大文件导入通过SAX解析方法，适合大数据导入, 不支持图片，导入数据源IO流不返回校验结果 导入字段类型: Integer,Long,Double,Date,String,Boolean
      * <p>自行实现{@code BigExcelReadHandler#handleData(java.util.List)}方法处理业务逻辑，避免OOM</p>
@@ -299,5 +324,58 @@ public class ExcelUtil {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         response.getOutputStream().write(ExcelXorHtmlUtil.excelToHtml(params).getBytes());
+    }
+
+    /**
+     * EasyPoi基于JSR303校验excel元数据的业务对象的父类
+     * <ul>
+     *     <li><a href='http://doc.wupaas.com/docs/easypoi/easypoi-1c0u9g4jihrvq'>官方帮助文档</a></li>
+     * </ul>
+     *
+     * @apiNote 用于EasyPoi校验excel元数据，返回校验成功和校验失败的行号和校验失败提示信息
+     * @see ExcelUtil#importExcelMore(java.io.InputStream, java.lang.Class, cn.afterturn.easypoi.excel.entity.ImportParams)
+     */
+    public static class ExcelValidBaseEntity implements IExcelModel, IExcelDataModel, Serializable {
+        private static final long serialVersionUID = -5464854515484231981L;
+
+        /**
+         * 错误数据的行号
+         */
+        @ExcelIgnore
+        private Integer rowNum;
+
+        /**
+         * 校验失败提示信息
+         */
+        @ExcelIgnore
+        private String errorMsg;
+
+        @Override
+        public String toString() {
+            return "ValidBaseDomain{" +
+                    "rowNum=" + rowNum +
+                    ", errorMsg='" + errorMsg + '\'' +
+                    '}';
+        }
+
+        @Override
+        public Integer getRowNum() {
+            return rowNum;
+        }
+
+        @Override
+        public void setRowNum(Integer rowNum) {
+            this.rowNum = rowNum;
+        }
+
+        @Override
+        public String getErrorMsg() {
+            return errorMsg;
+        }
+
+        @Override
+        public void setErrorMsg(String errorMsg) {
+            this.errorMsg = errorMsg;
+        }
     }
 }

@@ -72,6 +72,7 @@ public class OrderItemEasypoiController {
                 .stream().map(convertor::copyToOrderItemExcelDto).collect(Collectors.toList());
 
         int size = itemExcelDTOS.size();
+
         int batchSize = 100;
 
         if (CollectionUtils.isNotEmpty(itemExcelDTOS)) {

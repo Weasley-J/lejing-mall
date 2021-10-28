@@ -1,4 +1,4 @@
-package cn.alphahub.mall.order;
+package cn.alphahub.mall;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScans;

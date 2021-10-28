@@ -2,17 +2,17 @@ package cn.alphahub.mall.order.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static cn.alphahub.mall.order.config.ThreadPoolConfig.ThreadPoolProperties;
 /**
  * <b>自定义线程池配置类</b>
  *
@@ -21,13 +21,11 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/03/17
  */
 @Configuration
+@EnableConfigurationProperties({ThreadPoolProperties.class})
 public class ThreadPoolConfig {
 
-    @Resource
-    private ThreadPoolProperties threadPoolProperties;
-
     @Bean
-    public ThreadPoolExecutor threadPoolExecutor() {
+    public ThreadPoolExecutor threadPoolExecutor(ThreadPoolProperties threadPoolProperties) {
         return new ThreadPoolExecutor(
                 // 核心线程池
                 threadPoolProperties.getCorePoolSize(),
@@ -54,7 +52,6 @@ public class ThreadPoolConfig {
      * @date 2021/03/17
      */
     @Data
-    @Component
     @ConfigurationProperties(prefix = "lejing.thread")
     public static class ThreadPoolProperties implements Serializable {
         private static final long serialVersionUID = 1L;
