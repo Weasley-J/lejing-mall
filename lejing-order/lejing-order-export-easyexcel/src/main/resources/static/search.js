@@ -25,44 +25,63 @@ api[0].list[0].list.push({
     desc: '上传订单的excel文件',
 });
 api[0].list.push({
-    alias: 'error',
+    alias: 'ReappearEasyexcelBugController',
     order: '2',
+    link: '重现easyexcel-bug',
+    desc: '重现easyexcel-bug',
+    list: []
+})
+api[0].list[1].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easyexcel/person/download',
+    desc: '下载excel文件',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easyexcel/person/upload',
+    desc: '文件上传',
+});
+api[0].list.push({
+    alias: 'error',
+    order: '3',
     link: 'error_code_list',
     desc: '错误码列表',
     list: []
 })
 api[0].list.push({
     alias: 'dict',
-    order: '3',
+    order: '4',
     link: 'dict_list',
     desc: '数据字典',
     list: []
 })
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '1',
     deprecated: 'false',
     url: '',
     desc: '响应http状态码字典',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: '',
     desc: '订单状态字典',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '3',
     deprecated: 'false',
     url: '',
     desc: '支付方式字典',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '4',
     deprecated: 'false',
     url: '',
     desc: '验证码请求来源字典',
 });
-api[0].list[2].list.push({
+api[0].list[3].list.push({
     order: '5',
     deprecated: 'false',
     url: '',
