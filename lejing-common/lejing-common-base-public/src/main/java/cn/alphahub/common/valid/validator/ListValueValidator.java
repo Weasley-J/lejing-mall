@@ -1,6 +1,5 @@
 package cn.alphahub.common.valid.validator;
 
-
 import cn.alphahub.common.valid.annotation.ListValue;
 
 import javax.validation.ConstraintValidator;
