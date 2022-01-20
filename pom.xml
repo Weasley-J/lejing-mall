@@ -84,7 +84,7 @@
         <guava.version>30.1.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.13.0</aliyun-sdk-oss.version>
         <aliyun.sdk.version>4.5.30</aliyun.sdk.version>
-        <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
+        <aliyun.dysmsapi.version>2.2.1</aliyun.dysmsapi.version>
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
         <redisson.version>3.16.1</redisson.version>
