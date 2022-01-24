@@ -20,6 +20,9 @@ docker cp ${CONTAINER_NAME}:/home/nacos/conf ${WORK_DIR}/
 docker cp ${CONTAINER_NAME}:/home/nacos/logs ${WORK_DIR}/
 ll ${WORK_DIR}/conf
 
+docker network rm mynet
+docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.1 mynet
+
 # 以下创建容器时指定的mysql参数根据自己的实际情况修改
 docker stop nacos && docker rm -f nacos
 docker run --name nacos -p 8848:8848 --restart=always \
