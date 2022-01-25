@@ -87,7 +87,7 @@
         <aliyun.dysmsapi.version>2.2.1</aliyun.dysmsapi.version>
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
-        <redisson.version>3.16.1</redisson.version>
+        <redisson.version>3.16.4</redisson.version>
         <elasticsearch.version>7.13.2</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
         <easypoi.starter.version>4.4.0</easypoi.starter.version>
