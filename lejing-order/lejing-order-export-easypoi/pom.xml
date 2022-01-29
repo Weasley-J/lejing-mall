@@ -16,7 +16,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <xerces.version>2.12.1</xerces.version>
+        <xerces.version>2.12.2</xerces.version>
         <poi.version>4.1.1</poi.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
     </properties>
