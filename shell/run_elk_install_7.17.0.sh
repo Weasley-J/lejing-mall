@@ -450,9 +450,9 @@ docker run --name ${CONTAINER_NAME} --restart=always \
   -v /etc/localtime:/etc/localtime \
   -d ${CONTAINER_NAME}:${CURRENT_VERSION}
 
+#安装插件
 docker exec -it logstash bash
 
-#安装插件
 clear && logstash-plugin install logstash-codec-json_lines
 clear && logstash-plugin install logstash-codec-json && exit
 
