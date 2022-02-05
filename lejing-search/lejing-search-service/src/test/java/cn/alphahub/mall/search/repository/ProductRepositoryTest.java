@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchProperties;
 import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchRestClientProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -32,7 +33,7 @@ class ProductRepositoryTest {
     @Autowired
     private ElasticsearchRestTemplate restTemplate;
     @Resource
-    private ElasticsearchRestClientProperties properties;
+    private ElasticsearchProperties properties;
 
     @BeforeEach
     void setUp() {

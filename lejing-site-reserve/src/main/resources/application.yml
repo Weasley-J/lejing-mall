@@ -9,7 +9,7 @@ spring:
     #运行环境: dev|test|prod
     active: dev
     #加载common工程配置文件 'application-email.yml' 邮件配置元数据, spring.profiles.include: email
-    #include: email
+    include: email
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

@@ -11,7 +11,7 @@
 
 #
 # tips:
-# 需要合理修改elasticsearch的ip:port, 本教程使用的服务器的ip为: 192.168.40.132, 搜索替换为自己的ip即可
+# 需要合理修改elasticsearch的ip:port, 本教程使用的服务器的ip为: 192.168.31.105, 搜索替换为自己的ip即可
 #
 
 ######################################################################
@@ -21,9 +21,9 @@
 #  定义全局安装变量
 #
 # 当前软件的版本
-CURRENT_VERSION="7.13.2"
+CURRENT_VERSION="7.17.0"
 # 上一个版本
-OLD_VERSION="7.10.1"
+OLD_VERSION="7.16.3"
 # 容器名称
 CONTAINER_NAME="elasticsearch"
 # 配置文件名称
@@ -36,8 +36,7 @@ BASE_DIR="${ELK_BASE_DIR}/${CONTAINER_NAME}"
 # 销毁旧容器
 clear && docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
 
-docker rmi ${CONTAINER_NAME}:${OLD_VERSION}
-docker pull ${CONTAINER_NAME}:${CURRENT_VERSION}
+docker rmi ${CONTAINER_NAME}:${OLD_VERSION} && docker pull ${CONTAINER_NAME}:${CURRENT_VERSION}
 clear && printf '\r\t\t\t\t%s\n\r\r' "Docker镜像列表" && docker images
 
 # 创建基础目录
@@ -48,6 +47,7 @@ docker network rm mynet
 docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.1 mynet
 
 # 创建临时容器复制点配置文件出来，后期修改方便
+clear && docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
 docker run --name ${CONTAINER_NAME} \
   -p 9200:9200 \
   -p 9300:9300 \
@@ -158,7 +158,7 @@ sudo tee ${BASE_DIR}/config/${CONFIG_FILE} <<-'EOF'
 # added by user
 #
 
-node.name: node-1
+node.name: docker-node-1
 network.host: 0.0.0.0
 http.cors.enabled: true
 http.cors.allow-origin: "*"
@@ -204,8 +204,16 @@ docker run --name ${CONTAINER_NAME} --restart=always \
 #  -v ${BASE_DIR}/plugins:/usr/share/elasticsearch/plugins \
 #  -d ${CONTAINER_NAME}:${CURRENT_VERSION}
 
-# 查看日志
-#clear && docker logs -f elasticsearch
+#1. 进入到容器里
+docker exec -it elasticsearch bash
+
+CURRENT_VERSION="7.17.0"
+#2. 执行安装命令，注意版本和你的ES版本对应
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${CURRENT_VERSION}/elasticsearch-analysis-ik-${CURRENT_VERSION}.zip && exit
+#重启es容器
+docker restart elasticsearch && docker logs -f elasticsearch
+
+curl http://127.0.0.1:9200/_cat/plugins/
 
 # 安装es的机器上使用curl命令在服务器终端上验证下，有json返回表示安装成功了
 curl http://127.0.0.1:9200
@@ -272,11 +280,11 @@ sudo tee ${BASE_DIR}/config/${CONFIG_FILE} <<-'EOF'
 server.name: "kibana"
 
 # 主机地址，可以是ip
-server.host: "0"
+server.host: "0.0.0.0"
+server.shutdownTimeout: "5s"
 
 # kibana访问es服务器的URL，就可以有多个，以英文逗号","隔开
-elasticsearch.hosts: ["http://192.168.40.132:9200/"]
-
+elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 
 # 修改kibana可视化界面语言为中文，默认是英文界面
@@ -286,16 +294,18 @@ i18n.locale: "zh-CN"
 # 使用server.rewriteBasePath设置告诉Kibana是否应删除basePath
 # 接收到的请求，并在启动时防止过时警告，此设置不能以斜杠结尾
 # server.basePath: "/kibana"
+#
+# ** THIS IS AN AUTO-GENERATED FILE **
+#
 EOF
 
 clear && cat ${BASE_DIR}/config/${CONFIG_FILE}
 
 # 销毁旧容器
 docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
-
-#运行容器; --restart=always 表示：docker启动容器后自动启动该容器
 docker run --name ${CONTAINER_NAME} --restart=always \
   --net mynet \
+  -e JAVA_OPTS="-Xm512m -Xmx512m" \
   -p 5601:5601 \
   -v ${BASE_DIR}/config:/usr/share/kibana/config \
   -v /etc/timezone:/etc/timezone \
@@ -303,7 +313,7 @@ docker run --name ${CONTAINER_NAME} --restart=always \
   -d ${CONTAINER_NAME}:${CURRENT_VERSION}
 
 # 查看日志
-#clear && docker logs -f kibana
+clear && docker logs -f kibana
 
 ######################################################################
 #                        安装Logstash
@@ -360,7 +370,7 @@ sudo tee ${CONFIG_FILE_NAME} <<-'EOF'
 http.host: "0.0.0.0"
 
 # 配置elasticsearch集群地址
-xpack.monitoring.elasticsearch.hosts: [ "http://192.168.40.132:9200" ]
+xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 
 # 允许监控
 xpack.monitoring.enabled: true
@@ -404,7 +414,7 @@ input {
 output {
 
   elasticsearch {
-    hosts => ["http://192.168.40.132:9200"]
+    hosts => ["http://elasticsearch:9200"]
     #此处index可以从logback-spring.xml中customFields标签中获取app_name和run_env的值做为索引的名称
     index => "%{[app_name]}-%{[run_env]}-%{+YYYY.MM.dd}"
     #index => index => "logstash-dev-%{+YYYY.MM.dd}"
@@ -425,12 +435,12 @@ chmod -v 0644 /var/log/messages
 
 # 销毁旧容器
 docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
-
 #运行容器
 docker run --name ${CONTAINER_NAME} --restart=always \
   --net mynet \
   -p 5044:5044 \
   -p 9600:9600 \
+  -e JAVA_OPTS="-Xm512m -Xmx512m" \
   --privileged=true \
   -v ${BASE_DIR}/config/conf.d/:/usr/share/logstash/conf.d/ \
   -v ${BASE_DIR}/config:/usr/share/${CONTAINER_NAME}/config \
@@ -440,5 +450,10 @@ docker run --name ${CONTAINER_NAME} --restart=always \
   -v /etc/localtime:/etc/localtime \
   -d ${CONTAINER_NAME}:${CURRENT_VERSION}
 
-# 查看日志
-#clear && docker logs -f logstash
+docker exec -it logstash bash
+
+#安装插件
+clear && logstash-plugin install logstash-codec-json_lines
+clear && logstash-plugin install logstash-codec-json && exit
+
+docker restart logstash && clear && docker logs -f logstash

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/member")
 public interface MemberApi {
 
     /**
@@ -26,7 +25,7 @@ public interface MemberApi {
      * @param member      会员, 查询字段选择性传入, 默认为等值查询
      * @return 会员分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("/member/member/list")
     BaseResult<PageResult<Member>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -41,7 +40,7 @@ public interface MemberApi {
      * @param id 会员主键id
      * @return 会员详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/member/member/info/{id}")
     BaseResult<Member> info(@PathVariable("id") Long id);
 
     /**
@@ -50,7 +49,7 @@ public interface MemberApi {
      * @param member 会员元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("/member/member/save")
     BaseResult<Boolean> save(@RequestBody Member member);
 
     /**
@@ -59,7 +58,7 @@ public interface MemberApi {
      * @param member 会员, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("/member/member/update")
     BaseResult<Boolean> update(@RequestBody Member member);
 
     /**
@@ -68,7 +67,7 @@ public interface MemberApi {
      * @param ids 会员id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("/member/member/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 
     /**
@@ -77,7 +76,7 @@ public interface MemberApi {
      * @param member 用户信息
      * @return 用户信息
      */
-    @PostMapping("login")
+    @PostMapping("/member/memberlogin")
     BaseResult<Member> login(@RequestBody Member member);
 
     /**
@@ -86,7 +85,7 @@ public interface MemberApi {
      * @param socialUser 微博社交用户实体
      * @return 用户信息
      */
-    @PostMapping("/oauth2/login")
+    @PostMapping("/member/member/oauth2/login")
     BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser);
 
     /**
@@ -95,6 +94,6 @@ public interface MemberApi {
      * @param accessTokenInfo 微信accessToken信息
      * @return 用户信息
      */
-    @PostMapping(value = "/weixin/login")
+    @PostMapping(value = "/member/member/weixin/login")
     BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo);
 }

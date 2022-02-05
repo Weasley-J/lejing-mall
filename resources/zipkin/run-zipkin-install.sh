@@ -1,22 +1,47 @@
 #!/bin/bash
 
-CONTAINER_NAME="zipkin"
-IMAGE_NAME="openzipkin/zipkin"
 BASE_DIR="/usr/local/zipkin"
+# 浏览器打开链接[https://search.maven.org/remote_content?g=io.zipkin&a=zipkin-server&v=LATEST&c=exec]下载个最新版, 提取版本号；
+VERSION="2.23.16"
+APP=zipkin-server-${VERSION}-exec
+DOCKER_FILE="${BASE_DIR}/Dockerfile"
+mkdir -pv ${BASE_DIR}
 
-mkdir -pv ${BASE_DIR}/
+cd ${BASE_DIR} || exit
 
-docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
-docker rmi ${IMAGE_NAME} && docker pull ${IMAGE_NAME}
+rm -rfv ${BASE_DIR}/${APP}.jar
+wget https://repo1.maven.org/maven2/io/zipkin/zipkin-server/${VERSION}/zipkin-server-${VERSION}-exec.jar
 
-#内存版 - 需要开机自启动就加上参数[--restart=always]
-docker stop ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}
-docker run --name ${CONTAINER_NAME} \
+rm -rfv ${DOCKER_FILE}
+{
+  echo FROM openjdk:11
+  echo RUN mkdir -pv ${BASE_DIR}/
+  echo ADD ${APP}.jar ${BASE_DIR}/${APP}.jar
+  echo EXPOSE 9411
+  echo WORKDIR ${BASE_DIR}/
+  echo ENTRYPOINT [\"java\",\"-jar\", \"${BASE_DIR}/${APP}.jar\"]
+} >>${DOCKER_FILE} &&
+  clear && cat ${DOCKER_FILE}
+
+rm -rfv ${APP}.jar
+
+docker stop zipkin && docker rm -f zipkin
+docker rmi -f zipkin:latest
+docker build -f ${DOCKER_FILE} -t zipkin:latest .
+
+docker stop zipkin && docker rm -f zipkin
+#以下mysql的参数需要修改
+docker run --name zipkin --restart=always \
   -p 9411:9411 \
-  -e JAVA_OPTS="-Xms256m -Xmx256m -Dlogging.level.zipkin2=DEBUG" \
+  -e JAVA_OPTS="-Xms512m -Xmx512m" \
+  -e STORAGE_TYPE="mysql" \
+  -e MYSQL_HOST="192.168.31.105" \
+  -e MYSQL_TCP_PORT="3306" \
+  -e MYSQL_DB="zipkin" \
+  -e MYSQL_USER="root" \
+  -e MYSQL_PASS="123456" \
   -v /etc/timezone:/etc/timezone \
   -v /etc/localtime:/etc/localtime \
-  -d ${IMAGE_NAME}
+  -d zipkin:latest
 
-#zipkin日志
 clear && docker logs -f zipkin

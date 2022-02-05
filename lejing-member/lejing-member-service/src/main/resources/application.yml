@@ -3,6 +3,8 @@ server:
   shutdown: graceful
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: lejing-member
   profiles:

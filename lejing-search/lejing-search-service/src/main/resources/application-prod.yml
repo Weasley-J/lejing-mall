@@ -20,15 +20,15 @@ spring:
       #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
       probability: 0.1
   elasticsearch:
-    rest:
-      uris:
-        - http://localhost:9200
-        - http://192.168.40.132:9200
-        - http://192.168.40.128:9200
-      connection-timeout: 2
-      read-timeout: 40
-      username: elastic
-      password: 123456
+    uris:
+      - http://localhost:9200
+      - http://192.168.31.105:9200
+      - http://192.168.40.128:9200
+    connection-timeout: 2
+    socket-timeout: 40
+    username: elastic
+    password: 123456
+
   thymeleaf:
     cache: off
   #使用spring session redis存储session信息

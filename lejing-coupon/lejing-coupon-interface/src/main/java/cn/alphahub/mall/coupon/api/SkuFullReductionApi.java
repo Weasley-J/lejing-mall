@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @author Weasley J
  * @date 2021-02-14 18:57:50
  */
-@RequestMapping("coupon/skufullreduction")
 public interface SkuFullReductionApi {
     /**
      * 查询商品满减信息列表
@@ -24,7 +23,7 @@ public interface SkuFullReductionApi {
      * @param skuFullReduction 商品满减信息,查询字段选择性传入,默认为等值查询
      * @return 商品满减信息分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("coupon/skufullreduction/list")
     BaseResult<PageResult<SkuFullReduction>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -39,7 +38,7 @@ public interface SkuFullReductionApi {
      * @param id 商品满减信息主键id
      * @return 商品满减信息详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("coupon/skufullreduction/info/{id}")
     BaseResult<SkuFullReduction> info(@PathVariable("id") Long id);
 
     /**
@@ -48,7 +47,7 @@ public interface SkuFullReductionApi {
      * @param skuFullReduction 商品满减信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("coupon/skufullreduction/save")
     BaseResult<Boolean> save(@RequestBody SkuFullReduction skuFullReduction);
 
     /**
@@ -57,7 +56,7 @@ public interface SkuFullReductionApi {
      * @param skuFullReduction 商品满减信息,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("coupon/skufullreduction/update")
     BaseResult<Boolean> update(@RequestBody SkuFullReduction skuFullReduction);
 
     /**
@@ -66,7 +65,7 @@ public interface SkuFullReductionApi {
      * @param ids 商品满减信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("coupon/skufullreduction/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 
     /**
@@ -75,6 +74,6 @@ public interface SkuFullReductionApi {
      * @param skuReductionTo
      * @return
      */
-    @PostMapping("/saveinfo")
+    @PostMapping("coupon/skufullreduction/saveinfo")
     BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo);
 }

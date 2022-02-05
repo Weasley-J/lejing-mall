@@ -3,6 +3,8 @@ server:
   shutdown: graceful
 
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: lejing-auth-server
   profiles:
@@ -18,6 +20,10 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 management:
   endpoints:
     web:

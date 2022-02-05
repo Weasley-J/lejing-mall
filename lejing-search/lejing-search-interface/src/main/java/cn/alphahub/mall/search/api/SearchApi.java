@@ -14,7 +14,6 @@ import java.util.List;
  * @author Weasley J
  * @date 2021年3月7日
  */
-@RequestMapping("/search")
 public interface SearchApi {
 
     /**
@@ -23,6 +22,6 @@ public interface SearchApi {
      * @param skuModels 商品SKU信息元数据集合
      * @return true|false
      */
-    @PostMapping("/save/product")
+    @PostMapping("/search/save/product")
     BaseResult<Boolean> productStatusUp(@RequestBody List<SkuModel> skuModels);
 }

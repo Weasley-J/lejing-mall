@@ -1,6 +1,7 @@
 package cn.alphahub.mall.search.service.impl;
 
 import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.reflect.ReflectUtil;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.vo.AttrRespVO;
@@ -42,6 +43,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.clients.elasticsearch7.ElasticsearchAggregations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -200,13 +202,13 @@ public class SearchServiceImpl implements SearchService {
         // 属性子聚合,创建一个嵌入式的子聚合
         NestedAggregationBuilder nestedTermsAttrAgg = AggregationBuilders.nested("attr_agg", attrs)
                 .subAggregations(AggregatorFactories.builder().addAggregator(
-                        AggregationBuilders.terms("attr_id_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrId))
-                                // 3.3.1 聚合出attr_id对应的attr_name
-                                // 3.3.2 聚合出attr_id对应的所有可能值attr_value
-                                .subAggregations(AggregatorFactories.builder()
-                                        .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrName)))
-                                        .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrValue)).size(50))
-                                )
+                                AggregationBuilders.terms("attr_id_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrId))
+                                        // 3.3.1 聚合出attr_id对应的attr_name
+                                        // 3.3.2 聚合出attr_id对应的所有可能值attr_value
+                                        .subAggregations(AggregatorFactories.builder()
+                                                .addAggregator(AggregationBuilders.terms("attr_name_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrName)))
+                                                .addAggregator(AggregationBuilders.terms("attr_value_agg").field(attrs + "." + ReflectUtil.property(SkuModel.Attrs::getAttrValue)).size(50))
+                                        )
                         )
                 );
 
@@ -335,7 +337,11 @@ public class SearchServiceImpl implements SearchService {
         SearchResult result = new SearchResult();
         // Tips: restTemplate会根据实体类的注解获取索引信息
         SearchHits<SkuModel> searchHits = restTemplate.search(nativeSearchQuery, SkuModel.class);
-        Aggregations aggregations = searchHits.getAggregations();
+        ElasticsearchAggregations hitsAggregations = (ElasticsearchAggregations) searchHits.getAggregations();
+        if (null == hitsAggregations) {
+            throw new BizException("Elasticsearch7 聚合的 AggregationsContainer 实现为空");
+        }
+        Aggregations aggregations = hitsAggregations.aggregations();
 
         /* 保存商品分类 */
         List<SearchResult.CatalogVO> catalogVos = new ArrayList<>();

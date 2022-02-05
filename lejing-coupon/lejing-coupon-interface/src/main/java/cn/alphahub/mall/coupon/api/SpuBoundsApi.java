@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-14 18:57:50
  */
-@RequestMapping("coupon/spubounds")
 public interface SpuBoundsApi {
     /**
      * 查询商品spu积分设置列表
@@ -24,7 +23,7 @@ public interface SpuBoundsApi {
      * @param spuBounds   商品spu积分设置,查询字段选择性传入,默认为等值查询
      * @return 商品spu积分设置分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("coupon/spubounds/list")
     BaseResult<PageResult<SpuBounds>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -39,7 +38,7 @@ public interface SpuBoundsApi {
      * @param id 商品spu积分设置主键id
      * @return 商品spu积分设置详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("coupon/spubounds/info/{id}")
     BaseResult<SpuBounds> info(@PathVariable("id") Long id);
 
     /**
@@ -48,7 +47,7 @@ public interface SpuBoundsApi {
      * @param spuBounds 商品spu积分设置元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("coupon/spubounds/save")
     BaseResult<Boolean> save(@RequestBody SpuBounds spuBounds);
 
     /**
@@ -57,7 +56,7 @@ public interface SpuBoundsApi {
      * @param spuBounds 商品spu积分设置,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("coupon/spubounds/update")
     BaseResult<Boolean> update(@RequestBody SpuBounds spuBounds);
 
     /**
@@ -66,6 +65,6 @@ public interface SpuBoundsApi {
      * @param ids 商品spu积分设置id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("coupon/spubounds/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

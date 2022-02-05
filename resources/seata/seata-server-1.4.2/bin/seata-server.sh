@@ -18,106 +18,112 @@
 #   Copyright (c) 2001-2006 The Apache Software Foundation.  All rights
 #   reserved.
 
-
 # resolve links - $0 may be a softlink
 PRG="$0"
 
 while [ -h "$PRG" ]; do
-  ls=`ls -ld "$PRG"`
-  link=`expr "$ls" : '.*-> \(.*\)$'`
-  if expr "$link" : '/.*' > /dev/null; then
+  ls=$(ls -ld "$PRG")
+  link=$(expr "$ls" : '.*-> \(.*\)$')
+  if expr "$link" : '/.*' >/dev/null; then
     PRG="$link"
   else
-    PRG=`dirname "$PRG"`/"$link"
+    PRG=$(dirname "$PRG")/"$link"
   fi
 done
 
-PRGDIR=`dirname "$PRG"`
-BASEDIR=`cd "$PRGDIR/.." >/dev/null; pwd`
+PRGDIR=$(dirname "$PRG")
+BASEDIR=$(
+  cd "$PRGDIR/.." >/dev/null
+  pwd
+)
 
 # Reset the REPO variable. If you need to influence this use the environment setup file.
 REPO=
 
-
 # OS specific support.  $var _must_ be set to either true or false.
-cygwin=false;
-darwin=false;
-case "`uname`" in
-  CYGWIN*) cygwin=true ;;
-  Darwin*) darwin=true
-           if [ -z "$JAVA_VERSION" ] ; then
-             JAVA_VERSION="CurrentJDK"
-           else
-             echo "Using Java version: $JAVA_VERSION"
-           fi
-		   if [ -z "$JAVA_HOME" ]; then
-		      if [ -x "/usr/libexec/java_home" ]; then
-			      JAVA_HOME=`/usr/libexec/java_home`
-			  else
-			      JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/${JAVA_VERSION}/Home
-			  fi
-           fi
-           ;;
+cygwin=false
+darwin=false
+case "$(uname)" in
+CYGWIN*) cygwin=true ;;
+Darwin*)
+  darwin=true
+  if [ -z "$JAVA_VERSION" ]; then
+    JAVA_VERSION="CurrentJDK"
+  else
+    echo "Using Java version: $JAVA_VERSION"
+  fi
+  if [ -z "$JAVA_HOME" ]; then
+    if [ -x "/usr/libexec/java_home" ]; then
+      JAVA_HOME=$(/usr/libexec/java_home)
+    else
+      JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/${JAVA_VERSION}/Home
+    fi
+  fi
+  ;;
 esac
 
-if [ -z "$JAVA_HOME" ] ; then
-  if [ -r /etc/gentoo-release ] ; then
-    JAVA_HOME=`java-config --jre-home`
+if [ -z "$JAVA_HOME" ]; then
+  if [ -r /etc/gentoo-release ]; then
+    JAVA_HOME=$(java-config --jre-home)
   fi
 fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
-if $cygwin ; then
-  [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
-  [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+if $cygwin; then
+  [ -n "$JAVA_HOME" ] && JAVA_HOME=$(cygpath --unix "$JAVA_HOME")
+  [ -n "$CLASSPATH" ] && CLASSPATH=$(cygpath --path --unix "$CLASSPATH")
 fi
 
 # If a specific java binary isn't specified search for the standard 'java' binary
-if [ -z "$JAVACMD" ] ; then
-  if [ -n "$JAVA_HOME"  ] ; then
-    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+if [ -z "$JAVACMD" ]; then
+  if [ -n "$JAVA_HOME" ]; then
+    if [ -x "$JAVA_HOME/jre/sh/java" ]; then
       # IBM's JDK on AIX uses strange locations for the executables
       JAVACMD="$JAVA_HOME/jre/sh/java"
     else
       JAVACMD="$JAVA_HOME/bin/java"
     fi
   else
-    JAVACMD=`which java`
+    JAVACMD=$(which java)
   fi
 fi
 
-if [ ! -x "$JAVACMD" ] ; then
+if [ ! -x "$JAVACMD" ]; then
   echo "Error: JAVA_HOME is not defined correctly." 1>&2
   echo "  We cannot execute $JAVACMD" 1>&2
   exit 1
 fi
 
-if [ -z "$REPO" ]
-then
+if [ -z "$REPO" ]; then
   REPO="$BASEDIR"/lib
 fi
 
 CLASSPATH="$BASEDIR"/conf:"$REPO"/*
 
 ENDORSED_DIR=
-if [ -n "$ENDORSED_DIR" ] ; then
+if [ -n "$ENDORSED_DIR" ]; then
   CLASSPATH=$BASEDIR/$ENDORSED_DIR/*:$CLASSPATH
 fi
 
-if [ -n "$CLASSPATH_PREFIX" ] ; then
+if [ -n "$CLASSPATH_PREFIX" ]; then
   CLASSPATH=$CLASSPATH_PREFIX:$CLASSPATH
 fi
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
-  [ -n "$CLASSPATH" ] && CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
-  [ -n "$JAVA_HOME" ] && JAVA_HOME=`cygpath --path --windows "$JAVA_HOME"`
-  [ -n "$HOME" ] && HOME=`cygpath --path --windows "$HOME"`
-  [ -n "$BASEDIR" ] && BASEDIR=`cygpath --path --windows "$BASEDIR"`
-  [ -n "$REPO" ] && REPO=`cygpath --path --windows "$REPO"`
+  [ -n "$CLASSPATH" ] && CLASSPATH=$(cygpath --path --windows "$CLASSPATH")
+  [ -n "$JAVA_HOME" ] && JAVA_HOME=$(cygpath --path --windows "$JAVA_HOME")
+  [ -n "$HOME" ] && HOME=$(cygpath --path --windows "$HOME")
+  [ -n "$BASEDIR" ] && BASEDIR=$(cygpath --path --windows "$BASEDIR")
+  [ -n "$REPO" ] && REPO=$(cygpath --path --windows "$REPO")
 fi
 
-exec "$JAVACMD" $JAVA_OPTS -server -Xmx256m -Xms256m -Xmn128m -Xss256k -XX:SurvivorRatio=10 -XX:MetaspaceSize=32m -XX:MaxMetaspaceSize=64m -XX:MaxDirectMemorySize=128m -XX:-OmitStackTraceInFastThrow -XX:-UseAdaptiveSizePolicy -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath="$BASEDIR"/logs/java_heapdump.hprof -XX:+DisableExplicitGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75 -Xloggc:"$BASEDIR"/logs/seata_gc.log -verbose:gc -Dio.netty.leakDetectionLevel=advanced -Dlogback.color.disable-for-bat=true \
+exec "$JAVACMD" $JAVA_OPTS -server -Xmx256m -Xms256m -Xmn128m -Xss256k \
+  -XX:SurvivorRatio=10 -XX:MetaspaceSize=32m -XX:MaxMetaspaceSize=64m -XX:MaxDirectMemorySize=128m \
+  -XX:-OmitStackTraceInFastThrow -XX:-UseAdaptiveSizePolicy -XX:+HeapDumpOnOutOfMemoryError \
+  -XX:HeapDumpPath="$BASEDIR"/logs/java_heapdump.hprof -XX:+DisableExplicitGC \
+  -Xloggc:"$BASEDIR"/logs/seata_gc.log -verbose:gc -Dio.netty.leakDetectionLevel=advanced \
+  -Dlogback.color.disable-for-bat=true \
   -classpath "$CLASSPATH" \
   -Dapp.name="seata-server" \
   -Dapp.pid="$$" \

@@ -11,7 +11,7 @@ spring:
     #运行环境: dev|test|prod
     active: dev
     #加载common工程配置文件 'application-email.yml' 邮件配置元数据, spring.profiles.include: email
-    #include: email
+    include: email
 
   jackson:
     time-zone: GMT+8
@@ -22,6 +22,9 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
-@RequestMapping("ware/purchase")
 public interface PurchaseApi {
 
     /**
@@ -25,7 +24,7 @@ public interface PurchaseApi {
      * @param purchase    采购信息, 查询字段选择性传入, 默认为等值查询
      * @return 采购信息分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("ware/purchase/list")
     BaseResult<PageResult<Purchase>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -40,7 +39,7 @@ public interface PurchaseApi {
      * @param id 采购信息主键id
      * @return 采购信息详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("ware/purchase/info/{id}")
     BaseResult<Purchase> info(@PathVariable("id") Long id);
 
     /**
@@ -49,7 +48,7 @@ public interface PurchaseApi {
      * @param purchase 采购信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("ware/purchase/save")
     BaseResult<Boolean> save(@RequestBody Purchase purchase);
 
     /**
@@ -58,7 +57,7 @@ public interface PurchaseApi {
      * @param purchase 采购信息, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("ware/purchase/update")
     BaseResult<Boolean> update(@RequestBody Purchase purchase);
 
     /**
@@ -67,6 +66,6 @@ public interface PurchaseApi {
      * @param ids 采购信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("ware/purchase/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @version 1.0
  * @date 2021-08-30 19:40
  */
-@FeignClient(name = AppConstant.SECKILL_SERVICE, contextId = "seckillClient")
+@FeignClient(name = AppConstant.SECKILL_SERVICE, contextId = "seckillClient",path = "")
 public interface SeckillClient extends SeckillApi {
 
 }

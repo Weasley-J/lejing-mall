@@ -17,7 +17,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
-@RequestMapping("ware/waresku")
 public interface WareSkuApi {
     /**
      * 下单锁定库存
@@ -25,7 +24,7 @@ public interface WareSkuApi {
      * @param skuLockVo 锁定库存
      * @return 库存锁定结果
      */
-    @PostMapping("/order/lock/stock")
+    @PostMapping("ware/waresku/order/lock/stock")
     BaseResult<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo);
 
     /**
@@ -34,7 +33,7 @@ public interface WareSkuApi {
      * @param skuIds sku id 集合
      * @return 商品库存列表
      */
-    @PostMapping("skuHasStock")
+    @PostMapping("ware/wareskuskuHasStock")
     BaseResult<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds);
 
     /**
@@ -47,7 +46,7 @@ public interface WareSkuApi {
      * @param wareSku     商品库存, 查询字段选择性传入, 默认为等值查询
      * @return 商品库存分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("ware/waresku/list")
     BaseResult<PageResult<WareSku>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -62,7 +61,7 @@ public interface WareSkuApi {
      * @param skuId sku id, 没有可以为null
      * @return 商品库存列表
      */
-    @GetMapping("/list/{skuId}")
+    @GetMapping("ware/waresku/list/{skuId}")
     BaseResult<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId);
 
     /**
@@ -71,7 +70,7 @@ public interface WareSkuApi {
      * @param id 商品库存主键id
      * @return 商品库存详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("ware/waresku/info/{id}")
     BaseResult<WareSku> info(@PathVariable("id") Long id);
 
     /**
@@ -80,7 +79,7 @@ public interface WareSkuApi {
      * @param wareSku 商品库存元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("ware/waresku/save")
     BaseResult<Boolean> save(@RequestBody WareSku wareSku);
 
     /**
@@ -89,7 +88,7 @@ public interface WareSkuApi {
      * @param wareSku 商品库存, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("ware/waresku/update")
     BaseResult<Boolean> update(@RequestBody WareSku wareSku);
 
     /**
@@ -98,6 +97,6 @@ public interface WareSkuApi {
      * @param ids 商品库存id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("ware/waresku/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

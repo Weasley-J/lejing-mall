@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @author Weasley J
  * @date 2021-02-24 15:36:31
  */
-@RequestMapping("product/skuinfo")
 public interface SkuInfoApi {
 
     /**
@@ -30,7 +29,7 @@ public interface SkuInfoApi {
      * @param max         最大價格
      * @return sku信息分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("/product/skuinfo/list")
     BaseResult<PageResult<SkuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -51,7 +50,7 @@ public interface SkuInfoApi {
      * @param skuId sku信息主键id
      * @return sku信息详细信息
      */
-    @GetMapping("/info/{skuId}")
+    @GetMapping("/product/skuinfo/info/{skuId}")
     BaseResult<SkuInfo> info(@PathVariable("skuId") Long skuId);
 
     /**
@@ -60,7 +59,7 @@ public interface SkuInfoApi {
      * @param skuInfo sku信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("/product/skuinfo/save")
     BaseResult<Boolean> save(@RequestBody SkuInfo skuInfo);
 
     /**
@@ -69,7 +68,7 @@ public interface SkuInfoApi {
      * @param skuInfo sku信息,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("/product/skuinfo/update")
     BaseResult<Boolean> update(@RequestBody SkuInfo skuInfo);
 
     /**
@@ -78,6 +77,6 @@ public interface SkuInfoApi {
      * @param skuIds sku信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{skuIds}")
+    @DeleteMapping("/product/skuinfo/delete/{skuIds}")
     BaseResult<Boolean> delete(@PathVariable Long[] skuIds);
 }

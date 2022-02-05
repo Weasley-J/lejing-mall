@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/memberlevel")
 public interface MemberLevelApi {
     /**
      * 查询会员等级列表
@@ -24,7 +23,7 @@ public interface MemberLevelApi {
      * @param memberLevel 会员等级, 查询字段选择性传入, 默认为等值查询
      * @return 会员等级分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("/member/memberlevel/list")
     BaseResult<PageResult<MemberLevel>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -39,7 +38,7 @@ public interface MemberLevelApi {
      * @param id 会员等级主键id
      * @return 会员等级详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/member/memberlevel/info/{id}")
     BaseResult<MemberLevel> info(@PathVariable("id") Long id);
 
     /**
@@ -48,7 +47,7 @@ public interface MemberLevelApi {
      * @param memberLevel 会员等级元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("/member/memberlevel/save")
     BaseResult<Boolean> save(@RequestBody MemberLevel memberLevel);
 
     /**
@@ -57,7 +56,7 @@ public interface MemberLevelApi {
      * @param memberLevel 会员等级, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("/member/memberlevel/update")
     BaseResult<Boolean> update(@RequestBody MemberLevel memberLevel);
 
     /**
@@ -66,6 +65,6 @@ public interface MemberLevelApi {
      * @param ids 会员等级id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("/member/memberlevel/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

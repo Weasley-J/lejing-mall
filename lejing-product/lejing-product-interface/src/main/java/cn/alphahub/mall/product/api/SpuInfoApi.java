@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Weasley J
  */
-@RequestMapping("product/spuinfo")
 public interface SpuInfoApi {
     /**
      * 查询spu信息列表
@@ -29,7 +28,7 @@ public interface SpuInfoApi {
      * @param status      商品状态
      * @return spu信息列表分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("product/spuinfo/list")
     BaseResult<PageResult<SpuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -50,7 +49,7 @@ public interface SpuInfoApi {
      * @param id spu信息主键id
      * @return spu信息详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("product/spuinfo/info/{id}")
     BaseResult<SpuInfo> info(@PathVariable("id") Long id);
 
     /**
@@ -59,7 +58,7 @@ public interface SpuInfoApi {
      * @param spuSaveVO spu信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("product/spuinfo/save")
     BaseResult<Boolean> save(@RequestBody SpuSaveVO spuSaveVO);
 
     /**
@@ -68,7 +67,7 @@ public interface SpuInfoApi {
      * @param spuId 商品spu id
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/{spuId}/up")
+    @PostMapping("product/spuinfo/{spuId}/up")
     BaseResult<Boolean> spuOnShelves(@PathVariable("spuId") Long spuId);
 
     /**
@@ -77,7 +76,7 @@ public interface SpuInfoApi {
      * @param spuInfo spu信息,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("product/spuinfo/update")
     BaseResult<Boolean> update(@RequestBody SpuInfo spuInfo);
 
     /**
@@ -86,6 +85,6 @@ public interface SpuInfoApi {
      * @param ids spu信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("product/spuinfo/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

@@ -18,7 +18,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:36:31
  */
-@RequestMapping("product/brand")
 public interface BrandApi {
     /**
      * 查询品牌列表
@@ -31,7 +30,7 @@ public interface BrandApi {
      * @param key         查询关键字
      * @return 品牌分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("product/brand/list")
     BaseResult<PageResult<Brand>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -47,7 +46,7 @@ public interface BrandApi {
      * @param brandId 品牌主键id
      * @return 品牌详细信息
      */
-    @GetMapping("/info/{brandId}")
+    @GetMapping("product/brand/info/{brandId}")
     BaseResult<Brand> info(@PathVariable("brandId") Long brandId);
 
     /**
@@ -56,7 +55,7 @@ public interface BrandApi {
      * @param brandIds 品牌id集合
      * @return 成功返回true, 失败返回false
      */
-    @GetMapping("/infos/{brandIds}")
+    @GetMapping("product/brand/infos/{brandIds}")
     BaseResult<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds);
 
     /**
@@ -65,7 +64,7 @@ public interface BrandApi {
      * @param brand 品牌元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("product/brand/save")
     BaseResult<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand);
 
     /**
@@ -74,7 +73,7 @@ public interface BrandApi {
      * @param brand 品牌,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("product/brand/update")
     BaseResult<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand);
 
     /**
@@ -83,7 +82,7 @@ public interface BrandApi {
      * @param brand 品牌,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update/status")
+    @PutMapping("product/brand/update/status")
     BaseResult<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand);
 
     /**
@@ -92,6 +91,6 @@ public interface BrandApi {
      * @param brandIds 品牌id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{brandIds}")
+    @DeleteMapping("product/brand/delete/{brandIds}")
     BaseResult<Boolean> delete(@PathVariable Long[] brandIds);
 }

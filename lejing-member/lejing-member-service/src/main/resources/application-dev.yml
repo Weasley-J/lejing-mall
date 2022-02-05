@@ -5,19 +5,19 @@ spring:
       add-mappings: on
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.40.132:3306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.31.105:3306/lejing_ums?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 192.168.31.105:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 127.0.0.1:8087
+        dashboard: 192.168.31.105:8087
   zipkin:
-    base-url: http://127.0.0.1:9411
+    base-url: http://192.168.31.105:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -33,7 +33,7 @@ spring:
     timeout: 30m
   #redis配置
   redis:
-    host: 192.168.40.132
+    host: 192.168.31.105
     port: 6379
     password: 123456
     database: 0

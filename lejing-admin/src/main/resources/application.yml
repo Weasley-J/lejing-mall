@@ -10,6 +10,8 @@ server:
   servlet:
     context-path: /renren-fast
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: renren-fast
   profiles:
@@ -24,8 +26,13 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+
   mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
     throw-exception-if-no-handler-found: true
+
+
 #  resources:
 #    add-mappings: false
 

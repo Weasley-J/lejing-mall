@@ -17,7 +17,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021年3月14日
  */
-@RequestMapping("product/attr")
 public interface AttrApi {
 
     /**
@@ -26,7 +25,7 @@ public interface AttrApi {
      * @param spuId spu Id
      * @return spu规格列表
      */
-    @GetMapping("/base/listforspu/{spuId}")
+    @GetMapping("product/attr/base/listforspu/{spuId}")
     BaseResult<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId);
 
     /**
@@ -41,7 +40,7 @@ public interface AttrApi {
      * @param attrType    属性类型
      * @return 分页列表
      */
-    @GetMapping("/{attrType}/list/{catelogId}")
+    @GetMapping("product/attr/{attrType}/list/{catelogId}")
     BaseResult<PageResult<AttrRespVO>> baseList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -62,7 +61,7 @@ public interface AttrApi {
      * @param attr        商品属性,查询字段选择性传入,默认为等值查询
      * @return 商品属性分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("product/attr/list")
     BaseResult<PageResult<Attr>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -77,7 +76,7 @@ public interface AttrApi {
      * @param attrId 商品属性主键id
      * @return 商品属性详细信息
      */
-    @GetMapping("/info/{attrId}")
+    @GetMapping("product/attr/info/{attrId}")
     BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId);
 
     /**
@@ -86,7 +85,7 @@ public interface AttrApi {
      * @param attr 商品属性元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("product/attr/save")
     BaseResult<Boolean> save(@RequestBody AttrVO attr);
 
     /**
@@ -95,7 +94,7 @@ public interface AttrApi {
      * @param attr 商品属性,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("product/attr/update")
     BaseResult<Boolean> update(@RequestBody AttrVO attr);
 
     /**
@@ -105,7 +104,7 @@ public interface AttrApi {
      * @param attrValues spu属性值列表
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update/{spuId}")
+    @PutMapping("product/attr/update/{spuId}")
     BaseResult<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues);
 
     /**
@@ -114,6 +113,6 @@ public interface AttrApi {
      * @param attrIds 商品属性id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{attrIds}")
+    @DeleteMapping("product/attr/delete/{attrIds}")
     BaseResult<Boolean> delete(@PathVariable Long[] attrIds);
 }

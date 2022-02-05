@@ -22,6 +22,10 @@ spring:
     redis:
       #缓存的过期时间，1天
       time-to-live: 1d
+
+  main:
+    allow-circular-references: true
+
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.product.domain,cn.**.product.domain,com.**.product.entity,cn.**.product.entity

@@ -3,6 +3,9 @@ server:
   shutdown: graceful
 
 spring:
+  main:
+    allow-circular-references: true
+
   application:
     name: lejing-cart
   #运行环境: dev|test|prod
@@ -11,6 +14,7 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/memberloginlog")
 public interface MemberLoginLogApi {
 
     /**
@@ -25,7 +24,7 @@ public interface MemberLoginLogApi {
      * @param memberLoginLog 会员登录记录, 查询字段选择性传入, 默认为等值查询
      * @return 会员登录记录分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("member/memberloginlog/list")
     BaseResult<PageResult<MemberLoginLog>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -40,7 +39,7 @@ public interface MemberLoginLogApi {
      * @param id 会员登录记录主键id
      * @return 会员登录记录详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("member/memberloginlog/info/{id}")
     BaseResult<MemberLoginLog> info(@PathVariable("id") Long id);
 
     /**
@@ -49,7 +48,7 @@ public interface MemberLoginLogApi {
      * @param memberLoginLog 会员登录记录元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("member/memberloginlog/save")
     BaseResult<Boolean> save(@RequestBody MemberLoginLog memberLoginLog);
 
     /**
@@ -58,7 +57,7 @@ public interface MemberLoginLogApi {
      * @param memberLoginLog 会员登录记录, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("member/memberloginlog/update")
     BaseResult<Boolean> update(@RequestBody MemberLoginLog memberLoginLog);
 
     /**
@@ -67,6 +66,6 @@ public interface MemberLoginLogApi {
      * @param ids 会员登录记录id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("member/memberloginlog/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

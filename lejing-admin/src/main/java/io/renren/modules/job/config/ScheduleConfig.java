@@ -8,6 +8,10 @@
 
 package io.renren.modules.job.config;
 
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -21,6 +25,7 @@ import java.util.Properties;
  * @author Mark sunlightcs@gmail.com
  */
 @Configuration
+@EnableConfigurationProperties({DataSourceProperties.class})
 public class ScheduleConfig {
 
     @Bean
@@ -37,7 +42,7 @@ public class ScheduleConfig {
         prop.put("org.quartz.threadPool.threadCount", "20");
         prop.put("org.quartz.threadPool.threadPriority", "5");
         //JobStore配置
-        prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
+        prop.put("org.quartz.jobStore.class", "org.springframework.scheduling.quartz.LocalDataSourceJobStore");
         //集群配置
         prop.put("org.quartz.jobStore.isClustered", "true");
         prop.put("org.quartz.jobStore.clusterCheckinInterval", "15000");
@@ -62,5 +67,16 @@ public class ScheduleConfig {
         factory.setAutoStartup(true);
 
         return factory;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean({DataSource.class})
+    public DataSource dataSource(DataSourceProperties properties) {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName(properties.getDriverClassName());
+        dataSource.setJdbcUrl(properties.getUrl());
+        dataSource.setUsername(properties.getUsername());
+        dataSource.setPassword(properties.getPassword());
+        return dataSource;
     }
 }

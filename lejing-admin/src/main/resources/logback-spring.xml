@@ -6,8 +6,6 @@
     <springProperty scope="context" name="app_name" source="spring.application.name"/>
     <springProperty scope="context" name="run_env" source="spring.profiles.active"/>
 
-    <!--定义日志输出文件的存储位置，勿在logback的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/root/log"/>
     <!-- springboot默认日志输出文件defaults.xml所在包: org.springframework.boot:spring-boot:x.x.x -->
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
     <property name="FILE_LOG_PATTERN" value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
@@ -21,16 +19,6 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>utf8</charset>
         </encoder>
-    </appender>
-
-    <!-- 输出到文件配置 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${app_name}"}</customFields>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${app_name}-%d{yyyy-MM-dd}.log</fileNamePattern>
-        </rollingPolicy>
     </appender>
 
     <!-- 输出到Logstash配置, 需要输送到logstash是放开注释 -->
@@ -81,7 +69,6 @@
     <!-- 测试环境 -->
     <springProfile name="test">
         <root level="INFO">
-            <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="LOGSTASH"/>
         </root>
@@ -90,7 +77,6 @@
     <!-- 生产环境 -->
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="FILE"/>
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="LOGSTASH"/>
         </root>

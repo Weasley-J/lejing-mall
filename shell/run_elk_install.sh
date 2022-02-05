@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #
 #                  ******  Ubuntu环境下基于Docker安装ELK全家桶自动化脚本    ******

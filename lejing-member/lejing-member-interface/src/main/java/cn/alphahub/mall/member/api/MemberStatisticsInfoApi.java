@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/memberstatisticsinfo")
 public interface MemberStatisticsInfoApi {
     /**
      * 查询会员统计信息列表
@@ -24,7 +23,7 @@ public interface MemberStatisticsInfoApi {
      * @param memberStatisticsInfo 会员统计信息, 查询字段选择性传入, 默认为等值查询
      * @return 会员统计信息分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("member/memberstatisticsinfo/list")
     BaseResult<PageResult<MemberStatisticsInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -39,7 +38,7 @@ public interface MemberStatisticsInfoApi {
      * @param id 会员统计信息主键id
      * @return 会员统计信息详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("member/memberstatisticsinfo/info/{id}")
     BaseResult<MemberStatisticsInfo> info(@PathVariable("id") Long id);
 
     /**
@@ -48,7 +47,7 @@ public interface MemberStatisticsInfoApi {
      * @param memberStatisticsInfo 会员统计信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("member/memberstatisticsinfo/save")
     BaseResult<Boolean> save(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
 
     /**
@@ -57,7 +56,7 @@ public interface MemberStatisticsInfoApi {
      * @param memberStatisticsInfo 会员统计信息, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("member/memberstatisticsinfo/update")
     BaseResult<Boolean> update(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
 
     /**
@@ -66,6 +65,6 @@ public interface MemberStatisticsInfoApi {
      * @param ids 会员统计信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("member/memberstatisticsinfo/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

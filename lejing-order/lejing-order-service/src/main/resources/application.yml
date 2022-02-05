@@ -16,6 +16,8 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+  main:
+    allow-circular-references: true
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.order.domain,cn.**.order.domain,com.**.order.entity,cn.**.order.entity

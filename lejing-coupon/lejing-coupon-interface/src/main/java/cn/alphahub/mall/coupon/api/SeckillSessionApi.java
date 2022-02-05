@@ -14,7 +14,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:31:15
  */
-@RequestMapping("coupon/seckillsession")
 public interface SeckillSessionApi {
 
     /**
@@ -22,7 +21,7 @@ public interface SeckillSessionApi {
      *
      * @return 最近3天的秒杀场次列表
      */
-    @GetMapping("latest/3days/seckill/session")
+    @GetMapping("coupon/seckillsessionlatest/3days/seckill/session")
     BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession();
 
     /**
@@ -35,7 +34,7 @@ public interface SeckillSessionApi {
      * @param seckillSession 秒杀活动场次, 查询字段选择性传入, 默认为等值查询
      * @return 秒杀活动场次分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("coupon/seckillsession/list")
     BaseResult<PageResult<SeckillSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -49,7 +48,7 @@ public interface SeckillSessionApi {
      *
      * @return 秒杀活动场次列表
      */
-    @GetMapping("/list/no/args")
+    @GetMapping("coupon/seckillsession/list/no/args")
     BaseResult<PageResult<SeckillSession>> list();
 
     /**
@@ -58,7 +57,7 @@ public interface SeckillSessionApi {
      * @param sessionList 列表
      * @return 提示
      */
-    @PutMapping("/batch/update")
+    @PutMapping("coupon/seckillsession/batch/update")
     BaseResult<Boolean> batchUpdate(@RequestBody  List<SeckillSession> sessionList);
 
     /**
@@ -67,7 +66,7 @@ public interface SeckillSessionApi {
      * @param id 秒杀活动场次主键id
      * @return 秒杀活动场次详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("coupon/seckillsession/info/{id}")
     BaseResult<SeckillSession> info(@PathVariable("id") Long id);
 
     /**
@@ -76,7 +75,7 @@ public interface SeckillSessionApi {
      * @param seckillSession 秒杀活动场次元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("coupon/seckillsession/save")
     BaseResult<Boolean> save(@RequestBody SeckillSession seckillSession);
 
     /**
@@ -85,7 +84,7 @@ public interface SeckillSessionApi {
      * @param seckillSession 秒杀活动场次, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("coupon/seckillsession/update")
     BaseResult<Boolean> update(@RequestBody SeckillSession seckillSession);
 
     /**
@@ -94,6 +93,6 @@ public interface SeckillSessionApi {
      * @param ids 秒杀活动场次id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("coupon/seckillsession/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

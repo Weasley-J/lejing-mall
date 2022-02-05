@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/membercollectsubject")
 public interface MemberCollectSubjectApi {
 
     /**
@@ -25,7 +24,7 @@ public interface MemberCollectSubjectApi {
      * @param memberCollectSubject 会员收藏的专题活动, 查询字段选择性传入, 默认为等值查询
      * @return 会员收藏的专题活动分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("/member/integrationchangehistory/list")
     BaseResult<PageResult<MemberCollectSubject>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -40,7 +39,7 @@ public interface MemberCollectSubjectApi {
      * @param id 会员收藏的专题活动主键id
      * @return 会员收藏的专题活动详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("/member/integrationchangehistory/info/{id}")
     BaseResult<MemberCollectSubject> info(@PathVariable("id") Long id);
 
     /**
@@ -49,7 +48,7 @@ public interface MemberCollectSubjectApi {
      * @param memberCollectSubject 会员收藏的专题活动元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("/member/integrationchangehistory/save")
     BaseResult<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject);
 
     /**
@@ -58,7 +57,7 @@ public interface MemberCollectSubjectApi {
      * @param memberCollectSubject 会员收藏的专题活动, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("/member/integrationchangehistory/update")
     BaseResult<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject);
 
     /**
@@ -67,6 +66,6 @@ public interface MemberCollectSubjectApi {
      * @param ids 会员收藏的专题活动id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("/member/integrationchangehistory/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

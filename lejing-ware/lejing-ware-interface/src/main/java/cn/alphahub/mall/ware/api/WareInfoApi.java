@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
-@RequestMapping("ware/wareinfo")
 public interface WareInfoApi {
 
     /**
@@ -22,7 +21,7 @@ public interface WareInfoApi {
      * @param addrId 收货地址id
      * @return 邮资
      */
-    @GetMapping("/postage/info")
+    @GetMapping("ware/wareinfo/postage/info")
     BaseResult<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId);
 
     /**
@@ -35,7 +34,7 @@ public interface WareInfoApi {
      * @param wareInfo    仓库信息, 查询字段选择性传入, 默认为等值查询
      * @return 仓库信息分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("ware/wareinfo/list")
     BaseResult<PageResult<WareInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -50,7 +49,7 @@ public interface WareInfoApi {
      * @param id 仓库信息主键id
      * @return 仓库信息详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("ware/wareinfo/info/{id}")
     BaseResult<WareInfo> info(@PathVariable("id") Long id);
 
     /**
@@ -59,7 +58,7 @@ public interface WareInfoApi {
      * @param wareInfo 仓库信息元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("ware/wareinfo/save")
     BaseResult<Boolean> save(@RequestBody WareInfo wareInfo);
 
     /**
@@ -68,7 +67,7 @@ public interface WareInfoApi {
      * @param wareInfo 仓库信息, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("ware/wareinfo/update")
     BaseResult<Boolean> update(@RequestBody WareInfo wareInfo);
 
     /**
@@ -77,6 +76,6 @@ public interface WareInfoApi {
      * @param ids 仓库信息id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("ware/wareinfo/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

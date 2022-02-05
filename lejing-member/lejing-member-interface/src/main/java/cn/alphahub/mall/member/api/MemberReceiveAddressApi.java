@@ -14,7 +14,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 16:15:38
  */
-@RequestMapping("member/memberreceiveaddress")
 public interface MemberReceiveAddressApi {
 
     /**
@@ -27,7 +26,7 @@ public interface MemberReceiveAddressApi {
      * @param memberReceiveAddress 会员收货地址, 查询字段选择性传入, 默认为等值查询
      * @return 会员收货地址分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("member/memberreceiveaddress/list")
     BaseResult<PageResult<MemberReceiveAddress>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -42,7 +41,7 @@ public interface MemberReceiveAddressApi {
      * @param memberId 用户id
      * @return 收货地址列表
      */
-    @GetMapping("/addresses/{memberId}")
+    @GetMapping("member/memberreceiveaddress/addresses/{memberId}")
     BaseResult<List<MemberReceiveAddress>> memberAddressList(@PathVariable("memberId") Long memberId);
 
     /**
@@ -51,7 +50,7 @@ public interface MemberReceiveAddressApi {
      * @param id 会员收货地址主键id
      * @return 会员收货地址详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("member/memberreceiveaddress/info/{id}")
     BaseResult<MemberReceiveAddress> info(@PathVariable("id") Long id);
 
     /**
@@ -60,7 +59,7 @@ public interface MemberReceiveAddressApi {
      * @param memberReceiveAddress 会员收货地址元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("member/memberreceiveaddress/save")
     BaseResult<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress);
 
     /**
@@ -69,7 +68,7 @@ public interface MemberReceiveAddressApi {
      * @param memberReceiveAddress 会员收货地址, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("member/memberreceiveaddress/update")
     BaseResult<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress);
 
     /**
@@ -78,6 +77,6 @@ public interface MemberReceiveAddressApi {
      * @param ids 会员收货地址id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("member/memberreceiveaddress/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

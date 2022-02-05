@@ -17,7 +17,6 @@ import java.util.List;
  * @version 1.0
  * @date 2021年7月29日
  */
-@RequestMapping(value = "/seckill")
 public interface SeckillApi {
 
     /**
@@ -26,7 +25,7 @@ public interface SeckillApi {
      * @return ok
      */
     @ResponseBody
-    @PostMapping("/on/shelve/seckill/sku/latest/3days")
+    @PostMapping("/seckill/on/shelve/seckill/sku/latest/3days")
     BaseResult<Void> onShelveSeckillSkuLatest3Days();
 
     /**
@@ -35,7 +34,7 @@ public interface SeckillApi {
      * @return 当前参与秒杀的商品
      */
     @ResponseBody
-    @GetMapping("/current/can/seckill/skus")
+    @GetMapping("/seckill/current/can/seckill/skus")
     BaseResult<List<SeckillSkuRelation>> getCurrentSeckillSkus();
 
     /**
@@ -45,6 +44,6 @@ public interface SeckillApi {
      * @return 商品是否参加秒杀信息
      */
     @ResponseBody
-    @GetMapping("/sku/info/{skuId}")
+    @GetMapping("/seckill/sku/info/{skuId}")
     BaseResult<SeckillSkuRelation> getSkuSeckillInfoBySkuId(@PathVariable("skuId") Long skuId);
 }

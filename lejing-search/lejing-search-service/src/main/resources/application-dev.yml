@@ -3,13 +3,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 192.168.31.105:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 127.0.0.1:8087
+        dashboard: 192.168.31.105:8087
   zipkin:
-    base-url: http://127.0.0.1:9411
+    base-url: http://192.168.31.105:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -18,15 +18,15 @@ spring:
       #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
       probability: 1
   elasticsearch:
-    rest:
-      uris:
-        - http://localhost:9200
-        - http://192.168.40.132:9200
-        - http://192.168.40.128:9200
-      connection-timeout: 2
-      read-timeout: 40
-      username: elastic
-      password: 123456
+    uris:
+      - http://localhost:9200
+      - http://192.168.31.105:9200
+      - http://192.168.40.128:9200
+    connection-timeout: 2
+    socket-timeout: 40
+    username: elastic
+    password: 123456
+
   thymeleaf:
     cache: off
   #使用spring session redis存储session信息
@@ -35,12 +35,12 @@ spring:
     timeout: 30m
   #redis配置
   redis:
-    host: 192.168.40.132
+    host: 192.168.31.105
     port: 6379
     password: 123456
     client-name: LEJING_REDIS
 #  rabbitmq:
-#    host: 192.168.40.132
+#    host: 192.168.31.105
 #    username: lejing
 #    password: 123456
 #    virtual-host: /lejing

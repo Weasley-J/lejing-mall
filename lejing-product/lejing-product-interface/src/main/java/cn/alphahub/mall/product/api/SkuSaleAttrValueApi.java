@@ -14,7 +14,6 @@ import java.util.List;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:36:31
  */
-@RequestMapping("product/skusaleattrvalue")
 public interface SkuSaleAttrValueApi {
 
     /**
@@ -27,7 +26,7 @@ public interface SkuSaleAttrValueApi {
      * @param skuSaleAttrValue sku销售属性&值,查询字段选择性传入,默认为等值查询
      * @return sku销售属性&值分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("product/skusaleattrvalue/list")
     BaseResult<PageResult<SkuSaleAttrValue>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -42,7 +41,7 @@ public interface SkuSaleAttrValueApi {
      * @param skuId 商品skuId
      * @return 商品的销售属性列表
      */
-    @GetMapping("/skuAttrValues/{skuId}")
+    @GetMapping("product/skusaleattrvalue/skuAttrValues/{skuId}")
     BaseResult<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId);
 
     /**
@@ -51,7 +50,7 @@ public interface SkuSaleAttrValueApi {
      * @param id sku销售属性&值主键id
      * @return sku销售属性&值详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("product/skusaleattrvalue/info/{id}")
     BaseResult<SkuSaleAttrValue> info(@PathVariable("id") Long id);
 
     /**
@@ -60,7 +59,7 @@ public interface SkuSaleAttrValueApi {
      * @param skuSaleAttrValue sku销售属性&值元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("product/skusaleattrvalue/save")
     BaseResult<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
 
     /**
@@ -69,7 +68,7 @@ public interface SkuSaleAttrValueApi {
      * @param skuSaleAttrValue sku销售属性&值,根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("product/skusaleattrvalue/update")
     BaseResult<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
 
     /**
@@ -78,6 +77,6 @@ public interface SkuSaleAttrValueApi {
      * @param ids sku销售属性&值id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("product/skusaleattrvalue/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }

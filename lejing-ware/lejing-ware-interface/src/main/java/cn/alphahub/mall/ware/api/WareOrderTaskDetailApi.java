@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  * @email 1432689025@qq.com
  * @date 2021-02-24 15:19:57
  */
-@RequestMapping("ware/wareordertaskdetail")
 public interface WareOrderTaskDetailApi {
 
     /**
@@ -25,7 +24,7 @@ public interface WareOrderTaskDetailApi {
      * @param wareOrderTaskDetail 库存工作单, 查询字段选择性传入, 默认为等值查询
      * @return 库存工作单分页数据
      */
-    @GetMapping("/list")
+    @GetMapping("ware/wareordertaskdetail/list")
     BaseResult<PageResult<WareOrderTaskDetail>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
@@ -40,7 +39,7 @@ public interface WareOrderTaskDetailApi {
      * @param id 库存工作单主键id
      * @return 库存工作单详细信息
      */
-    @GetMapping("/info/{id}")
+    @GetMapping("ware/wareordertaskdetail/info/{id}")
     BaseResult<WareOrderTaskDetail> info(@PathVariable("id") Long id);
 
     /**
@@ -49,7 +48,7 @@ public interface WareOrderTaskDetailApi {
      * @param wareOrderTaskDetail 库存工作单元数据
      * @return 成功返回true, 失败返回false
      */
-    @PostMapping("/save")
+    @PostMapping("ware/wareordertaskdetail/save")
     BaseResult<Boolean> save(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
 
     /**
@@ -58,7 +57,7 @@ public interface WareOrderTaskDetailApi {
      * @param wareOrderTaskDetail 库存工作单, 根据id选择性更新
      * @return 成功返回true, 失败返回false
      */
-    @PutMapping("/update")
+    @PutMapping("ware/wareordertaskdetail/update")
     BaseResult<Boolean> update(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
 
     /**
@@ -67,6 +66,6 @@ public interface WareOrderTaskDetailApi {
      * @param ids 库存工作单id集合
      * @return 成功返回true, 失败返回false
      */
-    @DeleteMapping("/delete/{ids}")
+    @DeleteMapping("ware/wareordertaskdetail/delete/{ids}")
     BaseResult<Boolean> delete(@PathVariable Long[] ids);
 }
