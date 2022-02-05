@@ -27,6 +27,7 @@ docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.
 docker stop nacos && docker rm -f nacos
 docker run --name nacos --restart=always \
   --net mynet \
+  -p 7848:7848 \
   -p 8848:8848 \
   -p 9848:9848 \
   -p 9849:9849 \
