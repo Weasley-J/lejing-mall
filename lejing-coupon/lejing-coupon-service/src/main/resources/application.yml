@@ -1,7 +1,9 @@
 server:
-  port: 7000
+  port: 7010
   shutdown: graceful
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: lejing-coupon
   #运行环境: dev|test|prod
@@ -15,6 +17,8 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+    pathmatch:
+      matching-strategy: ant_path_matcher
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.coupon.domain,cn.**.coupon.domain,com.**.coupon.entity,cn.**.coupon.entity

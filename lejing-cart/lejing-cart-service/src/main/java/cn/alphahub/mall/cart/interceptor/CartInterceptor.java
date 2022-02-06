@@ -86,7 +86,9 @@ public class CartInterceptor implements HandlerInterceptor {
         }
         // cookie
         Cookie[] cookies = request.getCookies();
-        if (CollectionUtils.isNotEmpty(Arrays.asList(cookies))) {
+        if (cookies != null && cookies.length != 0
+                && CollectionUtils.isNotEmpty(Arrays.asList(cookies))
+        ) {
             for (Cookie cookie : cookies) {
                 String cookieName = cookie.getName();
                 String cookieValue = cookie.getValue();

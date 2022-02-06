@@ -21,7 +21,7 @@ public interface SeckillSessionApi {
      *
      * @return 最近3天的秒杀场次列表
      */
-    @GetMapping("coupon/seckillsessionlatest/3days/seckill/session")
+    @GetMapping("coupon/seckillsession/latest/3days/seckill/session")
     BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession();
 
     /**

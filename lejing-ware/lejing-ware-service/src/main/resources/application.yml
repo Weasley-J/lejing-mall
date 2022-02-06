@@ -18,6 +18,10 @@ spring:
       date-time: yyyy-MM-dd HH:mm:ss
       date: yyyy-MM-dd
       time: HH:mm:ss
+
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.ware.domain,cn.**.ware.domain,com.**.ware.entity,cn.**.ware.entity

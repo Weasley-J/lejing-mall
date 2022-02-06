@@ -13,7 +13,9 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*Mapper.xml,mapper/**/*Dao.xml
   type-aliases-package: com.**.domain,cn.**.domain,com.**.entity,cn.**.entity

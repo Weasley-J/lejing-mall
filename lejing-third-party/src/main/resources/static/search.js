@@ -6,13 +6,32 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'OssPolicyController',
+    alias: 'SmsController',
     order: '1',
-    link: 'oss_policy文件上传controller',
-    desc: 'OSSPolicy文件上传Controller',
+    link: '短信controller',
+    desc: '短信Controller',
     list: []
 })
 api[0].list[0].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://127.0.0.1:88/api/thirdparty/sms/sendCode',
+    desc: '发送验证码给用户手机',
+});
+api[0].list[0].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://127.0.0.1:88/api/thirdparty/sms/sendStatus',
+    desc: '查询短信发送详情',
+});
+api[0].list.push({
+    alias: 'OssPolicyController',
+    order: '2',
+    link: 'oss_policy文件上传controller',
+    desc: 'OSS Policy文件上传Controller',
+    list: []
+})
+api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/policy',
@@ -20,77 +39,58 @@ api[0].list[0].list.push({
 });
 api[0].list.push({
     alias: 'OssRpcController',
-    order: '2',
+    order: '3',
     link: 'oss远程rpc文件上传controller',
     desc: 'Oss远程RPC文件上传Controller',
     list: []
 })
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/bucket/create',
     desc: '创建存储空间',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/bucket/delete',
     desc: '删除存储空间',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/upload',
-    desc: '上传文件至OSS&lt;p&gt;1.转存网络文件2.上传本地文件到时需要指定文件完整路径&lt;/p&gt;',
+    desc: '上传文件至OSS &lt;p&gt; 1. 转存网络文件 2. 上传本地文件到时需要指定文件完整路径 &lt;/p&gt;',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/upload/multipart/file',
     desc: '上传文件至OSS（普通上传）',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '5',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/delete/single',
     desc: '删除单个文件',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '6',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/delete/many',
     desc: '批量删除文件',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '7',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/file/exist/{objectUrl}',
     desc: '判断文件是否存在',
 });
-api[0].list[1].list.push({
+api[0].list[2].list.push({
     order: '8',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/bucket/exist/{bucketName}',
     desc: '判断OSS的全局命名空间(存储空间)是否存在',
-});
-api[0].list.push({
-    alias: 'SmsController',
-    order: '3',
-    link: '短信controller',
-    desc: '短信Controller',
-    list: []
-})
-api[0].list[2].list.push({
-    order: '1',
-    deprecated: 'false',
-    url: 'http://127.0.0.1:88/api/thirdparty/sms/sendCode',
-    desc: '发送验证码给用户手机',
-});
-api[0].list[2].list.push({
-    order: '2',
-    deprecated: 'false',
-    url: 'http://127.0.0.1:88/api/thirdparty/sms/sendStatus',
-    desc: '查询短信发送详情',
 });
 api[0].list.push({
     alias: 'error',
@@ -130,7 +130,8 @@ function keyDownSearch(e) {
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
     if (code == 13) {
         const search = document.getElementById('search');
-        const searchValue = search.value;
+        const searchValue = search.value.toLocaleLowerCase();
+
         let searchGroup = [];
         for (let i = 0; i < api.length; i++) {
 
@@ -140,7 +141,7 @@ function keyDownSearch(e) {
             for (let i = 0; i < apiGroup.list.length; i++) {
                 let apiData = apiGroup.list[i];
                 const desc = apiData.desc;
-                if (desc.indexOf(searchValue) > -1) {
+                if (desc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                     searchArr.push({
                         order: apiData.order,
                         desc: apiData.desc,
@@ -153,7 +154,7 @@ function keyDownSearch(e) {
                     for (let j = 0; j < methodList.length; j++) {
                         const methodData = methodList[j];
                         const methodDesc = methodData.desc;
-                        if (methodDesc.indexOf(searchValue) > -1) {
+                        if (methodDesc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                             methodListTemp.push(methodData);
                             break;
                         }
@@ -169,7 +170,7 @@ function keyDownSearch(e) {
                     }
                 }
             }
-            if (apiGroup.name.indexOf(searchValue) > -1) {
+            if (apiGroup.name.toLocaleLowerCase().indexOf(searchValue) > -1) {
                 searchGroup.push({
                     name: apiGroup.name,
                     order: apiGroup.order,
@@ -235,7 +236,7 @@ function buildAccordion(apiGroups, liClass, display) {
                     } else {
                         spanString='<span>';
                     }
-                    html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
@@ -250,7 +251,7 @@ function buildAccordion(apiGroups, liClass, display) {
                 let apiData = apiGroup.list;
                 for (let j = 0; j < apiData.length; j++) {
                     html += '<li class="'+liClass+'">';
-                    html += '<a class="dd" href="#_' + apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                    html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                     html += '<ul class="sectlevel2" style="'+display+'">';
                     doc = apiData[j].list;
                     for (let m = 0; m < doc.length; m++) {
@@ -260,7 +261,7 @@ function buildAccordion(apiGroups, liClass, display) {
                        } else {
                            spanString='<span>';
                        }
-                       html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                       html += '<li><a href="#_'+apiGroup.order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">'+apiGroup.order+'.' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                    }
                     html += '</ul>';
                     html += '</li>';

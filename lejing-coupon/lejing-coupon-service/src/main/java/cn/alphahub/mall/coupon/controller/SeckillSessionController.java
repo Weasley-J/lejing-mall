@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("coupon/seckillsession")
+@RequestMapping("/coupon/seckillsession")
 public class SeckillSessionController extends BaseController {
     @Resource
     private SeckillSessionService seckillSessionService;
@@ -36,7 +36,7 @@ public class SeckillSessionController extends BaseController {
      *
      * @return 最近3天的秒杀场次列表
      */
-    @GetMapping("latest/3days/seckill/session")
+    @GetMapping("/latest/3days/seckill/session")
     public BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession() {
         List<SeckillSession> seckillSessions = seckillSessionService.getLatest3DaysSeckillSession();
         log.info("最近3天的秒杀场次列表:{}", JSONUtil.toJsonPrettyStr(seckillSessions));

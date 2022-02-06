@@ -88,13 +88,13 @@ spring:
     <parent>
         <artifactId>lejing-mall</artifactId>
         <groupId>cn.alphahub.mall</groupId>
-        <version>1.1.6-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-site-reserve</artifactId>
-    <version>1.1.6-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <description>乐璟商城-场地预约服务</description>
 
     <properties>

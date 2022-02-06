@@ -33,7 +33,7 @@ public interface WareSkuApi {
      * @param skuIds sku id 集合
      * @return 商品库存列表
      */
-    @PostMapping("ware/wareskuskuHasStock")
+    @PostMapping("ware/waresku/skuHasStock")
     BaseResult<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds);
 
     /**

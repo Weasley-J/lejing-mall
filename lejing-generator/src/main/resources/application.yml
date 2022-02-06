@@ -16,6 +16,9 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   web:
     resources:
       static-locations: classpath:/static/,classpath:/views/

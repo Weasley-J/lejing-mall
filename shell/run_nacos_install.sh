@@ -24,13 +24,12 @@ docker network rm mynet
 docker network create --driver bridge --subnet 172.18.0.0/16 --gateway 172.18.0.1 mynet
 
 # 以下创建容器时指定的mysql参数根据自己的实际情况修改
+# 端口开放参考: https://github.com/nacos-group/nacos-docker/blob/master/example/standalone-mysql-8.yaml
 docker stop nacos && docker rm -f nacos
 docker run --name nacos --restart=always \
   --net mynet \
-  -p 7848:7848 \
   -p 8848:8848 \
   -p 9848:9848 \
-  -p 9849:9849 \
   -e MODE="standalone" \
   -e JVM_XMS="512m" \
   -e JVM_XMX="512m" \

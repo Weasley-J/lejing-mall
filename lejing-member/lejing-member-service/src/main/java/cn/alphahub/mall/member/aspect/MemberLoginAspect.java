@@ -7,9 +7,11 @@ import cn.alphahub.common.util.ip.IpUtil;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberLoginLog;
 import cn.alphahub.mall.member.service.MemberLoginLogService;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -116,17 +118,28 @@ public class MemberLoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
-        BaseResult<Member> result = JSONUtil.toBean(JSONUtil.parse(responseData), new TypeReference<>() {
-        }, true);
-        MemberLoginLog entity = MemberLoginLog.builder()
-                .memberId(result.getData().getId())
-                .createTime(new Date())
-                .ip(IpUtil.getClientIp(request))
-                .city(AddressUtil.getRealAddressByIp(IpUtil.getClientIp(request)))
-                .loginType(1).build();
-        //保存会员登录日志
-        loginLogService.save(entity);
-        log.debug("会员登录信息：{}", JSONUtil.toJsonPrettyStr(entity));
+        BaseResult<Member> result = new BaseResult<>();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            result = objectMapper.readValue(JSONUtil.toJsonStr(responseData), new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            log.error("{}", JSONUtil.toJsonStr(result), e);
+        }
+        if (Objects.nonNull(result.getData())) {
+            member = result.getData();
+            String clientIp = IpUtil.getClientIp(request);
+            String realAddressByIp = AddressUtil.getRealAddressByIp(clientIp);
+            MemberLoginLog entity = MemberLoginLog.builder()
+                    .memberId(member.getId())
+                    .createTime(new Date())
+                    .ip(clientIp)
+                    .city(realAddressByIp)
+                    .loginType(1).build();
+            //保存会员登录日志
+            loginLogService.save(entity);
+            log.debug("会员登录信息：{}", JSONUtil.toJsonPrettyStr(entity));
+        }
     }
 
     /**

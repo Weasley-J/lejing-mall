@@ -430,7 +430,7 @@ public enum SmsSupplier {
 <dependency>
     <groupId>cn.alphahub.mall.common</groupId>
     <artifactId>lejing-common-sms-support</artifactId>
-     <version>1.1.6-SNAPSHOT</version>
+     <version>1.2.0-SNAPSHOT</version>
 </dependency>
 ```
 

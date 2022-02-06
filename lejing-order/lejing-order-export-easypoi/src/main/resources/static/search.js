@@ -6,86 +6,86 @@ api.push({
     list: []
 })
 api[0].list.push({
-    alias: 'BillDetailController',
-    order: '1',
-    link: '账单明细controller&lt;p&gt;这个controller主要展示&lt;/p&gt;',
-    desc: '账单明细Controller&lt;p&gt;这个controller主要展示&lt;/p&gt;',
-    list: []
-})
-api[0].list[0].list.push({
-    order: '1',
-    deprecated: 'false',
-    url: 'http://localhost:88/api/order/public/easypoi/bill/detail/download/bills',
-    desc: '账单明细-下载',
-});
-api[0].list[0].list.push({
-    order: '2',
-    deprecated: 'false',
-    url: 'http://localhost:88/api/order/public/easypoi/bill/detail/preview/html',
-    desc: '账单明细excel预览',
-});
-api[0].list.push({
-    alias: 'EasypoiValidSheetController',
-    order: '2',
-    link: 'easypoi基于jsr303注解校验excel表格内容',
-    desc: 'Easypoi基于JSR303注解校验Excel表格内容',
-    list: []
-})
-api[0].list[1].list.push({
-    order: '1',
-    deprecated: 'false',
-    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/download',
-    desc: '下载excel文件',
-});
-api[0].list[1].list.push({
-    order: '2',
-    deprecated: 'false',
-    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/upload',
-    desc: '文件上传（校验excel的元数据）',
-});
-api[0].list[1].list.push({
-    order: '3',
-    deprecated: 'false',
-    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/preview/html',
-    desc: '预览excel内容',
-});
-api[0].list.push({
     alias: 'OrderEasypoiController',
-    order: '3',
+    order: '1',
     link: '主订单数据excel导入导出controller',
     desc: '主订单数据excel导入导出Controller',
     list: []
 })
-api[0].list[2].list.push({
+api[0].list[0].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/download/order',
     desc: '导出订单数据',
 });
-api[0].list[2].list.push({
+api[0].list[0].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/upload/order',
     desc: '导入订单数据',
 });
 api[0].list.push({
+    alias: 'BillDetailController',
+    order: '2',
+    link: '账单明细controller &lt;p&gt;这个controller主要展示&lt;/p&gt;',
+    desc: '账单明细Controller &lt;p&gt;这个controller主要展示&lt;/p&gt;',
+    list: []
+})
+api[0].list[1].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/bill/detail/download/bills',
+    desc: '账单明细 - 下载',
+});
+api[0].list[1].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/bill/detail/preview/html',
+    desc: '账单明细excel预览',
+});
+api[0].list.push({
     alias: 'OrderItemEasypoiController',
-    order: '4',
+    order: '3',
     link: '子订单订单导入导出controller',
     desc: '子订单订单导入导出Controller',
     list: []
 })
-api[0].list[3].list.push({
+api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/download/order/item',
     desc: '下载订单的excel文件',
 });
-api[0].list[3].list.push({
+api[0].list[2].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:88/api/order/public/easypoi/upload/order/item',
     desc: '上传订单的excel文件',
+});
+api[0].list.push({
+    alias: 'EasypoiValidSheetController',
+    order: '4',
+    link: 'easypoi基于jsr303注解校验excel表格内容',
+    desc: 'Easypoi基于JSR303注解校验Excel表格内容',
+    list: []
+})
+api[0].list[3].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/download',
+    desc: '下载excel文件',
+});
+api[0].list[3].list.push({
+    order: '2',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/person/upload',
+    desc: '文件上传（校验excel的元数据）',
+});
+api[0].list[3].list.push({
+    order: '3',
+    deprecated: 'false',
+    url: 'http://localhost:88/api/order/public/easypoi/valid/sheet/preview/html',
+    desc: '预览excel内容',
 });
 api[0].list.push({
     alias: 'LejingCustomValidationController',
@@ -180,7 +180,8 @@ function keyDownSearch(e) {
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
     if (code == 13) {
         const search = document.getElementById('search');
-        const searchValue = search.value;
+        const searchValue = search.value.toLocaleLowerCase();
+
         let searchGroup = [];
         for (let i = 0; i < api.length; i++) {
 
@@ -190,7 +191,7 @@ function keyDownSearch(e) {
             for (let i = 0; i < apiGroup.list.length; i++) {
                 let apiData = apiGroup.list[i];
                 const desc = apiData.desc;
-                if (desc.indexOf(searchValue) > -1) {
+                if (desc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                     searchArr.push({
                         order: apiData.order,
                         desc: apiData.desc,
@@ -203,7 +204,7 @@ function keyDownSearch(e) {
                     for (let j = 0; j < methodList.length; j++) {
                         const methodData = methodList[j];
                         const methodDesc = methodData.desc;
-                        if (methodDesc.indexOf(searchValue) > -1) {
+                        if (methodDesc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                             methodListTemp.push(methodData);
                             break;
                         }
@@ -219,7 +220,7 @@ function keyDownSearch(e) {
                     }
                 }
             }
-            if (apiGroup.name.indexOf(searchValue) > -1) {
+            if (apiGroup.name.toLocaleLowerCase().indexOf(searchValue) > -1) {
                 searchGroup.push({
                     name: apiGroup.name,
                     order: apiGroup.order,
@@ -285,7 +286,7 @@ function buildAccordion(apiGroups, liClass, display) {
                     } else {
                         spanString='<span>';
                     }
-                    html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
@@ -300,7 +301,7 @@ function buildAccordion(apiGroups, liClass, display) {
                 let apiData = apiGroup.list;
                 for (let j = 0; j < apiData.length; j++) {
                     html += '<li class="'+liClass+'">';
-                    html += '<a class="dd" href="#_' + apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                    html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                     html += '<ul class="sectlevel2" style="'+display+'">';
                     doc = apiData[j].list;
                     for (let m = 0; m < doc.length; m++) {
@@ -310,7 +311,7 @@ function buildAccordion(apiGroups, liClass, display) {
                        } else {
                            spanString='<span>';
                        }
-                       html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                       html += '<li><a href="#_'+apiGroup.order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">'+apiGroup.order+'.' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                    }
                     html += '</ul>';
                     html += '</li>';

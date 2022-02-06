@@ -22,19 +22,19 @@ api[0].list[0].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:30001/query.do',
-    desc: 'querysenddetailsresponse',
+    desc: 'query send details response',
 });
 api[0].list[0].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:30001/sms-report.do',
-    desc: 'getsmsreportmessageset',
+    desc: 'get sms report message set',
 });
 api[0].list[0].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://localhost:30001/report-queue.do',
-    desc: 'getsmsreportmessageset',
+    desc: 'get sms report message set',
 });
 api[0].list.push({
     alias: 'error',
@@ -74,7 +74,8 @@ function keyDownSearch(e) {
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
     if (code == 13) {
         const search = document.getElementById('search');
-        const searchValue = search.value;
+        const searchValue = search.value.toLocaleLowerCase();
+
         let searchGroup = [];
         for (let i = 0; i < api.length; i++) {
 
@@ -84,7 +85,7 @@ function keyDownSearch(e) {
             for (let i = 0; i < apiGroup.list.length; i++) {
                 let apiData = apiGroup.list[i];
                 const desc = apiData.desc;
-                if (desc.indexOf(searchValue) > -1) {
+                if (desc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                     searchArr.push({
                         order: apiData.order,
                         desc: apiData.desc,
@@ -97,7 +98,7 @@ function keyDownSearch(e) {
                     for (let j = 0; j < methodList.length; j++) {
                         const methodData = methodList[j];
                         const methodDesc = methodData.desc;
-                        if (methodDesc.indexOf(searchValue) > -1) {
+                        if (methodDesc.toLocaleLowerCase().indexOf(searchValue) > -1) {
                             methodListTemp.push(methodData);
                             break;
                         }
@@ -113,7 +114,7 @@ function keyDownSearch(e) {
                     }
                 }
             }
-            if (apiGroup.name.indexOf(searchValue) > -1) {
+            if (apiGroup.name.toLocaleLowerCase().indexOf(searchValue) > -1) {
                 searchGroup.push({
                     name: apiGroup.name,
                     order: apiGroup.order,
@@ -179,7 +180,7 @@ function buildAccordion(apiGroups, liClass, display) {
                     } else {
                         spanString='<span>';
                     }
-                    html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
@@ -194,7 +195,7 @@ function buildAccordion(apiGroups, liClass, display) {
                 let apiData = apiGroup.list;
                 for (let j = 0; j < apiData.length; j++) {
                     html += '<li class="'+liClass+'">';
-                    html += '<a class="dd" href="#_' + apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                    html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                     html += '<ul class="sectlevel2" style="'+display+'">';
                     doc = apiData[j].list;
                     for (let m = 0; m < doc.length; m++) {
@@ -204,7 +205,7 @@ function buildAccordion(apiGroups, liClass, display) {
                        } else {
                            spanString='<span>';
                        }
-                       html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].href + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                       html += '<li><a href="#_'+apiGroup.order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">'+apiGroup.order+'.' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                    }
                     html += '</ul>';
                     html += '</li>';

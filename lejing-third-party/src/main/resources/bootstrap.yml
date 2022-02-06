@@ -9,7 +9,7 @@ spring:
         refresh-enabled: true
         #垃圾nacos特么居然严格区分yaml和yml
         file-extension: yml
-        extension-configs:
-          - data-id: oss.yml
-            group: DEFAULT_GROUP
-            refresh: true
+#        extension-configs:
+#          - data-id: oss.yml
+#            group: DEFAULT_GROUP
+#            refresh: true
