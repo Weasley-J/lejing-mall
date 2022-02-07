@@ -1,6 +1,8 @@
 logging:
   level:
     org.springframework.web.servlet.DispatcherServlet: debug
+    com.alibaba.cloud.nacos.client: error
+    com.alibaba.nacos: error
 
 server:
   port: 8080
