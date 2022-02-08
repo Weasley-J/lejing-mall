@@ -20,7 +20,7 @@ ll
 rm -rfv "./${TAR_NAME}"
 tar -xzvf "${TAR_NAME}.tar.gz"
 
-cd ${DIR}/${TAR_NAME} || exit
+ll ${DIR}/${TAR_NAME}
 
 #以下4个参数需要在飞鸽后台[https://www.fgnwct.com/home.html]根据自己的情况修改，访问域名: http://前置域名.${SERVER}
 PRE_DOMAIN="weasley"
@@ -34,9 +34,11 @@ rm -rfv ~/feige_client.sh
 } >>~/feige_client.sh &&
   clear && cat ~/feige_client.sh
 
-chmod -v 777 ~/*.sh
+chmod -v 777 ~/feige_client.sh
 
-rm rfv "${DIR}/${TAR_NAME}.tar.gz"
+rm -rfv "${DIR}/${TAR_NAME}.tar.gz"
+
+~/feige_client.sh
 
 clear && printf '\r\n
 \t\t\t启动客户端反向代理: ~/feige_client.sh
