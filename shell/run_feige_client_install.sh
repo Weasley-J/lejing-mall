@@ -36,7 +36,7 @@ rm -rfv ~/feige_client.sh
 
 chmod -v 777 ~/*.sh
 
-rm rfv "${TAR_NAME}.tar.gz"
+rm rfv "${DIR}/${TAR_NAME}.tar.gz"
 
 clear && printf '\r\n
 \t\t\t启动客户端反向代理: ~/feige_client.sh
