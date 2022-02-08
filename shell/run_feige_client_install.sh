@@ -7,6 +7,8 @@
 
 DIR="/usr/local/feige"
 TAR_NAME="linux_amd64_client"
+LOG_NAME="${DIR}/npc"
+EXEC_APP="${DIR}/${TAR_NAME}/npc"
 LINK="https://www.fgnwct.com/client/${TAR_NAME}.tar.gz"
 mkdir -pv "${DIR}"
 cd ${DIR} || exit
@@ -28,7 +30,7 @@ V_KEY="48eb2e7a48"
 
 rm -rfv ~/feige_client.sh
 {
-  echo "nohup ${DIR}/${TAR_NAME}npc -server=${SERVER}:${SERVER_PORT} -vkey=${V_KEY} > ${DIR}/${TAR_NAME}npc.log 2>&1 &"
+  echo "nohup ${EXEC_APP} -server=${SERVER}:${SERVER_PORT} -vkey=${V_KEY} > ${LOG_NAME}.log 2>&1 &"
 } >>~/feige_client.sh &&
   clear && cat ~/feige_client.sh
 
