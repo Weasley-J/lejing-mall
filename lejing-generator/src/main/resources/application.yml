@@ -12,7 +12,7 @@ spring:
     name: lejing-generator
   cloud:
     nacos:
-      server-addr: 192.168.31.105:8848
+      server-addr: 192.168.31.106:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
   jackson:
@@ -27,7 +27,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.105:3306/lejing_job?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.31.106:3306/lejing_job?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
 

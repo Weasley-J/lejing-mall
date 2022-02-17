@@ -5,18 +5,18 @@
     <parent>
         <groupId>cn.alphahub.mall</groupId>
         <artifactId>lejing-mall</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-generator</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
     <description>乐璟商城 - 代码生成器</description>
 
     <properties>
         <velocity.version>1.7</velocity.version>
-        <mysql.version>8.0.26</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.3</oracle.version>
         <mongo.version>3.12.10</mongo.version>

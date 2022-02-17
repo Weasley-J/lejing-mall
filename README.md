@@ -36,14 +36,18 @@
 
 技术架构：
 
+
+
 - 🚀️  `JDK11`
-- 🚀️  `MySQL-8.0.26`
-- 🚀️  `apache-maven-3.8.2`
-- 🚀️  `spring-boot 2.5.6`
-- 🚀️  `spring-cloud-2020.0.4`
+- 🚀️  `MySQL-8.0.268`
+- 🚀️  `apache-maven-3.8.4`
+- 🚀️  `spring-boot 2.6.3`
+- 🚀️  `spring-cloud-2021.0.0`
 - 🚀️  `spring-cloud-alibaba 2021.1`
 - 🚀️  `NACOS2.0.3`
-- 🚀️  `Elasticsearch+Logstash+Kibana(v7.13.2)`
+- 🚀️  `Elasticsearch+Logstash+Kibana(7.17.0)`
+- 🚀️  `mybatis-plus 3.5.1`
+- 很多很多...
 
 
 
@@ -365,7 +369,7 @@ sysctl -p
 
 `fastjson`的bug级别为E, 共122个, `Jackson`为C级,共15个,  `fastjson`的bug约为`jackson`的8倍还要多, 数据上看, `jackson`比`fastjson`可靠.
 
-# 7 Q&A
+# 7 Question&Answer
 
 ## 7.1 为什么分页不用`mybatis-plus`自带的`IPage`？
 

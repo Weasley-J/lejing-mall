@@ -23,7 +23,7 @@
 
     <!-- 输出到Logstash配置, 需要输送到logstash是放开注释 -->
     <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.31.105:5044</destination>
+        <destination>192.168.31.106:5044</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"app_name":"${app_name}"}</customFields>
             <customFields>{"run_env":"${run_env}"}</customFields>

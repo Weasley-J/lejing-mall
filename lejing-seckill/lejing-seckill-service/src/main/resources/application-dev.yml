@@ -21,7 +21,7 @@ spring:
     cache: off
   #redis配置
   redis:
-    host: 192.168.31.105
+    host: 192.168.31.106
     port: 6379
     password: 123456
     client-name: LEJING_REDIS
@@ -35,13 +35,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.31.105:8848
+        server-addr: 192.168.31.106:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.105:8087
+        dashboard: 192.168.31.106:8087
   zipkin:
-    base-url: http://192.168.31.105:9411
+    base-url: http://192.168.31.106:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -50,7 +50,7 @@ spring:
       #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
       probability: 1
   rabbitmq:
-    host: 192.168.31.105
+    host: 192.168.31.106
     port: 5672
     username: lejing
     password: 123456

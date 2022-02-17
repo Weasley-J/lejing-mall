@@ -4,7 +4,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.31.105:8848
+        server-addr: 192.168.31.106:8848
         group: DEFAULT_GROUP
         namespace: b3bf69ba-f696-4479-aae1-94807a56eb90
         refresh-enabled: true

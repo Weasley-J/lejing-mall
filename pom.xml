@@ -11,7 +11,7 @@
 
     <groupId>cn.alphahub.mall</groupId>
     <artifactId>lejing-mall</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1</version>
     <name>lejing-mall</name>
     <packaging>pom</packaging>
     <description>乐璟商城父工程</description>
@@ -40,11 +40,9 @@
 
     <properties>
         <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sonar.host.url>http://192.168.31.105:9001</sonar.host.url>
+        <sonar.host.url>http://192.168.31.106:9001</sonar.host.url>
         <sonar.login>admin</sonar.login>
         <sonar.password>123456</sonar.password>
         <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
@@ -91,7 +89,7 @@
         <elasticsearch.version>7.17.0</elasticsearch.version>
         <logstash.logback.version>6.6</logstash.logback.version>
         <easypoi.starter.version>4.4.0</easypoi.starter.version>
-        <joda-time.version>2.10.10</joda-time.version>
+        <joda-time.version>2.10.12</joda-time.version>
         <jjwt.version>0.9.1</jjwt.version>
         <seata.starter.version>1.4.2</seata.starter.version>
         <kryo-kryo-version>2.24.0</kryo-kryo-version>

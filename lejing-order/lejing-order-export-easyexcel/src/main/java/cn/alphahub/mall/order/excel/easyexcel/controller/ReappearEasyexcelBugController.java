@@ -7,12 +7,14 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.context.AnalysisContext;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,6 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,13 +48,15 @@ public class ReappearEasyexcelBugController {
     /**
      * 用于模拟数据列表
      */
-    private final List<Person> personList = new ArrayList<>() {{
-        add(new Person(0L, "张三", 18, new BigDecimal("12"), 1));
-        add(new Person(1L, "", 19, new BigDecimal("13"), 1));
-        add(new Person(2L, "张五", 20, new BigDecimal("14"), 1));
-        add(new Person(3L, "张六", 21, new BigDecimal("15"), 1));
-        add(new Person(4L, "张七", 120, new BigDecimal("101"), 3));
-    }};
+    public List<Person> getPersonList() {
+        List<@Nullable Person> people = Lists.newArrayList();
+        people.add(new Person(0L, "张三", 18, new BigDecimal("12"), 1));
+        people.add(new Person(1L, "", 19, new BigDecimal("13"), 1));
+        people.add(new Person(2L, "张五", 20, new BigDecimal("14"), 1));
+        people.add(new Person(3L, "张六", 21, new BigDecimal("15"), 1));
+        people.add(new Person(4L, "张七", 120, new BigDecimal("101"), 3));
+        return people;
+    }
 
     /**
      * 下载excel文件
@@ -66,7 +69,7 @@ public class ReappearEasyexcelBugController {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename.trim(), StandardCharsets.UTF_8));
-            EasyExcel.write(response.getOutputStream(), Person.class).sheet("用户").doWrite(personList);
+            EasyExcel.write(response.getOutputStream(), Person.class).sheet("用户").doWrite(this.getPersonList());
         } catch (IOException e) {
             log.error("{}", e.getLocalizedMessage(), e);
         }

@@ -5,7 +5,7 @@ logging:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.105:3306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.31.106:3306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
   web:
@@ -21,7 +21,7 @@ spring:
     timeout: 30m
   #redis配置
   redis:
-    host: 192.168.31.105
+    host: 192.168.31.106
     port: 6379
     password: 123456
     database: 0
@@ -29,17 +29,17 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.31.105:8848
+        server-addr: 192.168.31.106:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.105:8087
+        dashboard: 192.168.31.106:8087
     alibaba:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
         tx-service-group: lejing_tx_group
   zipkin:
-    base-url: http://192.168.31.105:9411
+    base-url: http://192.168.31.106:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -48,7 +48,7 @@ spring:
       #设置采样率为100%(性能会降低)，默认为0.1，10的采样率
       probability: 1
   rabbitmq:
-    host: 192.168.31.105
+    host: 192.168.31.106
     port: 5672
     username: lejing
     password: 123456

@@ -20,6 +20,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AppSiteReserveServiceImpl implements AppSiteReserveService {
-
+    protected static final String SITE_NAME = "乐璟生活社区足球场";
     @Autowired
     private SiteUtil siteUtil;
     @Autowired
@@ -123,7 +123,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
             SiteSessionVO sessionVO = new SiteSessionVO();
             sessionVO.setSiteSessionId(i);
             sessionVO.setSiteId(i + 1549489L);
-            sessionVO.setSiteTitle("乐璟生活社区足球场");
+            sessionVO.setSiteTitle(SITE_NAME);
             sessionVO.setEffectDate(effectDate);
             sessionVO.setSessionStartTime("1" + i + ":00");
             sessionVO.setSessionFinishTime("1" + (i + 1) + ":00");
@@ -193,7 +193,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
             SiteOrderVO orderVO = SiteOrderVO.builder().build();
             orderVO.setUserId("89479128343" + i);
             orderVO.setSiteId(i + 93489315654L);
-            orderVO.setSiteTitle("乐璟生活社区足球场");
+            orderVO.setSiteTitle(SITE_NAME);
             orderVO.setEffectDate(new Date());
             orderVO.setSessionStartTime("12:00");
             orderVO.setSessionFinishTime("18:00");
@@ -241,7 +241,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
         // TODO 订单详情-VO
         SiteOrderDetailVO detailVO = SiteOrderDetailVO.builder().build();
         detailVO.setSiteId(123456789L);
-        detailVO.setSiteTitle("乐璟生活社区足球场");
+        detailVO.setSiteTitle(SITE_NAME);
         detailVO.setCouponCode("LJ-123456");
         detailVO.setCouponStatus(1);
         detailVO.setOrderMasterId(orderMasterId);
@@ -318,7 +318,7 @@ public class AppSiteReserveServiceImpl implements AppSiteReserveService {
 
         // TODO 返回Boolean值
 
-        return new Random().nextInt() % 2 == 0;
+        return RandomUtils.nextInt() % 2 == 0;
     }
 
     /**

@@ -52,13 +52,16 @@ public class EasypoiValidSheetController {
     /**
      * 用于模拟数据列表
      */
-    private final List<Person> personList = new ArrayList<>() {{
-        add(new Person(0L, "张三", 18, new BigDecimal("12"), 1));
-        add(new Person(1L, "", 19, new BigDecimal("13"), 1));
-        add(new Person(2L, "张五", 20, new BigDecimal("14"), 1));
-        add(new Person(3L, "张六", 21, new BigDecimal("15"), 1));
-        add(new Person(4L, "张七", 120, new BigDecimal("101"), 3));
-    }};
+    protected static final List<Person> PEOPLE = new ArrayList<>();
+
+    static {
+        PEOPLE.add(new Person(0L, "张三", 18, new BigDecimal("12"), 1));
+        PEOPLE.add(new Person(1L, "", 19, new BigDecimal("13"), 1));
+        PEOPLE.add(new Person(2L, "张五", 20, new BigDecimal("14"), 1));
+        PEOPLE.add(new Person(3L, "张六", 21, new BigDecimal("15"), 1));
+        PEOPLE.add(new Person(4L, "张七", 120, new BigDecimal("101"), 3));
+    }
+
 
     /**
      * 下载excel文件
@@ -68,7 +71,7 @@ public class EasypoiValidSheetController {
     public void download(HttpServletRequest request, HttpServletResponse response) {
         String filename = "person-" + LocalDateTimeUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss") + ".xlsx";
         try {
-            ExcelUtil.exportExcel(request, response, filename, new ExportParams("用户", "person"), Person.class, personList);
+            ExcelUtil.exportExcel(request, response, filename, new ExportParams("用户", "person"), Person.class, PEOPLE);
         } catch (IOException e) {
             log.error("{}", e.getLocalizedMessage(), e);
         }
@@ -112,7 +115,7 @@ public class EasypoiValidSheetController {
     public void previewHtml(HttpServletResponse response) {
         ExportParams entity = new ExportParams();
         entity.setTitle("用户");
-        ExcelUtil.previewHtml(response, entity, Person.class, personList);
+        ExcelUtil.previewHtml(response, entity, Person.class, PEOPLE);
     }
 
     /**
