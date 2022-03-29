@@ -48,11 +48,11 @@ public class EmailAspect {
     /**
      * mail sender thread local
      */
-    private final ThreadLocal<JavaMailSender> mailSenderThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<JavaMailSender> MAIL_SENDER_THREAD_LOCAL = new ThreadLocal<>();
     /**
      * mail properties thread local
      */
-    private final ThreadLocal<MailProperties> mailPropertiesThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<MailProperties> MAIL_PROPERTIES_THREAD_LOCAL = new ThreadLocal<>();
     /**
      * 填充邮件模板配置列表元数据Map
      */
@@ -83,8 +83,8 @@ public class EmailAspect {
     public void beforeProxyOnClass(JoinPoint point, Email email) {
         MailProperties properties = emailPropertiesMap.get(email.name());
         JavaMailSender javaMailSender = javaMailSenderMap.get(email.name());
-        mailSenderThreadLocal.set(javaMailSender);
-        mailPropertiesThreadLocal.set(properties);
+        MAIL_SENDER_THREAD_LOCAL.set(javaMailSender);
+        MAIL_PROPERTIES_THREAD_LOCAL.set(properties);
     }
 
     /**
@@ -94,8 +94,8 @@ public class EmailAspect {
      */
     @After("pointcutProxyOnClass() && @within(email)")
     public void afterProxyOnClass(Email email) {
-        mailSenderThreadLocal.remove();
-        mailPropertiesThreadLocal.remove();
+        MAIL_SENDER_THREAD_LOCAL.remove();
+        MAIL_PROPERTIES_THREAD_LOCAL.remove();
     }
 
     /**
@@ -131,8 +131,8 @@ public class EmailAspect {
 
         MailProperties properties = emailPropertiesMap.get(email.name());
         JavaMailSender javaMailSender = javaMailSenderMap.get(email.name());
-        mailSenderThreadLocal.set(javaMailSender);
-        mailPropertiesThreadLocal.set(properties);
+        MAIL_SENDER_THREAD_LOCAL.set(javaMailSender);
+        MAIL_PROPERTIES_THREAD_LOCAL.set(properties);
     }
 
     /**
@@ -156,8 +156,8 @@ public class EmailAspect {
     @After("pointcut() && @annotation(email)")
     public void after(Email email) {
         log.info("3. after");
-        mailSenderThreadLocal.remove();
-        mailPropertiesThreadLocal.remove();
+        MAIL_SENDER_THREAD_LOCAL.remove();
+        MAIL_PROPERTIES_THREAD_LOCAL.remove();
     }
 
     /**
@@ -196,13 +196,13 @@ public class EmailAspect {
      * @return JavaMailSender
      */
     public JavaMailSender javaMailSender() {
-        return mailSenderThreadLocal.get();
+        return MAIL_SENDER_THREAD_LOCAL.get();
     }
 
     /**
      * @return 电子邮件支持的配置属性
      */
     public MailProperties mailProperties() {
-        return mailPropertiesThreadLocal.get();
+        return MAIL_PROPERTIES_THREAD_LOCAL.get();
     }
 }

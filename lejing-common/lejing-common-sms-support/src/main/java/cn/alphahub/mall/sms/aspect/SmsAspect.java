@@ -56,7 +56,7 @@ public class SmsAspect {
     /**
      * sms client thread local
      */
-    private final ThreadLocal<SmsClient> smsClientThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<SmsClient> SMS_CLIENT_THREAD_LOCAL = new ThreadLocal<>();
     /**
      * 多模板短信配置
      */
@@ -94,9 +94,9 @@ public class SmsAspect {
         SmsClient smsClient = smsClientMap.get(smsConfig.decorateTemplateName(sms.supplier(), sms.name()));
         if (Objects.nonNull(sms.invokeClass()) && sms.invokeClass() != DefaultSmsClientPlaceholder.class) {
             SmsClient instance = sms.invokeClass().getDeclaredConstructor().newInstance();
-            smsClientThreadLocal.set(instance);
+            SMS_CLIENT_THREAD_LOCAL.set(instance);
         } else {
-            smsClientThreadLocal.set(smsClient);
+            SMS_CLIENT_THREAD_LOCAL.set(smsClient);
         }
     }
 
@@ -107,7 +107,7 @@ public class SmsAspect {
      */
     @After("pointcutOnProxyClass() && @within(sms)")
     public void afterOnProxyClass(SMS sms) {
-        smsClientThreadLocal.remove();
+        SMS_CLIENT_THREAD_LOCAL.remove();
     }
 
     /**
@@ -145,9 +145,9 @@ public class SmsAspect {
         // 自定义实现发送发送短信的实现类不为空时，将优先使用自定义短信实现
         if (Objects.nonNull(sms.invokeClass()) && sms.invokeClass() != DefaultSmsClientPlaceholder.class) {
             SmsClient instance = sms.invokeClass().getDeclaredConstructor().newInstance();
-            smsClientThreadLocal.set(instance);
+            SMS_CLIENT_THREAD_LOCAL.set(instance);
         } else {
-            smsClientThreadLocal.set(smsClient);
+            SMS_CLIENT_THREAD_LOCAL.set(smsClient);
         }
     }
 
@@ -172,7 +172,7 @@ public class SmsAspect {
     @After("pointcutOnProxyMethod() && @annotation(sms)")
     public void afterOnProxyMethod(SMS sms) {
         log.info("after");
-        smsClientThreadLocal.remove();
+        SMS_CLIENT_THREAD_LOCAL.remove();
     }
 
     /**
@@ -211,7 +211,7 @@ public class SmsAspect {
      * @return {@code cn.alphahub.mall.sms.SmsClient}
      */
     public SmsClient getSmsClient() {
-        SmsClient smsClient = smsClientThreadLocal.get();
+        SmsClient smsClient = SMS_CLIENT_THREAD_LOCAL.get();
         if (null == smsClient) {
             SmsSupplier smsSupplier = templateProperties.getSmsSupplier();
             String templateName = templateProperties.getTemplateName();

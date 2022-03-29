@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -81,7 +82,7 @@ public class SmsConfig {
      */
     @Bean({"smsPropertiesMap"})
     public Map<String, SmsTemplateProperties> smsPropertiesMap(SmsTemplateProperties templateProperties, MultipleSmsTemplateProperties multiSmsTemplateProperties) {
-        Map<String, SmsTemplateProperties> smsSupportMap = new LinkedHashMap<>(50);
+        Map<String, SmsTemplateProperties> smsSupportMap = new ConcurrentHashMap<>();
         if (Objects.nonNull(templateProperties)) {
             templateProperties.setTemplateName(SMS.DEFAULT_TEMPLATE);
             String decorateTemplateName = decorateTemplateName(templateProperties.getSmsSupplier(), templateProperties.getTemplateName());
@@ -107,7 +108,7 @@ public class SmsConfig {
     @Bean({"smsClientMap"})
     @DependsOn({"smsPropertiesMap"})
     public Map<String, SmsClient> smsClientMap(@Qualifier("smsPropertiesMap") Map<String, SmsTemplateProperties> smsPropertiesMap) {
-        Map<String, SmsClient> smsClientMap = new LinkedHashMap<>(50);
+        Map<String, SmsClient> smsClientMap = new ConcurrentHashMap<>();
         smsPropertiesMap.forEach((name, template) -> {
             switch (template.getSmsSupplier()) {
                 case ALI:

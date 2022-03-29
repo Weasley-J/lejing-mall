@@ -57,7 +57,7 @@ public class EmailConfig {
     @RefreshScope
     @Bean(name = {"emailPropertiesMap"})
     public Map<String, MailProperties> emailPropertiesMap(MailProperties mailProperties, EmailTemplateProperties emailTemplateProperties) {
-        Map<String, MailProperties> mailPropertiesMap = new ConcurrentHashMap<>(100);
+        Map<String, MailProperties> mailPropertiesMap = new ConcurrentHashMap<>();
         mailPropertiesMap.put(Email.DEFAULT_TEMPLATE, mailProperties);
         List<EmailProperties> templates = emailTemplateProperties.getEmailTemplates();
         if (CollUtil.isEmpty(templates)) {
@@ -78,7 +78,7 @@ public class EmailConfig {
     @RefreshScope
     @Bean(name = {"javaMailSenderMap"})
     public Map<String, JavaMailSender> javaMailSenderMap(@Qualifier("emailPropertiesMap") Map<String, MailProperties> emailPropertiesMap) {
-        Map<String, JavaMailSender> javaMailSenderMap = new ConcurrentHashMap<>(100);
+        Map<String, JavaMailSender> javaMailSenderMap = new ConcurrentHashMap<>();
         emailPropertiesMap.forEach((templateName, properties) -> {
             JavaMailSenderImpl sender = new JavaMailSenderImpl();
             sender.setHost(properties.getHost());
