@@ -212,9 +212,7 @@ public class SearchServiceImpl implements SearchService {
                         )
                 );
 
-        searchQueryBuilder.addAggregation(termsBrandAgg);
-        searchQueryBuilder.addAggregation(termsCategoryAgg);
-        searchQueryBuilder.addAggregation(nestedTermsAttrAgg);
+        searchQueryBuilder.withAggregations(termsBrandAgg, termsCategoryAgg, nestedTermsAttrAgg);
 
         // 4 排序
         if (StringUtils.isNotBlank(param.getSort())) {
@@ -222,7 +220,7 @@ public class SearchServiceImpl implements SearchService {
             SortOrder order = StringUtils.equalsIgnoreCase(sortArray[1], SortOrder.ASC.toString()) ? SortOrder.ASC : SortOrder.DESC;
             FieldSortBuilder sortBuilder = SortBuilders.fieldSort(sortArray[0]).order(order);
             System.out.println("ES 排序查询语句:\n" + JSONUtil.toJsonStr(sortBuilder));
-            searchQueryBuilder.withSort(sortBuilder);
+            searchQueryBuilder.withSorts(sortBuilder);
         }
 
         // 5 分页, 分页页码默认从0开始
