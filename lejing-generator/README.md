@@ -159,7 +159,7 @@ nvarchar=String
 ## **项目说明**
 
 - 在线生成`domain`、`xml`、`mapper`、`service`、`controller`、前端`vue`文件、`js`、`sql`代码，减少70%以上的开发任务, 通常情况下删除生成的`controller`文件, 然后根据自己的业务场景编写对应的业务接口，持久层基于`mybatis-plus`。
-- 整合`smart-doc`，执行项目的 `mvn package` 可直接输出`Restful api`，支持调试，你可能需要在你的项目中引入`lejing-common/lejing-common-base-public`模块和配置`smart-doc.json`文件，`smart-doc`学习地址：https://gitee.com/smart-doc-team/smart-doc，这是一个不错的`api`文档生成工具。
+- 整合`smart-doc`，执行项目的 `mvn package` 可直接输出`Restful api`，支持调试，你可能需要在你的项目中引入`lejing-common/lejing-common-base-public`模块和配置`smart-doc.json`文件，[smart-doc](https://gitee.com/smart-doc-team/smart-doc)是一个不错的`api`文档生成、管理工具。
 
 ![image-20210912002146693](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210912002146693.png)
 
