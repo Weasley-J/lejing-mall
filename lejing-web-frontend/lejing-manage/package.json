@@ -17,7 +17,7 @@
     "axios": "^0.21.1",
     "babel-plugin-component": "0.10.1",
     "babel-polyfill": "6.26.0",
-    "element-ui": "2.8.2",
+    "element-ui": "2.15.7",
     "gulp": "3.9.1",
     "gulp-concat": "2.6.1",
     "gulp-load-plugins": "1.6.0",
