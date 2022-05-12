@@ -29,11 +29,8 @@ import javax.annotation.Resource;
 @EnableConfigurationProperties(CacheProperties.class)
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
-    @Resource
-    private CacheProperties cacheProperties;
-
     @Bean
-    public RedisCacheConfiguration redisCacheConfiguration() {
+    public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
 
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
 
