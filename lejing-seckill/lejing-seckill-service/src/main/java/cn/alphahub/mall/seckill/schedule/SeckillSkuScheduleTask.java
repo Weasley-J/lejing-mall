@@ -47,7 +47,9 @@ public class SeckillSkuScheduleTask {
         try {
             seckillService.onShelveSeckillSkuLatest3Days();
         } finally {
-            rLock.unlock();
+            if (rLock.isHeldByCurrentThread()) {
+                rLock.unlock();
+            }
         }
     }
 }
