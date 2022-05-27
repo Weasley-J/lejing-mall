@@ -1,5 +1,5 @@
 # 设置基础镜像
-FROM nginx:latest
+FROM nginx:stable
 # 定义作者
 MAINTAINER Weasley "1432689025@qq.com"
 # 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面
