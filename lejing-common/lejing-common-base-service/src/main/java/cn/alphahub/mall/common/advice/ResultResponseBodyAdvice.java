@@ -2,6 +2,7 @@ package cn.alphahub.mall.common.advice;
 
 import cn.alphahub.mall.common.EscapeResult;
 import cn.alphahub.mall.common.constant.FrameworkConstant;
+import cn.alphahub.mall.common.core.abstraction.AbstractResult;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.common.entity.EscapeResultWrapper;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @RestControllerAdvice({"cn.alphahub"})
 public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
-    private static final Logger logger = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
 
     /**
      * Whether this component supports the given controller method return type
@@ -70,9 +71,10 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
 
-        if (body instanceof Result) {
-            if (null == ((Result<?>) body).getTraceId()) {
-                ((Result<?>) body).setTraceId(traceId);
+        if ((body instanceof AbstractResult)) {
+            if (((AbstractResult<?>) body).getTraceId() == null) {
+                ((AbstractResult<?>) body).setTraceId(traceId);
+                return body;
             }
         } else {
             Result<Object> result = Result.ok();

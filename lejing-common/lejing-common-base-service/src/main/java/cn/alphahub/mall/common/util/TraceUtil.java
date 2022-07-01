@@ -1,6 +1,6 @@
 package cn.alphahub.mall.common.util;
 
-import cn.hutool.core.util.RandomUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * Trace Id工具类
@@ -18,6 +18,6 @@ public class TraceUtil {
      * @return 返回8位的随机字符串（只包含数字和字符)
      */
     public static String getTraceId() {
-        return RandomUtil.randomString(8);
+        return RandomStringUtils.randomAlphanumeric(8);
     }
 }

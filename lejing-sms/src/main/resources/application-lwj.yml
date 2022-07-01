@@ -1,0 +1,38 @@
+spring:
+  web:
+    resources:
+      #控制api文档访问, smart-doc生成的html静态api文档
+      add-mappings: on
+  rabbitmq:
+    host: 192.168.31.106
+    port: 5672
+    username: lejing
+    password: 123456
+    virtual-host: /lejing
+    template:
+      #用于发送操作的默认交换机的名称
+      exchange: LEJING.SMS.EXCHANGE
+  redis:
+    database: 0
+    host: 192.168.31.106
+    port: 6379
+    password: 123456
+    timeout: 6000ms
+#阿里云参数配置
+alibaba:
+  #阿里云短信参数
+  cloud:
+    access-key: LTAI4G6Zsey9xd3vXiWGBCow
+    secret-key:  JlQYpcrBNEbMXmYX16snROLdvL8fqA
+    # SMS Properties
+    region-id: cn-hangzhou
+    sign-name: AlphaHub
+    template-code: SMS_202823833
+    access-key-id: ${alibaba.cloud.access-key}
+    access-secret: ${alibaba.cloud.secret-key}
+    # MNS消息队列消费模式表示通过MNS的Queue模型来接收短信的回执消息和上行短信内容
+    sms:
+      #上行消息接收
+      up-queue-name: Alicom-Queue-yourQueueId-SmsUp
+      #状态报告接收
+      report-queue-name: Alicom-Queue-yourQueueId-SmsReport

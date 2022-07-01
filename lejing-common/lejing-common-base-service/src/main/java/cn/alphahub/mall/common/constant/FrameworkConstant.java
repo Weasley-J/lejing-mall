@@ -8,6 +8,7 @@ package cn.alphahub.mall.common.constant;
  * @date 2022/6/30
  */
 public interface FrameworkConstant {
+
     String THIRD_HEADER_TOKEN_PREFIX = "third-";
     /**
      * TRACE ID

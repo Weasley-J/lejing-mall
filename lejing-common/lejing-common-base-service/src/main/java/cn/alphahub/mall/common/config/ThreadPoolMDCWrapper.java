@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-public class ThreadPoolMdcWrapper extends ThreadPoolTaskExecutor {
+public class ThreadPoolMDCWrapper extends ThreadPoolTaskExecutor {
     private static final long serialVersionUID = 3940722618853093830L;
 
     @Override
