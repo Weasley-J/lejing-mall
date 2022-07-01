@@ -12,7 +12,7 @@ import java.io.IOException;
  * 将返回给前端的Long型id转为String，防止精度丢失，添加到实体类的主键id上，
  * jackson在序列化是会自动序列化id为string类型
  * </p>
- * <b>用法示例:</b>
+ * <b>用法示例</b>
  * <pre>
  *    {@code @Data}
  *     public class SkuModel implements Serializable {

@@ -16,12 +16,12 @@
 
     <properties>
         <velocity.version>1.7</velocity.version>
-        <mysql.version>8.0.28</mysql.version>
+        <mysql.version>8.0.29</mysql.version>
         <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.3</oracle.version>
         <mongo.version>3.12.10</mongo.version>
         <commons.configuration.version>1.10</commons.configuration.version>
-        <druid.stater.version>1.2.5</druid.stater.version>
+        <druid.stater.version>1.2.11</druid.stater.version>
         <sonar.skip>true</sonar.skip>
     </properties>
 
@@ -66,7 +66,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.stater.version}</version>
         </dependency>
         <!-- hutool -->
         <dependency>

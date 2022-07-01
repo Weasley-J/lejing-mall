@@ -22,9 +22,11 @@
         <module>lejing-common-dependencies-web</module>
         <module>lejing-common-base-domain</module>
         <module>lejing-common-base-public</module>
+        <module>lejing-common-base-service</module>
         <module>lejing-common-util</module>
         <module>lejing-common-email-support</module>
         <module>lejing-common-sms-support</module>
+        <module>lejing-common-application-test</module>
     </modules>
 
 </project>

@@ -17,7 +17,7 @@ import cn.alphahub.mall.reserve.app.pojo.vo.SiteSessionVO;
 import cn.alphahub.mall.reserve.app.service.AppSiteReserveService;
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.logstash.logback.encoder.org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.CollectionUtils;

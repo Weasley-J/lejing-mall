@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <!--读取spring容器中的属性，这里是获取项目名称和运行的服务器IP-->
-    <springProperty scope="context" name="server_port" source="server.port"/>
-    <springProperty scope="context" name="app_name" source="spring.application.name"/>
-    <springProperty scope="context" name="run_env" source="spring.profiles.active"/>
+    <springProperty scope="context" name="SERVER_PORT" source="server.port"/>
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <springProperty scope="context" name="RUN_ENV" source="spring.profiles.active"/>
 
     <!-- springboot默认日志输出文件defaults.xml所在包: org.springframework.boot:spring-boot:x.x.x -->
-    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
-    <property name="FILE_LOG_PATTERN" value="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%X{X-B3-TraceId:-}]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="CONSOLE_LOG_CHARSET" value="${CONSOLE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
+    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="FILE_LOG_CHARSET" value="${FILE_LOG_CHARSET:-${file.encoding:-UTF-8}}"/>
 
     <!-- 控制台输出 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
-        <encoder>
+        <encoder charset="UTF-8">
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>utf8</charset>
         </encoder>
     </appender>
 
@@ -25,9 +25,9 @@
     <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.31.106:5044</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app_name":"${app_name}"}</customFields>
-            <customFields>{"run_env":"${run_env}"}</customFields>
-            <customFields>{"server_port":"${server_port}"}</customFields>
+            <customFields>{"APP_NAME":"${APP_NAME}"}</customFields>
+            <customFields>{"RUN_ENV":"${RUN_ENV}"}</customFields>
+            <customFields>{"SERVER_PORT":"${SERVER_PORT}"}</customFields>
         </encoder>
         <connectionStrategy>
             <roundRobin>
@@ -36,16 +36,73 @@
         </connectionStrategy>
     </appender>-->
 
-    <!-- 在application.yml中指定spring.profiles.active属性值，配置线上与线下环境日志的输出 -->
     <!-- 开发环境 -->
-    <springProfile name="dev,lwj,local">
+    <springProfile name="default,dev,lwj">
         <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder charset="UTF-8">
                 <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             </encoder>
         </appender>
         <logger name="cn.alphahub.mall" level="debug"/>
-        <logger name="cn.alphahub.common" level="debug"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.cloud.openfeign" level="debug"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="org.springframework.security.core.userdetails" level="debug"/>
+        <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="debug"/>
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="debug"/>
+        <logger name="jdbc.sqltiming" level="debug"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <!-- 测试环境 -->
+    <springProfile name="test">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder charset="UTF-8">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name="cn.alphahub.mall" level="debug"/>
+        <!-- third party logger -->
+        <logger name="org.apache.http" level="error"/>
+        <logger name="org.springframework.core" level="warn"/>
+        <logger name="org.springframework.beans" level="warn"/>
+        <logger name="org.springframework.context" level="warn"/>
+        <logger name="org.springframework.web" level="warn"/>
+        <logger name="org.springframework.web.servlet" level="info"/>
+        <logger name="org.springframework.cloud.openfeign" level="debug"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug"/>
+        <logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="info"/>
+        <logger name="org.springframework.security.core.userdetails" level="debug"/>
+        <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="debug"/>
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="debug"/>
+        <logger name="jdbc.sqltiming" level="debug"/>
+        <logger name="com.alibaba.cloud.nacos.client" level="error"/>
+        <logger name="com.alibaba.nacos" level="error"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <!--<appender-ref ref="LOGSTASH"/>-->
+        </root>
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder charset="UTF-8">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <logger name="cn.alphahub.mall" level="debug"/>
         <!-- third party logger -->
         <logger name="org.apache.http" level="error"/>
         <logger name="org.springframework.core" level="warn"/>
@@ -62,23 +119,8 @@
         <logger name="com.alibaba.cloud.nacos.client" level="error"/>
         <logger name="com.alibaba.nacos" level="error"/>
         <root level="INFO">
-            <appender-ref ref="STDOUT"/>
-        </root>
-    </springProfile>
-
-    <!-- 测试环境 -->
-    <springProfile name="test">
-        <root level="INFO">
             <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="LOGSTASH"/>
-        </root>
-    </springProfile>
-
-    <!-- 生产环境 -->
-    <springProfile name="prod">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-            <appender-ref ref="LOGSTASH"/>
+            <!--<appender-ref ref="LOGSTASH"/>-->
         </root>
     </springProfile>
 
