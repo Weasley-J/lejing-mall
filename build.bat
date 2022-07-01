@@ -13,6 +13,7 @@ mvn clean ^
 && mvn clean install -pl :lejing-common-util -am ^
 && mvn clean install -pl :lejing-common-base-domain -am ^
 && mvn clean install -pl :lejing-common-base-public -am ^
+&& mvn clean install -pl :lejing-common-base-service -am ^
 && mvn clean install -pl :lejing-common-dependencies-db -am ^
 && mvn clean install -pl :lejing-common-dependencies-web -am ^
 && mvn clean install -pl :lejing-common-email-support -am ^
