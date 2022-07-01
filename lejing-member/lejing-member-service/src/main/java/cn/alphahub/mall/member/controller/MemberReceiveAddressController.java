@@ -2,7 +2,7 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
@@ -38,7 +38,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 会员收货地址分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<MemberReceiveAddress>> list(
+    public Result<PageResult<MemberReceiveAddress>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -48,9 +48,9 @@ public class MemberReceiveAddressController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberReceiveAddress> pageResult = memberReceiveAddressService.queryPage(pageDomain, memberReceiveAddress);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -60,9 +60,9 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 会员收货地址详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<MemberReceiveAddress> info(@PathVariable("id") Long id) {
+    public Result<MemberReceiveAddress> info(@PathVariable("id") Long id) {
         MemberReceiveAddress memberReceiveAddress = memberReceiveAddressService.getById(id);
-        return ObjectUtils.anyNotNull(memberReceiveAddress) ? BaseResult.ok(memberReceiveAddress) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(memberReceiveAddress) ? Result.ok(memberReceiveAddress) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress) {
+    public Result<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress) {
         boolean save = memberReceiveAddressService.save(memberReceiveAddress);
         return toOperationResult(save);
     }
@@ -84,7 +84,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @GetMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress) {
+    public Result<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress) {
         boolean update = memberReceiveAddressService.updateById(memberReceiveAddress);
         return toOperationResult(update);
     }
@@ -96,7 +96,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberReceiveAddressService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }
@@ -108,7 +108,7 @@ public class MemberReceiveAddressController extends BaseController {
      * @return 收货地址列表
      */
     @GetMapping("/addresses/{memberId}")
-    BaseResult<List<MemberReceiveAddress>> memberAddressList(@PathVariable(value = "memberId") Long memberId) {
-        return BaseResult.success(memberReceiveAddressService.memberAddressList(memberId));
+    Result<List<MemberReceiveAddress>> memberAddressList(@PathVariable(value = "memberId") Long memberId) {
+        return Result.success(memberReceiveAddressService.memberAddressList(memberId));
     }
 }

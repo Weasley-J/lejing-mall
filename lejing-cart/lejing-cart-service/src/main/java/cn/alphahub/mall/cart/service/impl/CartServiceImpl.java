@@ -1,7 +1,7 @@
 package cn.alphahub.mall.cart.service.impl;
 
 import cn.alphahub.common.constant.CartConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.CartException;
 import cn.alphahub.common.to.UserInfoTo;
 import cn.alphahub.mall.cart.domain.Cart;
@@ -76,7 +76,7 @@ public class CartServiceImpl implements CartService {
 
         // 使用线程池: 远程查询商品服务获取sku信息
         CompletableFuture<Void> skuInfoFuture = CompletableFuture.runAsync(() -> {
-            BaseResult<SkuInfo> result = skuInfoClient.info(skuId);
+            Result<SkuInfo> result = skuInfoClient.info(skuId);
             log.info("远程查询:\n{}", JSONUtil.toJsonStr(result));
             if (result.getSuccess()) {
                 SkuInfo skuInfo = result.getData();
@@ -91,7 +91,7 @@ public class CartServiceImpl implements CartService {
 
         // 使用线程池: 远程查询商品服务获取商品sku属性列表
         CompletableFuture<Void> skuAttrValueFuture = CompletableFuture.runAsync(() -> {
-            BaseResult<List<String>> result = attrValueClient.getSkuAttrValues(skuId);
+            Result<List<String>> result = attrValueClient.getSkuAttrValues(skuId);
             log.info("远程查询结果:\n{}", JSONUtil.toJsonStr(result));
             if (result.getSuccess()) {
                 List<String> skuAttrValues = result.getData();
@@ -302,7 +302,7 @@ public class CartServiceImpl implements CartService {
                     .filter(CartItemVo::getCheck)
                     .peek(item -> {
                         // 远程查询商品的最新价格
-                        BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
+                        Result<SkuInfo> result = skuInfoClient.info(item.getSkuId());
                         log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonPrettyStr(result));
                         if (result.getSuccess()) {
                             SkuInfo skuInfo = result.getData();

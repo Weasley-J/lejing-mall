@@ -1,7 +1,7 @@
 package cn.alphahub.mall.search.controller;
 
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.valid.group.QueryGroup;
 import cn.alphahub.mall.search.domain.SkuModel;
@@ -62,14 +62,14 @@ public class SearchController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/search/save/product")
-    public BaseResult<Boolean> productStatusUp(@RequestBody List<SkuModel> skuModels) {
+    public Result<Boolean> productStatusUp(@RequestBody List<SkuModel> skuModels) {
         Boolean save = false;
         try {
             save = searchService.saveProduct(skuModels);
         } catch (Exception e) {
             log.error("上架商品保存至Elasticsearch中失败：{}\n", e.getClass(), e);
         }
-        return save ? BaseResult.ok() : BaseResult.fail(
+        return save ? Result.ok() : Result.fail(
                 BizCodeEnum.PRODUCT_UP_EXCEPTION.getCode(),
                 BizCodeEnum.PRODUCT_UP_EXCEPTION.getMessage());
     }
@@ -82,7 +82,7 @@ public class SearchController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/search/list")
-    public BaseResult<SearchResult> searchResult(@Validated(QueryGroup.class) SearchParam param) {
-        return BaseResult.success(searchService.search(param));
+    public Result<SearchResult> searchResult(@Validated(QueryGroup.class) SearchParam param) {
+        return Result.success(searchService.search(param));
     }
 }

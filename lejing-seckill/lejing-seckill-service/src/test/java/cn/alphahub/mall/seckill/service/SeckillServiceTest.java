@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.service;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
@@ -90,7 +90,7 @@ class SeckillServiceTest {
     @SneakyThrows
     @Test
     void genSessions() {
-        BaseResult<PageResult<SeckillSession>> result = seckillSessionClient.list();
+        Result<PageResult<SeckillSession>> result = seckillSessionClient.list();
         List<SeckillSession> objects = Lists.newArrayList();
         if (result.getSuccess().equals(true)) {
             Console.error(JSONUtil.toJsonPrettyStr(result));
@@ -127,7 +127,7 @@ class SeckillServiceTest {
                 }
             }
         }
-        BaseResult<Boolean> batchUpdate = seckillSessionClient.batchUpdate(objects);
+        Result<Boolean> batchUpdate = seckillSessionClient.batchUpdate(objects);
         Console.error("\n" + JSONUtil.toJsonPrettyStr(batchUpdate));
     }
 

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.service.impl;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
@@ -73,7 +73,7 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> i
     @Override
     public FareVo getPostageInfoByAddressId(Long addressId) {
         FareVo fare = new FareVo(null, BigDecimal.ZERO);
-        BaseResult<MemberReceiveAddress> result = memberReceiveAddressClient.info(addressId);
+        Result<MemberReceiveAddress> result = memberReceiveAddressClient.info(addressId);
         log.info("远程查询收货地址:{}", JSONUtil.toJsonStr(result));
         if (result.getSuccess() && Objects.nonNull(result.getData())) {
             MemberReceiveAddress receiveAddress = result.getData();

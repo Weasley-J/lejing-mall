@@ -1,10 +1,16 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.member.domain.Member;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员Controller
@@ -26,7 +32,7 @@ public interface MemberApi {
      * @return 会员分页数据
      */
     @GetMapping("/member/member/list")
-    BaseResult<PageResult<Member>> list(
+    Result<PageResult<Member>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -41,7 +47,7 @@ public interface MemberApi {
      * @return 会员详细信息
      */
     @GetMapping("/member/member/info/{id}")
-    BaseResult<Member> info(@PathVariable("id") Long id);
+    Result<Member> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员
@@ -50,7 +56,7 @@ public interface MemberApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/member/member/save")
-    BaseResult<Boolean> save(@RequestBody Member member);
+    Result<Boolean> save(@RequestBody Member member);
 
     /**
      * 修改会员
@@ -59,7 +65,7 @@ public interface MemberApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/member/member/update")
-    BaseResult<Boolean> update(@RequestBody Member member);
+    Result<Boolean> update(@RequestBody Member member);
 
     /**
      * 批量删除会员
@@ -68,7 +74,7 @@ public interface MemberApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/member/member/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 
     /**
      * 用户登录
@@ -77,7 +83,7 @@ public interface MemberApi {
      * @return 用户信息
      */
     @PostMapping("/member/memberlogin")
-    BaseResult<Member> login(@RequestBody Member member);
+    Result<Member> login(@RequestBody Member member);
 
     /**
      * 处理微博社交登录
@@ -86,7 +92,7 @@ public interface MemberApi {
      * @return 用户信息
      */
     @PostMapping("/member/member/oauth2/login")
-    BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser);
+    Result<Member> oauthLogin(@RequestBody SocialUser socialUser);
 
     /**
      * 使用微信的accessToken登录注册用户
@@ -95,5 +101,5 @@ public interface MemberApi {
      * @return 用户信息
      */
     @PostMapping(value = "/member/member/weixin/login")
-    BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo);
+    Result<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo);
 }

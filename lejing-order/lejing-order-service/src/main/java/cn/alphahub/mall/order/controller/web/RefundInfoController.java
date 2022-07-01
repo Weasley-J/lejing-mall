@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.RefundInfo;
@@ -37,7 +37,7 @@ public class RefundInfoController extends BaseController {
      * @return 退款信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<RefundInfo>> list(
+    public Result<PageResult<RefundInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class RefundInfoController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<RefundInfo> pageResult = refundInfoService.queryPage(pageDomain, refundInfo);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class RefundInfoController extends BaseController {
      * @return 退款信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<RefundInfo> info(@PathVariable("id") Long id) {
+    public Result<RefundInfo> info(@PathVariable("id") Long id) {
         RefundInfo refundInfo = refundInfoService.getById(id);
-        return ObjectUtils.anyNotNull(refundInfo) ? BaseResult.ok(refundInfo) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(refundInfo) ? Result.ok(refundInfo) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class RefundInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody RefundInfo refundInfo) {
+    public Result<Boolean> save(@RequestBody RefundInfo refundInfo) {
         boolean save = refundInfoService.save(refundInfo);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class RefundInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody RefundInfo refundInfo) {
+    public Result<Boolean> update(@RequestBody RefundInfo refundInfo) {
         boolean update = refundInfoService.updateById(refundInfo);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class RefundInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = refundInfoService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

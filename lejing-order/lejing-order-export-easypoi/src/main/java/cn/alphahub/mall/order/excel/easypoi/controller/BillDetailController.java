@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easypoi.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easypoi.dto.request.BillingDetailQueryRequest;
 import cn.alphahub.mall.order.service.BillDetailService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +35,7 @@ public class BillDetailController {
      * @download
      */
     @GetMapping("/download/bills")
-    public BaseResult<String> downloadBillingDetails(@ModelAttribute(name = "req") BillingDetailQueryRequest req, HttpServletRequest request, HttpServletResponse response) {
+    public Result<String> downloadBillingDetails(@ModelAttribute(name = "req") BillingDetailQueryRequest req, HttpServletRequest request, HttpServletResponse response) {
         return billDetailService.downloadBillingDetails(req, request, response);
     }
 

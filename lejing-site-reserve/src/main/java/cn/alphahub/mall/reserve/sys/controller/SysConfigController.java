@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.sys.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.sys.domain.SysConfig;
@@ -37,7 +37,7 @@ public class SysConfigController extends BaseController {
      * @return 参数配置表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SysConfig>> list(
+    public Result<PageResult<SysConfig>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SysConfigController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SysConfig> pageResult = sysConfigService.queryPage(pageDomain, sysConfig);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SysConfigController extends BaseController {
      * @return 参数配置表详细信息
      */
     @GetMapping("/info/{configId}")
-    public BaseResult<SysConfig> info(@PathVariable("configId") Long configId) {
+    public Result<SysConfig> info(@PathVariable("configId") Long configId) {
         SysConfig sysConfig = sysConfigService.getById(configId);
-        return ObjectUtils.anyNotNull(sysConfig) ? BaseResult.ok(sysConfig) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(sysConfig) ? Result.ok(sysConfig) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysConfigController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SysConfig sysConfig) {
+    public Result<Boolean> save(@RequestBody SysConfig sysConfig) {
         boolean save = sysConfigService.save(sysConfig);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SysConfigController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SysConfig sysConfig) {
+    public Result<Boolean> update(@RequestBody SysConfig sysConfig) {
         boolean update = sysConfigService.updateById(sysConfig);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SysConfigController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{configIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] configIds) {
+    public Result<Boolean> delete(@PathVariable Long[] configIds) {
         boolean delete = sysConfigService.removeByIds(Arrays.asList(configIds));
         return toOperationResult(delete);
     }

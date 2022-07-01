@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.sms.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.sms.service.SmsService;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,12 @@ public class SmsController {
      * @return 操作提示
      */
     @GetMapping("/sendCode")
-    public BaseResult<Boolean> sendCheckCode(
+    public Result<Boolean> sendCheckCode(
             @RequestParam("phone") String phone,
             @RequestParam(value = "origin", defaultValue = "0") Integer origin
     ) {
         Boolean send = smsService.sendCheckCode(phone, origin);
-        return BaseResult.ok(send);
+        return Result.ok(send);
     }
 
     /**
@@ -52,11 +52,11 @@ public class SmsController {
      * @return 发送结果
      */
     @GetMapping("/sendStatus")
-    public BaseResult<QuerySendDetailsResponse> querySendDetails(
+    public Result<QuerySendDetailsResponse> querySendDetails(
             @RequestParam(name = "telephone") String telephone,
             @RequestParam("sendDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date sendDate
     ) {
         QuerySendDetailsResponse response = smsService.querySendDetails(telephone, sendDate);
-        return BaseResult.ok(response);
+        return Result.ok(response);
     }
 }

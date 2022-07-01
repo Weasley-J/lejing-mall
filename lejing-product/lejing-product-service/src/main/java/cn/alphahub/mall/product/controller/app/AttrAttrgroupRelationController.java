@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.AttrAttrgroupRelation;
@@ -37,7 +37,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 属性&属性分组关联分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<AttrAttrgroupRelation>> list(
+    public Result<PageResult<AttrAttrgroupRelation>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class AttrAttrgroupRelationController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<AttrAttrgroupRelation> pageResult = attrAttrgroupRelationService.queryPage(pageDomain, attrAttrgroupRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 属性&属性分组关联详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<AttrAttrgroupRelation> info(@PathVariable("id") Long id) {
+    public Result<AttrAttrgroupRelation> info(@PathVariable("id") Long id) {
         AttrAttrgroupRelation attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
-        return ObjectUtils.anyNotNull(attrAttrgroupRelation) ? BaseResult.ok(attrAttrgroupRelation) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(attrAttrgroupRelation) ? Result.ok(attrAttrgroupRelation) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
+    public Result<Boolean> save(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
         boolean save = attrAttrgroupRelationService.save(attrAttrgroupRelation);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
+    public Result<Boolean> update(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
         boolean update = attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class AttrAttrgroupRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

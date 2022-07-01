@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
@@ -38,7 +38,7 @@ public class SpuBoundsController extends BaseController {
      * @return 商品spu积分设置分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SpuBounds>> list(
+    public Result<PageResult<SpuBounds>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -48,9 +48,9 @@ public class SpuBoundsController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SpuBounds> pageResult = spuBoundsService.queryPage(pageDomain, spuBounds);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -60,9 +60,9 @@ public class SpuBoundsController extends BaseController {
      * @return 商品spu积分设置详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SpuBounds> info(@PathVariable("id") Long id) {
+    public Result<SpuBounds> info(@PathVariable("id") Long id) {
         SpuBounds spuBounds = spuBoundsService.getById(id);
-        return ObjectUtils.anyNotNull(spuBounds) ? BaseResult.ok(spuBounds) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(spuBounds) ? Result.ok(spuBounds) : Result.fail();
     }
 
     /**
@@ -73,7 +73,7 @@ public class SpuBoundsController extends BaseController {
      */
     @PostMapping("/save")
     @Transactional(rollbackFor = {Exception.class})
-    public BaseResult<Boolean> save(@RequestBody SpuBounds spuBounds) {
+    public Result<Boolean> save(@RequestBody SpuBounds spuBounds) {
         boolean save = spuBoundsService.save(spuBounds);
         return toOperationResult(save);
     }
@@ -85,7 +85,7 @@ public class SpuBoundsController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SpuBounds spuBounds) {
+    public Result<Boolean> update(@RequestBody SpuBounds spuBounds) {
         boolean update = spuBoundsService.updateById(spuBounds);
         return toOperationResult(update);
     }
@@ -97,7 +97,7 @@ public class SpuBoundsController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuBoundsService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

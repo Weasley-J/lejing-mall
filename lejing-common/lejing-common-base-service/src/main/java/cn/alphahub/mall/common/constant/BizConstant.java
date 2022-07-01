@@ -1,4 +1,4 @@
-package cn.alphahub.mall.common.base.constant;
+package cn.alphahub.mall.common.constant;
 
 /**
  * 基础业务常量类

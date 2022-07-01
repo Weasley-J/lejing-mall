@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.CommentReplay;
@@ -37,7 +37,7 @@ public class CommentReplayController extends BaseController {
      * @return 商品评价回复关系分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<CommentReplay>> list(
+    public Result<PageResult<CommentReplay>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class CommentReplayController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CommentReplay> pageResult = commentReplayService.queryPage(pageDomain, commentReplay);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class CommentReplayController extends BaseController {
      * @return 商品评价回复关系详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<CommentReplay> info(@PathVariable("id") Long id) {
+    public Result<CommentReplay> info(@PathVariable("id") Long id) {
         CommentReplay commentReplay = commentReplayService.getById(id);
-        return ObjectUtils.anyNotNull(commentReplay) ? BaseResult.ok(commentReplay) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(commentReplay) ? Result.ok(commentReplay) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class CommentReplayController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody CommentReplay commentReplay) {
+    public Result<Boolean> save(@RequestBody CommentReplay commentReplay) {
         boolean save = commentReplayService.save(commentReplay);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class CommentReplayController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody CommentReplay commentReplay) {
+    public Result<Boolean> update(@RequestBody CommentReplay commentReplay) {
         boolean update = commentReplayService.updateById(commentReplay);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class CommentReplayController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = commentReplayService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

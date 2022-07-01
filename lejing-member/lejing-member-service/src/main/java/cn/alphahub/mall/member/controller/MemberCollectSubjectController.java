@@ -2,7 +2,7 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberCollectSubject;
@@ -37,7 +37,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 会员收藏的专题活动分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<MemberCollectSubject>> list(
+    public Result<PageResult<MemberCollectSubject>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class MemberCollectSubjectController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberCollectSubject> pageResult = memberCollectSubjectService.queryPage(pageDomain, memberCollectSubject);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 会员收藏的专题活动详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<MemberCollectSubject> info(@PathVariable("id") Long id) {
+    public Result<MemberCollectSubject> info(@PathVariable("id") Long id) {
         MemberCollectSubject memberCollectSubject = memberCollectSubjectService.getById(id);
-        return ObjectUtils.anyNotNull(memberCollectSubject) ? BaseResult.ok(memberCollectSubject) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(memberCollectSubject) ? Result.ok(memberCollectSubject) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject) {
+    public Result<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject) {
         boolean save = memberCollectSubjectService.save(memberCollectSubject);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject) {
+    public Result<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject) {
         boolean update = memberCollectSubjectService.updateById(memberCollectSubject);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class MemberCollectSubjectController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberCollectSubjectService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

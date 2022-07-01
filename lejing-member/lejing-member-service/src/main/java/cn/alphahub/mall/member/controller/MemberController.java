@@ -3,7 +3,7 @@ package cn.alphahub.mall.member.controller;
 import cn.alphahub.common.annotations.Syslog;
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enums.CheckUserExistsStatus;
@@ -55,7 +55,7 @@ public class MemberController extends BaseController {
      * @return 会员分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Member>> list(
+    public Result<PageResult<Member>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -65,9 +65,9 @@ public class MemberController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Member> pageResult = memberService.queryPage(pageDomain, member);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -77,9 +77,9 @@ public class MemberController extends BaseController {
      * @return 会员详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<Member> info(@PathVariable("id") Long id) {
+    public Result<Member> info(@PathVariable("id") Long id) {
         Member member = memberService.getById(id);
-        return ObjectUtils.anyNotNull(member) ? BaseResult.ok(member) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(member) ? Result.ok(member) : Result.fail();
     }
 
     /**
@@ -89,7 +89,7 @@ public class MemberController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody Member member) {
+    public Result<Boolean> save(@RequestBody Member member) {
         // 保存会员信息前先判断下是否已经注册过了
         CheckUserExistsStatus status = memberService.checkUserExistsStatus(member);
         if (CheckUserExistsStatus.USER_CAN_REGISTER.getValue().equals(status.getValue())) {
@@ -102,9 +102,9 @@ public class MemberController extends BaseController {
             // 设置创建时间
             member.setCreateTime(new Date());
             boolean save = memberService.save(member);
-            return BaseResult.ok(member.getUsername() + "注册成功", save);
+            return Result.ok(member.getUsername() + "注册成功", save);
         } else {
-            return BaseResult.fail(status.getValue(), status.getName(), false);
+            return Result.fail(status.getValue(), status.getName(), false);
         }
     }
 
@@ -115,7 +115,7 @@ public class MemberController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody Member member) {
+    public Result<Boolean> update(@RequestBody Member member) {
         boolean update = memberService.updateById(member);
         return toOperationResult(update);
     }
@@ -127,7 +127,7 @@ public class MemberController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }
@@ -140,7 +140,7 @@ public class MemberController extends BaseController {
      */
     @GetMapping("/coupon/{couponId}")
     public Coupon getMemberCoupon(@PathVariable("couponId") Long couponId) {
-        BaseResult<Coupon> info = couponClient.info(couponId);
+        Result<Coupon> info = couponClient.info(couponId);
         return ObjectUtils.isNotEmpty(info) ? doConvertType(info, Coupon.class) : null;
     }
 
@@ -155,7 +155,7 @@ public class MemberController extends BaseController {
      * @return 优惠券信息分页数据
      */
     @PostMapping("/coupon/list")
-    public BaseResult<PageResult<Coupon>> getCouponList(
+    public Result<PageResult<Coupon>> getCouponList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -173,7 +173,7 @@ public class MemberController extends BaseController {
      */
     @Syslog(name = "用户登录")
     @PostMapping("login")
-    public BaseResult<Member> login(@RequestBody Member member) {
+    public Result<Member> login(@RequestBody Member member) {
         QueryWrapper<Member> wrapper = new QueryWrapper<>();
         Member one;
         try {
@@ -182,12 +182,12 @@ public class MemberController extends BaseController {
                     .or().eq(Member::getEmail, member.getEmail()));
         } catch (Exception e) {
             log.error("查询用户失败, 异常原因: {}\n", e.getLocalizedMessage(), e);
-            return BaseResult.error("查询用户失败, 异常原因: " + e.getLocalizedMessage());
+            return Result.error("查询用户失败, 异常原因: " + e.getLocalizedMessage());
         }
         if (Objects.isNull(one)) {
-            return BaseResult.error("用户[" + member.getUsername() + "]不存在");
+            return Result.error("用户[" + member.getUsername() + "]不存在");
         }
-        return BaseResult.success(one);
+        return Result.success(one);
     }
 
     /**
@@ -198,9 +198,9 @@ public class MemberController extends BaseController {
      */
     @Syslog(name = "用户微博社交登录")
     @PostMapping("/oauth2/login")
-    public BaseResult<Member> oauthLogin(@RequestBody SocialUser socialUser) {
+    public Result<Member> oauthLogin(@RequestBody SocialUser socialUser) {
         Member member = memberService.loginByWeibo(socialUser);
-        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail();
+        return ObjectUtils.isNotEmpty(member) ? Result.ok(member) : Result.fail();
     }
 
     /**
@@ -210,9 +210,9 @@ public class MemberController extends BaseController {
      * @return 用户信息
      */
     @PostMapping(value = "/weixin/login")
-    public BaseResult<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
+    public Result<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
         Member member = memberService.loginWithWeChat(accessTokenInfo);
-        return ObjectUtils.isNotEmpty(member) ? BaseResult.ok(member) : BaseResult.fail(
+        return ObjectUtils.isNotEmpty(member) ? Result.ok(member) : Result.fail(
                 CheckUserExistsStatus.USER_IS_EMPTY.getValue(),
                 CheckUserExistsStatus.USER_IS_EMPTY.getName()
         );

@@ -1,9 +1,12 @@
 package cn.alphahub.common.core.domain;
 
 import cn.alphahub.common.core.abstraction.AbstractResult;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,101 +20,122 @@ import java.time.format.DateTimeFormatter;
  * @author liuwenjing
  * @version 1.1.2
  * @date 2021年7月29日
- * @see cn.alphahub.common.core.abstraction.AbstractResult
+ * @see AbstractResult
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class BaseResult<T> extends AbstractResult<T> implements Serializable {
+public class Result<T> extends AbstractResult<T> implements Serializable {
     private static final long serialVersionUID = -7804054241710086L;
-
     /**
-     * 初始化一个新创建的 BaseResult 对象，使其表示一个空消息
+     * 返回消息
      */
-    public BaseResult() {
-    }
+    private String message;
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 是否成功
+     */
+    private Boolean success = false;
+
+    /**
+     * 响应时间
+     */
+    private String timestamp;
+
+    /**
+     * 状态码
+     */
+    private Integer code;
+
+    /**
+     * 响应数据
+     */
+    private T data;
+
+    /**
+     * 初始化一个新创建的 Result 对象
      *
      * @param code    状态码
      * @param msg     返回内容
      * @param success 成功状态
      */
-    public BaseResult(Integer code, String msg, Boolean success) {
+    public Result(Integer code, String msg, Boolean success) {
         this.setCode(code);
         this.setMessage(msg);
         this.setSuccess(success);
     }
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 初始化一个新创建的 Result 对象
      *
      * @param success 成功状态
      */
-    public BaseResult(Boolean success) {
+    public Result(Boolean success) {
         this.setSuccess(success);
     }
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 初始化一个新创建的 Result 对象
      *
      * @param success 成功状态
      * @param message 返回消息
      */
-    public BaseResult(Boolean success, String message) {
+    public Result(Boolean success, String message) {
         this.setSuccess(success);
         this.setMessage(message);
     }
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 初始化一个新创建的 Result 对象
      *
      * @param code    状态码
      * @param message 返回消息
      */
-    public BaseResult(Integer code, String message) {
+    public Result(Integer code, String message) {
         this.setCode(code);
         this.setMessage(message);
     }
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 初始化一个新创建的 Result 对象
      *
      * @param success 成功提示
      * @param message 返回消息
      * @param data    数据对象
      */
-    public BaseResult(Boolean success, String message, T data) {
+    public Result(Boolean success, String message, T data) {
         this.setSuccess(success);
         this.setMessage(message);
         this.setData(data);
     }
 
     /**
-     * 初始化一个新创建的 BaseResult 对象
+     * 初始化一个新创建的 Result 对象
      *
      * @param code 状态码
      * @param msg  返回内容
      * @param data 数据对象
      */
-    public BaseResult(Integer code, String msg, T data) {
+    public Result(Integer code, String msg, T data) {
         this.setCode(code);
         this.setMessage(msg);
         this.setData(data);
     }
 
     /**
-     * 类加载时初始化一个BaseResult<T>对象
+     * 类加载时初始化一个Result<T>对象
      *
      * @param code    状态码
      * @param msg     返回消息
      * @param success 成功标志
      * @param <T>     数据对象
-     * @return BaseResult封装好的数据对象
+     * @return Result封装好的数据对象
      */
-    private static <T> BaseResult<T> preCreate(Integer code, String msg, Boolean success, T data) {
-        BaseResult<T> result = new BaseResult<>();
+    private static <T> Result<T> preCreate(Integer code, String msg, Boolean success, T data) {
+        Result<T> result = new Result<>();
         result.setCode(code);
         result.setMessage(msg);
         result.setSuccess(success);
@@ -126,7 +150,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T> 数据对象
      * @return 成功消息
      */
-    public static <T> BaseResult<T> ok() {
+    public static <T> Result<T> ok() {
         return ok(200, "操作成功");
     }
 
@@ -137,7 +161,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 返回消息
      * @return 数据对象
      */
-    public static <T> BaseResult<T> ok(T data) {
+    public static <T> Result<T> ok(T data) {
         return preCreate(200, "操作成功", true, data);
     }
 
@@ -149,7 +173,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @return 成功消息
      */
-    public static <T> BaseResult<T> ok(Integer code, String msg) {
+    public static <T> Result<T> ok(Integer code, String msg) {
         return preCreate(code, msg, true, null);
     }
 
@@ -161,7 +185,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 数据载体
      * @return 封装的数据
      */
-    public static <T> BaseResult<T> ok(String msg, T data) {
+    public static <T> Result<T> ok(String msg, T data) {
         return preCreate(200, msg, true, data);
     }
 
@@ -171,7 +195,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T> 数据对象
      * @return 失败消息
      */
-    public static <T> BaseResult<T> fail() {
+    public static <T> Result<T> fail() {
         return fail(500, "操作失败");
     }
 
@@ -182,7 +206,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg 返回消息
      * @return 失败消息
      */
-    public static <T> BaseResult<T> fail(String msg) {
+    public static <T> Result<T> fail(String msg) {
         return fail(500, msg);
     }
 
@@ -194,7 +218,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg  响应消息
      * @return 错误消息
      */
-    public static <T> BaseResult<T> fail(Integer code, String msg) {
+    public static <T> Result<T> fail(Integer code, String msg) {
         return preCreate(code, msg, false, null);
     }
 
@@ -206,7 +230,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 响应失败的消息体
      * @return 错误消息
      */
-    public static <T> BaseResult<T> fail(String msg, T data) {
+    public static <T> Result<T> fail(String msg, T data) {
         return preCreate(400, msg, false, data);
     }
 
@@ -219,7 +243,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 响应失败的消息体
      * @return 错误消息
      */
-    public static <T> BaseResult<T> fail(Integer code, String msg, T data) {
+    public static <T> Result<T> fail(Integer code, String msg, T data) {
         return preCreate(code, msg, false, data);
     }
 
@@ -229,8 +253,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T> 数据对象
      * @return 成功消息
      */
-    public static <T> BaseResult<T> success() {
-        return BaseResult.success(200, "操作成功");
+    public static <T> Result<T> success() {
+        return Result.success(200, "操作成功");
     }
 
     /**
@@ -240,8 +264,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 封装返回的数据对象
      * @return 成功消息
      */
-    public static <T> BaseResult<T> success(T data) {
-        return BaseResult.success("操作成功", data);
+    public static <T> Result<T> success(T data) {
+        return Result.success("操作成功", data);
     }
 
     /**
@@ -252,7 +276,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T>  数据对象
      * @return 成功消息
      */
-    public static <T> BaseResult<T> success(Integer code, String msg) {
+    public static <T> Result<T> success(Integer code, String msg) {
         return preCreate(code, msg, true, null);
     }
 
@@ -264,7 +288,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T>  数据对象
      * @return 成功消息
      */
-    public static <T> BaseResult<T> success(String msg, T data) {
+    public static <T> Result<T> success(String msg, T data) {
         return preCreate(200, msg, true, data);
     }
 
@@ -274,8 +298,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T> 数据对象
      * @return 错误消息
      */
-    public static <T> BaseResult<T> error() {
-        return BaseResult.error("操作失败");
+    public static <T> Result<T> error() {
+        return Result.error("操作失败");
     }
 
     /**
@@ -285,8 +309,8 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param <T> 数据对象
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(String msg) {
-        return BaseResult.error(msg, null);
+    public static <T> Result<T> error(String msg) {
+        return Result.error(msg, null);
     }
 
     /**
@@ -297,7 +321,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param data 数据对象
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(String msg, T data) {
+    public static <T> Result<T> error(String msg, T data) {
         return preCreate(500, msg, false, data);
     }
 
@@ -310,7 +334,7 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param code 状态码
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(Integer code, String msg, T data) {
+    public static <T> Result<T> error(Integer code, String msg, T data) {
         return preCreate(code, msg, false, data);
     }
 
@@ -322,17 +346,17 @@ public class BaseResult<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @return 警告消息
      */
-    public static <T> BaseResult<T> error(Integer code, String msg) {
+    public static <T> Result<T> error(Integer code, String msg) {
         return preCreate(code, msg, false, null);
     }
 
     /**
-     * 封装数据并返回一个BaseResult实例
+     * 封装数据并返回一个Result实例
      *
      * @param data 数据
-     * @return BaseResult实例
+     * @return Result实例
      */
-    public BaseResult<T> setResult(T data) {
+    public Result<T> setResult(T data) {
         this.setData(data);
         return this;
     }

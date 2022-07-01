@@ -1,7 +1,7 @@
 package cn.alphahub.mall.seckill.service.impl;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.mq.SeckillOrderTo;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
@@ -78,7 +78,7 @@ public class SeckillServiceImpl implements SeckillService {
      */
     @Override
     public void onShelveSeckillSkuLatest3Days() {
-        BaseResult<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
+        Result<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
         log.info("上架最近三天的秒杀商品:{}", JSONUtil.toJsonPrettyStr(result));
         if (Objects.equals(result.getSuccess(), true)) {
             List<SeckillSession> sessions = result.getData();
@@ -296,7 +296,7 @@ public class SeckillServiceImpl implements SeckillService {
             String hashKey = skuRelation.getPromotionSessionId() + "_" + skuRelation.getSkuId();
             if (Objects.equals(hashOps.hasKey(hashKey), false)) {
                 // 1. 缓存秒杀商品
-                BaseResult<SkuInfo> result = skuInfoClient.info(skuRelation.getSkuId());
+                Result<SkuInfo> result = skuInfoClient.info(skuRelation.getSkuId());
                 if (result.getSuccess().equals(true)) {
                     skuRelation.setSkuInfo(beanUtil.copy(result.getData()));
                 }

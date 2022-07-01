@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easyexcel.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easyexcel.listener.EasyExcelEventListener;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.json.JSONUtil;
@@ -87,7 +87,7 @@ public class ReappearEasyexcelBugController {
     @SneakyThrows
     @ResponseBody
     @PostMapping(value = "/person/upload")
-    public BaseResult<List<Person>> upload(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public Result<List<Person>> upload(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         log.info("上传订单excel文件.");
         EasyExcel.read(file.getInputStream(), Person.class, new EasyExcelEventListener<Person>() {
             @Override
@@ -96,7 +96,7 @@ public class ReappearEasyexcelBugController {
                 System.err.println(JSONUtil.toJsonStr(data));
             }
         }).sheet().doRead();
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**

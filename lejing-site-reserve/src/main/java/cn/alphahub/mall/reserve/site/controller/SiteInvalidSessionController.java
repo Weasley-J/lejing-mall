@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.site.domain.SiteInvalidSession;
@@ -37,7 +37,7 @@ public class SiteInvalidSessionController extends BaseController {
      * @return 场地预约不可用场次表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SiteInvalidSession>> list(
+    public Result<PageResult<SiteInvalidSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SiteInvalidSessionController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteInvalidSession> pageResult = siteInvalidSessionService.queryPage(pageDomain, siteInvalidSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SiteInvalidSessionController extends BaseController {
      * @return 场地预约不可用场次表详细信息
      */
     @GetMapping("/info/{invalidId}")
-    public BaseResult<SiteInvalidSession> info(@PathVariable("invalidId") Long invalidId) {
+    public Result<SiteInvalidSession> info(@PathVariable("invalidId") Long invalidId) {
         SiteInvalidSession siteInvalidSession = siteInvalidSessionService.getById(invalidId);
-        return ObjectUtils.anyNotNull(siteInvalidSession) ? BaseResult.ok(siteInvalidSession) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(siteInvalidSession) ? Result.ok(siteInvalidSession) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SiteInvalidSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SiteInvalidSession siteInvalidSession) {
+    public Result<Boolean> save(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean save = siteInvalidSessionService.save(siteInvalidSession);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SiteInvalidSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SiteInvalidSession siteInvalidSession) {
+    public Result<Boolean> update(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean update = siteInvalidSessionService.updateById(siteInvalidSession);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SiteInvalidSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{invalidIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] invalidIds) {
+    public Result<Boolean> delete(@PathVariable Long[] invalidIds) {
         boolean delete = siteInvalidSessionService.removeByIds(Arrays.asList(invalidIds));
         return toOperationResult(delete);
     }

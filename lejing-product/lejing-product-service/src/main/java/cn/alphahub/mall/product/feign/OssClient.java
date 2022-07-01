@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +25,7 @@ public interface OssClient {
      * @return 创建成功，返回存储空间名称
      */
     @PostMapping("/bucket/create")
-    BaseResult<String> createBucket(@RequestParam(name = "bucketName") String bucketName);
+    Result<String> createBucket(@RequestParam(name = "bucketName") String bucketName);
 
     /**
      * 删除存储空间
@@ -34,7 +34,7 @@ public interface OssClient {
      * @return void
      */
     @DeleteMapping("/bucket/delete")
-    BaseResult<Void> deleteBucket(@RequestParam(name = "bucketName") String bucketName);
+    Result<Void> deleteBucket(@RequestParam(name = "bucketName") String bucketName);
 
     /**
      * 上传文件至OSS
@@ -48,7 +48,7 @@ public interface OssClient {
      * @return 文件的url
      */
     @PostMapping("/upload")
-    BaseResult<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss);
+    Result<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss);
 
     /**
      * 上传文件至OSS（普通上传）
@@ -58,7 +58,7 @@ public interface OssClient {
      * @return 文件完整url
      */
     @PostMapping("/upload/multipart/file")
-    BaseResult<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename);
+    Result<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename);
 
     /**
      * 删除单个文件
@@ -66,7 +66,7 @@ public interface OssClient {
      * @param objectName 文件URL
      */
     @DeleteMapping("/delete/single")
-    BaseResult<Void> deleteSingle(@RequestParam(name = "objectName") String objectName);
+    Result<Void> deleteSingle(@RequestParam(name = "objectName") String objectName);
 
     /**
      * 批量删除文件
@@ -75,7 +75,7 @@ public interface OssClient {
      * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。
      */
     @DeleteMapping("/delete/many")
-    BaseResult<List<String>> deleteMany(@RequestBody List<String> objectNames);
+    Result<List<String>> deleteMany(@RequestBody List<String> objectNames);
 
     /**
      * 判断文件是否存在
@@ -84,7 +84,7 @@ public interface OssClient {
      * @return 是否存在
      */
     @GetMapping("/file/exist/{objectUrl}")
-    BaseResult<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl);
+    Result<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl);
 
     /**
      * 判断OSS的全局命名空间(存储空间)是否存在
@@ -92,5 +92,5 @@ public interface OssClient {
      * @return 存在返回true，否则返回false
      */
     @GetMapping("/bucket/exist/{bucketName}")
-    BaseResult<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName);
+    Result<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName);
 }

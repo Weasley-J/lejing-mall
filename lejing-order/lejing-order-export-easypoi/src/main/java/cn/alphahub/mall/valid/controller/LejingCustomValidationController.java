@@ -1,6 +1,6 @@
 package cn.alphahub.mall.valid.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
 import cn.alphahub.common.valid.group.InsertGroup;
@@ -49,9 +49,9 @@ public class LejingCustomValidationController {
      * @return 保存结果
      */
     @PostMapping("/save")
-    public BaseResult<VirtualCoin> save(@Validated({InsertGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> save(@Validated({InsertGroup.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("保存用户【{}】的虚拟币了，入参：{}", virtualCoin.getMemberId(), JSONUtil.toJsonPrettyStr(virtualCoin));
-        return BaseResult.ok(virtualCoin);
+        return Result.ok(virtualCoin);
     }
 
     /**
@@ -60,11 +60,11 @@ public class LejingCustomValidationController {
      * @return 虚拟货币列表
      */
     @GetMapping("/list")
-    public BaseResult<List<VirtualCoin>> list() {
+    public Result<List<VirtualCoin>> list() {
         log.info("获取会员的虚拟货币列表");
         List<VirtualCoin> virtualCoins = Lists.newArrayList();
         COIN_MAP.forEach((memberId, virtualCoin) -> virtualCoins.add(virtualCoin));
-        return BaseResult.ok(virtualCoins);
+        return Result.ok(virtualCoins);
     }
 
     /**
@@ -74,9 +74,9 @@ public class LejingCustomValidationController {
      * @return 会员的虚拟货币明细
      */
     @GetMapping("/info/{memberId}")
-    public BaseResult<VirtualCoin> info(@Validated({QueryGroup.class}) @PathVariable("memberId") Long memberId) {
+    public Result<VirtualCoin> info(@Validated({QueryGroup.class}) @PathVariable("memberId") Long memberId) {
         log.info("获取会员的虚拟货币明细:{}", memberId);
-        return BaseResult.ok(COIN_MAP.get(memberId));
+        return Result.ok(COIN_MAP.get(memberId));
     }
 
     /**
@@ -86,9 +86,9 @@ public class LejingCustomValidationController {
      * @return 修改结果
      */
     @PutMapping("/edit")
-    public BaseResult<VirtualCoin> edit(@Validated({EditGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> edit(@Validated({EditGroup.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币信息:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
-        return BaseResult.ok(virtualCoin);
+        return Result.ok(virtualCoin);
     }
 
     /**
@@ -98,9 +98,9 @@ public class LejingCustomValidationController {
      * @return 修改结果
      */
     @PutMapping("/edit/status")
-    public BaseResult<VirtualCoin> editStatus(@Validated({EditStatusGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> editStatus(@Validated({EditStatusGroup.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币扎状态:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
-        return BaseResult.ok(virtualCoin);
+        return Result.ok(virtualCoin);
     }
 
     /**
@@ -110,13 +110,13 @@ public class LejingCustomValidationController {
      * @return 结果
      */
     @DeleteMapping("/delete/{memberIds}")
-    public BaseResult<Void> delete(@PathVariable("memberIds") Long[] memberIds) {
+    public Result<Void> delete(@PathVariable("memberIds") Long[] memberIds) {
         log.info("批量删除用户虚拟币:{}", JSONUtil.toJsonPrettyStr(memberIds));
         Map<Long, VirtualCoin> hashMap = Maps.newLinkedHashMap(COIN_MAP);
         List<Long> list = Lists.newArrayList(memberIds);
         for (Long memberId : list) {
             hashMap.remove(memberId);
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 }

@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.IntegrationChangeHistory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 积分变化历史记录Controller
@@ -25,7 +31,7 @@ public interface IntegrationChangeHistoryApi {
      * @return 积分变化历史记录分页数据
      */
     @GetMapping("/member/integrationchangehistory/list")
-    BaseResult<PageResult<IntegrationChangeHistory>> list(
+    Result<PageResult<IntegrationChangeHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface IntegrationChangeHistoryApi {
      * @return 积分变化历史记录详细信息
      */
     @GetMapping("/member/integrationchangehistory/info/{id}")
-    BaseResult<IntegrationChangeHistory> info(@PathVariable("id") Long id);
+    Result<IntegrationChangeHistory> info(@PathVariable("id") Long id);
 
     /**
      * 新增积分变化历史记录
@@ -49,7 +55,7 @@ public interface IntegrationChangeHistoryApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/member/integrationchangehistory/save")
-    BaseResult<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory);
+    Result<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory);
 
     /**
      * 修改积分变化历史记录
@@ -58,7 +64,7 @@ public interface IntegrationChangeHistoryApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/member/integrationchangehistory/update")
-    BaseResult<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory);
+    Result<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory);
 
     /**
      * 批量删除积分变化历史记录
@@ -67,6 +73,6 @@ public interface IntegrationChangeHistoryApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/member/integrationchangehistory/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 
 }

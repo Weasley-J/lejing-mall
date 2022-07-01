@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.service.impl;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
@@ -153,9 +153,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     .stockLocked(0)
                     .build();
             try {
-                BaseResult<SkuInfo> baseResult = skuInfoClient.info(skuId);
-                if (baseResult.getSuccess().equals(Boolean.TRUE)) {
-                    var skuInfo = baseResult.getData();
+                Result<SkuInfo> result = skuInfoClient.info(skuId);
+                if (result.getSuccess().equals(Boolean.TRUE)) {
+                    var skuInfo = result.getData();
                     entity.setSkuName(skuInfo.getSkuName());
                 }
             } catch (Exception e) {
@@ -222,7 +222,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSku> impl
                     skuLocked.set(true);
                     // 保存库存工作单
                     WareOrderTaskDetail orderTaskDetail = new WareOrderTaskDetail(null, skuId, null, hasStockVo.getNum(), wareOrderTask.getId(), wareId, 1);
-                    BaseResult<SkuInfo> result = skuInfoClient.info(skuId);
+                    Result<SkuInfo> result = skuInfoClient.info(skuId);
                     log.info("远程查询SKU信息：{}", cn.hutool.json.JSONUtil.toJsonStr(result));
                     if (result.getSuccess() && Objects.nonNull(result.getData())) {
                         orderTaskDetail.setSkuName(result.getData().getSkuName());

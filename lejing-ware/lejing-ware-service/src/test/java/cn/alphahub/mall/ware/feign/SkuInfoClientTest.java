@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.hutool.core.date.DateUtil;
@@ -38,15 +38,15 @@ class SkuInfoClientTest {
     @Test
     void testListByGetMapping() {
         log.info("--------------- testListByGetMapping ----------------------");
-        BaseResult<PageResult<SkuInfo>> baseResult = skuInfoClient.list(
+        Result<PageResult<SkuInfo>> result = skuInfoClient.list(
                 1, 20, null, null, null, null, null, null, null, null, null
         );
-        PageResult<SkuInfo> data = baseResult.getData();
+        PageResult<SkuInfo> data = result.getData();
         Long totalCount = data.getTotalCount();
         Integer totalPage = data.getTotalPage();
         List<SkuInfo> skuInfoList = data.getItems();
-        System.out.println("code = " + baseResult.getCode());
-        System.out.println("message = " + baseResult.getMessage());
+        System.out.println("code = " + result.getCode());
+        System.out.println("message = " + result.getMessage());
         System.out.println("totalCount = " + totalCount);
         System.out.println("totalPage = " + totalPage);
         System.out.println(" ----------- skuInfoList ---------------");
@@ -57,7 +57,7 @@ class SkuInfoClientTest {
     @Test
     void testInfoByGetMapping() {
         log.info("--------------- testInfoByGetMapping ----------------------");
-        BaseResult<SkuInfo> result = skuInfoClient.info(skuId);
+        Result<SkuInfo> result = skuInfoClient.info(skuId);
         System.out.println("code = " + result.getCode());
         System.out.println("message = " + result.getMessage());
         System.out.println("skuInfo: " + result.getData());
@@ -67,7 +67,7 @@ class SkuInfoClientTest {
     @Test
     void testUpdateByPutMapping() {
         log.info("--------------- testUpdateByPutMapping ----------------------");
-        BaseResult<SkuInfo> result;
+        Result<SkuInfo> result;
         result = skuInfoClient.info(skuId);
         System.out.println("code = " + result.getCode());
         System.out.println("message = " + result.getMessage());
@@ -75,9 +75,9 @@ class SkuInfoClientTest {
         System.out.println("更新前: " + skuInfo);
         skuInfo.setSkuDesc(DateUtil.now());
         System.out.println("----------------------------------------");
-        BaseResult<Boolean> baseResult = skuInfoClient.update(skuInfo);
-        System.out.println("BaseResult<Boolean>  " + baseResult.getCode());
-        System.out.println("BaseResult<Boolean>  " + baseResult.getMessage());
+        Result<Boolean> result = skuInfoClient.update(skuInfo);
+        System.out.println("Result<Boolean>  " + Result.getCode());
+        System.out.println("Result<Boolean>  " + Result.getMessage());
         System.out.println("-----------------------------------------");
         result = skuInfoClient.info(skuId);
         System.out.println("code = " + result.getCode());
@@ -92,7 +92,7 @@ class SkuInfoClientTest {
         log.info("--------------- testDeleteByDeleteMapping ----------------------");
         List<Long> ids = Collections.singletonList(skuId);
         Long[] idArr = ids.toArray(new Long[ids.size()]);
-        BaseResult<Boolean> delete = skuInfoClient.delete(idArr);
+        Result<Boolean> delete = skuInfoClient.delete(idArr);
         System.out.println("code = " + delete.getCode());
         System.out.println("message = " + delete.getMessage());
     }

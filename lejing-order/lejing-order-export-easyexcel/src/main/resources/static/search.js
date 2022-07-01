@@ -8,8 +8,8 @@ api.push({
 api[0].list.push({
     alias: 'OrderItemEasyexcelController',
     order: '1',
-    link: '订单导入导出_controller &lt;ul&gt; ____&lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt; &lt;/ul&gt;',
-    desc: '订单导入导出 Controller &lt;ul&gt;     &lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt; &lt;/ul&gt;',
+    link: '订单导入导出_controller  &lt;ul&gt;  ____&lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;  &lt;/ul&gt;',
+    desc: '订单导入导出 Controller  &lt;ul&gt;      &lt;li&gt;基于easyexcel导出示例（上传下载）&lt;/li&gt;  &lt;/ul&gt;',
     list: []
 })
 api[0].list[0].list.push({
@@ -91,7 +91,7 @@ document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
-    if (code == 13) {
+    if (code === 13) {
         const search = document.getElementById('search');
         const searchValue = search.value.toLocaleLowerCase();
 
@@ -151,7 +151,7 @@ function keyDownSearch(e) {
             });
         }
         let html;
-        if (searchValue == '') {
+        if (searchValue === '') {
             const liClass = "";
             const display = "display: none";
             html = buildAccordion(api,liClass,display);
@@ -170,7 +170,7 @@ function keyDownSearch(e) {
         };
         Accordion.prototype.dropdown = function (e) {
             const $el = e.data.el;
-            $this = $(this), $next = $this.next();
+            let $this = $(this), $next = $this.next();
             $next.slideToggle();
             $this.parent().toggleClass('open');
             if (!e.data.multiple) {
@@ -183,23 +183,23 @@ function keyDownSearch(e) {
 
 function buildAccordion(apiGroups, liClass, display) {
     let html = "";
-    let doc;
     if (apiGroups.length > 0) {
-         if (apiDocListSize == 1) {
+        if (apiDocListSize === 1) {
             let apiData = apiGroups[0].list;
+            let order = apiGroups[0].order;
             for (let j = 0; j < apiData.length; j++) {
                 html += '<li class="'+liClass+'">';
-                html += '<a class="dd" href="#_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                html += '<a class="dd" href="#_'+order+'_'+apiData[j].order+'_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                 html += '<ul class="sectlevel2" style="'+display+'">';
-                doc = apiData[j].list;
+                let doc = apiData[j].list;
                 for (let m = 0; m < doc.length; m++) {
                     let spanString;
-                    if (doc[m].deprecated == 'true') {
+                    if (doc[m].deprecated === 'true') {
                         spanString='<span class="line-through">';
                     } else {
                         spanString='<span>';
                     }
-                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                    html += '<li><a href="#_'+order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
@@ -208,7 +208,7 @@ function buildAccordion(apiGroups, liClass, display) {
             for (let i = 0; i < apiGroups.length; i++) {
                 let apiGroup = apiGroups[i];
                 html += '<li class="'+liClass+'">';
-                html += '<a class="dd" href="#_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
+                html += '<a class="dd" href="#_'+apiGroup.order+'_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
                 html += '<ul class="sectlevel1">';
 
                 let apiData = apiGroup.list;
@@ -216,10 +216,10 @@ function buildAccordion(apiGroups, liClass, display) {
                     html += '<li class="'+liClass+'">';
                     html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                     html += '<ul class="sectlevel2" style="'+display+'">';
-                    doc = apiData[j].list;
+                    let doc = apiData[j].list;
                     for (let m = 0; m < doc.length; m++) {
                        let spanString;
-                       if (doc[m].deprecated == 'true') {
+                       if (doc[m].deprecated === 'true') {
                            spanString='<span class="line-through">';
                        } else {
                            spanString='<span>';

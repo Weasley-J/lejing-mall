@@ -1,9 +1,9 @@
-package cn.alphahub.mall.common.base.config;
+package cn.alphahub.mall.common.config;
 
 
-import cn.alphahub.mall.common.base.constant.FrameworkConstant;
-import cn.alphahub.mall.common.base.interceptor.DefaultRpcTraceInterceptor;
-import cn.alphahub.mall.common.base.interceptor.DefaultTraceInterceptor;
+import cn.alphahub.mall.common.constant.FrameworkConstant;
+import cn.alphahub.mall.common.interceptor.DefaultRpcTraceInterceptor;
+import cn.alphahub.mall.common.interceptor.DefaultTraceInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.SkuReductionTo;
@@ -38,7 +38,7 @@ public class SkuFullReductionController extends BaseController {
      * @return 商品满减信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SkuFullReduction>> list(
+    public Result<PageResult<SkuFullReduction>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -48,9 +48,9 @@ public class SkuFullReductionController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuFullReduction> pageResult = skuFullReductionService.queryPage(pageDomain, skuFullReduction);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -60,9 +60,9 @@ public class SkuFullReductionController extends BaseController {
      * @return 商品满减信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SkuFullReduction> info(@PathVariable("id") Long id) {
+    public Result<SkuFullReduction> info(@PathVariable("id") Long id) {
         SkuFullReduction skuFullReduction = skuFullReductionService.getById(id);
-        return ObjectUtils.anyNotNull(skuFullReduction) ? BaseResult.ok(skuFullReduction) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(skuFullReduction) ? Result.ok(skuFullReduction) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SkuFullReductionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SkuFullReduction skuFullReduction) {
+    public Result<Boolean> save(@RequestBody SkuFullReduction skuFullReduction) {
         boolean save = skuFullReductionService.save(skuFullReduction);
         return toOperationResult(save);
     }
@@ -84,7 +84,7 @@ public class SkuFullReductionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SkuFullReduction skuFullReduction) {
+    public Result<Boolean> update(@RequestBody SkuFullReduction skuFullReduction) {
         boolean update = skuFullReductionService.updateById(skuFullReduction);
         return toOperationResult(update);
     }
@@ -96,7 +96,7 @@ public class SkuFullReductionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuFullReductionService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }
@@ -108,8 +108,8 @@ public class SkuFullReductionController extends BaseController {
      * @return
      */
     @PostMapping("/saveinfo")
-    BaseResult<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo) {
+    Result<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo) {
         Boolean flag = skuFullReductionService.saveSkuReduction(skuReductionTo);
-        return BaseResult.ok(flag);
+        return Result.ok(flag);
     }
 }

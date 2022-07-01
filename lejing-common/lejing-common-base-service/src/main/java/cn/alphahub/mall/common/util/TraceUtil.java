@@ -1,4 +1,4 @@
-package cn.alphahub.mall.common.base.util;
+package cn.alphahub.mall.common.util;
 
 import cn.hutool.core.util.RandomUtil;
 

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.search.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ class OssClientTest {
         Iterable<SkuModel> all = repository.findAll();
         for (SkuModel skuModel : all) {
             String skuImg = skuModel.getSkuImg();
-            BaseResult<String> upload = ossClient.upload(skuImg, AppConstant.LEJING_MALL);
+            Result<String> upload = ossClient.upload(skuImg, AppConstant.LEJING_MALL);
             if (StringUtils.isNotBlank(upload.getData())) {
                 skuModel.setSkuImg(upload.getData());
             }

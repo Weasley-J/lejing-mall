@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.service.impl;
 
 import cn.alphahub.common.constant.ProductConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.MemberPriceTo;
@@ -174,9 +174,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
         List<Long> skuIds = skuInfoList.stream().map(SkuInfo::getSkuId).collect(Collectors.toList());
         Map<Long, Boolean> stockMap = new LinkedHashMap<>();
         try {
-            BaseResult<List<WareSkuVO>> baseResult = wareSkuClient.getSkuHasStock(skuIds);
-            if (baseResult.getSuccess() && CollectionUtils.isNotEmpty(baseResult.getData())) {
-                stockMap = baseResult.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
+            Result<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
+            if (result.getSuccess() && CollectionUtils.isNotEmpty(result.getData())) {
+                stockMap = result.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
             }
         } catch (Exception e) {
             log.error("远程查询库存失败：{}\n", e.getClass(), e);
@@ -216,7 +216,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
         }).collect(Collectors.toList());
 
         // TODO 把组装好要上架的商品信息发送给搜索服务: lejing-search
-        BaseResult<Boolean> result = searchClient.productStatusUp(productOnShelvesList);
+        Result<Boolean> result = searchClient.productStatusUp(productOnShelvesList);
         String message = result.getMessage();
         log.info("\n\t\t上架的商品信息发送给搜索服务的结果：{}\n", message);
         // 上架成功，修改商品状态
@@ -230,7 +230,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
      * @param result 远程调用返回的封装结果
      * @param spuId  spu id
      */
-    private void updateSpuStatusAfterSaveToElasticsearch(BaseResult<Boolean> result, Long spuId) {
+    private void updateSpuStatusAfterSaveToElasticsearch(Result<Boolean> result, Long spuId) {
         SpuInfo spuInfo = this.getById(spuId);
         if (result.getSuccess()) {
             // 上架成功
@@ -337,7 +337,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
                 SpuBounds spuBounds = new SpuBounds();
                 BeanUtils.copyProperties(bounds, spuBounds);
                 spuBounds.setSpuId(spuInfoId);
-                BaseResult<Boolean> save = spuBoundsClient.save(spuBounds);
+                Result<Boolean> save = spuBoundsClient.save(spuBounds);
                 if (save.getSuccess()) {
                     log.info("{}", "远程保存商品spu积分成功");
                 } else {
@@ -356,8 +356,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
                 Boolean b1 = Objects.nonNull(skuReductionTo.getFullCount()) && skuReductionTo.getFullCount() > 0;
                 Boolean b2 = Objects.nonNull(skuReductionTo.getFullPrice()) && skuReductionTo.getFullPrice().compareTo(BigDecimal.ZERO) > 0;
                 if (b1 || b2) {
-                    BaseResult<Boolean> baseResult = skuFullReductionClient.saveSkuReduction(skuReductionTo);
-                    log.info("保存结果：{}", JSONUtil.toJsonStr(baseResult));
+                    Result<Boolean> result = skuFullReductionClient.saveSkuReduction(skuReductionTo);
+                    log.info("保存结果：{}", JSONUtil.toJsonStr(result));
                 }
             });
         }

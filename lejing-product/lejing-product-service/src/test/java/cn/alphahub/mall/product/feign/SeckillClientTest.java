@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SeckillClientTest {
@@ -29,7 +27,7 @@ class SeckillClientTest {
 
     @Test
     void getSkuSeckillInfoBySkuId() {
-        BaseResult<SeckillSkuRelation> info = seckillClient.getSkuSeckillInfoBySkuId(1L);
+        Result<SeckillSkuRelation> info = seckillClient.getSkuSeckillInfoBySkuId(1L);
         System.out.println(JSONUtil.toJsonPrettyStr(info));
     }
 }

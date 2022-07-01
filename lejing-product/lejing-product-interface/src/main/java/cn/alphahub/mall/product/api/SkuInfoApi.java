@@ -1,9 +1,15 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuInfo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * sku信息 - feign api
@@ -30,7 +36,7 @@ public interface SkuInfoApi {
      * @return sku信息分页数据
      */
     @GetMapping("/product/skuinfo/list")
-    BaseResult<PageResult<SkuInfo>> list(
+    Result<PageResult<SkuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -51,7 +57,7 @@ public interface SkuInfoApi {
      * @return sku信息详细信息
      */
     @GetMapping("/product/skuinfo/info/{skuId}")
-    BaseResult<SkuInfo> info(@PathVariable("skuId") Long skuId);
+    Result<SkuInfo> info(@PathVariable("skuId") Long skuId);
 
     /**
      * 新增sku信息
@@ -60,7 +66,7 @@ public interface SkuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/product/skuinfo/save")
-    BaseResult<Boolean> save(@RequestBody SkuInfo skuInfo);
+    Result<Boolean> save(@RequestBody SkuInfo skuInfo);
 
     /**
      * 修改sku信息
@@ -69,7 +75,7 @@ public interface SkuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/product/skuinfo/update")
-    BaseResult<Boolean> update(@RequestBody SkuInfo skuInfo);
+    Result<Boolean> update(@RequestBody SkuInfo skuInfo);
 
     /**
      * 批量删除sku信息
@@ -78,5 +84,5 @@ public interface SkuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/product/skuinfo/delete/{skuIds}")
-    BaseResult<Boolean> delete(@PathVariable Long[] skuIds);
+    Result<Boolean> delete(@PathVariable Long[] skuIds);
 }

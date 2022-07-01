@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.alphahub.mall.thirdparty.oss.domain.OssServerSignature;
 import com.aliyun.oss.OSS;
@@ -38,7 +38,7 @@ public class OssPolicyController {
      * @return OSS服务端签名
      */
     @GetMapping("/oss/policy")
-    public BaseResult<OssServerSignature> policy() {
+    public Result<OssServerSignature> policy() {
         String host = ossProperties.getHostPrefix();
         // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
         //String callbackUrl = "http://88.88.88.88:8888";
@@ -101,6 +101,6 @@ public class OssPolicyController {
         } finally {
             ossClient.shutdown();
         }
-        return BaseResult.ok(ossServerSignature);
+        return Result.ok(ossServerSignature);
     }
 }

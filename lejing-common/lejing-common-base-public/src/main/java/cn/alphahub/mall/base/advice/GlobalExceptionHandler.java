@@ -1,6 +1,6 @@
 package cn.alphahub.mall.base.advice;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.exception.CartException;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @author liuwenjing
  */
 @Slf4j
-@RestControllerAdvice(basePackages = {"cn.alphahub.mall"})
+@RestControllerAdvice(basePackages = {"cn.alphahub"})
 public class GlobalExceptionHandler {
 
     /**
@@ -37,8 +37,8 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(BizException.class)
-    public BaseResult<BizException> customizeExceptionHandler(BizException e) {
-        return BaseResult.fail(e.getCode(), e.getMessage());
+    public Result<BizException> customizeExceptionHandler(BizException e) {
+        return Result.fail(e.getCode(), e.getMessage());
     }
 
     /**
@@ -48,9 +48,9 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(NoHandlerFoundException.class)
-    public BaseResult<Object> notFoundExceptionHandler(NoHandlerFoundException e) {
+    public Result<Object> notFoundExceptionHandler(NoHandlerFoundException e) {
         log.error(e.getMessage(), e);
-        return BaseResult.fail(404, "路径不存在，请检查路径是否正确: " + e.getMessage());
+        return Result.fail(404, "路径不存在，请检查路径是否正确: " + e.getMessage());
     }
 
     /**
@@ -60,9 +60,9 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(DuplicateKeyException.class)
-    public BaseResult<Object> duplicateKeyExceptionHandler(DuplicateKeyException e) {
+    public Result<Object> duplicateKeyExceptionHandler(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return BaseResult.fail("数据库中已存在该记录: " + e.getMessage());
+        return Result.fail("数据库中已存在该记录: " + e.getMessage());
     }
 
     /**
@@ -72,13 +72,13 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(BindException.class)
-    public BaseResult<Object> handleBindException(BindException e) {
+    public Result<Object> handleBindException(BindException e) {
         log.error(e.getMessage(), e);
         Map<String, Object> errorMap = new LinkedHashMap<>();
         for (ObjectError error : e.getAllErrors()) {
             errorMap.putIfAbsent(error.getObjectName(), error.getDefaultMessage());
         }
-        return BaseResult.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMessage(), errorMap);
+        return Result.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMessage(), errorMap);
     }
 
     /**
@@ -89,10 +89,10 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public BaseResult<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+    public Result<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         String uri = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", uri, e.getMethod());
-        return BaseResult.error("请求地址'" + uri + "',不支持'" + e.getMethod() + "'请求");
+        return Result.error("请求地址'" + uri + "',不支持'" + e.getMethod() + "'请求");
     }
 
     /**
@@ -102,9 +102,9 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(value = {MaxUploadSizeExceededException.class})
-    public BaseResult<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+    public Result<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         log.error("超出最大上传大小异常: {}", e.getMessage(), e);
-        return BaseResult.error("上传文件超过允许的最大上传大小:" + e.getLocalizedMessage(), "最大文件大小：" + e.getMaxUploadSize() + "(bytes)");
+        return Result.error("上传文件超过允许的最大上传大小:" + e.getLocalizedMessage(), "最大文件大小：" + e.getMaxUploadSize() + "(bytes)");
     }
 
     /**
@@ -114,7 +114,7 @@ public class GlobalExceptionHandler {
      * @return 数据校验异常具体错误信息
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public BaseResult<Object> handleValidException(MethodArgumentNotValidException e) {
+    public Result<Object> handleValidException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         Map<String, Map<String, Object>> errorMap = new LinkedHashMap<>();
         Map<String, Object> globalErrorMap = new LinkedHashMap<>();
@@ -127,7 +127,7 @@ public class GlobalExceptionHandler {
         errorMap.putIfAbsent("globalError", globalErrorMap);
         errorMap.putIfAbsent("fieldError", fieldErrorMap);
         log.error("数据校验异常：{}，异常类型：{}", e.getMessage(), e.getClass());
-        return BaseResult.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMessage(), errorMap);
+        return Result.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMessage(), errorMap);
     }
 
     /**
@@ -137,9 +137,9 @@ public class GlobalExceptionHandler {
      * @return 错误提示
      */
     @ExceptionHandler(CartException.class)
-    public BaseResult<Object> handleUserCustomizeException(CartException ce) {
+    public Result<Object> handleUserCustomizeException(CartException ce) {
         log.error(ce.getMessage(), ce);
-        return BaseResult.error("购物车无此商品");
+        return Result.error("购物车无此商品");
     }
 
     /**
@@ -149,9 +149,9 @@ public class GlobalExceptionHandler {
      * @return 错误提示
      */
     @ExceptionHandler(value = NoStockException.class)
-    public BaseResult<Object> handleBizException(NoStockException noStockException) {
+    public Result<Object> handleBizException(NoStockException noStockException) {
         log.error("异常信息：{}", noStockException.getMessage(), noStockException);
-        return BaseResult.error(noStockException.getMessage());
+        return Result.error(noStockException.getMessage());
     }
 
     /**
@@ -161,9 +161,9 @@ public class GlobalExceptionHandler {
      * @return 错误信息
      */
     @ExceptionHandler(Exception.class)
-    public BaseResult<Object> exceptionHandler(Exception e) {
+    public Result<Object> exceptionHandler(Exception e) {
         log.error("异常信息：{}", e.getLocalizedMessage(), e);
-        return BaseResult.fail(e.getMessage());
+        return Result.fail(e.getMessage());
     }
 
     /**
@@ -173,9 +173,9 @@ public class GlobalExceptionHandler {
      * @return 错误提示
      */
     @ExceptionHandler(RuntimeException.class)
-    public BaseResult<Object> handleUnknownException(RuntimeException re) {
+    public Result<Object> handleUnknownException(RuntimeException re) {
         log.error("运行期间抛出的异常：{}", re.getMessage(), re);
-        return BaseResult.error(re.getMessage());
+        return Result.error(re.getMessage());
     }
 
     /**
@@ -185,8 +185,8 @@ public class GlobalExceptionHandler {
      * @return 异常提示
      */
     @ExceptionHandler(value = Throwable.class)
-    public BaseResult<Object> handleException(Throwable throwable) {
+    public Result<Object> handleException(Throwable throwable) {
         log.error("错误信息: ", throwable);
-        return BaseResult.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMessage(), "Caused by:" + throwable.getLocalizedMessage());
+        return Result.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMessage(), "Caused by:" + throwable.getLocalizedMessage());
     }
 }

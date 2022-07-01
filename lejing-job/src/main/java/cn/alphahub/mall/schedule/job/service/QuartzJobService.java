@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.job.service;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
@@ -32,7 +32,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param param 定时任务信息类
      * @return result
      */
-    BaseResult<Boolean> createSimpleScheduleJob(QuartzParam param);
+    Result<Boolean> createSimpleScheduleJob(QuartzParam param);
 
     /**
      * 更新Simple定时任务
@@ -40,7 +40,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param param 定时任务信息类
      * @return result
      */
-    BaseResult<Boolean> updateSimpleScheduleJob(QuartzParam param);
+    Result<Boolean> updateSimpleScheduleJob(QuartzParam param);
 
     /**
      * 新增定时任务(创建->启动定时任务)
@@ -48,7 +48,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Boolean> save(QuartzJobDTO job);
+    Result<Boolean> save(QuartzJobDTO job);
 
     /**
      * 获取quartz定时任务调度详情
@@ -56,7 +56,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param id quartz定时任务调度主键id
      * @return quartz定时任务调度详细信息
      */
-    BaseResult<QuartzJobDTO> info(Long id);
+    Result<QuartzJobDTO> info(Long id);
 
     /**
      * 删除定时任务
@@ -64,7 +64,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param ids 定时任务id集合
      * @return void
      */
-    BaseResult<Void> remove(Long[] ids);
+    Result<Void> remove(Long[] ids);
 
     /**
      * 更新定时任务
@@ -72,7 +72,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Void> edit(QuartzJobDTO job);
+    Result<Void> edit(QuartzJobDTO job);
 
     /**
      * 定时任务状态修改
@@ -80,7 +80,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Void> updateStatus(QuartzJobDTO job);
+    Result<Void> updateStatus(QuartzJobDTO job);
 
     /**
      * 立即执行一次定时任务
@@ -89,7 +89,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return success/error
      */
-    BaseResult<Void> runAtNow(String jobName, String jobGroup);
+    Result<Void> runAtNow(String jobName, String jobGroup);
 
     /**
      * 暂停定时任务
@@ -98,7 +98,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Void> pause(String jobName, String jobGroup);
+    Result<Void> pause(String jobName, String jobGroup);
 
     /**
      * 恢复定时任务/继续定时任务
@@ -107,7 +107,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Void> resume(String jobName, String jobGroup);
+    Result<Void> resume(String jobName, String jobGroup);
 
     /**
      * 根据任务名称判断定时任务是否存在
@@ -116,7 +116,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Boolean> check(String jobName, String jobGroup);
+    Result<Boolean> check(String jobName, String jobGroup);
 
     /**
      * 获取任务状态信息
@@ -125,5 +125,5 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组（没有分组传值null）
      * @return 状态名称
      */
-    BaseResult<String> status(String jobName, String jobGroup);
+    Result<String> status(String jobName, String jobGroup);
 }

@@ -3,7 +3,7 @@ package cn.alphahub.mall.order.excel.easypoi.controller;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.handler.inter.IReadHandler;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.order.convertor.Convertor;
 import cn.alphahub.mall.order.excel.easypoi.dto.OrderExcelDTO;
@@ -53,7 +53,7 @@ public class OrderEasypoiController {
      * @download
      */
     @GetMapping(value = "/download/order")
-    public BaseResult<Void> downloadOrder(HttpServletRequest request, HttpServletResponse response) {
+    public Result<Void> downloadOrder(HttpServletRequest request, HttpServletResponse response) {
         String filename = "主订单-" + LocalDateTimeUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss") + ".xlsx";
         List<OrderExcelDTO> list = orderService.list().stream().map(order -> {
             var orderExcelDTO = convertor.copyToOrderExcelDTO(order);
@@ -65,7 +65,7 @@ public class OrderEasypoiController {
         } catch (IOException e) {
             log.error("{}", e.getLocalizedMessage(), e);
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -76,7 +76,7 @@ public class OrderEasypoiController {
      * @param response http servlet response
      */
     @PostMapping(value = "/upload/order")
-    public BaseResult<Void> uploadOrder(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public Result<Void> uploadOrder(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         try {
             var params = new ImportParams();
             //标题有一行（如果要读取的文件没有就不用设置）
@@ -127,6 +127,6 @@ public class OrderEasypoiController {
         } catch (Exception e) {
             log.error("{}", e.getLocalizedMessage(), e);
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 }

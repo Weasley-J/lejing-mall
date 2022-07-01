@@ -2,7 +2,7 @@ package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.PurchaseDetail;
@@ -38,7 +38,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 仓储采购表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<PurchaseDetail>> list(
+    public Result<PageResult<PurchaseDetail>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -49,9 +49,9 @@ public class PurchaseDetailController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<PurchaseDetail> pageResult = purchaseDetailService.queryPage(pageDomain, purchaseDetail, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -61,9 +61,9 @@ public class PurchaseDetailController extends BaseController {
      * @return 仓储采购表详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<PurchaseDetail> info(@PathVariable("id") Long id) {
+    public Result<PurchaseDetail> info(@PathVariable("id") Long id) {
         PurchaseDetail purchaseDetail = purchaseDetailService.getById(id);
-        return ObjectUtils.anyNotNull(purchaseDetail) ? BaseResult.ok(purchaseDetail) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(purchaseDetail) ? Result.ok(purchaseDetail) : Result.fail();
     }
 
     /**
@@ -73,7 +73,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody PurchaseDetail purchaseDetail) {
+    public Result<Boolean> save(@RequestBody PurchaseDetail purchaseDetail) {
         boolean save = purchaseDetailService.save(purchaseDetail);
         return toOperationResult(save);
     }
@@ -85,7 +85,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody PurchaseDetail purchaseDetail) {
+    public Result<Boolean> update(@RequestBody PurchaseDetail purchaseDetail) {
         boolean update = purchaseDetailService.updateById(purchaseDetail);
         return toOperationResult(update);
     }
@@ -97,7 +97,7 @@ public class PurchaseDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = purchaseDetailService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuInfo;
@@ -44,7 +44,7 @@ public class SkuInfoController extends BaseController {
      * @return sku信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SkuInfo>> list(
+    public Result<PageResult<SkuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -65,9 +65,9 @@ public class SkuInfoController extends BaseController {
         }
         PageResult<SkuInfo> pageResult = skuInfoService.queryPage(pageDomain, key, catelogId, brandId, min, max);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -77,9 +77,9 @@ public class SkuInfoController extends BaseController {
      * @return sku信息详细信息
      */
     @GetMapping("/info/{skuId}")
-    public BaseResult<SkuInfo> info(@PathVariable("skuId") Long skuId) {
+    public Result<SkuInfo> info(@PathVariable("skuId") Long skuId) {
         SkuInfo skuInfo = skuInfoService.getById(skuId);
-        return ObjectUtils.anyNotNull(skuInfo) ? BaseResult.ok(skuInfo) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(skuInfo) ? Result.ok(skuInfo) : Result.fail();
     }
 
     /**
@@ -89,7 +89,7 @@ public class SkuInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SkuInfo skuInfo) {
+    public Result<Boolean> save(@RequestBody SkuInfo skuInfo) {
         boolean save = skuInfoService.save(skuInfo);
         return toOperationResult(save);
     }
@@ -101,7 +101,7 @@ public class SkuInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SkuInfo skuInfo) {
+    public Result<Boolean> update(@RequestBody SkuInfo skuInfo) {
         boolean update = skuInfoService.updateById(skuInfo);
         return toOperationResult(update);
     }
@@ -113,7 +113,7 @@ public class SkuInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{skuIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] skuIds) {
+    public Result<Boolean> delete(@PathVariable Long[] skuIds) {
         boolean delete = skuInfoService.removeByIds(Arrays.asList(skuIds));
         return toOperationResult(delete);
     }

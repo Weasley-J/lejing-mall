@@ -1,6 +1,6 @@
 package cn.alphahub.mall.gateway.config;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.BizCodeEnum;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.fastjson.JSON;
@@ -20,7 +20,7 @@ public class SentinelGatewayConfig {
     public SentinelGatewayConfig() {
         GatewayCallbackManager.setBlockHandler((serverWebExchange, throwable) -> {
             /* 网关限流了请求，就会调用此回调 */
-            String errJson = JSON.toJSONString(BaseResult.error(BizCodeEnum.TO_MANY_REQUEST.getCode(), BizCodeEnum.TO_MANY_REQUEST.getMessage()));
+            String errJson = JSON.toJSONString(Result.error(BizCodeEnum.TO_MANY_REQUEST.getCode(), BizCodeEnum.TO_MANY_REQUEST.getMessage()));
             return ServerResponse.ok().body(Mono.just(errJson), String.class);
         });
     }

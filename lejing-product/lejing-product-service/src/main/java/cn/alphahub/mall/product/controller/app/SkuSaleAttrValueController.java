@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
@@ -38,7 +38,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return sku销售属性&值分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SkuSaleAttrValue>> list(
+    public Result<PageResult<SkuSaleAttrValue>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -48,9 +48,9 @@ public class SkuSaleAttrValueController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuSaleAttrValue> pageResult = skuSaleAttrValueService.queryPage(pageDomain, skuSaleAttrValue);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -60,12 +60,12 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return 商品的销售属性列表
      */
     @GetMapping("/skuAttrValues/{skuId}")
-    public BaseResult<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId) {
+    public Result<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId) {
         List<String> skuAttrValues = skuSaleAttrValueService.getSkuAttrValues(skuId);
         if (ObjectUtils.isNotEmpty(skuAttrValues)) {
-            return BaseResult.ok(skuAttrValues);
+            return Result.ok(skuAttrValues);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -75,9 +75,9 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return sku销售属性&值详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SkuSaleAttrValue> info(@PathVariable("id") Long id) {
+    public Result<SkuSaleAttrValue> info(@PathVariable("id") Long id) {
         SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueService.getById(id);
-        return ObjectUtils.anyNotNull(skuSaleAttrValue) ? BaseResult.ok(skuSaleAttrValue) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(skuSaleAttrValue) ? Result.ok(skuSaleAttrValue) : Result.fail();
     }
 
     /**
@@ -87,7 +87,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
+    public Result<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean save = skuSaleAttrValueService.save(skuSaleAttrValue);
         return toOperationResult(save);
     }
@@ -99,7 +99,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
+    public Result<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean update = skuSaleAttrValueService.updateById(skuSaleAttrValue);
         return toOperationResult(update);
     }
@@ -111,7 +111,7 @@ public class SkuSaleAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

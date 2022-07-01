@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.OrderOperateHistory;
@@ -37,7 +37,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 订单操作历史记录分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderOperateHistory>> list(
+    public Result<PageResult<OrderOperateHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderOperateHistoryController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderOperateHistory> pageResult = orderOperateHistoryService.queryPage(pageDomain, orderOperateHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 订单操作历史记录详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<OrderOperateHistory> info(@PathVariable("id") Long id) {
+    public Result<OrderOperateHistory> info(@PathVariable("id") Long id) {
         OrderOperateHistory orderOperateHistory = orderOperateHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(orderOperateHistory) ? BaseResult.ok(orderOperateHistory) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderOperateHistory) ? Result.ok(orderOperateHistory) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderOperateHistory orderOperateHistory) {
+    public Result<Boolean> save(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean save = orderOperateHistoryService.save(orderOperateHistory);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderOperateHistory orderOperateHistory) {
+    public Result<Boolean> update(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean update = orderOperateHistoryService.updateById(orderOperateHistory);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderOperateHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderOperateHistoryService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

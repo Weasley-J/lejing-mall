@@ -2,7 +2,7 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.GrowthChangeHistory;
@@ -37,7 +37,7 @@ public class GrowthChangeHistoryController extends BaseController {
      * @return 成长值变化历史记录分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<GrowthChangeHistory>> list(
+    public Result<PageResult<GrowthChangeHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class GrowthChangeHistoryController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<GrowthChangeHistory> pageResult = growthChangeHistoryService.queryPage(pageDomain, growthChangeHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class GrowthChangeHistoryController extends BaseController {
      * @return 成长值变化历史记录详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<GrowthChangeHistory> info(@PathVariable("id") Long id) {
+    public Result<GrowthChangeHistory> info(@PathVariable("id") Long id) {
         GrowthChangeHistory growthChangeHistory = growthChangeHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(growthChangeHistory) ? BaseResult.ok(growthChangeHistory) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(growthChangeHistory) ? Result.ok(growthChangeHistory) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class GrowthChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody GrowthChangeHistory growthChangeHistory) {
+    public Result<Boolean> save(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean save = growthChangeHistoryService.save(growthChangeHistory);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class GrowthChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody GrowthChangeHistory growthChangeHistory) {
+    public Result<Boolean> update(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean update = growthChangeHistoryService.updateById(growthChangeHistory);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class GrowthChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = growthChangeHistoryService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

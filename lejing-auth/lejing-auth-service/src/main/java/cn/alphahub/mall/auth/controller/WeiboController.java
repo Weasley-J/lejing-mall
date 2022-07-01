@@ -1,7 +1,7 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.auth.feign.MemberClient;
@@ -65,7 +65,7 @@ public class WeiboController {
                 log.info("{}", socialUser.getAccess_token());
             }
             // 调用远程服务
-            BaseResult<Member> result = memberClient.oauthLogin(socialUser);
+            Result<Member> result = memberClient.oauthLogin(socialUser);
             if (result.getSuccess()) {
                 Member member = result.getData();
                 log.info("登录成功, 用户信息：{}", member);

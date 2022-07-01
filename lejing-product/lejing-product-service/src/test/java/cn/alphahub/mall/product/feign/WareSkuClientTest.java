@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.service.SkuInfoService;
@@ -37,15 +37,15 @@ class WareSkuClientTest {
 
     @Test
     void getBySkuId() {
-        BaseResult<WareSku> info = wareSkuClient.info(5L);
+        Result<WareSku> info = wareSkuClient.info(5L);
         if (info.getSuccess()) {
             WareSku data = info.getData();
             System.out.println("data = " + data);
         }
         System.out.println("======================");
-        BaseResult<PageResult<WareSku>> baseResult = wareSkuClient.listBySkuId(2L);
-        if (baseResult.getSuccess()) {
-            PageResult<WareSku> data = baseResult.getData();
+        Result<PageResult<WareSku>> result = wareSkuClient.listBySkuId(2L);
+        if (result.getSuccess()) {
+            PageResult<WareSku> data = result.getData();
             List<WareSku> items = data.getItems();
             if (CollectionUtils.isNotEmpty(items)) {
                 WareSku wareSku = items.get(0);
@@ -59,7 +59,7 @@ class WareSkuClientTest {
      */
     @Test
     void testSkuHasStock() {
-        BaseResult<List<WareSkuVO>> skuHasStock = wareSkuClient.getSkuHasStock(Arrays.asList(1L, 2L));
+        Result<List<WareSkuVO>> skuHasStock = wareSkuClient.getSkuHasStock(Arrays.asList(1L, 2L));
         if (skuHasStock.getSuccess()) {
             List<WareSkuVO> data = skuHasStock.getData();
             data.forEach(System.out::println);
@@ -73,7 +73,7 @@ class WareSkuClientTest {
     void incStock() {
         List<SkuInfo> infos = skuInfoService.list();
         for (SkuInfo skuInfo : infos) {
-            BaseResult<PageResult<WareSku>> result = wareSkuClient.listBySkuId(skuInfo.getSkuId());
+            Result<PageResult<WareSku>> result = wareSkuClient.listBySkuId(skuInfo.getSkuId());
             if (!result.getSuccess()) {
                 WareSku wareSku = new WareSku();
                 wareSku.setSkuId(skuInfo.getSkuId());

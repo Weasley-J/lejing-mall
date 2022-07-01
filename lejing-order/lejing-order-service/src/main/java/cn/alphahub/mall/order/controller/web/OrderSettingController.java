@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.OrderSetting;
@@ -37,7 +37,7 @@ public class OrderSettingController extends BaseController {
      * @return 订单配置信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderSetting>> list(
+    public Result<PageResult<OrderSetting>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderSettingController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSetting> pageResult = orderSettingService.queryPage(pageDomain, orderSetting);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderSettingController extends BaseController {
      * @return 订单配置信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<OrderSetting> info(@PathVariable("id") Long id) {
+    public Result<OrderSetting> info(@PathVariable("id") Long id) {
         OrderSetting orderSetting = orderSettingService.getById(id);
-        return ObjectUtils.anyNotNull(orderSetting) ? BaseResult.ok(orderSetting) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderSetting) ? Result.ok(orderSetting) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderSettingController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderSetting orderSetting) {
+    public Result<Boolean> save(@RequestBody OrderSetting orderSetting) {
         boolean save = orderSettingService.save(orderSetting);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderSettingController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderSetting orderSetting) {
+    public Result<Boolean> update(@RequestBody OrderSetting orderSetting) {
         boolean update = orderSettingService.updateById(orderSetting);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderSettingController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderSettingService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

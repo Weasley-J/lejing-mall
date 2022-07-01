@@ -1,6 +1,6 @@
-package cn.alphahub.mall.common.base.interceptor;
+package cn.alphahub.mall.common.interceptor;
 
-import cn.alphahub.mall.common.base.constant.FrameworkConstant;
+import cn.alphahub.mall.common.constant.FrameworkConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;

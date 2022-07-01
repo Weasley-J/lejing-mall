@@ -2,7 +2,7 @@ package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enums.BizCodeEnum;
@@ -40,12 +40,12 @@ public class WareSkuController extends BaseController {
      * @return 库存锁定结果
      */
     @PostMapping("/order/lock/stock")
-    public BaseResult<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo) {
+    public Result<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo) {
         try {
             LockStockResultTo lockStockResults = wareSkuService.orderLockStock(skuLockVo);
-            return BaseResult.ok(lockStockResults);
+            return Result.ok(lockStockResults);
         } catch (NoStockException e) {
-            return BaseResult.error(BizCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
+            return Result.error(BizCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
         }
     }
 
@@ -56,9 +56,9 @@ public class WareSkuController extends BaseController {
      * @return 商品库存列表
      */
     @PostMapping("skuHasStock")
-    BaseResult<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds) {
+    Result<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds) {
         List<WareSkuVO> vos = wareSkuService.getSkuHasStock(skuIds);
-        return CollectionUtils.isNotEmpty(vos) ? BaseResult.success(vos) : BaseResult.error();
+        return CollectionUtils.isNotEmpty(vos) ? Result.success(vos) : Result.error();
     }
 
     /**
@@ -72,7 +72,7 @@ public class WareSkuController extends BaseController {
      * @return 商品库存分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<WareSku>> list(
+    public Result<PageResult<WareSku>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -82,9 +82,9 @@ public class WareSkuController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareSku> pageResult = wareSkuService.queryPage(pageDomain, wareSku);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -94,13 +94,13 @@ public class WareSkuController extends BaseController {
      * @return 商品库存列表
      */
     @GetMapping("/list/{skuId}")
-    public BaseResult<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId) {
+    public Result<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId) {
         PageDomain pageDomain = new PageDomain(1, 10, null, null);
         PageResult<WareSku> pageResult = wareSkuService.queryPage(pageDomain, WareSku.builder().skuId(skuId).build());
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -110,9 +110,9 @@ public class WareSkuController extends BaseController {
      * @return 商品库存详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<WareSku> info(@PathVariable("id") Long id) {
+    public Result<WareSku> info(@PathVariable("id") Long id) {
         WareSku wareSku = wareSkuService.getById(id);
-        return ObjectUtils.anyNotNull(wareSku) ? BaseResult.ok(wareSku) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(wareSku) ? Result.ok(wareSku) : Result.fail();
     }
 
     /**
@@ -122,7 +122,7 @@ public class WareSkuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody WareSku wareSku) {
+    public Result<Boolean> save(@RequestBody WareSku wareSku) {
         boolean save = wareSkuService.save(wareSku);
         return toOperationResult(save);
     }
@@ -134,7 +134,7 @@ public class WareSkuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody WareSku wareSku) {
+    public Result<Boolean> update(@RequestBody WareSku wareSku) {
         boolean update = wareSkuService.updateById(wareSku);
         return toOperationResult(update);
     }
@@ -146,7 +146,7 @@ public class WareSkuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareSkuService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

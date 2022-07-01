@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.service.impl;
 
 import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
@@ -156,7 +156,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             log.info("异步线程addressListFuture,当前线程Id:{},当前线程Name:{},开始远程查询查询用户[{}]的收货地址列表:{}", Thread.currentThread().getId(), Thread.currentThread().getName(), member.getId(), JSONUtil.toJsonStr(member));
             RequestContextHolder.setRequestAttributes(mainThreadRequestAttributes);
             List<MemberAddressVo> addressVos;
-            BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
+            Result<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(member.getId());
             if (result.getSuccess().equals(true) && CollectionUtils.isNotEmpty(result.getData())) {
                 addressVos = result.getData().stream().map(memberReceiveAddress -> {
                     MemberAddressVo addressVo = new MemberAddressVo();
@@ -178,7 +178,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             confirmVo.setItems(itemVos);
         }, executor).thenRunAsync(() -> {
             List<Long> skuIds = confirmVo.getItems().stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
-            BaseResult<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
+            Result<List<WareSkuVO>> result = wareSkuClient.getSkuHasStock(skuIds);
             log.info("远程查询用户[{}]购物中商品的库存信息,响应:{}", member.getId(), JSONUtil.toJsonStr(result));
             if (result.getSuccess().equals(true) && CollectionUtils.isNotEmpty(result.getData())) {
                 Map<Long, Boolean> skuHasStockMap = result.getData().stream().collect(Collectors.toMap(WareSkuVO::getSkuId, WareSkuVO::getHasStock));
@@ -228,15 +228,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         //1、验证令牌是否合法（令牌的对比和删除必须保证原子性）, rua脚本执行结果: 1L 验证成功；0L 验证失败
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-        Long result = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Lists.newArrayList(key), token);
+        Long redisResult = stringRedisTemplate.execute(new DefaultRedisScript<>(script, Long.class), Lists.newArrayList(key), token);
 
-        if (Objects.equals(result, 0L)) {
+        if (Objects.equals(redisResult, 0L)) {
             log.info("令牌验证不通过：{}", JSONUtil.toJsonStr(submitVo));
             responseVo.setCode(1);
             return responseVo;
         }
 
-        if (Objects.equals(result, 1L)) {
+        if (Objects.equals(redisResult, 1L)) {
             log.info("令牌验证通过：{}", JSONUtil.toJsonStr(submitVo));
             // 创建订单项
             OrderCreateTo to = createOrder();
@@ -252,9 +252,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 List<OrderItemVo> itemVos = to.getOrderItems().stream().map(BeanUtil.INSTANCE::copy).collect(Collectors.toList());
                 lockVo.setLocks(itemVos);
 
-                BaseResult<LockStockResultTo> baseResult = wareSkuClient.orderLockStock(lockVo);
-                log.warn("远程库存锁定结果：{}", JSONUtil.toJsonStr(baseResult));
-                if (baseResult.getSuccess() && baseResult.getData().getIsAllSkuLocked()) {
+                Result<LockStockResultTo> result = wareSkuClient.orderLockStock(lockVo);
+                log.warn("远程库存锁定结果：{}", JSONUtil.toJsonStr(result));
+                if (result.getSuccess() && result.getData().getIsAllSkuLocked()) {
                     log.info("锁库存成功, 订单信息:{}", JSONUtil.toJsonStr(to.getOrder()));
                     // 库存锁定，订单回滚
                     responseVo.setOrder(to.getOrder());
@@ -286,8 +286,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     mqMessageService.save(mqMessage);
                 } else {
                     responseVo.setCode(3);
-                    responseVo.setMsg(baseResult.getMessage());
-                    throw new NoStockException(baseResult.getMessage());
+                    responseVo.setMsg(result.getMessage());
+                    throw new NoStockException(result.getMessage());
                 }
             } else {
                 log.info("验价失败!");
@@ -438,7 +438,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
 
         SkuInfo skuInfo = new SkuInfo();
-        BaseResult<SkuInfo> skuInfoResult = skuInfoClient.info(seckillOrder.getSkuId());
+        Result<SkuInfo> skuInfoResult = skuInfoClient.info(seckillOrder.getSkuId());
         if (skuInfoResult.getSuccess().equals(true) && Objects.nonNull(skuInfoResult.getData())) {
             skuInfo = skuInfoResult.getData();
         }
@@ -447,7 +447,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return;
         }
         Member member = new Member();
-        BaseResult<Member> memberResult = memberClient.info(seckillOrder.getMemberId());
+        Result<Member> memberResult = memberClient.info(seckillOrder.getMemberId());
         if (memberResult.getSuccess().equals(true) && Objects.nonNull(memberResult.getData())) {
             member = memberResult.getData();
         }
@@ -577,7 +577,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setMemberUsername(LoginInterceptor.getUserInfo().getUsername());
         // 收货人信息+运费
         OrderSubmitVo submitVo = confirmVoThreadLocal.get();
-        BaseResult<FareVo> postageInfo = wareInfoClient.getPostageInfo(submitVo.getAddrId());
+        Result<FareVo> postageInfo = wareInfoClient.getPostageInfo(submitVo.getAddrId());
         FareVo data = postageInfo.getData();
         if (postageInfo.getSuccess().equals(true) && Objects.nonNull(data)) {
             MemberAddressVo address = data.getAddress();
@@ -634,21 +634,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         OrderItem orderItem = new OrderItem();
 
         Long skuId = cartItemVo.getSkuId();
-        BaseResult<SkuInfo> skuInfoBaseResult = skuInfoClient.info(skuId);
-        SkuInfo skuInfo = skuInfoBaseResult.getData();
-        if (skuInfoBaseResult.getSuccess().equals(true) && Objects.nonNull(skuInfo)) {
+        Result<SkuInfo> skuInfoResult = skuInfoClient.info(skuId);
+        SkuInfo skuInfo = skuInfoResult.getData();
+        if (skuInfoResult.getSuccess().equals(true) && Objects.nonNull(skuInfo)) {
             orderItem.setSpuId(skuInfo.getSpuId());
             orderItem.setSpuPic(skuInfo.getSkuDefaultImg());
             // 查SPU信息
-            BaseResult<SpuInfo> spuInfoBaseResult = spuInfoClient.info(skuInfo.getSpuId());
-            SpuInfo spuInfo = spuInfoBaseResult.getData();
-            if (spuInfoBaseResult.getSuccess().equals(true) && Objects.nonNull(spuInfo)) {
+            Result<SpuInfo> spuInfoResult = spuInfoClient.info(skuInfo.getSpuId());
+            SpuInfo spuInfo = spuInfoResult.getData();
+            if (spuInfoResult.getSuccess().equals(true) && Objects.nonNull(spuInfo)) {
                 orderItem.setSpuName(spuInfo.getSpuName());
                 orderItem.setCategoryId(spuInfo.getCatalogId());
                 //  查品牌
-                BaseResult<Brand> brandBaseResult = brandClient.info(skuInfo.getBrandId());
-                if (brandBaseResult.getSuccess().equals(true) && Objects.nonNull(brandBaseResult.getData())) {
-                    orderItem.setSpuBrand(brandBaseResult.getData().getName());
+                Result<Brand> brandResult = brandClient.info(skuInfo.getBrandId());
+                if (brandResult.getSuccess().equals(true) && Objects.nonNull(brandResult.getData())) {
+                    orderItem.setSpuBrand(brandResult.getData().getName());
                 }
             }
         }
@@ -705,7 +705,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     .filter(CartItemVo::getCheck)
                     .peek(item -> {
                         // 远程查询商品的最新价格
-                        BaseResult<SkuInfo> result = skuInfoClient.info(item.getSkuId());
+                        Result<SkuInfo> result = skuInfoClient.info(item.getSkuId());
                         log.info("远程查询最新的商品价格, 结果:{}", JSONUtil.toJsonStr(result));
                         if (result.getSuccess().equals(true)) {
                             SkuInfo skuInfo = result.getData();

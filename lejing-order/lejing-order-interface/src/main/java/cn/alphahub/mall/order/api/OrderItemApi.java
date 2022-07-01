@@ -1,9 +1,15 @@
 package cn.alphahub.mall.order.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.OrderItem;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 订单项信息-feign远程调用api
@@ -24,7 +30,7 @@ public interface OrderItemApi {
      * @return 订单项信息分页数据
      */
     @GetMapping("order/orderitem/list")
-    BaseResult<PageResult<OrderItem>> list(
+    Result<PageResult<OrderItem>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -39,7 +45,7 @@ public interface OrderItemApi {
      * @return 订单项信息详细信息
      */
     @GetMapping("order/orderitem/info/{id}")
-    BaseResult<OrderItem> info(@PathVariable("id") Long id);
+    Result<OrderItem> info(@PathVariable("id") Long id);
 
     /**
      * 新增订单项信息
@@ -48,7 +54,7 @@ public interface OrderItemApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("order/orderitem/save")
-    BaseResult<Boolean> save(@RequestBody OrderItem orderItem);
+    Result<Boolean> save(@RequestBody OrderItem orderItem);
 
     /**
      * 修改订单项信息
@@ -57,7 +63,7 @@ public interface OrderItemApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("order/orderitem/update")
-    BaseResult<Boolean> update(@RequestBody OrderItem orderItem);
+    Result<Boolean> update(@RequestBody OrderItem orderItem);
 
     /**
      * 批量删除订单项信息
@@ -66,5 +72,5 @@ public interface OrderItemApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("order/orderitem/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class SkuInfoClientTest {
 
     @Test
     void info() {
-        BaseResult<SkuInfo> info = skuInfoClient.info(9L);
+        Result<SkuInfo> info = skuInfoClient.info(9L);
         assertNotNull(info);
         System.err.println(info);
     }

@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.site.domain.SiteReserveSession;
@@ -37,7 +37,7 @@ public class SiteReserveSessionController extends BaseController {
      * @return 场地预约场次表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SiteReserveSession>> list(
+    public Result<PageResult<SiteReserveSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SiteReserveSessionController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteReserveSession> pageResult = siteReserveSessionService.queryPage(pageDomain, siteReserveSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SiteReserveSessionController extends BaseController {
      * @return 场地预约场次表详细信息
      */
     @GetMapping("/info/{siteSessionId}")
-    public BaseResult<SiteReserveSession> info(@PathVariable("siteSessionId") Long siteSessionId) {
+    public Result<SiteReserveSession> info(@PathVariable("siteSessionId") Long siteSessionId) {
         SiteReserveSession siteReserveSession = siteReserveSessionService.getById(siteSessionId);
-        return ObjectUtils.anyNotNull(siteReserveSession) ? BaseResult.ok(siteReserveSession) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(siteReserveSession) ? Result.ok(siteReserveSession) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SiteReserveSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SiteReserveSession siteReserveSession) {
+    public Result<Boolean> save(@RequestBody SiteReserveSession siteReserveSession) {
         boolean save = siteReserveSessionService.save(siteReserveSession);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SiteReserveSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SiteReserveSession siteReserveSession) {
+    public Result<Boolean> update(@RequestBody SiteReserveSession siteReserveSession) {
         boolean update = siteReserveSessionService.updateById(siteReserveSession);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SiteReserveSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{siteSessionIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] siteSessionIds) {
+    public Result<Boolean> delete(@PathVariable Long[] siteSessionIds) {
         boolean delete = siteReserveSessionService.removeByIds(Arrays.asList(siteSessionIds));
         return toOperationResult(delete);
     }

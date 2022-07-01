@@ -1,11 +1,17 @@
 package cn.alphahub.mall.order.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 订单-feign远程调用api
@@ -23,7 +29,7 @@ public interface OrderApi {
      * @return 订单状态
      */
     @GetMapping(value = "order/order/status")
-    BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn);
+    Result<Order> getOrderStatus(@RequestParam("orderSn") String orderSn);
 
     /**
      * 获取当前登录用的订单数据
@@ -32,7 +38,7 @@ public interface OrderApi {
      * @return 当前登录用户的订单数据
      */
     @PostMapping("order/order/member/order/list")
-    BaseResult<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page);
+    Result<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page);
 
     /**
      * 查询订单列表
@@ -45,7 +51,7 @@ public interface OrderApi {
      * @return 订单分页数据
      */
     @GetMapping("order/order/list")
-    BaseResult<PageResult<Order>> list(
+    Result<PageResult<Order>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -60,7 +66,7 @@ public interface OrderApi {
      * @return 订单详细信息
      */
     @GetMapping("order/order/info/{id}")
-    BaseResult<Order> info(@PathVariable("id") Long id);
+    Result<Order> info(@PathVariable("id") Long id);
 
     /**
      * 新增订单
@@ -69,7 +75,7 @@ public interface OrderApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("order/order/save")
-    BaseResult<Boolean> save(@RequestBody Order order);
+    Result<Boolean> save(@RequestBody Order order);
 
     /**
      * 修改订单
@@ -78,7 +84,7 @@ public interface OrderApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("order/order/update")
-    BaseResult<Boolean> update(@RequestBody Order order);
+    Result<Boolean> update(@RequestBody Order order);
 
     /**
      * 批量删除订单
@@ -87,5 +93,5 @@ public interface OrderApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("order/order/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

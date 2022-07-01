@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.job.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.schedule.job.domain.QuartzJobLog;
@@ -31,11 +31,11 @@ public class ScheduleJobLogController {
      * @return quartz定时任务调度日志分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<QuartzJobLog>> list(@ModelAttribute(name = "page") PageDomain page,
-                                                     @ModelAttribute(name = "quartzJobLog") QuartzJobLog quartzJobLog
+    public Result<PageResult<QuartzJobLog>> list(@ModelAttribute(name = "page") PageDomain page,
+                                                 @ModelAttribute(name = "quartzJobLog") QuartzJobLog quartzJobLog
     ) {
         PageResult<QuartzJobLog> pageResult = quartzJobLogService.queryPage(page, quartzJobLog);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -45,9 +45,9 @@ public class ScheduleJobLogController {
      * @return quartz定时任务调度日志详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<QuartzJobLog> info(@PathVariable("id") Long id) {
+    public Result<QuartzJobLog> info(@PathVariable("id") Long id) {
         QuartzJobLog quartzJobLog = quartzJobLogService.getById(id);
-        return BaseResult.ok(quartzJobLog);
+        return Result.ok(quartzJobLog);
     }
 
     /**
@@ -57,9 +57,9 @@ public class ScheduleJobLogController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody QuartzJobLog quartzJobLog) {
+    public Result<Boolean> save(@RequestBody QuartzJobLog quartzJobLog) {
         boolean save = quartzJobLogService.save(quartzJobLog);
-        return BaseResult.ok(save);
+        return Result.ok(save);
     }
 
     /**
@@ -69,9 +69,9 @@ public class ScheduleJobLogController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody QuartzJobLog quartzJobLog) {
+    public Result<Boolean> update(@RequestBody QuartzJobLog quartzJobLog) {
         boolean update = quartzJobLogService.updateById(quartzJobLog);
-        return BaseResult.ok(update);
+        return Result.ok(update);
     }
 
     /**
@@ -81,8 +81,8 @@ public class ScheduleJobLogController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable(name = "ids") Long[] ids) {
+    public Result<Boolean> delete(@PathVariable(name = "ids") Long[] ids) {
         boolean delete = quartzJobLogService.removeByIds(Arrays.asList(ids));
-        return BaseResult.ok(delete);
+        return Result.ok(delete);
     }
 }

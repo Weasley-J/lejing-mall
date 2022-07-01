@@ -1,10 +1,16 @@
 package cn.alphahub.mall.coupon.api;
 
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.Coupon;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 优惠券信息api
@@ -25,7 +31,7 @@ public interface CouponApi {
      * @return 优惠券信息分页数据
      */
     @PostMapping("coupon/coupon/list")
-    BaseResult<PageResult<Coupon>> list(
+    Result<PageResult<Coupon>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface CouponApi {
      * @return 优惠券信息详细信息
      */
     @GetMapping("coupon/coupon/info/{id}")
-    BaseResult<Coupon> info(@PathVariable("id") Long id);
+    Result<Coupon> info(@PathVariable("id") Long id);
 
     /**
      * 新增优惠券信息
@@ -49,7 +55,7 @@ public interface CouponApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("coupon/coupon/save")
-    BaseResult<Boolean> save(@RequestBody Coupon coupon);
+    Result<Boolean> save(@RequestBody Coupon coupon);
 
     /**
      * 修改优惠券信息
@@ -58,7 +64,7 @@ public interface CouponApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("coupon/coupon/update")
-    BaseResult<Boolean> update(@RequestBody Coupon coupon);
+    Result<Boolean> update(@RequestBody Coupon coupon);
 
     /**
      * 批量删除优惠券信息
@@ -67,6 +73,6 @@ public interface CouponApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("coupon/coupon/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 
 }

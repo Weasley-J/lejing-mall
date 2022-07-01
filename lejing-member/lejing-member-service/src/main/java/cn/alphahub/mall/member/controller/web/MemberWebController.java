@@ -1,6 +1,6 @@
 package cn.alphahub.mall.member.controller.web;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.feign.OrderClient;
@@ -41,7 +41,7 @@ public class MemberWebController {
         var domain = new PageDomain();
         domain.setPage(pageNum);
         domain.setRows(100);
-        BaseResult<PageResult<OrderVo>> result = orderClient.getMemberOrderList(domain);
+        Result<PageResult<OrderVo>> result = orderClient.getMemberOrderList(domain);
         log.info("当前登录用的订单数据:{}", JSONUtil.toJsonPrettyStr(result));
         model.addAttribute("orders", result);
         return "orderList";

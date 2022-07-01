@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Attr;
@@ -42,8 +42,8 @@ public class AttrController extends BaseController {
      * @return spu规格列表
      */
     @GetMapping("/base/listforspu/{spuId}")
-    public BaseResult<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId) {
-        return BaseResult.ok(productAttrValueService.listSpuBySpuId(spuId));
+    public Result<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId) {
+        return Result.ok(productAttrValueService.listSpuBySpuId(spuId));
     }
 
     /**
@@ -59,7 +59,7 @@ public class AttrController extends BaseController {
      * @return 分页列表
      */
     @GetMapping("/{attrType}/list/{catelogId}")
-    public BaseResult<PageResult<AttrRespVO>> baseList(
+    public Result<PageResult<AttrRespVO>> baseList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -71,7 +71,7 @@ public class AttrController extends BaseController {
         // attrType=1 -> /base/list/{catelogId} | attrType=2 -> /sale/list/{catelogId}
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<AttrRespVO> pageResult = attrService.queryPage(pageDomain, new Attr(), key, catelogId, attrType);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -85,7 +85,7 @@ public class AttrController extends BaseController {
      * @return 商品属性分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Attr>> list(
+    public Result<PageResult<Attr>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -95,9 +95,9 @@ public class AttrController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Attr> pageResult = attrService.queryPage(pageDomain, attr);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -108,9 +108,9 @@ public class AttrController extends BaseController {
      */
     @GetMapping("/info/{attrId}")
     @Cacheable(value = "product:attr", key = "'info:'+#root.args[0]")
-    public BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId) {
+    public Result<AttrRespVO> info(@PathVariable("attrId") Long attrId) {
         AttrRespVO attr = attrService.getAttrInfoById(attrId);
-        return ObjectUtils.anyNotNull(attr) ? BaseResult.ok(attr) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(attr) ? Result.ok(attr) : Result.fail();
     }
 
     /**
@@ -120,7 +120,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody AttrVO attr) {
+    public Result<Boolean> save(@RequestBody AttrVO attr) {
         boolean save = attrService.saveAttr(attr);
         return toOperationResult(save);
     }
@@ -133,7 +133,7 @@ public class AttrController extends BaseController {
      */
     @PutMapping("/update")
     @CacheEvict(value = "product:attr", allEntries = true)
-    public BaseResult<Boolean> update(@RequestBody AttrVO attr) {
+    public Result<Boolean> update(@RequestBody AttrVO attr) {
         boolean update = attrService.updateAttrById(attr);
         return toOperationResult(update);
     }
@@ -147,7 +147,7 @@ public class AttrController extends BaseController {
      */
     @PutMapping("/update/{spuId}")
     @CacheEvict(value = "product:attr", allEntries = true)
-    public BaseResult<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues) {
+    public Result<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues) {
         boolean update = productAttrValueService.updateSpuAttr(spuId, attrValues);
         return toOperationResult(update);
     }
@@ -159,7 +159,7 @@ public class AttrController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{attrIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] attrIds) {
+    public Result<Boolean> delete(@PathVariable Long[] attrIds) {
         boolean delete = attrService.removeByIds(Arrays.asList(attrIds));
         return toOperationResult(delete);
     }

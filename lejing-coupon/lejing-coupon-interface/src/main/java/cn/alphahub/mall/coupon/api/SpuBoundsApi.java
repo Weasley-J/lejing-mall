@@ -1,9 +1,15 @@
 package cn.alphahub.mall.coupon.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 商品spu积分设置feign远程调用接口
@@ -24,7 +30,7 @@ public interface SpuBoundsApi {
      * @return 商品spu积分设置分页数据
      */
     @GetMapping("coupon/spubounds/list")
-    BaseResult<PageResult<SpuBounds>> list(
+    Result<PageResult<SpuBounds>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -39,7 +45,7 @@ public interface SpuBoundsApi {
      * @return 商品spu积分设置详细信息
      */
     @GetMapping("coupon/spubounds/info/{id}")
-    BaseResult<SpuBounds> info(@PathVariable("id") Long id);
+    Result<SpuBounds> info(@PathVariable("id") Long id);
 
     /**
      * 新增商品spu积分设置
@@ -48,7 +54,7 @@ public interface SpuBoundsApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("coupon/spubounds/save")
-    BaseResult<Boolean> save(@RequestBody SpuBounds spuBounds);
+    Result<Boolean> save(@RequestBody SpuBounds spuBounds);
 
     /**
      * 修改商品spu积分设置
@@ -57,7 +63,7 @@ public interface SpuBoundsApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("coupon/spubounds/update")
-    BaseResult<Boolean> update(@RequestBody SpuBounds spuBounds);
+    Result<Boolean> update(@RequestBody SpuBounds spuBounds);
 
     /**
      * 批量删除商品spu积分设置
@@ -66,5 +72,5 @@ public interface SpuBoundsApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("coupon/spubounds/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

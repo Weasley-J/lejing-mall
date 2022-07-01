@@ -2,7 +2,7 @@ package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.WareOrderTask;
@@ -37,7 +37,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 库存工作单分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<WareOrderTask>> list(
+    public Result<PageResult<WareOrderTask>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class WareOrderTaskController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareOrderTask> pageResult = wareOrderTaskService.queryPage(pageDomain, wareOrderTask);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class WareOrderTaskController extends BaseController {
      * @return 库存工作单详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<WareOrderTask> info(@PathVariable("id") Long id) {
+    public Result<WareOrderTask> info(@PathVariable("id") Long id) {
         WareOrderTask wareOrderTask = wareOrderTaskService.getById(id);
-        return ObjectUtils.anyNotNull(wareOrderTask) ? BaseResult.ok(wareOrderTask) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(wareOrderTask) ? Result.ok(wareOrderTask) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody WareOrderTask wareOrderTask) {
+    public Result<Boolean> save(@RequestBody WareOrderTask wareOrderTask) {
         boolean save = wareOrderTaskService.save(wareOrderTask);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody WareOrderTask wareOrderTask) {
+    public Result<Boolean> update(@RequestBody WareOrderTask wareOrderTask) {
         boolean update = wareOrderTaskService.updateById(wareOrderTask);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class WareOrderTaskController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareOrderTaskService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

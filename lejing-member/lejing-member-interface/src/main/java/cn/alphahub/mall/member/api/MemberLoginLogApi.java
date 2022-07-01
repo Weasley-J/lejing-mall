@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberLoginLog;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员登录记录Controller
@@ -25,7 +31,7 @@ public interface MemberLoginLogApi {
      * @return 会员登录记录分页数据
      */
     @GetMapping("member/memberloginlog/list")
-    BaseResult<PageResult<MemberLoginLog>> list(
+    Result<PageResult<MemberLoginLog>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface MemberLoginLogApi {
      * @return 会员登录记录详细信息
      */
     @GetMapping("member/memberloginlog/info/{id}")
-    BaseResult<MemberLoginLog> info(@PathVariable("id") Long id);
+    Result<MemberLoginLog> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员登录记录
@@ -49,7 +55,7 @@ public interface MemberLoginLogApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("member/memberloginlog/save")
-    BaseResult<Boolean> save(@RequestBody MemberLoginLog memberLoginLog);
+    Result<Boolean> save(@RequestBody MemberLoginLog memberLoginLog);
 
     /**
      * 修改会员登录记录
@@ -58,7 +64,7 @@ public interface MemberLoginLogApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("member/memberloginlog/update")
-    BaseResult<Boolean> update(@RequestBody MemberLoginLog memberLoginLog);
+    Result<Boolean> update(@RequestBody MemberLoginLog memberLoginLog);
 
     /**
      * 批量删除会员登录记录
@@ -67,5 +73,5 @@ public interface MemberLoginLogApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("member/memberloginlog/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

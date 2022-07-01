@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SkuLadder;
@@ -37,7 +37,7 @@ public class SkuLadderController extends BaseController {
      * @return 商品阶梯价格分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SkuLadder>> list(
+    public Result<PageResult<SkuLadder>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SkuLadderController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuLadder> pageResult = skuLadderService.queryPage(pageDomain, skuLadder);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SkuLadderController extends BaseController {
      * @return 商品阶梯价格详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SkuLadder> info(@PathVariable("id") Long id) {
+    public Result<SkuLadder> info(@PathVariable("id") Long id) {
         SkuLadder skuLadder = skuLadderService.getById(id);
-        return ObjectUtils.anyNotNull(skuLadder) ? BaseResult.ok(skuLadder) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(skuLadder) ? Result.ok(skuLadder) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SkuLadderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SkuLadder skuLadder) {
+    public Result<Boolean> save(@RequestBody SkuLadder skuLadder) {
         boolean save = skuLadderService.save(skuLadder);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SkuLadderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SkuLadder skuLadder) {
+    public Result<Boolean> update(@RequestBody SkuLadder skuLadder) {
         boolean update = skuLadderService.updateById(skuLadder);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SkuLadderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuLadderService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

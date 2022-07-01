@@ -1,7 +1,7 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
@@ -43,15 +43,15 @@ public class LoginController {
      */
     @ResponseBody
     @GetMapping("/sms/sendCode")
-    public BaseResult<String> sendCheckCode(
+    public Result<String> sendCheckCode(
             @RequestParam(value = "phone", required = true) String phone,
             @RequestParam(value = "origin", required = false, defaultValue = "0") Integer origin
     ) {
         CheckCodeStatus status = authService.sendCheckCode(phone, origin);
         if (Objects.equals(status.getValue(), CheckCodeStatus.SUCCESS.getValue())) {
-            return BaseResult.success(status.getName());
+            return Result.success(status.getName());
         }
-        return BaseResult.success(status.getValue(), status.getName());
+        return Result.success(status.getValue(), status.getName());
     }
 
     /**

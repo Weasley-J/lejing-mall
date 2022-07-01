@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
@@ -37,10 +37,10 @@ public class SeckillSessionController extends BaseController {
      * @return 最近3天的秒杀场次列表
      */
     @GetMapping("/latest/3days/seckill/session")
-    public BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession() {
+    public Result<List<SeckillSession>> getLatest3DaysSeckillSession() {
         List<SeckillSession> seckillSessions = seckillSessionService.getLatest3DaysSeckillSession();
         log.info("最近3天的秒杀场次列表:{}", JSONUtil.toJsonPrettyStr(seckillSessions));
-        return BaseResult.ok(seckillSessions);
+        return Result.ok(seckillSessions);
     }
 
     /**
@@ -49,7 +49,7 @@ public class SeckillSessionController extends BaseController {
      * @return 秒杀活动场次列表
      */
     @GetMapping("/list/no/args")
-    public BaseResult<PageResult<SeckillSession>> list() {
+    public Result<PageResult<SeckillSession>> list() {
         return list(1, 50, null, null, null);
     }
 
@@ -60,10 +60,10 @@ public class SeckillSessionController extends BaseController {
      * @return 提示
      */
     @PutMapping("/batch/update")
-    public BaseResult<Boolean> batchUpdate(@RequestBody List<SeckillSession> sessionList) {
+    public Result<Boolean> batchUpdate(@RequestBody List<SeckillSession> sessionList) {
         log.info("批量更新秒杀活动场次: {}", JSONUtil.toJsonPrettyStr(sessionList));
         boolean b = seckillSessionService.saveOrUpdateBatch(sessionList);
-        return BaseResult.ok(b);
+        return Result.ok(b);
     }
 
     /**
@@ -77,7 +77,7 @@ public class SeckillSessionController extends BaseController {
      * @return 秒杀活动场次分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SeckillSession>> list(
+    public Result<PageResult<SeckillSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -87,9 +87,9 @@ public class SeckillSessionController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillSession> pageResult = seckillSessionService.queryPage(pageDomain, seckillSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -99,9 +99,9 @@ public class SeckillSessionController extends BaseController {
      * @return 秒杀活动场次详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SeckillSession> info(@PathVariable("id") Long id) {
+    public Result<SeckillSession> info(@PathVariable("id") Long id) {
         SeckillSession seckillSession = seckillSessionService.getById(id);
-        return ObjectUtils.anyNotNull(seckillSession) ? BaseResult.ok(seckillSession) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(seckillSession) ? Result.ok(seckillSession) : Result.fail();
     }
 
     /**
@@ -111,7 +111,7 @@ public class SeckillSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SeckillSession seckillSession) {
+    public Result<Boolean> save(@RequestBody SeckillSession seckillSession) {
         seckillSession.setCreateTime(LocalDateTime.now());
         log.info("新增秒杀活动场次:{}", JSONUtil.toJsonStr(seckillSession));
         boolean save = seckillSessionService.save(seckillSession);
@@ -125,7 +125,7 @@ public class SeckillSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SeckillSession seckillSession) {
+    public Result<Boolean> update(@RequestBody SeckillSession seckillSession) {
         boolean update = seckillSessionService.updateById(seckillSession);
         return toOperationResult(update);
     }
@@ -137,7 +137,7 @@ public class SeckillSessionController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillSessionService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

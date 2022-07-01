@@ -2,7 +2,7 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.IntegrationChangeHistory;
@@ -37,7 +37,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 积分变化历史记录分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<IntegrationChangeHistory>> list(
+    public Result<PageResult<IntegrationChangeHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class IntegrationChangeHistoryController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<IntegrationChangeHistory> pageResult = integrationChangeHistoryService.queryPage(pageDomain, integrationChangeHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 积分变化历史记录详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<IntegrationChangeHistory> info(@PathVariable("id") Long id) {
+    public Result<IntegrationChangeHistory> info(@PathVariable("id") Long id) {
         IntegrationChangeHistory integrationChangeHistory = integrationChangeHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(integrationChangeHistory) ? BaseResult.ok(integrationChangeHistory) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(integrationChangeHistory) ? Result.ok(integrationChangeHistory) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
+    public Result<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean save = integrationChangeHistoryService.save(integrationChangeHistory);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
+    public Result<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean update = integrationChangeHistoryService.updateById(integrationChangeHistory);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class IntegrationChangeHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = integrationChangeHistoryService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

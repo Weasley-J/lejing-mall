@@ -1,9 +1,15 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,7 +33,7 @@ public interface SkuSaleAttrValueApi {
      * @return sku销售属性&值分页数据
      */
     @GetMapping("product/skusaleattrvalue/list")
-    BaseResult<PageResult<SkuSaleAttrValue>> list(
+    Result<PageResult<SkuSaleAttrValue>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -42,7 +48,7 @@ public interface SkuSaleAttrValueApi {
      * @return 商品的销售属性列表
      */
     @GetMapping("product/skusaleattrvalue/skuAttrValues/{skuId}")
-    BaseResult<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId);
+    Result<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId);
 
     /**
      * 获取sku销售属性&值详情
@@ -51,7 +57,7 @@ public interface SkuSaleAttrValueApi {
      * @return sku销售属性&值详细信息
      */
     @GetMapping("product/skusaleattrvalue/info/{id}")
-    BaseResult<SkuSaleAttrValue> info(@PathVariable("id") Long id);
+    Result<SkuSaleAttrValue> info(@PathVariable("id") Long id);
 
     /**
      * 新增sku销售属性&值
@@ -60,7 +66,7 @@ public interface SkuSaleAttrValueApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/skusaleattrvalue/save")
-    BaseResult<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
+    Result<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
 
     /**
      * 修改sku销售属性&值
@@ -69,7 +75,7 @@ public interface SkuSaleAttrValueApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/skusaleattrvalue/update")
-    BaseResult<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
+    Result<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue);
 
     /**
      * 批量删除sku销售属性&值
@@ -78,5 +84,5 @@ public interface SkuSaleAttrValueApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("product/skusaleattrvalue/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

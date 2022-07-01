@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.Coupon;
@@ -37,7 +37,7 @@ public class CouponController extends BaseController {
      * @return 优惠券信息分页数据
      */
     @PostMapping("/list")
-    public BaseResult<PageResult<Coupon>> list(
+    public Result<PageResult<Coupon>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class CouponController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Coupon> pageResult = couponService.queryPage(pageDomain, coupon);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class CouponController extends BaseController {
      * @return 优惠券信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<Coupon> info(@PathVariable("id") Long id) {
+    public Result<Coupon> info(@PathVariable("id") Long id) {
         Coupon coupon = couponService.getById(id);
-        return ObjectUtils.anyNotNull(coupon) ? BaseResult.ok(coupon) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(coupon) ? Result.ok(coupon) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class CouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody Coupon coupon) {
+    public Result<Boolean> save(@RequestBody Coupon coupon) {
         boolean save = couponService.save(coupon);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class CouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody Coupon coupon) {
+    public Result<Boolean> update(@RequestBody Coupon coupon) {
         boolean update = couponService.updateById(coupon);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class CouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

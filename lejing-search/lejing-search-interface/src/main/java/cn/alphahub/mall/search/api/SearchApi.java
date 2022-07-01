@@ -1,10 +1,9 @@
 package cn.alphahub.mall.search.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.search.domain.SkuModel;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -23,5 +22,5 @@ public interface SearchApi {
      * @return true|false
      */
     @PostMapping("/search/save/product")
-    BaseResult<Boolean> productStatusUp(@RequestBody List<SkuModel> skuModels);
+    Result<Boolean> productStatusUp(@RequestBody List<SkuModel> skuModels);
 }

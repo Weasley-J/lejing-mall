@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.ProductAttrValue;
@@ -37,7 +37,7 @@ public class ProductAttrValueController extends BaseController {
      * @return spu属性值分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<ProductAttrValue>> list(
+    public Result<PageResult<ProductAttrValue>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class ProductAttrValueController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<ProductAttrValue> pageResult = productAttrValueService.queryPage(pageDomain, productAttrValue);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class ProductAttrValueController extends BaseController {
      * @return spu属性值详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<ProductAttrValue> info(@PathVariable("id") Long id) {
+    public Result<ProductAttrValue> info(@PathVariable("id") Long id) {
         ProductAttrValue productAttrValue = productAttrValueService.getById(id);
-        return ObjectUtils.anyNotNull(productAttrValue) ? BaseResult.ok(productAttrValue) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(productAttrValue) ? Result.ok(productAttrValue) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class ProductAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody ProductAttrValue productAttrValue) {
+    public Result<Boolean> save(@RequestBody ProductAttrValue productAttrValue) {
         boolean save = productAttrValueService.save(productAttrValue);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class ProductAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody ProductAttrValue productAttrValue) {
+    public Result<Boolean> update(@RequestBody ProductAttrValue productAttrValue) {
         boolean update = productAttrValueService.updateById(productAttrValue);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class ProductAttrValueController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = productAttrValueService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

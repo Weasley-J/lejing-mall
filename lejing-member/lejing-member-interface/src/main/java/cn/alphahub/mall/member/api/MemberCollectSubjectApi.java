@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberCollectSubject;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员收藏的专题活动Controller
@@ -25,7 +31,7 @@ public interface MemberCollectSubjectApi {
      * @return 会员收藏的专题活动分页数据
      */
     @GetMapping("/member/integrationchangehistory/list")
-    BaseResult<PageResult<MemberCollectSubject>> list(
+    Result<PageResult<MemberCollectSubject>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface MemberCollectSubjectApi {
      * @return 会员收藏的专题活动详细信息
      */
     @GetMapping("/member/integrationchangehistory/info/{id}")
-    BaseResult<MemberCollectSubject> info(@PathVariable("id") Long id);
+    Result<MemberCollectSubject> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员收藏的专题活动
@@ -49,7 +55,7 @@ public interface MemberCollectSubjectApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/member/integrationchangehistory/save")
-    BaseResult<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject);
+    Result<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject);
 
     /**
      * 修改会员收藏的专题活动
@@ -58,7 +64,7 @@ public interface MemberCollectSubjectApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/member/integrationchangehistory/update")
-    BaseResult<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject);
+    Result<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject);
 
     /**
      * 批量删除会员收藏的专题活动
@@ -67,5 +73,5 @@ public interface MemberCollectSubjectApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/member/integrationchangehistory/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

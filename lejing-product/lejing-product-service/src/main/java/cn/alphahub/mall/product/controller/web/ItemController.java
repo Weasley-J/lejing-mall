@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.controller.web;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.product.vo.SkuItemVO;
 import org.apache.commons.lang3.ObjectUtils;
@@ -51,8 +51,8 @@ public class ItemController {
      */
     @ResponseBody
     @GetMapping("/item/{skuId}")
-    public BaseResult<SkuItemVO> skuItemJson(@PathVariable("skuId") Long skuId) {
+    public Result<SkuItemVO> skuItemJson(@PathVariable("skuId") Long skuId) {
         SkuItemVO skuItemVo = skuInfoService.getSkuItemBySkuId(skuId);
-        return Objects.nonNull(skuItemVo) ? BaseResult.ok(skuItemVo) : BaseResult.fail();
+        return Objects.nonNull(skuItemVo) ? Result.ok(skuItemVo) : Result.fail();
     }
 }

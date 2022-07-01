@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSkuNotice;
@@ -37,7 +37,7 @@ public class SeckillSkuNoticeController extends BaseController {
      * @return 秒杀商品通知订阅分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SeckillSkuNotice>> list(
+    public Result<PageResult<SeckillSkuNotice>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SeckillSkuNoticeController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillSkuNotice> pageResult = seckillSkuNoticeService.queryPage(pageDomain, seckillSkuNotice);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SeckillSkuNoticeController extends BaseController {
      * @return 秒杀商品通知订阅详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SeckillSkuNotice> info(@PathVariable("id") Long id) {
+    public Result<SeckillSkuNotice> info(@PathVariable("id") Long id) {
         SeckillSkuNotice seckillSkuNotice = seckillSkuNoticeService.getById(id);
-        return ObjectUtils.anyNotNull(seckillSkuNotice) ? BaseResult.ok(seckillSkuNotice) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(seckillSkuNotice) ? Result.ok(seckillSkuNotice) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SeckillSkuNoticeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SeckillSkuNotice seckillSkuNotice) {
+    public Result<Boolean> save(@RequestBody SeckillSkuNotice seckillSkuNotice) {
         boolean save = seckillSkuNoticeService.save(seckillSkuNotice);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SeckillSkuNoticeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SeckillSkuNotice seckillSkuNotice) {
+    public Result<Boolean> update(@RequestBody SeckillSkuNotice seckillSkuNotice) {
         boolean update = seckillSkuNoticeService.updateById(seckillSkuNotice);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SeckillSkuNoticeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillSkuNoticeService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

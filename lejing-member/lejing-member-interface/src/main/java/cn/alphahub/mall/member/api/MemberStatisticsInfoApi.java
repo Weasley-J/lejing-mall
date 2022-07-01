@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberStatisticsInfo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员统计信息Controller
@@ -24,7 +30,7 @@ public interface MemberStatisticsInfoApi {
      * @return 会员统计信息分页数据
      */
     @GetMapping("member/memberstatisticsinfo/list")
-    BaseResult<PageResult<MemberStatisticsInfo>> list(
+    Result<PageResult<MemberStatisticsInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -39,7 +45,7 @@ public interface MemberStatisticsInfoApi {
      * @return 会员统计信息详细信息
      */
     @GetMapping("member/memberstatisticsinfo/info/{id}")
-    BaseResult<MemberStatisticsInfo> info(@PathVariable("id") Long id);
+    Result<MemberStatisticsInfo> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员统计信息
@@ -48,7 +54,7 @@ public interface MemberStatisticsInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("member/memberstatisticsinfo/save")
-    BaseResult<Boolean> save(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
+    Result<Boolean> save(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
 
     /**
      * 修改会员统计信息
@@ -57,7 +63,7 @@ public interface MemberStatisticsInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("member/memberstatisticsinfo/update")
-    BaseResult<Boolean> update(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
+    Result<Boolean> update(@RequestBody MemberStatisticsInfo memberStatisticsInfo);
 
     /**
      * 批量删除会员统计信息
@@ -66,5 +72,5 @@ public interface MemberStatisticsInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("member/memberstatisticsinfo/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

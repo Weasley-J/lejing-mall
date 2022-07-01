@@ -1,7 +1,7 @@
 package cn.alphahub.mall.member.aspect;
 
 import cn.alphahub.common.annotations.Syslog;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.ip.AddressUtil;
 import cn.alphahub.common.util.ip.IpUtil;
 import cn.alphahub.mall.member.domain.Member;
@@ -118,7 +118,7 @@ public class MemberLoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
-        BaseResult<Member> result = new BaseResult<>();
+        Result<Member> result = new Result<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             result = objectMapper.readValue(JSONUtil.toJsonStr(responseData), new TypeReference<>() {

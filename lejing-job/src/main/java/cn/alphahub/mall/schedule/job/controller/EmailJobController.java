@@ -1,7 +1,6 @@
 package cn.alphahub.mall.schedule.job.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
-import lombok.extern.slf4j.Slf4j;
+import cn.alphahub.common.core.domain.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +27,13 @@ public class EmailJobController {
      * @return 带附件邮件消息对象
      */
     @GetMapping("/email/params")
-    public BaseResult<MimeMessageDomain> getSendEmailParams() {
+    public Result<MimeMessageDomain> getSendEmailParams() {
         MimeMessageDomain domain = new MimeMessageDomain();
         domain.setTo("收件人的邮箱");
         domain.setSentDate(LocalDateTime.now());
         domain.setSubject("邮件标题");
         domain.setText("邮件内容");
         domain.setFilepath("附件文件的路径,没有附件文件不用还传,本服务邮件job全类名为'cn.alphahub.mall.schedule.job.module.email.SendEmailJob'");
-        return BaseResult.ok("发送邮件的参数", domain);
+        return Result.ok("发送邮件的参数", domain);
     }
 }

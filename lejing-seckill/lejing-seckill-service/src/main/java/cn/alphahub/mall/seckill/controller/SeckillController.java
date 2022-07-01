@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.seckill.service.SeckillService;
 import cn.hutool.json.JSONUtil;
@@ -39,9 +39,9 @@ public class SeckillController {
      */
     @ResponseBody
     @PostMapping("/on/shelve/seckill/sku/latest/3days")
-    public BaseResult<Void> onShelveSeckillSkuLatest3Days() {
+    public Result<Void> onShelveSeckillSkuLatest3Days() {
         seckillService.onShelveSeckillSkuLatest3Days();
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -51,11 +51,11 @@ public class SeckillController {
      */
     @ResponseBody
     @GetMapping("/current/can/seckill/skus")
-    public BaseResult<List<SeckillSkuRelation>> getCurrentSeckillSkus() {
+    public Result<List<SeckillSkuRelation>> getCurrentSeckillSkus() {
         log.info("获取当前时间参与秒杀的商品");
         List<SeckillSkuRelation> skuRelations = seckillService.getCurrentSeckillSkus();
         log.info("返回数据：{}", JSONUtil.toJsonPrettyStr(skuRelations));
-        return BaseResult.ok(skuRelations);
+        return Result.ok(skuRelations);
     }
 
     /**
@@ -66,9 +66,9 @@ public class SeckillController {
      */
     @ResponseBody
     @GetMapping("/sku/info/{skuId}")
-    public BaseResult<SeckillSkuRelation> getSkuSeckillInfoBySkuId(@PathVariable("skuId") Long skuId) {
+    public Result<SeckillSkuRelation> getSkuSeckillInfoBySkuId(@PathVariable("skuId") Long skuId) {
         SeckillSkuRelation skuRelation = seckillService.getSkuSeckillInfoBySkuId(skuId);
-        return BaseResult.ok(skuRelation);
+        return Result.ok(skuRelation);
     }
 
     /**

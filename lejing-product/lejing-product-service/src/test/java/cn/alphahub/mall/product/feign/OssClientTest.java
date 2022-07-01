@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.domain.SkuImages;
 import cn.alphahub.mall.product.domain.SkuInfo;
@@ -65,7 +65,7 @@ class OssClientTest {
             brands.forEach(brand1 -> {
 
                 CompletableFuture<Brand> UrlFuture = CompletableFuture.supplyAsync(() -> {
-                    BaseResult<String> upload = ossClient.upload(brand1.getLogo(), AppConstant.LEJING_MALL);
+                    Result<String> upload = ossClient.upload(brand1.getLogo(), AppConstant.LEJING_MALL);
                     brand1.setLogo(upload.getData());
                     return brand1;
                 }, executor);
@@ -109,7 +109,7 @@ class OssClientTest {
         List<SkuImages> skuImages = new ArrayList<>();
         for (SkuImages image : images) {
             CompletableFuture<SkuImages> UrlFuture = CompletableFuture.supplyAsync(() -> {
-                BaseResult<String> upload = ossClient.upload(image.getImgUrl(), AppConstant.LEJING_MALL);
+                Result<String> upload = ossClient.upload(image.getImgUrl(), AppConstant.LEJING_MALL);
                 image.setImgUrl(upload.getData());
                 return image;
             }, executor);
@@ -136,7 +136,7 @@ class OssClientTest {
         for (SkuInfo skuInfo : skuInfos) {
             String img = skuInfo.getSkuDefaultImg();
             CompletableFuture<SkuInfo> UrlFuture = CompletableFuture.supplyAsync(() -> {
-                BaseResult<String> upload = ossClient.upload(img, AppConstant.LEJING_MALL);
+                Result<String> upload = ossClient.upload(img, AppConstant.LEJING_MALL);
                 skuInfo.setSkuDefaultImg(upload.getData());
                 return skuInfo;
             }, executor);
@@ -161,7 +161,7 @@ class OssClientTest {
         CompletableFuture<SpuImages> future = new CompletableFuture<>();
         for (SpuImages spuImages : spuImagesList) {
             future = CompletableFuture.supplyAsync(() -> {
-                BaseResult<String> upload = ossClient.upload(spuImages.getImgUrl(), AppConstant.LEJING_MALL);
+                Result<String> upload = ossClient.upload(spuImages.getImgUrl(), AppConstant.LEJING_MALL);
                 spuImages.setImgUrl(upload.getData());
                 return spuImages;
             }, executor);

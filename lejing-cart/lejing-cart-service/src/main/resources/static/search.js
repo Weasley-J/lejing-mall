@@ -22,13 +22,13 @@ api[0].list[0].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:40000/cart.html',
-    desc: '去购物车页面的请求 浏览器有一个cookie:user-key 标识用户的身份，一个月过期 如果第一次使用jd的购物车功能，都会给一个临时的用户身份: 浏览器以后保存，每次访问都会带上这个cookie； &lt;p&gt; 登录：session有 没登录：按照cookie里面带来user-key来做 第一次，如果没有临时用户，自动创建一个临时用户',
+    desc: '去购物车页面的请求  浏览器有一个cookie:user-key 标识用户的身份，一个月过期  如果第一次使用jd的购物车功能，都会给一个临时的用户身份:  浏览器以后保存，每次访问都会带上这个cookie；  &lt;p&gt;  登录：session有  没登录：按照cookie里面带来user-key来做  第一次，如果没有临时用户，自动创建一个临时用户',
 });
 api[0].list[0].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:40000/addCartItem',
-    desc: '添加商品到购物车 attributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次 attributes.addAttribute():将数据放在url后面',
+    desc: '添加商品到购物车  attributes.addFlashAttribute():将数据放在session中，可以在页面中取出，但是只能取一次  attributes.addAttribute():将数据放在url后面',
 });
 api[0].list[0].list.push({
     order: '4',
@@ -90,7 +90,7 @@ document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;
     const code = theEvent.keyCode || theEvent.which || theEvent.charCode;
-    if (code == 13) {
+    if (code === 13) {
         const search = document.getElementById('search');
         const searchValue = search.value.toLocaleLowerCase();
 
@@ -150,7 +150,7 @@ function keyDownSearch(e) {
             });
         }
         let html;
-        if (searchValue == '') {
+        if (searchValue === '') {
             const liClass = "";
             const display = "display: none";
             html = buildAccordion(api,liClass,display);
@@ -169,7 +169,7 @@ function keyDownSearch(e) {
         };
         Accordion.prototype.dropdown = function (e) {
             const $el = e.data.el;
-            $this = $(this), $next = $this.next();
+            let $this = $(this), $next = $this.next();
             $next.slideToggle();
             $this.parent().toggleClass('open');
             if (!e.data.multiple) {
@@ -182,23 +182,23 @@ function keyDownSearch(e) {
 
 function buildAccordion(apiGroups, liClass, display) {
     let html = "";
-    let doc;
     if (apiGroups.length > 0) {
-         if (apiDocListSize == 1) {
+        if (apiDocListSize === 1) {
             let apiData = apiGroups[0].list;
+            let order = apiGroups[0].order;
             for (let j = 0; j < apiData.length; j++) {
                 html += '<li class="'+liClass+'">';
-                html += '<a class="dd" href="#_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+                html += '<a class="dd" href="#_'+order+'_'+apiData[j].order+'_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                 html += '<ul class="sectlevel2" style="'+display+'">';
-                doc = apiData[j].list;
+                let doc = apiData[j].list;
                 for (let m = 0; m < doc.length; m++) {
                     let spanString;
-                    if (doc[m].deprecated == 'true') {
+                    if (doc[m].deprecated === 'true') {
                         spanString='<span class="line-through">';
                     } else {
                         spanString='<span>';
                     }
-                    html += '<li><a href="#_1_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
+                    html += '<li><a href="#_'+order+'_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + spanString + doc[m].desc + '<span></a> </li>';
                 }
                 html += '</ul>';
                 html += '</li>';
@@ -207,7 +207,7 @@ function buildAccordion(apiGroups, liClass, display) {
             for (let i = 0; i < apiGroups.length; i++) {
                 let apiGroup = apiGroups[i];
                 html += '<li class="'+liClass+'">';
-                html += '<a class="dd" href="#_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
+                html += '<a class="dd" href="#_'+apiGroup.order+'_' + apiGroup.name + '">' + apiGroup.order + '.&nbsp;' + apiGroup.name + '</a>';
                 html += '<ul class="sectlevel1">';
 
                 let apiData = apiGroup.list;
@@ -215,10 +215,10 @@ function buildAccordion(apiGroups, liClass, display) {
                     html += '<li class="'+liClass+'">';
                     html += '<a class="dd" href="#_'+apiGroup.order+'_'+ apiData[j].order + '_'+ apiData[j].link + '">' +apiGroup.order+'.'+ apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
                     html += '<ul class="sectlevel2" style="'+display+'">';
-                    doc = apiData[j].list;
+                    let doc = apiData[j].list;
                     for (let m = 0; m < doc.length; m++) {
                        let spanString;
-                       if (doc[m].deprecated == 'true') {
+                       if (doc[m].deprecated === 'true') {
                            spanString='<span class="line-through">';
                        } else {
                            spanString='<span>';

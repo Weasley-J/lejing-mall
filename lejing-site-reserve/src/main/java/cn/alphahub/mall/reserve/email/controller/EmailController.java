@@ -1,6 +1,6 @@
 package cn.alphahub.mall.reserve.email.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +41,10 @@ public class EmailController {
      * @apiNote 次方便没有标注注解@Email，则会采用默认方法邮件模板[spring.mail.xxx]发送邮件
      */
     @PostMapping("/simple/send")
-    public BaseResult<Void> sendSimpleEmail(@ModelAttribute(name = "message") @Validated SimpleMailMessageDomain message) {
+    public Result<Void> sendSimpleEmail(@ModelAttribute(name = "message") @Validated SimpleMailMessageDomain message) {
         log.info("send simple email:{}", message);
         emailTemplate.send(message);
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -57,8 +57,8 @@ public class EmailController {
      */
     @Email(name = "EmailOffice365")
     @PostMapping("/mime/send")
-    public BaseResult<Void> sendMimeEmail(@ModelAttribute(name = "message") @Validated MimeMessageDomain message,
-                                          @RequestPart(name = "file", required = false) MultipartFile file
+    public Result<Void> sendMimeEmail(@ModelAttribute(name = "message") @Validated MimeMessageDomain message,
+                                      @RequestPart(name = "file", required = false) MultipartFile file
     ) {
         log.info("send mime email:{}", message);
         try {
@@ -66,6 +66,6 @@ public class EmailController {
         } catch (MessagingException e) {
             log.error("domain:{},{}", message, e.getLocalizedMessage(), e);
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 }

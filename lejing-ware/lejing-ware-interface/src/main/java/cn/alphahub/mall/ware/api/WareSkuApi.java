@@ -1,12 +1,18 @@
 package cn.alphahub.mall.ware.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,7 +31,7 @@ public interface WareSkuApi {
      * @return 库存锁定结果
      */
     @PostMapping("ware/waresku/order/lock/stock")
-    BaseResult<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo);
+    Result<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo);
 
     /**
      * 查看是否有库存
@@ -34,7 +40,7 @@ public interface WareSkuApi {
      * @return 商品库存列表
      */
     @PostMapping("ware/waresku/skuHasStock")
-    BaseResult<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds);
+    Result<List<WareSkuVO>> getSkuHasStock(@RequestBody List<Long> skuIds);
 
     /**
      * 查询商品库存列表
@@ -47,7 +53,7 @@ public interface WareSkuApi {
      * @return 商品库存分页数据
      */
     @GetMapping("ware/waresku/list")
-    BaseResult<PageResult<WareSku>> list(
+    Result<PageResult<WareSku>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -62,7 +68,7 @@ public interface WareSkuApi {
      * @return 商品库存列表
      */
     @GetMapping("ware/waresku/list/{skuId}")
-    BaseResult<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId);
+    Result<PageResult<WareSku>> listBySkuId(@PathVariable("skuId") Long skuId);
 
     /**
      * 获取商品库存详情
@@ -71,7 +77,7 @@ public interface WareSkuApi {
      * @return 商品库存详细信息
      */
     @GetMapping("ware/waresku/info/{id}")
-    BaseResult<WareSku> info(@PathVariable("id") Long id);
+    Result<WareSku> info(@PathVariable("id") Long id);
 
     /**
      * 新增商品库存
@@ -80,7 +86,7 @@ public interface WareSkuApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("ware/waresku/save")
-    BaseResult<Boolean> save(@RequestBody WareSku wareSku);
+    Result<Boolean> save(@RequestBody WareSku wareSku);
 
     /**
      * 修改商品库存
@@ -89,7 +95,7 @@ public interface WareSkuApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("ware/waresku/update")
-    BaseResult<Boolean> update(@RequestBody WareSku wareSku);
+    Result<Boolean> update(@RequestBody WareSku wareSku);
 
     /**
      * 批量删除商品库存
@@ -98,5 +104,5 @@ public interface WareSkuApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("ware/waresku/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

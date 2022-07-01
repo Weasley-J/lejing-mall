@@ -1,5 +1,6 @@
 package cn.alphahub.mall.common.controller;
 
+import cn.alphahub.common.core.domain.Result;
 import com.google.common.collect.Maps;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,17 @@ import java.util.Map;
 public class TestController {
 
     @GetMapping("/name")
-    public Map<String, Object> getName() {
+    public Result<Map<String, Object>> getName() {
         Map<String, Object> map = Maps.newLinkedHashMap();
         map.put("name", "张三");
-        return map;
+        return Result.ok(map);
+    }
+
+    @GetMapping("/obj")
+    public Result<Object> getObj() {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("name", "张三");
+        int i = 1 / 0;
+        return Result.ok(map);
     }
 }

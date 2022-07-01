@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.HomeSubjectSpu;
@@ -37,7 +37,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 专题商品分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<HomeSubjectSpu>> list(
+    public Result<PageResult<HomeSubjectSpu>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class HomeSubjectSpuController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<HomeSubjectSpu> pageResult = homeSubjectSpuService.queryPage(pageDomain, homeSubjectSpu);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 专题商品详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<HomeSubjectSpu> info(@PathVariable("id") Long id) {
+    public Result<HomeSubjectSpu> info(@PathVariable("id") Long id) {
         HomeSubjectSpu homeSubjectSpu = homeSubjectSpuService.getById(id);
-        return ObjectUtils.anyNotNull(homeSubjectSpu) ? BaseResult.ok(homeSubjectSpu) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(homeSubjectSpu) ? Result.ok(homeSubjectSpu) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody HomeSubjectSpu homeSubjectSpu) {
+    public Result<Boolean> save(@RequestBody HomeSubjectSpu homeSubjectSpu) {
         boolean save = homeSubjectSpuService.save(homeSubjectSpu);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody HomeSubjectSpu homeSubjectSpu) {
+    public Result<Boolean> update(@RequestBody HomeSubjectSpu homeSubjectSpu) {
         boolean update = homeSubjectSpuService.updateById(homeSubjectSpu);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class HomeSubjectSpuController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = homeSubjectSpuService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

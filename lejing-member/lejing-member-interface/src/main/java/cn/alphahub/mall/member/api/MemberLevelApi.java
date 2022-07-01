@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberLevel;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员等级Controller
@@ -24,7 +30,7 @@ public interface MemberLevelApi {
      * @return 会员等级分页数据
      */
     @GetMapping("/member/memberlevel/list")
-    BaseResult<PageResult<MemberLevel>> list(
+    Result<PageResult<MemberLevel>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -39,7 +45,7 @@ public interface MemberLevelApi {
      * @return 会员等级详细信息
      */
     @GetMapping("/member/memberlevel/info/{id}")
-    BaseResult<MemberLevel> info(@PathVariable("id") Long id);
+    Result<MemberLevel> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员等级
@@ -48,7 +54,7 @@ public interface MemberLevelApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/member/memberlevel/save")
-    BaseResult<Boolean> save(@RequestBody MemberLevel memberLevel);
+    Result<Boolean> save(@RequestBody MemberLevel memberLevel);
 
     /**
      * 修改会员等级
@@ -57,7 +63,7 @@ public interface MemberLevelApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/member/memberlevel/update")
-    BaseResult<Boolean> update(@RequestBody MemberLevel memberLevel);
+    Result<Boolean> update(@RequestBody MemberLevel memberLevel);
 
     /**
      * 批量删除会员等级
@@ -66,5 +72,5 @@ public interface MemberLevelApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/member/memberlevel/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.site.domain.SiteOrderRule;
@@ -37,7 +37,7 @@ public class SiteOrderRuleController extends BaseController {
      * @return 场地预约订单规则表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SiteOrderRule>> list(
+    public Result<PageResult<SiteOrderRule>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SiteOrderRuleController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteOrderRule> pageResult = siteOrderRuleService.queryPage(pageDomain, siteOrderRule);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SiteOrderRuleController extends BaseController {
      * @return 场地预约订单规则表详细信息
      */
     @GetMapping("/info/{siteId}")
-    public BaseResult<SiteOrderRule> info(@PathVariable("siteId") Long siteId) {
+    public Result<SiteOrderRule> info(@PathVariable("siteId") Long siteId) {
         SiteOrderRule siteOrderRule = siteOrderRuleService.getById(siteId);
-        return ObjectUtils.anyNotNull(siteOrderRule) ? BaseResult.ok(siteOrderRule) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(siteOrderRule) ? Result.ok(siteOrderRule) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SiteOrderRuleController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SiteOrderRule siteOrderRule) {
+    public Result<Boolean> save(@RequestBody SiteOrderRule siteOrderRule) {
         boolean save = siteOrderRuleService.save(siteOrderRule);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SiteOrderRuleController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SiteOrderRule siteOrderRule) {
+    public Result<Boolean> update(@RequestBody SiteOrderRule siteOrderRule) {
         boolean update = siteOrderRuleService.updateById(siteOrderRule);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SiteOrderRuleController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{siteIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] siteIds) {
+    public Result<Boolean> delete(@PathVariable Long[] siteIds) {
         boolean delete = siteOrderRuleService.removeByIds(Arrays.asList(siteIds));
         return toOperationResult(delete);
     }

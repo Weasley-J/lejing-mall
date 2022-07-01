@@ -1,4 +1,4 @@
-package cn.alphahub.mall.common.base.constant;
+package cn.alphahub.mall.common.constant;
 
 /**
  * 框架常量类

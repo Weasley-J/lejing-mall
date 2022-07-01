@@ -1,9 +1,15 @@
 package cn.alphahub.mall.coupon.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,7 +28,7 @@ public interface SeckillSessionApi {
      * @return 最近3天的秒杀场次列表
      */
     @GetMapping("coupon/seckillsession/latest/3days/seckill/session")
-    BaseResult<List<SeckillSession>> getLatest3DaysSeckillSession();
+    Result<List<SeckillSession>> getLatest3DaysSeckillSession();
 
     /**
      * 查询秒杀活动场次列表
@@ -35,7 +41,7 @@ public interface SeckillSessionApi {
      * @return 秒杀活动场次分页数据
      */
     @GetMapping("coupon/seckillsession/list")
-    BaseResult<PageResult<SeckillSession>> list(
+    Result<PageResult<SeckillSession>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -49,7 +55,7 @@ public interface SeckillSessionApi {
      * @return 秒杀活动场次列表
      */
     @GetMapping("coupon/seckillsession/list/no/args")
-    BaseResult<PageResult<SeckillSession>> list();
+    Result<PageResult<SeckillSession>> list();
 
     /**
      * 批量更新
@@ -58,7 +64,7 @@ public interface SeckillSessionApi {
      * @return 提示
      */
     @PutMapping("coupon/seckillsession/batch/update")
-    BaseResult<Boolean> batchUpdate(@RequestBody  List<SeckillSession> sessionList);
+    Result<Boolean> batchUpdate(@RequestBody  List<SeckillSession> sessionList);
 
     /**
      * 获取秒杀活动场次详情
@@ -67,7 +73,7 @@ public interface SeckillSessionApi {
      * @return 秒杀活动场次详细信息
      */
     @GetMapping("coupon/seckillsession/info/{id}")
-    BaseResult<SeckillSession> info(@PathVariable("id") Long id);
+    Result<SeckillSession> info(@PathVariable("id") Long id);
 
     /**
      * 新增秒杀活动场次
@@ -76,7 +82,7 @@ public interface SeckillSessionApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("coupon/seckillsession/save")
-    BaseResult<Boolean> save(@RequestBody SeckillSession seckillSession);
+    Result<Boolean> save(@RequestBody SeckillSession seckillSession);
 
     /**
      * 修改秒杀活动场次
@@ -85,7 +91,7 @@ public interface SeckillSessionApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("coupon/seckillsession/update")
-    BaseResult<Boolean> update(@RequestBody SeckillSession seckillSession);
+    Result<Boolean> update(@RequestBody SeckillSession seckillSession);
 
     /**
      * 批量删除秒杀活动场次
@@ -94,5 +100,5 @@ public interface SeckillSessionApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("coupon/seckillsession/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

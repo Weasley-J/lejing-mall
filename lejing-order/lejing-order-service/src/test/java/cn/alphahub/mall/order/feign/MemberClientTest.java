@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +27,7 @@ class MemberClientTest {
 
     @Test
     void memberInfo() {
-        BaseResult<Member> info = memberClient.info(1L);
+        Result<Member> info = memberClient.info(1L);
         System.out.println(JSONUtil.toJsonPrettyStr(info));
     }
 }

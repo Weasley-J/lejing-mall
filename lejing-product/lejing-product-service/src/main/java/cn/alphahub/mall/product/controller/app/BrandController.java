@@ -2,12 +2,12 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.service.BrandService;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -47,7 +47,7 @@ public class BrandController extends BaseController {
      * @return 品牌分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Brand>> list(
+    public Result<PageResult<Brand>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -58,9 +58,9 @@ public class BrandController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Brand> pageResult = brandService.queryPage(pageDomain, brand, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -71,9 +71,9 @@ public class BrandController extends BaseController {
      */
     @GetMapping("/info/{brandId}")
     @Cacheable(value = "product:brand", key = "'info:'+#root.args[0]")
-    public BaseResult<Brand> info(@PathVariable("brandId") Long brandId) {
+    public Result<Brand> info(@PathVariable("brandId") Long brandId) {
         Brand brand = brandService.getById(brandId);
-        return ObjectUtils.anyNotNull(brand) ? BaseResult.ok(brand) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(brand) ? Result.ok(brand) : Result.fail();
     }
 
     /**
@@ -83,9 +83,9 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @GetMapping("/infos/{brandIds}")
-    public BaseResult<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds) {
+    public Result<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds) {
         List<Brand> brands = brandService.brandsInfo(brandIds);
-        return CollectionUtils.isNotEmpty(brands) ? BaseResult.success(brands) : BaseResult.error();
+        return CollectionUtils.isNotEmpty(brands) ? Result.success(brands) : Result.error();
     }
 
     /**
@@ -95,9 +95,9 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand) {
         boolean save = brandService.save(brand);
-        return BaseResult.ok(save);
+        return Result.ok(save);
     }
 
     /**
@@ -108,7 +108,7 @@ public class BrandController extends BaseController {
      */
     @PutMapping("/update")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public BaseResult<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
         return toOperationResult(update);
     }
@@ -121,7 +121,7 @@ public class BrandController extends BaseController {
      */
     @PutMapping("/update/status")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public BaseResult<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
         return toOperationResult(update);
     }
@@ -133,7 +133,7 @@ public class BrandController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{brandIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] brandIds) {
+    public Result<Boolean> delete(@PathVariable Long[] brandIds) {
         boolean delete = brandService.removeByIds(Arrays.asList(brandIds));
         return toOperationResult(delete);
     }

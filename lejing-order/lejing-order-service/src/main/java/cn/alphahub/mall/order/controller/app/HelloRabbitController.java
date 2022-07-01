@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.controller.app;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderReturnReason;
 import cn.hutool.core.util.IdUtil;
@@ -39,7 +39,7 @@ public class HelloRabbitController {
      */
     @ResponseBody
     @GetMapping("sendMsgToMq")
-    public BaseResult<String> sendMsgToMq() {
+    public Result<String> sendMsgToMq() {
         for (int i = 1; i <= 10; i++) {
             log.warn("第 [{}] 次循环", i);
             if (i % 2 == 0) {
@@ -62,7 +62,7 @@ public class HelloRabbitController {
                 });
             }
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -70,7 +70,7 @@ public class HelloRabbitController {
      */
     @ResponseBody
     @GetMapping("/order/order/create/test")
-    public BaseResult<Void> createOrderTest() {
+    public Result<Void> createOrderTest() {
         Order order = new Order();
         order.setId(Long.parseLong("10086"));
         order.setNote("测试Order_10086");
@@ -80,13 +80,13 @@ public class HelloRabbitController {
             message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
             return message;
         });
-        return BaseResult.ok();
+        return Result.ok();
 
     }
 
     @ResponseBody
     @GetMapping("/order/order/release/test")
-    public BaseResult<Void> releaseOrderTest() {
+    public Result<Void> releaseOrderTest() {
         Order order = new Order();
         order.setId(Long.parseLong("10010"));
         order.setNote("测试Order-10010");
@@ -96,6 +96,6 @@ public class HelloRabbitController {
             message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
             return message;
         });
-        return BaseResult.ok();
+        return Result.ok();
     }
 }

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.base.config;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.BizCodeEnum;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
@@ -28,7 +28,7 @@ public class SentinelUrlBlockHandler implements BlockExceptionHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
-        BaseResult<Void> result = BaseResult.error(BizCodeEnum.TO_MANY_REQUEST.getCode(), BizCodeEnum.TO_MANY_REQUEST.getMessage());
+        Result<Void> result = Result.error(BizCodeEnum.TO_MANY_REQUEST.getCode(), BizCodeEnum.TO_MANY_REQUEST.getMessage());
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(objectMapper.writeValueAsString(result));

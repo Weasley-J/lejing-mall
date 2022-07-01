@@ -1,7 +1,7 @@
 package cn.alphahub.mall.ware.controller.app;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.ware.feign.OrderClient;
@@ -35,7 +35,7 @@ public class HelloRabbitController {
     private SkuInfoClient skuInfoClient;
 
     @GetMapping("/mq/send/msg")
-    public BaseResult<Void> send() {
+    public Result<Void> send() {
         Order order = new Order();
         order.setId(Long.parseLong("10010"));
         order.setNote("测试Order-10010");
@@ -45,16 +45,16 @@ public class HelloRabbitController {
             message.getMessageProperties().setCorrelationId(IdUtil.fastSimpleUUID());
             return message;
         });
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     @GetMapping("/status")
-    public BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
+    public Result<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
         return orderClient.getOrderStatus(orderSn);
     }
 
     @GetMapping("/skuInfo")
-    public BaseResult<SkuInfo> skuInfo() {
+    public Result<SkuInfo> skuInfo() {
         return skuInfoClient.info(1L);
     }
 }

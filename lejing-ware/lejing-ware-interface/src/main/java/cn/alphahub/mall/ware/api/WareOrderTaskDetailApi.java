@@ -1,9 +1,15 @@
 package cn.alphahub.mall.ware.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.WareOrderTaskDetail;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 库存工作单-feign远程调用顶层api
@@ -25,7 +31,7 @@ public interface WareOrderTaskDetailApi {
      * @return 库存工作单分页数据
      */
     @GetMapping("ware/wareordertaskdetail/list")
-    BaseResult<PageResult<WareOrderTaskDetail>> list(
+    Result<PageResult<WareOrderTaskDetail>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface WareOrderTaskDetailApi {
      * @return 库存工作单详细信息
      */
     @GetMapping("ware/wareordertaskdetail/info/{id}")
-    BaseResult<WareOrderTaskDetail> info(@PathVariable("id") Long id);
+    Result<WareOrderTaskDetail> info(@PathVariable("id") Long id);
 
     /**
      * 新增库存工作单
@@ -49,7 +55,7 @@ public interface WareOrderTaskDetailApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("ware/wareordertaskdetail/save")
-    BaseResult<Boolean> save(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
+    Result<Boolean> save(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
 
     /**
      * 修改库存工作单
@@ -58,7 +64,7 @@ public interface WareOrderTaskDetailApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("ware/wareordertaskdetail/update")
-    BaseResult<Boolean> update(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
+    Result<Boolean> update(@RequestBody WareOrderTaskDetail wareOrderTaskDetail);
 
     /**
      * 批量删除库存工作单
@@ -67,5 +73,5 @@ public interface WareOrderTaskDetailApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("ware/wareordertaskdetail/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

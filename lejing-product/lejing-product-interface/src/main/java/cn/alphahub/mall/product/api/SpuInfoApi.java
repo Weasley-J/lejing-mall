@@ -1,10 +1,16 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SpuInfo;
 import cn.alphahub.mall.product.vo.SpuSaveVO;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * spu信息 - feign api
@@ -29,7 +35,7 @@ public interface SpuInfoApi {
      * @return spu信息列表分页数据
      */
     @GetMapping("product/spuinfo/list")
-    BaseResult<PageResult<SpuInfo>> list(
+    Result<PageResult<SpuInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -50,7 +56,7 @@ public interface SpuInfoApi {
      * @return spu信息详细信息
      */
     @GetMapping("product/spuinfo/info/{id}")
-    BaseResult<SpuInfo> info(@PathVariable("id") Long id);
+    Result<SpuInfo> info(@PathVariable("id") Long id);
 
     /**
      * 新增spu信息
@@ -59,7 +65,7 @@ public interface SpuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/spuinfo/save")
-    BaseResult<Boolean> save(@RequestBody SpuSaveVO spuSaveVO);
+    Result<Boolean> save(@RequestBody SpuSaveVO spuSaveVO);
 
     /**
      * 上架商品
@@ -68,7 +74,7 @@ public interface SpuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/spuinfo/{spuId}/up")
-    BaseResult<Boolean> spuOnShelves(@PathVariable("spuId") Long spuId);
+    Result<Boolean> spuOnShelves(@PathVariable("spuId") Long spuId);
 
     /**
      * 修改spu信息
@@ -77,7 +83,7 @@ public interface SpuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/spuinfo/update")
-    BaseResult<Boolean> update(@RequestBody SpuInfo spuInfo);
+    Result<Boolean> update(@RequestBody SpuInfo spuInfo);
 
     /**
      * 批量删除spu信息
@@ -86,5 +92,5 @@ public interface SpuInfoApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("product/spuinfo/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

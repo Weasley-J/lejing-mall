@@ -1,9 +1,15 @@
 package cn.alphahub.mall.ware.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.Purchase;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 采购信息-feign远程调用顶层api
@@ -25,7 +31,7 @@ public interface PurchaseApi {
      * @return 采购信息分页数据
      */
     @GetMapping("ware/purchase/list")
-    BaseResult<PageResult<Purchase>> list(
+    Result<PageResult<Purchase>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface PurchaseApi {
      * @return 采购信息详细信息
      */
     @GetMapping("ware/purchase/info/{id}")
-    BaseResult<Purchase> info(@PathVariable("id") Long id);
+    Result<Purchase> info(@PathVariable("id") Long id);
 
     /**
      * 新增采购信息
@@ -49,7 +55,7 @@ public interface PurchaseApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("ware/purchase/save")
-    BaseResult<Boolean> save(@RequestBody Purchase purchase);
+    Result<Boolean> save(@RequestBody Purchase purchase);
 
     /**
      * 修改采购信息
@@ -58,7 +64,7 @@ public interface PurchaseApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("ware/purchase/update")
-    BaseResult<Boolean> update(@RequestBody Purchase purchase);
+    Result<Boolean> update(@RequestBody Purchase purchase);
 
     /**
      * 批量删除采购信息
@@ -67,5 +73,5 @@ public interface PurchaseApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("ware/purchase/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.cart.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
 @SpringBootTest
@@ -29,7 +28,7 @@ class SkuSaleAttrValueClientTest {
 
     @Test
     void skuAttrValues() {
-        BaseResult<List<String>> result = attrValueClient.getSkuAttrValues(1L);
+        Result<List<String>> result = attrValueClient.getSkuAttrValues(1L);
         String prettyStr = JSONUtil.toJsonPrettyStr(result);
         System.out.println(prettyStr);
     }

@@ -1,14 +1,14 @@
 package cn.alphahub.common.core.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.BizException;
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import javax.validation.constraints.NotNull;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 
@@ -34,16 +34,16 @@ public class BaseController {
     }
 
     /**
-     * feign远程调用通过原实体类class对象获取BaseResult分装data体里面的原型数据
+     * feign远程调用通过原实体类class对象获取Result分装data体里面的原型数据
      *
-     * @param result       BaseResult分装结果集
-     * @param requiredType BaseResult分装的data体里面实体类的class对象
+     * @param result       Result分装结果集
+     * @param requiredType Result分装的data体里面实体类的class对象
      * @param <T>          类对象实体
      * @return 转换后的对象实体数据
      * @since 2021年2月8日23:09:20
      */
     @SuppressWarnings("unchecked")
-    protected <T> T doConvertType(@NotNull BaseResult<?> result, @NotNull Class<T> requiredType) {
+    protected <T> T doConvertType(@NotNull Result<?> result, @NotNull Class<T> requiredType) {
         Object data = result.getData();
         if (ObjectUtils.allNull(data)) {
             throw new BizException("传入数据为空！");
@@ -61,8 +61,8 @@ public class BaseController {
      * @param rows 受影响行数(insert|update|delete)
      * @return 操作结果
      */
-    protected BaseResult<Integer> toAffectedRows(int rows) {
-        return rows > 0 ? BaseResult.ok(rows) : BaseResult.fail();
+    protected Result<Integer> toAffectedRows(int rows) {
+        return rows > 0 ? Result.ok(rows) : Result.fail();
     }
 
     /**
@@ -71,8 +71,8 @@ public class BaseController {
      * @param flag mybatis-plus insert|update|delete的操作返回值
      * @return 操作提示
      */
-    protected BaseResult<Boolean> toOperationResult(Boolean flag) {
-        return flag.equals(true) ? BaseResult.ok() : BaseResult.fail();
+    protected Result<Boolean> toOperationResult(Boolean flag) {
+        return flag.equals(true) ? Result.ok() : Result.fail();
     }
 
     /**
@@ -81,10 +81,10 @@ public class BaseController {
      * @param entity 需要返回的数据实体对象
      * @return 传入对象不为null返回封装的实体数据
      */
-    protected BaseResult<?> toResponseResult(Object entity) {
+    protected Result<?> toResponseResult(Object entity) {
         if (ObjectUtils.isNotEmpty(entity)) {
-            return BaseResult.ok("查询成功", entity);
+            return Result.ok("查询成功", entity);
         }
-        return BaseResult.fail(404, "查询失败,查找信息为空.");
+        return Result.fail(404, "查询失败,查找信息为空.");
     }
 }

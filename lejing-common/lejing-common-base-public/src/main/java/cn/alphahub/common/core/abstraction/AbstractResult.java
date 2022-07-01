@@ -1,46 +1,21 @@
 package cn.alphahub.common.core.abstraction;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
  * 数据返回封装顶层抽象类
- * <p>顶层抽象类, 可以使用我已经写好的BaseResult<T>, 也可以选择自己实现AbstractResult<T></p>
+ * <p>顶层抽象类, 可以使用我已经写好的Result<T>, 也可以选择自己实现AbstractResult<T></p>
  *
  * @author liuwenjing
  * @date 2021年2月5日
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class AbstractResult<T> implements Serializable {
-
+    private static final long serialVersionUID = -7804054241710088L;
     /**
-     * 返回消息
+     * MDC链路踪迹id
      */
-    private String message;
-
-    /**
-     * 是否成功
-     */
-    private Boolean success = false;
-
-    /**
-     * 响应时间戳
-     */
-    private String timestamp;
-
-    /**
-     * 状态码
-     */
-    private Integer code;
-
-    /**
-     * 响应数据
-     */
-    private T data;
-
+    private String traceId;
 }

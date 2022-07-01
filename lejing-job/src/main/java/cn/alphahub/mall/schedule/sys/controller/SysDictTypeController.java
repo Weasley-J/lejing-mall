@@ -1,9 +1,8 @@
 package cn.alphahub.mall.schedule.sys.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-
 import cn.alphahub.mall.schedule.sys.domain.SysDictType;
 import cn.alphahub.mall.schedule.sys.service.SysDictTypeService;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +31,11 @@ public class SysDictTypeController {
      * @return 字典类型分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SysDictType>> list(@ModelAttribute(name = "page") PageDomain page,
-                                                     @ModelAttribute(name = "sysDictType") SysDictType sysDictType
+    public Result<PageResult<SysDictType>> list(@ModelAttribute(name = "page") PageDomain page,
+                                                @ModelAttribute(name = "sysDictType") SysDictType sysDictType
     ) {
         PageResult<SysDictType> pageResult = sysDictTypeService.queryPage(page, sysDictType);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -46,9 +45,9 @@ public class SysDictTypeController {
      * @return 字典类型详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SysDictType> info(@PathVariable("id") Integer id){
+    public Result<SysDictType> info(@PathVariable("id") Integer id){
         SysDictType sysDictType = sysDictTypeService.getById(id);
-        return BaseResult.ok(sysDictType);
+        return Result.ok(sysDictType);
     }
 
     /**
@@ -58,9 +57,9 @@ public class SysDictTypeController {
      * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SysDictType sysDictType) {
+    public Result<Boolean> save(@RequestBody SysDictType sysDictType) {
         boolean save = sysDictTypeService.save(sysDictType);
-        return BaseResult.ok(save);
+        return Result.ok(save);
     }
 
     /**
@@ -70,9 +69,9 @@ public class SysDictTypeController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SysDictType sysDictType) {
+    public Result<Boolean> update(@RequestBody SysDictType sysDictType) {
         boolean update = sysDictTypeService.updateById(sysDictType);
-        return BaseResult.ok(update);
+        return Result.ok(update);
     }
 
     /**
@@ -82,8 +81,8 @@ public class SysDictTypeController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable(name = "ids") Integer[] ids){
+    public Result<Boolean> delete(@PathVariable(name = "ids") Integer[] ids){
         boolean delete = sysDictTypeService.removeByIds(Arrays.asList(ids));
-        return BaseResult.ok(delete);
+        return Result.ok(delete);
     }
 }

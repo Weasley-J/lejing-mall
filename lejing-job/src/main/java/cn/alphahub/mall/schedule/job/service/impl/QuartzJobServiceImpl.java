@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.job.service.impl;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.schedule.convertor.ScheduleConvertor;
@@ -59,53 +59,53 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Boolean> createSimpleScheduleJob(QuartzParam param) {
+    public Result<Boolean> createSimpleScheduleJob(QuartzParam param) {
         log.info("create-simple-schedule-job:{}", JSONUtil.toJsonStr(param));
         boolean scheduleJob = quartzCoreService.createSimpleScheduleJob(param);
-        return BaseResult.success(scheduleJob);
+        return Result.success(scheduleJob);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Boolean> updateSimpleScheduleJob(QuartzParam param) {
+    public Result<Boolean> updateSimpleScheduleJob(QuartzParam param) {
         log.info("update-simple-schedule-job:{}", JSONUtil.toJsonStr(param));
         quartzCoreService.updateSimpleScheduleJob(param);
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Boolean> save(QuartzJobDTO job) {
+    public Result<Boolean> save(QuartzJobDTO job) {
         log.info("save:{}", JSONUtil.toJsonStr(job));
         QuartzJob quartzJob = scheduleConvertor.toQuartzJob(job);
         if (CronUtil.isInvalid(quartzJob.getCronExpression())) {
-            return BaseResult.error("cron表达式不正确");
+            return Result.error("cron表达式不正确");
         }
         quartzCoreService.createCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
         boolean save = save(quartzJob);
-        return BaseResult.ok(save);
+        return Result.ok(save);
     }
 
     @Override
-    public BaseResult<QuartzJobDTO> info(Long id) {
+    public Result<QuartzJobDTO> info(Long id) {
         log.info("info,id:{}", id);
         QuartzJob quartzJob = getById(id);
         if (Objects.isNull(quartzJob)) {
-            return BaseResult.fail("任务不存在");
+            return Result.fail("任务不存在");
         }
         QuartzJobDTO dto = scheduleConvertor.toQuartzJobDto(quartzJob);
         String jobStatus = quartzCoreService.getScheduleJobStatus(dto.getJobName(), dto.getJobGroup());
         dto.setStatusName(jobStatus);
-        return BaseResult.ok(dto);
+        return Result.ok(dto);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Void> remove(Long[] ids) {
+    public Result<Void> remove(Long[] ids) {
         log.info("remove:{}", JSONUtil.toJsonStr(ids));
         List<QuartzJob> jobs = listByIds(Arrays.asList(ids));
         if (CollectionUtils.isEmpty(jobs)) {
-            return BaseResult.error("定时任务不存在");
+            return Result.error("定时任务不存在");
         }
         List<JobKey> jobKeys = jobs.stream().map(quartzJob -> {
             QuartzParam param = scheduleConvertor.toQuartzParam(quartzJob);
@@ -113,33 +113,33 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
         }).collect(Collectors.toList());
         quartzCoreService.batchDeleteGroupJob(jobKeys);
         removeByIds(Arrays.asList(ids));
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Void> edit(QuartzJobDTO job) {
+    public Result<Void> edit(QuartzJobDTO job) {
         log.info("edit-job:{}", JSONUtil.toJsonStr(job));
         if (CronUtil.isInvalid(job.getCronExpression())) {
-            return BaseResult.error("cron表达式不正确");
+            return Result.error("cron表达式不正确");
         }
         QuartzJob quartzJob = this.getById(job.getId());
         if (Objects.isNull(quartzJob)) {
-            return BaseResult.error("job'" + job.getId() + "'不存在");
+            return Result.error("job'" + job.getId() + "'不存在");
         }
         quartzJob = scheduleConvertor.toQuartzJob(job);
         quartzCoreService.updateCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
         updateById(quartzJob);
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public BaseResult<Void> updateStatus(QuartzJobDTO job) {
+    public Result<Void> updateStatus(QuartzJobDTO job) {
         log.info("update-status:{}", JSONUtil.toJsonStr(job));
         QuartzJob quartzJob = this.getById(job.getId());
         if (Objects.isNull(quartzJob)) {
-            return BaseResult.error("job'" + job.getId() + "'不存在");
+            return Result.error("job'" + job.getId() + "'不存在");
         }
         QuartzParam quartzParam = scheduleConvertor.toQuartzParam(quartzJob);
         if (JobStatusEnum.PAUSED.getCode() == quartzParam.getStatus()) {
@@ -152,41 +152,41 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
                 .setId(job.getId())
                 .setStatus(job.getStatus())
         );
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
-    public BaseResult<Void> runAtNow(String jobName, String jobGroup) {
+    public Result<Void> runAtNow(String jobName, String jobGroup) {
         log.info("run-at-now:{},{}", jobName, jobGroup);
         quartzCoreService.executeAtNow(jobName, jobGroup);
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
-    public BaseResult<Void> pause(String jobName, String jobGroup) {
+    public Result<Void> pause(String jobName, String jobGroup) {
         log.info("pause:{},{}", jobName, jobGroup);
         quartzCoreService.pauseScheduleJob(jobName, jobGroup);
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
-    public BaseResult<Void> resume(String jobName, String jobGroup) {
+    public Result<Void> resume(String jobName, String jobGroup) {
         log.info("status:{},{}", jobName, jobGroup);
         quartzCoreService.resumeScheduleJob(jobName, jobGroup);
-        return BaseResult.success();
+        return Result.success();
     }
 
     @Override
-    public BaseResult<Boolean> check(String jobName, String jobGroup) {
+    public Result<Boolean> check(String jobName, String jobGroup) {
         log.info("check:{},{}", jobName, jobGroup);
         Boolean flag = quartzCoreService.isScheduleJobExists(jobName, jobGroup);
-        return BaseResult.success(flag);
+        return Result.success(flag);
     }
 
     @Override
-    public BaseResult<String> status(String jobName, String jobGroup) {
+    public Result<String> status(String jobName, String jobGroup) {
         log.info("status:{},{}", jobName, jobGroup);
         String jobStatus = quartzCoreService.getScheduleJobStatus(jobName, jobGroup);
-        return BaseResult.success("任务状态", jobStatus);
+        return Result.success("任务状态", jobStatus);
     }
 }

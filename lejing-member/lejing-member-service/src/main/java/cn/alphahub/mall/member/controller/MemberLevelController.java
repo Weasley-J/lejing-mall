@@ -2,7 +2,7 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberLevel;
@@ -37,7 +37,7 @@ public class MemberLevelController extends BaseController {
      * @return 会员等级分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<MemberLevel>> list(
+    public Result<PageResult<MemberLevel>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class MemberLevelController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberLevel> pageResult = memberLevelService.queryPage(pageDomain, memberLevel);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class MemberLevelController extends BaseController {
      * @return 会员等级详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<MemberLevel> info(@PathVariable("id") Long id) {
+    public Result<MemberLevel> info(@PathVariable("id") Long id) {
         MemberLevel memberLevel = memberLevelService.getById(id);
-        return ObjectUtils.anyNotNull(memberLevel) ? BaseResult.ok(memberLevel) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(memberLevel) ? Result.ok(memberLevel) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class MemberLevelController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody MemberLevel memberLevel) {
+    public Result<Boolean> save(@RequestBody MemberLevel memberLevel) {
         boolean save = memberLevelService.save(memberLevel);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class MemberLevelController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody MemberLevel memberLevel) {
+    public Result<Boolean> update(@RequestBody MemberLevel memberLevel) {
         boolean update = memberLevelService.updateById(memberLevel);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class MemberLevelController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberLevelService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

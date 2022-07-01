@@ -1,6 +1,6 @@
 package cn.alphahub.mall.member.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
@@ -30,7 +30,7 @@ class OrderClientTest {
 
     @Test
     void getMemberOrderList() {
-        BaseResult<PageResult<OrderVo>> orderList = orderClient.getMemberOrderList(new PageDomain(1, null, null, null));
+        Result<PageResult<OrderVo>> orderList = orderClient.getMemberOrderList(new PageDomain(1, null, null, null));
         System.err.println(JSONUtil.toJsonPrettyStr(orderList));
     }
 }

@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.order.domain.OrderReimburse;
@@ -37,7 +37,7 @@ public class OrderReimburseController extends BaseController {
      * @return 订单退款表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderReimburse>> list(
+    public Result<PageResult<OrderReimburse>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderReimburseController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderReimburse> pageResult = orderReimburseService.queryPage(pageDomain, orderReimburse);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderReimburseController extends BaseController {
      * @return 订单退款表详细信息
      */
     @GetMapping("/info/{reimburseId}")
-    public BaseResult<OrderReimburse> info(@PathVariable("reimburseId") Long reimburseId) {
+    public Result<OrderReimburse> info(@PathVariable("reimburseId") Long reimburseId) {
         OrderReimburse orderReimburse = orderReimburseService.getById(reimburseId);
-        return ObjectUtils.anyNotNull(orderReimburse) ? BaseResult.ok(orderReimburse) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderReimburse) ? Result.ok(orderReimburse) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderReimburseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderReimburse orderReimburse) {
+    public Result<Boolean> save(@RequestBody OrderReimburse orderReimburse) {
         boolean save = orderReimburseService.save(orderReimburse);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderReimburseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderReimburse orderReimburse) {
+    public Result<Boolean> update(@RequestBody OrderReimburse orderReimburse) {
         boolean update = orderReimburseService.updateById(orderReimburse);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderReimburseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{reimburseIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] reimburseIds) {
+    public Result<Boolean> delete(@PathVariable Long[] reimburseIds) {
         boolean delete = orderReimburseService.removeByIds(Arrays.asList(reimburseIds));
         return toOperationResult(delete);
     }

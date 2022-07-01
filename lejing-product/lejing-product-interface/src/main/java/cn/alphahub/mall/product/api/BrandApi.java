@@ -1,13 +1,19 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.mall.product.domain.Brand;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -31,7 +37,7 @@ public interface BrandApi {
      * @return 品牌分页数据
      */
     @GetMapping("product/brand/list")
-    BaseResult<PageResult<Brand>> list(
+    Result<PageResult<Brand>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,7 +53,7 @@ public interface BrandApi {
      * @return 品牌详细信息
      */
     @GetMapping("product/brand/info/{brandId}")
-    BaseResult<Brand> info(@PathVariable("brandId") Long brandId);
+    Result<Brand> info(@PathVariable("brandId") Long brandId);
 
     /**
      * 批量获取品牌信息
@@ -56,7 +62,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @GetMapping("product/brand/infos/{brandIds}")
-    BaseResult<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds);
+    Result<List<Brand>> brandsInfo(@PathVariable List<Long> brandIds);
 
     /**
      * 新增品牌
@@ -65,7 +71,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/brand/save")
-    BaseResult<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand);
 
     /**
      * 修改品牌
@@ -74,7 +80,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/brand/update")
-    BaseResult<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand);
 
     /**
      * 修改品牌状态
@@ -83,7 +89,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/brand/update/status")
-    BaseResult<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand);
 
     /**
      * 批量删除品牌
@@ -92,5 +98,5 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("product/brand/delete/{brandIds}")
-    BaseResult<Boolean> delete(@PathVariable Long[] brandIds);
+    Result<Boolean> delete(@PathVariable Long[] brandIds);
 }

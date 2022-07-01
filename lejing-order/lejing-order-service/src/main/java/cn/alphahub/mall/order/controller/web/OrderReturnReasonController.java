@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.OrderReturnReason;
@@ -37,7 +37,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 退货原因分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderReturnReason>> list(
+    public Result<PageResult<OrderReturnReason>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderReturnReasonController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderReturnReason> pageResult = orderReturnReasonService.queryPage(pageDomain, orderReturnReason);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderReturnReasonController extends BaseController {
      * @return 退货原因详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<OrderReturnReason> info(@PathVariable("id") Long id) {
+    public Result<OrderReturnReason> info(@PathVariable("id") Long id) {
         OrderReturnReason orderReturnReason = orderReturnReasonService.getById(id);
-        return ObjectUtils.anyNotNull(orderReturnReason) ? BaseResult.ok(orderReturnReason) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderReturnReason) ? Result.ok(orderReturnReason) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderReturnReason orderReturnReason) {
+    public Result<Boolean> save(@RequestBody OrderReturnReason orderReturnReason) {
         boolean save = orderReturnReasonService.save(orderReturnReason);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderReturnReason orderReturnReason) {
+    public Result<Boolean> update(@RequestBody OrderReturnReason orderReturnReason) {
         boolean update = orderReturnReasonService.updateById(orderReturnReason);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderReturnReasonController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderReturnReasonService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

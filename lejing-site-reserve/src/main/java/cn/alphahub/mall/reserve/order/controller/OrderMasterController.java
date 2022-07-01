@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.order.domain.OrderMaster;
@@ -37,7 +37,7 @@ public class OrderMasterController extends BaseController {
      * @return 主订单表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderMaster>> list(
+    public Result<PageResult<OrderMaster>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderMasterController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderMaster> pageResult = orderMasterService.queryPage(pageDomain, orderMaster);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderMasterController extends BaseController {
      * @return 主订单表详细信息
      */
     @GetMapping("/info/{masterOrderId}")
-    public BaseResult<OrderMaster> info(@PathVariable("masterOrderId") Long masterOrderId) {
+    public Result<OrderMaster> info(@PathVariable("masterOrderId") Long masterOrderId) {
         OrderMaster orderMaster = orderMasterService.getById(masterOrderId);
-        return ObjectUtils.anyNotNull(orderMaster) ? BaseResult.ok(orderMaster) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderMaster) ? Result.ok(orderMaster) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderMasterController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderMaster orderMaster) {
+    public Result<Boolean> save(@RequestBody OrderMaster orderMaster) {
         boolean save = orderMasterService.save(orderMaster);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderMasterController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderMaster orderMaster) {
+    public Result<Boolean> update(@RequestBody OrderMaster orderMaster) {
         boolean update = orderMasterService.updateById(orderMaster);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderMasterController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{masterOrderIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] masterOrderIds) {
+    public Result<Boolean> delete(@PathVariable Long[] masterOrderIds) {
         boolean delete = orderMasterService.removeByIds(Arrays.asList(masterOrderIds));
         return toOperationResult(delete);
     }

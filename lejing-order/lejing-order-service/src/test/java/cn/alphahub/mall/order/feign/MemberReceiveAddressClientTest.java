@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class MemberReceiveAddressClientTest {
 
     @Test
     void addrList() {
-        BaseResult<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(1L);
+        Result<List<MemberReceiveAddress>> result = memberReceiveAddressClient.memberAddressList(1L);
         System.out.println(JSONUtil.toJsonPrettyStr(result));
     }
 }

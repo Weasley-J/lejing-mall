@@ -1,7 +1,7 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.auth.config.WeChatProperties;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.member.domain.Member;
@@ -67,7 +67,7 @@ public class WeChatController {
 
             log.info("使用微信的accessToken登录注册用户: \n{}", JSONUtil.toJsonPrettyStr(accessTokenInfo));
 
-            BaseResult<Member> result = memberClient.loginWithWeChat(accessTokenInfo);
+            Result<Member> result = memberClient.loginWithWeChat(accessTokenInfo);
             if (result.getSuccess()) {
                 Member member = result.getData();
                 log.info("登录成功：用户信息：\n{}", JSONUtil.toJsonPrettyStr(member));

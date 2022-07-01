@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss.controller.rpc;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.oss.service.OssService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +31,9 @@ public class OssRpcController {
      * @return 创建成功，返回存储空间名称
      */
     @PostMapping("/bucket/create")
-    public BaseResult<String> createBucket(@RequestParam(name = "bucketName") String bucketName) {
+    public Result<String> createBucket(@RequestParam(name = "bucketName") String bucketName) {
         String bucket = ossService.createBucket(bucketName);
-        return BaseResult.ok(bucket);
+        return Result.ok(bucket);
     }
 
     /**
@@ -42,9 +42,9 @@ public class OssRpcController {
      * @param bucketName 存储空间名称
      */
     @DeleteMapping("/bucket/delete")
-    public BaseResult<Void> deleteBucket(@RequestParam(name = "bucketName") String bucketName) {
+    public Result<Void> deleteBucket(@RequestParam(name = "bucketName") String bucketName) {
         ossService.deleteBucket(bucketName);
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -59,9 +59,9 @@ public class OssRpcController {
      * @return 文件的url
      */
     @PostMapping("/upload")
-    public BaseResult<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss) {
+    public Result<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss) {
         String upload = ossService.upload(objectName, fileDirOfOss);
-        return BaseResult.ok(upload);
+        return Result.ok(upload);
     }
 
     /**
@@ -72,9 +72,9 @@ public class OssRpcController {
      * @return 文件完整url
      */
     @PostMapping("/upload/multipart/file")
-    public BaseResult<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename) throws IOException {
+    public Result<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename) throws IOException {
         String upload = ossService.upload(file, filename);
-        return BaseResult.ok(upload);
+        return Result.ok(upload);
     }
 
     /**
@@ -83,9 +83,9 @@ public class OssRpcController {
      * @param objectName 文件URL
      */
     @DeleteMapping("/delete/single")
-    public BaseResult<Void> deleteSingle(@RequestParam(name = "objectName") String objectName) {
+    public Result<Void> deleteSingle(@RequestParam(name = "objectName") String objectName) {
         ossService.deleteOne(objectName);
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -95,9 +95,9 @@ public class OssRpcController {
      * @return 删除结果:详细模式下为删除成功的文件列表，简单模式下为删除失败的文件列表。
      */
     @DeleteMapping("/delete/many")
-    public BaseResult<List<String>> deleteMany(@RequestBody List<String> objectNames) {
+    public Result<List<String>> deleteMany(@RequestBody List<String> objectNames) {
         List<String> many = ossService.deleteMany(objectNames);
-        return BaseResult.ok(many);
+        return Result.ok(many);
     }
 
     /**
@@ -107,9 +107,9 @@ public class OssRpcController {
      * @return 是否存在
      */
     @GetMapping("/file/exist/{objectUrl}")
-    public BaseResult<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl) {
+    public Result<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl) {
         boolean fileExist = ossService.isFileExist(objectUrl);
-        return BaseResult.ok(fileExist);
+        return Result.ok(fileExist);
     }
 
     /**
@@ -118,8 +118,8 @@ public class OssRpcController {
      * @return 存在返回true，否则返回false
      */
     @GetMapping("/bucket/exist/{bucketName}")
-    public BaseResult<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName) {
+    public Result<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName) {
         boolean bucketExist = ossService.isBucketExist(bucketName);
-        return BaseResult.ok(bucketExist);
+        return Result.ok(bucketExist);
     }
 }

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.service;
 
 import cn.afterturn.easypoi.excel.entity.ExportParams;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.order.excel.easypoi.dto.request.BillingDetailQueryRequest;
 import cn.alphahub.mall.order.excel.easypoi.dto.response.BillingDetailQueryResponse;
@@ -38,11 +38,11 @@ public class BillDetailService {
      * @param request  http servlet request
      * @param response http servlet response
      */
-    public BaseResult<String> downloadBillingDetails(BillingDetailQueryRequest req, HttpServletRequest request, HttpServletResponse response) {
+    public Result<String> downloadBillingDetails(BillingDetailQueryRequest req, HttpServletRequest request, HttpServletResponse response) {
         log.info("下载账单明细excel，入参：{}", JSONUtil.toJsonStr(req));
         List<BillingDetailQueryResponse> responses = billingDetailList(req);
         if (CollectionUtils.isEmpty(responses)) {
-            return BaseResult.error("未查询到账单明细数据");
+            return Result.error("未查询到账单明细数据");
         }
         String excelTitle = "账单明细";
         String filename = excelTitle + "-" + DateUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss") + ".xlsx";
@@ -54,7 +54,7 @@ public class BillDetailService {
         } catch (IOException e) {
             log.error("io exception: {}", e.getLocalizedMessage(), e);
         }
-        return BaseResult.success();
+        return Result.success();
     }
 
     /**

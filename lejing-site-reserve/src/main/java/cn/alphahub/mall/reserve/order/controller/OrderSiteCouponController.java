@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.order.domain.OrderSiteCoupon;
@@ -37,7 +37,7 @@ public class OrderSiteCouponController extends BaseController {
      * @return 场地预约入场券卷号表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderSiteCoupon>> list(
+    public Result<PageResult<OrderSiteCoupon>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderSiteCouponController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSiteCoupon> pageResult = orderSiteCouponService.queryPage(pageDomain, orderSiteCoupon);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderSiteCouponController extends BaseController {
      * @return 场地预约入场券卷号表详细信息
      */
     @GetMapping("/info/{orderMasterId}")
-    public BaseResult<OrderSiteCoupon> info(@PathVariable("orderMasterId") Long orderMasterId) {
+    public Result<OrderSiteCoupon> info(@PathVariable("orderMasterId") Long orderMasterId) {
         OrderSiteCoupon orderSiteCoupon = orderSiteCouponService.getById(orderMasterId);
-        return ObjectUtils.anyNotNull(orderSiteCoupon) ? BaseResult.ok(orderSiteCoupon) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderSiteCoupon) ? Result.ok(orderSiteCoupon) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderSiteCouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderSiteCoupon orderSiteCoupon) {
+    public Result<Boolean> save(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean save = orderSiteCouponService.save(orderSiteCoupon);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderSiteCouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderSiteCoupon orderSiteCoupon) {
+    public Result<Boolean> update(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean update = orderSiteCouponService.updateById(orderSiteCoupon);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderSiteCouponController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{orderMasterIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] orderMasterIds) {
+    public Result<Boolean> delete(@PathVariable Long[] orderMasterIds) {
         boolean delete = orderSiteCouponService.removeByIds(Arrays.asList(orderMasterIds));
         return toOperationResult(delete);
     }

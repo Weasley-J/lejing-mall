@@ -269,7 +269,7 @@ public interface QuartzCoreService {
 你可以结合你的业务表`quartz_job`编写任务的`CRUD`，注意持久层任务状态要和`quartz`任务调度工厂的保持一致，具体实现代码见`lejing-job`实现类：`cn.alphahub.mall.schedule.job.service.impl.QuartzJobServiceImpl`(`quartz`定时任务调度Service业务层处理)，以下是Service上层接口代码，见具体实现。
 
 ```java
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
@@ -301,7 +301,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param param 定时任务信息类
      * @return result
      */
-    BaseResult<Boolean> createSimpleScheduleJob(QuartzParam param);
+    Result<Boolean> createSimpleScheduleJob(QuartzParam param);
 
     /**
      * 更新Simple定时任务
@@ -309,7 +309,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param param 定时任务信息类
      * @return result
      */
-    BaseResult<Boolean> updateSimpleScheduleJob(QuartzParam param);
+    Result<Boolean> updateSimpleScheduleJob(QuartzParam param);
 
     /**
      * 新增定时任务(创建->启动定时任务)
@@ -317,7 +317,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Boolean> save(QuartzJobDTO job);
+    Result<Boolean> save(QuartzJobDTO job);
 
     /**
      * 获取quartz定时任务调度详情
@@ -325,7 +325,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param id quartz定时任务调度主键id
      * @return quartz定时任务调度详细信息
      */
-    BaseResult<QuartzJobDTO> info(Long id);
+    Result<QuartzJobDTO> info(Long id);
 
     /**
      * 删除定时任务
@@ -333,7 +333,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param ids 定时任务id集合
      * @return void
      */
-    BaseResult<Void> remove(Long[] ids);
+    Result<Void> remove(Long[] ids);
 
     /**
      * 更新定时任务
@@ -341,7 +341,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Void> edit(QuartzJobDTO job);
+    Result<Void> edit(QuartzJobDTO job);
 
     /**
      * 定时任务状态修改
@@ -349,7 +349,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param job 定时任务元数据
      * @return success/error
      */
-    BaseResult<Void> updateStatus(QuartzJobDTO job);
+    Result<Void> updateStatus(QuartzJobDTO job);
 
     /**
      * 立即执行一次定时任务
@@ -358,7 +358,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return success/error
      */
-    BaseResult<Void> runAtNow(String jobName, String jobGroup);
+    Result<Void> runAtNow(String jobName, String jobGroup);
 
     /**
      * 暂停定时任务
@@ -367,7 +367,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Void> pause(String jobName, String jobGroup);
+    Result<Void> pause(String jobName, String jobGroup);
 
     /**
      * 恢复定时任务/继续定时任务
@@ -376,7 +376,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Void> resume(String jobName, String jobGroup);
+    Result<Void> resume(String jobName, String jobGroup);
 
     /**
      * 根据任务名称判断定时任务是否存在
@@ -385,7 +385,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组
      * @return true：成功，false：失败
      */
-    BaseResult<Boolean> check(String jobName, String jobGroup);
+    Result<Boolean> check(String jobName, String jobGroup);
 
     /**
      * 获取任务状态信息
@@ -394,28 +394,24 @@ public interface QuartzJobService extends IService<QuartzJob> {
      * @param jobGroup 任务组（没有分组传值null）
      * @return 状态名称
      */
-    BaseResult<String> status(String jobName, String jobGroup);
+    Result<String> status(String jobName, String jobGroup);
 }
 ```
 
 直接在对应的业务controller调用即可，见`lejing-job`controller类：
 
 ```java
-import cn.alphahub.common.annotations.Syslog;
-import cn.alphahub.common.core.domain.BaseResult;
+
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.mall.schedule.convertor.ScheduleConvertor;
-import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.core.service.QuartzCoreService;
 import cn.alphahub.mall.schedule.job.domain.QuartzJob;
 import cn.alphahub.mall.schedule.job.dto.QuartzJobDTO;
-import cn.alphahub.mall.schedule.job.dto.request.SimpleScheduleJobRequest;
 import cn.alphahub.mall.schedule.job.service.QuartzJobService;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.SchedulerException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -459,11 +455,11 @@ public class ScheduleJobController {
      * @return 定时任务分页列表
      */
     @GetMapping(value = "list")
-    public BaseResult<PageResult<QuartzJob>> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                  @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
+    public Result<PageResult<QuartzJob>> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                              @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
     ) {
         PageResult<QuartzJob> pageResult = quartzJobService.queryPage(new PageDomain(page, rows, null, null), null);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -473,10 +469,10 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
+    public Result<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
-  
+
     // ...
 }  
 ```

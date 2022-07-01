@@ -2,7 +2,7 @@ package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.ware.domain.Purchase;
@@ -41,7 +41,7 @@ public class PurchaseController extends BaseController {
      * @return 采购信息分页数据
      */
     @GetMapping("/unreceive/list")
-    public BaseResult<PageResult<Purchase>> unReceiveList(
+    public Result<PageResult<Purchase>> unReceiveList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -51,9 +51,9 @@ public class PurchaseController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Purchase> pageResult = purchaseService.unReceiveList(pageDomain, purchase);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -67,7 +67,7 @@ public class PurchaseController extends BaseController {
      * @return 采购信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Purchase>> list(
+    public Result<PageResult<Purchase>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -77,9 +77,9 @@ public class PurchaseController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Purchase> pageResult = purchaseService.queryPage(pageDomain, purchase);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -89,9 +89,9 @@ public class PurchaseController extends BaseController {
      * @return 采购信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<Purchase> info(@PathVariable("id") Long id) {
+    public Result<Purchase> info(@PathVariable("id") Long id) {
         Purchase purchase = purchaseService.getById(id);
-        return ObjectUtils.anyNotNull(purchase) ? BaseResult.ok(purchase) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(purchase) ? Result.ok(purchase) : Result.fail();
     }
 
     /**
@@ -101,7 +101,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody Purchase purchase) {
+    public Result<Boolean> save(@RequestBody Purchase purchase) {
         purchase.setCreateTime(new Date());
         boolean save = purchaseService.save(purchase);
         return toOperationResult(save);
@@ -114,7 +114,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/merge")
-    public BaseResult<Boolean> merge(@RequestBody MergeVo mergeVo) {
+    public Result<Boolean> merge(@RequestBody MergeVo mergeVo) {
         boolean save = purchaseService.merge(mergeVo);
         return toOperationResult(save);
     }
@@ -126,7 +126,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/received")
-    public BaseResult<Boolean> received(@RequestBody List<Long> ids) {
+    public Result<Boolean> received(@RequestBody List<Long> ids) {
         boolean save = purchaseService.received(ids);
         return toOperationResult(save);
     }
@@ -138,7 +138,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/done")
-    public BaseResult<Boolean> done(@RequestBody PurchaseDoneVo purchaseDoneVo) {
+    public Result<Boolean> done(@RequestBody PurchaseDoneVo purchaseDoneVo) {
         boolean save = purchaseService.done(purchaseDoneVo);
         return toOperationResult(save);
     }
@@ -150,7 +150,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody Purchase purchase) {
+    public Result<Boolean> update(@RequestBody Purchase purchase) {
         boolean update = purchaseService.updateById(purchase);
         return toOperationResult(update);
     }
@@ -162,7 +162,7 @@ public class PurchaseController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = purchaseService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

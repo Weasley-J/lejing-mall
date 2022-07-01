@@ -1,9 +1,8 @@
 package cn.alphahub.mall.schedule.sys.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-
 import cn.alphahub.mall.schedule.sys.domain.SysParams;
 import cn.alphahub.mall.schedule.sys.service.SysParamsService;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +31,11 @@ public class SysParamsController {
      * @return 参数管理分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SysParams>> list(@ModelAttribute(name = "page") PageDomain page,
-                                                     @ModelAttribute(name = "sysParams") SysParams sysParams
+    public Result<PageResult<SysParams>> list(@ModelAttribute(name = "page") PageDomain page,
+                                              @ModelAttribute(name = "sysParams") SysParams sysParams
     ) {
         PageResult<SysParams> pageResult = sysParamsService.queryPage(page, sysParams);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -46,9 +45,9 @@ public class SysParamsController {
      * @return 参数管理详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SysParams> info(@PathVariable("id") Long id){
+    public Result<SysParams> info(@PathVariable("id") Long id){
         SysParams sysParams = sysParamsService.getById(id);
-        return BaseResult.ok(sysParams);
+        return Result.ok(sysParams);
     }
 
     /**
@@ -58,9 +57,9 @@ public class SysParamsController {
      * @return 成功返回true,失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SysParams sysParams) {
+    public Result<Boolean> save(@RequestBody SysParams sysParams) {
         boolean save = sysParamsService.save(sysParams);
-        return BaseResult.ok(save);
+        return Result.ok(save);
     }
 
     /**
@@ -70,9 +69,9 @@ public class SysParamsController {
      * @return 成功返回true,失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SysParams sysParams) {
+    public Result<Boolean> update(@RequestBody SysParams sysParams) {
         boolean update = sysParamsService.updateById(sysParams);
-        return BaseResult.ok(update);
+        return Result.ok(update);
     }
 
     /**
@@ -82,8 +81,8 @@ public class SysParamsController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable(name = "ids") Long[] ids){
+    public Result<Boolean> delete(@PathVariable(name = "ids") Long[] ids){
         boolean delete = sysParamsService.removeByIds(Arrays.asList(ids));
-        return BaseResult.ok(delete);
+        return Result.ok(delete);
     }
 }

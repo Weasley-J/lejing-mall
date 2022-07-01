@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Category;
@@ -38,7 +38,7 @@ public class CategoryController extends BaseController {
      * @return 商品三级分类分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Category>> list(
+    public Result<PageResult<Category>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -48,9 +48,9 @@ public class CategoryController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Category> pageResult = categoryService.queryPage(pageDomain, category);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.success(pageResult);
+            return Result.success(pageResult);
         }
-        return BaseResult.error(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.error(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class CategoryController extends BaseController {
      * @return 分类及其子分类树形数据
      */
     @GetMapping("/list/tree")
-    public BaseResult<List<Category>> listCategoryTree() {
+    public Result<List<Category>> listCategoryTree() {
         List<Category> categories = categoryService.listWithTree();
-        return BaseResult.ok(categories);
+        return Result.ok(categories);
     }
 
     /**
@@ -71,9 +71,9 @@ public class CategoryController extends BaseController {
      * @return 商品三级分类详细信息
      */
     @GetMapping("/info/{catId}")
-    public BaseResult<Category> info(@PathVariable("catId") Long catId) {
+    public Result<Category> info(@PathVariable("catId") Long catId) {
         Category category = categoryService.getById(catId);
-        return ObjectUtils.anyNotNull(category) ? BaseResult.ok(category) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(category) ? Result.ok(category) : Result.fail();
     }
 
     /**
@@ -83,7 +83,7 @@ public class CategoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody Category category) {
+    public Result<Boolean> save(@RequestBody Category category) {
         boolean save = categoryService.save(category);
         return toOperationResult(save);
     }
@@ -95,7 +95,7 @@ public class CategoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody Category category) {
+    public Result<Boolean> update(@RequestBody Category category) {
         boolean update = categoryService.updateCasecade(category);
         return toOperationResult(update);
     }
@@ -107,7 +107,7 @@ public class CategoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update/sort")
-    public BaseResult<Boolean> updateSort(@RequestBody Category[] categories) {
+    public Result<Boolean> updateSort(@RequestBody Category[] categories) {
         boolean update = categoryService.updateBatchById(Arrays.asList(categories));
         return toOperationResult(update);
     }
@@ -119,7 +119,7 @@ public class CategoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{catIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] catIds) {
+    public Result<Boolean> delete(@PathVariable Long[] catIds) {
         boolean delete = categoryService.removeMenusByIds(Arrays.asList(catIds));
         return toOperationResult(delete);
     }

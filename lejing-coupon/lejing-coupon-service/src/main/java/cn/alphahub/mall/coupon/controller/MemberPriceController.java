@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.MemberPrice;
@@ -37,7 +37,7 @@ public class MemberPriceController extends BaseController {
      * @return 商品会员价格分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<MemberPrice>> list(
+    public Result<PageResult<MemberPrice>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class MemberPriceController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberPrice> pageResult = memberPriceService.queryPage(pageDomain, memberPrice);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class MemberPriceController extends BaseController {
      * @return 商品会员价格详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<MemberPrice> info(@PathVariable("id") Long id) {
+    public Result<MemberPrice> info(@PathVariable("id") Long id) {
         MemberPrice memberPrice = memberPriceService.getById(id);
-        return ObjectUtils.anyNotNull(memberPrice) ? BaseResult.ok(memberPrice) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(memberPrice) ? Result.ok(memberPrice) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class MemberPriceController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody MemberPrice memberPrice) {
+    public Result<Boolean> save(@RequestBody MemberPrice memberPrice) {
         boolean save = memberPriceService.save(memberPrice);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class MemberPriceController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody MemberPrice memberPrice) {
+    public Result<Boolean> update(@RequestBody MemberPrice memberPrice) {
         boolean update = memberPriceService.updateById(memberPrice);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class MemberPriceController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberPriceService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

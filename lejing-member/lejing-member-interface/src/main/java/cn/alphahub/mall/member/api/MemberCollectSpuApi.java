@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberCollectSpu;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 会员收藏的商品Controller
@@ -25,7 +31,7 @@ public interface MemberCollectSpuApi {
      * @return 会员收藏的商品分页数据
      */
     @GetMapping("/member/integrationchangehistory/list")
-    BaseResult<PageResult<MemberCollectSpu>> list(
+    Result<PageResult<MemberCollectSpu>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -40,7 +46,7 @@ public interface MemberCollectSpuApi {
      * @return 会员收藏的商品详细信息
      */
     @GetMapping("/member/integrationchangehistory/info/{id}")
-    BaseResult<MemberCollectSpu> info(@PathVariable("id") Long id);
+    Result<MemberCollectSpu> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员收藏的商品
@@ -49,7 +55,7 @@ public interface MemberCollectSpuApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/member/integrationchangehistory/save")
-    BaseResult<Boolean> save(@RequestBody MemberCollectSpu memberCollectSpu);
+    Result<Boolean> save(@RequestBody MemberCollectSpu memberCollectSpu);
 
     /**
      * 修改会员收藏的商品
@@ -58,7 +64,7 @@ public interface MemberCollectSpuApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/member/integrationchangehistory/update")
-    BaseResult<Boolean> update(@RequestBody MemberCollectSpu memberCollectSpu);
+    Result<Boolean> update(@RequestBody MemberCollectSpu memberCollectSpu);
 
     /**
      * 批量删除会员收藏的商品
@@ -67,5 +73,5 @@ public interface MemberCollectSpuApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/member/integrationchangehistory/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

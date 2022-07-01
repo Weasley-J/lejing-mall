@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.service.impl;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
@@ -195,7 +195,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
 
         // 6. 查看当前商品是否参与秒杀优惠
         CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
-            BaseResult<SeckillSkuRelation> result = seckillClient.getSkuSeckillInfoBySkuId(skuId);
+            Result<SeckillSkuRelation> result = seckillClient.getSkuSeckillInfoBySkuId(skuId);
             log.info("查看当前商品是否参与秒杀优惠: {}", JSONUtil.toJsonStr(result));
             if (Objects.equals(true, result.getSuccess())) {
                 var seckillSkuInfo = result.getData();

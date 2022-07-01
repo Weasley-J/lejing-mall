@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.job.module.seckill;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.schedule.feign.seckill.SeckillClient;
 import cn.hutool.json.JSONUtil;
 import org.quartz.JobExecutionContext;
@@ -31,7 +31,7 @@ public class OnShelveSeckillSkuLatest3DaysScheduleTask extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        BaseResult<Void> result = seckillClient.onShelveSeckillSkuLatest3Days();
+        Result<Void> result = seckillClient.onShelveSeckillSkuLatest3Days();
         System.err.println("任务调度上架最近三天的秒杀商品:'" + JSONUtil.toJsonStr(result) + "'");
     }
 }

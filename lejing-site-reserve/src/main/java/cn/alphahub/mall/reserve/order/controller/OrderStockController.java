@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.order.domain.OrderStock;
@@ -37,7 +37,7 @@ public class OrderStockController extends BaseController {
      * @return 订单库存表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderStock>> list(
+    public Result<PageResult<OrderStock>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderStockController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderStock> pageResult = orderStockService.queryPage(pageDomain, orderStock);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderStockController extends BaseController {
      * @return 订单库存表详细信息
      */
     @GetMapping("/info/{stockId}")
-    public BaseResult<OrderStock> info(@PathVariable("stockId") Long stockId) {
+    public Result<OrderStock> info(@PathVariable("stockId") Long stockId) {
         OrderStock orderStock = orderStockService.getById(stockId);
-        return ObjectUtils.anyNotNull(orderStock) ? BaseResult.ok(orderStock) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderStock) ? Result.ok(orderStock) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderStockController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderStock orderStock) {
+    public Result<Boolean> save(@RequestBody OrderStock orderStock) {
         boolean save = orderStockService.save(orderStock);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderStockController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderStock orderStock) {
+    public Result<Boolean> update(@RequestBody OrderStock orderStock) {
         boolean update = orderStockService.updateById(orderStock);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderStockController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{stockIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] stockIds) {
+    public Result<Boolean> delete(@PathVariable Long[] stockIds) {
         boolean delete = orderStockService.removeByIds(Arrays.asList(stockIds));
         return toOperationResult(delete);
     }

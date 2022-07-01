@@ -1,6 +1,6 @@
 package cn.alphahub.mall.search.service.impl;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.reflect.ReflectUtil;
 import cn.alphahub.mall.product.domain.Brand;
@@ -41,9 +41,9 @@ import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchAggregations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.clients.elasticsearch7.ElasticsearchAggregations;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -421,10 +421,10 @@ public class SearchServiceImpl implements SearchService {
      * 构建属性面包屑导航
      *
      * @param param  请求参数
-     * @param result 搜索结果响应数据实
+     * @param searchResult 搜索结果响应数据实
      * @return 页面面包屑导航列表
      */
-    private List<SearchResult.NavVO> buildNavVoListOfAttr(SearchParam param, SearchResult result) {
+    private List<SearchResult.NavVO> buildNavVoListOfAttr(SearchParam param, SearchResult searchResult) {
         List<SearchResult.NavVO> navVos = new ArrayList<>();
         List<String> attrs = param.getAttrs();
         if (CollectionUtils.isNotEmpty(attrs)) {
@@ -434,13 +434,13 @@ public class SearchServiceImpl implements SearchService {
                 String[] attrsArray = attr.split("_");
                 Long attrId = Long.parseLong(attrsArray[0]);
 
-                result.getAttrIds().add(attrId);
+                searchResult.getAttrIds().add(attrId);
 
                 String navValue = attrsArray[1];
                 // 远程调用商品服务查询属性元数据信息
-                BaseResult<AttrRespVO> baseResult = attrClient.info(attrId);
-                if (baseResult.getSuccess()) {
-                    AttrRespVO attrRespVO = baseResult.getData();
+                Result<AttrRespVO> result = attrClient.info(attrId);
+                if (result.getSuccess()) {
+                    AttrRespVO attrRespVO = result.getData();
                     log.info("远程调用商品服务成功,响应数据{}", attrRespVO);
                     String attrName = attrRespVO.getAttrName();
                     navVO.setNavName(attrName);
@@ -468,9 +468,9 @@ public class SearchServiceImpl implements SearchService {
         List<SearchResult.NavVO> navVos = new ArrayList<>();
         // 品牌
         if (CollectionUtils.isNotEmpty(param.getBrandId())) {
-            BaseResult<List<Brand>> baseResult = brandClient.brandsInfo(param.getBrandId());
-            if (baseResult.getSuccess()) {
-                List<Brand> brands = baseResult.getData();
+            Result<List<Brand>> result = brandClient.brandsInfo(param.getBrandId());
+            if (result.getSuccess()) {
+                List<Brand> brands = result.getData();
                 SearchResult.NavVO navVO = new SearchResult.NavVO();
                 log.info("远程调用商品服务查询品牌信息成功,响应数据:\n{}", JSONUtil.toJsonPrettyStr(brands));
                 AtomicReference<String> replace = new AtomicReference<>("");

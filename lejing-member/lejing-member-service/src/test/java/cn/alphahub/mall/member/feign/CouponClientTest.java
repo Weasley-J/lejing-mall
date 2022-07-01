@@ -1,6 +1,6 @@
 package cn.alphahub.mall.member.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ class CouponClientTest {
 
     @Test
     void TestCouponClient() {
-        BaseResult<Coupon> info = couponClient.info(1L);
+        Result<Coupon> info = couponClient.info(1L);
         System.out.println(JSONUtil.toJsonPrettyStr(info));
     }
 }

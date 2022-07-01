@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -38,13 +38,13 @@ class SpuBoundsClientTest extends BaseController {
         spuBounds.setGrowBounds(new BigDecimal("100"));
         spuBounds.setBuyBounds(new BigDecimal("150"));
         spuBounds.setWork(1);
-        BaseResult<Boolean> save = spuBoundsClient.save(spuBounds);
+        Result<Boolean> save = spuBoundsClient.save(spuBounds);
         System.out.println(save);
     }
 
     @Test
     void testInfo() {
-        BaseResult<SpuBounds> info = spuBoundsClient.info(1L);
+        Result<SpuBounds> info = spuBoundsClient.info(1L);
         System.out.println(info.getCode());
         System.out.println(info.getMessage());
         System.out.println(info.getData());

@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.CouponHistory;
@@ -37,7 +37,7 @@ public class CouponHistoryController extends BaseController {
      * @return 优惠券领取历史记录分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<CouponHistory>> list(
+    public Result<PageResult<CouponHistory>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class CouponHistoryController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CouponHistory> pageResult = couponHistoryService.queryPage(pageDomain, couponHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class CouponHistoryController extends BaseController {
      * @return 优惠券领取历史记录详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<CouponHistory> info(@PathVariable("id") Long id) {
+    public Result<CouponHistory> info(@PathVariable("id") Long id) {
         CouponHistory couponHistory = couponHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(couponHistory) ? BaseResult.ok(couponHistory) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(couponHistory) ? Result.ok(couponHistory) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class CouponHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody CouponHistory couponHistory) {
+    public Result<Boolean> save(@RequestBody CouponHistory couponHistory) {
         boolean save = couponHistoryService.save(couponHistory);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class CouponHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody CouponHistory couponHistory) {
+    public Result<Boolean> update(@RequestBody CouponHistory couponHistory) {
         boolean update = couponHistoryService.updateById(couponHistory);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class CouponHistoryController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponHistoryService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

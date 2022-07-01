@@ -1,6 +1,6 @@
-package cn.alphahub.mall.common.base.config;
+package cn.alphahub.mall.common.config;
 
-import cn.alphahub.mall.common.base.constant.FrameworkConstant;
+import cn.alphahub.mall.common.constant.FrameworkConstant;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.MDC;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -8,8 +8,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
-
-;
 
 public class ThreadPoolMdcWrapper extends ThreadPoolTaskExecutor {
     private static final long serialVersionUID = 3940722618853093830L;

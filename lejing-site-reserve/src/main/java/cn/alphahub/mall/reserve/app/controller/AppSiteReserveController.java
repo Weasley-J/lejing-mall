@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.app.controller;
 
 
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.app.pojo.bo.SiteCouponBO;
@@ -56,7 +56,7 @@ public class AppSiteReserveController extends BaseController {
      * @return 分页结果集
      */
     @GetMapping("reserveList")
-    public BaseResult<PageResult<SiteReserveVO>> reserveList(
+    public Result<PageResult<SiteReserveVO>> reserveList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "projectId", defaultValue = "LJ1000") String projectId
@@ -67,9 +67,9 @@ public class AppSiteReserveController extends BaseController {
         pageDomain.setRows(rows);
         PageResult<SiteReserveVO> pageResult = siteReserveService.queryPage(pageDomain, reserveVO);
         if (Objects.nonNull(pageResult)) {
-            return BaseResult.ok("查询成功", pageResult);
+            return Result.ok("查询成功", pageResult);
         }
-        return BaseResult.fail("查询失败");
+        return Result.fail("查询失败");
     }
 
     /**
@@ -79,9 +79,9 @@ public class AppSiteReserveController extends BaseController {
      * @return 7日内预约详情
      */
     @GetMapping("siteBookDetail/{siteId}")
-    public BaseResult<SiteReserveDetailVO> siteBookDetail(@PathVariable("siteId") Long siteId) {
+    public Result<SiteReserveDetailVO> siteBookDetail(@PathVariable("siteId") Long siteId) {
         SiteReserveDetailVO detailVO = siteReserveService.siteBookDetail(siteId);
-        return BaseResult.ok(detailVO);
+        return Result.ok(detailVO);
     }
 
     /**
@@ -92,7 +92,7 @@ public class AppSiteReserveController extends BaseController {
      * @return 指定日期可用场次信息
      */
     @GetMapping("siteSessions")
-    public BaseResult<List<SiteSessionVO>> siteSessions(
+    public Result<List<SiteSessionVO>> siteSessions(
             @RequestParam("siteId") Long siteId,
             @RequestParam("effectDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date effectDate
     ) {
@@ -103,9 +103,9 @@ public class AppSiteReserveController extends BaseController {
         List<SiteSessionVO> siteSessions = siteReserveService.siteSessions(siteId, effectDate);
 
         if (CollectionUtils.isEmpty(siteSessions)) {
-            return BaseResult.fail();
+            return Result.fail();
         }
-        return BaseResult.ok(siteSessions);
+        return Result.ok(siteSessions);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AppSiteReserveController extends BaseController {
      * @return 支付结果
      */
     @PostMapping("confirmOrder")
-    public BaseResult<SiteSessionOrderBO> confirmOrder(@RequestBody SiteSessionOrderBO sessionOrder) {
+    public Result<SiteSessionOrderBO> confirmOrder(@RequestBody SiteSessionOrderBO sessionOrder) {
         if (ObjectUtils.isNotEmpty(sessionOrder)) {
             log.info("用户id: {}, 用户手机号码: {}, 订单总价: {}, 用户备注: {}",
                     sessionOrder.getUserId(), sessionOrder.getUserPhone(),
@@ -128,9 +128,9 @@ public class AppSiteReserveController extends BaseController {
         }
         Boolean paid = siteReserveService.confirmOrder(sessionOrder);
         if (paid) {
-            return BaseResult.ok("支付成功", sessionOrder);
+            return Result.ok("支付成功", sessionOrder);
         }
-        return BaseResult.fail("支付失败", sessionOrder);
+        return Result.fail("支付失败", sessionOrder);
     }
 
     /**
@@ -143,14 +143,14 @@ public class AppSiteReserveController extends BaseController {
      * @return 订单信息分页列表
      */
     @GetMapping("siteOrderStatus")
-    public BaseResult<PageResult<SiteOrderVO>> siteOrderStatus(
+    public Result<PageResult<SiteOrderVO>> siteOrderStatus(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam("userId") String userId,
             @RequestParam("orderStatus") String orderStatus
     ) {
         PageResult<SiteOrderVO> result = this.siteReserveService.siteOrderStatus(page, rows, userId, orderStatus);
-        return BaseResult.ok(result);
+        return Result.ok(result);
     }
 
     /**
@@ -160,9 +160,9 @@ public class AppSiteReserveController extends BaseController {
      * @return
      */
     @GetMapping("siteOrderDetail")
-    public BaseResult<SiteOrderDetailVO> siteOrderDetail(@RequestParam("orderMasterId") String orderMasterId) {
+    public Result<SiteOrderDetailVO> siteOrderDetail(@RequestParam("orderMasterId") String orderMasterId) {
         SiteOrderDetailVO detailVO = this.siteReserveService.siteOrderDetail(orderMasterId);
-        return BaseResult.ok(detailVO);
+        return Result.ok(detailVO);
     }
 
     /**
@@ -172,9 +172,9 @@ public class AppSiteReserveController extends BaseController {
      * @return
      */
     @GetMapping("lookOverCoupon")
-    public BaseResult<SiteCouponBO> lookOverCoupon(@RequestParam("couponCode") String couponCode) {
+    public Result<SiteCouponBO> lookOverCoupon(@RequestParam("couponCode") String couponCode) {
         SiteCouponBO couponBO = this.siteReserveService.lookOverCoupon(couponCode);
-        return BaseResult.ok(couponBO);
+        return Result.ok(couponBO);
     }
 
     /**
@@ -184,9 +184,9 @@ public class AppSiteReserveController extends BaseController {
      * @return
      */
     @GetMapping("downloadCoupon")
-    public BaseResult<Object> downloadCoupon(@RequestParam("couponCode") String couponCode) {
+    public Result<Object> downloadCoupon(@RequestParam("couponCode") String couponCode) {
         // TODO
-        return BaseResult.ok("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
+        return Result.ok("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
     }
 
     /**
@@ -196,12 +196,12 @@ public class AppSiteReserveController extends BaseController {
      * @return
      */
     @GetMapping("requestRefund")
-    public BaseResult<Boolean> requestRefund(@RequestParam("orderMasterId") String orderMasterId) {
+    public Result<Boolean> requestRefund(@RequestParam("orderMasterId") String orderMasterId) {
         Boolean requestFlag = siteReserveService.requestRefund(orderMasterId);
         if (requestFlag) {
-            return BaseResult.ok("申请成功", true);
+            return Result.ok("申请成功", true);
         }
-        return BaseResult.fail("申请失败", true);
+        return Result.fail("申请失败", true);
     }
 
     /**
@@ -211,8 +211,8 @@ public class AppSiteReserveController extends BaseController {
      * @return
      */
     @GetMapping("refundDetail")
-    public BaseResult<SiteOrderReimburseVO> refundDetail(@RequestParam("orderMasterId") String orderMasterId) {
+    public Result<SiteOrderReimburseVO> refundDetail(@RequestParam("orderMasterId") String orderMasterId) {
         SiteOrderReimburseVO reimburseVO = siteReserveService.refundDetail(orderMasterId);
-        return BaseResult.ok(reimburseVO);
+        return Result.ok(reimburseVO);
     }
 }

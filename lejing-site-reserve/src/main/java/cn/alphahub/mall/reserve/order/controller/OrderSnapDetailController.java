@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.order.domain.OrderSnapDetail;
@@ -37,7 +37,7 @@ public class OrderSnapDetailController extends BaseController {
      * @return 订单快照表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<OrderSnapDetail>> list(
+    public Result<PageResult<OrderSnapDetail>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class OrderSnapDetailController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSnapDetail> pageResult = orderSnapDetailService.queryPage(pageDomain, orderSnapDetail);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class OrderSnapDetailController extends BaseController {
      * @return 订单快照表详细信息
      */
     @GetMapping("/info/{orderId}")
-    public BaseResult<OrderSnapDetail> info(@PathVariable("orderId") Long orderId) {
+    public Result<OrderSnapDetail> info(@PathVariable("orderId") Long orderId) {
         OrderSnapDetail orderSnapDetail = orderSnapDetailService.getById(orderId);
-        return ObjectUtils.anyNotNull(orderSnapDetail) ? BaseResult.ok(orderSnapDetail) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(orderSnapDetail) ? Result.ok(orderSnapDetail) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderSnapDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody OrderSnapDetail orderSnapDetail) {
+    public Result<Boolean> save(@RequestBody OrderSnapDetail orderSnapDetail) {
         boolean save = orderSnapDetailService.save(orderSnapDetail);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class OrderSnapDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody OrderSnapDetail orderSnapDetail) {
+    public Result<Boolean> update(@RequestBody OrderSnapDetail orderSnapDetail) {
         boolean update = orderSnapDetailService.updateById(orderSnapDetail);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class OrderSnapDetailController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{orderIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] orderIds) {
+    public Result<Boolean> delete(@PathVariable Long[] orderIds) {
         boolean delete = orderSnapDetailService.removeByIds(Arrays.asList(orderIds));
         return toOperationResult(delete);
     }

@@ -1,4 +1,4 @@
-package cn.alphahub.mall.common.base.entity;
+package cn.alphahub.mall.common.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.convertor.BeanUtil;
@@ -43,7 +43,7 @@ public class MqMessageController extends BaseController {
      * @return 分页数据
      */
     @GetMapping("/grace/list")
-    public BaseResult<PageResult<MqMessageResp>> query(@ModelAttribute(name = "req") MqMessageReq req) {
+    public Result<PageResult<MqMessageResp>> query(@ModelAttribute(name = "req") MqMessageReq req) {
         log.info("精装版查询MQ消息表列表：{}", JSONUtil.toJsonStr(req));
         PageResult<MqMessageResp> pageResult = new PageResult<>();
         pageResult.startPage(req);
@@ -56,7 +56,7 @@ public class MqMessageController extends BaseController {
                 .ge(ObjectUtils.isNotEmpty(req.getCreateTimeStart()), MqMessage::getCreateTime, req.getCreateTimeStart())
                 .le(ObjectUtils.isNotEmpty(req.getCreateTimeEnd()), MqMessage::getCreateTime, req.getCreateTimeEnd())
         ).stream().map(BeanUtil.INSTANCE::copy).collect(Collectors.toList());
-        return BaseResult.ok(pageResult.getPage(respList));
+        return Result.ok(pageResult.getPage(respList));
     }
 
     /**
@@ -70,7 +70,7 @@ public class MqMessageController extends BaseController {
      * @return MQ消息表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<MqMessage>> list(
+    public Result<PageResult<MqMessage>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -80,9 +80,9 @@ public class MqMessageController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MqMessage> pageResult = mqMessageService.queryPage(pageDomain, mqMessage);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -92,9 +92,9 @@ public class MqMessageController extends BaseController {
      * @return MQ消息表详细信息
      */
     @GetMapping("/info/{messageId}")
-    public BaseResult<MqMessage> info(@PathVariable("messageId") String messageId) {
+    public Result<MqMessage> info(@PathVariable("messageId") String messageId) {
         MqMessage mqMessage = mqMessageService.getById(messageId);
-        return ObjectUtils.anyNotNull(mqMessage) ? BaseResult.ok(mqMessage) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(mqMessage) ? Result.ok(mqMessage) : Result.fail();
     }
 
     /**
@@ -104,7 +104,7 @@ public class MqMessageController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody MqMessage mqMessage) {
+    public Result<Boolean> save(@RequestBody MqMessage mqMessage) {
         boolean save = mqMessageService.save(mqMessage);
         return toOperationResult(save);
     }
@@ -116,7 +116,7 @@ public class MqMessageController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody MqMessage mqMessage) {
+    public Result<Boolean> update(@RequestBody MqMessage mqMessage) {
         boolean update = mqMessageService.updateById(mqMessage);
         return toOperationResult(update);
     }
@@ -128,7 +128,7 @@ public class MqMessageController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{messageIds}")
-    public BaseResult<Boolean> delete(@PathVariable String[] messageIds) {
+    public Result<Boolean> delete(@PathVariable String[] messageIds) {
         boolean delete = mqMessageService.removeByIds(Arrays.asList(messageIds));
         return toOperationResult(delete);
     }

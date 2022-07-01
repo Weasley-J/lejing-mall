@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SkuImages;
@@ -37,7 +37,7 @@ public class SkuImagesController extends BaseController {
      * @return sku图片分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SkuImages>> list(
+    public Result<PageResult<SkuImages>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SkuImagesController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuImages> pageResult = skuImagesService.queryPage(pageDomain, skuImages);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SkuImagesController extends BaseController {
      * @return sku图片详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SkuImages> info(@PathVariable("id") Long id) {
+    public Result<SkuImages> info(@PathVariable("id") Long id) {
         SkuImages skuImages = skuImagesService.getById(id);
-        return ObjectUtils.anyNotNull(skuImages) ? BaseResult.ok(skuImages) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(skuImages) ? Result.ok(skuImages) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SkuImagesController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SkuImages skuImages) {
+    public Result<Boolean> save(@RequestBody SkuImages skuImages) {
         boolean save = skuImagesService.save(skuImages);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SkuImagesController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SkuImages skuImages) {
+    public Result<Boolean> update(@RequestBody SkuImages skuImages) {
         boolean update = skuImagesService.updateById(skuImages);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SkuImagesController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuImagesService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

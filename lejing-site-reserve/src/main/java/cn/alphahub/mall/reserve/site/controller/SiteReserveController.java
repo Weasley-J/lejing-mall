@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.site.domain.SiteReserve;
@@ -37,7 +37,7 @@ public class SiteReserveController extends BaseController {
      * @return 场地预约主表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SiteReserve>> list(
+    public Result<PageResult<SiteReserve>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SiteReserveController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteReserve> pageResult = siteReserveService.queryPage(pageDomain, siteReserve);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SiteReserveController extends BaseController {
      * @return 场地预约主表详细信息
      */
     @GetMapping("/info/{siteId}")
-    public BaseResult<SiteReserve> info(@PathVariable("siteId") Long siteId) {
+    public Result<SiteReserve> info(@PathVariable("siteId") Long siteId) {
         SiteReserve siteReserve = siteReserveService.getById(siteId);
-        return ObjectUtils.anyNotNull(siteReserve) ? BaseResult.ok(siteReserve) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(siteReserve) ? Result.ok(siteReserve) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SiteReserveController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SiteReserve siteReserve) {
+    public Result<Boolean> save(@RequestBody SiteReserve siteReserve) {
         boolean save = siteReserveService.save(siteReserve);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SiteReserveController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SiteReserve siteReserve) {
+    public Result<Boolean> update(@RequestBody SiteReserve siteReserve) {
         boolean update = siteReserveService.updateById(siteReserve);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SiteReserveController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{siteIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] siteIds) {
+    public Result<Boolean> delete(@PathVariable Long[] siteIds) {
         boolean delete = siteReserveService.removeByIds(Arrays.asList(siteIds));
         return toOperationResult(delete);
     }

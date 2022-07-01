@@ -1,9 +1,15 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,7 +33,7 @@ public interface MemberReceiveAddressApi {
      * @return 会员收货地址分页数据
      */
     @GetMapping("member/memberreceiveaddress/list")
-    BaseResult<PageResult<MemberReceiveAddress>> list(
+    Result<PageResult<MemberReceiveAddress>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -42,7 +48,7 @@ public interface MemberReceiveAddressApi {
      * @return 收货地址列表
      */
     @GetMapping("member/memberreceiveaddress/addresses/{memberId}")
-    BaseResult<List<MemberReceiveAddress>> memberAddressList(@PathVariable("memberId") Long memberId);
+    Result<List<MemberReceiveAddress>> memberAddressList(@PathVariable("memberId") Long memberId);
 
     /**
      * 获取会员收货地址详情
@@ -51,7 +57,7 @@ public interface MemberReceiveAddressApi {
      * @return 会员收货地址详细信息
      */
     @GetMapping("member/memberreceiveaddress/info/{id}")
-    BaseResult<MemberReceiveAddress> info(@PathVariable("id") Long id);
+    Result<MemberReceiveAddress> info(@PathVariable("id") Long id);
 
     /**
      * 新增会员收货地址
@@ -60,7 +66,7 @@ public interface MemberReceiveAddressApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("member/memberreceiveaddress/save")
-    BaseResult<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress);
+    Result<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress);
 
     /**
      * 修改会员收货地址
@@ -69,7 +75,7 @@ public interface MemberReceiveAddressApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("member/memberreceiveaddress/update")
-    BaseResult<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress);
+    Result<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress);
 
     /**
      * 批量删除会员收货地址
@@ -78,5 +84,5 @@ public interface MemberReceiveAddressApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("member/memberreceiveaddress/delete/{ids}")
-    BaseResult<Boolean> delete(@PathVariable Long[] ids);
+    Result<Boolean> delete(@PathVariable Long[] ids);
 }

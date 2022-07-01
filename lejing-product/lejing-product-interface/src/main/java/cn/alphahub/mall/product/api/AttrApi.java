@@ -1,12 +1,18 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.ProductAttrValue;
 import cn.alphahub.mall.product.vo.AttrRespVO;
 import cn.alphahub.mall.product.vo.AttrVO;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,7 +32,7 @@ public interface AttrApi {
      * @return spu规格列表
      */
     @GetMapping("product/attr/base/listforspu/{spuId}")
-    BaseResult<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId);
+    Result<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId);
 
     /**
      * 查询属性base/sale list
@@ -41,7 +47,7 @@ public interface AttrApi {
      * @return 分页列表
      */
     @GetMapping("product/attr/{attrType}/list/{catelogId}")
-    BaseResult<PageResult<AttrRespVO>> baseList(
+    Result<PageResult<AttrRespVO>> baseList(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -62,7 +68,7 @@ public interface AttrApi {
      * @return 商品属性分页数据
      */
     @GetMapping("product/attr/list")
-    BaseResult<PageResult<Attr>> list(
+    Result<PageResult<Attr>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -77,7 +83,7 @@ public interface AttrApi {
      * @return 商品属性详细信息
      */
     @GetMapping("product/attr/info/{attrId}")
-    BaseResult<AttrRespVO> info(@PathVariable("attrId") Long attrId);
+    Result<AttrRespVO> info(@PathVariable("attrId") Long attrId);
 
     /**
      * 新增商品属性
@@ -86,7 +92,7 @@ public interface AttrApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/attr/save")
-    BaseResult<Boolean> save(@RequestBody AttrVO attr);
+    Result<Boolean> save(@RequestBody AttrVO attr);
 
     /**
      * 修改商品属性
@@ -95,7 +101,7 @@ public interface AttrApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/attr/update")
-    BaseResult<Boolean> update(@RequestBody AttrVO attr);
+    Result<Boolean> update(@RequestBody AttrVO attr);
 
     /**
      * 根据spuId修改商品属性
@@ -105,7 +111,7 @@ public interface AttrApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/attr/update/{spuId}")
-    BaseResult<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues);
+    Result<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues);
 
     /**
      * 批量删除商品属性
@@ -114,5 +120,5 @@ public interface AttrApi {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("product/attr/delete/{attrIds}")
-    BaseResult<Boolean> delete(@PathVariable Long[] attrIds);
+    Result<Boolean> delete(@PathVariable Long[] attrIds);
 }

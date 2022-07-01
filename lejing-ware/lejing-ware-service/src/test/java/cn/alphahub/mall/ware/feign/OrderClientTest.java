@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.order.domain.Order;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ class OrderClientTest {
 
     @Test
     void order() {
-        BaseResult<Order> info = orderClient.info(1L);
+        Result<Order> info = orderClient.info(1L);
         System.out.println(JSONUtil.toJsonStr(info));
     }
 }

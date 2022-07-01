@@ -1,6 +1,6 @@
 package cn.alphahub.mall.cart.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -28,7 +28,7 @@ class SkuInfoClientTest {
 
     @Test
     void info() {
-        BaseResult<SkuInfo> info = skuInfoClient.info(1L);
+        Result<SkuInfo> info = skuInfoClient.info(1L);
         String prettyStr = JSONUtil.toJsonPrettyStr(info);
         System.out.println(prettyStr);
     }

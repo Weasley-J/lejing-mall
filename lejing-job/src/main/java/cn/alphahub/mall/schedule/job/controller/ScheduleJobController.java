@@ -1,7 +1,7 @@
 package cn.alphahub.mall.schedule.job.controller;
 
 import cn.alphahub.common.annotations.Syslog;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.valid.group.EditGroup;
@@ -58,11 +58,11 @@ public class ScheduleJobController {
      * @return 定时任务分页列表
      */
     @GetMapping(value = "list")
-    public BaseResult<PageResult<QuartzJob>> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                  @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
+    public Result<PageResult<QuartzJob>> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                              @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
     ) {
         PageResult<QuartzJob> pageResult = quartzJobService.queryPage(new PageDomain(page, rows, null, null), null);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
+    public Result<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
 
@@ -83,7 +83,7 @@ public class ScheduleJobController {
      * @return quartz定时任务调度详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<QuartzJobDTO> info(@PathVariable("id") Long id) {
+    public Result<QuartzJobDTO> info(@PathVariable("id") Long id) {
         return quartzJobService.info(id);
     }
 
@@ -94,7 +94,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PutMapping("/edit")
-    public BaseResult<Void> edit(@RequestBody @Validated({EditGroup.class}) QuartzJobDTO job) {
+    public Result<Void> edit(@RequestBody @Validated({EditGroup.class}) QuartzJobDTO job) {
         return quartzJobService.edit(job);
     }
 
@@ -104,7 +104,7 @@ public class ScheduleJobController {
      * @param ids 定时任务id集合
      */
     @DeleteMapping("/remove/{ids}")
-    public BaseResult<Void> remove(@PathVariable("ids") Long[] ids) {
+    public Result<Void> remove(@PathVariable("ids") Long[] ids) {
         return quartzJobService.remove(ids);
     }
 
@@ -116,8 +116,8 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PutMapping("/update/status")
-    public BaseResult<Void> updateStatus(@RequestParam(name = "jobId") Long jobId,
-                                         @RequestParam(name = "status") Integer status
+    public Result<Void> updateStatus(@RequestParam(name = "jobId") Long jobId,
+                                     @RequestParam(name = "status") Integer status
     ) {
         return quartzJobService.updateStatus(new QuartzJobDTO()
                 .setId(jobId)
@@ -134,8 +134,8 @@ public class ScheduleJobController {
      */
     @Syslog(name = "立即执行一次")
     @PutMapping("/run/at/now/{jobName}/{jobGroup}")
-    public BaseResult<Void> runAtNow(@PathVariable(name = "jobName") String jobName,
-                                     @PathVariable(name = "jobGroup", required = false) String jobGroup) {
+    public Result<Void> runAtNow(@PathVariable(name = "jobName") String jobName,
+                                 @PathVariable(name = "jobGroup", required = false) String jobGroup) {
         return quartzJobService.runAtNow(jobName, jobGroup);
     }
 
@@ -145,13 +145,13 @@ public class ScheduleJobController {
      * @return result
      */
     @PutMapping("/pause/all")
-    public BaseResult<String> pauseAll() {
+    public Result<String> pauseAll() {
         try {
             quartzCoreService.pauseAll();
-            return BaseResult.ok("暂停全部任务成功");
+            return Result.ok("暂停全部任务成功");
         } catch (SchedulerException e) {
             log.error("scheduler-exception:{}", e.getMessage(), e);
-            return BaseResult.fail("暂停全部任务失败:" + e.getLocalizedMessage());
+            return Result.fail("暂停全部任务失败:" + e.getLocalizedMessage());
         }
     }
 
@@ -161,13 +161,13 @@ public class ScheduleJobController {
      * @return result
      */
     @PutMapping("/resume/all")
-    public BaseResult<String> resumeAll() {
+    public Result<String> resumeAll() {
         try {
             quartzCoreService.resumeAll();
-            return BaseResult.ok("恢复全部任务成功");
+            return Result.ok("恢复全部任务成功");
         } catch (SchedulerException e) {
             log.error("scheduler-exception:{}", e.getMessage(), e);
-            return BaseResult.fail("恢复全部任务失败:" + e.getLocalizedMessage());
+            return Result.fail("恢复全部任务失败:" + e.getLocalizedMessage());
         }
     }
 
@@ -180,8 +180,8 @@ public class ScheduleJobController {
      */
     @Syslog(name = "暂停单个定时任务")
     @PutMapping("/pause/one/{jobName}/{jobGroup}")
-    public BaseResult<Void> pause(@PathVariable(name = "jobName") String jobName,
-                                  @PathVariable(name = "jobGroup", required = false) String jobGroup
+    public Result<Void> pause(@PathVariable(name = "jobName") String jobName,
+                              @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.pause(jobName, jobGroup);
     }
@@ -195,8 +195,8 @@ public class ScheduleJobController {
      */
     @Syslog(name = "恢复单个定时任务")
     @PutMapping("/resume/one/{jobName}/{jobGroup}")
-    public BaseResult<Void> resume(@PathVariable(name = "jobName") String jobName,
-                                   @PathVariable(name = "jobGroup", required = false) String jobGroup
+    public Result<Void> resume(@PathVariable(name = "jobName") String jobName,
+                               @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.resume(jobName, jobGroup);
     }
@@ -209,8 +209,8 @@ public class ScheduleJobController {
      * @return true：成功，false：失败
      */
     @GetMapping("/check/{jobName}/{jobGroup}")
-    public BaseResult<Boolean> check(@PathVariable(name = "jobName") String jobName,
-                                     @PathVariable(name = "jobGroup", required = false) String jobGroup
+    public Result<Boolean> check(@PathVariable(name = "jobName") String jobName,
+                                 @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.check(jobName, jobGroup);
     }
@@ -223,8 +223,8 @@ public class ScheduleJobController {
      * @return 状态名称
      */
     @GetMapping("/status/{jobName}/{jobGroup}")
-    public BaseResult<String> status(@PathVariable(name = "jobName") String jobName,
-                                     @PathVariable(name = "jobGroup", required = false) String jobGroup
+    public Result<String> status(@PathVariable(name = "jobName") String jobName,
+                                 @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         return quartzJobService.status(jobName, jobGroup);
     }
@@ -237,11 +237,11 @@ public class ScheduleJobController {
      * @return 状态名称
      */
     @GetMapping("/delete/{jobName}/{jobGroup}")
-    public BaseResult<Boolean> deleteFromScheduleFactory(@PathVariable(name = "jobName") String jobName,
-                                                         @PathVariable(name = "jobGroup", required = false) String jobGroup
+    public Result<Boolean> deleteFromScheduleFactory(@PathVariable(name = "jobName") String jobName,
+                                                     @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         boolean deleteScheduleJob = quartzCoreService.deleteScheduleJob(jobName, jobGroup);
-        return BaseResult.ok(deleteScheduleJob);
+        return Result.ok(deleteScheduleJob);
     }
 
     /**
@@ -255,7 +255,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PostMapping("/create/simple/job")
-    public BaseResult<Boolean> createSimpleJob(@RequestBody @Validated({InsertGroup.class}) SimpleScheduleJobRequest request) {
+    public Result<Boolean> createSimpleJob(@RequestBody @Validated({InsertGroup.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.createSimpleScheduleJob(param);
     }
@@ -271,7 +271,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PutMapping("/update/simple/job")
-    public BaseResult<Boolean> updateSimpleJob(@RequestBody @Validated({EditGroup.class}) SimpleScheduleJobRequest request) {
+    public Result<Boolean> updateSimpleJob(@RequestBody @Validated({EditGroup.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.updateSimpleScheduleJob(param);
     }

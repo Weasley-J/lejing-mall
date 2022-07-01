@@ -1,4 +1,4 @@
-package cn.alphahub.mall.common.base.page;
+package cn.alphahub.mall.common.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

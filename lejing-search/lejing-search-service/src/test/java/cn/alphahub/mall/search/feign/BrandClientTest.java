@@ -1,6 +1,6 @@
 package cn.alphahub.mall.search.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ class BrandClientTest {
     @Test
     void getBrandInfos() {
         List<Long> ids = Arrays.asList(3L);
-        BaseResult<List<Brand>> result = brandClient.brandsInfo(ids);
+        Result<List<Brand>> result = brandClient.brandsInfo(ids);
         if (result.getSuccess()) {
             List<Brand> brands = result.getData();
             log.info("远程调用商品服务查询品牌信息成功,响应数据:\n{}", JSONUtil.toJsonPrettyStr(brands));

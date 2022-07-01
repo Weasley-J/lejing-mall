@@ -2,7 +2,7 @@ package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.dto.vo.FareVo;
@@ -34,8 +34,8 @@ public class WareInfoController extends BaseController {
      * @return 邮资
      */
     @GetMapping("/postage/info")
-    public BaseResult<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId) {
-        return BaseResult.ok(wareInfoService.getPostageInfoByAddressId(addrId));
+    public Result<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId) {
+        return Result.ok(wareInfoService.getPostageInfoByAddressId(addrId));
     }
 
     /**
@@ -50,7 +50,7 @@ public class WareInfoController extends BaseController {
      * @return 仓库信息分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<WareInfo>> list(
+    public Result<PageResult<WareInfo>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -61,9 +61,9 @@ public class WareInfoController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareInfo> pageResult = wareInfoService.queryPage(pageDomain, wareInfo, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -73,9 +73,9 @@ public class WareInfoController extends BaseController {
      * @return 仓库信息详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<WareInfo> info(@PathVariable("id") Long id) {
+    public Result<WareInfo> info(@PathVariable("id") Long id) {
         WareInfo wareInfo = wareInfoService.getById(id);
-        return ObjectUtils.anyNotNull(wareInfo) ? BaseResult.ok(wareInfo) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(wareInfo) ? Result.ok(wareInfo) : Result.fail();
     }
 
     /**
@@ -85,7 +85,7 @@ public class WareInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody WareInfo wareInfo) {
+    public Result<Boolean> save(@RequestBody WareInfo wareInfo) {
         boolean save = wareInfoService.save(wareInfo);
         return toOperationResult(save);
     }
@@ -97,7 +97,7 @@ public class WareInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody WareInfo wareInfo) {
+    public Result<Boolean> update(@RequestBody WareInfo wareInfo) {
         boolean update = wareInfoService.updateById(wareInfo);
         return toOperationResult(update);
     }
@@ -109,7 +109,7 @@ public class WareInfoController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareInfoService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

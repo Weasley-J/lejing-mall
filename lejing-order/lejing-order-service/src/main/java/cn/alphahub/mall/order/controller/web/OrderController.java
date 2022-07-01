@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.order.domain.Order;
@@ -37,10 +37,10 @@ public class OrderController extends BaseController {
      * @return 订单
      */
     @GetMapping(value = "/status")
-    public BaseResult<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
+    public Result<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
         log.info("根据订单号查询订单状态,订单号:{}", orderSn);
         Order order = orderService.getOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn).last(" limit 1"));
-        return BaseResult.ok(order);
+        return Result.ok(order);
     }
 
     /**
@@ -53,9 +53,9 @@ public class OrderController extends BaseController {
      * @return 当前登录用户的订单数据
      */
     @PostMapping("/member/order/list")
-    public BaseResult<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page) {
+    public Result<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page) {
         PageResult<OrderVo> pageResult = orderService.getMemberOrderList(page);
-        return BaseResult.ok(pageResult);
+        return Result.ok(pageResult);
     }
 
     /**
@@ -69,7 +69,7 @@ public class OrderController extends BaseController {
      * @return 订单分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<Order>> list(
+    public Result<PageResult<Order>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -79,9 +79,9 @@ public class OrderController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Order> pageResult = orderService.queryPage(pageDomain, order);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -91,9 +91,9 @@ public class OrderController extends BaseController {
      * @return 订单详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<Order> info(@PathVariable("id") Long id) {
+    public Result<Order> info(@PathVariable("id") Long id) {
         Order order = orderService.getById(id);
-        return ObjectUtils.anyNotNull(order) ? BaseResult.ok(order) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(order) ? Result.ok(order) : Result.fail();
     }
 
     /**
@@ -103,7 +103,7 @@ public class OrderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody Order order) {
+    public Result<Boolean> save(@RequestBody Order order) {
         boolean save = orderService.save(order);
         return toOperationResult(save);
     }
@@ -115,7 +115,7 @@ public class OrderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody Order order) {
+    public Result<Boolean> update(@RequestBody Order order) {
         boolean update = orderService.updateById(order);
         return toOperationResult(update);
     }
@@ -127,7 +127,7 @@ public class OrderController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

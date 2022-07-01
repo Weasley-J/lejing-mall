@@ -2,7 +2,7 @@ package cn.alphahub.mall.reserve.sys.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.reserve.sys.domain.SysDictType;
@@ -37,7 +37,7 @@ public class SysDictTypeController extends BaseController {
      * @return 字典类型表分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SysDictType>> list(
+    public Result<PageResult<SysDictType>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SysDictTypeController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SysDictType> pageResult = sysDictTypeService.queryPage(pageDomain, sysDictType);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SysDictTypeController extends BaseController {
      * @return 字典类型表详细信息
      */
     @GetMapping("/info/{dictId}")
-    public BaseResult<SysDictType> info(@PathVariable("dictId") Long dictId) {
+    public Result<SysDictType> info(@PathVariable("dictId") Long dictId) {
         SysDictType sysDictType = sysDictTypeService.getById(dictId);
-        return ObjectUtils.anyNotNull(sysDictType) ? BaseResult.ok(sysDictType) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(sysDictType) ? Result.ok(sysDictType) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysDictTypeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SysDictType sysDictType) {
+    public Result<Boolean> save(@RequestBody SysDictType sysDictType) {
         boolean save = sysDictTypeService.save(sysDictType);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SysDictTypeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SysDictType sysDictType) {
+    public Result<Boolean> update(@RequestBody SysDictType sysDictType) {
         boolean update = sysDictTypeService.updateById(sysDictType);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SysDictTypeController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{dictIds}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] dictIds) {
+    public Result<Boolean> delete(@PathVariable Long[] dictIds) {
         boolean delete = sysDictTypeService.removeByIds(Arrays.asList(dictIds));
         return toOperationResult(delete);
     }

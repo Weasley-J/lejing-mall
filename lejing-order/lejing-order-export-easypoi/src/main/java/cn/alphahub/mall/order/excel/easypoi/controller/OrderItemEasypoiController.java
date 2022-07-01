@@ -2,7 +2,7 @@ package cn.alphahub.mall.order.excel.easypoi.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.handler.inter.IReadHandler;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.order.convertor.Convertor;
 import cn.alphahub.mall.order.domain.OrderItem;
@@ -64,7 +64,7 @@ public class OrderItemEasypoiController {
      * @download 文件下载
      */
     @GetMapping("/download/order/item")
-    public BaseResult<Void> download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+    public Result<Void> download(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
 
         String filename = "子订单项数据-" + LocalDateTimeUtil.format(LocalDateTime.now(), "yyyyMMddHHmmss");
 
@@ -92,7 +92,7 @@ public class OrderItemEasypoiController {
                     filename, "子订单项数据", "子订单项"
             );
         }
-        return BaseResult.ok();
+        return Result.ok();
     }
 
     /**
@@ -102,7 +102,7 @@ public class OrderItemEasypoiController {
      * @return true
      */
     @PostMapping("/upload/order/item")
-    public BaseResult<String> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
+    public Result<String> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
         Date start = new Date();
         try {
             var params = new ImportParams();
@@ -155,6 +155,6 @@ public class OrderItemEasypoiController {
             log.error("{}", e.getLocalizedMessage(), e);
         }
         Date end = new Date();
-        return BaseResult.ok("解析耗时：" + DateUtil.format(start, "yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end, "yyyy-MM-dd HH:mm:ss"));
+        return Result.ok("解析耗时：" + DateUtil.format(start, "yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end, "yyyy-MM-dd HH:mm:ss"));
     }
 }

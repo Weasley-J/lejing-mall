@@ -1,7 +1,7 @@
 package cn.alphahub.mall.auth.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.CheckCodeOrigin;
 import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
@@ -152,7 +152,7 @@ public class AuthServiceImpl implements AuthService {
                         .mobile(userRegister.getPhone())
                         .nickname(userRegister.getUserName())
                         .build();
-                BaseResult<Boolean> save = memberClient.save(member);
+                Result<Boolean> save = memberClient.save(member);
                 String message = save.getMessage();
                 Integer repCode = save.getCode();
                 log.info("响应状态码：" + repCode + "；响应消息：" + message);
@@ -191,7 +191,7 @@ public class AuthServiceImpl implements AuthService {
     public String login(UserLogin user, RedirectAttributes redirectAttributes, HttpSession session) {
         Map<String, Object> errMap = new LinkedHashMap<>(2);
         String passwordRaw = user.getPassword();
-        BaseResult<Member> res = getMemberLoginRequestResult(user, passwordRaw);
+        Result<Member> res = getMemberLoginRequestResult(user, passwordRaw);
         System.out.println(res);
         Integer code = res.getCode();
         String msg = res.getMessage();
@@ -229,8 +229,8 @@ public class AuthServiceImpl implements AuthService {
      * @param passwordRaw 原明文密码
      * @return 远程会员登录结果
      */
-    private BaseResult<Member> getMemberLoginRequestResult(UserLogin user, String passwordRaw) {
-        BaseResult<Member> res = memberClient.login(Member.builder()
+    private Result<Member> getMemberLoginRequestResult(UserLogin user, String passwordRaw) {
+        Result<Member> res = memberClient.login(Member.builder()
                 // 用户名
                 .username(user.getLoginacct())
                 .password(passwordRaw)

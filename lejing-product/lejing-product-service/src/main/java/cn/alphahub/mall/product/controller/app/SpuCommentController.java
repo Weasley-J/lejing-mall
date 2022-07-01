@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.SpuComment;
@@ -37,7 +37,7 @@ public class SpuCommentController extends BaseController {
      * @return 商品评价分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<SpuComment>> list(
+    public Result<PageResult<SpuComment>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class SpuCommentController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SpuComment> pageResult = spuCommentService.queryPage(pageDomain, spuComment);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class SpuCommentController extends BaseController {
      * @return 商品评价详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<SpuComment> info(@PathVariable("id") Long id) {
+    public Result<SpuComment> info(@PathVariable("id") Long id) {
         SpuComment spuComment = spuCommentService.getById(id);
-        return ObjectUtils.anyNotNull(spuComment) ? BaseResult.ok(spuComment) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(spuComment) ? Result.ok(spuComment) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class SpuCommentController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody SpuComment spuComment) {
+    public Result<Boolean> save(@RequestBody SpuComment spuComment) {
         boolean save = spuCommentService.save(spuComment);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class SpuCommentController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody SpuComment spuComment) {
+    public Result<Boolean> update(@RequestBody SpuComment spuComment) {
         boolean update = spuCommentService.updateById(spuComment);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class SpuCommentController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuCommentService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

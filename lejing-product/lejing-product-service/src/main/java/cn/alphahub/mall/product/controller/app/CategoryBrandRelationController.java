@@ -2,7 +2,7 @@ package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.CategoryBrandRelation;
@@ -37,9 +37,9 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 商品id名称列表
      */
     @GetMapping("/brands/list")
-    public BaseResult<List<BrandVO>> relationBrandsList(@RequestParam(value = "catId") Long catId) {
+    public Result<List<BrandVO>> relationBrandsList(@RequestParam(value = "catId") Long catId) {
         List<BrandVO> brandVOList = categoryBrandRelationService.getBrandsByCatId(catId);
-        return BaseResult.ok(brandVOList);
+        return Result.ok(brandVOList);
     }
 
     /**
@@ -53,7 +53,7 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 品牌分类关联分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<CategoryBrandRelation>> list(
+    public Result<PageResult<CategoryBrandRelation>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -63,9 +63,9 @@ public class CategoryBrandRelationController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CategoryBrandRelation> pageResult = categoryBrandRelationService.queryPage(pageDomain, categoryBrandRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -75,11 +75,11 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 品牌分类关联列表
      */
     @GetMapping("/catelog/list")
-    public BaseResult<List<CategoryBrandRelation>> catelogList(@RequestParam(value = "brandId") Long brandId) {
+    public Result<List<CategoryBrandRelation>> catelogList(@RequestParam(value = "brandId") Long brandId) {
         QueryWrapper<CategoryBrandRelation> wrapper = new QueryWrapper<CategoryBrandRelation>();
         wrapper.lambda().eq(CategoryBrandRelation::getBrandId, brandId);
         List<CategoryBrandRelation> categoryBrandRelations = categoryBrandRelationService.list(wrapper);
-        return BaseResult.ok(categoryBrandRelations);
+        return Result.ok(categoryBrandRelations);
     }
 
     /**
@@ -89,9 +89,9 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 品牌分类关联详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<CategoryBrandRelation> info(@PathVariable("id") Long id) {
+    public Result<CategoryBrandRelation> info(@PathVariable("id") Long id) {
         CategoryBrandRelation categoryBrandRelation = categoryBrandRelationService.getById(id);
-        return ObjectUtils.anyNotNull(categoryBrandRelation) ? BaseResult.ok(categoryBrandRelation) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(categoryBrandRelation) ? Result.ok(categoryBrandRelation) : Result.fail();
     }
 
     /**
@@ -101,7 +101,7 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody CategoryBrandRelation categoryBrandRelation) {
+    public Result<Boolean> save(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean save = categoryBrandRelationService.saveDetail(categoryBrandRelation);
         return toOperationResult(save);
     }
@@ -113,7 +113,7 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody CategoryBrandRelation categoryBrandRelation) {
+    public Result<Boolean> update(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean update = categoryBrandRelationService.updateById(categoryBrandRelation);
         return toOperationResult(update);
     }
@@ -125,7 +125,7 @@ public class CategoryBrandRelationController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = categoryBrandRelationService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

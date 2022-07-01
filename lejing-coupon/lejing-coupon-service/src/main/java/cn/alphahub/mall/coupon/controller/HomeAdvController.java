@@ -2,7 +2,7 @@ package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.coupon.domain.HomeAdv;
@@ -37,7 +37,7 @@ public class HomeAdvController extends BaseController {
      * @return 首页轮播广告分页数据
      */
     @GetMapping("/list")
-    public BaseResult<PageResult<HomeAdv>> list(
+    public Result<PageResult<HomeAdv>> list(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "10") Integer rows,
             @RequestParam(value = "orderColumn", defaultValue = "") String orderColumn,
@@ -47,9 +47,9 @@ public class HomeAdvController extends BaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<HomeAdv> pageResult = homeAdvService.queryPage(pageDomain, homeAdv);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return BaseResult.ok(pageResult);
+            return Result.ok(pageResult);
         }
-        return BaseResult.fail(HttpStatus.NOT_FOUND, "查询结果为空");
+        return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
 
     /**
@@ -59,9 +59,9 @@ public class HomeAdvController extends BaseController {
      * @return 首页轮播广告详细信息
      */
     @GetMapping("/info/{id}")
-    public BaseResult<HomeAdv> info(@PathVariable("id") Long id) {
+    public Result<HomeAdv> info(@PathVariable("id") Long id) {
         HomeAdv homeAdv = homeAdvService.getById(id);
-        return ObjectUtils.anyNotNull(homeAdv) ? BaseResult.ok(homeAdv) : BaseResult.fail();
+        return ObjectUtils.anyNotNull(homeAdv) ? Result.ok(homeAdv) : Result.fail();
     }
 
     /**
@@ -71,7 +71,7 @@ public class HomeAdvController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public BaseResult<Boolean> save(@RequestBody HomeAdv homeAdv) {
+    public Result<Boolean> save(@RequestBody HomeAdv homeAdv) {
         boolean save = homeAdvService.save(homeAdv);
         return toOperationResult(save);
     }
@@ -83,7 +83,7 @@ public class HomeAdvController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("/update")
-    public BaseResult<Boolean> update(@RequestBody HomeAdv homeAdv) {
+    public Result<Boolean> update(@RequestBody HomeAdv homeAdv) {
         boolean update = homeAdvService.updateById(homeAdv);
         return toOperationResult(update);
     }
@@ -95,7 +95,7 @@ public class HomeAdvController extends BaseController {
      * @return 成功返回true, 失败返回false
      */
     @DeleteMapping("/delete/{ids}")
-    public BaseResult<Boolean> delete(@PathVariable Long[] ids) {
+    public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = homeAdvService.removeByIds(Arrays.asList(ids));
         return toOperationResult(delete);
     }

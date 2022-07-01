@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easyexcel.controller;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easyexcel.service.OrderExcelHandleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +40,13 @@ public class OrderItemEasyexcelController {
      * @download 文件下载
      */
     @GetMapping("/download/order/item")
-    public BaseResult<Void> download(HttpServletRequest request, HttpServletResponse response) {
+    public Result<Void> download(HttpServletRequest request, HttpServletResponse response) {
         try {
             orderExcelHandleService.download(request, response);
-            return BaseResult.ok();
+            return Result.ok();
         } catch (Exception e) {
             log.error("{}", e.getLocalizedMessage(), e);
-            return BaseResult.error();
+            return Result.error();
         }
     }
 
@@ -57,13 +57,13 @@ public class OrderItemEasyexcelController {
      * @return true
      */
     @PostMapping("/upload/order/item")
-    public BaseResult<Void> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
+    public Result<Void> upload(@RequestPart(name = "file") MultipartFile file, HttpServletResponse response) {
         try {
             orderExcelHandleService.upload(file, response);
-            return BaseResult.ok();
+            return Result.ok();
         } catch (Exception e) {
             log.error("{}", e.getLocalizedMessage(), e);
-            return BaseResult.error();
+            return Result.error();
         }
     }
 }

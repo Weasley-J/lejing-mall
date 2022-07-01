@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -30,7 +30,7 @@ class SeckillSessionClientTest {
 
     @Test
     void getLatest3DaysSeckillSession() {
-        BaseResult<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
+        Result<List<SeckillSession>> result = seckillSessionClient.getLatest3DaysSeckillSession();
         System.err.println(JSONUtil.toJsonPrettyStr(result));
         System.err.println("---------------------");
         result.getData().forEach(session -> {

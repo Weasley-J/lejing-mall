@@ -1,6 +1,6 @@
 package cn.alphahub.mall.search.feign;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.product.vo.AttrRespVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +29,7 @@ class AttrClientTest {
 
     @Test
     void getById() {
-        BaseResult<AttrRespVO> info = attrClient.info(15L);
+        Result<AttrRespVO> info = attrClient.info(15L);
         if (info.getSuccess()) {
             log.info("远程调用成功...");
             AttrRespVO respVO = info.getData();

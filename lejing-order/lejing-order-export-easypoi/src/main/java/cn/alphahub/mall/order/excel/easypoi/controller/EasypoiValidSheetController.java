@@ -4,7 +4,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.common.valid.annotation.DecimalRange;
 import cn.alphahub.common.valid.annotation.ListValue;
@@ -89,7 +89,7 @@ public class EasypoiValidSheetController {
     @SneakyThrows
     @ResponseBody
     @PostMapping(value = "/person/upload")
-    public BaseResult<List<Person>> upload(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public Result<List<Person>> upload(@RequestPart(name = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         log.warn("校验用户上传excel文件类的表格的内容");
         var params = new ImportParams();
         params.setNeedVerify(true);
@@ -101,7 +101,7 @@ public class EasypoiValidSheetController {
         for (Person person : list) {
             System.err.println(JSONUtil.toJsonStr(person));
         }
-        return BaseResult.ok(importResult.getFailList());
+        return Result.ok(importResult.getFailList());
     }
 
     /**

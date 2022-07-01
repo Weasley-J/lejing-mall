@@ -1,6 +1,6 @@
 package cn.alphahub.mall.ware.mq;
 
-import cn.alphahub.common.core.domain.BaseResult;
+import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.util.JSONUtil;
@@ -84,7 +84,7 @@ public class StockReleaseEventListener {
              *     (2). 订单状态:已取消,解锁库存; 订单状态:没取消,不能解锁库存;
              */
             var wareOrderTask = wareOrderTaskService.getById(stockLocked.getId());
-            BaseResult<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
+            Result<Order> orderStatus = orderClient.getOrderStatus(wareOrderTask.getOrderSn());
             log.info("远程根据订单号查询订单状态:{}", JSONUtil.toJsonStr(orderStatus));
             if (Boolean.TRUE.equals(orderStatus.getSuccess())) {
                 var order = orderStatus.getData();
