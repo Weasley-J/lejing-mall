@@ -26,7 +26,7 @@
         <module>lejing-common-util</module>
         <module>lejing-common-email-support</module>
         <module>lejing-common-sms-support</module>
-        <module>lejing-common-application-test</module>
+        <module>lejing-common-app-test</module>
     </modules>
 
 </project>
