@@ -26,7 +26,7 @@ public class LocalDateTimeSerializerConfig {
     /**
      * 时区,没有在yml里面配置默认采用: GMT+8
      */
-    @Value("spring.jackson.time-zone:GMT+8")
+    @Value("${spring.jackson.time-zone:GMT+8}")
     private String timeZone;
 
     /**
