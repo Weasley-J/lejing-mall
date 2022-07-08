@@ -66,4 +66,13 @@ public class TestController {
         return response;
     }
 
+
+    @GetMapping("/response/with/str")
+    public String getResponseWithString() {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("name", "张三");
+        log.info("姓名 {}", JSONUtil.toJsonStr(map));
+        return cn.alphahub.common.util.JSONUtil.toJsonStr(map);
+    }
+
 }

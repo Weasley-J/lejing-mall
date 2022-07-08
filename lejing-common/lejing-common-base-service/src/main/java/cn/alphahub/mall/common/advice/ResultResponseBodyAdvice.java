@@ -5,6 +5,7 @@ import cn.alphahub.mall.common.constant.FrameworkConstant;
 import cn.alphahub.mall.common.core.abstraction.AbstractResult;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.common.entity.EscapeResultWrapper;
+import cn.hutool.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -81,6 +82,7 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             result.setTraceId(traceId);
             if (body instanceof String) {
                 result.setMessage(null);
+                return JSONUtil.toJsonStr(result);
             }
             return result;
         }
