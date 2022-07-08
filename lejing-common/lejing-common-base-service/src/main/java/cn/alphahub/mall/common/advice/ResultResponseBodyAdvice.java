@@ -80,7 +80,7 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             Result<Object> result = Result.ok(body);
             result.setTraceId(traceId);
             if (body instanceof String) {
-                return body;
+                result.setMessage(null);
             }
             return result;
         }
