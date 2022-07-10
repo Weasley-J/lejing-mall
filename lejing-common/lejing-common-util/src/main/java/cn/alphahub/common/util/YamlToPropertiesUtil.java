@@ -2,6 +2,8 @@ package cn.alphahub.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
+import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -29,6 +31,28 @@ public final class YamlToPropertiesUtil {
         TreeMap<String, Map<String, Object>> config = yaml.loadAs(in, TreeMap.class);
         logger.info("{}", String.format("%s%n\nConverts to Properties:%n%n%s", config.toString(), toPropertiesString(config)));
         return toProperties(config);
+    }
+
+    /**
+     * yaml -> Properties
+     *
+     * @param yamlFiles classpath下的yaml文件名，相对路径: "application.yml","application-dev.yml"
+     * @return Properties
+     */
+    public static Properties toProperties(String... yamlFiles) {
+        if (yamlFiles == null || yamlFiles.length == 0) {
+            if (logger.isWarnEnabled()) {
+                logger.warn("yaml name of classpath cannot be null!");
+            }
+            return new Properties();
+        }
+        ClassPathResource[] resources = new ClassPathResource[yamlFiles.length];
+        for (int i = 0; i < yamlFiles.length; i++) {
+            resources[i] = new ClassPathResource(yamlFiles[i]);
+        }
+        YamlPropertiesFactoryBean yamlMapFactoryBean = new YamlPropertiesFactoryBean();
+        yamlMapFactoryBean.setResources(resources);
+        return yamlMapFactoryBean.getObject();
     }
 
     private static String toPropertiesString(TreeMap<String, Map<String, Object>> config) {
