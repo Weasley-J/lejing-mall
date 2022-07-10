@@ -25,6 +25,7 @@ public final class YamlToPropertiesUtil {
      *
      * @param in yaml文件的输入流
      * @return Properties
+     * @apiNote 使用Yaml InputStream读取，只能读一个yml文件
      */
     public static Properties toProperties(InputStream in) {
         Yaml yaml = new Yaml();
@@ -34,10 +35,11 @@ public final class YamlToPropertiesUtil {
     }
 
     /**
-     * yaml -> Properties
+     * Converts Yaml to Properties
      *
      * @param yamlFiles classpath下的yaml文件名，相对路径: "application.yml","application-dev.yml"
      * @return Properties
+     * @apiNote 使用YamlPropertiesFactoryBean读取，支持多个yml文件
      */
     public static Properties toProperties(String... yamlFiles) {
         if (yamlFiles == null || yamlFiles.length == 0) {
