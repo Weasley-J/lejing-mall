@@ -18,11 +18,11 @@ import java.util.Objects;
  * @date 2021年6月30日
  */
 public class ReflectUtil {
-    private final static Logger log = LoggerFactory.getLogger(ReflectUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(ReflectUtil.class);
 
-    private final static String IS = "is";
-    private final static String GET = "get";
-    private final static String SET = "set";
+    private static final String IS = "is";
+    private static final String GET = "get";
+    private static final String SET = "set";
 
     private ReflectUtil() {
     }
