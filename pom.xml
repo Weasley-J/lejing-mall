@@ -69,7 +69,7 @@
         <pagehelper.version>5.3.0</pagehelper.version>
         <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
         <shiro.starter.version>1.8.0</shiro.starter.version>
-        <fastjson.version>1.2.79</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.11.0</commons-io.version>
         <javase.version>3.4.1</javase.version>
