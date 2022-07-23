@@ -71,7 +71,7 @@ cat ${CONFIG_TEXT}
 
 #接下来导入[config.txt]元数据到[nacos]中
 NACOS_CONFIG="${BASE_DIR}/seata-${CURRENT_VERSION}/script/config-center/nacos/nacos-config.sh"
-NACOS_HOST="192.168.31.106"
+NACOS_HOST="192.168.31.23"
 GROUP="SEATA_GROUP"
 NAME_SPACE="f1c51b7c-562f-48c8-9b15-3a0ebd25dc2d"
 chmod 777 -v ${NACOS_CONFIG}
@@ -87,7 +87,7 @@ docker run --name ${CONTAINER_NAME} --restart=always \
   -v ${WORK_DIR}:/seata-server \
   -v /etc/timezone:/etc/timezone \
   -v /etc/localtime:/etc/localtime \
-  -e SEATA_IP="192.168.31.106" \
+  -e SEATA_IP="192.168.31.23" \
   -e SEATA_PORT="8091" \
   -d ${IMAGE_NAME}:${CURRENT_VERSION}
 
