@@ -41,7 +41,7 @@
 - 🚀️  `JDK11`
 - 🚀️  `MySQL-8.0.28`
 - 🚀️  `apache-maven-3.8.4`
-- 🚀️  `spring-boot 2.6.3`
+- 🚀️  `spring-boot 2.7.2`
 - 🚀️  `spring-cloud-2021.0.0`
 - 🚀️  `spring-cloud-alibaba 2021.1`
 - 🚀️  `NACOS2.0.3`
@@ -89,12 +89,15 @@
 
 **![image-20210205024941585](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210205024941585.png)**
 
-- [X] 项目改造完成, 集成: 业务代码自动生成 -> 执行: `mvn package`, 自动输出可调式的高可读性`api`文档 -> 分层架构 -> 以最小的代价迎合业务的重大变更
+- [X] 项目改造完成, 集成: 业务代码自动生成 -> 执行: `mvn package`, 自动输出可调式的高可读性`api`文档 -> 分层架构 ->
+  以最小的代价迎合业务的重大变更
 - [X] 已接入`ELK`全家桶
 
 ![image-20210307003402307](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210307003402307.png)
 
 ![image-20210307003417433](https://alphahub-test-bucket.oss-cn-shanghai.aliyuncs.com/image/image-20210307003417433.png)
+
+- [x] 集成全局埋`traceId`, 快速定位线上问题
 
 # 4 待完成清单
 
