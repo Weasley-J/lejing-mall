@@ -1,9 +1,9 @@
 package cn.alphahub.mall.ware.mq;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.util.JSONUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.constant.OrderConstant;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.ware.feign.OrderClient;

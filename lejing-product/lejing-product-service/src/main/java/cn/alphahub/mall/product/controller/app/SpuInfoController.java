@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SpuInfo;
 import cn.alphahub.mall.product.feign.SpuBoundsClient;
 import cn.alphahub.mall.product.service.SpuInfoService;
@@ -26,7 +25,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("product/spuinfo")
-public class SpuInfoController extends BaseController {
+public class SpuInfoController {
     @Resource
     private SpuInfoService spuInfoService;
     @Autowired
@@ -132,7 +131,7 @@ public class SpuInfoController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuInfo spuInfo) {
         boolean update = spuInfoService.updateById(spuInfo);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -144,6 +143,6 @@ public class SpuInfoController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuInfoService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

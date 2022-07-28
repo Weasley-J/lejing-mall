@@ -2,7 +2,6 @@ package cn.alphahub.mall.order.service.impl;
 
 import cn.alphahub.common.constant.CartConstant;
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
@@ -10,6 +9,7 @@ import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.mq.SeckillOrderTo;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.mall.cart.vo.CartItemVo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.constant.OrderConstant;

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,10 +1,10 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.auth.domain.SocialUser;
 import cn.alphahub.mall.auth.feign.MemberClient;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -20,11 +20,11 @@ import java.util.UUID;
  */
 public class TokenGenerator {
 
+    private static final char[] hexCode = "0123456789abcdef".toCharArray();
+
     public static String generateValue() {
         return generateValue(UUID.randomUUID().toString());
     }
-
-    private static final char[] hexCode = "0123456789abcdef".toCharArray();
 
     public static String toHexString(byte[] data) {
         if (data == null) {

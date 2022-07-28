@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import static cn.alphahub.mall.order.config.ThreadPoolConfig.ThreadPoolProperties;
+
 /**
  * <b>自定义线程池配置类</b>
  *

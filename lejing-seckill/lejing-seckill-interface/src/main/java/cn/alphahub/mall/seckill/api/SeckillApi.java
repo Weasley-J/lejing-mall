@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.api;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

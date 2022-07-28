@@ -1,10 +1,10 @@
 package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.common.util.JSONUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
 import cn.alphahub.mall.order.service.OrderService;
@@ -26,7 +26,7 @@ import java.util.Arrays;
 @Slf4j
 @RestController
 @RequestMapping("order/order")
-public class OrderController extends BaseController {
+public class OrderController {
     @Resource
     private OrderService orderService;
 
@@ -40,6 +40,7 @@ public class OrderController extends BaseController {
     public Result<Order> getOrderStatus(@RequestParam("orderSn") String orderSn) {
         log.info("根据订单号查询订单状态,订单号:{}", orderSn);
         Order order = orderService.getOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn).last(" limit 1"));
+        log.info("根据订单号查询订单状态: {}", JSONUtil.toJsonStr(order));
         return Result.ok(order);
     }
 
@@ -105,7 +106,7 @@ public class OrderController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody Order order) {
         boolean save = orderService.save(order);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -117,7 +118,7 @@ public class OrderController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Order order) {
         boolean update = orderService.updateById(order);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -129,6 +130,6 @@ public class OrderController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -1,7 +1,7 @@
 package cn.alphahub.mall.seckill.service;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.seckill.feign.SeckillSessionClient;

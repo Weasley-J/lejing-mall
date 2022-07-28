@@ -1,8 +1,8 @@
 package cn.alphahub.mall.schedule.job.controller;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.schedule.job.domain.QuartzJobLog;
 import cn.alphahub.mall.schedule.job.service.QuartzJobLogService;
 import org.springframework.web.bind.annotation.*;

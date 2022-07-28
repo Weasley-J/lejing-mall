@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SpuImages;
 import cn.alphahub.mall.product.service.SpuImagesService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("product/spuimages")
-public class SpuImagesController extends BaseController {
+public class SpuImagesController {
     @Resource
     private SpuImagesService spuImagesService;
 
@@ -73,7 +72,7 @@ public class SpuImagesController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SpuImages spuImages) {
         boolean save = spuImagesService.save(spuImages);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SpuImagesController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuImages spuImages) {
         boolean update = spuImagesService.updateById(spuImages);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SpuImagesController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuImagesService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -1,10 +1,9 @@
 package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.IntegrationChangeHistory;
 import cn.alphahub.mall.member.service.IntegrationChangeHistoryService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("member/integrationchangehistory")
-public class IntegrationChangeHistoryController extends BaseController {
+public class IntegrationChangeHistoryController {
     @Resource
     private IntegrationChangeHistoryService integrationChangeHistoryService;
 
@@ -73,7 +72,7 @@ public class IntegrationChangeHistoryController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean save = integrationChangeHistoryService.save(integrationChangeHistory);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class IntegrationChangeHistoryController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody IntegrationChangeHistory integrationChangeHistory) {
         boolean update = integrationChangeHistoryService.updateById(integrationChangeHistory);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class IntegrationChangeHistoryController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = integrationChangeHistoryService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -35,6 +35,10 @@
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-order-interface</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

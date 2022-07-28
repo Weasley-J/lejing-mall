@@ -1,7 +1,6 @@
 package cn.alphahub.mall.auth.service.impl;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.CheckCodeOrigin;
 import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
@@ -9,6 +8,7 @@ import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.feign.MemberClient;
 import cn.alphahub.mall.auth.service.AuthService;
 import cn.alphahub.mall.auth.util.CodecUtils;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;

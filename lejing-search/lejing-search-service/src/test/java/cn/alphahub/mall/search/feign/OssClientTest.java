@@ -1,7 +1,7 @@
 package cn.alphahub.mall.search.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;

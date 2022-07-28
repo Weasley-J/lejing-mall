@@ -1,10 +1,9 @@
 package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.convertor.BeanUtil;
 import cn.alphahub.mall.order.domain.MqMessage;
 import cn.alphahub.mall.order.dto.request.MqMessageReq;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("order/mqmessage")
-public class MqMessageController extends BaseController {
+public class MqMessageController {
     @Resource
     private MqMessageService mqMessageService;
 
@@ -106,7 +105,7 @@ public class MqMessageController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MqMessage mqMessage) {
         boolean save = mqMessageService.save(mqMessage);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -118,7 +117,7 @@ public class MqMessageController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MqMessage mqMessage) {
         boolean update = mqMessageService.updateById(mqMessage);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -130,6 +129,6 @@ public class MqMessageController extends BaseController {
     @DeleteMapping("/delete/{messageIds}")
     public Result<Boolean> delete(@PathVariable String[] messageIds) {
         boolean delete = mqMessageService.removeByIds(Arrays.asList(messageIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

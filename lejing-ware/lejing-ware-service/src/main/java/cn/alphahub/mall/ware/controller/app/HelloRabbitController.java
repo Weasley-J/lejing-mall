@@ -1,7 +1,7 @@
 package cn.alphahub.mall.ware.controller.app;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.ware.feign.OrderClient;

@@ -29,7 +29,7 @@ api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:20000/wx/callback',
-    desc: '获取扫码人的信息  &lt;P&gt;添加数据&lt;/P&gt;',
+    desc: '获取扫码人的信息 &lt;P&gt;添加数据&lt;/P&gt;',
 });
 api[0].list[1].list.push({
     order: '2',
@@ -72,7 +72,7 @@ api[0].list[2].list.push({
     order: '5',
     deprecated: 'false',
     url: 'http://localhost:20000/loguot.html',
-    desc: '退出登录  &lt;p&gt;从Session中删除的登录用户信息&lt;/p&gt;',
+    desc: '退出登录 &lt;p&gt;从Session中删除的登录用户信息&lt;/p&gt;',
 });
 api[0].list.push({
     alias: 'error',

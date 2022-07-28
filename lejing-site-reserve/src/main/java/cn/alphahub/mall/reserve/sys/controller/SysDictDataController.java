@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.sys.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.sys.domain.SysDictData;
 import cn.alphahub.mall.reserve.sys.service.SysDictDataService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/sys/sysdictdata")
-public class SysDictDataController extends BaseController {
+public class SysDictDataController {
     @Autowired
     private SysDictDataService sysDictDataService;
 
@@ -73,7 +72,7 @@ public class SysDictDataController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysDictData sysDictData) {
         boolean save = sysDictDataService.save(sysDictData);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SysDictDataController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysDictData sysDictData) {
         boolean update = sysDictDataService.updateById(sysDictData);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SysDictDataController extends BaseController {
     @DeleteMapping("/delete/{dictCodes}")
     public Result<Boolean> delete(@PathVariable Long[] dictCodes) {
         boolean delete = sysDictDataService.removeByIds(Arrays.asList(dictCodes));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

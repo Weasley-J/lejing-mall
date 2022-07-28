@@ -1,8 +1,8 @@
 package cn.alphahub.mall.member.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.auth.domain.SocialUser;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

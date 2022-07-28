@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.alphahub.mall.thirdparty.oss.domain.OssServerSignature;
 import com.aliyun.oss.OSS;

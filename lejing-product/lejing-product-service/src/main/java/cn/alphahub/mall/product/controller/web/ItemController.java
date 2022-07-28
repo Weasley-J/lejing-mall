@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.controller.web;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.product.vo.SkuItemVO;
 import org.apache.commons.lang3.ObjectUtils;

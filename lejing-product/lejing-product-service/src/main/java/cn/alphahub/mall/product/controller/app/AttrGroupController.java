@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.AttrGroup;
 import cn.alphahub.mall.product.service.AttrAttrgroupRelationService;
@@ -31,7 +30,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping("product/attrgroup")
-public class AttrGroupController extends BaseController {
+public class AttrGroupController {
     @Resource
     AttrAttrgroupRelationService relationService;
     @Resource
@@ -166,7 +165,7 @@ public class AttrGroupController extends BaseController {
     @PostMapping("save")
     public Result<Boolean> save(@RequestBody AttrGroup attrGroup) {
         boolean save = attrGroupService.save(attrGroup);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -178,7 +177,7 @@ public class AttrGroupController extends BaseController {
     @PutMapping("update")
     public Result<Boolean> update(@RequestBody AttrGroup attrGroup) {
         boolean update = attrGroupService.updateById(attrGroup);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -190,7 +189,7 @@ public class AttrGroupController extends BaseController {
     @DeleteMapping("delete/{attrGroupIds}")
     public Result<Boolean> delete(@PathVariable Long[] attrGroupIds) {
         boolean delete = attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 
     /**

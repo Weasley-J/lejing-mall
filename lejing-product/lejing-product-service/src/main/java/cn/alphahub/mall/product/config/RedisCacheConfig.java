@@ -15,8 +15,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import javax.annotation.Resource;
-
 /**
  * <b>spring缓存redis配置类</b>
  * 保存序列化对象为String,自定义生成key,value的策略

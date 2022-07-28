@@ -1,6 +1,5 @@
 package cn.alphahub.mall.ware.service.impl;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.exception.BizException;
@@ -9,6 +8,7 @@ import cn.alphahub.common.mq.StockDetailTo;
 import cn.alphahub.common.mq.StockLockedTo;
 import cn.alphahub.common.to.LockStockResultTo;
 import cn.alphahub.common.util.JSONUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.product.domain.SkuInfo;

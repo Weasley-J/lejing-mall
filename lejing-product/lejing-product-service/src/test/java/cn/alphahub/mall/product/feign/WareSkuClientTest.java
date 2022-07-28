@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import cn.alphahub.mall.ware.domain.WareSku;

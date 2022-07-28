@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.sys.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.sys.domain.SysConfig;
 import cn.alphahub.mall.reserve.sys.service.SysConfigService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/sys/sysconfig")
-public class SysConfigController extends BaseController {
+public class SysConfigController {
     @Autowired
     private SysConfigService sysConfigService;
 
@@ -73,7 +72,7 @@ public class SysConfigController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysConfig sysConfig) {
         boolean save = sysConfigService.save(sysConfig);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SysConfigController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysConfig sysConfig) {
         boolean update = sysConfigService.updateById(sysConfig);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SysConfigController extends BaseController {
     @DeleteMapping("/delete/{configIds}")
     public Result<Boolean> delete(@PathVariable Long[] configIds) {
         boolean delete = sysConfigService.removeByIds(Arrays.asList(configIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

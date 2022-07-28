@@ -50,6 +50,10 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-email-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
         <!-- lejing内部结束 -->
         <!-- quartz -->
         <dependency>

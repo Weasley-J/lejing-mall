@@ -1,8 +1,8 @@
 package cn.alphahub.mall.order.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
 import org.springframework.web.bind.annotation.DeleteMapping;

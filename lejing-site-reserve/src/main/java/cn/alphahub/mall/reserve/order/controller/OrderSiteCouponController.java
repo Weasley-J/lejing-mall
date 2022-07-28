@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.order.domain.OrderSiteCoupon;
 import cn.alphahub.mall.reserve.order.service.OrderSiteCouponService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/order/ordersitecoupon")
-public class OrderSiteCouponController extends BaseController {
+public class OrderSiteCouponController {
     @Autowired
     private OrderSiteCouponService orderSiteCouponService;
 
@@ -73,7 +72,7 @@ public class OrderSiteCouponController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean save = orderSiteCouponService.save(orderSiteCoupon);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class OrderSiteCouponController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean update = orderSiteCouponService.updateById(orderSiteCoupon);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class OrderSiteCouponController extends BaseController {
     @DeleteMapping("/delete/{orderMasterIds}")
     public Result<Boolean> delete(@PathVariable Long[] orderMasterIds) {
         boolean delete = orderSiteCouponService.removeByIds(Arrays.asList(orderMasterIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

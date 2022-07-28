@@ -1,8 +1,8 @@
 package cn.alphahub.mall.coupon.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.SkuReductionTo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SkuFullReduction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

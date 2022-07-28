@@ -2,9 +2,9 @@ package cn.alphahub.mall.product.domain;
 
 import cn.alphahub.common.util.IdSerializer;
 import cn.alphahub.common.valid.annotation.ListValue;
-import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
+import cn.alphahub.common.valid.group.InsertGroup;
 import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

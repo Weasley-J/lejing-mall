@@ -24,7 +24,8 @@ public interface UserService extends IService<UserEntity> {
 
     /**
      * 用户登录
-     * @param form    登录表单
+     *
+     * @param form 登录表单
      * @return 返回用户ID
      */
     long login(LoginForm form);

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.member.feign;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;

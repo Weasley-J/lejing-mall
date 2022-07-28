@@ -27,8 +27,8 @@ api[0].list[0].list.push({
 api[0].list.push({
     alias: 'BillDetailController',
     order: '2',
-    link: '账单明细controller  &lt;p&gt;这个controller主要展示&lt;/p&gt;',
-    desc: '账单明细Controller  &lt;p&gt;这个controller主要展示&lt;/p&gt;',
+    link: '账单明细controller &lt;p&gt;这个controller主要展示&lt;/p&gt;',
+    desc: '账单明细Controller &lt;p&gt;这个controller主要展示&lt;/p&gt;',
     list: []
 })
 api[0].list[1].list.push({

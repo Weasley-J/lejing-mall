@@ -1,10 +1,9 @@
 package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.GrowthChangeHistory;
 import cn.alphahub.mall.member.service.GrowthChangeHistoryService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("member/growthchangehistory")
-public class GrowthChangeHistoryController extends BaseController {
+public class GrowthChangeHistoryController {
     @Resource
     private GrowthChangeHistoryService growthChangeHistoryService;
 
@@ -73,7 +72,7 @@ public class GrowthChangeHistoryController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean save = growthChangeHistoryService.save(growthChangeHistory);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class GrowthChangeHistoryController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean update = growthChangeHistoryService.updateById(growthChangeHistory);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class GrowthChangeHistoryController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = growthChangeHistoryService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -1,8 +1,8 @@
 package cn.alphahub.mall.member.feign;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.dto.vo.OrderVo;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;

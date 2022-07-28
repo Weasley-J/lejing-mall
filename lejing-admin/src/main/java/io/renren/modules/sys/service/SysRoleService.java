@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -23,17 +23,17 @@ import java.util.Map;
  */
 public interface SysRoleService extends IService<SysRoleEntity> {
 
-	PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage(Map<String, Object> params);
 
-	void saveRole(SysRoleEntity role);
+    void saveRole(SysRoleEntity role);
 
-	void update(SysRoleEntity role);
+    void update(SysRoleEntity role);
 
-	void deleteBatch(Long[] roleIds);
+    void deleteBatch(Long[] roleIds);
 
-	
-	/**
-	 * 查询用户创建的角色ID列表
-	 */
-	List<Long> queryRoleIdList(Long createUserId);
+
+    /**
+     * 查询用户创建的角色ID列表
+     */
+    List<Long> queryRoleIdList(Long createUserId);
 }

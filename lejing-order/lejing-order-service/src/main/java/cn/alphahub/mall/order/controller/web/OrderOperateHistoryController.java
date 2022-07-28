@@ -1,10 +1,9 @@
 package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.OrderOperateHistory;
 import cn.alphahub.mall.order.service.OrderOperateHistoryService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("order/orderoperatehistory")
-public class OrderOperateHistoryController extends BaseController {
+public class OrderOperateHistoryController {
     @Resource
     private OrderOperateHistoryService orderOperateHistoryService;
 
@@ -73,7 +72,7 @@ public class OrderOperateHistoryController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean save = orderOperateHistoryService.save(orderOperateHistory);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class OrderOperateHistoryController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean update = orderOperateHistoryService.updateById(orderOperateHistory);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class OrderOperateHistoryController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderOperateHistoryService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -1,8 +1,8 @@
 package cn.alphahub.mall.order.service;
 
 import cn.afterturn.easypoi.excel.entity.ExportParams;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easypoi.dto.request.BillingDetailQueryRequest;
 import cn.alphahub.mall.order.excel.easypoi.dto.response.BillingDetailQueryResponse;
 import cn.alphahub.mall.order.excel.easypoi.util.ExcelUtil;

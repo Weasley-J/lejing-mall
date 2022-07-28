@@ -1,6 +1,6 @@
 package cn.alphahub.mall.cart.feign;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;

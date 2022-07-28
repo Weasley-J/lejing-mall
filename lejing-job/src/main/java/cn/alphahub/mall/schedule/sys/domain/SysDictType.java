@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("sys_dict_type")
 public class SysDictType implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * id

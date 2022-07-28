@@ -1,8 +1,8 @@
 package cn.alphahub.mall.seckill.service.impl;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.mq.SeckillOrderTo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.member.domain.Member;

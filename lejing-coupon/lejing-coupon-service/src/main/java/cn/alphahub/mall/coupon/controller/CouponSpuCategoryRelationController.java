@@ -1,10 +1,9 @@
 package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.CouponSpuCategoryRelation;
 import cn.alphahub.mall.coupon.service.CouponSpuCategoryRelationService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("coupon/couponspucategoryrelation")
-public class CouponSpuCategoryRelationController extends BaseController {
+public class CouponSpuCategoryRelationController {
     @Resource
     private CouponSpuCategoryRelationService couponSpuCategoryRelationService;
 
@@ -73,7 +72,7 @@ public class CouponSpuCategoryRelationController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody CouponSpuCategoryRelation couponSpuCategoryRelation) {
         boolean save = couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class CouponSpuCategoryRelationController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody CouponSpuCategoryRelation couponSpuCategoryRelation) {
         boolean update = couponSpuCategoryRelationService.updateById(couponSpuCategoryRelation);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class CouponSpuCategoryRelationController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

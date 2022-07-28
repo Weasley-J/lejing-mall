@@ -237,7 +237,7 @@ public @interface Email {
 ### 1.6 编写EmailController发送邮件
 
 ```java
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.reserve.email.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.email.EmailTemplate;
 import cn.alphahub.mall.email.annotation.Email;
 import lombok.extern.slf4j.Slf4j;

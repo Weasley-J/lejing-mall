@@ -1,8 +1,8 @@
 package cn.alphahub.mall.search.service.impl;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.exception.BizException;
 import cn.alphahub.common.reflect.ReflectUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.vo.AttrRespVO;
 import cn.alphahub.mall.search.domain.SkuModel;
@@ -420,7 +420,7 @@ public class SearchServiceImpl implements SearchService {
     /**
      * 构建属性面包屑导航
      *
-     * @param param  请求参数
+     * @param param        请求参数
      * @param searchResult 搜索结果响应数据实
      * @return 页面面包屑导航列表
      */

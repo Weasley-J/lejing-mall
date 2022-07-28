@@ -17,7 +17,7 @@ public interface SysParamsService extends IService<SysParams> {
     /**
      * 查询参数管理分页列表
      *
-     * @param page   分页参数
+     * @param page      分页参数
      * @param sysParams 分页对象
      * @return 参数管理分页数据
      */

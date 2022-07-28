@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.alphahub.mall.product.service.SkuInfoService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -23,7 +22,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("product/skuinfo")
-public class SkuInfoController extends BaseController {
+public class SkuInfoController {
     @Resource
     private SkuInfoService skuInfoService;
 
@@ -91,7 +90,7 @@ public class SkuInfoController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuInfo skuInfo) {
         boolean save = skuInfoService.save(skuInfo);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -103,7 +102,7 @@ public class SkuInfoController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuInfo skuInfo) {
         boolean update = skuInfoService.updateById(skuInfo);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -115,6 +114,6 @@ public class SkuInfoController extends BaseController {
     @DeleteMapping("/delete/{skuIds}")
     public Result<Boolean> delete(@PathVariable Long[] skuIds) {
         boolean delete = skuInfoService.removeByIds(Arrays.asList(skuIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

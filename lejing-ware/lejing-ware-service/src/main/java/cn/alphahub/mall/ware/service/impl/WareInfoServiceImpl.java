@@ -1,8 +1,8 @@
 package cn.alphahub.mall.ware.service.impl;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.order.dto.vo.MemberAddressVo;

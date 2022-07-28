@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.app.controller;
 
 
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.app.pojo.bo.SiteCouponBO;
 import cn.alphahub.mall.reserve.app.pojo.bo.SiteSessionBO;
 import cn.alphahub.mall.reserve.app.pojo.bo.SiteSessionOrderBO;
@@ -42,7 +41,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("site/app/")
-public class AppSiteReserveController extends BaseController {
+public class AppSiteReserveController {
 
     @Autowired
     private AppSiteReserveService siteReserveService;

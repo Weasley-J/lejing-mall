@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.feign;
 
 import cn.alphahub.common.constant.AppConstant;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.domain.SkuImages;
 import cn.alphahub.mall.product.domain.SkuInfo;
@@ -154,9 +154,9 @@ class OssClientTest {
     void batchSaveSpuImgToOss() throws ExecutionException, InterruptedException {
         List<SpuImages> news = new ArrayList<>();
         List<SpuImages> spuImagesList = spuImagesService.list(new QueryWrapper<SpuImages>().lambda()
-                .select(SpuImages::getId, SpuImages::getImgUrl)
-                .isNotNull(SpuImages::getImgUrl)
-        ).stream().filter(spuImages -> StringUtils.isNotBlank(spuImages.getImgUrl()) && !spuImages.getImgUrl().toLowerCase().startsWith("https://alphahub"))
+                        .select(SpuImages::getId, SpuImages::getImgUrl)
+                        .isNotNull(SpuImages::getImgUrl)
+                ).stream().filter(spuImages -> StringUtils.isNotBlank(spuImages.getImgUrl()) && !spuImages.getImgUrl().toLowerCase().startsWith("https://alphahub"))
                 .collect(Collectors.toList());
         CompletableFuture<SpuImages> future = new CompletableFuture<>();
         for (SpuImages spuImages : spuImagesList) {

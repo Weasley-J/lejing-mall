@@ -1,8 +1,8 @@
 package cn.alphahub.mall.ware.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.vo.WareSkuVO;

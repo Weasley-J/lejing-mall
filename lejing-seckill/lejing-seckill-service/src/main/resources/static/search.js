@@ -34,7 +34,7 @@ api[0].list[0].list.push({
     order: '4',
     deprecated: 'false',
     url: 'http://localhost:25000/seckill/kill',
-    desc: '商品进行秒杀(秒杀开始)  &lt;p&gt;查看表: oms_order_item&lt;/p&gt;',
+    desc: '商品进行秒杀(秒杀开始) &lt;p&gt;查看表: oms_order_item&lt;/p&gt;',
 });
 api[0].list.push({
     alias: 'error',

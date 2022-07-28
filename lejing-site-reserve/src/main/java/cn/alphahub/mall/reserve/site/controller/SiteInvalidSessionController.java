@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.site.domain.SiteInvalidSession;
 import cn.alphahub.mall.reserve.site.service.SiteInvalidSessionService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/siteinvalidsession")
-public class SiteInvalidSessionController extends BaseController {
+public class SiteInvalidSessionController {
     @Autowired
     private SiteInvalidSessionService siteInvalidSessionService;
 
@@ -73,7 +72,7 @@ public class SiteInvalidSessionController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean save = siteInvalidSessionService.save(siteInvalidSession);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SiteInvalidSessionController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean update = siteInvalidSessionService.updateById(siteInvalidSession);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SiteInvalidSessionController extends BaseController {
     @DeleteMapping("/delete/{invalidIds}")
     public Result<Boolean> delete(@PathVariable Long[] invalidIds) {
         boolean delete = siteInvalidSessionService.removeByIds(Arrays.asList(invalidIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

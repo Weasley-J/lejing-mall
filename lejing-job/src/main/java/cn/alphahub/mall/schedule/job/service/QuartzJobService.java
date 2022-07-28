@@ -1,8 +1,8 @@
 package cn.alphahub.mall.schedule.job.service;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
 import cn.alphahub.mall.schedule.job.domain.QuartzJob;
 import cn.alphahub.mall.schedule.job.dto.QuartzJobDTO;

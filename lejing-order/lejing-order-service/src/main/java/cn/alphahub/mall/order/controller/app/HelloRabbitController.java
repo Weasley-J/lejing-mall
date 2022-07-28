@@ -1,7 +1,7 @@
 package cn.alphahub.mall.order.controller.app;
 
 import cn.alphahub.common.constant.MqConstant;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import cn.alphahub.mall.order.domain.OrderReturnReason;
 import cn.hutool.core.util.IdUtil;

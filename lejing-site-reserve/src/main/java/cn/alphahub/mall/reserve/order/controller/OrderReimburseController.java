@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.order.domain.OrderReimburse;
 import cn.alphahub.mall.reserve.order.service.OrderReimburseService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/order/orderreimburse")
-public class OrderReimburseController extends BaseController {
+public class OrderReimburseController {
     @Autowired
     private OrderReimburseService orderReimburseService;
 
@@ -73,7 +72,7 @@ public class OrderReimburseController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderReimburse orderReimburse) {
         boolean save = orderReimburseService.save(orderReimburse);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class OrderReimburseController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderReimburse orderReimburse) {
         boolean update = orderReimburseService.updateById(orderReimburse);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class OrderReimburseController extends BaseController {
     @DeleteMapping("/delete/{reimburseIds}")
     public Result<Boolean> delete(@PathVariable Long[] reimburseIds) {
         boolean delete = orderReimburseService.removeByIds(Arrays.asList(reimburseIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

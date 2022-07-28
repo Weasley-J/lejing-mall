@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.site.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.site.domain.SiteReserve;
 import cn.alphahub.mall.reserve.site.service.SiteReserveService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/sitereserve")
-public class SiteReserveController extends BaseController {
+public class SiteReserveController {
     @Autowired
     private SiteReserveService siteReserveService;
 
@@ -73,7 +72,7 @@ public class SiteReserveController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteReserve siteReserve) {
         boolean save = siteReserveService.save(siteReserve);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SiteReserveController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteReserve siteReserve) {
         boolean update = siteReserveService.updateById(siteReserve);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SiteReserveController extends BaseController {
     @DeleteMapping("/delete/{siteIds}")
     public Result<Boolean> delete(@PathVariable Long[] siteIds) {
         boolean delete = siteReserveService.removeByIds(Arrays.asList(siteIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

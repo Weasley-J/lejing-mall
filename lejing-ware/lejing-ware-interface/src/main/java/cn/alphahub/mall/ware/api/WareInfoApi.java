@@ -1,7 +1,7 @@
 package cn.alphahub.mall.ware.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.dto.vo.FareVo;
 import cn.alphahub.mall.ware.domain.WareInfo;
 import org.springframework.web.bind.annotation.DeleteMapping;

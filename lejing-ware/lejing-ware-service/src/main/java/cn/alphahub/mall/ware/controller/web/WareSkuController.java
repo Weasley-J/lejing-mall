@@ -1,13 +1,12 @@
 package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.exception.NoStockException;
 import cn.alphahub.common.to.LockStockResultTo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.dto.vo.WareSkuLockVo;
 import cn.alphahub.mall.ware.domain.WareSku;
 import cn.alphahub.mall.ware.service.WareSkuService;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("ware/waresku")
-public class WareSkuController extends BaseController {
+public class WareSkuController {
     @Resource
     private WareSkuService wareSkuService;
 
@@ -124,7 +123,7 @@ public class WareSkuController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody WareSku wareSku) {
         boolean save = wareSkuService.save(wareSku);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -136,7 +135,7 @@ public class WareSkuController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody WareSku wareSku) {
         boolean update = wareSkuService.updateById(wareSku);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -148,6 +147,6 @@ public class WareSkuController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareSkuService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

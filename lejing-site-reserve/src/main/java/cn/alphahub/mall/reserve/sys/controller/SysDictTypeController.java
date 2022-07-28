@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.sys.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.sys.domain.SysDictType;
 import cn.alphahub.mall.reserve.sys.service.SysDictTypeService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/sys/sysdicttype")
-public class SysDictTypeController extends BaseController {
+public class SysDictTypeController {
     @Autowired
     private SysDictTypeService sysDictTypeService;
 
@@ -73,7 +72,7 @@ public class SysDictTypeController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysDictType sysDictType) {
         boolean save = sysDictTypeService.save(sysDictType);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class SysDictTypeController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysDictType sysDictType) {
         boolean update = sysDictTypeService.updateById(sysDictType);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class SysDictTypeController extends BaseController {
     @DeleteMapping("/delete/{dictIds}")
     public Result<Boolean> delete(@PathVariable Long[] dictIds) {
         boolean delete = sysDictTypeService.removeByIds(Arrays.asList(dictIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

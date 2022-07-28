@@ -1,10 +1,9 @@
 package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.MemberStatisticsInfo;
 import cn.alphahub.mall.member.service.MemberStatisticsInfoService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("member/memberstatisticsinfo")
-public class MemberStatisticsInfoController extends BaseController {
+public class MemberStatisticsInfoController {
     @Resource
     private MemberStatisticsInfoService memberStatisticsInfoService;
 
@@ -73,7 +72,7 @@ public class MemberStatisticsInfoController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberStatisticsInfo memberStatisticsInfo) {
         boolean save = memberStatisticsInfoService.save(memberStatisticsInfo);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class MemberStatisticsInfoController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberStatisticsInfo memberStatisticsInfo) {
         boolean update = memberStatisticsInfoService.updateById(memberStatisticsInfo);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class MemberStatisticsInfoController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberStatisticsInfoService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

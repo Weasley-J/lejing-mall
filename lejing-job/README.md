@@ -269,7 +269,7 @@ public interface QuartzCoreService {
 你可以结合你的业务表`quartz_job`编写任务的`CRUD`，注意持久层任务状态要和`quartz`任务调度工厂的保持一致，具体实现代码见`lejing-job`实现类：`cn.alphahub.mall.schedule.job.service.impl.QuartzJobServiceImpl`(`quartz`定时任务调度Service业务层处理)，以下是Service上层接口代码，见具体实现。
 
 ```java
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
@@ -402,7 +402,7 @@ public interface QuartzJobService extends IService<QuartzJob> {
 
 ```java
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.valid.group.InsertGroup;

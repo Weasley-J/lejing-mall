@@ -1,10 +1,9 @@
 package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.ware.domain.Purchase;
 import cn.alphahub.mall.ware.service.PurchaseService;
 import cn.alphahub.mall.ware.vo.MergeVo;
@@ -26,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("ware/purchase")
-public class PurchaseController extends BaseController {
+public class PurchaseController {
     @Resource
     private PurchaseService purchaseService;
 
@@ -104,7 +103,7 @@ public class PurchaseController extends BaseController {
     public Result<Boolean> save(@RequestBody Purchase purchase) {
         purchase.setCreateTime(new Date());
         boolean save = purchaseService.save(purchase);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -116,7 +115,7 @@ public class PurchaseController extends BaseController {
     @PostMapping("/merge")
     public Result<Boolean> merge(@RequestBody MergeVo mergeVo) {
         boolean save = purchaseService.merge(mergeVo);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -128,7 +127,7 @@ public class PurchaseController extends BaseController {
     @PostMapping("/received")
     public Result<Boolean> received(@RequestBody List<Long> ids) {
         boolean save = purchaseService.received(ids);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -140,7 +139,7 @@ public class PurchaseController extends BaseController {
     @PostMapping("/done")
     public Result<Boolean> done(@RequestBody PurchaseDoneVo purchaseDoneVo) {
         boolean save = purchaseService.done(purchaseDoneVo);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -152,7 +151,7 @@ public class PurchaseController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Purchase purchase) {
         boolean update = purchaseService.updateById(purchase);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -164,6 +163,6 @@ public class PurchaseController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = purchaseService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

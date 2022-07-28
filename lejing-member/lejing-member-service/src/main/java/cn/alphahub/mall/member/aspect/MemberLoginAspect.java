@@ -1,9 +1,9 @@
 package cn.alphahub.mall.member.aspect;
 
 import cn.alphahub.common.annotations.Syslog;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.ip.AddressUtil;
 import cn.alphahub.common.util.ip.IpUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberLoginLog;
 import cn.alphahub.mall.member.service.MemberLoginLogService;

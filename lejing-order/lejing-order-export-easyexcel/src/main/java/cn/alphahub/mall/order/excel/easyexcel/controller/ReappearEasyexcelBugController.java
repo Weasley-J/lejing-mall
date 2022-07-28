@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easyexcel.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easyexcel.listener.EasyExcelEventListener;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.json.JSONUtil;

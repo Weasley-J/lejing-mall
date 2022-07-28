@@ -3,7 +3,6 @@ package cn.alphahub.mall.order.excel.easypoi.dto.request;
 import cn.alphahub.common.core.page.PageDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

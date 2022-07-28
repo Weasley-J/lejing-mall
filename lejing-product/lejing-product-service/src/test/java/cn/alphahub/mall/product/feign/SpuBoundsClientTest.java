@@ -1,7 +1,6 @@
 package cn.alphahub.mall.product.feign;
 
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
@@ -15,7 +14,7 @@ import java.math.BigDecimal;
 
 @Slf4j
 @SpringBootTest
-class SpuBoundsClientTest extends BaseController {
+class SpuBoundsClientTest {
 
     @Mock
     @Resource

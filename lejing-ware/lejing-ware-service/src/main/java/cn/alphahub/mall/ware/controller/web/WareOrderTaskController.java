@@ -1,10 +1,9 @@
 package cn.alphahub.mall.ware.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.ware.domain.WareOrderTask;
 import cn.alphahub.mall.ware.service.WareOrderTaskService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("ware/wareordertask")
-public class WareOrderTaskController extends BaseController {
+public class WareOrderTaskController {
     @Resource
     private WareOrderTaskService wareOrderTaskService;
 
@@ -73,7 +72,7 @@ public class WareOrderTaskController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody WareOrderTask wareOrderTask) {
         boolean save = wareOrderTaskService.save(wareOrderTask);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class WareOrderTaskController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody WareOrderTask wareOrderTask) {
         boolean update = wareOrderTaskService.updateById(wareOrderTask);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class WareOrderTaskController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareOrderTaskService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

@@ -1,6 +1,7 @@
 package cn.alphahub.mall.common.advice;
 
 import cn.alphahub.mall.common.EscapeResult;
+import cn.alphahub.mall.common.constant.BizConstant;
 import cn.alphahub.mall.common.constant.FrameworkConstant;
 import cn.alphahub.mall.common.core.abstraction.AbstractResult;
 import cn.alphahub.mall.common.core.domain.Result;
@@ -24,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @version 1.0
  * @date 2022/7/1
  */
-@RestControllerAdvice({"cn.alphahub"})
+@RestControllerAdvice(value = {BizConstant.basePackage})
 public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
 

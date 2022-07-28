@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 默认动态邮件参数支持实现

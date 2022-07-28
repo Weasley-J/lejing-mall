@@ -100,13 +100,13 @@ api[0].list[0].list.push({
     order: '15',
     deprecated: 'false',
     url: 'http://localhost:88/api/schedule/job/create/simple/job',
-    desc: '创建简单定时任务  &lt;ul&gt;      &lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;      &lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;  &lt;/ul&gt;',
+    desc: '创建简单定时任务 &lt;ul&gt;     &lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;     &lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt; &lt;/ul&gt;',
 });
 api[0].list[0].list.push({
     order: '16',
     deprecated: 'false',
     url: 'http://localhost:88/api/schedule/job/update/simple/job',
-    desc: '更新简单定时任务  &lt;ul&gt;      &lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;      &lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt;  &lt;/ul&gt;',
+    desc: '更新简单定时任务 &lt;ul&gt;     &lt;li&gt;不持久化到[业务数据库]&lt;/li&gt;     &lt;li&gt;创建简单的调度任务：从什么时间开始，循环间隔多少分钟，什么时间结束&lt;/li&gt; &lt;/ul&gt;',
 });
 api[0].list.push({
     alias: 'EmailJobController',
@@ -119,7 +119,7 @@ api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:88/api/schedule/job/email/params',
-    desc: '此接口用来获取创建定时发送邮件的任务参数,即发送邮件的入参  &lt;p&gt;供quartz执行任发送邮件务时使用从JobDataMap中获取使用',
+    desc: '此接口用来获取创建定时发送邮件的任务参数,即发送邮件的入参 &lt;p&gt;供quartz执行任发送邮件务时使用从JobDataMap中获取使用',
 });
 api[0].list.push({
     alias: 'error',

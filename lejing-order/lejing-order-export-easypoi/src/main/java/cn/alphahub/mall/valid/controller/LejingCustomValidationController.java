@@ -1,10 +1,10 @@
 package cn.alphahub.mall.valid.controller;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
 import cn.alphahub.common.valid.group.InsertGroup;
 import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.valid.domain.VirtualCoin;
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Lists;

@@ -1,10 +1,9 @@
 package cn.alphahub.mall.order.controller.web;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.OrderReturnApply;
 import cn.alphahub.mall.order.service.OrderReturnApplyService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("order/orderreturnapply")
-public class OrderReturnApplyController extends BaseController {
+public class OrderReturnApplyController {
     @Resource
     private OrderReturnApplyService orderReturnApplyService;
 
@@ -73,7 +72,7 @@ public class OrderReturnApplyController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderReturnApply orderReturnApply) {
         boolean save = orderReturnApplyService.save(orderReturnApply);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class OrderReturnApplyController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderReturnApply orderReturnApply) {
         boolean update = orderReturnApplyService.updateById(orderReturnApply);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class OrderReturnApplyController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderReturnApplyService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

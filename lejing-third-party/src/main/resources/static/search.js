@@ -60,7 +60,7 @@ api[0].list[2].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://127.0.0.1:88/api/thirdparty/oss/rpc/upload',
-    desc: '上传文件至OSS  &lt;p&gt;  1. 转存网络文件  2. 上传本地文件到时需要指定文件完整路径  &lt;/p&gt;',
+    desc: '上传文件至OSS &lt;p&gt; 1. 转存网络文件 2. 上传本地文件到时需要指定文件完整路径 &lt;/p&gt;',
 });
 api[0].list[2].list.push({
     order: '4',

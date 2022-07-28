@@ -1,6 +1,6 @@
 package cn.alphahub.mall.product.feign;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.AfterEach;

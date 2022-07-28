@@ -1,6 +1,6 @@
 package cn.alphahub.mall.search.feign;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.vo.AttrRespVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

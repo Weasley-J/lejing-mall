@@ -722,7 +722,7 @@ api[0].list[16].list.push({
     order: '3',
     deprecated: 'false',
     url: 'http://localhost:10000/index/catalog.json',
-    desc: '&lt;b&gt;查出三级分类&lt;/b&gt;  key-1级分类,value-2级分类List',
+    desc: '&lt;b&gt;查出三级分类&lt;/b&gt; key-1级分类,value-2级分类List',
 });
 api[0].list[16].list.push({
     order: '4',

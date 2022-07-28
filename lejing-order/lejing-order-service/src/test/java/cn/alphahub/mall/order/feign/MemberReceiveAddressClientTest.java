@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.feign;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.MemberReceiveAddress;
 import cn.hutool.json.JSONUtil;
 import org.junit.jupiter.api.Test;

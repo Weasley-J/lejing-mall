@@ -12,7 +12,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
@@ -27,7 +26,7 @@ import java.util.Map;
  * @author liuwenjing
  */
 @Slf4j
-@RestControllerAdvice(basePackages = {"cn.alphahub"})
+//@RestControllerAdvice(basePackages = {"cn.alphahub"})
 public class GlobalExceptionHandler {
 
     /**

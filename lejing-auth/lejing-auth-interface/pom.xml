@@ -22,6 +22,10 @@
             <artifactId>lejing-common-base-public</artifactId>
         </dependency>
         <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>

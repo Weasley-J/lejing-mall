@@ -109,7 +109,7 @@ api[0].list[3].list.push({
     order: '2',
     deprecated: 'false',
     url: 'http://localhost:9010/order/order/member/order/list',
-    desc: '获取当前登录用的订单数据  &lt;ul&gt;      &lt;li&gt;用户信息从拦截器里面取&lt;/li&gt;  &lt;/ul&gt;',
+    desc: '获取当前登录用的订单数据 &lt;ul&gt;     &lt;li&gt;用户信息从拦截器里面取&lt;/li&gt; &lt;/ul&gt;',
 });
 api[0].list[3].list.push({
     order: '3',

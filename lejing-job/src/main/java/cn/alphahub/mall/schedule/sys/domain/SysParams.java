@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("sys_params")
 public class SysParams implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 参数id

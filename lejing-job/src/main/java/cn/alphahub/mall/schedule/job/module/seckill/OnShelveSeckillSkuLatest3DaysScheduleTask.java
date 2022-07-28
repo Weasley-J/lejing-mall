@@ -1,6 +1,6 @@
 package cn.alphahub.mall.schedule.job.module.seckill;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.schedule.feign.seckill.SeckillClient;
 import cn.hutool.json.JSONUtil;
 import org.quartz.JobExecutionContext;

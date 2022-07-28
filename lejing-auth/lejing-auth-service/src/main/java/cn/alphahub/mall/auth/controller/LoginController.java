@@ -1,11 +1,11 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.CheckCodeStatus;
 import cn.alphahub.mall.auth.domain.UserLogin;
 import cn.alphahub.mall.auth.domain.UserRegister;
 import cn.alphahub.mall.auth.service.AuthService;
+import cn.alphahub.mall.common.core.domain.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

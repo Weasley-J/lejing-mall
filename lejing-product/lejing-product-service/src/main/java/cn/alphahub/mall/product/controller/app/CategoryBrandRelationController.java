@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.CategoryBrandRelation;
 import cn.alphahub.mall.product.service.CategoryBrandRelationService;
 import cn.alphahub.mall.product.vo.BrandVO;
@@ -25,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("product/categorybrandrelation")
-public class CategoryBrandRelationController extends BaseController {
+public class CategoryBrandRelationController {
     @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
 
@@ -103,7 +102,7 @@ public class CategoryBrandRelationController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean save = categoryBrandRelationService.saveDetail(categoryBrandRelation);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -115,7 +114,7 @@ public class CategoryBrandRelationController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean update = categoryBrandRelationService.updateById(categoryBrandRelation);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -127,6 +126,6 @@ public class CategoryBrandRelationController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = categoryBrandRelationService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

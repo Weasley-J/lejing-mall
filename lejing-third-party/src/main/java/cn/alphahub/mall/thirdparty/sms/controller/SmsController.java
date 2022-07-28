@@ -1,6 +1,6 @@
 package cn.alphahub.mall.thirdparty.sms.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.sms.service.SmsService;
 import com.aliyuncs.dysmsapi.model.v20170525.QuerySendDetailsResponse;
 import lombok.extern.slf4j.Slf4j;

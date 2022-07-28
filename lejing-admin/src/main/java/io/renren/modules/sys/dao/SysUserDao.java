@@ -24,7 +24,8 @@ public interface SysUserDao extends BaseMapper<SysUserEntity> {
 
     /**
      * 查询用户的所有权限
-     * @param userId  用户ID
+     *
+     * @param userId 用户ID
      */
     List<String> queryAllPerms(Long userId);
 

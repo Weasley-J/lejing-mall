@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easypoi.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easypoi.dto.request.BillingDetailQueryRequest;
 import cn.alphahub.mall.order.service.BillDetailService;
 import org.springframework.web.bind.annotation.GetMapping;

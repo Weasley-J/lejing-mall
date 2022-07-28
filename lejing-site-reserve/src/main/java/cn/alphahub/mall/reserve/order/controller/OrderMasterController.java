@@ -1,10 +1,9 @@
 package cn.alphahub.mall.reserve.order.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.reserve.order.domain.OrderMaster;
 import cn.alphahub.mall.reserve.order.service.OrderMasterService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("site/order/ordermaster")
-public class OrderMasterController extends BaseController {
+public class OrderMasterController {
     @Autowired
     private OrderMasterService orderMasterService;
 
@@ -73,7 +72,7 @@ public class OrderMasterController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderMaster orderMaster) {
         boolean save = orderMasterService.save(orderMaster);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class OrderMasterController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderMaster orderMaster) {
         boolean update = orderMasterService.updateById(orderMaster);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class OrderMasterController extends BaseController {
     @DeleteMapping("/delete/{masterOrderIds}")
     public Result<Boolean> delete(@PathVariable Long[] masterOrderIds) {
         boolean delete = orderMasterService.removeByIds(Arrays.asList(masterOrderIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

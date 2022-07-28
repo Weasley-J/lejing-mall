@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.ProductAttrValue;
 import cn.alphahub.mall.product.service.AttrService;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("product/attr")
-public class AttrController extends BaseController {
+public class AttrController {
     @Resource
     private AttrService attrService;
     @Resource
@@ -122,7 +121,7 @@ public class AttrController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody AttrVO attr) {
         boolean save = attrService.saveAttr(attr);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -135,7 +134,7 @@ public class AttrController extends BaseController {
     @CacheEvict(value = "product:attr", allEntries = true)
     public Result<Boolean> update(@RequestBody AttrVO attr) {
         boolean update = attrService.updateAttrById(attr);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -149,7 +148,7 @@ public class AttrController extends BaseController {
     @CacheEvict(value = "product:attr", allEntries = true)
     public Result<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues) {
         boolean update = productAttrValueService.updateSpuAttr(spuId, attrValues);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -161,6 +160,6 @@ public class AttrController extends BaseController {
     @DeleteMapping("/delete/{attrIds}")
     public Result<Boolean> delete(@PathVariable Long[] attrIds) {
         boolean delete = attrService.removeByIds(Arrays.asList(attrIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

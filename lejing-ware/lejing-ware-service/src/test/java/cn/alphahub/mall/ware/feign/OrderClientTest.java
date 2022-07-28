@@ -1,7 +1,7 @@
 package cn.alphahub.mall.ware.feign;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.util.JSONUtil;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.domain.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;

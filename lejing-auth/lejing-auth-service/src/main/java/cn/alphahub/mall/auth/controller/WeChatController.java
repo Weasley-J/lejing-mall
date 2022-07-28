@@ -1,9 +1,9 @@
 package cn.alphahub.mall.auth.controller;
 
 import cn.alphahub.common.constant.AuthConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.mall.auth.config.WeChatProperties;
 import cn.alphahub.mall.auth.feign.MemberClient;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.member.domain.Member;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;

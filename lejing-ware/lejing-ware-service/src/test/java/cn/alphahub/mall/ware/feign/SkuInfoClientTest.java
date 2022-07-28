@@ -1,7 +1,7 @@
 package cn.alphahub.mall.ware.feign;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuInfo;
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;

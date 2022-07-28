@@ -30,6 +30,10 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
         <!-- 库存服务 interface -->
         <dependency>
             <groupId>cn.alphahub.mall.seckill</groupId>

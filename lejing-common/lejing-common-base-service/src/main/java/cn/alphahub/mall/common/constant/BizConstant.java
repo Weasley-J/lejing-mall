@@ -8,5 +8,5 @@ package cn.alphahub.mall.common.constant;
  * @date 2022/6/30
  */
 public class BizConstant {
-
+    public static final String basePackage = "cn.alphahub";
 }

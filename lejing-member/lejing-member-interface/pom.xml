@@ -38,7 +38,10 @@
         <dependency>
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-auth-interface</artifactId>
-            <version>1.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
         </dependency>
     </dependencies>
 

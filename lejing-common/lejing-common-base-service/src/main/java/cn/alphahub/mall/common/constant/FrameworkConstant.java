@@ -19,7 +19,9 @@ public interface FrameworkConstant {
     String URL_API_PREFIX_API = "/api";
     String URL_API_PREFIX_RPC = "/rpc";
 
-    //无需权限拦截
+    /**
+     * 无需权限拦截
+     */
     String URL_API_PREFIX_PUBLIC = "/api/public";
 
     /**

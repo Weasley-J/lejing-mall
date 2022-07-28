@@ -1,8 +1,8 @@
 package cn.alphahub.mall.generator.dao;
 
 import cn.alphahub.mall.generator.adaptor.MongoTableInfoAdaptor;
-import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
 import cn.alphahub.mall.generator.config.MongoManager;
+import cn.alphahub.mall.generator.config.condition.MongoNonNullCondition;
 import cn.alphahub.mall.generator.entity.mongo.MongoDefinition;
 import cn.alphahub.mall.generator.factory.MongoDBCollectionFactory;
 import cn.alphahub.mall.generator.utils.MongoScanner;

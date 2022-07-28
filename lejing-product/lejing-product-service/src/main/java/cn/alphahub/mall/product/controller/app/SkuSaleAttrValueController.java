@@ -1,7 +1,6 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
 import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("product/skusaleattrvalue")
-public class SkuSaleAttrValueController extends BaseController {
+public class SkuSaleAttrValueController {
     @Resource
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
@@ -89,7 +88,7 @@ public class SkuSaleAttrValueController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean save = skuSaleAttrValueService.save(skuSaleAttrValue);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -101,7 +100,7 @@ public class SkuSaleAttrValueController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean update = skuSaleAttrValueService.updateById(skuSaleAttrValue);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -113,6 +112,6 @@ public class SkuSaleAttrValueController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

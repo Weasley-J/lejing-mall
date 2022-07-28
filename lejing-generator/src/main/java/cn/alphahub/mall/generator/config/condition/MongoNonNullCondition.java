@@ -1,7 +1,6 @@
 package cn.alphahub.mall.generator.config.condition;
 
 import cn.alphahub.mall.generator.enums.DbType;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

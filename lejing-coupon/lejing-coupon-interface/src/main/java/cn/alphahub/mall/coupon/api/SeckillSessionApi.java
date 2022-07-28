@@ -1,7 +1,7 @@
 package cn.alphahub.mall.coupon.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSession;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +64,7 @@ public interface SeckillSessionApi {
      * @return 提示
      */
     @PutMapping("coupon/seckillsession/batch/update")
-    Result<Boolean> batchUpdate(@RequestBody  List<SeckillSession> sessionList);
+    Result<Boolean> batchUpdate(@RequestBody List<SeckillSession> sessionList);
 
     /**
      * 获取秒杀活动场次详情

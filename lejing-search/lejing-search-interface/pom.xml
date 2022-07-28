@@ -29,6 +29,10 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-util</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
         <!-- elasticsearch启动器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

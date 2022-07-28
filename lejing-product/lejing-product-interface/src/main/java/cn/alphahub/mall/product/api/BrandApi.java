@@ -1,10 +1,10 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.valid.group.EditGroup;
 import cn.alphahub.common.valid.group.EditStatusGroup;
 import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;

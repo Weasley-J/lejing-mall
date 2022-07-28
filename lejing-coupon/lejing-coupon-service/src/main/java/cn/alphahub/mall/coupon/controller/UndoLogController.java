@@ -1,10 +1,9 @@
 package cn.alphahub.mall.coupon.controller;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.UndoLog;
 import cn.alphahub.mall.coupon.service.UndoLogService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,7 +21,7 @@ import java.util.Arrays;
  */
 @RestController
 @RequestMapping("coupon/undolog")
-public class UndoLogController extends BaseController {
+public class UndoLogController {
     @Resource
     private UndoLogService undoLogService;
 
@@ -73,7 +72,7 @@ public class UndoLogController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody UndoLog undoLog) {
         boolean save = undoLogService.save(undoLog);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -85,7 +84,7 @@ public class UndoLogController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody UndoLog undoLog) {
         boolean update = undoLogService.updateById(undoLog);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -97,6 +96,6 @@ public class UndoLogController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = undoLogService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }

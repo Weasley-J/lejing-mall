@@ -4,7 +4,6 @@ import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.AttrGroup;
-import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.mapper.AttrGroupMapper;
 import cn.alphahub.mall.product.service.AttrGroupService;
 import cn.alphahub.mall.product.service.AttrService;

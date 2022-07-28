@@ -1,6 +1,6 @@
 package cn.alphahub.mall.order.excel.easyexcel.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.order.excel.easyexcel.service.OrderExcelHandleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

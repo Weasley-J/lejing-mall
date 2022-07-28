@@ -1,11 +1,11 @@
 package cn.alphahub.mall.product.service.impl;
 
 import cn.alphahub.common.constant.ProductConstant;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.to.MemberPriceTo;
 import cn.alphahub.common.to.SkuReductionTo;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SpuBounds;
 import cn.alphahub.mall.product.domain.*;
 import cn.alphahub.mall.product.feign.SearchClient;
@@ -313,10 +313,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfo> impl
                 Long skuId = skuInfo.getSkuId();
                 List<Images> skuImages = sku.getImages();
                 List<SkuImages> skuImagesList = skuImages.stream().map(img -> SkuImages.builder()
-                        .skuId(skuId)
-                        .defaultImg(img.getDefaultImg())
-                        .imgUrl(img.getImgUrl())
-                        .build())
+                                .skuId(skuId)
+                                .defaultImg(img.getDefaultImg())
+                                .imgUrl(img.getImgUrl())
+                                .build())
                         .filter(img -> StringUtils.isNotBlank(img.getImgUrl()))
                         .collect(Collectors.toList());
                 // 5.2）、sku的图片信息；pms_sku_image

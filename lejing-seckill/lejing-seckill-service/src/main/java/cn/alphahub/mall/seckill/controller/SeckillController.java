@@ -1,6 +1,6 @@
 package cn.alphahub.mall.seckill.controller;
 
-import cn.alphahub.common.core.domain.Result;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.seckill.service.SeckillService;
 import cn.hutool.json.JSONUtil;

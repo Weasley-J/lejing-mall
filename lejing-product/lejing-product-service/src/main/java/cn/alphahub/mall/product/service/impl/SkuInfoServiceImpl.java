@@ -1,8 +1,8 @@
 package cn.alphahub.mall.product.service.impl;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.SeckillSkuRelation;
 import cn.alphahub.mall.product.domain.SkuImages;
 import cn.alphahub.mall.product.domain.SkuInfo;

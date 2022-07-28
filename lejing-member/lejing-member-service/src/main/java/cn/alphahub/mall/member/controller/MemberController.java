@@ -2,12 +2,12 @@ package cn.alphahub.mall.member.controller;
 
 import cn.alphahub.common.annotations.Syslog;
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
 import cn.alphahub.common.enums.CheckUserExistsStatus;
+import cn.alphahub.common.exception.BizException;
 import cn.alphahub.mall.auth.domain.SocialUser;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.coupon.domain.Coupon;
 import cn.alphahub.mall.member.domain.Member;
 import cn.alphahub.mall.member.domain.MemberLevel;
@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,13 +37,35 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("member/member")
-public class MemberController extends BaseController {
+public class MemberController {
     @Resource
     private MemberService memberService;
     @Resource
     private CouponClient couponClient;
     @Resource
     private MemberLevelService memberLevelService;
+
+    /**
+     * feign远程调用通过原实体类class对象获取Result分装data体里面的原型数据
+     *
+     * @param result       Result分装结果集
+     * @param requiredType Result分装的data体里面实体类的class对象
+     * @param <T>          类对象实体
+     * @return 转换后的对象实体数据
+     * @since 2021年2月8日23:09:20
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T doConvertType(@NotNull Result<?> result, @NotNull Class<T> requiredType) {
+        Object data = result.getData();
+        if (ObjectUtils.allNull(data)) {
+            throw new BizException("传入数据为空！");
+        }
+        if (requiredType.isInstance(data)) {
+            return (T) data;
+        } else {
+            throw new BizException("类型换换异常，请检查转换的类型与所需类型是否一致！");
+        }
+    }
 
     /**
      * 查询会员列表
@@ -117,7 +140,7 @@ public class MemberController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Member member) {
         boolean update = memberService.updateById(member);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -129,7 +152,7 @@ public class MemberController extends BaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberService.removeByIds(Arrays.asList(ids));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 
     /**
@@ -141,6 +164,7 @@ public class MemberController extends BaseController {
     @GetMapping("/coupon/{couponId}")
     public Coupon getMemberCoupon(@PathVariable("couponId") Long couponId) {
         Result<Coupon> info = couponClient.info(couponId);
+
         return ObjectUtils.isNotEmpty(info) ? doConvertType(info, Coupon.class) : null;
     }
 

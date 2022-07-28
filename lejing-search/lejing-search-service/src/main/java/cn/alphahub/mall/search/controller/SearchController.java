@@ -1,9 +1,8 @@
 package cn.alphahub.mall.search.controller;
 
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.enums.BizCodeEnum;
 import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.pojo.SearchParam;
 import cn.alphahub.mall.search.pojo.SearchResult;
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-public class SearchController extends BaseController {
+public class SearchController {
 
     @Resource
     private SearchService searchService;

@@ -14,7 +14,9 @@ package io.renren.common.utils;
  * @author Mark sunlightcs@gmail.com
  */
 public class Constant {
-    /** 超级管理员ID */
+    /**
+     * 超级管理员ID
+     */
     public static final int SUPER_ADMIN = 1;
     /**
      * 当前页码
@@ -33,7 +35,7 @@ public class Constant {
      */
     public static final String ORDER = "order";
     /**
-     *  升序
+     * 升序
      */
     public static final String ASC = "asc";
 

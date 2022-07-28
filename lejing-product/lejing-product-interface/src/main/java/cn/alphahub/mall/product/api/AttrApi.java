@@ -1,7 +1,7 @@
 package cn.alphahub.mall.product.api;
 
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Attr;
 import cn.alphahub.mall.product.domain.ProductAttrValue;
 import cn.alphahub.mall.product.vo.AttrRespVO;

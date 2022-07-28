@@ -86,12 +86,12 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionMap
         List<MemberPriceTo> memberPriceList = reductionTO.getMemberPrice();
         if (CollectionUtils.isNotEmpty(memberPriceList)) {
             List<MemberPrice> memberPrices = memberPriceList.stream().map(item -> MemberPrice.builder()
-                    .skuId(reductionTO.getSkuId())
-                    .memberLevelId(item.getId())
-                    .memberLevelName(item.getName())
-                    .memberPrice(item.getPrice())
-                    .addOther(1)
-                    .build())
+                            .skuId(reductionTO.getSkuId())
+                            .memberLevelId(item.getId())
+                            .memberLevelName(item.getName())
+                            .memberPrice(item.getPrice())
+                            .addOther(1)
+                            .build())
                     .filter(memberPrice -> memberPrice.getMemberPrice().compareTo(BigDecimal.ZERO) > 0)
                     .collect(Collectors.toList());
             memberPriceService.saveBatch(memberPrices);

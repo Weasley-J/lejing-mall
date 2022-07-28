@@ -1,10 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.controller.BaseController;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Category;
 import cn.alphahub.mall.product.service.CategoryService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("product/category")
-public class CategoryController extends BaseController {
+public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
@@ -85,7 +84,7 @@ public class CategoryController extends BaseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody Category category) {
         boolean save = categoryService.save(category);
-        return toOperationResult(save);
+        return Result.ok(save);
     }
 
     /**
@@ -97,7 +96,7 @@ public class CategoryController extends BaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Category category) {
         boolean update = categoryService.updateCasecade(category);
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -109,7 +108,7 @@ public class CategoryController extends BaseController {
     @PutMapping("/update/sort")
     public Result<Boolean> updateSort(@RequestBody Category[] categories) {
         boolean update = categoryService.updateBatchById(Arrays.asList(categories));
-        return toOperationResult(update);
+        return Result.ok(update);
     }
 
     /**
@@ -121,6 +120,6 @@ public class CategoryController extends BaseController {
     @DeleteMapping("/delete/{catIds}")
     public Result<Boolean> delete(@PathVariable Long[] catIds) {
         boolean delete = categoryService.removeMenusByIds(Arrays.asList(catIds));
-        return toOperationResult(delete);
+        return Result.ok(delete);
     }
 }
