@@ -35,7 +35,7 @@ docker run --name zipkin --restart=always \
   -p 9411:9411 \
   -e JAVA_OPTS="-Xms512m -Xmx512m" \
   -e STORAGE_TYPE="mysql" \
-  -e MYSQL_HOST="192.168.31.106" \
+  -e MYSQL_HOST="192.168.31.23" \
   -e MYSQL_TCP_PORT="3306" \
   -e MYSQL_DB="zipkin" \
   -e MYSQL_USER="root" \

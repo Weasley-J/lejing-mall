@@ -4,7 +4,7 @@ spring:
       #控制api文档访问, smart-doc生成的html静态api文档
       add-mappings: on
   rabbitmq:
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 5672
     username: lejing
     password: 123456
@@ -14,7 +14,7 @@ spring:
       exchange: LEJING.SMS.EXCHANGE
   redis:
     database: 0
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 6379
     password: 123456
     timeout: 6000ms

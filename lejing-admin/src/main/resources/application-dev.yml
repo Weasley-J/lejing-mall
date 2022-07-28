@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.106:3306/lejing_admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.31.23:3306/lejing_admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
   ##多数据源的配置
@@ -20,16 +20,16 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.31.106:8848
+        server-addr: 192.168.31.23:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.106:8087
+        dashboard: 192.168.31.23:8087
 
   redis:
     open: false  # 是否开启redis缓存  true开启   false关闭
     database: 0
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 6379
     password: 123456
     timeout: 6000ms  # 连接超时时长（毫秒）

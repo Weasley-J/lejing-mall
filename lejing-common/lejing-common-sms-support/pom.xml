@@ -15,9 +15,8 @@
     <description>公共模块：多短信模板、多短信供应商支持模块</description>
 
     <properties>
-        <spring-boot.version>2.5.5</spring-boot.version>
         <lombok.version>1.18.20</lombok.version>
-        <hutool-all.version>5.7.13</hutool-all.version>
+        <hutool-all.version>5.8.4</hutool-all.version>
         <aliyun.sdk.version>4.5.22</aliyun.sdk.version>
         <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
         <tencentcloud.sms.version>3.1.367</tencentcloud.sms.version>
@@ -40,14 +39,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure-processor</artifactId>
             <optional>true</optional>
-            <version>${spring-boot.version}</version>
         </dependency>
         <!-- @ConfigurationProperties annotation processing (metadata for IDEs) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-            <version>${spring-boot.version}</version>
         </dependency>
         <!-- spring boot starter -->
         <dependency>
@@ -66,10 +63,6 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
         </dependency>
@@ -78,7 +71,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- hutool -->
@@ -106,7 +98,6 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-            <version>${aliyun.dysmsapi.version}</version>
         </dependency>
         <!-- 腾讯云短信SDK -->
         <dependency>

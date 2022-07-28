@@ -4,7 +4,7 @@ logging:
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.106:3306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.31.23:3306/lejing_oms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
   web:
@@ -13,7 +13,7 @@ spring:
       add-mappings: on
   #redis配置
   redis:
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 6379
     password: 123456
     database: 0
@@ -21,9 +21,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.31.106:8848
+        server-addr: 192.168.31.23:8848
   rabbitmq:
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 5672
     username: lejing
     password: 123456

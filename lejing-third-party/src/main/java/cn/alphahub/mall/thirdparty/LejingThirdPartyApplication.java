@@ -4,6 +4,7 @@ import cn.alphahub.mall.sms.annotation.EnableSmsSupport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.commons.httpclient.HttpClientConfiguration;
 
 /**
  * 乐璟商城-三方服务
@@ -13,7 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableSmsSupport
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"})
+@SpringBootApplication(scanBasePackages = {"cn.alphahub.mall"}, exclude = {HttpClientConfiguration.class})
 public class LejingThirdPartyApplication {
 
     public static void main(String[] args) {

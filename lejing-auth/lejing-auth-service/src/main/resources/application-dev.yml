@@ -11,7 +11,7 @@ spring:
       config:
         #namespace做环境隔离
         namespace: acae20ec-5e2b-4e9e-92bb-cb985a7e0f9e
-        server-addr: 192.168.31.106:8848
+        server-addr: 192.168.31.23:8848
         refresh-enabled: true
         #垃圾nacos特么居然严格区分yaml和yml
         file-extension: yml
@@ -28,9 +28,9 @@ spring:
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.106:8087
+        dashboard: 192.168.31.23:8087
   zipkin:
-    base-url: http://192.168.31.106:9411
+    base-url: http://192.168.31.23:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -44,12 +44,12 @@ spring:
     timeout: 30m
   redis:
     database: 0
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 6379
     password: 123456
     timeout: 6000ms
   rabbitmq:
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 5672
     username: lejing
     password: 123456

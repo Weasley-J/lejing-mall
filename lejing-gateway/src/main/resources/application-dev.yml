@@ -2,11 +2,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.31.106:8848
+        server-addr: 192.168.31.23:8848
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.106:8087
+        dashboard: 192.168.31.23:8087
       scg:
         fallback:
           response-status: 400
@@ -16,7 +16,7 @@ spring:
       max-file-size: 200MB
       max-request-size: 200MB
   zipkin:
-    base-url: http://192.168.31.106:9411
+    base-url: http://192.168.31.23:9411
     discovery-client-enabled: off
     sender:
       type: web

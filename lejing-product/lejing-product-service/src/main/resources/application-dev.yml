@@ -5,24 +5,24 @@ spring:
       add-mappings: on
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.31.106:3306/lejing_pms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://192.168.31.23:3306/lejing_pms?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&allowMultiQueries=true
     username: root
     password: 123456
   cloud:
     nacos:
-      server-addr: 192.168.31.106:8848
+      server-addr: 192.168.31.23:8848
       discovery:
         server-addr: ${spring.cloud.nacos.server-addr}
     sentinel:
       transport:
         port: 8719
-        dashboard: 192.168.31.106:8087
+        dashboard: 192.168.31.23:8087
     alibaba:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
         tx-service-group: lejing_tx_group
   zipkin:
-    base-url: http://192.168.31.106:9411
+    base-url: http://192.168.31.23:9411
     discovery-client-enabled: off
     sender:
       type: web
@@ -39,7 +39,7 @@ spring:
     timeout: 30m
   #redis配置
   redis:
-    host: 192.168.31.106
+    host: 192.168.31.23
     port: 6379
     password: 123456
     client-name: LEJING_REDIS
