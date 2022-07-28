@@ -1,5 +1,6 @@
 package cn.alphahub.mall.thirdparty.oss.controller;
 
+import cn.alphahub.common.util.JSONUtil;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.thirdparty.config.AliyunConfig;
 import cn.alphahub.mall.thirdparty.oss.domain.OssServerSignature;
@@ -101,6 +102,7 @@ public class OssPolicyController {
         } finally {
             ossClient.shutdown();
         }
+        log.info("{}", JSONUtil.toJsonStr(ossServerSignature));
         return Result.ok(ossServerSignature);
     }
 }
