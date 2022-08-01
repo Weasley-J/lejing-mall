@@ -21,7 +21,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
         <mysql.version>8.0.28</mysql.version>
-        <mssql.version>4.0</mssql.version>
         <oracle.version>11.2.0.4</oracle.version>
         <quartz.version>2.3.2</quartz.version>
         <commons-lang3.version>3.11</commons-lang3.version>
@@ -110,8 +109,8 @@
         <!--mssql驱动-->
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <version>${mssql.version}</version>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!--postgresql驱动-->

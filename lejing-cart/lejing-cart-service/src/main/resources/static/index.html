@@ -6,7 +6,7 @@
     <meta content="smart-doc" name="generator">
     <title>lejing-cart-service</title>
     <link href="font.css" rel="stylesheet">
-    <link href="AllInOne.css?v=1659008061689" rel="stylesheet"/>
+    <link href="AllInOne.css?v=1659363518106" rel="stylesheet"/>
     <link href="xt256.min.css" rel="stylesheet">
     <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
         background: #000
@@ -98,16 +98,16 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                     class="anchor" href="#_1_1_1_获取当前用户的购物车商品项"></a><a class="link"
                                                                                     href="#_1_1_1_获取当前用户的购物车商品项">1.1.&nbsp;获取当前用户的购物车商品项</a>
             </h3>
-                <div class="paragraph" id="bb12b0ea9fa5023dc5b38348e1526ed7-url"
-                     data-url="http://localhost:40000/currentUserCartItems" data-download="false" data-page=""><p>
-                    <strong>URL:</strong><a href="http://localhost:40000/currentUserCartItems" class="bare">&nbsp;http://localhost:40000/currentUserCartItems</a>
-                </p></div>
-                <div class="paragraph" id="bb12b0ea9fa5023dc5b38348e1526ed7-method" data-method="GET"><p>
+                <div class="paragraph" data-download="false" data-page=""
+                     data-url="http://localhost:40000/currentUserCartItems" id="bb12b0ea9fa5023dc5b38348e1526ed7-url">
+                    <p><strong>URL:</strong><a class="bare" href="http://localhost:40000/currentUserCartItems">&nbsp;http://localhost:40000/currentUserCartItems</a>
+                    </p></div>
+                <div class="paragraph" data-method="GET" id="bb12b0ea9fa5023dc5b38348e1526ed7-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
-                <div class="paragraph" id="bb12b0ea9fa5023dc5b38348e1526ed7-content-type"
-                     data-content-type="application/x-www-form-urlencoded;charset=UTF-8"><p>
-                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
+                <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
+                     id="bb12b0ea9fa5023dc5b38348e1526ed7-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
+                </p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;获取当前用户的购物车商品项</p></div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -185,16 +185,16 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="listingblock">
                     <div class="content" id="bb12b0ea9fa5023dc5b38348e1526ed7-response"><pre><code class="json">[
   {
-    "skuId": 891,
+    "skuId": 628,
     "check": true,
-    "title": "odnx54",
-    "image": "m9oehk",
+    "title": "3h1tq5",
+    "image": "157xbc",
     "skuAttrValues": [
-      "soivmc"
+      "wa5ngi"
     ],
-    "price": 547,
-    "count": 674,
-    "totalPrice": 65
+    "price": 674,
+    "count": 922,
+    "totalPrice": 929
   }
 ]</code></pre></div></div><div class="paragraph"><p><strong>Curl-example:</strong></p></div><div class="listingblock"><div class="content"id="bb12b0ea9fa5023dc5b38348e1526ed7-curl"><pre><code class="bash">curl -X GET -i http://localhost:40000/currentUserCartItems</code></pre></div></div></div><div class="sect2"id="64435c637da0eb30db67da7291782e37"><h3 id="_1_1_2_去购物车页面的请求
 浏览器有一个cookie:user-key 标识用户的身份，一个月过期
@@ -210,7 +210,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
 <p>
 登录：session有
 没登录：按照cookie里面带来user-key来做
-第一次，如果没有临时用户，自动创建一个临时用户"></a><a class="link"href="#_1_1_2_去购物车页面的请求
+第一次，如果没有临时用户，自动创建一个临时用户"></a><a class="link" href="#_1_1_2_去购物车页面的请求
 浏览器有一个cookie:user-key 标识用户的身份，一个月过期
 如果第一次使用jd的购物车功能，都会给一个临时的用户身份:
 浏览器以后保存，每次访问都会带上这个cookie；
@@ -219,15 +219,15 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
 没登录：按照cookie里面带来user-key来做
 第一次，如果没有临时用户，自动创建一个临时用户">1.2.&nbsp;去购物车页面的请求<br>浏览器有一个cookie:user-key 标识用户的身份，一个月过期<br>如果第一次使用jd的购物车功能，都会给一个临时的用户身份:<br>浏览器以后保存，每次访问都会带上这个cookie；<br><br>登录：session有<br>没登录：按照cookie里面带来user-key来做<br>第一次，如果没有临时用户，自动创建一个临时用户</a>
         </h3>
-            <div class="paragraph" id="64435c637da0eb30db67da7291782e37-url" data-url="http://localhost:40000/cart.html"
-                 data-download="false" data-page=""><p><strong>URL:</strong><a href="http://localhost:40000/cart.html"
-                                                                               class="bare">&nbsp;http://localhost:40000/cart.html</a>
+            <div class="paragraph" data-download="false" data-page="" data-url="http://localhost:40000/cart.html"
+                 id="64435c637da0eb30db67da7291782e37-url"><p><strong>URL:</strong><a class="bare"
+                                                                                      href="http://localhost:40000/cart.html">&nbsp;http://localhost:40000/cart.html</a>
             </p></div>
-            <div class="paragraph" id="64435c637da0eb30db67da7291782e37-method" data-method="GET"><p>
+            <div class="paragraph" data-method="GET" id="64435c637da0eb30db67da7291782e37-method"><p>
                 <strong>Type:</strong>&nbsp;GET</p></div>
             <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
-            <div class="paragraph" id="64435c637da0eb30db67da7291782e37-content-type"
-                 data-content-type="application/x-www-form-urlencoded;charset=UTF-8"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
+            <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
+                 id="64435c637da0eb30db67da7291782e37-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
             </p></div>
             <div class="paragraph"><p><strong>Description:</strong>&nbsp;去购物车页面的请求<br>浏览器有一个cookie:user-key
                 标识用户的身份，一个月过期<br>如果第一次使用jd的购物车功能，都会给一个临时的用户身份:<br>浏览器以后保存，每次访问都会带上这个cookie；<br><br>登录：session有<br>没登录：按照cookie里面带来user-key来做<br>第一次，如果没有临时用户，自动创建一个临时用户
@@ -308,7 +308,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="741"/></p>
+                                                                                                   value="945"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -325,7 +325,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">num</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="num"
                                                                                                    type="text"
-                                                                                                   value="301"/></p>
+                                                                                                   value="330"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -378,7 +378,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="79fe35cc9d2974e8bc14c2eccc301b31-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:40000/addCartItem?skuId=741&num=301 --data '&741&301'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:40000/addCartItem?skuId=945&num=330 --data '&945&330'</code></pre>
                     </div>
                 </div>
             </div>
@@ -435,7 +435,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="139"/></p>
+                                                                                                   value="134"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -457,7 +457,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="8bcc11c4015ddb5b03531eef524064e5-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:40000/addCartSuccess.html?skuId=139 --data '&139'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:40000/addCartSuccess.html?skuId=134 --data '&134'</code></pre>
                     </div>
                 </div>
             </div>
@@ -513,7 +513,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="674"/></p>
+                                                                                                   value="914"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -530,7 +530,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">checked</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="checked"
                                                                                                    type="text"
-                                                                                                   value="223"/></p>
+                                                                                                   value="342"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -553,7 +553,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="b23aaac533b7d7ca780547bdb66c7ee8-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:40000/checkItem?skuId=674&checked=223 --data '&674&223'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:40000/checkItem?skuId=914&checked=342 --data '&914&342'</code></pre>
                     </div>
                 </div>
             </div>
@@ -610,7 +610,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="246"/></p>
+                                                                                                   value="206"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -627,7 +627,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">num</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="num"
                                                                                                    type="text"
-                                                                                                   value="198"/></p>
+                                                                                                   value="596"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -649,7 +649,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="909cfddc2da5a89114ca6447a7a66a46-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:40000/countItem?skuId=246&num=198 --data '&246&198'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:40000/countItem?skuId=206&num=596 --data '&206&596'</code></pre>
                     </div>
                 </div>
             </div>
@@ -705,7 +705,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="464"/></p>
+                                                                                                   value="802"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -728,7 +728,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                 <div class="listingblock">
                     <div class="content" id="7e3cd11815f76143c0ee6af500ccd5b2-curl">
                         <pre><code
-                                class="bash">curl -X GET -i http://localhost:40000/deleteItem?skuId=464 --data '&464'</code></pre>
+                                class="bash">curl -X GET -i http://localhost:40000/deleteItem?skuId=802 --data '&802'</code></pre>
                     </div>
                 </div>
             </div>
@@ -1014,7 +1014,7 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
             </div>
         </div>
     </div>
-    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-07-28 19:34:21</span><span
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-08-01 22:18:38</span><span
             class="footer-modification">Suggestions,contact,support and error reporting on<a
             href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
             href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
@@ -1022,8 +1022,8 @@ attributes.addAttribute():将数据放在url后面">1.3.&nbsp;添加商品到购
                                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABlUlEQVRIS+2UvUvDQBiH398Rly4udnARwUXs4qAIOigI4iL30dTZ2T9AcNPVvUsXF7uYttdScNDFRRAnB11cFFwKxcXBJTQnJ6lEbRI/CIiY9e6e5/e+9+ZAGX/ImE9/QKCU2jfGbGTQqq4xZgtSyisiKmQgIAAVCCFWAGxnIOhqrdd/xyUrpRZsP40xSwA6AI57vd5eq9W6T6s8tQIppSKi+gDQNREprfVNkiRRwDlfY4xZ+FAIuSOi8Qjw0nEc5XnebZwkViClXA2T5+xhY8xus9ncEUJMAziITN5FEARuXLsGCoQQywBs8uEovJ+Scz7FGDuMSM4cx3E9z+u8r+SDQEq5SEQ1IhoZBE+QnBKRq7V+iEreCDjn84wxCx9NgidITnK5nFutVh/7e14FSqnZIAhqAMY+A4+TADjyfb/Ubref7J4XQXhxNvnEV+AJlbTy+XypUqn4KBaLBZuciCa/A0+opN5oNFz7FpUBbP4EHicxxsyAcz7HGDvvz3nar5+2Ho5wOQwsU5+KNGDa+r8grUP0DBLjtRtNKEliAAAAAElFTkSuQmCC"><span
             id="upText">Top</span></div>
 </div>
-<script src="debug.js?v=1659008061689"></script>
-<script src="search.js?v=1659008061689"></script>
+<script src="debug.js?v=1659363518106"></script>
+<script src="search.js?v=1659363518106"></script>
 <script>$(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() > 100) {
