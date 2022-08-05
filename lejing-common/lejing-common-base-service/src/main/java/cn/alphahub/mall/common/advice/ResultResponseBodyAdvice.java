@@ -73,7 +73,7 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
 
-        if ((body instanceof AbstractResult)) {
+        if (body instanceof AbstractResult) {
             if (((AbstractResult<?>) body).getTraceId() == null) {
                 ((AbstractResult<?>) body).setTraceId(traceId);
                 return body;
