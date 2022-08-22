@@ -1,6 +1,6 @@
 # 全局埋traceId追踪线上问题快速指南
 
-## 1 找到`lejing-mall`的[`logback-spring.xml`](https://github.com/Weasley-J/lejing-mall/blob/main/lejing-common/lejing-common-util/src/main/resources/logback-spring.xml)粘贴复制你的项目
+## 1 找到`lejing-mall`的[`logback-spring.xml`](https://github.com/Weasley-J/lejing-mall/blob/main/lejing-common/lejing-common-util/src/main/resources/logback-spring.xml)粘贴复制到你的项目
 
 提示：`LOGSTASH`相关的配置打开即可
 
