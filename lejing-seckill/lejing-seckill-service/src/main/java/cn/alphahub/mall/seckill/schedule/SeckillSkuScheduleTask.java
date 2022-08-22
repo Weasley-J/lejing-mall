@@ -42,11 +42,13 @@ public class SeckillSkuScheduleTask {
     public void onShelveSeckillSkuLatest3Days() {
         log.warn("上架最近三天的秒杀商品.");
         RLock rLock = redissonClient.getLock(SeckillConstant.CACHE_PREFIX_SKU_ON_SHELF_LOCK + this.getClass().getTypeName());
-        rLock.lock(10, TimeUnit.SECONDS);
+        rLock.lock(5, TimeUnit.SECONDS);
         try {
             seckillService.onShelveSeckillSkuLatest3Days();
+        } catch (Exception e) {
+            log.error("{}", e.getLocalizedMessage(), e);
         } finally {
-            if (rLock.isHeldByCurrentThread()) {
+            if (rLock.isLocked() && rLock.isHeldByCurrentThread()) {
                 rLock.unlock();
             }
         }
