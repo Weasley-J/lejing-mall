@@ -79,7 +79,7 @@
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
         <alipay-sdk-java.version>4.31.28.ALL</alipay-sdk-java.version>
-        <redisson.version>3.17.4</redisson.version>
+        <redisson.version>3.17.5</redisson.version>
         <elasticsearch.version>7.17.0</elasticsearch.version>
         <logstash.logback.version>7.2</logstash.logback.version>
         <easypoi.starter.version>4.4.0</easypoi.starter.version>
@@ -288,7 +288,7 @@
                 <version>${lombok-mapstruct-binding.version}</version>
             </dependency>
             <!-- redisson启动器 -->
-            <!--https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter-->
+            <!-- https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
