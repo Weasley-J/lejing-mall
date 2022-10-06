@@ -11,28 +11,31 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "prepublish": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "babel-plugin-component": "0.10.1",
     "babel-polyfill": "6.26.0",
     "element-ui": "2.8.2",
-    "gulp": "3.9.1",
+    "gulp": "4.0.0",
     "gulp-concat": "2.6.1",
     "gulp-load-plugins": "1.6.0",
     "gulp-replace": "0.6.1",
     "gulp-shell": "0.8.0",
     "lodash": "^4.17.20",
-    "node-sass": "^4.14.1",
-    "npm": "^6.9.0",
+    "node-sass": "^7.0.2",
+    "npm": "^7.21.0",
     "pubsub-js": "^1.9.3",
     "sass-loader": "^7.3.1",
     "svg-sprite-loader": "3.7.3",
-    "vue": "2.5.16",
+    "vue": "2.5.17",
     "vue-cookie": "1.1.4",
     "vue-router": "3.0.1",
-    "vuex": "3.0.1"
+    "vuex": "3.0.1",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -97,5 +100,6 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "snyk": true
 }
