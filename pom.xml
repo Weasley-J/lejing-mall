@@ -56,9 +56,9 @@
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis.plus.version>3.5.2</mybatis.plus.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
-        <pageHelper.starter.version>1.4.3</pageHelper.starter.version>
+        <pageHelper.starter.version>1.4.5</pageHelper.starter.version>
         <druid.stater.version>1.2.11</druid.stater.version>
-        <pagehelper.version>5.3.1</pagehelper.version>
+        <pagehelper.version>5.3.2</pagehelper.version>
         <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
         <shiro.starter.version>1.9.1</shiro.starter.version>
         <fastjson.version>1.2.79</fastjson.version>
@@ -89,7 +89,7 @@
         <kryo-kryo-version>2.24.0</kryo-kryo-version>
         <kryo-version>4.0.2</kryo-version>
         <kryo-serializers.version>0.45</kryo-serializers.version>
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <easyexcel.version>3.1.1</easyexcel.version>
         <nacos.version>2.0.3</nacos.version>
