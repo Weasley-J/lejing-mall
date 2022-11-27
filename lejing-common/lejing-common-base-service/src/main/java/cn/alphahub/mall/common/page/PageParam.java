@@ -1,8 +1,9 @@
-package cn.alphahub.mall.common.entity;
+package cn.alphahub.mall.common.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 public class PageParam implements Serializable {
     /**
      * 当前页码
