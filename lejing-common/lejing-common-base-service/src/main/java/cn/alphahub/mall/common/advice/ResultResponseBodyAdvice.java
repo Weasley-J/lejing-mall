@@ -5,7 +5,7 @@ import cn.alphahub.mall.common.constant.BizConstant;
 import cn.alphahub.mall.common.constant.FrameworkConstant;
 import cn.alphahub.mall.common.core.abstraction.AbstractResult;
 import cn.alphahub.mall.common.core.domain.Result;
-import cn.alphahub.mall.common.entity.EscapeResultWrapper;
+import cn.alphahub.mall.common.entity.EscapeWrapper;
 import cn.hutool.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * traceId处理切面类
+ * Result全局处理类
  *
  * @author weasley
  * @version 1.0
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  */
 @RestControllerAdvice(value = {BizConstant.basePackage})
 public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
 
     /**
      * Whether this component supports the given controller method return type
@@ -65,8 +65,8 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return result;
         }
 
-        if (body instanceof EscapeResultWrapper) {
-            return ((EscapeResultWrapper<?>) body).getData();
+        if (body instanceof EscapeWrapper) {
+            return ((EscapeWrapper<?>) body).getData();
         }
 
         if (body instanceof EscapeResult) {

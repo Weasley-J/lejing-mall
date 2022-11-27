@@ -38,6 +38,10 @@
             <groupId>cn.alphahub.mall.common</groupId>
             <artifactId>lejing-common-base-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
         <!-- 会员服务feign远程接口 -->
         <dependency>
             <groupId>cn.alphahub.mall</groupId>

@@ -42,6 +42,10 @@
             <groupId>cn.alphahub.mall</groupId>
             <artifactId>lejing-member-interface</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
+        </dependency>
         <!-- 项目内部结束 -->
         <!-- spring boot测试 -->
         <dependency>

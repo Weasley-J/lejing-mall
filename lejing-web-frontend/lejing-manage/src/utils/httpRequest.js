@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from '@/router'
 import qs from 'qs'
 import merge from 'lodash/merge'
-import { clearLoginInfo } from '@/utils'
+import {clearLoginInfo} from '@/utils'
 
 const http = axios.create({
   timeout: 1000 * 30,

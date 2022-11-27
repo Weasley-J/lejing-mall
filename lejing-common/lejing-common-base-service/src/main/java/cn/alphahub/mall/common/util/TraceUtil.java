@@ -18,6 +18,6 @@ public class TraceUtil {
      * @return 返回8位的随机字符串（只包含数字和字符)
      */
     public static String getTraceId() {
-        return RandomStringUtils.randomAlphanumeric(8);
+        return RandomStringUtils.randomAlphanumeric(10);
     }
 }

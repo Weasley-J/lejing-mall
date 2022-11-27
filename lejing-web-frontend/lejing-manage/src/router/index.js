@@ -7,8 +7,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import http from '@/utils/httpRequest'
-import { isURL } from '@/utils/validate'
-import { clearLoginInfo } from '@/utils'
+import {isURL} from '@/utils/validate'
+import {clearLoginInfo} from '@/utils'
 
 Vue.use(Router)
 
@@ -17,8 +17,8 @@ const _import = require('./import-' + process.env.NODE_ENV)
 
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
-  { path: '/404', component: _import('common/404'), name: '404', meta: { title: '404未找到' } },
-  { path: '/login', component: _import('common/login'), name: 'login', meta: { title: '登录' } }
+  {path: '/404', component: _import('common/404'), name: '404', meta: {title: '404未找到'}},
+  {path: '/login', component: _import('common/login'), name: 'login', meta: {title: '登录'}}
 ]
 
 // 主入口路由(需嵌套上左右整体布局)

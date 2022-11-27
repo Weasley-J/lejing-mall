@@ -10,18 +10,19 @@
 </template>
 
 <script>
-  import isArray from 'lodash/isArray'
-  export default {
-    name: 'table-tree-column',
-    props: {
-      prop: {
-        type: String
-      },
-      treeKey: {
-        type: String,
-        default: 'id'
-      },
-      parentKey: {
+import isArray from 'lodash/isArray'
+
+export default {
+  name: 'table-tree-column',
+  props: {
+    prop: {
+      type: String
+    },
+    treeKey: {
+      type: String,
+      default: 'id'
+    },
+    parentKey: {
         type: String,
         default: 'parentId'
       },

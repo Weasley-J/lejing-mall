@@ -14,7 +14,7 @@ import cn.alphahub.mall.common.constant.BizConstant;
 import cn.alphahub.mall.common.constant.FrameworkConstant;
 import cn.alphahub.mall.common.core.abstraction.AbstractResult;
 import cn.alphahub.mall.common.core.domain.Result;
-import cn.alphahub.mall.common.entity.EscapeResultWrapper;
+import cn.alphahub.mall.common.entity.EscapeWrapper;
 import cn.hutool.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +74,8 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return result;
         }
 
-        if (body instanceof EscapeResultWrapper) {
-            return ((EscapeResultWrapper<?>) body).getData();
+        if (body instanceof EscapeWrapper) {
+            return ((EscapeWrapper<?>) body).getData();
         }
 
         if (body instanceof EscapeResult) {
