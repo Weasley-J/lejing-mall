@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 分页工具
+ * 分页工具类
  * <p>
  * <b>分页示例</b>
  * <pre>
@@ -40,8 +40,7 @@ import java.util.Objects;
  *     return render;
  *   }
  * }
- *     </pre>
- * </p>
+ * </pre>
  */
 public final class PageHandler {
 
