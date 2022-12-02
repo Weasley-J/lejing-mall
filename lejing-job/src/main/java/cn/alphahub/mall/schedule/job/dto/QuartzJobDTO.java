@@ -1,9 +1,9 @@
 package cn.alphahub.mall.schedule.job.dto;
 
 import cn.alphahub.common.valid.annotation.Cron;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.Insert;
+import cn.alphahub.common.valid.group.Query;
 import cn.alphahub.mall.schedule.constant.ScheduleConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -38,7 +38,7 @@ public class QuartzJobDTO implements Serializable {
      * 任务ID
      */
     @JsonSerialize(using = ToStringSerializer.class)
-    @NotNull(message = "任务ID不能为空", groups = {EditGroup.class})
+    @NotNull(message = "任务ID不能为空", groups = {Edit.class})
     private Long id;
 
     /**
@@ -46,7 +46,7 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
+    @NotBlank(message = "任务名称不能为空", groups = {Insert.class, Edit.class, Query.class})
     private String jobName;
 
     /**
@@ -59,7 +59,7 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class, EditGroup.class})
+    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {Insert.class, Edit.class})
     private String jobClass;
 
     /**
@@ -77,8 +77,8 @@ public class QuartzJobDTO implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
-    @Cron(message = "cron表达式不正确,请填写正确的cron表达式", groups = {InsertGroup.class, EditGroup.class})
+    @NotBlank(message = "cron执行表达式不能为空", groups = {Insert.class, Edit.class})
+    @Cron(message = "cron表达式不正确,请填写正确的cron表达式", groups = {Insert.class, Edit.class})
     private String cronExpression;
 
     /**

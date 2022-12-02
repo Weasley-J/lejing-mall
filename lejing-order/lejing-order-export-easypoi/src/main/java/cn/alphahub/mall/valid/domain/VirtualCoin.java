@@ -3,10 +3,10 @@ package cn.alphahub.mall.valid.domain;
 import cn.alphahub.common.valid.annotation.DecimalRange;
 import cn.alphahub.common.valid.annotation.IncludeValue;
 import cn.alphahub.common.valid.annotation.ListValue;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.EditStatusGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.EditStatus;
+import cn.alphahub.common.valid.group.Insert;
+import cn.alphahub.common.valid.group.Query;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -28,21 +28,21 @@ public class VirtualCoin implements Serializable {
     /**
      * 会员id
      */
-    @NotNull(message = "会员id不能为空", groups = {InsertGroup.class, EditGroup.class, EditStatusGroup.class, QueryGroup.class})
+    @NotNull(message = "会员id不能为空", groups = {Insert.class, Edit.class, EditStatus.class, Query.class})
     private Long memberId;
     /**
      * 虚拟币金额: -12000 ~ 11000 之间
      */
-    @DecimalRange(min = "-12000", max = "11000", message = "虚拟币金额必须在区间[-12000,11000]内", groups = {InsertGroup.class, EditGroup.class})
+    @DecimalRange(min = "-12000", max = "11000", message = "虚拟币金额必须在区间[-12000,11000]内", groups = {Insert.class, Edit.class})
     private BigDecimal virtualValue;
     /**
      * 虚拟币收支类型:  INCOME 收入, EXPENDITURE 支出
      */
-    @IncludeValue(value = {"INCOME", "EXPENDITURE"}, message = "只能提交{INCOME,EXPENDITURE}内的字典值", groups = {InsertGroup.class, EditGroup.class})
+    @IncludeValue(value = {"INCOME", "EXPENDITURE"}, message = "只能提交{INCOME,EXPENDITURE}内的字典值", groups = {Insert.class, Edit.class})
     private String incomeExpenditureType;
     /**
      * 虚拟币状态: -1 失效, 0 冻结, 1 正常
      */
-    @ListValue(value = {-1, 0, 1}, message = "只能提交{-1, 0, 1}内的值", groups = {InsertGroup.class, EditGroup.class, EditStatusGroup.class})
+    @ListValue(value = {-1, 0, 1}, message = "只能提交{-1, 0, 1}内的值", groups = {Insert.class, Edit.class, EditStatus.class})
     private Integer status;
 }

@@ -1,6 +1,6 @@
 package cn.alphahub.mall.search.pojo;
 
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Query;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -63,7 +63,7 @@ public class SearchParam implements Serializable {
     /**
      * 当前页码
      */
-    @Range(min = 1, max = Integer.MAX_VALUE, groups = {QueryGroup.class}, message = "当前页码必须>0")
+    @Range(min = 1, max = Integer.MAX_VALUE, groups = {Query.class}, message = "当前页码必须>0")
     private Integer pageNum = 1;
 
     /**

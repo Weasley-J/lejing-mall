@@ -2,9 +2,9 @@ package cn.alphahub.mall.product.domain;
 
 import cn.alphahub.common.util.IdSerializer;
 import cn.alphahub.common.valid.annotation.ListValue;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.EditStatusGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.EditStatus;
+import cn.alphahub.common.valid.group.Insert;
 import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -41,8 +41,8 @@ public class Brand implements Serializable {
     /**
      * 品牌id
      */
-    @Null(message = "新增不能指定id", groups = {InsertGroup.class})
-    @NotNull(message = "修改必须指定id", groups = {EditGroup.class})
+    @Null(message = "新增不能指定id", groups = {Insert.class})
+    @NotNull(message = "修改必须指定id", groups = {Edit.class})
     @TableId
     @JsonSerialize(using = IdSerializer.class)
     private Long brandId;
@@ -50,15 +50,15 @@ public class Brand implements Serializable {
     /**
      * 品牌名
      */
-    @NotBlank(message = "品牌名不能为空", groups = {InsertGroup.class, EditGroup.class})
+    @NotBlank(message = "品牌名不能为空", groups = {Insert.class, Edit.class})
     @TableField(condition = SqlCondition.LIKE)
     private String name;
 
     /**
      * 品牌logo地址
      */
-    @NotBlank(groups = {InsertGroup.class})
-    @URL(message = "logo必须是一个合法的URL链接", groups = {InsertGroup.class, EditGroup.class})
+    @NotBlank(groups = {Insert.class})
+    @URL(message = "logo必须是一个合法的URL链接", groups = {Insert.class, Edit.class})
     private String logo;
 
     /**
@@ -69,22 +69,22 @@ public class Brand implements Serializable {
     /**
      * 显示状态[0-不显示；1-显示]
      */
-    @NotNull(groups = {InsertGroup.class, EditStatusGroup.class})
-    @ListValue(value = {0, 1}, groups = {InsertGroup.class, EditStatusGroup.class})
+    @NotNull(groups = {Insert.class, EditStatus.class})
+    @ListValue(value = {0, 1}, groups = {Insert.class, EditStatus.class})
     private Integer showStatus;
 
     /**
      * 检索首字母
      */
-    @NotBlank(groups = {InsertGroup.class})
-    @Pattern(regexp = "^[a-zA-Z]$", message = "检索首字母必须是一个a-z或A-Z的字母", groups = {InsertGroup.class, EditGroup.class})
+    @NotBlank(groups = {Insert.class})
+    @Pattern(regexp = "^[a-zA-Z]$", message = "检索首字母必须是一个a-z或A-Z的字母", groups = {Insert.class, Edit.class})
     private String firstLetter;
 
     /**
      * 排序
      */
-    @NotNull(groups = {InsertGroup.class})
-    @Min(value = 0, message = "排序值必须≥0", groups = {InsertGroup.class, EditGroup.class})
+    @NotNull(groups = {Insert.class})
+    @Min(value = 0, message = "排序值必须≥0", groups = {Insert.class, Edit.class})
     private Integer sort;
 
 }

@@ -25,16 +25,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * public static class JobDomain implements Serializable {
  *     private static final long serialVersionUID = 1L;
  *
- *     &#64;NotNull(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
+ *     &#64;NotNull(message = "任务名称不能为空", groups = {Insert.class, Edit.class, Query.class})
  *     private String jobName;
  *
  *     private String jobGroup;
  *
- *     &#64;NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class, EditGroup.class})
+ *     &#64;NotBlank(message = "任务执行类的全限定类名不能为空", groups = {Insert.class, Edit.class})
  *     private String jobClass;
  *
- *     &#64;NotBlank(message = "cron执行表达式不能为空", groups = {InsertGroup.class, EditGroup.class})
- *     &#64;Cron(message = "cron表达式不合法", groups = {InsertGroup.class, EditGroup.class})
+ *     &#64;NotBlank(message = "cron执行表达式不能为空", groups = {Insert.class, Edit.class})
+ *     &#64;Cron(message = "cron表达式不合法", groups = {Insert.class, Edit.class})
  *     private String cronExpression;
  * }
  * </pre>

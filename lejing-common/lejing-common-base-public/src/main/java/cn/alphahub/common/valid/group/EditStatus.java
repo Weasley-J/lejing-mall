@@ -7,5 +7,5 @@ package cn.alphahub.common.valid.group;
  * @author liuwenjing
  * @date 2021年4月21日10:11:06
  */
-public interface EditStatusGroup {
+public interface EditStatus {
 }

@@ -1,8 +1,8 @@
 package cn.alphahub.mall.schedule.job.dto.request;
 
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.Insert;
+import cn.alphahub.common.valid.group.Query;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +33,7 @@ public class SimpleScheduleJobRequest implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务名称不能为空", groups = {InsertGroup.class, EditGroup.class, QueryGroup.class})
+    @NotBlank(message = "任务名称不能为空", groups = {Insert.class, Edit.class, Query.class})
     private String jobName;
     /**
      * 定时任务所在组名（没有分组传值null）
@@ -46,7 +46,7 @@ public class SimpleScheduleJobRequest implements Serializable {
      *
      * @required
      */
-    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {InsertGroup.class})
+    @NotBlank(message = "任务执行类的全限定类名不能为空", groups = {Insert.class})
     private String jobClass;
     /**
      * 任务描述

@@ -3,8 +3,8 @@ package cn.alphahub.mall.schedule.job.controller;
 import cn.alphahub.common.annotations.Syslog;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.Insert;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.schedule.convertor.ScheduleConvertor;
 import cn.alphahub.mall.schedule.core.domain.QuartzParam;
@@ -72,7 +72,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PostMapping("/save")
-    public Result<Boolean> save(@RequestBody @Validated({InsertGroup.class}) QuartzJobDTO job) {
+    public Result<Boolean> save(@RequestBody @Validated({Insert.class}) QuartzJobDTO job) {
         return quartzJobService.save(job);
     }
 
@@ -94,7 +94,7 @@ public class ScheduleJobController {
      * @return success/error
      */
     @PutMapping("/edit")
-    public Result<Void> edit(@RequestBody @Validated({EditGroup.class}) QuartzJobDTO job) {
+    public Result<Void> edit(@RequestBody @Validated({Edit.class}) QuartzJobDTO job) {
         return quartzJobService.edit(job);
     }
 
@@ -255,7 +255,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PostMapping("/create/simple/job")
-    public Result<Boolean> createSimpleJob(@RequestBody @Validated({InsertGroup.class}) SimpleScheduleJobRequest request) {
+    public Result<Boolean> createSimpleJob(@RequestBody @Validated({Insert.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.createSimpleScheduleJob(param);
     }
@@ -271,7 +271,7 @@ public class ScheduleJobController {
      * @return ok
      */
     @PutMapping("/update/simple/job")
-    public Result<Boolean> updateSimpleJob(@RequestBody @Validated({EditGroup.class}) SimpleScheduleJobRequest request) {
+    public Result<Boolean> updateSimpleJob(@RequestBody @Validated({Edit.class}) SimpleScheduleJobRequest request) {
         QuartzParam param = scheduleConvertor.toQuartzParam(request);
         return quartzJobService.updateSimpleScheduleJob(param);
     }

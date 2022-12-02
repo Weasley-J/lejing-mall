@@ -1,9 +1,9 @@
 package cn.alphahub.mall.product.api;
 
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.EditStatusGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.EditStatus;
+import cn.alphahub.common.valid.group.Insert;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import org.springframework.validation.annotation.Validated;
@@ -71,7 +71,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("product/brand/save")
-    Result<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> save(@Validated({Insert.class}) @RequestBody Brand brand);
 
     /**
      * 修改品牌
@@ -80,7 +80,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/brand/update")
-    Result<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> update(@Validated({Edit.class}) @RequestBody Brand brand);
 
     /**
      * 修改品牌状态
@@ -89,7 +89,7 @@ public interface BrandApi {
      * @return 成功返回true, 失败返回false
      */
     @PutMapping("product/brand/update/status")
-    Result<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand);
+    Result<Boolean> updateStatus(@Validated({EditStatus.class}) @RequestBody Brand brand);
 
     /**
      * 批量删除品牌

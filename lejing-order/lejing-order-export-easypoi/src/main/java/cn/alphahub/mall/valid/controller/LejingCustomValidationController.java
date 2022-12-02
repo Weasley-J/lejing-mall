@@ -1,9 +1,9 @@
 package cn.alphahub.mall.valid.controller;
 
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.EditStatusGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.EditStatus;
+import cn.alphahub.common.valid.group.Insert;
+import cn.alphahub.common.valid.group.Query;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.valid.domain.VirtualCoin;
 import cn.hutool.json.JSONUtil;
@@ -49,7 +49,7 @@ public class LejingCustomValidationController {
      * @return 保存结果
      */
     @PostMapping("/save")
-    public Result<VirtualCoin> save(@Validated({InsertGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> save(@Validated({Insert.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("保存用户【{}】的虚拟币了，入参：{}", virtualCoin.getMemberId(), JSONUtil.toJsonPrettyStr(virtualCoin));
         return Result.ok(virtualCoin);
     }
@@ -74,7 +74,7 @@ public class LejingCustomValidationController {
      * @return 会员的虚拟货币明细
      */
     @GetMapping("/info/{memberId}")
-    public Result<VirtualCoin> info(@Validated({QueryGroup.class}) @PathVariable("memberId") Long memberId) {
+    public Result<VirtualCoin> info(@Validated({Query.class}) @PathVariable("memberId") Long memberId) {
         log.info("获取会员的虚拟货币明细:{}", memberId);
         return Result.ok(COIN_MAP.get(memberId));
     }
@@ -86,7 +86,7 @@ public class LejingCustomValidationController {
      * @return 修改结果
      */
     @PutMapping("/edit")
-    public Result<VirtualCoin> edit(@Validated({EditGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> edit(@Validated({Edit.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币信息:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
         return Result.ok(virtualCoin);
     }
@@ -98,7 +98,7 @@ public class LejingCustomValidationController {
      * @return 修改结果
      */
     @PutMapping("/edit/status")
-    public Result<VirtualCoin> editStatus(@Validated({EditStatusGroup.class}) @RequestBody VirtualCoin virtualCoin) {
+    public Result<VirtualCoin> editStatus(@Validated({EditStatus.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币扎状态:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
         return Result.ok(virtualCoin);
     }

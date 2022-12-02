@@ -3,9 +3,9 @@ package cn.alphahub.mall.product.controller.app;
 import cn.alphahub.common.constant.HttpStatus;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
-import cn.alphahub.common.valid.group.EditGroup;
-import cn.alphahub.common.valid.group.EditStatusGroup;
-import cn.alphahub.common.valid.group.InsertGroup;
+import cn.alphahub.common.valid.group.Edit;
+import cn.alphahub.common.valid.group.EditStatus;
+import cn.alphahub.common.valid.group.Insert;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.Brand;
 import cn.alphahub.mall.product.service.BrandService;
@@ -94,7 +94,7 @@ public class BrandController {
      * @return 成功返回true, 失败返回false
      */
     @PostMapping("/save")
-    public Result<Boolean> save(@Validated({InsertGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> save(@Validated({Insert.class}) @RequestBody Brand brand) {
         boolean save = brandService.save(brand);
         return Result.ok(save);
     }
@@ -107,7 +107,7 @@ public class BrandController {
      */
     @PutMapping("/update")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public Result<Boolean> update(@Validated({EditGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> update(@Validated({Edit.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
         return Result.ok(update);
     }
@@ -120,7 +120,7 @@ public class BrandController {
      */
     @PutMapping("/update/status")
     @CacheEvict(value = "product:brand", allEntries = true)
-    public Result<Boolean> updateStatus(@Validated({EditStatusGroup.class}) @RequestBody Brand brand) {
+    public Result<Boolean> updateStatus(@Validated({EditStatus.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
         return Result.ok(update);
     }

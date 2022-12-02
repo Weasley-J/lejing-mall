@@ -1,7 +1,7 @@
 package cn.alphahub.mall.search.controller;
 
 import cn.alphahub.common.enums.BizCodeEnum;
-import cn.alphahub.common.valid.group.QueryGroup;
+import cn.alphahub.common.valid.group.Query;
 import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.search.domain.SkuModel;
 import cn.alphahub.mall.search.pojo.SearchParam;
@@ -81,7 +81,7 @@ public class SearchController {
      */
     @ResponseBody
     @GetMapping("/search/list")
-    public Result<SearchResult> searchResult(@Validated(QueryGroup.class) SearchParam param) {
+    public Result<SearchResult> searchResult(@Validated(Query.class) SearchParam param) {
         return Result.success(searchService.search(param));
     }
 }
