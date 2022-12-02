@@ -1,7 +1,7 @@
 package cn.alphahub.mall.gateway.config;
 
-import cn.alphahub.common.core.domain.Result;
-import cn.alphahub.common.enums.BizCodeEnum;
+import cn.alphahub.mall.common.core.domain.Result;
+import cn.alphahub.mall.common.enums.BizCodeEnum;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Component;

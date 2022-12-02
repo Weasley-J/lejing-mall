@@ -6,7 +6,7 @@
     <meta content="smart-doc" name="generator">
     <title>lejing-seckill-service</title>
     <link href="font.css" rel="stylesheet">
-    <link href="AllInOne.css?v=1659363518106" rel="stylesheet"/>
+    <link href="AllInOne.css?v=1669997989839" rel="stylesheet"/>
     <link href="xt256.min.css" rel="stylesheet">
     <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
         background: #000
@@ -90,17 +90,17 @@
                     class="anchor" href="#_1_1_1_上架最近三天的秒杀商品"></a><a class="link"
                                                                                 href="#_1_1_1_上架最近三天的秒杀商品">1.1.&nbsp;上架最近三天的秒杀商品</a>
             </h3>
-                <div class="paragraph" data-download="false" data-page=""
-                     data-url="http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days"
-                     id="27bbd18db8ed0f991a2b779594b76335-url"><p><strong>URL:</strong><a class="bare"
-                                                                                          href="http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days">&nbsp;http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days"
+                     id="27bbd18db8ed0f991a2b779594b76335-url"><p><strong>URL:</strong><a
+                        class="bare" href="http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days">&nbsp;http://localhost:25000/seckill/on/shelve/seckill/sku/latest/3days</a>
                 </p></div>
                 <div class="paragraph" data-method="POST" id="27bbd18db8ed0f991a2b779594b76335-method"><p>
                     <strong>Type:</strong>&nbsp;POST</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="27bbd18db8ed0f991a2b779594b76335-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="27bbd18db8ed0f991a2b779594b76335-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;上架最近三天的秒杀商品</p></div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -122,37 +122,37 @@
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">traceId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">MDC链路踪迹id</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">返回消息</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">是否成功</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应时间</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">状态码</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应数据</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     </tbody>
@@ -165,12 +165,11 @@
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="27bbd18db8ed0f991a2b779594b76335-response"><pre><code class="json">{
-  "traceId": "e3a59dbf-b736-4d53-9715-a26c54c6fe7b",
+  "traceId": "ea580a54-d4a3-4ae2-9fda-fb8bf6bcc86f",
   "message": "success",
   "success": true,
-  "timestamp": "2022-08-01 22:18:38",
-  "code": 66,
-  "data": ""
+  "timestamp": "2022-12-03 00:19:50",
+  "code": 192
 }</code></pre>
                     </div>
                 </div>
@@ -185,17 +184,17 @@
                     class="anchor" href="#_1_1_2_获取当前时间参与秒杀的商品"></a><a class="link"
                                                                                     href="#_1_1_2_获取当前时间参与秒杀的商品">1.2.&nbsp;获取当前时间参与秒杀的商品</a>
             </h3>
-                <div class="paragraph" data-download="false" data-page=""
-                     data-url="http://localhost:25000/seckill/current/can/seckill/skus"
-                     id="2a056ab8ddd750e4d57237b068dd462f-url"><p><strong>URL:</strong><a class="bare"
-                                                                                          href="http://localhost:25000/seckill/current/can/seckill/skus">&nbsp;http://localhost:25000/seckill/current/can/seckill/skus</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:25000/seckill/current/can/seckill/skus"
+                     id="2a056ab8ddd750e4d57237b068dd462f-url"><p><strong>URL:</strong><a
+                        class="bare" href="http://localhost:25000/seckill/current/can/seckill/skus">&nbsp;http://localhost:25000/seckill/current/can/seckill/skus</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="2a056ab8ddd750e4d57237b068dd462f-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="2a056ab8ddd750e4d57237b068dd462f-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="2a056ab8ddd750e4d57237b068dd462f-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;获取当前时间参与秒杀的商品</p></div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -217,37 +216,37 @@
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">traceId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">MDC链路踪迹id</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">返回消息</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">是否成功</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应时间</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">状态码</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">array</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应数据</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
@@ -413,36 +412,36 @@
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="2a056ab8ddd750e4d57237b068dd462f-response"><pre><code class="json">{
-  "traceId": "e3a59dbf-b736-4d53-9715-a26c54c6fe7b",
+  "traceId": "ea580a54-d4a3-4ae2-9fda-fb8bf6bcc86f",
   "message": "success",
   "success": true,
-  "timestamp": "2022-08-01 22:18:38",
-  "code": 972,
+  "timestamp": "2022-12-03 00:19:50",
+  "code": 751,
   "data": [
     {
-      "id": 836,
-      "promotionId": 212,
-      "promotionSessionId": 956,
-      "skuId": 892,
-      "seckillPrice": 934,
-      "seckillCount": 944,
-      "seckillLimit": 609,
-      "seckillSort": 951,
-      "startTime": 1659363518624,
-      "endTime": 1659363518624,
-      "randomCode": "26032",
+      "id": 378,
+      "promotionId": 595,
+      "promotionSessionId": 548,
+      "skuId": 884,
+      "seckillPrice": 842,
+      "seckillCount": 714,
+      "seckillLimit": 151,
+      "seckillSort": 703,
+      "startTime": 1669997990460,
+      "endTime": 1669997990460,
+      "randomCode": "14664",
       "skuInfo": {
-        "skuId": 258,
-        "spuId": 964,
-        "skuName": "joya.oconnell",
-        "skuDesc": "1rvzd0",
-        "catalogId": 875,
-        "brandId": 111,
-        "skuDefaultImg": "pav4n6",
-        "skuTitle": "hfizqa",
-        "skuSubtitle": "2k5s8f",
-        "price": 336,
-        "saleCount": 417
+        "skuId": 128,
+        "spuId": 865,
+        "skuName": "lynelle.gusikowski",
+        "skuDesc": "zvtn0s",
+        "catalogId": 200,
+        "brandId": 43,
+        "skuDefaultImg": "dyb2d5",
+        "skuTitle": "3zt0lm",
+        "skuSubtitle": "6z7cgq",
+        "price": 656,
+        "saleCount": 936
       }
     }
   ]
@@ -461,17 +460,16 @@
                     class="anchor" href="#_1_1_3_查询商品是否参加秒杀活动"></a><a class="link"
                                                                                   href="#_1_1_3_查询商品是否参加秒杀活动">1.3.&nbsp;查询商品是否参加秒杀活动</a>
             </h3>
-                <div class="paragraph" data-download="false" data-page=""
-                     data-url="http://localhost:25000/seckill/sku/info/{skuId}"
-                     id="daee7bbda60b510cd36acf9f2108e961-url"><p><strong>URL:</strong><a class="bare"
-                                                                                          href="http://localhost:25000/seckill/sku/info/{skuId}">&nbsp;http://localhost:25000/seckill/sku/info/{skuId}</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:25000/seckill/sku/info/{skuId}" id="daee7bbda60b510cd36acf9f2108e961-url"><p>
+                    <strong>URL:</strong><a class="bare" href="http://localhost:25000/seckill/sku/info/{skuId}">&nbsp;http://localhost:25000/seckill/sku/info/{skuId}</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="daee7bbda60b510cd36acf9f2108e961-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="daee7bbda60b510cd36acf9f2108e961-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="daee7bbda60b510cd36acf9f2108e961-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;查询商品是否参加秒杀活动</p></div>
                 <div class="paragraph"><p><strong>Path-parameters:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -511,7 +509,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">skuId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="skuId"
                                                                                                    type="text"
-                                                                                                   value="798"/></p>
+                                                                                                   value="884"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int64</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -539,37 +537,37 @@
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">traceId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">MDC链路踪迹id</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">返回消息</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">success</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">是否成功</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">timestamp</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应时间</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">状态码</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">data</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
-                        <td class="tableblock halign-left valign-top"><p class="tableblock">No comments found.</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">响应数据</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
                     </tr>
                     <tr>
@@ -735,35 +733,35 @@
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="daee7bbda60b510cd36acf9f2108e961-response"><pre><code class="json">{
-  "traceId": "e3a59dbf-b736-4d53-9715-a26c54c6fe7b",
+  "traceId": "ea580a54-d4a3-4ae2-9fda-fb8bf6bcc86f",
   "message": "success",
   "success": true,
-  "timestamp": "2022-08-01 22:18:38",
-  "code": 779,
+  "timestamp": "2022-12-03 00:19:50",
+  "code": 218,
   "data": {
-    "id": 328,
-    "promotionId": 663,
-    "promotionSessionId": 531,
-    "skuId": 682,
-    "seckillPrice": 719,
-    "seckillCount": 581,
-    "seckillLimit": 712,
-    "seckillSort": 879,
-    "startTime": 1659363518624,
-    "endTime": 1659363518624,
-    "randomCode": "26032",
+    "id": 946,
+    "promotionId": 154,
+    "promotionSessionId": 411,
+    "skuId": 995,
+    "seckillPrice": 184,
+    "seckillCount": 725,
+    "seckillLimit": 558,
+    "seckillSort": 833,
+    "startTime": 1669997990460,
+    "endTime": 1669997990460,
+    "randomCode": "14664",
     "skuInfo": {
-      "skuId": 770,
-      "spuId": 2,
-      "skuName": "joya.oconnell",
-      "skuDesc": "cf7fxv",
-      "catalogId": 711,
-      "brandId": 902,
-      "skuDefaultImg": "cthf0i",
-      "skuTitle": "t3fwf7",
-      "skuSubtitle": "b8lc41",
-      "price": 187,
-      "saleCount": 608
+      "skuId": 979,
+      "spuId": 525,
+      "skuName": "lynelle.gusikowski",
+      "skuDesc": "04ov77",
+      "catalogId": 320,
+      "brandId": 165,
+      "skuDefaultImg": "vf6eyd",
+      "skuTitle": "kc6o0h",
+      "skuSubtitle": "qof2rp",
+      "price": 936,
+      "saleCount": 642
     }
   }
 }</code></pre>
@@ -772,7 +770,7 @@
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="daee7bbda60b510cd36acf9f2108e961-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:25000/seckill/sku/info/798</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:25000/seckill/sku/info/884</code></pre>
                     </div>
                 </div>
             </div>
@@ -780,16 +778,17 @@
 <p>查看表: oms_order_item</p>"><a class="anchor" href="#_1_1_4_商品进行秒杀(秒杀开始)
 <p>查看表: oms_order_item</p>"></a><a class="link" href="#_1_1_4_商品进行秒杀(秒杀开始)
 <p>查看表: oms_order_item</p>">1.4.&nbsp;商品进行秒杀(秒杀开始)<br>查看表: oms_order_item </a></h3>
-                <div class="paragraph" data-download="false" data-page="http://localhost:25000/"
-                     data-url="http://localhost:25000/seckill/kill" id="8d976fa08f0a0ad09672aa6a06cd9f38-url"><p>
-                    <strong>URL:</strong><a class="bare" href="http://localhost:25000/seckill/kill">&nbsp;http://localhost:25000/seckill/kill</a>
+                <div class="paragraph" data-download="false"
+                     data-page="http://localhost:25000/" data-url="http://localhost:25000/seckill/kill"
+                     id="8d976fa08f0a0ad09672aa6a06cd9f38-url"><p><strong>URL:</strong><a
+                        class="bare" href="http://localhost:25000/seckill/kill">&nbsp;http://localhost:25000/seckill/kill</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="8d976fa08f0a0ad09672aa6a06cd9f38-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;liuwenjing</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="8d976fa08f0a0ad09672aa6a06cd9f38-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="8d976fa08f0a0ad09672aa6a06cd9f38-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;商品进行秒杀(秒杀开始)<br>查看表:
                     oms_order_item </p></div>
                 <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
@@ -830,16 +829,14 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">killId</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="killId"
                                                                                                    type="text"
-                                                                                                   value="177"/></p>
-                        </td>
+                                                                                                   value="1"/></p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">秒杀id</p></td>
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top">
-                            <div class='checkbox'><input checked="checked"
-                                                         id="8d976fa08f0a0ad09672aa6a06cd9f38-query-key"
+                            <div class='checkbox'><input checked="checked" id="8d976fa08f0a0ad09672aa6a06cd9f38-query-key"
                                                          name="8d976fa08f0a0ad09672aa6a06cd9f38-query-checkbox"
                                                          type="checkbox"><label
                                     for="8d976fa08f0a0ad09672aa6a06cd9f38-query-key"></label></div>
@@ -847,7 +844,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">key</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="key"
                                                                                                    type="text"
-                                                                                                   value="mvxxkm"/></p>
+                                                                                                   value="38rxcw"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -855,8 +852,7 @@
                     </tr>
                     <tr>
                         <td class="tableblock halign-left valign-top">
-                            <div class='checkbox'><input checked="checked"
-                                                         id="8d976fa08f0a0ad09672aa6a06cd9f38-query-num"
+                            <div class='checkbox'><input checked="checked" id="8d976fa08f0a0ad09672aa6a06cd9f38-query-num"
                                                          name="8d976fa08f0a0ad09672aa6a06cd9f38-query-checkbox"
                                                          type="checkbox"><label
                                     for="8d976fa08f0a0ad09672aa6a06cd9f38-query-num"></label></div>
@@ -864,7 +860,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">num</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="num"
                                                                                                    type="text"
-                                                                                                   value="774"/></p>
+                                                                                                   value="666"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">int32</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -886,7 +882,7 @@
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="8d976fa08f0a0ad09672aa6a06cd9f38-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:25000/seckill/kill?killId=177&key=mvxxkm&num=774 --data '&177&mvxxkm&774'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:25000/seckill/kill?killId=1&key=38rxcw&num=666 --data '&1&38rxcw&666'</code></pre>
                     </div>
                 </div>
             </div>
@@ -1172,7 +1168,7 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-08-01 22:18:38</span><span
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-12-03 00:19:49</span><span
             class="footer-modification">Suggestions,contact,support and error reporting on<a
             href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
             href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
@@ -1180,8 +1176,8 @@
                                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABlUlEQVRIS+2UvUvDQBiH398Rly4udnARwUXs4qAIOigI4iL30dTZ2T9AcNPVvUsXF7uYttdScNDFRRAnB11cFFwKxcXBJTQnJ6lEbRI/CIiY9e6e5/e+9+ZAGX/ImE9/QKCU2jfGbGTQqq4xZgtSyisiKmQgIAAVCCFWAGxnIOhqrdd/xyUrpRZsP40xSwA6AI57vd5eq9W6T6s8tQIppSKi+gDQNREprfVNkiRRwDlfY4xZ+FAIuSOi8Qjw0nEc5XnebZwkViClXA2T5+xhY8xus9ncEUJMAziITN5FEARuXLsGCoQQywBs8uEovJ+Scz7FGDuMSM4cx3E9z+u8r+SDQEq5SEQ1IhoZBE+QnBKRq7V+iEreCDjn84wxCx9NgidITnK5nFutVh/7e14FSqnZIAhqAMY+A4+TADjyfb/Ubref7J4XQXhxNvnEV+AJlbTy+XypUqn4KBaLBZuciCa/A0+opN5oNFz7FpUBbP4EHicxxsyAcz7HGDvvz3nar5+2Ho5wOQwsU5+KNGDa+r8grUP0DBLjtRtNKEliAAAAAElFTkSuQmCC"><span
             id="upText">Top</span></div>
 </div>
-<script src="debug.js?v=1659363518106"></script>
-<script src="search.js?v=1659363518106"></script>
+<script src="debug.js?v=1669997989839"></script>
+<script src="search.js?v=1669997989839"></script>
 <script>$(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() > 100) {

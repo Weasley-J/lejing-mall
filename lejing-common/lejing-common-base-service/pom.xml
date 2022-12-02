@@ -57,6 +57,11 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
         </dependency>
+        <!-- sentinel webmvc adapter -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-spring-webmvc-adapter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

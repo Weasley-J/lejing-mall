@@ -6,7 +6,7 @@
     <meta content="smart-doc" name="generator">
     <title>lejing-sms</title>
     <link href="font.css" rel="stylesheet">
-    <link href="AllInOne.css?v=1659363518106" rel="stylesheet"/>
+    <link href="AllInOne.css?v=1669997989839" rel="stylesheet"/>
     <link href="xt256.min.css" rel="stylesheet">
     <style>.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint {
         background: #000
@@ -82,16 +82,16 @@
             <div class="sect2" id="5069fa88e016bdb0d5a600e0519ecdc4"><h3 id="_1_1_1_发送单个验证码"><a class="anchor"
                                                                                                        href="#_1_1_1_发送单个验证码"></a><a
                     class="link" href="#_1_1_1_发送单个验证码">1.1.&nbsp;发送单个验证码</a></h3>
-                <div class="paragraph" data-download="false" data-page="" data-url="http://localhost:30001/sms-send.do"
-                     id="5069fa88e016bdb0d5a600e0519ecdc4-url"><p><strong>URL:</strong><a class="bare"
-                                                                                          href="http://localhost:30001/sms-send.do">&nbsp;http://localhost:30001/sms-send.do</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:30001/sms-send.do" id="5069fa88e016bdb0d5a600e0519ecdc4-url"><p>
+                    <strong>URL:</strong><a class="bare" href="http://localhost:30001/sms-send.do">&nbsp;http://localhost:30001/sms-send.do</a>
                 </p></div>
                 <div class="paragraph" data-method="POST" id="5069fa88e016bdb0d5a600e0519ecdc4-method"><p>
                     <strong>Type:</strong>&nbsp;POST</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="5069fa88e016bdb0d5a600e0519ecdc4-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="5069fa88e016bdb0d5a600e0519ecdc4-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;发送单个验证码</p></div>
                 <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -131,7 +131,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">telephone</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="telephone"
                                                                                                    type="text"
-                                                                                                   value="(619) 913-3245"/>
+                                                                                                   value="251.318.7446"/>
                         </p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -148,7 +148,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">code</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="code"
                                                                                                    type="text"
-                                                                                                   value="26032"/></p>
+                                                                                                   value="14664"/></p>
                         </td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -159,7 +159,7 @@
                 <div class="paragraph"><p><strong>Request-body:</strong></p></div>
                 <div class="listingblock">
                     <div class="content">
-                        <pre><code contenteditable="plaintext-only" id="5069fa88e016bdb0d5a600e0519ecdc4-body">&(619) 913-3245&26032</code></pre>
+                        <pre><code contenteditable="plaintext-only" id="5069fa88e016bdb0d5a600e0519ecdc4-body">&251.318.7446&14664</code></pre>
                     </div>
                 </div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
@@ -213,9 +213,9 @@
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="5069fa88e016bdb0d5a600e0519ecdc4-response"><pre><code class="json">{
-  "requestId": "177",
-  "bizId": "177",
-  "code": "26032",
+  "requestId": "1",
+  "bizId": "1",
+  "code": "14664",
   "message": "success"
 }</code></pre>
                     </div>
@@ -223,7 +223,7 @@
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="5069fa88e016bdb0d5a600e0519ecdc4-curl">
-                        <pre><code class="bash">curl -X POST -i http://localhost:30001/sms-send.do --data 'telephone=(619) 913-3245&code=26032'</code></pre>
+                        <pre><code class="bash">curl -X POST -i http://localhost:30001/sms-send.do --data 'telephone=251.318.7446&code=14664'</code></pre>
                     </div>
                 </div>
             </div>
@@ -231,16 +231,16 @@
                     class="anchor" href="#_1_1_2_query send details response"></a><a class="link"
                                                                                      href="#_1_1_2_query send details response">1.2.&nbsp;query
                 send details response</a></h3>
-                <div class="paragraph" data-download="false" data-page="" data-url="http://localhost:30001/query.do"
-                     id="87e8ac0d03116ec1eb67b9e9321bb26a-url"><p><strong>URL:</strong><a class="bare"
-                                                                                          href="http://localhost:30001/query.do">&nbsp;http://localhost:30001/query.do</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:30001/query.do" id="87e8ac0d03116ec1eb67b9e9321bb26a-url"><p>
+                    <strong>URL:</strong><a class="bare" href="http://localhost:30001/query.do">&nbsp;http://localhost:30001/query.do</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="87e8ac0d03116ec1eb67b9e9321bb26a-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="87e8ac0d03116ec1eb67b9e9321bb26a-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="87e8ac0d03116ec1eb67b9e9321bb26a-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;query send details response</p></div>
                 <div class="paragraph"><p><strong>Query-parameters:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -280,7 +280,7 @@
                         <td class="tableblock halign-left valign-top"><p class="tableblock">telephone</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock"><input name="telephone"
                                                                                                    type="text"
-                                                                                                   value="(619) 913-3245"/>
+                                                                                                   value="251.318.7446"/>
                         </p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
                         <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
@@ -345,10 +345,10 @@
                 <div class="paragraph"><p><strong>Response-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="87e8ac0d03116ec1eb67b9e9321bb26a-response"><pre><code class="json">{
-  "requestId": "177",
-  "code": "26032",
+  "requestId": "1",
+  "code": "14664",
   "message": "success",
-  "totalCount": "s735kr",
+  "totalCount": "ik5njz",
   "smsSendDetailDTOs": [
     {
       "object": "any object"
@@ -360,7 +360,7 @@
                 <div class="paragraph"><p><strong>Curl-example:</strong></p></div>
                 <div class="listingblock">
                     <div class="content" id="87e8ac0d03116ec1eb67b9e9321bb26a-curl">
-                        <pre><code class="bash">curl -X GET -i http://localhost:30001/query.do?telephone=(619) 913-3245 --data '&(619) 913-3245'</code></pre>
+                        <pre><code class="bash">curl -X GET -i http://localhost:30001/query.do?telephone=251.318.7446 --data '&251.318.7446'</code></pre>
                     </div>
                 </div>
             </div>
@@ -368,16 +368,16 @@
                     class="anchor" href="#_1_1_3_get sms report message set"></a><a class="link"
                                                                                     href="#_1_1_3_get sms report message set">1.3.&nbsp;get
                 sms report message set</a></h3>
-                <div class="paragraph" data-download="false" data-page=""
-                     data-url="http://localhost:30001/sms-report.do" id="4cc4d25289f523490aa46a76b0f56652-url"><p>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:30001/sms-report.do" id="4cc4d25289f523490aa46a76b0f56652-url"><p>
                     <strong>URL:</strong><a class="bare" href="http://localhost:30001/sms-report.do">&nbsp;http://localhost:30001/sms-report.do</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="4cc4d25289f523490aa46a76b0f56652-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="4cc4d25289f523490aa46a76b0f56652-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="4cc4d25289f523490aa46a76b0f56652-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;get sms report message set</p></div>
                 <div class="paragraph"><p><strong>Response-fields:</strong></p></div>
                 <table class="tableblock frame-all grid-all spread">
@@ -491,21 +491,21 @@
                 <div class="listingblock">
                     <div class="content" id="4cc4d25289f523490aa46a76b0f56652-response"><pre><code class="json">[
   {
-    "requestId": "177",
-    "messageId": "177",
-    "messageBodyMD5": "iilihu",
+    "requestId": "1",
+    "messageId": "1",
+    "messageBodyMD5": "ipk3te",
     "messageBodyBytes": [
-      13
+      111
     ],
-    "receiptHandle": "c1j3ni",
-    "priority": 896,
-    "enqueueTime": "2022-08-01 22:19:01",
-    "nextVisibleTime": "2022-08-01 22:19:01",
-    "firstDequeueTime": "2022-08-01 22:19:01",
-    "dequeueCount": 976,
-    "delaySeconds": 240,
+    "receiptHandle": "ufb9i5",
+    "priority": 697,
+    "enqueueTime": "2022-12-03 00:20:20",
+    "nextVisibleTime": "2022-12-03 00:20:20",
+    "firstDequeueTime": "2022-12-03 00:20:20",
+    "dequeueCount": 122,
+    "delaySeconds": 473,
     "errorMessage": {
-      "errorCode": "26032",
+      "errorCode": "14664",
       "errorMessage": "success"
     }
   }
@@ -523,16 +523,16 @@
                     class="anchor" href="#_1_1_4_get sms report message set"></a><a class="link"
                                                                                     href="#_1_1_4_get sms report message set">1.4.&nbsp;get
                 sms report message set</a></h3>
-                <div class="paragraph" data-download="false" data-page=""
-                     data-url="http://localhost:30001/report-queue.do" id="1832b7fdebca9d66b04a743c48c62f52-url"><p>
-                    <strong>URL:</strong><a class="bare" href="http://localhost:30001/report-queue.do">&nbsp;http://localhost:30001/report-queue.do</a>
+                <div class="paragraph" data-download="false"
+                     data-page="" data-url="http://localhost:30001/report-queue.do" id="1832b7fdebca9d66b04a743c48c62f52-url"><p><strong>URL:</strong><a
+                        class="bare" href="http://localhost:30001/report-queue.do">&nbsp;http://localhost:30001/report-queue.do</a>
                 </p></div>
                 <div class="paragraph" data-method="GET" id="1832b7fdebca9d66b04a743c48c62f52-method"><p>
                     <strong>Type:</strong>&nbsp;GET</p></div>
                 <div class="paragraph"><p><strong>Author:</strong>&nbsp;Weasley J</p></div>
                 <div class="paragraph" data-content-type="application/x-www-form-urlencoded;charset=UTF-8"
-                     id="1832b7fdebca9d66b04a743c48c62f52-content-type"><p><strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8
-                </p></div>
+                     id="1832b7fdebca9d66b04a743c48c62f52-content-type"><p>
+                    <strong>Content-Type:</strong>&nbsp;application/x-www-form-urlencoded;charset=UTF-8</p></div>
                 <div class="paragraph"><p><strong>Description:</strong>&nbsp;get sms report message set</p></div>
                 <div class="paragraph">
                     <p><strong>
@@ -834,7 +834,7 @@
             </div>
         </div>
     </div>
-    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-08-01 22:18:38</span><span
+    <footer class="page-footer"><span class="copyright">Generated by smart-doc at 2022-12-03 00:19:49</span><span
             class="footer-modification">Suggestions,contact,support and error reporting on<a
             href="https://gitee.com/smart-doc-team/smart-doc" target="_blank">&nbsp;Gitee</a>&nbsp;or<a
             href="https://github.com/smart-doc-group/smart-doc.git" target="_blank">&nbsp;Github</a></span></footer>
@@ -842,8 +842,8 @@
                                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABlUlEQVRIS+2UvUvDQBiH398Rly4udnARwUXs4qAIOigI4iL30dTZ2T9AcNPVvUsXF7uYttdScNDFRRAnB11cFFwKxcXBJTQnJ6lEbRI/CIiY9e6e5/e+9+ZAGX/ImE9/QKCU2jfGbGTQqq4xZgtSyisiKmQgIAAVCCFWAGxnIOhqrdd/xyUrpRZsP40xSwA6AI57vd5eq9W6T6s8tQIppSKi+gDQNREprfVNkiRRwDlfY4xZ+FAIuSOi8Qjw0nEc5XnebZwkViClXA2T5+xhY8xus9ncEUJMAziITN5FEARuXLsGCoQQywBs8uEovJ+Scz7FGDuMSM4cx3E9z+u8r+SDQEq5SEQ1IhoZBE+QnBKRq7V+iEreCDjn84wxCx9NgidITnK5nFutVh/7e14FSqnZIAhqAMY+A4+TADjyfb/Ubref7J4XQXhxNvnEV+AJlbTy+XypUqn4KBaLBZuciCa/A0+opN5oNFz7FpUBbP4EHicxxsyAcz7HGDvvz3nar5+2Ho5wOQwsU5+KNGDa+r8grUP0DBLjtRtNKEliAAAAAElFTkSuQmCC"><span
             id="upText">Top</span></div>
 </div>
-<script src="debug.js?v=1659363518106"></script>
-<script src="search.js?v=1659363518106"></script>
+<script src="debug.js?v=1669997989839"></script>
+<script src="search.js?v=1669997989839"></script>
 <script>$(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() > 100) {

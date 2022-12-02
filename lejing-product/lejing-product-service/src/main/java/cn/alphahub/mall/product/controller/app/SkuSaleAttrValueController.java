@@ -1,9 +1,9 @@
 package cn.alphahub.mall.product.controller.app;
 
 import cn.alphahub.common.constant.HttpStatus;
-import cn.alphahub.common.core.domain.Result;
 import cn.alphahub.common.core.page.PageDomain;
 import cn.alphahub.common.core.page.PageResult;
+import cn.alphahub.mall.common.core.domain.Result;
 import cn.alphahub.mall.product.domain.SkuSaleAttrValue;
 import cn.alphahub.mall.product.service.SkuSaleAttrValueService;
 import org.apache.commons.lang3.ObjectUtils;

@@ -21,8 +21,8 @@
     <dependencies>
         <!-- lejing common -->
         <dependency>
-            <groupId>cn.alphahub.mall.common</groupId>
-            <artifactId>lejing-common-base-public</artifactId>
+            <groupId>cn.alphahub.mall</groupId>
+            <artifactId>lejing-common-base-service</artifactId>
         </dependency>
         <!--网关-->
         <dependency>
