@@ -14,6 +14,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Objects;
 
 import static cn.alphahub.mall.common.constant.FrameworkConstant.TRACE_ID;
@@ -30,8 +31,12 @@ import static cn.alphahub.mall.common.constant.FrameworkConstant.TRACE_ID;
  * @date 2021/05/01
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class FeignRequestConfig {
+    /**
+     * 传递Controller过来的请求头到Feign内部
+     */
+    public static final ThreadLocal<Map<String, String>> HEADER_MAP = new ThreadLocal<>();
 
     /**
      * Feign请求拦截器
@@ -62,6 +67,12 @@ public class FeignRequestConfig {
                         MDC.put(TRACE_ID, traceId);
                     } else traceId = MDC.get(TRACE_ID);
                     requestTemplate.header(TRACE_ID, traceId);
+                }
+                if (null != HEADER_MAP.get()) {
+                    for (Map.Entry<String, String> entry : HEADER_MAP.get().entrySet()) {
+                        requestTemplate.header(entry.getKey(), entry.getValue());
+                    }
+                    HEADER_MAP.remove();
                 }
             }
         };
