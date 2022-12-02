@@ -46,7 +46,7 @@ public class SkuLadderController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuLadder> pageResult = skuLadderService.queryPage(pageDomain, skuLadder);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SkuLadderController {
     @GetMapping("/info/{id}")
     public Result<SkuLadder> info(@PathVariable("id") Long id) {
         SkuLadder skuLadder = skuLadderService.getById(id);
-        return ObjectUtils.anyNotNull(skuLadder) ? Result.ok(skuLadder) : Result.fail();
+        return ObjectUtils.anyNotNull(skuLadder) ? Result.of(skuLadder) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SkuLadderController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuLadder skuLadder) {
         boolean save = skuLadderService.save(skuLadder);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SkuLadderController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuLadder skuLadder) {
         boolean update = skuLadderService.updateById(skuLadder);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SkuLadderController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuLadderService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

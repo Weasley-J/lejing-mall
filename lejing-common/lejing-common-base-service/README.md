@@ -88,7 +88,7 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 return body;
             }
         } else {
-            Result<Object> result = Result.ok(body);
+            Result<Object> result = Result.of(body);
             result.setTraceId(traceId);
             if (body instanceof String) {
                 result.setMessage(null);

@@ -46,7 +46,7 @@ public class OrderStockController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderStock> pageResult = orderStockService.queryPage(pageDomain, orderStock);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderStockController {
     @GetMapping("/info/{stockId}")
     public Result<OrderStock> info(@PathVariable("stockId") Long stockId) {
         OrderStock orderStock = orderStockService.getById(stockId);
-        return ObjectUtils.anyNotNull(orderStock) ? Result.ok(orderStock) : Result.fail();
+        return ObjectUtils.anyNotNull(orderStock) ? Result.of(orderStock) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderStockController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderStock orderStock) {
         boolean save = orderStockService.save(orderStock);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderStockController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderStock orderStock) {
         boolean update = orderStockService.updateById(orderStock);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderStockController {
     @DeleteMapping("/delete/{stockIds}")
     public Result<Boolean> delete(@PathVariable Long[] stockIds) {
         boolean delete = orderStockService.removeByIds(Arrays.asList(stockIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

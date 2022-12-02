@@ -46,7 +46,7 @@ public class SpuCommentController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SpuComment> pageResult = spuCommentService.queryPage(pageDomain, spuComment);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SpuCommentController {
     @GetMapping("/info/{id}")
     public Result<SpuComment> info(@PathVariable("id") Long id) {
         SpuComment spuComment = spuCommentService.getById(id);
-        return ObjectUtils.anyNotNull(spuComment) ? Result.ok(spuComment) : Result.fail();
+        return ObjectUtils.anyNotNull(spuComment) ? Result.of(spuComment) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SpuCommentController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SpuComment spuComment) {
         boolean save = spuCommentService.save(spuComment);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SpuCommentController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuComment spuComment) {
         boolean update = spuCommentService.updateById(spuComment);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SpuCommentController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuCommentService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -46,7 +46,7 @@ public class UndoLogController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<UndoLog> pageResult = undoLogService.queryPage(pageDomain, undoLog);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class UndoLogController {
     @GetMapping("/info/{id}")
     public Result<UndoLog> info(@PathVariable("id") Long id) {
         UndoLog undoLog = undoLogService.getById(id);
-        return ObjectUtils.anyNotNull(undoLog) ? Result.ok(undoLog) : Result.fail();
+        return ObjectUtils.anyNotNull(undoLog) ? Result.of(undoLog) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class UndoLogController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody UndoLog undoLog) {
         boolean save = undoLogService.save(undoLog);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class UndoLogController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody UndoLog undoLog) {
         boolean update = undoLogService.updateById(undoLog);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class UndoLogController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = undoLogService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

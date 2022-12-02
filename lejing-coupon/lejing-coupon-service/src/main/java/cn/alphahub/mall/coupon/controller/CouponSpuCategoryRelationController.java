@@ -46,7 +46,7 @@ public class CouponSpuCategoryRelationController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CouponSpuCategoryRelation> pageResult = couponSpuCategoryRelationService.queryPage(pageDomain, couponSpuCategoryRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class CouponSpuCategoryRelationController {
     @GetMapping("/info/{id}")
     public Result<CouponSpuCategoryRelation> info(@PathVariable("id") Long id) {
         CouponSpuCategoryRelation couponSpuCategoryRelation = couponSpuCategoryRelationService.getById(id);
-        return ObjectUtils.anyNotNull(couponSpuCategoryRelation) ? Result.ok(couponSpuCategoryRelation) : Result.fail();
+        return ObjectUtils.anyNotNull(couponSpuCategoryRelation) ? Result.of(couponSpuCategoryRelation) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class CouponSpuCategoryRelationController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody CouponSpuCategoryRelation couponSpuCategoryRelation) {
         boolean save = couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class CouponSpuCategoryRelationController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody CouponSpuCategoryRelation couponSpuCategoryRelation) {
         boolean update = couponSpuCategoryRelationService.updateById(couponSpuCategoryRelation);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class CouponSpuCategoryRelationController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

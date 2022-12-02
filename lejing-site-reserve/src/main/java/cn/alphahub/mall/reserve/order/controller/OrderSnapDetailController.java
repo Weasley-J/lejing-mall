@@ -46,7 +46,7 @@ public class OrderSnapDetailController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSnapDetail> pageResult = orderSnapDetailService.queryPage(pageDomain, orderSnapDetail);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderSnapDetailController {
     @GetMapping("/info/{orderId}")
     public Result<OrderSnapDetail> info(@PathVariable("orderId") Long orderId) {
         OrderSnapDetail orderSnapDetail = orderSnapDetailService.getById(orderId);
-        return ObjectUtils.anyNotNull(orderSnapDetail) ? Result.ok(orderSnapDetail) : Result.fail();
+        return ObjectUtils.anyNotNull(orderSnapDetail) ? Result.of(orderSnapDetail) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderSnapDetailController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderSnapDetail orderSnapDetail) {
         boolean save = orderSnapDetailService.save(orderSnapDetail);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderSnapDetailController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderSnapDetail orderSnapDetail) {
         boolean update = orderSnapDetailService.updateById(orderSnapDetail);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderSnapDetailController {
     @DeleteMapping("/delete/{orderIds}")
     public Result<Boolean> delete(@PathVariable Long[] orderIds) {
         boolean delete = orderSnapDetailService.removeByIds(Arrays.asList(orderIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

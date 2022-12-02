@@ -33,7 +33,7 @@ public class OssRpcController {
     @PostMapping("/bucket/create")
     public Result<String> createBucket(@RequestParam(name = "bucketName") String bucketName) {
         String bucket = ossService.createBucket(bucketName);
-        return Result.ok(bucket);
+        return Result.of(bucket);
     }
 
     /**
@@ -61,7 +61,7 @@ public class OssRpcController {
     @PostMapping("/upload")
     public Result<String> upload(@RequestParam(name = "objectName") String objectName, @RequestParam(name = "fileDirOfOss") String fileDirOfOss) {
         String upload = ossService.upload(objectName, fileDirOfOss);
-        return Result.ok(upload);
+        return Result.of(upload);
     }
 
     /**
@@ -74,7 +74,7 @@ public class OssRpcController {
     @PostMapping("/upload/multipart/file")
     public Result<String> upload(@RequestPart("file") MultipartFile file, @RequestParam("filename") String filename) throws IOException {
         String upload = ossService.upload(file, filename);
-        return Result.ok(upload);
+        return Result.of(upload);
     }
 
     /**
@@ -97,7 +97,7 @@ public class OssRpcController {
     @DeleteMapping("/delete/many")
     public Result<List<String>> deleteMany(@RequestBody List<String> objectNames) {
         List<String> many = ossService.deleteMany(objectNames);
-        return Result.ok(many);
+        return Result.of(many);
     }
 
     /**
@@ -109,7 +109,7 @@ public class OssRpcController {
     @GetMapping("/file/exist/{objectUrl}")
     public Result<Boolean> isFileExist(@PathVariable(name = "objectUrl") String objectUrl) {
         boolean fileExist = ossService.isFileExist(objectUrl);
-        return Result.ok(fileExist);
+        return Result.of(fileExist);
     }
 
     /**
@@ -120,6 +120,6 @@ public class OssRpcController {
     @GetMapping("/bucket/exist/{bucketName}")
     public Result<Boolean> isBucketExist(@PathVariable(name = "bucketName") String bucketName) {
         boolean bucketExist = ossService.isBucketExist(bucketName);
-        return Result.ok(bucketExist);
+        return Result.of(bucketExist);
     }
 }

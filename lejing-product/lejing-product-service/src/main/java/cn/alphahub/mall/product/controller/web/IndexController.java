@@ -86,7 +86,7 @@ public class IndexController {
             System.out.println("加锁成功：" + Thread.currentThread().getId() + "-" + Thread.currentThread().getName());
 
             System.out.println("执行业务...");
-            result = Result.ok("响应成功", "Hello Weasley J!");
+            result = Result.of("响应成功", "Hello Weasley J!");
 
         } catch (Exception e) {
             result = Result.fail("响应失败", "Hello Weasley J!");

@@ -46,7 +46,7 @@ public class SysDictTypeController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SysDictType> pageResult = sysDictTypeService.queryPage(pageDomain, sysDictType);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SysDictTypeController {
     @GetMapping("/info/{dictId}")
     public Result<SysDictType> info(@PathVariable("dictId") Long dictId) {
         SysDictType sysDictType = sysDictTypeService.getById(dictId);
-        return ObjectUtils.anyNotNull(sysDictType) ? Result.ok(sysDictType) : Result.fail();
+        return ObjectUtils.anyNotNull(sysDictType) ? Result.of(sysDictType) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysDictTypeController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysDictType sysDictType) {
         boolean save = sysDictTypeService.save(sysDictType);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysDictTypeController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysDictType sysDictType) {
         boolean update = sysDictTypeService.updateById(sysDictType);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SysDictTypeController {
     @DeleteMapping("/delete/{dictIds}")
     public Result<Boolean> delete(@PathVariable Long[] dictIds) {
         boolean delete = sysDictTypeService.removeByIds(Arrays.asList(dictIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

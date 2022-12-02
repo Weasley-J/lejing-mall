@@ -38,7 +38,7 @@ public class CategoryBrandRelationController {
     @GetMapping("/brands/list")
     public Result<List<BrandVO>> relationBrandsList(@RequestParam(value = "catId") Long catId) {
         List<BrandVO> brandVOList = categoryBrandRelationService.getBrandsByCatId(catId);
-        return Result.ok(brandVOList);
+        return Result.of(brandVOList);
     }
 
     /**
@@ -62,7 +62,7 @@ public class CategoryBrandRelationController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CategoryBrandRelation> pageResult = categoryBrandRelationService.queryPage(pageDomain, categoryBrandRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -78,7 +78,7 @@ public class CategoryBrandRelationController {
         QueryWrapper<CategoryBrandRelation> wrapper = new QueryWrapper<CategoryBrandRelation>();
         wrapper.lambda().eq(CategoryBrandRelation::getBrandId, brandId);
         List<CategoryBrandRelation> categoryBrandRelations = categoryBrandRelationService.list(wrapper);
-        return Result.ok(categoryBrandRelations);
+        return Result.of(categoryBrandRelations);
     }
 
     /**
@@ -90,7 +90,7 @@ public class CategoryBrandRelationController {
     @GetMapping("/info/{id}")
     public Result<CategoryBrandRelation> info(@PathVariable("id") Long id) {
         CategoryBrandRelation categoryBrandRelation = categoryBrandRelationService.getById(id);
-        return ObjectUtils.anyNotNull(categoryBrandRelation) ? Result.ok(categoryBrandRelation) : Result.fail();
+        return ObjectUtils.anyNotNull(categoryBrandRelation) ? Result.of(categoryBrandRelation) : Result.fail();
     }
 
     /**
@@ -102,7 +102,7 @@ public class CategoryBrandRelationController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean save = categoryBrandRelationService.saveDetail(categoryBrandRelation);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -114,7 +114,7 @@ public class CategoryBrandRelationController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody CategoryBrandRelation categoryBrandRelation) {
         boolean update = categoryBrandRelationService.updateById(categoryBrandRelation);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -126,6 +126,6 @@ public class CategoryBrandRelationController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = categoryBrandRelationService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

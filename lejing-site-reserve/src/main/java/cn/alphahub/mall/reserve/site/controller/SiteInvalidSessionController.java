@@ -46,7 +46,7 @@ public class SiteInvalidSessionController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteInvalidSession> pageResult = siteInvalidSessionService.queryPage(pageDomain, siteInvalidSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SiteInvalidSessionController {
     @GetMapping("/info/{invalidId}")
     public Result<SiteInvalidSession> info(@PathVariable("invalidId") Long invalidId) {
         SiteInvalidSession siteInvalidSession = siteInvalidSessionService.getById(invalidId);
-        return ObjectUtils.anyNotNull(siteInvalidSession) ? Result.ok(siteInvalidSession) : Result.fail();
+        return ObjectUtils.anyNotNull(siteInvalidSession) ? Result.of(siteInvalidSession) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SiteInvalidSessionController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean save = siteInvalidSessionService.save(siteInvalidSession);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SiteInvalidSessionController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteInvalidSession siteInvalidSession) {
         boolean update = siteInvalidSessionService.updateById(siteInvalidSession);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SiteInvalidSessionController {
     @DeleteMapping("/delete/{invalidIds}")
     public Result<Boolean> delete(@PathVariable Long[] invalidIds) {
         boolean delete = siteInvalidSessionService.removeByIds(Arrays.asList(invalidIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

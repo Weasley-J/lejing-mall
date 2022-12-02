@@ -101,7 +101,7 @@ public class EasypoiValidSheetController {
         for (Person person : list) {
             System.err.println(JSONUtil.toJsonStr(person));
         }
-        return Result.ok(importResult.getFailList());
+        return Result.of(importResult.getFailList());
     }
 
     /**

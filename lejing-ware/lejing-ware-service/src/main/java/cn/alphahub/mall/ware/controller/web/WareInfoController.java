@@ -34,7 +34,7 @@ public class WareInfoController {
      */
     @GetMapping("/postage/info")
     public Result<FareVo> getPostageInfo(@RequestParam("addrId") Long addrId) {
-        return Result.ok(wareInfoService.getPostageInfoByAddressId(addrId));
+        return Result.of(wareInfoService.getPostageInfoByAddressId(addrId));
     }
 
     /**
@@ -60,7 +60,7 @@ public class WareInfoController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareInfo> pageResult = wareInfoService.queryPage(pageDomain, wareInfo, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -74,7 +74,7 @@ public class WareInfoController {
     @GetMapping("/info/{id}")
     public Result<WareInfo> info(@PathVariable("id") Long id) {
         WareInfo wareInfo = wareInfoService.getById(id);
-        return ObjectUtils.anyNotNull(wareInfo) ? Result.ok(wareInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(wareInfo) ? Result.of(wareInfo) : Result.fail();
     }
 
     /**
@@ -86,7 +86,7 @@ public class WareInfoController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody WareInfo wareInfo) {
         boolean save = wareInfoService.save(wareInfo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -98,7 +98,7 @@ public class WareInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody WareInfo wareInfo) {
         boolean update = wareInfoService.updateById(wareInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -110,6 +110,6 @@ public class WareInfoController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareInfoService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

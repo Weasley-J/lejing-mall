@@ -46,7 +46,7 @@ public class GrowthChangeHistoryController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<GrowthChangeHistory> pageResult = growthChangeHistoryService.queryPage(pageDomain, growthChangeHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class GrowthChangeHistoryController {
     @GetMapping("/info/{id}")
     public Result<GrowthChangeHistory> info(@PathVariable("id") Long id) {
         GrowthChangeHistory growthChangeHistory = growthChangeHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(growthChangeHistory) ? Result.ok(growthChangeHistory) : Result.fail();
+        return ObjectUtils.anyNotNull(growthChangeHistory) ? Result.of(growthChangeHistory) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class GrowthChangeHistoryController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean save = growthChangeHistoryService.save(growthChangeHistory);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class GrowthChangeHistoryController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody GrowthChangeHistory growthChangeHistory) {
         boolean update = growthChangeHistoryService.updateById(growthChangeHistory);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class GrowthChangeHistoryController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = growthChangeHistoryService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

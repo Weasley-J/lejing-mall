@@ -46,7 +46,7 @@ public class HomeSubjectSpuController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<HomeSubjectSpu> pageResult = homeSubjectSpuService.queryPage(pageDomain, homeSubjectSpu);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class HomeSubjectSpuController {
     @GetMapping("/info/{id}")
     public Result<HomeSubjectSpu> info(@PathVariable("id") Long id) {
         HomeSubjectSpu homeSubjectSpu = homeSubjectSpuService.getById(id);
-        return ObjectUtils.anyNotNull(homeSubjectSpu) ? Result.ok(homeSubjectSpu) : Result.fail();
+        return ObjectUtils.anyNotNull(homeSubjectSpu) ? Result.of(homeSubjectSpu) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class HomeSubjectSpuController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody HomeSubjectSpu homeSubjectSpu) {
         boolean save = homeSubjectSpuService.save(homeSubjectSpu);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class HomeSubjectSpuController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody HomeSubjectSpu homeSubjectSpu) {
         boolean update = homeSubjectSpuService.updateById(homeSubjectSpu);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class HomeSubjectSpuController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = homeSubjectSpuService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

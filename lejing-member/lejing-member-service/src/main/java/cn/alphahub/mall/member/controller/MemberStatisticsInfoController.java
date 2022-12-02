@@ -46,7 +46,7 @@ public class MemberStatisticsInfoController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberStatisticsInfo> pageResult = memberStatisticsInfoService.queryPage(pageDomain, memberStatisticsInfo);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class MemberStatisticsInfoController {
     @GetMapping("/info/{id}")
     public Result<MemberStatisticsInfo> info(@PathVariable("id") Long id) {
         MemberStatisticsInfo memberStatisticsInfo = memberStatisticsInfoService.getById(id);
-        return ObjectUtils.anyNotNull(memberStatisticsInfo) ? Result.ok(memberStatisticsInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(memberStatisticsInfo) ? Result.of(memberStatisticsInfo) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberStatisticsInfoController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberStatisticsInfo memberStatisticsInfo) {
         boolean save = memberStatisticsInfoService.save(memberStatisticsInfo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MemberStatisticsInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberStatisticsInfo memberStatisticsInfo) {
         boolean update = memberStatisticsInfoService.updateById(memberStatisticsInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class MemberStatisticsInfoController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberStatisticsInfoService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

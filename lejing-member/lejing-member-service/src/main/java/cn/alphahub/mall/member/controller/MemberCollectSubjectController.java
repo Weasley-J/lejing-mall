@@ -46,7 +46,7 @@ public class MemberCollectSubjectController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberCollectSubject> pageResult = memberCollectSubjectService.queryPage(pageDomain, memberCollectSubject);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class MemberCollectSubjectController {
     @GetMapping("/info/{id}")
     public Result<MemberCollectSubject> info(@PathVariable("id") Long id) {
         MemberCollectSubject memberCollectSubject = memberCollectSubjectService.getById(id);
-        return ObjectUtils.anyNotNull(memberCollectSubject) ? Result.ok(memberCollectSubject) : Result.fail();
+        return ObjectUtils.anyNotNull(memberCollectSubject) ? Result.of(memberCollectSubject) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberCollectSubjectController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberCollectSubject memberCollectSubject) {
         boolean save = memberCollectSubjectService.save(memberCollectSubject);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MemberCollectSubjectController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberCollectSubject memberCollectSubject) {
         boolean update = memberCollectSubjectService.updateById(memberCollectSubject);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class MemberCollectSubjectController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberCollectSubjectService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -28,7 +28,7 @@ public class TestController {
         Map<String, Object> map = Maps.newLinkedHashMap();
         map.put("姓名 name", "张三");
         log.info("{}", JSONUtil.toJsonStr(map));
-        return Result.ok(map);
+        return Result.of(map);
     }
 
     @GetMapping("/obj")
@@ -36,7 +36,7 @@ public class TestController {
         Map<String, Object> map = Maps.newLinkedHashMap();
         map.put("姓名 name", "张三");
         log.info("姓名 {}", JSONUtil.toJsonStr(map));
-        return Result.ok(map);
+        return Result.of(map);
     }
 
     @GetMapping("/obj/exception")
@@ -45,7 +45,7 @@ public class TestController {
         map.put("name", "张三");
         log.info("姓名 {}", JSONUtil.toJsonStr(map));
         int i = 1 / 0;
-        return Result.ok(map);
+        return Result.of(map);
     }
 
     @GetMapping("/response/no/escape")

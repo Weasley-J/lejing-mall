@@ -46,7 +46,7 @@ public class SiteOrderRuleController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteOrderRule> pageResult = siteOrderRuleService.queryPage(pageDomain, siteOrderRule);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SiteOrderRuleController {
     @GetMapping("/info/{siteId}")
     public Result<SiteOrderRule> info(@PathVariable("siteId") Long siteId) {
         SiteOrderRule siteOrderRule = siteOrderRuleService.getById(siteId);
-        return ObjectUtils.anyNotNull(siteOrderRule) ? Result.ok(siteOrderRule) : Result.fail();
+        return ObjectUtils.anyNotNull(siteOrderRule) ? Result.of(siteOrderRule) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SiteOrderRuleController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteOrderRule siteOrderRule) {
         boolean save = siteOrderRuleService.save(siteOrderRule);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SiteOrderRuleController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteOrderRule siteOrderRule) {
         boolean update = siteOrderRuleService.updateById(siteOrderRule);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SiteOrderRuleController {
     @DeleteMapping("/delete/{siteIds}")
     public Result<Boolean> delete(@PathVariable Long[] siteIds) {
         boolean delete = siteOrderRuleService.removeByIds(Arrays.asList(siteIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

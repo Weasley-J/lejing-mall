@@ -46,7 +46,7 @@ public class SysDictDataController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SysDictData> pageResult = sysDictDataService.queryPage(pageDomain, sysDictData);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SysDictDataController {
     @GetMapping("/info/{dictCode}")
     public Result<SysDictData> info(@PathVariable("dictCode") Long dictCode) {
         SysDictData sysDictData = sysDictDataService.getById(dictCode);
-        return ObjectUtils.anyNotNull(sysDictData) ? Result.ok(sysDictData) : Result.fail();
+        return ObjectUtils.anyNotNull(sysDictData) ? Result.of(sysDictData) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysDictDataController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysDictData sysDictData) {
         boolean save = sysDictDataService.save(sysDictData);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysDictDataController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysDictData sysDictData) {
         boolean update = sysDictDataService.updateById(sysDictData);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SysDictDataController {
     @DeleteMapping("/delete/{dictCodes}")
     public Result<Boolean> delete(@PathVariable Long[] dictCodes) {
         boolean delete = sysDictDataService.removeByIds(Arrays.asList(dictCodes));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

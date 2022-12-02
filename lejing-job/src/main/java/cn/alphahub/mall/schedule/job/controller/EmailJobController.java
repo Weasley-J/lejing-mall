@@ -34,6 +34,6 @@ public class EmailJobController {
         domain.setSubject("邮件标题");
         domain.setText("邮件内容");
         domain.setFilepath("附件文件的路径,没有附件文件不用还传,本服务邮件job全类名为'cn.alphahub.mall.schedule.job.module.email.SendEmailJob'");
-        return Result.ok("发送邮件的参数", domain);
+        return Result.of("发送邮件的参数", domain);
     }
 }

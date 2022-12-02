@@ -103,6 +103,6 @@ public class OssPolicyController {
             ossClient.shutdown();
         }
         log.info("{}", JSONUtil.toJsonStr(ossServerSignature));
-        return Result.ok(ossServerSignature);
+        return Result.of(ossServerSignature);
     }
 }

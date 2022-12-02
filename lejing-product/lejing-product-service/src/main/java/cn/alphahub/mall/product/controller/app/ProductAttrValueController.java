@@ -46,7 +46,7 @@ public class ProductAttrValueController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<ProductAttrValue> pageResult = productAttrValueService.queryPage(pageDomain, productAttrValue);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class ProductAttrValueController {
     @GetMapping("/info/{id}")
     public Result<ProductAttrValue> info(@PathVariable("id") Long id) {
         ProductAttrValue productAttrValue = productAttrValueService.getById(id);
-        return ObjectUtils.anyNotNull(productAttrValue) ? Result.ok(productAttrValue) : Result.fail();
+        return ObjectUtils.anyNotNull(productAttrValue) ? Result.of(productAttrValue) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class ProductAttrValueController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody ProductAttrValue productAttrValue) {
         boolean save = productAttrValueService.save(productAttrValue);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class ProductAttrValueController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody ProductAttrValue productAttrValue) {
         boolean update = productAttrValueService.updateById(productAttrValue);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class ProductAttrValueController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = productAttrValueService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

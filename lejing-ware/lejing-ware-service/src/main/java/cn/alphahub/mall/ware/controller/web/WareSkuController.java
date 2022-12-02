@@ -42,7 +42,7 @@ public class WareSkuController {
     public Result<LockStockResultTo> orderLockStock(@RequestBody WareSkuLockVo skuLockVo) {
         try {
             LockStockResultTo lockStockResults = wareSkuService.orderLockStock(skuLockVo);
-            return Result.ok(lockStockResults);
+            return Result.of(lockStockResults);
         } catch (NoStockException e) {
             return Result.error(BizCodeEnum.NO_STOCK_EXCEPTION.getCode(), e.getMessage());
         }
@@ -81,7 +81,7 @@ public class WareSkuController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareSku> pageResult = wareSkuService.queryPage(pageDomain, wareSku);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -97,7 +97,7 @@ public class WareSkuController {
         PageDomain pageDomain = new PageDomain(1, 10, null, null);
         PageResult<WareSku> pageResult = wareSkuService.queryPage(pageDomain, WareSku.builder().skuId(skuId).build());
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -111,7 +111,7 @@ public class WareSkuController {
     @GetMapping("/info/{id}")
     public Result<WareSku> info(@PathVariable("id") Long id) {
         WareSku wareSku = wareSkuService.getById(id);
-        return ObjectUtils.anyNotNull(wareSku) ? Result.ok(wareSku) : Result.fail();
+        return ObjectUtils.anyNotNull(wareSku) ? Result.of(wareSku) : Result.fail();
     }
 
     /**
@@ -123,7 +123,7 @@ public class WareSkuController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody WareSku wareSku) {
         boolean save = wareSkuService.save(wareSku);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -135,7 +135,7 @@ public class WareSkuController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody WareSku wareSku) {
         boolean update = wareSkuService.updateById(wareSku);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -147,6 +147,6 @@ public class WareSkuController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareSkuService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

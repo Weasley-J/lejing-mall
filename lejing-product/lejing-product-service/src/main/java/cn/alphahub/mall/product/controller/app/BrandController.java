@@ -57,7 +57,7 @@ public class BrandController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Brand> pageResult = brandService.queryPage(pageDomain, brand, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -72,7 +72,7 @@ public class BrandController {
     @Cacheable(value = "product:brand", key = "'info:'+#root.args[0]")
     public Result<Brand> info(@PathVariable("brandId") Long brandId) {
         Brand brand = brandService.getById(brandId);
-        return ObjectUtils.anyNotNull(brand) ? Result.ok(brand) : Result.fail();
+        return ObjectUtils.anyNotNull(brand) ? Result.of(brand) : Result.fail();
     }
 
     /**
@@ -96,7 +96,7 @@ public class BrandController {
     @PostMapping("/save")
     public Result<Boolean> save(@Validated({Insert.class}) @RequestBody Brand brand) {
         boolean save = brandService.save(brand);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -109,7 +109,7 @@ public class BrandController {
     @CacheEvict(value = "product:brand", allEntries = true)
     public Result<Boolean> update(@Validated({Edit.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateDetailById(brand);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -122,7 +122,7 @@ public class BrandController {
     @CacheEvict(value = "product:brand", allEntries = true)
     public Result<Boolean> updateStatus(@Validated({EditStatus.class}) @RequestBody Brand brand) {
         boolean update = brandService.updateById(brand);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -134,6 +134,6 @@ public class BrandController {
     @DeleteMapping("/delete/{brandIds}")
     public Result<Boolean> delete(@PathVariable Long[] brandIds) {
         boolean delete = brandService.removeByIds(Arrays.asList(brandIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

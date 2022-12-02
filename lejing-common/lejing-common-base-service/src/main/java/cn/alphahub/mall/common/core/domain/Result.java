@@ -146,35 +146,36 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 返回data的成功消息
-     *
-     * @param data 数据载荷
-     * @param <T>  数据对象
-     * @return 一个成功的Result对象
-     */
-    public static <T> Result<T> of(T data) {
-        return success(data);
-    }
-
-    /**
      * 返回成功消息
      *
      * @param <T> 数据对象
      * @return 成功消息
      */
     public static <T> Result<T> ok() {
-        return ok(200, "操作成功");
+        return of(null);
+    }
+
+    /**
+     * 返回成功消息
+     *
+     * @param data 数据载荷
+     * @param <T>  数据对象
+     * @return 一个成功的Result对象
+     */
+    public static <T> Result<T> of(T data) {
+        return of("操作成功", data);
     }
 
     /**
      * 携带数据返回成功消息
      *
      * @param <T>  数据对象
-     * @param data 返回消息
-     * @return 数据对象
+     * @param msg  返回消息
+     * @param data 数据载体
+     * @return 一个成功的Result对象
      */
-    public static <T> Result<T> ok(T data) {
-        return init(200, "操作成功", true, data);
+    public static <T> Result<T> of(String msg, T data) {
+        return init(200, msg, true, data);
     }
 
     /**
@@ -185,20 +186,8 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @return 成功消息
      */
-    public static <T> Result<T> ok(Integer code, String msg) {
+    public static <T> Result<T> of(Integer code, String msg) {
         return init(code, msg, true, null);
-    }
-
-    /**
-     * 携带数据返回成功消息
-     *
-     * @param <T>  数据对象
-     * @param msg  返回消息
-     * @param data 数据载体
-     * @return 封装的数据
-     */
-    public static <T> Result<T> ok(String msg, T data) {
-        return init(200, msg, true, data);
     }
 
     /**

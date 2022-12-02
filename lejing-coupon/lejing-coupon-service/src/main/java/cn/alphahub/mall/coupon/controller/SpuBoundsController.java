@@ -47,7 +47,7 @@ public class SpuBoundsController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SpuBounds> pageResult = spuBoundsService.queryPage(pageDomain, spuBounds);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -61,7 +61,7 @@ public class SpuBoundsController {
     @GetMapping("/info/{id}")
     public Result<SpuBounds> info(@PathVariable("id") Long id) {
         SpuBounds spuBounds = spuBoundsService.getById(id);
-        return ObjectUtils.anyNotNull(spuBounds) ? Result.ok(spuBounds) : Result.fail();
+        return ObjectUtils.anyNotNull(spuBounds) ? Result.of(spuBounds) : Result.fail();
     }
 
     /**
@@ -74,7 +74,7 @@ public class SpuBoundsController {
     @Transactional(rollbackFor = {Exception.class})
     public Result<Boolean> save(@RequestBody SpuBounds spuBounds) {
         boolean save = spuBoundsService.save(spuBounds);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -86,7 +86,7 @@ public class SpuBoundsController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuBounds spuBounds) {
         boolean update = spuBoundsService.updateById(spuBounds);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -98,6 +98,6 @@ public class SpuBoundsController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuBoundsService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

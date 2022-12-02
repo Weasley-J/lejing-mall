@@ -46,7 +46,7 @@ public class HomeSubjectController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<HomeSubject> pageResult = homeSubjectService.queryPage(pageDomain, homeSubject);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class HomeSubjectController {
     @GetMapping("/info/{id}")
     public Result<HomeSubject> info(@PathVariable("id") Long id) {
         HomeSubject homeSubject = homeSubjectService.getById(id);
-        return ObjectUtils.anyNotNull(homeSubject) ? Result.ok(homeSubject) : Result.fail();
+        return ObjectUtils.anyNotNull(homeSubject) ? Result.of(homeSubject) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class HomeSubjectController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody HomeSubject homeSubject) {
         boolean save = homeSubjectService.save(homeSubject);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class HomeSubjectController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody HomeSubject homeSubject) {
         boolean update = homeSubjectService.updateById(homeSubject);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class HomeSubjectController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = homeSubjectService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -35,7 +35,7 @@ public class SysDictTypeController {
                                                 @ModelAttribute(name = "sysDictType") SysDictType sysDictType
     ) {
         PageResult<SysDictType> pageResult = sysDictTypeService.queryPage(page, sysDictType);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -47,7 +47,7 @@ public class SysDictTypeController {
     @GetMapping("/info/{id}")
     public Result<SysDictType> info(@PathVariable("id") Integer id) {
         SysDictType sysDictType = sysDictTypeService.getById(id);
-        return Result.ok(sysDictType);
+        return Result.of(sysDictType);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SysDictTypeController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysDictType sysDictType) {
         boolean save = sysDictTypeService.save(sysDictType);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysDictTypeController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysDictType sysDictType) {
         boolean update = sysDictTypeService.updateById(sysDictType);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -83,6 +83,6 @@ public class SysDictTypeController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable(name = "ids") Integer[] ids) {
         boolean delete = sysDictTypeService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

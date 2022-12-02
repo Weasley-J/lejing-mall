@@ -35,7 +35,7 @@ public class SysParamsController {
                                               @ModelAttribute(name = "sysParams") SysParams sysParams
     ) {
         PageResult<SysParams> pageResult = sysParamsService.queryPage(page, sysParams);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -47,7 +47,7 @@ public class SysParamsController {
     @GetMapping("/info/{id}")
     public Result<SysParams> info(@PathVariable("id") Long id) {
         SysParams sysParams = sysParamsService.getById(id);
-        return Result.ok(sysParams);
+        return Result.of(sysParams);
     }
 
     /**
@@ -59,7 +59,7 @@ public class SysParamsController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysParams sysParams) {
         boolean save = sysParamsService.save(sysParams);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -71,7 +71,7 @@ public class SysParamsController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysParams sysParams) {
         boolean update = sysParamsService.updateById(sysParams);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -83,6 +83,6 @@ public class SysParamsController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable(name = "ids") Long[] ids) {
         boolean delete = sysParamsService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

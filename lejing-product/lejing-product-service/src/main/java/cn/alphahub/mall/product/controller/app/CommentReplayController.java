@@ -46,7 +46,7 @@ public class CommentReplayController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<CommentReplay> pageResult = commentReplayService.queryPage(pageDomain, commentReplay);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class CommentReplayController {
     @GetMapping("/info/{id}")
     public Result<CommentReplay> info(@PathVariable("id") Long id) {
         CommentReplay commentReplay = commentReplayService.getById(id);
-        return ObjectUtils.anyNotNull(commentReplay) ? Result.ok(commentReplay) : Result.fail();
+        return ObjectUtils.anyNotNull(commentReplay) ? Result.of(commentReplay) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class CommentReplayController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody CommentReplay commentReplay) {
         boolean save = commentReplayService.save(commentReplay);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class CommentReplayController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody CommentReplay commentReplay) {
         boolean update = commentReplayService.updateById(commentReplay);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class CommentReplayController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = commentReplayService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

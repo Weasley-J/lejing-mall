@@ -42,7 +42,7 @@ public class AttrController {
      */
     @GetMapping("/base/listforspu/{spuId}")
     public Result<List<ProductAttrValue>> listSpuBySpuId(@PathVariable("spuId") Long spuId) {
-        return Result.ok(productAttrValueService.listSpuBySpuId(spuId));
+        return Result.of(productAttrValueService.listSpuBySpuId(spuId));
     }
 
     /**
@@ -70,7 +70,7 @@ public class AttrController {
         // attrType=1 -> /base/list/{catelogId} | attrType=2 -> /sale/list/{catelogId}
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<AttrRespVO> pageResult = attrService.queryPage(pageDomain, new Attr(), key, catelogId, attrType);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -94,7 +94,7 @@ public class AttrController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Attr> pageResult = attrService.queryPage(pageDomain, attr);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -109,7 +109,7 @@ public class AttrController {
     @Cacheable(value = "product:attr", key = "'info:'+#root.args[0]")
     public Result<AttrRespVO> info(@PathVariable("attrId") Long attrId) {
         AttrRespVO attr = attrService.getAttrInfoById(attrId);
-        return ObjectUtils.anyNotNull(attr) ? Result.ok(attr) : Result.fail();
+        return ObjectUtils.anyNotNull(attr) ? Result.of(attr) : Result.fail();
     }
 
     /**
@@ -121,7 +121,7 @@ public class AttrController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody AttrVO attr) {
         boolean save = attrService.saveAttr(attr);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -134,7 +134,7 @@ public class AttrController {
     @CacheEvict(value = "product:attr", allEntries = true)
     public Result<Boolean> update(@RequestBody AttrVO attr) {
         boolean update = attrService.updateAttrById(attr);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -148,7 +148,7 @@ public class AttrController {
     @CacheEvict(value = "product:attr", allEntries = true)
     public Result<Boolean> updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValue> attrValues) {
         boolean update = productAttrValueService.updateSpuAttr(spuId, attrValues);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -160,6 +160,6 @@ public class AttrController {
     @DeleteMapping("/delete/{attrIds}")
     public Result<Boolean> delete(@PathVariable Long[] attrIds) {
         boolean delete = attrService.removeByIds(Arrays.asList(attrIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -46,7 +46,7 @@ public class SiteReserveStatusController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteReserveStatus> pageResult = siteReserveStatusService.queryPage(pageDomain, siteReserveStatus);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SiteReserveStatusController {
     @GetMapping("/info/{siteStatusId}")
     public Result<SiteReserveStatus> info(@PathVariable("siteStatusId") Long siteStatusId) {
         SiteReserveStatus siteReserveStatus = siteReserveStatusService.getById(siteStatusId);
-        return ObjectUtils.anyNotNull(siteReserveStatus) ? Result.ok(siteReserveStatus) : Result.fail();
+        return ObjectUtils.anyNotNull(siteReserveStatus) ? Result.of(siteReserveStatus) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SiteReserveStatusController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteReserveStatus siteReserveStatus) {
         boolean save = siteReserveStatusService.save(siteReserveStatus);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SiteReserveStatusController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteReserveStatus siteReserveStatus) {
         boolean update = siteReserveStatusService.updateById(siteReserveStatus);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SiteReserveStatusController {
     @DeleteMapping("/delete/{siteStatusIds}")
     public Result<Boolean> delete(@PathVariable Long[] siteStatusIds) {
         boolean delete = siteReserveStatusService.removeByIds(Arrays.asList(siteStatusIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

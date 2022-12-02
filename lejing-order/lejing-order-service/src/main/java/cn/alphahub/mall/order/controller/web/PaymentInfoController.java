@@ -46,7 +46,7 @@ public class PaymentInfoController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<PaymentInfo> pageResult = paymentInfoService.queryPage(pageDomain, paymentInfo);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class PaymentInfoController {
     @GetMapping("/info/{id}")
     public Result<PaymentInfo> info(@PathVariable("id") Long id) {
         PaymentInfo paymentInfo = paymentInfoService.getById(id);
-        return ObjectUtils.anyNotNull(paymentInfo) ? Result.ok(paymentInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(paymentInfo) ? Result.of(paymentInfo) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class PaymentInfoController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody PaymentInfo paymentInfo) {
         boolean save = paymentInfoService.save(paymentInfo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class PaymentInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody PaymentInfo paymentInfo) {
         boolean update = paymentInfoService.updateById(paymentInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class PaymentInfoController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = paymentInfoService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -46,7 +46,7 @@ public class OrderOperateHistoryController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderOperateHistory> pageResult = orderOperateHistoryService.queryPage(pageDomain, orderOperateHistory);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderOperateHistoryController {
     @GetMapping("/info/{id}")
     public Result<OrderOperateHistory> info(@PathVariable("id") Long id) {
         OrderOperateHistory orderOperateHistory = orderOperateHistoryService.getById(id);
-        return ObjectUtils.anyNotNull(orderOperateHistory) ? Result.ok(orderOperateHistory) : Result.fail();
+        return ObjectUtils.anyNotNull(orderOperateHistory) ? Result.of(orderOperateHistory) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderOperateHistoryController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean save = orderOperateHistoryService.save(orderOperateHistory);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderOperateHistoryController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderOperateHistory orderOperateHistory) {
         boolean update = orderOperateHistoryService.updateById(orderOperateHistory);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderOperateHistoryController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderOperateHistoryService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -46,7 +46,7 @@ public class SeckillSkuRelationController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillSkuRelation> pageResult = seckillSkuRelationService.queryPage(pageDomain, seckillSkuRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SeckillSkuRelationController {
     @GetMapping("/info/{id}")
     public Result<SeckillSkuRelation> info(@PathVariable("id") Long id) {
         SeckillSkuRelation seckillSkuRelation = seckillSkuRelationService.getById(id);
-        return ObjectUtils.anyNotNull(seckillSkuRelation) ? Result.ok(seckillSkuRelation) : Result.fail();
+        return ObjectUtils.anyNotNull(seckillSkuRelation) ? Result.of(seckillSkuRelation) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SeckillSkuRelationController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SeckillSkuRelation seckillSkuRelation) {
         boolean save = seckillSkuRelationService.save(seckillSkuRelation);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SeckillSkuRelationController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SeckillSkuRelation seckillSkuRelation) {
         boolean update = seckillSkuRelationService.updateById(seckillSkuRelation);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SeckillSkuRelationController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillSkuRelationService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

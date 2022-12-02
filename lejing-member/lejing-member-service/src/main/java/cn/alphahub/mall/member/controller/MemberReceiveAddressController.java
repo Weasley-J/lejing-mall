@@ -47,7 +47,7 @@ public class MemberReceiveAddressController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberReceiveAddress> pageResult = memberReceiveAddressService.queryPage(pageDomain, memberReceiveAddress);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -61,7 +61,7 @@ public class MemberReceiveAddressController {
     @GetMapping("/info/{id}")
     public Result<MemberReceiveAddress> info(@PathVariable("id") Long id) {
         MemberReceiveAddress memberReceiveAddress = memberReceiveAddressService.getById(id);
-        return ObjectUtils.anyNotNull(memberReceiveAddress) ? Result.ok(memberReceiveAddress) : Result.fail();
+        return ObjectUtils.anyNotNull(memberReceiveAddress) ? Result.of(memberReceiveAddress) : Result.fail();
     }
 
     /**
@@ -73,7 +73,7 @@ public class MemberReceiveAddressController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberReceiveAddress memberReceiveAddress) {
         boolean save = memberReceiveAddressService.save(memberReceiveAddress);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -85,7 +85,7 @@ public class MemberReceiveAddressController {
     @GetMapping("/update")
     public Result<Boolean> update(@RequestBody MemberReceiveAddress memberReceiveAddress) {
         boolean update = memberReceiveAddressService.updateById(memberReceiveAddress);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -97,7 +97,7 @@ public class MemberReceiveAddressController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberReceiveAddressService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 
     /**

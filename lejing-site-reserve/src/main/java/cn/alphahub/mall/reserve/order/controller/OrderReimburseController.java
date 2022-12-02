@@ -46,7 +46,7 @@ public class OrderReimburseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderReimburse> pageResult = orderReimburseService.queryPage(pageDomain, orderReimburse);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderReimburseController {
     @GetMapping("/info/{reimburseId}")
     public Result<OrderReimburse> info(@PathVariable("reimburseId") Long reimburseId) {
         OrderReimburse orderReimburse = orderReimburseService.getById(reimburseId);
-        return ObjectUtils.anyNotNull(orderReimburse) ? Result.ok(orderReimburse) : Result.fail();
+        return ObjectUtils.anyNotNull(orderReimburse) ? Result.of(orderReimburse) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderReimburseController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderReimburse orderReimburse) {
         boolean save = orderReimburseService.save(orderReimburse);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderReimburseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderReimburse orderReimburse) {
         boolean update = orderReimburseService.updateById(orderReimburse);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderReimburseController {
     @DeleteMapping("/delete/{reimburseIds}")
     public Result<Boolean> delete(@PathVariable Long[] reimburseIds) {
         boolean delete = orderReimburseService.removeByIds(Arrays.asList(reimburseIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

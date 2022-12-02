@@ -39,7 +39,7 @@ public class SeckillSessionController {
     public Result<List<SeckillSession>> getLatest3DaysSeckillSession() {
         List<SeckillSession> seckillSessions = seckillSessionService.getLatest3DaysSeckillSession();
         log.info("最近3天的秒杀场次列表:{}", JSONUtil.toJsonPrettyStr(seckillSessions));
-        return Result.ok(seckillSessions);
+        return Result.of(seckillSessions);
     }
 
     /**
@@ -62,7 +62,7 @@ public class SeckillSessionController {
     public Result<Boolean> batchUpdate(@RequestBody List<SeckillSession> sessionList) {
         log.info("批量更新秒杀活动场次: {}", JSONUtil.toJsonPrettyStr(sessionList));
         boolean b = seckillSessionService.saveOrUpdateBatch(sessionList);
-        return Result.ok(b);
+        return Result.of(b);
     }
 
     /**
@@ -86,7 +86,7 @@ public class SeckillSessionController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillSession> pageResult = seckillSessionService.queryPage(pageDomain, seckillSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -100,7 +100,7 @@ public class SeckillSessionController {
     @GetMapping("/info/{id}")
     public Result<SeckillSession> info(@PathVariable("id") Long id) {
         SeckillSession seckillSession = seckillSessionService.getById(id);
-        return ObjectUtils.anyNotNull(seckillSession) ? Result.ok(seckillSession) : Result.fail();
+        return ObjectUtils.anyNotNull(seckillSession) ? Result.of(seckillSession) : Result.fail();
     }
 
     /**
@@ -114,7 +114,7 @@ public class SeckillSessionController {
         seckillSession.setCreateTime(LocalDateTime.now());
         log.info("新增秒杀活动场次:{}", JSONUtil.toJsonStr(seckillSession));
         boolean save = seckillSessionService.save(seckillSession);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -126,7 +126,7 @@ public class SeckillSessionController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SeckillSession seckillSession) {
         boolean update = seckillSessionService.updateById(seckillSession);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -138,6 +138,6 @@ public class SeckillSessionController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillSessionService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

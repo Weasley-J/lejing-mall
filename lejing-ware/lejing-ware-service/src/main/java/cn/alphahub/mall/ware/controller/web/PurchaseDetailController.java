@@ -48,7 +48,7 @@ public class PurchaseDetailController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<PurchaseDetail> pageResult = purchaseDetailService.queryPage(pageDomain, purchaseDetail, key);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -62,7 +62,7 @@ public class PurchaseDetailController {
     @GetMapping("/info/{id}")
     public Result<PurchaseDetail> info(@PathVariable("id") Long id) {
         PurchaseDetail purchaseDetail = purchaseDetailService.getById(id);
-        return ObjectUtils.anyNotNull(purchaseDetail) ? Result.ok(purchaseDetail) : Result.fail();
+        return ObjectUtils.anyNotNull(purchaseDetail) ? Result.of(purchaseDetail) : Result.fail();
     }
 
     /**
@@ -74,7 +74,7 @@ public class PurchaseDetailController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody PurchaseDetail purchaseDetail) {
         boolean save = purchaseDetailService.save(purchaseDetail);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -86,7 +86,7 @@ public class PurchaseDetailController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody PurchaseDetail purchaseDetail) {
         boolean update = purchaseDetailService.updateById(purchaseDetail);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -98,6 +98,6 @@ public class PurchaseDetailController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = purchaseDetailService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

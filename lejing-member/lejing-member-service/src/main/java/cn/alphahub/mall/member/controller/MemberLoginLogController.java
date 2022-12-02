@@ -46,7 +46,7 @@ public class MemberLoginLogController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberLoginLog> pageResult = memberLoginLogService.queryPage(pageDomain, memberLoginLog);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class MemberLoginLogController {
     @GetMapping("/info/{id}")
     public Result<MemberLoginLog> info(@PathVariable("id") Long id) {
         MemberLoginLog memberLoginLog = memberLoginLogService.getById(id);
-        return ObjectUtils.anyNotNull(memberLoginLog) ? Result.ok(memberLoginLog) : Result.fail();
+        return ObjectUtils.anyNotNull(memberLoginLog) ? Result.of(memberLoginLog) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberLoginLogController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberLoginLog memberLoginLog) {
         boolean save = memberLoginLogService.save(memberLoginLog);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MemberLoginLogController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberLoginLog memberLoginLog) {
         boolean update = memberLoginLogService.updateById(memberLoginLog);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class MemberLoginLogController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberLoginLogService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

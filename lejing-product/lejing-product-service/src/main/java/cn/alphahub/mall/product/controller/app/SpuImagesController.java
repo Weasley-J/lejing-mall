@@ -46,7 +46,7 @@ public class SpuImagesController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SpuImages> pageResult = spuImagesService.queryPage(pageDomain, spuImages);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SpuImagesController {
     @GetMapping("/info/{id}")
     public Result<SpuImages> info(@PathVariable("id") Long id) {
         SpuImages spuImages = spuImagesService.getById(id);
-        return ObjectUtils.anyNotNull(spuImages) ? Result.ok(spuImages) : Result.fail();
+        return ObjectUtils.anyNotNull(spuImages) ? Result.of(spuImages) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SpuImagesController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SpuImages spuImages) {
         boolean save = spuImagesService.save(spuImages);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SpuImagesController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuImages spuImages) {
         boolean update = spuImagesService.updateById(spuImages);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SpuImagesController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuImagesService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

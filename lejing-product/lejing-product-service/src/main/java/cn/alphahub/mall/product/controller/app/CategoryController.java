@@ -60,7 +60,7 @@ public class CategoryController {
     @GetMapping("/list/tree")
     public Result<List<Category>> listCategoryTree() {
         List<Category> categories = categoryService.listWithTree();
-        return Result.ok(categories);
+        return Result.of(categories);
     }
 
     /**
@@ -72,7 +72,7 @@ public class CategoryController {
     @GetMapping("/info/{catId}")
     public Result<Category> info(@PathVariable("catId") Long catId) {
         Category category = categoryService.getById(catId);
-        return ObjectUtils.anyNotNull(category) ? Result.ok(category) : Result.fail();
+        return ObjectUtils.anyNotNull(category) ? Result.of(category) : Result.fail();
     }
 
     /**
@@ -84,7 +84,7 @@ public class CategoryController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody Category category) {
         boolean save = categoryService.save(category);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -96,7 +96,7 @@ public class CategoryController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Category category) {
         boolean update = categoryService.updateCasecade(category);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -108,7 +108,7 @@ public class CategoryController {
     @PutMapping("/update/sort")
     public Result<Boolean> updateSort(@RequestBody Category[] categories) {
         boolean update = categoryService.updateBatchById(Arrays.asList(categories));
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -120,6 +120,6 @@ public class CategoryController {
     @DeleteMapping("/delete/{catIds}")
     public Result<Boolean> delete(@PathVariable Long[] catIds) {
         boolean delete = categoryService.removeMenusByIds(Arrays.asList(catIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

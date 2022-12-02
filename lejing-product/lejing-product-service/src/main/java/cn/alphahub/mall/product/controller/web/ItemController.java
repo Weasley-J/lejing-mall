@@ -53,6 +53,6 @@ public class ItemController {
     @GetMapping("/item/{skuId}")
     public Result<SkuItemVO> skuItemJson(@PathVariable("skuId") Long skuId) {
         SkuItemVO skuItemVo = skuInfoService.getSkuItemBySkuId(skuId);
-        return Objects.nonNull(skuItemVo) ? Result.ok(skuItemVo) : Result.fail();
+        return Objects.nonNull(skuItemVo) ? Result.of(skuItemVo) : Result.fail();
     }
 }

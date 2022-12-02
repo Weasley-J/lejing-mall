@@ -46,7 +46,7 @@ public class SeckillSkuNoticeController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillSkuNotice> pageResult = seckillSkuNoticeService.queryPage(pageDomain, seckillSkuNotice);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SeckillSkuNoticeController {
     @GetMapping("/info/{id}")
     public Result<SeckillSkuNotice> info(@PathVariable("id") Long id) {
         SeckillSkuNotice seckillSkuNotice = seckillSkuNoticeService.getById(id);
-        return ObjectUtils.anyNotNull(seckillSkuNotice) ? Result.ok(seckillSkuNotice) : Result.fail();
+        return ObjectUtils.anyNotNull(seckillSkuNotice) ? Result.of(seckillSkuNotice) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SeckillSkuNoticeController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SeckillSkuNotice seckillSkuNotice) {
         boolean save = seckillSkuNoticeService.save(seckillSkuNotice);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SeckillSkuNoticeController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SeckillSkuNotice seckillSkuNotice) {
         boolean update = seckillSkuNoticeService.updateById(seckillSkuNotice);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SeckillSkuNoticeController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillSkuNoticeService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

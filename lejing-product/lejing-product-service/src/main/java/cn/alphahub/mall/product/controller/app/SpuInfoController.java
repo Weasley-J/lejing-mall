@@ -81,7 +81,7 @@ public class SpuInfoController {
         }
         PageResult<SpuInfo> pageResult = spuInfoService.queryPage(pageDomain, spuInfo, key, catelogId, brandId, status);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -95,7 +95,7 @@ public class SpuInfoController {
     @GetMapping("/info/{id}")
     public Result<SpuInfo> info(@PathVariable("id") Long id) {
         SpuInfo spuInfo = spuInfoService.getById(id);
-        return ObjectUtils.anyNotNull(spuInfo) ? Result.ok(spuInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(spuInfo) ? Result.of(spuInfo) : Result.fail();
     }
 
     /**
@@ -119,7 +119,7 @@ public class SpuInfoController {
     @PostMapping("/{spuId}/up")
     public Result<Boolean> spuOnShelves(@PathVariable("spuId") Long spuId) {
         boolean OnShelves = spuInfoService.spuOnShelves(spuId);
-        return Result.ok(OnShelves);
+        return Result.of(OnShelves);
     }
 
     /**
@@ -131,7 +131,7 @@ public class SpuInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SpuInfo spuInfo) {
         boolean update = spuInfoService.updateById(spuInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -143,6 +143,6 @@ public class SpuInfoController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = spuInfoService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -51,7 +51,7 @@ public class LejingCustomValidationController {
     @PostMapping("/save")
     public Result<VirtualCoin> save(@Validated({Insert.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("保存用户【{}】的虚拟币了，入参：{}", virtualCoin.getMemberId(), JSONUtil.toJsonPrettyStr(virtualCoin));
-        return Result.ok(virtualCoin);
+        return Result.of(virtualCoin);
     }
 
     /**
@@ -64,7 +64,7 @@ public class LejingCustomValidationController {
         log.info("获取会员的虚拟货币列表");
         List<VirtualCoin> virtualCoins = Lists.newArrayList();
         COIN_MAP.forEach((memberId, virtualCoin) -> virtualCoins.add(virtualCoin));
-        return Result.ok(virtualCoins);
+        return Result.of(virtualCoins);
     }
 
     /**
@@ -76,7 +76,7 @@ public class LejingCustomValidationController {
     @GetMapping("/info/{memberId}")
     public Result<VirtualCoin> info(@Validated({Query.class}) @PathVariable("memberId") Long memberId) {
         log.info("获取会员的虚拟货币明细:{}", memberId);
-        return Result.ok(COIN_MAP.get(memberId));
+        return Result.of(COIN_MAP.get(memberId));
     }
 
     /**
@@ -88,7 +88,7 @@ public class LejingCustomValidationController {
     @PutMapping("/edit")
     public Result<VirtualCoin> edit(@Validated({Edit.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币信息:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
-        return Result.ok(virtualCoin);
+        return Result.of(virtualCoin);
     }
 
     /**
@@ -100,7 +100,7 @@ public class LejingCustomValidationController {
     @PutMapping("/edit/status")
     public Result<VirtualCoin> editStatus(@Validated({EditStatus.class}) @RequestBody VirtualCoin virtualCoin) {
         log.info("修改用户的虚拟币扎状态:{}", JSONUtil.toJsonPrettyStr(virtualCoin));
-        return Result.ok(virtualCoin);
+        return Result.of(virtualCoin);
     }
 
     /**

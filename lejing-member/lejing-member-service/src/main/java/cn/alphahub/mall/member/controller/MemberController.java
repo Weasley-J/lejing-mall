@@ -88,7 +88,7 @@ public class MemberController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Member> pageResult = memberService.queryPage(pageDomain, member);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -102,7 +102,7 @@ public class MemberController {
     @GetMapping("/info/{id}")
     public Result<Member> info(@PathVariable("id") Long id) {
         Member member = memberService.getById(id);
-        return ObjectUtils.anyNotNull(member) ? Result.ok(member) : Result.fail();
+        return ObjectUtils.anyNotNull(member) ? Result.of(member) : Result.fail();
     }
 
     /**
@@ -125,7 +125,7 @@ public class MemberController {
             // 设置创建时间
             member.setCreateTime(new Date());
             boolean save = memberService.save(member);
-            return Result.ok(member.getUsername() + "注册成功", save);
+            return Result.of(member.getUsername() + "注册成功", save);
         } else {
             return Result.fail(status.getValue(), status.getName(), false);
         }
@@ -140,7 +140,7 @@ public class MemberController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Member member) {
         boolean update = memberService.updateById(member);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -152,7 +152,7 @@ public class MemberController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 
     /**
@@ -224,7 +224,7 @@ public class MemberController {
     @PostMapping("/oauth2/login")
     public Result<Member> oauthLogin(@RequestBody SocialUser socialUser) {
         Member member = memberService.loginByWeibo(socialUser);
-        return ObjectUtils.isNotEmpty(member) ? Result.ok(member) : Result.fail();
+        return ObjectUtils.isNotEmpty(member) ? Result.of(member) : Result.fail();
     }
 
     /**
@@ -236,7 +236,7 @@ public class MemberController {
     @PostMapping(value = "/weixin/login")
     public Result<Member> loginWithWeChat(@RequestParam("accessTokenInfo") String accessTokenInfo) {
         Member member = memberService.loginWithWeChat(accessTokenInfo);
-        return ObjectUtils.isNotEmpty(member) ? Result.ok(member) : Result.fail(
+        return ObjectUtils.isNotEmpty(member) ? Result.of(member) : Result.fail(
                 CheckUserExistsStatus.USER_IS_EMPTY.getValue(),
                 CheckUserExistsStatus.USER_IS_EMPTY.getName()
         );

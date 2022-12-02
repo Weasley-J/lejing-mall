@@ -46,7 +46,7 @@ public class MemberPriceController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberPrice> pageResult = memberPriceService.queryPage(pageDomain, memberPrice);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class MemberPriceController {
     @GetMapping("/info/{id}")
     public Result<MemberPrice> info(@PathVariable("id") Long id) {
         MemberPrice memberPrice = memberPriceService.getById(id);
-        return ObjectUtils.anyNotNull(memberPrice) ? Result.ok(memberPrice) : Result.fail();
+        return ObjectUtils.anyNotNull(memberPrice) ? Result.of(memberPrice) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberPriceController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberPrice memberPrice) {
         boolean save = memberPriceService.save(memberPrice);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MemberPriceController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberPrice memberPrice) {
         boolean update = memberPriceService.updateById(memberPrice);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class MemberPriceController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberPriceService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

@@ -46,7 +46,7 @@ public class OrderSettingController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSetting> pageResult = orderSettingService.queryPage(pageDomain, orderSetting);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderSettingController {
     @GetMapping("/info/{id}")
     public Result<OrderSetting> info(@PathVariable("id") Long id) {
         OrderSetting orderSetting = orderSettingService.getById(id);
-        return ObjectUtils.anyNotNull(orderSetting) ? Result.ok(orderSetting) : Result.fail();
+        return ObjectUtils.anyNotNull(orderSetting) ? Result.of(orderSetting) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderSettingController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderSetting orderSetting) {
         boolean save = orderSettingService.save(orderSetting);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderSettingController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderSetting orderSetting) {
         boolean update = orderSettingService.updateById(orderSetting);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderSettingController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderSettingService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

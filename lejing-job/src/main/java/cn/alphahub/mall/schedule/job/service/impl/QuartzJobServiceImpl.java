@@ -83,7 +83,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
         }
         quartzCoreService.createCronScheduleJob(scheduleConvertor.toQuartzParam(quartzJob));
         boolean save = save(quartzJob);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class QuartzJobServiceImpl extends ServiceImpl<QuartzJobMapper, QuartzJob
         QuartzJobDTO dto = scheduleConvertor.toQuartzJobDto(quartzJob);
         String jobStatus = quartzCoreService.getScheduleJobStatus(dto.getJobName(), dto.getJobGroup());
         dto.setStatusName(jobStatus);
-        return Result.ok(dto);
+        return Result.of(dto);
     }
 
     @Override

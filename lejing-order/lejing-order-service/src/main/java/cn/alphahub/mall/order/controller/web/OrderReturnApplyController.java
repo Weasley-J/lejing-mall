@@ -46,7 +46,7 @@ public class OrderReturnApplyController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderReturnApply> pageResult = orderReturnApplyService.queryPage(pageDomain, orderReturnApply);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderReturnApplyController {
     @GetMapping("/info/{id}")
     public Result<OrderReturnApply> info(@PathVariable("id") Long id) {
         OrderReturnApply orderReturnApply = orderReturnApplyService.getById(id);
-        return ObjectUtils.anyNotNull(orderReturnApply) ? Result.ok(orderReturnApply) : Result.fail();
+        return ObjectUtils.anyNotNull(orderReturnApply) ? Result.of(orderReturnApply) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderReturnApplyController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderReturnApply orderReturnApply) {
         boolean save = orderReturnApplyService.save(orderReturnApply);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderReturnApplyController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderReturnApply orderReturnApply) {
         boolean update = orderReturnApplyService.updateById(orderReturnApply);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderReturnApplyController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderReturnApplyService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

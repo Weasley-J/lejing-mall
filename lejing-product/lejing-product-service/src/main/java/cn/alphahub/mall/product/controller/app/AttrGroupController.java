@@ -48,7 +48,7 @@ public class AttrGroupController {
      */
     @GetMapping("/{attrGroupId}/attr/relation")
     public Result<List<Attr>> getAttrRelations(@PathVariable("attrGroupId") Long attrGroupId) {
-        return Result.ok(attrService.getAttrRelations(attrGroupId));
+        return Result.of(attrService.getAttrRelations(attrGroupId));
     }
 
     /**
@@ -62,7 +62,7 @@ public class AttrGroupController {
         //1、查出当前分类下的所有属性分组
         //2、查出每个属性分组的所有属性
         List<AttrGroupWithAttrsVO> vos = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
-        return Result.ok(vos);
+        return Result.of(vos);
     }
 
     /**
@@ -82,7 +82,7 @@ public class AttrGroupController {
             @RequestParam(value = "rows", defaultValue = "10") Integer rows
     ) {
         PageDomain pageDomain = new PageDomain(page, rows);
-        return Result.ok(attrService.getAttrNoRelations(pageDomain, attrGroupId, key));
+        return Result.of(attrService.getAttrNoRelations(pageDomain, attrGroupId, key));
     }
 
     /**
@@ -106,7 +106,7 @@ public class AttrGroupController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<AttrGroup> pageResult = attrGroupService.queryPage(pageDomain, attrGroup);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -138,7 +138,7 @@ public class AttrGroupController {
                         .build(),
                 key
         );
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -153,7 +153,7 @@ public class AttrGroupController {
         Long catelogId = attrGroup.getCatelogId();
         Long[] catelogPath = categoryService.getCategoryFullPath(catelogId);
         attrGroup.setCatelogPath(catelogPath);
-        return ObjectUtils.anyNotNull(attrGroup) ? Result.ok(attrGroup) : Result.fail();
+        return ObjectUtils.anyNotNull(attrGroup) ? Result.of(attrGroup) : Result.fail();
     }
 
     /**
@@ -165,7 +165,7 @@ public class AttrGroupController {
     @PostMapping("save")
     public Result<Boolean> save(@RequestBody AttrGroup attrGroup) {
         boolean save = attrGroupService.save(attrGroup);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -177,7 +177,7 @@ public class AttrGroupController {
     @PutMapping("update")
     public Result<Boolean> update(@RequestBody AttrGroup attrGroup) {
         boolean update = attrGroupService.updateById(attrGroup);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -189,7 +189,7 @@ public class AttrGroupController {
     @DeleteMapping("delete/{attrGroupIds}")
     public Result<Boolean> delete(@PathVariable Long[] attrGroupIds) {
         boolean delete = attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 
     /**
@@ -200,7 +200,7 @@ public class AttrGroupController {
     @PostMapping("attr/relation/delete")
     public Result<Integer> deleteRelations(@RequestBody List<AttrGroupVO> attrGroupVOList) {
         Integer rows = attrService.removeRelations(attrGroupVOList);
-        return Result.ok(rows);
+        return Result.of(rows);
     }
 
     /**
@@ -210,6 +210,6 @@ public class AttrGroupController {
      */
     @PostMapping("/attr/relation")
     public Result<Boolean> addBatchRelations(@RequestBody List<AttrGroupRelationVO> relationVos) {
-        return Result.ok(relationService.addBatchRelations(relationVos));
+        return Result.of(relationService.addBatchRelations(relationVos));
     }
 }

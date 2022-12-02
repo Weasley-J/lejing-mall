@@ -46,7 +46,7 @@ public class SysConfigController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SysConfig> pageResult = sysConfigService.queryPage(pageDomain, sysConfig);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SysConfigController {
     @GetMapping("/info/{configId}")
     public Result<SysConfig> info(@PathVariable("configId") Long configId) {
         SysConfig sysConfig = sysConfigService.getById(configId);
-        return ObjectUtils.anyNotNull(sysConfig) ? Result.ok(sysConfig) : Result.fail();
+        return ObjectUtils.anyNotNull(sysConfig) ? Result.of(sysConfig) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SysConfigController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SysConfig sysConfig) {
         boolean save = sysConfigService.save(sysConfig);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysConfigController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SysConfig sysConfig) {
         boolean update = sysConfigService.updateById(sysConfig);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SysConfigController {
     @DeleteMapping("/delete/{configIds}")
     public Result<Boolean> delete(@PathVariable Long[] configIds) {
         boolean delete = sysConfigService.removeByIds(Arrays.asList(configIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

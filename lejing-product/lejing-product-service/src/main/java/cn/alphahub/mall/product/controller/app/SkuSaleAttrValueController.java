@@ -47,7 +47,7 @@ public class SkuSaleAttrValueController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuSaleAttrValue> pageResult = skuSaleAttrValueService.queryPage(pageDomain, skuSaleAttrValue);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -62,7 +62,7 @@ public class SkuSaleAttrValueController {
     public Result<List<String>> getSkuAttrValues(@PathVariable("skuId") Long skuId) {
         List<String> skuAttrValues = skuSaleAttrValueService.getSkuAttrValues(skuId);
         if (ObjectUtils.isNotEmpty(skuAttrValues)) {
-            return Result.ok(skuAttrValues);
+            return Result.of(skuAttrValues);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -76,7 +76,7 @@ public class SkuSaleAttrValueController {
     @GetMapping("/info/{id}")
     public Result<SkuSaleAttrValue> info(@PathVariable("id") Long id) {
         SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueService.getById(id);
-        return ObjectUtils.anyNotNull(skuSaleAttrValue) ? Result.ok(skuSaleAttrValue) : Result.fail();
+        return ObjectUtils.anyNotNull(skuSaleAttrValue) ? Result.of(skuSaleAttrValue) : Result.fail();
     }
 
     /**
@@ -88,7 +88,7 @@ public class SkuSaleAttrValueController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean save = skuSaleAttrValueService.save(skuSaleAttrValue);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -100,7 +100,7 @@ public class SkuSaleAttrValueController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuSaleAttrValue skuSaleAttrValue) {
         boolean update = skuSaleAttrValueService.updateById(skuSaleAttrValue);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -112,6 +112,6 @@ public class SkuSaleAttrValueController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuSaleAttrValueService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

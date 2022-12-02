@@ -46,7 +46,7 @@ public class SeckillPromotionController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SeckillPromotion> pageResult = seckillPromotionService.queryPage(pageDomain, seckillPromotion);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SeckillPromotionController {
     @GetMapping("/info/{id}")
     public Result<SeckillPromotion> info(@PathVariable("id") Long id) {
         SeckillPromotion seckillPromotion = seckillPromotionService.getById(id);
-        return ObjectUtils.anyNotNull(seckillPromotion) ? Result.ok(seckillPromotion) : Result.fail();
+        return ObjectUtils.anyNotNull(seckillPromotion) ? Result.of(seckillPromotion) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SeckillPromotionController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SeckillPromotion seckillPromotion) {
         boolean save = seckillPromotionService.save(seckillPromotion);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SeckillPromotionController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SeckillPromotion seckillPromotion) {
         boolean update = seckillPromotionService.updateById(seckillPromotion);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SeckillPromotionController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = seckillPromotionService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

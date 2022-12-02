@@ -46,7 +46,7 @@ public class WareOrderTaskDetailController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<WareOrderTaskDetail> pageResult = wareOrderTaskDetailService.queryPage(pageDomain, wareOrderTaskDetail);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class WareOrderTaskDetailController {
     @GetMapping("/info/{id}")
     public Result<WareOrderTaskDetail> info(@PathVariable("id") Long id) {
         WareOrderTaskDetail wareOrderTaskDetail = wareOrderTaskDetailService.getById(id);
-        return ObjectUtils.anyNotNull(wareOrderTaskDetail) ? Result.ok(wareOrderTaskDetail) : Result.fail();
+        return ObjectUtils.anyNotNull(wareOrderTaskDetail) ? Result.of(wareOrderTaskDetail) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class WareOrderTaskDetailController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody WareOrderTaskDetail wareOrderTaskDetail) {
         boolean save = wareOrderTaskDetailService.save(wareOrderTaskDetail);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class WareOrderTaskDetailController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody WareOrderTaskDetail wareOrderTaskDetail) {
         boolean update = wareOrderTaskDetailService.updateById(wareOrderTaskDetail);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class WareOrderTaskDetailController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = wareOrderTaskDetailService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

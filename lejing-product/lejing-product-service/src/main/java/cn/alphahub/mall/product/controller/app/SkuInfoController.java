@@ -64,7 +64,7 @@ public class SkuInfoController {
         }
         PageResult<SkuInfo> pageResult = skuInfoService.queryPage(pageDomain, key, catelogId, brandId, min, max);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -78,7 +78,7 @@ public class SkuInfoController {
     @GetMapping("/info/{skuId}")
     public Result<SkuInfo> info(@PathVariable("skuId") Long skuId) {
         SkuInfo skuInfo = skuInfoService.getById(skuId);
-        return ObjectUtils.anyNotNull(skuInfo) ? Result.ok(skuInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(skuInfo) ? Result.of(skuInfo) : Result.fail();
     }
 
     /**
@@ -90,7 +90,7 @@ public class SkuInfoController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuInfo skuInfo) {
         boolean save = skuInfoService.save(skuInfo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -102,7 +102,7 @@ public class SkuInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuInfo skuInfo) {
         boolean update = skuInfoService.updateById(skuInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -114,6 +114,6 @@ public class SkuInfoController {
     @DeleteMapping("/delete/{skuIds}")
     public Result<Boolean> delete(@PathVariable Long[] skuIds) {
         boolean delete = skuInfoService.removeByIds(Arrays.asList(skuIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

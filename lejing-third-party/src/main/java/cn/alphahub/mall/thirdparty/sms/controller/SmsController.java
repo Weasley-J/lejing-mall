@@ -41,7 +41,7 @@ public class SmsController {
             @RequestParam(value = "origin", defaultValue = "0") Integer origin
     ) {
         Boolean send = smsService.sendCheckCode(phone, origin);
-        return Result.ok(send);
+        return Result.of(send);
     }
 
     /**
@@ -57,6 +57,6 @@ public class SmsController {
             @RequestParam("sendDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date sendDate
     ) {
         QuerySendDetailsResponse response = smsService.querySendDetails(telephone, sendDate);
-        return Result.ok(response);
+        return Result.of(response);
     }
 }

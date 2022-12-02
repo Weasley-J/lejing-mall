@@ -35,7 +35,7 @@ public class ScheduleJobLogController {
                                                  @ModelAttribute(name = "quartzJobLog") QuartzJobLog quartzJobLog
     ) {
         PageResult<QuartzJobLog> pageResult = quartzJobLogService.queryPage(page, quartzJobLog);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -47,7 +47,7 @@ public class ScheduleJobLogController {
     @GetMapping("/info/{id}")
     public Result<QuartzJobLog> info(@PathVariable("id") Long id) {
         QuartzJobLog quartzJobLog = quartzJobLogService.getById(id);
-        return Result.ok(quartzJobLog);
+        return Result.of(quartzJobLog);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ScheduleJobLogController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody QuartzJobLog quartzJobLog) {
         boolean save = quartzJobLogService.save(quartzJobLog);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -71,7 +71,7 @@ public class ScheduleJobLogController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody QuartzJobLog quartzJobLog) {
         boolean update = quartzJobLogService.updateById(quartzJobLog);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -83,6 +83,6 @@ public class ScheduleJobLogController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable(name = "ids") Long[] ids) {
         boolean delete = quartzJobLogService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

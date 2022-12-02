@@ -46,7 +46,7 @@ public class MemberCollectSpuController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MemberCollectSpu> pageResult = memberCollectSpuService.queryPage(pageDomain, memberCollectSpu);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class MemberCollectSpuController {
     @GetMapping("/info/{id}")
     public Result<MemberCollectSpu> info(@PathVariable("id") Long id) {
         MemberCollectSpu memberCollectSpu = memberCollectSpuService.getById(id);
-        return ObjectUtils.anyNotNull(memberCollectSpu) ? Result.ok(memberCollectSpu) : Result.fail();
+        return ObjectUtils.anyNotNull(memberCollectSpu) ? Result.of(memberCollectSpu) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class MemberCollectSpuController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MemberCollectSpu memberCollectSpu) {
         boolean save = memberCollectSpuService.save(memberCollectSpu);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class MemberCollectSpuController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MemberCollectSpu memberCollectSpu) {
         boolean update = memberCollectSpuService.updateById(memberCollectSpu);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class MemberCollectSpuController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = memberCollectSpuService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

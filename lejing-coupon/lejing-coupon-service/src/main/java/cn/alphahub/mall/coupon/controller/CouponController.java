@@ -46,7 +46,7 @@ public class CouponController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Coupon> pageResult = couponService.queryPage(pageDomain, coupon);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class CouponController {
     @GetMapping("/info/{id}")
     public Result<Coupon> info(@PathVariable("id") Long id) {
         Coupon coupon = couponService.getById(id);
-        return ObjectUtils.anyNotNull(coupon) ? Result.ok(coupon) : Result.fail();
+        return ObjectUtils.anyNotNull(coupon) ? Result.of(coupon) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class CouponController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody Coupon coupon) {
         boolean save = couponService.save(coupon);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class CouponController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Coupon coupon) {
         boolean update = couponService.updateById(coupon);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class CouponController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = couponService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

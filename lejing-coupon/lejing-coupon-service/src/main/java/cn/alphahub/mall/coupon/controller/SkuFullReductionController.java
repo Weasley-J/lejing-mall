@@ -47,7 +47,7 @@ public class SkuFullReductionController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SkuFullReduction> pageResult = skuFullReductionService.queryPage(pageDomain, skuFullReduction);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -61,7 +61,7 @@ public class SkuFullReductionController {
     @GetMapping("/info/{id}")
     public Result<SkuFullReduction> info(@PathVariable("id") Long id) {
         SkuFullReduction skuFullReduction = skuFullReductionService.getById(id);
-        return ObjectUtils.anyNotNull(skuFullReduction) ? Result.ok(skuFullReduction) : Result.fail();
+        return ObjectUtils.anyNotNull(skuFullReduction) ? Result.of(skuFullReduction) : Result.fail();
     }
 
     /**
@@ -73,7 +73,7 @@ public class SkuFullReductionController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SkuFullReduction skuFullReduction) {
         boolean save = skuFullReductionService.save(skuFullReduction);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -85,7 +85,7 @@ public class SkuFullReductionController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SkuFullReduction skuFullReduction) {
         boolean update = skuFullReductionService.updateById(skuFullReduction);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -97,7 +97,7 @@ public class SkuFullReductionController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = skuFullReductionService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 
     /**
@@ -109,6 +109,6 @@ public class SkuFullReductionController {
     @PostMapping("/saveinfo")
     Result<Boolean> saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo) {
         Boolean flag = skuFullReductionService.saveSkuReduction(skuReductionTo);
-        return Result.ok(flag);
+        return Result.of(flag);
     }
 }

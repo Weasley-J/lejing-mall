@@ -46,7 +46,7 @@ public class SiteReserveSessionController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<SiteReserveSession> pageResult = siteReserveSessionService.queryPage(pageDomain, siteReserveSession);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class SiteReserveSessionController {
     @GetMapping("/info/{siteSessionId}")
     public Result<SiteReserveSession> info(@PathVariable("siteSessionId") Long siteSessionId) {
         SiteReserveSession siteReserveSession = siteReserveSessionService.getById(siteSessionId);
-        return ObjectUtils.anyNotNull(siteReserveSession) ? Result.ok(siteReserveSession) : Result.fail();
+        return ObjectUtils.anyNotNull(siteReserveSession) ? Result.of(siteReserveSession) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class SiteReserveSessionController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody SiteReserveSession siteReserveSession) {
         boolean save = siteReserveSessionService.save(siteReserveSession);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SiteReserveSessionController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody SiteReserveSession siteReserveSession) {
         boolean update = siteReserveSessionService.updateById(siteReserveSession);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class SiteReserveSessionController {
     @DeleteMapping("/delete/{siteSessionIds}")
     public Result<Boolean> delete(@PathVariable Long[] siteSessionIds) {
         boolean delete = siteReserveSessionService.removeByIds(Arrays.asList(siteSessionIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

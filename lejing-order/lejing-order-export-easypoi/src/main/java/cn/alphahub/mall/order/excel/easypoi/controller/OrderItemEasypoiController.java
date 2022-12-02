@@ -155,6 +155,6 @@ public class OrderItemEasypoiController {
             log.error("{}", e.getLocalizedMessage(), e);
         }
         Date end = new Date();
-        return Result.ok("解析耗时：" + DateUtil.format(start, "yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end, "yyyy-MM-dd HH:mm:ss"));
+        return Result.of("解析耗时：" + DateUtil.format(start, "yyyy-MM-dd HH:mm:ss") + "至" + DateUtil.format(end, "yyyy-MM-dd HH:mm:ss"));
     }
 }

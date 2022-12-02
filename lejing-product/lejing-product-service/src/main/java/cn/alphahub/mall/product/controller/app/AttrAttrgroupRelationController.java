@@ -46,7 +46,7 @@ public class AttrAttrgroupRelationController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<AttrAttrgroupRelation> pageResult = attrAttrgroupRelationService.queryPage(pageDomain, attrAttrgroupRelation);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class AttrAttrgroupRelationController {
     @GetMapping("/info/{id}")
     public Result<AttrAttrgroupRelation> info(@PathVariable("id") Long id) {
         AttrAttrgroupRelation attrAttrgroupRelation = attrAttrgroupRelationService.getById(id);
-        return ObjectUtils.anyNotNull(attrAttrgroupRelation) ? Result.ok(attrAttrgroupRelation) : Result.fail();
+        return ObjectUtils.anyNotNull(attrAttrgroupRelation) ? Result.of(attrAttrgroupRelation) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class AttrAttrgroupRelationController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
         boolean save = attrAttrgroupRelationService.save(attrAttrgroupRelation);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class AttrAttrgroupRelationController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody AttrAttrgroupRelation attrAttrgroupRelation) {
         boolean update = attrAttrgroupRelationService.updateById(attrAttrgroupRelation);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class AttrAttrgroupRelationController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

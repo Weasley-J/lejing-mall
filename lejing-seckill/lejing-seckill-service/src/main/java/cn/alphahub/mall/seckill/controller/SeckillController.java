@@ -55,7 +55,7 @@ public class SeckillController {
         log.info("获取当前时间参与秒杀的商品");
         List<SeckillSkuRelation> skuRelations = seckillService.getCurrentSeckillSkus();
         log.info("返回数据：{}", JSONUtil.toJsonPrettyStr(skuRelations));
-        return Result.ok(skuRelations);
+        return Result.of(skuRelations);
     }
 
     /**
@@ -68,7 +68,7 @@ public class SeckillController {
     @GetMapping("/sku/info/{skuId}")
     public Result<SeckillSkuRelation> getSkuSeckillInfoBySkuId(@PathVariable("skuId") Long skuId) {
         SeckillSkuRelation skuRelation = seckillService.getSkuSeckillInfoBySkuId(skuId);
-        return Result.ok(skuRelation);
+        return Result.of(skuRelation);
     }
 
     /**

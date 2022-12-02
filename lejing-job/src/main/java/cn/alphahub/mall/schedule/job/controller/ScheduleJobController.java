@@ -62,7 +62,7 @@ public class ScheduleJobController {
                                               @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
     ) {
         PageResult<QuartzJob> pageResult = quartzJobService.queryPage(new PageDomain(page, rows, null, null), null);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -148,7 +148,7 @@ public class ScheduleJobController {
     public Result<String> pauseAll() {
         try {
             quartzCoreService.pauseAll();
-            return Result.ok("暂停全部任务成功");
+            return Result.of("暂停全部任务成功");
         } catch (SchedulerException e) {
             log.error("scheduler-exception:{}", e.getMessage(), e);
             return Result.fail("暂停全部任务失败:" + e.getLocalizedMessage());
@@ -164,7 +164,7 @@ public class ScheduleJobController {
     public Result<String> resumeAll() {
         try {
             quartzCoreService.resumeAll();
-            return Result.ok("恢复全部任务成功");
+            return Result.of("恢复全部任务成功");
         } catch (SchedulerException e) {
             log.error("scheduler-exception:{}", e.getMessage(), e);
             return Result.fail("恢复全部任务失败:" + e.getLocalizedMessage());
@@ -241,7 +241,7 @@ public class ScheduleJobController {
                                                      @PathVariable(name = "jobGroup", required = false) String jobGroup
     ) {
         boolean deleteScheduleJob = quartzCoreService.deleteScheduleJob(jobName, jobGroup);
-        return Result.ok(deleteScheduleJob);
+        return Result.of(deleteScheduleJob);
     }
 
     /**

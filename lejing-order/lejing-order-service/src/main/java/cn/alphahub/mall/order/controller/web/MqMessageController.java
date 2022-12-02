@@ -55,7 +55,7 @@ public class MqMessageController {
                 .ge(ObjectUtils.isNotEmpty(req.getCreateTimeStart()), MqMessage::getCreateTime, req.getCreateTimeStart())
                 .le(ObjectUtils.isNotEmpty(req.getCreateTimeEnd()), MqMessage::getCreateTime, req.getCreateTimeEnd())
         ).stream().map(BeanUtil.INSTANCE::copy).collect(Collectors.toList());
-        return Result.ok(pageResult.getPage(respList));
+        return Result.of(pageResult.getPage(respList));
     }
 
     /**
@@ -79,7 +79,7 @@ public class MqMessageController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<MqMessage> pageResult = mqMessageService.queryPage(pageDomain, mqMessage);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -93,7 +93,7 @@ public class MqMessageController {
     @GetMapping("/info/{messageId}")
     public Result<MqMessage> info(@PathVariable("messageId") String messageId) {
         MqMessage mqMessage = mqMessageService.getById(messageId);
-        return ObjectUtils.anyNotNull(mqMessage) ? Result.ok(mqMessage) : Result.fail();
+        return ObjectUtils.anyNotNull(mqMessage) ? Result.of(mqMessage) : Result.fail();
     }
 
     /**
@@ -105,7 +105,7 @@ public class MqMessageController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody MqMessage mqMessage) {
         boolean save = mqMessageService.save(mqMessage);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -117,7 +117,7 @@ public class MqMessageController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody MqMessage mqMessage) {
         boolean update = mqMessageService.updateById(mqMessage);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -129,6 +129,6 @@ public class MqMessageController {
     @DeleteMapping("/delete/{messageIds}")
     public Result<Boolean> delete(@PathVariable String[] messageIds) {
         boolean delete = mqMessageService.removeByIds(Arrays.asList(messageIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

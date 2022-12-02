@@ -459,7 +459,7 @@ public class ScheduleJobController {
                                               @RequestParam(value = "rows", defaultValue = "10", required = false) Integer rows
     ) {
         PageResult<QuartzJob> pageResult = quartzJobService.queryPage(new PageDomain(page, rows, null, null), null);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**

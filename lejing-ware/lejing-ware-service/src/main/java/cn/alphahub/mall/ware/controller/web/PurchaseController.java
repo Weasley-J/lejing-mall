@@ -50,7 +50,7 @@ public class PurchaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Purchase> pageResult = purchaseService.unReceiveList(pageDomain, purchase);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -76,7 +76,7 @@ public class PurchaseController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Purchase> pageResult = purchaseService.queryPage(pageDomain, purchase);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -90,7 +90,7 @@ public class PurchaseController {
     @GetMapping("/info/{id}")
     public Result<Purchase> info(@PathVariable("id") Long id) {
         Purchase purchase = purchaseService.getById(id);
-        return ObjectUtils.anyNotNull(purchase) ? Result.ok(purchase) : Result.fail();
+        return ObjectUtils.anyNotNull(purchase) ? Result.of(purchase) : Result.fail();
     }
 
     /**
@@ -103,7 +103,7 @@ public class PurchaseController {
     public Result<Boolean> save(@RequestBody Purchase purchase) {
         purchase.setCreateTime(new Date());
         boolean save = purchaseService.save(purchase);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -115,7 +115,7 @@ public class PurchaseController {
     @PostMapping("/merge")
     public Result<Boolean> merge(@RequestBody MergeVo mergeVo) {
         boolean save = purchaseService.merge(mergeVo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -127,7 +127,7 @@ public class PurchaseController {
     @PostMapping("/received")
     public Result<Boolean> received(@RequestBody List<Long> ids) {
         boolean save = purchaseService.received(ids);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -139,7 +139,7 @@ public class PurchaseController {
     @PostMapping("/done")
     public Result<Boolean> done(@RequestBody PurchaseDoneVo purchaseDoneVo) {
         boolean save = purchaseService.done(purchaseDoneVo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -151,7 +151,7 @@ public class PurchaseController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Purchase purchase) {
         boolean update = purchaseService.updateById(purchase);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -163,6 +163,6 @@ public class PurchaseController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = purchaseService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

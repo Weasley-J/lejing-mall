@@ -66,7 +66,7 @@ public class AppSiteReserveController {
         pageDomain.setRows(rows);
         PageResult<SiteReserveVO> pageResult = siteReserveService.queryPage(pageDomain, reserveVO);
         if (Objects.nonNull(pageResult)) {
-            return Result.ok("查询成功", pageResult);
+            return Result.of("查询成功", pageResult);
         }
         return Result.fail("查询失败");
     }
@@ -80,7 +80,7 @@ public class AppSiteReserveController {
     @GetMapping("siteBookDetail/{siteId}")
     public Result<SiteReserveDetailVO> siteBookDetail(@PathVariable("siteId") Long siteId) {
         SiteReserveDetailVO detailVO = siteReserveService.siteBookDetail(siteId);
-        return Result.ok(detailVO);
+        return Result.of(detailVO);
     }
 
     /**
@@ -104,7 +104,7 @@ public class AppSiteReserveController {
         if (CollectionUtils.isEmpty(siteSessions)) {
             return Result.fail();
         }
-        return Result.ok(siteSessions);
+        return Result.of(siteSessions);
     }
 
     /**
@@ -127,7 +127,7 @@ public class AppSiteReserveController {
         }
         Boolean paid = siteReserveService.confirmOrder(sessionOrder);
         if (paid) {
-            return Result.ok("支付成功", sessionOrder);
+            return Result.of("支付成功", sessionOrder);
         }
         return Result.fail("支付失败", sessionOrder);
     }
@@ -149,7 +149,7 @@ public class AppSiteReserveController {
             @RequestParam("orderStatus") String orderStatus
     ) {
         PageResult<SiteOrderVO> result = this.siteReserveService.siteOrderStatus(page, rows, userId, orderStatus);
-        return Result.ok(result);
+        return Result.of(result);
     }
 
     /**
@@ -161,7 +161,7 @@ public class AppSiteReserveController {
     @GetMapping("siteOrderDetail")
     public Result<SiteOrderDetailVO> siteOrderDetail(@RequestParam("orderMasterId") String orderMasterId) {
         SiteOrderDetailVO detailVO = this.siteReserveService.siteOrderDetail(orderMasterId);
-        return Result.ok(detailVO);
+        return Result.of(detailVO);
     }
 
     /**
@@ -173,7 +173,7 @@ public class AppSiteReserveController {
     @GetMapping("lookOverCoupon")
     public Result<SiteCouponBO> lookOverCoupon(@RequestParam("couponCode") String couponCode) {
         SiteCouponBO couponBO = this.siteReserveService.lookOverCoupon(couponCode);
-        return Result.ok(couponBO);
+        return Result.of(couponBO);
     }
 
     /**
@@ -185,7 +185,7 @@ public class AppSiteReserveController {
     @GetMapping("downloadCoupon")
     public Result<Object> downloadCoupon(@RequestParam("couponCode") String couponCode) {
         // TODO
-        return Result.ok("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
+        return Result.of("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
     }
 
     /**
@@ -198,7 +198,7 @@ public class AppSiteReserveController {
     public Result<Boolean> requestRefund(@RequestParam("orderMasterId") String orderMasterId) {
         Boolean requestFlag = siteReserveService.requestRefund(orderMasterId);
         if (requestFlag) {
-            return Result.ok("申请成功", true);
+            return Result.of("申请成功", true);
         }
         return Result.fail("申请失败", true);
     }
@@ -212,6 +212,6 @@ public class AppSiteReserveController {
     @GetMapping("refundDetail")
     public Result<SiteOrderReimburseVO> refundDetail(@RequestParam("orderMasterId") String orderMasterId) {
         SiteOrderReimburseVO reimburseVO = siteReserveService.refundDetail(orderMasterId);
-        return Result.ok(reimburseVO);
+        return Result.of(reimburseVO);
     }
 }

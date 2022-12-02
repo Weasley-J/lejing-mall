@@ -46,7 +46,7 @@ public class RefundInfoController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<RefundInfo> pageResult = refundInfoService.queryPage(pageDomain, refundInfo);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class RefundInfoController {
     @GetMapping("/info/{id}")
     public Result<RefundInfo> info(@PathVariable("id") Long id) {
         RefundInfo refundInfo = refundInfoService.getById(id);
-        return ObjectUtils.anyNotNull(refundInfo) ? Result.ok(refundInfo) : Result.fail();
+        return ObjectUtils.anyNotNull(refundInfo) ? Result.of(refundInfo) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class RefundInfoController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody RefundInfo refundInfo) {
         boolean save = refundInfoService.save(refundInfo);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class RefundInfoController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody RefundInfo refundInfo) {
         boolean update = refundInfoService.updateById(refundInfo);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class RefundInfoController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = refundInfoService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

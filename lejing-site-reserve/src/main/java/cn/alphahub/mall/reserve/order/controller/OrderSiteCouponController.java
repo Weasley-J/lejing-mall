@@ -46,7 +46,7 @@ public class OrderSiteCouponController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<OrderSiteCoupon> pageResult = orderSiteCouponService.queryPage(pageDomain, orderSiteCoupon);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -60,7 +60,7 @@ public class OrderSiteCouponController {
     @GetMapping("/info/{orderMasterId}")
     public Result<OrderSiteCoupon> info(@PathVariable("orderMasterId") Long orderMasterId) {
         OrderSiteCoupon orderSiteCoupon = orderSiteCouponService.getById(orderMasterId);
-        return ObjectUtils.anyNotNull(orderSiteCoupon) ? Result.ok(orderSiteCoupon) : Result.fail();
+        return ObjectUtils.anyNotNull(orderSiteCoupon) ? Result.of(orderSiteCoupon) : Result.fail();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrderSiteCouponController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean save = orderSiteCouponService.save(orderSiteCoupon);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -84,7 +84,7 @@ public class OrderSiteCouponController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody OrderSiteCoupon orderSiteCoupon) {
         boolean update = orderSiteCouponService.updateById(orderSiteCoupon);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -96,6 +96,6 @@ public class OrderSiteCouponController {
     @DeleteMapping("/delete/{orderMasterIds}")
     public Result<Boolean> delete(@PathVariable Long[] orderMasterIds) {
         boolean delete = orderSiteCouponService.removeByIds(Arrays.asList(orderMasterIds));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }

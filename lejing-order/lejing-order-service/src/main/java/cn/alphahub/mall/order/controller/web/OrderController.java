@@ -41,7 +41,7 @@ public class OrderController {
         log.info("根据订单号查询订单状态,订单号:{}", orderSn);
         Order order = orderService.getOne(new QueryWrapper<Order>().lambda().eq(Order::getOrderSn, orderSn).last(" limit 1"));
         log.info("根据订单号查询订单状态: {}", JSONUtil.toJsonStr(order));
-        return Result.ok(order);
+        return Result.of(order);
     }
 
     /**
@@ -56,7 +56,7 @@ public class OrderController {
     @PostMapping("/member/order/list")
     public Result<PageResult<OrderVo>> getMemberOrderList(@RequestBody PageDomain page) {
         PageResult<OrderVo> pageResult = orderService.getMemberOrderList(page);
-        return Result.ok(pageResult);
+        return Result.of(pageResult);
     }
 
     /**
@@ -80,7 +80,7 @@ public class OrderController {
         PageDomain pageDomain = new PageDomain(page, rows, orderColumn, isAsc);
         PageResult<Order> pageResult = orderService.queryPage(pageDomain, order);
         if (ObjectUtils.isNotEmpty(pageResult.getItems())) {
-            return Result.ok(pageResult);
+            return Result.of(pageResult);
         }
         return Result.fail(HttpStatus.NOT_FOUND, "查询结果为空");
     }
@@ -94,7 +94,7 @@ public class OrderController {
     @GetMapping("/info/{id}")
     public Result<Order> info(@PathVariable("id") Long id) {
         Order order = orderService.getById(id);
-        return ObjectUtils.anyNotNull(order) ? Result.ok(order) : Result.fail();
+        return ObjectUtils.anyNotNull(order) ? Result.of(order) : Result.fail();
     }
 
     /**
@@ -106,7 +106,7 @@ public class OrderController {
     @PostMapping("/save")
     public Result<Boolean> save(@RequestBody Order order) {
         boolean save = orderService.save(order);
-        return Result.ok(save);
+        return Result.of(save);
     }
 
     /**
@@ -118,7 +118,7 @@ public class OrderController {
     @PutMapping("/update")
     public Result<Boolean> update(@RequestBody Order order) {
         boolean update = orderService.updateById(order);
-        return Result.ok(update);
+        return Result.of(update);
     }
 
     /**
@@ -130,6 +130,6 @@ public class OrderController {
     @DeleteMapping("/delete/{ids}")
     public Result<Boolean> delete(@PathVariable Long[] ids) {
         boolean delete = orderService.removeByIds(Arrays.asList(ids));
-        return Result.ok(delete);
+        return Result.of(delete);
     }
 }
