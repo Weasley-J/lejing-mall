@@ -352,7 +352,7 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
     }
 
     /**
-     * 封装数据并返回一个Result实例
+     * 封装数据并返回一个code为200的Result实例对象
      *
      * @param data 数据
      * @return Result实例
@@ -386,4 +386,5 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
         this.setMessage(msg);
         return this;
     }
+
 }
