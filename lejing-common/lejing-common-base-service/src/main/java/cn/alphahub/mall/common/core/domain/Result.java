@@ -152,7 +152,18 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
      * @return 成功消息
      */
     public static <T> Result<T> ok() {
-        return of(null);
+        return ok(null);
+    }
+
+    /**
+     * 返回成功消息
+     *
+     * @param data 数据载荷
+     * @param <T>  数据对象
+     * @return 一个成功的Result对象
+     */
+    public static <T> Result<T> ok(T data) {
+        return ok("操作成功", data);
     }
 
     /**
@@ -163,7 +174,7 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
      * @return 一个成功的Result对象
      */
     public static <T> Result<T> of(T data) {
-        return of("操作成功", data);
+        return ok("操作成功", data);
     }
 
     /**
@@ -174,7 +185,7 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
      * @param data 数据载体
      * @return 一个成功的Result对象
      */
-    public static <T> Result<T> of(String msg, T data) {
+    public static <T> Result<T> ok(String msg, T data) {
         return init(200, msg, true, data);
     }
 
@@ -186,7 +197,7 @@ public class Result<T> extends AbstractResult<T> implements Serializable {
      * @param msg  返回内容
      * @return 成功消息
      */
-    public static <T> Result<T> of(Integer code, String msg) {
+    public static <T> Result<T> ok(Integer code, String msg) {
         return init(code, msg, true, null);
     }
 

@@ -66,7 +66,7 @@ public class AppSiteReserveController {
         pageDomain.setRows(rows);
         PageResult<SiteReserveVO> pageResult = siteReserveService.queryPage(pageDomain, reserveVO);
         if (Objects.nonNull(pageResult)) {
-            return Result.of("查询成功", pageResult);
+            return Result.ok("查询成功", pageResult);
         }
         return Result.fail("查询失败");
     }
@@ -127,7 +127,7 @@ public class AppSiteReserveController {
         }
         Boolean paid = siteReserveService.confirmOrder(sessionOrder);
         if (paid) {
-            return Result.of("支付成功", sessionOrder);
+            return Result.ok("支付成功", sessionOrder);
         }
         return Result.fail("支付失败", sessionOrder);
     }
@@ -185,7 +185,7 @@ public class AppSiteReserveController {
     @GetMapping("downloadCoupon")
     public Result<Object> downloadCoupon(@RequestParam("couponCode") String couponCode) {
         // TODO
-        return Result.of("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
+        return Result.ok("你下了个寂寞", "http://img.zz21.com/2015/0419/20150419084506614.jpg");
     }
 
     /**
@@ -198,7 +198,7 @@ public class AppSiteReserveController {
     public Result<Boolean> requestRefund(@RequestParam("orderMasterId") String orderMasterId) {
         Boolean requestFlag = siteReserveService.requestRefund(orderMasterId);
         if (requestFlag) {
-            return Result.of("申请成功", true);
+            return Result.ok("申请成功", true);
         }
         return Result.fail("申请失败", true);
     }

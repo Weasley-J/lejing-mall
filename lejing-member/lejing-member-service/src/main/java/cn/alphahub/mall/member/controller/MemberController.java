@@ -125,7 +125,7 @@ public class MemberController {
             // 设置创建时间
             member.setCreateTime(new Date());
             boolean save = memberService.save(member);
-            return Result.of(member.getUsername() + "注册成功", save);
+            return Result.ok(member.getUsername() + "注册成功", save);
         } else {
             return Result.fail(status.getValue(), status.getName(), false);
         }

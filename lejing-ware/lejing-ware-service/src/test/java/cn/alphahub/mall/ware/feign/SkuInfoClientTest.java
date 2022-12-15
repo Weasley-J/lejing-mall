@@ -75,9 +75,9 @@ class SkuInfoClientTest {
         System.out.println("更新前: " + skuInfo);
         skuInfo.setSkuDesc(DateUtil.now());
         System.out.println("----------------------------------------");
-        Result<Boolean> result = skuInfoClient.update(skuInfo);
-        System.out.println("Result<Boolean>  " + Result.getCode());
-        System.out.println("Result<Boolean>  " + Result.getMessage());
+        Result<Boolean> result1 = skuInfoClient.update(skuInfo);
+        System.out.println("Result<Boolean>  " + result1.getCode());
+        System.out.println("Result<Boolean>  " + result1.getMessage());
         System.out.println("-----------------------------------------");
         result = skuInfoClient.info(skuId);
         System.out.println("code = " + result.getCode());
