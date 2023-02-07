@@ -13,7 +13,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Objects;
 
@@ -55,11 +54,6 @@ public class FeignRequestConfig {
                 HttpServletRequest request = requestAttributes.getRequest();
                 String originalHeader = request.getHeader(HttpHeaders.COOKIE);
                 requestTemplate.header(HttpHeaders.COOKIE, originalHeader);
-                Enumeration<String> headNames = request.getHeaderNames();
-                while (headNames.hasMoreElements()) {
-                    String headName = headNames.nextElement();
-                    requestTemplate.header(headName, request.getHeader(headName));
-                }
                 if (null == request.getHeader(TRACE_ID)) {
                     String traceId;
                     if (StringUtils.isBlank(MDC.get(TRACE_ID))) {
