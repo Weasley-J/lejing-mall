@@ -24,7 +24,7 @@
         <oracle.version>11.2.0.4</oracle.version>
         <quartz.version>2.3.2</quartz.version>
         <commons-lang3.version>3.11</commons-lang3.version>
-        <commons.fileupload.version>1.4</commons.fileupload.version>
+        <commons.fileupload.version>1.5</commons.fileupload.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.configuration.version>1.10</commons.configuration.version>
         <shiro.starter.version>1.8.0</shiro.starter.version>
