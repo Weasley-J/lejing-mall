@@ -52,7 +52,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mysql.version>8.0.29</mysql.version>
         <jsqlparser.version>4.4</jsqlparser.version>
-        <mybatis.starter.version>2.2.2</mybatis.starter.version>
+        <mybatis.starter.version>2.3.1</mybatis.starter.version>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis.plus.version>3.5.2</mybatis.plus.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
