@@ -5,6 +5,7 @@ import cn.alphahub.mall.common.entity.WwwResponse;
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,7 +67,6 @@ public class TestController {
         return response;
     }
 
-
     @GetMapping("/response/with/str")
     public String getResponseWithString() {
         Map<String, Object> map = Maps.newLinkedHashMap();
@@ -75,4 +75,18 @@ public class TestController {
         return cn.alphahub.common.util.JSONUtil.toJsonStr(map);
     }
 
+    @GetMapping("/async/task")
+    public Map<String, Object> asyncTask() {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+        map.put("async", "异步任务");
+        log.info("Main thread {}", JSONUtil.toJsonStr(map));
+        this.async(map);
+        return map;
+    }
+
+    @Async
+    public void async(Map<String, Object> map) {
+        log.info("异步1 {}", JSONUtil.toJsonStr(map));
+        new Thread(() -> log.info("异步2 {}", JSONUtil.toJsonStr(map))).start();
+    }
 }
