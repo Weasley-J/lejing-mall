@@ -8,6 +8,7 @@ import cn.alphahub.mall.product.service.CategoryBrandRelationService;
 import cn.alphahub.mall.product.service.CategoryService;
 import cn.alphahub.mall.product.vo.SecondCategoryVO;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -53,7 +54,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     /**
      * 商品三级分类Redis缓存数据的key前缀
      */
-    public final static String KEY_PREFIX = "product:category";
+    public static final String KEY_PREFIX = "product:category";
 
     @Resource
     private CategoryMapper categoryMapper;
@@ -113,7 +114,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         lock.lock();
         // redis中取值
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String key = KEY_PREFIX + "::getAllLevelCategories";
+        String key = KEY_PREFIX + ":getAllLevelCategories";
         String value = operations.get(key);
         // 处理业务
         try {
@@ -133,6 +134,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
             // 释放分布式锁
             lock.unlock();
         }
+        log.info("三级分类列表集合 {}", JSONUtil.toJsonStr(categoryMap));
         return categoryMap;
     }
 
