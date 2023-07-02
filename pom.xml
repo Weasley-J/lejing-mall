@@ -56,7 +56,7 @@
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis.plus.version>3.5.2</mybatis.plus.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
-        <pageHelper.starter.version>1.4.5</pageHelper.starter.version>
+        <pageHelper.starter.version>1.4.7</pageHelper.starter.version>
         <druid.stater.version>1.2.11</druid.stater.version>
         <pagehelper.version>5.3.2</pagehelper.version>
         <zipkin.starter.version>2.2.8.RELEASE</zipkin.starter.version>
