@@ -4,7 +4,7 @@ BASE_DIR_POSTGRES="/usr/local/postgres"
 BASE_DIR_SONARQUBE="/usr/local/sonarqube"
 
 #主机ip
-POSTGRESQL_HOST="192.168.31.23"
+POSTGRESQL_HOST="192.168.31.140"
 
 clear && rm -rfv ${BASE_DIR_POSTGRES} && rm -rfv ${BASE_DIR_SONARQUBE}
 mkdir -pv ${BASE_DIR_POSTGRES} && mkdir -pv ${BASE_DIR_SONARQUBE}/{data,extensions,logs}

@@ -14,7 +14,7 @@ singleServerConfig:
   subscriptionsPerConnection: 5
   #客户端名称
   clientName: LEJING_REDIS
-  address: redis://192.168.31.23:6379
+  address: redis://192.168.31.140:6379
   password: 123456
   database: 0
   #发布和订阅连接的最小空闲连接数，默认1

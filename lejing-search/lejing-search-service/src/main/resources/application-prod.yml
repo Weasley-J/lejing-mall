@@ -22,7 +22,7 @@ spring:
   elasticsearch:
     uris:
       - http://localhost:9200
-      - http://192.168.31.23:9200
+      - http://192.168.31.140:9200
       - http://192.168.40.128:9200
     connection-timeout: 2
     socket-timeout: 40

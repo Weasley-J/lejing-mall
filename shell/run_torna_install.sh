@@ -25,7 +25,7 @@ sudo tee ${BASE_DIR}/config/${CONFIG_FILE} <<-'EOF'
 server.port=7700
 
 # MySQL host, 这里改成你的MySQL的主机ip:端口
-mysql.host=192.168.31.23:3306
+mysql.host=192.168.31.140:3306
 # Schema name, 数据库名
 mysql.schema=torna
 
@@ -50,7 +50,7 @@ docker run --name torna --restart=always \
   --net mynet \
   -p 7700:7700 \
   -e JAVA_OPTS="-Xms256m -Xmx256m" \
-  -e MYSQL_HOST="192.168.31.23:3306" \
+  -e MYSQL_HOST="192.168.31.140:3306" \
   -e MYSQL_SCHEMA="torna" \
   -e MYSQL_USERNAME="root" \
   -e MYSQL_PASSWORD="123456" \

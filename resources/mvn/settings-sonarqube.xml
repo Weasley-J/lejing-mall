@@ -257,7 +257,7 @@ under the License.
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <sonar.host.url>http://192.168.31.23:9001</sonar.host.url>
+                <sonar.host.url>http://192.168.31.140:9001</sonar.host.url>
                 <sonar.login>admin</sonar.login>
                 <sonar.password>123456</sonar.password>
                 <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
