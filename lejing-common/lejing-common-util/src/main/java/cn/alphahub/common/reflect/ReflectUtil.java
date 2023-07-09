@@ -3,11 +3,13 @@ package cn.alphahub.common.reflect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Java反射工具类
@@ -19,11 +21,9 @@ import java.util.Objects;
  */
 public class ReflectUtil {
     private static final Logger log = LoggerFactory.getLogger(ReflectUtil.class);
-
     private static final String IS = "is";
     private static final String GET = "get";
     private static final String SET = "set";
-
     private ReflectUtil() {
     }
 
@@ -54,6 +54,7 @@ public class ReflectUtil {
      * @param <T>                    Java Bean的类型
      * @return 属性名称
      */
+    @SuppressWarnings("all")
     public static <T> String property(FieldFunction<T, Object> domainLambdaExpression) {
         try {
             Method writeReplace = domainLambdaExpression.getClass().getDeclaredMethod("writeReplace");
@@ -165,6 +166,7 @@ public class ReflectUtil {
      * @param methodName Java Bean某个属性的getter或者setter方法
      * @return 返回属性值名称
      */
+    @SuppressWarnings("all")
     private static String methodToProperty(String methodName) {
         if (methodName == null) {
             return null;
@@ -183,5 +185,15 @@ public class ReflectUtil {
             methodName = methodName.substring(0, 1).toLowerCase(Locale.ENGLISH) + methodName.substring(1);
         }
         return methodName;
+    }
+
+    /**
+     * java实体类方法名获取属性名属性可序列化函数接口
+     *
+     * @author liuwenjing
+     */
+    @FunctionalInterface
+    public interface FieldFunction<T, R> extends Function<T, R>, Serializable {
+
     }
 }
