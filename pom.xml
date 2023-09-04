@@ -79,7 +79,7 @@
         <aliyun-oss.version>1.0.0</aliyun-oss.version>
         <aliyun-sms.version>1.0.0</aliyun-sms.version>
         <alipay-sdk-java.version>4.31.28.ALL</alipay-sdk-java.version>
-        <redisson.version>3.18.0</redisson.version>
+        <redisson.version>3.20.0</redisson.version>
         <elasticsearch.version>7.17.0</elasticsearch.version>
         <logstash.logback.version>7.3</logstash.logback.version>
         <easypoi.starter.version>4.4.0</easypoi.starter.version>
