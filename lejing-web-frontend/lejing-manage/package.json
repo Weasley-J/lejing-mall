@@ -18,7 +18,7 @@
     "babel-plugin-component": "0.10.1",
     "babel-polyfill": "6.26.0",
     "element-ui": "2.8.2",
-    "gulp": "3.9.1",
+    "gulp": "4.0.0",
     "gulp-concat": "2.6.1",
     "gulp-load-plugins": "1.6.0",
     "gulp-replace": "0.6.1",
