@@ -70,7 +70,7 @@
         <persistence-api.version>1.0.2</persistence-api.version>
         <servlet-api.version>2.5</servlet-api.version>
         <smart-doc.version>2.4.7</smart-doc.version>
-        <hutool-all.version>5.8.4</hutool-all.version>
+        <hutool-all.version>5.8.22</hutool-all.version>
         <activation.version>1.1.1</activation.version>
         <guava.version>31.1-jre</guava.version>
         <aliyun-sdk-oss.version>3.14.0</aliyun-sdk-oss.version>
@@ -505,6 +505,12 @@
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form</artifactId>
+                <version>3.8.0</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
