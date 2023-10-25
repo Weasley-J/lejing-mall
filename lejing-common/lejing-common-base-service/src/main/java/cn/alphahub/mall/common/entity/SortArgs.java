@@ -6,12 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
@@ -24,16 +24,15 @@ import java.util.function.Function;
  * @author weasley
  * @version 1.0.0
  */
-@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressWarnings({"all"})
 public class SortArgs implements Serializable {
-    public static final String ASC = "ASC";
-    public static final String DESC = "DESC";
+    private final Logger log = LoggerFactory.getLogger(getClass());
     /**
-     * 排序规则映射
+     * 排序规则集合
      */
     private List<SortArg> sortArgs;
 
@@ -46,19 +45,16 @@ public class SortArgs implements Serializable {
         }
         StringBuilder orderBy = new StringBuilder();
         for (SortArg sortArg : sortArgs) {
-            if (StringUtils.isBlank(sortArg.getColumn())) {
+            if (StringUtils.isBlank(sortArg.getColumn()) || !StringUtils.isCamel(sortArg.getColumn())) {
                 continue;
             }
-            if (!StringUtils.isCamel(sortArg.getColumn())) {
-                continue;
-            }
-            String columnPrefix = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "");
-            String sortColumn = columnPrefix + StringUtils.camelToUnderline(sortArg.getColumn());
-            String sortRule = (null != sortArg.getIsDesc() && sortArg.getIsDesc()) ? DESC : ASC;
+            String sortColumn = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "")
+                    + StringUtils.camelToUnderline(sortArg.getColumn());
+            String sortRule = (sortArg.getIsDesc() != null && sortArg.getIsDesc()) ? "DESC" : "ASC";
             orderBy.append(sortColumn).append(" ").append(sortRule).append(", ");
         }
         if (orderBy.length() > 0) {
-            orderBy.deleteCharAt(orderBy.length() - 2);
+            orderBy.setLength(orderBy.length() - 2);
         }
         return org.apache.commons.lang3.StringUtils.defaultIfBlank(orderBy.toString(), null);
     }
@@ -97,18 +93,18 @@ public class SortArgs implements Serializable {
          */
         private Boolean isDesc;
         /**
-         * 表前缀
+         * 列前缀
          */
         private String columnPrefix;
 
         public <T> SortArg(ColumnFunction<T, Object> columnFunction, Boolean isDesc, String columnPrefix) {
-            this.column = toBeanPropertyName(columnFunction);
+            this.column = getPropertyName(columnFunction);
             this.isDesc = isDesc;
             this.columnPrefix = columnPrefix;
         }
 
         @SuppressWarnings("all")
-        private String methodToProperty(String methodName) {
+        private String getPropertyNameFromMethodName(String methodName) {
             if (methodName == null) {
                 return null;
             }
@@ -118,7 +114,7 @@ public class SortArgs implements Serializable {
                 if (methodName.startsWith("get") || methodName.startsWith("set")) {
                     methodName = methodName.substring(3);
                 } else {
-                    throw new RuntimeException("Error parsing toBeanPropertyName name '" + methodName + "'.  Didn't start with 'is', 'get' or 'set'.");
+                    throw new RuntimeException("Error parsing getPropertyName name '" + methodName + "'.  Didn't start with 'is', 'get' or 'set'.");
                 }
             }
             if (methodName.length() == 1 || (methodName.length() > 1 && !Character.isUpperCase(methodName.charAt(1)))) {
@@ -128,17 +124,16 @@ public class SortArgs implements Serializable {
         }
 
         @SuppressWarnings("all")
-        private <T> String toBeanPropertyName(ColumnFunction<T, Object> columnFunction) {
+        private <T> String getPropertyName(ColumnFunction<T, Object> columnFunction) {
             try {
                 Method writeReplace = columnFunction.getClass().getDeclaredMethod("writeReplace");
                 writeReplace.setAccessible(true);
                 Object invokeObj = writeReplace.invoke(columnFunction);
-                SerializedLambda serializedLambda = (SerializedLambda) invokeObj;
-                String implMethodName = serializedLambda.getImplMethodName();
-                String lambdaImplClass = serializedLambda.getImplClass();
-                return methodToProperty(Objects.requireNonNull(implMethodName));
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException("Failed to get java bean toBeanPropertyName name.");
+                SerializedLambda lambda = (SerializedLambda) invokeObj;
+                String implMethodName = lambda.getImplMethodName();
+                return getPropertyNameFromMethodName(Objects.requireNonNull(implMethodName));
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to get java bean property name.", e);
             }
         }
 
