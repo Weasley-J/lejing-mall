@@ -20,5 +20,6 @@ public class SortFilterTest {
             add(SortArgs.newSortArg(Order::getDiscountAmount, false, null));
             add(SortArgs.newSortArg(Order::getReceiverDetailAddress, false, "t_"));
         }}));
+        // use_integration DESC, comment_time DESC, discount_amount ASC, t_receiver_detail_address ASC
     }
 }
