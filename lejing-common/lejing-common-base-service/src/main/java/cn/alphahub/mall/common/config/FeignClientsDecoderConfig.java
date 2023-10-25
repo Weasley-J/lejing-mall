@@ -1,8 +1,8 @@
 package cn.alphahub.mall.common.config;
 
 import cn.alphahub.mall.common.jackson.JacksonInitializer;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -49,7 +50,12 @@ public class FeignClientsDecoderConfig {
             try {
                 ObjectMapper mapper = JacksonInitializer.OBJECT_MAPPER;
                 String readerToString = convertReaderToString(response.body().asReader(StandardCharsets.UTF_8));
-                Object value = mapper.readValue(readerToString, TypeFactory.rawClass(type));
+                Object value = mapper.readValue(readerToString, new TypeReference<>() {
+                    @Override
+                    public Type getType() {
+                        return type;
+                    }
+                });
                 log.info("Feign RPC解析结果: {}", mapper.writeValueAsString(value));
                 return value;
             } catch (IOException e) {
