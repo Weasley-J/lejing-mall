@@ -26,7 +26,7 @@ public class SortFilter implements Serializable {
     /**
      * 表前缀
      */
-    public static final String TABLE_PREFIX = "f_";
+    public static final String TABLE_PREFIX = "t_";
     public static final String ASC = "ASC";
     public static final String DESC = "DESC";
 
