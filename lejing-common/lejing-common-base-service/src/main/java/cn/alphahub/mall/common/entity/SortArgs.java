@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -20,6 +21,19 @@ import java.util.function.Function;
 
 /**
  * 排序
+ * <p>
+ * 此类提供了一种创建和处理查询排序条件的方法。
+ * <p>用法示例:</p>
+ * <pre>{@code
+ * String orderBy = SortArgs.getOrderBy(new ArrayList<SortArg>() {{
+ *     add(SortArgs.newSortArg(Order::getUseIntegration, true, null));
+ *     add(SortArgs.newSortArg(Order::getCommentTime, true, null));
+ *     add(SortArgs.newSortArg(Order::getDiscountAmount, false, null));
+ *     add(SortArgs.newSortArg(Order::getReceiverDetailAddress, false, "t_"));
+ * }});
+ * }</pre>
+ *
+ * <p>上述示例的结果将是: "use_integration DESC, comment_time DESC, discount_amount ASC, t_receiver_detail_address ASC".</p>
  *
  * @author weasley
  * @version 1.0.0
@@ -28,9 +42,10 @@ import java.util.function.Function;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @SuppressWarnings({"all"})
 public class SortArgs implements Serializable {
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(SortArgs.class);
     /**
      * 排序规则集合
      */
@@ -48,8 +63,7 @@ public class SortArgs implements Serializable {
             if (StringUtils.isBlank(sortArg.getColumn()) || !StringUtils.isCamel(sortArg.getColumn())) {
                 continue;
             }
-            String sortColumn = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "")
-                    + StringUtils.camelToUnderline(sortArg.getColumn());
+            String sortColumn = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "") + StringUtils.camelToUnderline(sortArg.getColumn());
             String sortRule = (sortArg.getIsDesc() != null && sortArg.getIsDesc()) ? "DESC" : "ASC";
             orderBy.append(sortColumn).append(" ").append(sortRule).append(", ");
         }
@@ -103,7 +117,7 @@ public class SortArgs implements Serializable {
             this.columnPrefix = columnPrefix;
         }
 
-        @SuppressWarnings("all")
+        @SuppressWarnings({"all"})
         private String getPropertyNameFromMethodName(String methodName) {
             if (methodName == null) {
                 return null;
@@ -123,15 +137,15 @@ public class SortArgs implements Serializable {
             return methodName;
         }
 
-        @SuppressWarnings("all")
+        @SuppressWarnings({"all"})
         private <T> String getPropertyName(ColumnFunction<T, Object> columnFunction) {
             try {
                 Method writeReplace = columnFunction.getClass().getDeclaredMethod("writeReplace");
                 writeReplace.setAccessible(true);
                 Object invokeObj = writeReplace.invoke(columnFunction);
-                SerializedLambda lambda = (SerializedLambda) invokeObj;
+                SerializedLambda lambda = (SerializedLambda) Objects.requireNonNull(invokeObj);
                 String implMethodName = lambda.getImplMethodName();
-                return getPropertyNameFromMethodName(Objects.requireNonNull(implMethodName));
+                return getPropertyNameFromMethodName(implMethodName);
             } catch (Exception e) {
                 throw new RuntimeException("Failed to get java bean property name.", e);
             }
