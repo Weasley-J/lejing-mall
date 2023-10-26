@@ -1,11 +1,5 @@
 package cn.alphahub.mall.common.entity;
 
-import cn.alphahub.mall.common.entity.SortArgs.SortArg.ColumnFunction;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
@@ -43,9 +37,7 @@ import java.util.function.Function;
  * @author weasley
  * @version 1.0.0
  */
-@SuppressWarnings({"all"})
 public class SortArgs implements Serializable {
-    private static final Logger log = LoggerFactory.getLogger(SortArgs.class);
     /**
      * 排序规则集合
      */
@@ -93,7 +85,7 @@ public class SortArgs implements Serializable {
      * 获取排序条件，e.g: t_station_name DESC,t_cooperated_before ASC
      */
     public static String getOrderBy(List<SortArg> sortArgs) {
-        if (CollectionUtils.isEmpty(sortArgs)) {
+        if (null == sortArgs || sortArgs.isEmpty()) {
             return null;
         }
         StringBuilder orderBy = new StringBuilder();
@@ -101,14 +93,14 @@ public class SortArgs implements Serializable {
             if (StringUtils.isBlank(sortArg.getColumn()) || !StringUtils.isCamel(sortArg.getColumn())) {
                 continue;
             }
-            String sortColumn = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "") + StringUtils.camelToUnderline(sortArg.getColumn());
+            String sortColumn = StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "") + StringUtils.camelToUnderline(sortArg.getColumn());
             String sortRule = sortArg.isDesc() ? "DESC" : "ASC";
             orderBy.append(sortColumn).append(" ").append(sortRule).append(", ");
         }
         if (orderBy.length() > 0) {
             orderBy.setLength(orderBy.length() - 2);
         }
-        return org.apache.commons.lang3.StringUtils.defaultIfBlank(orderBy.toString(), null);
+        return StringUtils.defaultIfBlank(orderBy.toString(), null);
     }
 
     /**
@@ -138,9 +130,16 @@ public class SortArgs implements Serializable {
      * 获取排序条件，示例: t_station_name DESC,t_cooperated_before ASC
      */
     public String getOrderBy() {
-        String orderBy = getOrderBy(sortArgs);
-        log.info("排序规则: {}", orderBy);
-        return orderBy;
+        return getOrderBy(sortArgs);
+    }
+
+    /**
+     * The Column Function
+     *
+     * @author liuwenjing
+     */
+    @FunctionalInterface
+    public interface ColumnFunction<T, R> extends Function<T, R>, Serializable {
     }
 
     /**
@@ -225,14 +224,97 @@ public class SortArgs implements Serializable {
         public void setColumnPrefix(String columnPrefix) {
             this.columnPrefix = columnPrefix;
         }
+    }
+
+    /**
+     * StringUtils
+     */
+    public static class StringUtils {
+        /**
+         * 下划线字符
+         */
+        private static final char UNDERLINE = '_';
+        private static final String UNDERSCORE = "_";
+        private static final String EMPTY = "";
+
+        private StringUtils() {
+        }
 
         /**
-         * The Column Function
+         * 判断字符串中是否全是空白字符
          *
-         * @author liuwenjing
+         * @param cs 需要判断的字符串
+         * @return 如果字符串序列是 null 或者全是空白，返回 true
          */
-        @FunctionalInterface
-        public interface ColumnFunction<T, R> extends Function<T, R>, Serializable {
+        public static boolean isBlank(CharSequence cs) {
+            if (cs != null) {
+                int length = cs.length();
+                for (int i = 0; i < length; i++) {
+                    if (!Character.isWhitespace(cs.charAt(i))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /**
+         * 判断字符串是不是驼峰命名
+         *
+         * <li> 包含 '_' 不算 </li>
+         * <li> 首字母大写的不算 </li>
+         *
+         * @param str 字符串
+         * @return 结果
+         */
+        public static boolean isCamel(String str) {
+            return Character.isLowerCase(str.charAt(0)) && !str.contains(UNDERSCORE);
+        }
+
+        /**
+         * <p>Returns either the passed in CharSequence, or if the CharSequence is
+         * whitespace, empty ("") or {@code null}, the value of {@code defaultStr}.</p>
+         *
+         * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.</p>
+         *
+         * <pre>
+         * StringUtils.defaultIfBlank(null, "NULL")  = "NULL"
+         * StringUtils.defaultIfBlank("", "NULL")    = "NULL"
+         * StringUtils.defaultIfBlank(" ", "NULL")   = "NULL"
+         * StringUtils.defaultIfBlank("bat", "NULL") = "bat"
+         * StringUtils.defaultIfBlank("", null)      = null
+         * </pre>
+         *
+         * @param <T>        the specific kind of CharSequence
+         * @param str        the CharSequence to check, may be null
+         * @param defaultStr the default CharSequence to return
+         *                   if the input is whitespace, empty ("") or {@code null}, may be null
+         * @return the passed in CharSequence, or the default
+         */
+        public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
+            return isBlank(str) ? defaultStr : str;
+        }
+
+        /**
+         * 字符串驼峰转下划线格式
+         *
+         * @param param 需要转换的字符串
+         * @return 转换好的字符串
+         */
+        public static String camelToUnderline(String param) {
+            if (isBlank(param)) {
+                return EMPTY;
+            }
+            int len = param.length();
+            StringBuilder sb = new StringBuilder(len);
+            for (int i = 0; i < len; i++) {
+                char c = param.charAt(i);
+                if (Character.isUpperCase(c) && i > 0) {
+                    sb.append(UNDERLINE);
+                }
+                sb.append(Character.toLowerCase(c));
+            }
+            return sb.toString();
         }
     }
 }
