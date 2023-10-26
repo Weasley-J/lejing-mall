@@ -53,6 +53,19 @@ public class SortArgs implements Serializable {
     }
 
     /**
+     * 用于创建 SortArg 实例的静态方法
+     *
+     * @param columnFunction 列函数
+     * @param isDescending   是否降序
+     * @param columnAlias    列前缀
+     * @param <T>            列类型
+     * @return SortArg 实例
+     */
+    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDescending, String columnAlias) {
+        return new SortArg(columnFunction, isDescending, columnAlias);
+    }
+
+    /**
      * 静态方法创建 SortArgs 实例
      *
      * @param sortArgs 多个排序条件，可变参
@@ -106,19 +119,6 @@ public class SortArgs implements Serializable {
     public static String getOrderBy(SortArg... sortArgs) {
         List<SortArg> argList = Arrays.asList(sortArgs);
         return getOrderBy(argList);
-    }
-
-    /**
-     * 用于创建 SortArg 实例的静态方法
-     *
-     * @param columnFunction 列函数
-     * @param isDescending   是否降序
-     * @param columnAlias    列前缀
-     * @param <T>            列类型
-     * @return SortArg 实例
-     */
-    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDescending, String columnAlias) {
-        return new SortArg(columnFunction, isDescending, columnAlias);
     }
 
     public List<SortArg> getSortArgs() {
