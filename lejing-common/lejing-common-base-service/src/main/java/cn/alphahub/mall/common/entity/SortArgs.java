@@ -59,7 +59,7 @@ public class SortArgs implements Serializable {
      * @return 排序参数模型
      */
     public static SortArgs newSortArgs(SortArg... sortArgs) {
-        return new SortArgs(List.of(sortArgs));
+        return new SortArgs(Arrays.asList(sortArgs));
     }
 
     /**
