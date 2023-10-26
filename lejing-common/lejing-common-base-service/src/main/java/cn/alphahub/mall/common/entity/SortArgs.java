@@ -32,7 +32,8 @@ import java.util.function.Function;
  * <p>上述示例的结果将是: "use_integration DESC, comment_time DESC, discount_amount ASC, t_receiver_detail_address ASC".</p>
  * <p>用法示例 2:</p>
  * <pre>{@code
- * String orderBy = SortArgs.getOrderBy(SortArgs.newSortArg(Order::getPromotionAmount, false, "f_"),
+ * String orderBy = SortArgs.getOrderBy(
+ *     SortArgs.newSortArg(Order::getPromotionAmount, false, "f_"),
  *     SortArgs.newSortArg(Order::getReceiverPostCode, true, "t_"),
  *     SortArgs.newSortArg(Order::getDeliveryCompany, true, null)
  *  );
@@ -50,18 +51,40 @@ public class SortArgs implements Serializable {
      */
     private List<SortArg> sortArgs;
 
+    /**
+     * 私有构造方法
+     *
+     * @param sortArgs 排序参数
+     */
     private SortArgs(List<SortArg> sortArgs) {
         this.sortArgs = sortArgs;
     }
 
+    /**
+     * 私有构造方法
+     *
+     * @param sortArgs 多个排序参数，可变参
+     */
     private SortArgs(SortArg... sortArgs) {
         this.sortArgs = Arrays.asList(sortArgs);
     }
 
+    /**
+     * 静态方法创建 SortArgs 实例
+     *
+     * @param sortArgs 多个排序条件，可变参
+     * @return 排序参数模型
+     */
     public static SortArgs newSortArgs(SortArg... sortArgs) {
         return new SortArgs(sortArgs);
     }
 
+    /**
+     * 静态方法创建 SortArgs 实例
+     *
+     * @param sortArgs 排序条件列表
+     * @return 排序参数模型
+     */
     public static SortArgs newSortArgs(List<SortArg> sortArgs) {
         return new SortArgs(sortArgs);
     }
