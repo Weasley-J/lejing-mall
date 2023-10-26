@@ -156,7 +156,7 @@ public class SortArgs implements Serializable {
          */
         private final String sortColumn;
         /**
-         * 是否升序
+         * 是否降序
          */
         private final boolean isDescending;
         /**
