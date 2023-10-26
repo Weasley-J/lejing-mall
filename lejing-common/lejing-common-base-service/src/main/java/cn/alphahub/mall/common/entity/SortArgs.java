@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -71,6 +72,14 @@ public class SortArgs implements Serializable {
             orderBy.setLength(orderBy.length() - 2);
         }
         return org.apache.commons.lang3.StringUtils.defaultIfBlank(orderBy.toString(), null);
+    }
+
+    /**
+     * 获取排序条件，示例: t_station_name DESC,t_cooperated_before ASC
+     */
+    public static String getOrderBy(SortArg... sortArgs) {
+        List<SortArg> argList = Arrays.asList(sortArgs);
+        return getOrderBy(argList);
     }
 
     /**
