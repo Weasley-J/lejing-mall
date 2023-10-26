@@ -112,13 +112,13 @@ public class SortArgs implements Serializable {
      * 用于创建 SortArg 实例的静态方法
      *
      * @param columnFunction 列函数
-     * @param isDesc         是否降序
-     * @param columnPrefix   列前缀
+     * @param isDescending   是否降序
+     * @param tableAlias     列前缀
      * @param <T>            列类型
      * @return SortArg 实例
      */
-    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDesc, String columnPrefix) {
-        return new SortArg(columnFunction, isDesc, columnPrefix);
+    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDescending, String tableAlias) {
+        return new SortArg(columnFunction, isDescending, tableAlias);
     }
 
     public List<SortArg> getSortArgs() {
