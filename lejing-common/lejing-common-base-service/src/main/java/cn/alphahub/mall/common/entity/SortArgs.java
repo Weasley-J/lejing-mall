@@ -2,11 +2,6 @@ package cn.alphahub.mall.common.entity;
 
 import cn.alphahub.mall.common.entity.SortArgs.SortArg.ColumnFunction;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -21,10 +16,10 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * 排序
+ * 函数式排序模型
  * <p>
- * 此类提供了一种创建和处理查询排序条件的方法。
- * <p>用法示例:</p>
+ * 此类提供了一种函数式创建和处理查询排序条件的方法。
+ * <p>用法示例 1:</p>
  * <pre>{@code
  * String orderBy = SortArgs.getOrderBy(new ArrayList<SortArg>() {{
  *     add(SortArgs.newSortArg(Order::getUseIntegration, true, null));
@@ -35,15 +30,18 @@ import java.util.function.Function;
  * }</pre>
  *
  * <p>上述示例的结果将是: "use_integration DESC, comment_time DESC, discount_amount ASC, t_receiver_detail_address ASC".</p>
+ * <p>用法示例 2:</p>
+ * <pre>{@code
+ * String orderBy = SortArgs.getOrderBy(SortArgs.newSortArg(Order::getPromotionAmount, false, "f_"),
+ *     SortArgs.newSortArg(Order::getReceiverPostCode, true, "t_"),
+ *     SortArgs.newSortArg(Order::getDeliveryCompany, true, null)
+ *  );
+ * }</pre>
+ * <p>上述示例的结果将是: "f_promotion_amount ASC, t_receiver_post_code DESC, delivery_company DESC".</p>
  *
  * @author weasley
  * @version 1.0.0
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Accessors(chain = true)
 @SuppressWarnings({"all"})
 public class SortArgs implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(SortArgs.class);
@@ -52,8 +50,24 @@ public class SortArgs implements Serializable {
      */
     private List<SortArg> sortArgs;
 
+    private SortArgs(List<SortArg> sortArgs) {
+        this.sortArgs = sortArgs;
+    }
+
+    private SortArgs(SortArg... sortArgs) {
+        this.sortArgs = Arrays.asList(sortArgs);
+    }
+
+    public static SortArgs newSortArgs(SortArg... sortArgs) {
+        return new SortArgs(sortArgs);
+    }
+
+    public static SortArgs newSortArgs(List<SortArg> sortArgs) {
+        return new SortArgs(sortArgs);
+    }
+
     /**
-     * 获取排序条件，示例: t_station_name DESC,t_cooperated_before ASC
+     * 获取排序条件，e.g: t_station_name DESC,t_cooperated_before ASC
      */
     public static String getOrderBy(List<SortArg> sortArgs) {
         if (CollectionUtils.isEmpty(sortArgs)) {
@@ -65,7 +79,7 @@ public class SortArgs implements Serializable {
                 continue;
             }
             String sortColumn = org.apache.commons.lang3.StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "") + StringUtils.camelToUnderline(sortArg.getColumn());
-            String sortRule = (sortArg.getIsDesc() != null && sortArg.getIsDesc()) ? "DESC" : "ASC";
+            String sortRule = sortArg.isDesc() ? "DESC" : "ASC";
             orderBy.append(sortColumn).append(" ").append(sortRule).append(", ");
         }
         if (orderBy.length() > 0) {
@@ -75,7 +89,7 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * 获取排序条件，示例: t_station_name DESC,t_cooperated_before ASC
+     * 获取排序条件，e.g: t_station_name DESC,t_cooperated_before ASC
      */
     public static String getOrderBy(SortArg... sortArgs) {
         List<SortArg> argList = Arrays.asList(sortArgs);
@@ -83,10 +97,18 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * A Static method for creating SortArg Instance
+     * 用于创建 SortArg 实例的静态方法
      */
     public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDesc, String columnPrefix) {
         return new SortArg(columnFunction, isDesc, columnPrefix);
+    }
+
+    public List<SortArg> getSortArgs() {
+        return sortArgs;
+    }
+
+    public void setSortArgs(List<SortArg> sortArgs) {
+        this.sortArgs = sortArgs;
     }
 
     /**
@@ -99,13 +121,10 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * 排序
+     * 排序模型
      *
      * @author liuwenjing
      */
-    @Getter
-    @Setter
-    @NoArgsConstructor
     public static final class SortArg implements Serializable {
         /**
          * 排序字段
@@ -114,13 +133,13 @@ public class SortArgs implements Serializable {
         /**
          * 是否升序
          */
-        private Boolean isDesc;
+        private boolean isDesc;
         /**
          * 列前缀
          */
         private String columnPrefix;
 
-        public <T> SortArg(ColumnFunction<T, Object> columnFunction, Boolean isDesc, String columnPrefix) {
+        public <T> SortArg(ColumnFunction<T, Object> columnFunction, boolean isDesc, String columnPrefix) {
             this.column = getPropertyName(columnFunction);
             this.isDesc = isDesc;
             this.columnPrefix = columnPrefix;
@@ -160,8 +179,32 @@ public class SortArgs implements Serializable {
             }
         }
 
+        public String getColumn() {
+            return column;
+        }
+
+        public void setColumn(String column) {
+            this.column = column;
+        }
+
+        public boolean isDesc() {
+            return isDesc;
+        }
+
+        public void setDesc(boolean desc) {
+            isDesc = desc;
+        }
+
+        public String getColumnPrefix() {
+            return columnPrefix;
+        }
+
+        public void setColumnPrefix(String columnPrefix) {
+            this.columnPrefix = columnPrefix;
+        }
+
         /**
-         * Column Function
+         * The Column Function
          *
          * @author liuwenjing
          */
