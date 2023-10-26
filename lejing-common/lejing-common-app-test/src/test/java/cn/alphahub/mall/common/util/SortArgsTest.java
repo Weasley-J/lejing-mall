@@ -28,6 +28,7 @@ class SortArgsTest {
                 SortArgs.newSortArg(Order::getReceiverPostCode, true, "t_"),
                 SortArgs.newSortArg(Order::getDeliveryCompany, true, null)
         );
+        System.err.println(orderBy);
         // f_promotion_amount ASC, t_receiver_post_code DESC, delivery_company DESC
     }
 }

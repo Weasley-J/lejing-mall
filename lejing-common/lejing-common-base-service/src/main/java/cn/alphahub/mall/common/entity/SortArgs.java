@@ -34,14 +34,14 @@ import java.util.function.Function;
  * }</pre>
  * <p>上述示例的结果将是: "f_promotion_amount ASC, t_receiver_post_code DESC, delivery_company DESC".</p>
  *
- * @author weasley
+ * @author liuwenjing
  * @version 1.0.0
  */
 public class SortArgs implements Serializable {
     /**
      * 排序规则集合
      */
-    private List<SortArg> sortArgs;
+    private final List<SortArg> sortArgs;
 
     /**
      * 私有构造方法
@@ -53,22 +53,13 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * 私有构造方法
-     *
-     * @param sortArgs 多个排序参数，可变参
-     */
-    private SortArgs(SortArg... sortArgs) {
-        this.sortArgs = Arrays.asList(sortArgs);
-    }
-
-    /**
      * 静态方法创建 SortArgs 实例
      *
      * @param sortArgs 多个排序条件，可变参
      * @return 排序参数模型
      */
     public static SortArgs newSortArgs(SortArg... sortArgs) {
-        return new SortArgs(sortArgs);
+        return new SortArgs(List.of(sortArgs));
     }
 
     /**
@@ -82,7 +73,10 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * 获取排序条件，e.g: t_station_name DESC,t_cooperated_before ASC
+     * 获取排序条件，例如: "t_station_name DESC, t_cooperated_before ASC"
+     *
+     * @param sortArgs 排序条件列表
+     * @return 排序条件字符串
      */
     public static String getOrderBy(List<SortArg> sortArgs) {
         if (null == sortArgs || sortArgs.isEmpty()) {
@@ -90,11 +84,11 @@ public class SortArgs implements Serializable {
         }
         StringBuilder orderBy = new StringBuilder();
         for (SortArg sortArg : sortArgs) {
-            if (StringUtils.isBlank(sortArg.getColumn()) || !StringUtils.isCamel(sortArg.getColumn())) {
+            if (StringUtils.isBlank(sortArg.getSortColumn()) || !StringUtils.isCamel(sortArg.getSortColumn())) {
                 continue;
             }
-            String sortColumn = StringUtils.defaultIfBlank(sortArg.getColumnPrefix(), "") + StringUtils.camelToUnderline(sortArg.getColumn());
-            String sortRule = sortArg.isDesc() ? "DESC" : "ASC";
+            String sortColumn = StringUtils.defaultIfBlank(sortArg.getTableAlias(), "") + StringUtils.camelToUnderline(sortArg.getSortColumn());
+            String sortRule = sortArg.isDescending() ? "DESC" : "ASC";
             orderBy.append(sortColumn).append(" ").append(sortRule).append(", ");
         }
         if (orderBy.length() > 0) {
@@ -104,7 +98,10 @@ public class SortArgs implements Serializable {
     }
 
     /**
-     * 获取排序条件，e.g: t_station_name DESC,t_cooperated_before ASC
+     * 获取排序条件，例如: "t_station_name DESC, t_cooperated_before ASC"
+     *
+     * @param sortArgs 排序条件列表
+     * @return 排序条件字符串
      */
     public static String getOrderBy(SortArg... sortArgs) {
         List<SortArg> argList = Arrays.asList(sortArgs);
@@ -113,6 +110,12 @@ public class SortArgs implements Serializable {
 
     /**
      * 用于创建 SortArg 实例的静态方法
+     *
+     * @param columnFunction 列函数
+     * @param isDesc         是否降序
+     * @param columnPrefix   列前缀
+     * @param <T>            列类型
+     * @return SortArg 实例
      */
     public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDesc, String columnPrefix) {
         return new SortArg(columnFunction, isDesc, columnPrefix);
@@ -122,20 +125,20 @@ public class SortArgs implements Serializable {
         return sortArgs;
     }
 
-    public void setSortArgs(List<SortArg> sortArgs) {
-        this.sortArgs = sortArgs;
-    }
-
     /**
-     * 获取排序条件，示例: t_station_name DESC,t_cooperated_before ASC
+     * 获取排序条件，示例: "t_station_name DESC, t_cooperated_before ASC"
+     *
+     * @return 排序条件字符串
      */
     public String getOrderBy() {
         return getOrderBy(sortArgs);
     }
 
     /**
-     * The Column Function
+     * 列函数接口
      *
+     * @param <T> 列类型
+     * @param <R> 返回值类型
      * @author liuwenjing
      */
     @FunctionalInterface
@@ -151,20 +154,20 @@ public class SortArgs implements Serializable {
         /**
          * 排序字段
          */
-        private String column;
+        private final String sortColumn;
         /**
          * 是否升序
          */
-        private boolean isDesc;
+        private final boolean isDescending;
         /**
          * 列前缀
          */
-        private String columnPrefix;
+        private final String tableAlias;
 
-        public <T> SortArg(ColumnFunction<T, Object> columnFunction, boolean isDesc, String columnPrefix) {
-            this.column = getPropertyName(columnFunction);
-            this.isDesc = isDesc;
-            this.columnPrefix = columnPrefix;
+        public <T> SortArg(ColumnFunction<T, Object> columnFunction, boolean isDescending, String tableAlias) {
+            this.sortColumn = getPropertyName(columnFunction);
+            this.isDescending = isDescending;
+            this.tableAlias = tableAlias;
         }
 
         @SuppressWarnings({"all"})
@@ -201,33 +204,21 @@ public class SortArgs implements Serializable {
             }
         }
 
-        public String getColumn() {
-            return column;
+        public String getSortColumn() {
+            return sortColumn;
         }
 
-        public void setColumn(String column) {
-            this.column = column;
+        public boolean isDescending() {
+            return isDescending;
         }
 
-        public boolean isDesc() {
-            return isDesc;
-        }
-
-        public void setDesc(boolean desc) {
-            isDesc = desc;
-        }
-
-        public String getColumnPrefix() {
-            return columnPrefix;
-        }
-
-        public void setColumnPrefix(String columnPrefix) {
-            this.columnPrefix = columnPrefix;
+        public String getTableAlias() {
+            return tableAlias;
         }
     }
 
     /**
-     * StringUtils
+     * 字符串工具类
      */
     public static class StringUtils {
         /**
@@ -235,7 +226,6 @@ public class SortArgs implements Serializable {
          */
         private static final char UNDERLINE = '_';
         private static final String UNDERSCORE = "_";
-        private static final String EMPTY = "";
 
         private StringUtils() {
         }
@@ -247,16 +237,26 @@ public class SortArgs implements Serializable {
          * @return 如果字符串序列是 null 或者全是空白，返回 true
          */
         public static boolean isBlank(CharSequence cs) {
-            if (cs != null) {
-                int length = cs.length();
-                for (int i = 0; i < length; i++) {
-                    if (!Character.isWhitespace(cs.charAt(i))) {
-                        return false;
-                    }
+            if (cs == null) return true;
+            int length = cs.length();
+            for (int i = 0; i < length; i++) {
+                if (!Character.isWhitespace(cs.charAt(i))) {
+                    return false;
                 }
             }
             return true;
         }
+
+        /**
+         * 判断字符串不是是空白字符
+         *
+         * @param cs 需要判断的字符串
+         * @return 如果字符串序列不是 null 或者全是空白，返回 true
+         */
+        public static boolean isNotBlank(CharSequence cs) {
+            return !isBlank(cs);
+        }
+
 
         /**
          * 判断字符串是不是驼峰命名
@@ -272,10 +272,10 @@ public class SortArgs implements Serializable {
         }
 
         /**
-         * <p>Returns either the passed in CharSequence, or if the CharSequence is
-         * whitespace, empty ("") or {@code null}, the value of {@code defaultStr}.</p>
+         * <p>返回传入的 CharSequence，如果 CharSequence 是空白、空 ("") 或 {@code null}，
+         * 则返回 {@code defaultStr} 的值。</p>
          *
-         * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.</p>
+         * <p>空白是由 {@link Character#isWhitespace(char)} 定义的。</p>
          *
          * <pre>
          * StringUtils.defaultIfBlank(null, "NULL")  = "NULL"
@@ -285,11 +285,10 @@ public class SortArgs implements Serializable {
          * StringUtils.defaultIfBlank("", null)      = null
          * </pre>
          *
-         * @param <T>        the specific kind of CharSequence
-         * @param str        the CharSequence to check, may be null
-         * @param defaultStr the default CharSequence to return
-         *                   if the input is whitespace, empty ("") or {@code null}, may be null
-         * @return the passed in CharSequence, or the default
+         * @param <T>        特定类型的 CharSequence
+         * @param str        需要检查的 CharSequence，可能为 null
+         * @param defaultStr 如果输入是空白、空 ("") 或 {@code null}，返回的默认 CharSequence，可以为 null
+         * @return 传入的 CharSequence，或者默认值
          */
         public static <T extends CharSequence> T defaultIfBlank(final T str, final T defaultStr) {
             return isBlank(str) ? defaultStr : str;
@@ -303,7 +302,7 @@ public class SortArgs implements Serializable {
          */
         public static String camelToUnderline(String param) {
             if (isBlank(param)) {
-                return EMPTY;
+                return "";
             }
             int len = param.length();
             StringBuilder sb = new StringBuilder(len);
