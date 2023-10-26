@@ -113,12 +113,12 @@ public class SortArgs implements Serializable {
      *
      * @param columnFunction 列函数
      * @param isDescending   是否降序
-     * @param tableAlias     列前缀
+     * @param columnAlias    列前缀
      * @param <T>            列类型
      * @return SortArg 实例
      */
-    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDescending, String tableAlias) {
-        return new SortArg(columnFunction, isDescending, tableAlias);
+    public static <T> SortArg newSortArg(ColumnFunction<T, Object> columnFunction, Boolean isDescending, String columnAlias) {
+        return new SortArg(columnFunction, isDescending, columnAlias);
     }
 
     public List<SortArg> getSortArgs() {
@@ -160,14 +160,14 @@ public class SortArgs implements Serializable {
          */
         private final boolean isDescending;
         /**
-         * 列前缀
+         * 列前缀, 例如: t_, f_
          */
-        private final String tableAlias;
+        private final String columnAlias;
 
-        public <T> SortArg(ColumnFunction<T, Object> columnFunction, boolean isDescending, String tableAlias) {
+        public <T> SortArg(ColumnFunction<T, Object> columnFunction, boolean isDescending, String columnAlias) {
             this.sortColumn = getPropertyName(columnFunction);
             this.isDescending = isDescending;
-            this.tableAlias = tableAlias;
+            this.columnAlias = columnAlias;
         }
 
         @SuppressWarnings({"all"})
@@ -213,7 +213,7 @@ public class SortArgs implements Serializable {
         }
 
         public String getTableAlias() {
-            return tableAlias;
+            return columnAlias;
         }
     }
 
