@@ -16,7 +16,7 @@
 
     <properties>
         <lombok.version>1.18.20</lombok.version>
-        <hutool-all.version>5.8.4</hutool-all.version>
+        <hutool-all.version>5.8.12</hutool-all.version>
         <aliyun.sdk.version>4.5.22</aliyun.sdk.version>
         <aliyun.dysmsapi.version>2.1.0</aliyun.dysmsapi.version>
         <tencentcloud.sms.version>3.1.367</tencentcloud.sms.version>
